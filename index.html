@@ -18,29 +18,29 @@
   body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:#222;font-size:14px}
   .container-xl{max-width:1320px}
 
-  /* ---------- NAVBAR ---------- */
+  /* NAVBAR */
   .navbar{background:#fff;border-bottom:1px solid var(--border)}
   .brand{font-weight:800;color:var(--main)}
   .search-input{border:1px solid #ddd;border-radius:10px;padding:8px 12px;width:100%}
   .btn-cart{background:var(--main);color:#fff;border:none;border-radius:10px;padding:8px 12px}
   .btn-cart .count{background:#fff;color:#111;border-radius:999px;padding:2px 8px;margin-left:6px;font-weight:800}
 
-  /* ---------- HERO ---------- */
+  /* HERO */
   .hero-wrap{max-width:1320px; margin:12px auto 0; padding:0 8px}
   .hero-card{border-radius:18px; overflow:hidden; background:#fff; box-shadow:0 18px 45px rgba(11,20,64,.08)}
-  #heroCarousel .carousel-item img{height:280px; object-fit:cover}
+  #heroCarousel .carousel-item img{height:200px; object-fit:cover}
   .hero-caption{position:absolute; left:0; right:0; bottom:14px; color:#fff; text-align:center;
-    font-weight:700; font-size:22px; text-shadow:0 10px 28px rgba(0,0,0,.55)}
-  .hero-caption .hero-sub{font-size:13px; font-weight:400; opacity:.95}
+    font-weight:700; font-size:20px; text-shadow:0 10px 28px rgba(0,0,0,.55)}
+  .hero-caption .hero-sub{font-size:12px; font-weight:400; opacity:.95}
 
-  /* ---------- CATEGORIES ---------- */
+  /* CATEGORIES */
   .cats-wrap{max-width:1320px;margin:8px auto 0;padding:0 8px}
   .cats{display:flex;gap:8px;overflow:auto;padding:8px}
   .cat-btn{white-space:nowrap;border:1px solid var(--border);padding:6px 14px;border-radius:999px;background:#fff;cursor:pointer;
            font-weight:600;transition:.15s;font-size:13px}
   .cat-btn:hover,.cat-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 
-  /* ---------- SIDEBAR ---------- */
+  /* SIDEBAR */
   .sidebar{position:sticky; top:90px}
   .side-card{background:#fff; border:1px solid var(--border); border-radius:16px;
     box-shadow:0 10px 24px rgba(0,0,0,.06); padding:12px; margin-bottom:16px}
@@ -56,29 +56,28 @@
   .factory-cta a{font-size:12px; background:var(--main); color:#fff; padding:6px 10px; border-radius:8px; text-decoration:none}
   .factory-cta a:hover{opacity:.9}
 
-  /* ---------- PRODUCT GRID ---------- */
+  /* PRODUCT GRID */
   .product-section{background:#fff;padding:12px;border-radius:18px;border:1px solid var(--border);
                    box-shadow:0 10px 30px rgba(11,20,64,.05)}
-  .grid{display:grid;gap:12px;grid-template-columns:repeat(5,1fr)} /* 5 cột */
-  .cardx{border:0;background:#fff;transition:.2s;cursor:pointer;border-radius:12px;overflow:hidden;position:relative}
-  .cardx:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(0,0,0,.08)}
-  .thumb{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#f2f2f2}
-  .meta{padding:8px;border-top:1px solid #eee}
-  .id{font-weight:700;font-size:13px}
-  .price{color:#0066cc;font-weight:800;font-size:13px}
-  .row-meta{display:flex;justify-content:space-between;align-items:center}
-  .add-btn{width:28px;height:28px;border-radius:8px;border:none;background:var(--main);color:#fff;
-           font-size:18px;font-weight:700;display:flex;align-items:center;justify-content:center}
-  .add-btn:hover{background:#000f66}
-  .meta .details{color:#666;font-size:12px;margin-top:2px;
+  .grid{display:grid;gap:10px;grid-template-columns:repeat(5,1fr)} /* 5 cột */
+  .cardx{border:0;background:#fff;transition:.2s;cursor:pointer;border-radius:10px;overflow:hidden;position:relative}
+  .cardx:hover{transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+  .thumb{width:100%;height:180px;object-fit:cover;display:block;background:#f2f2f2}
+  .meta{padding:6px;border-top:1px solid #eee}
+  .id{font-weight:700;font-size:12px}
+  .details{color:#555;font-size:11px;margin-top:2px;
     display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-  .type-badge{display:inline-block;margin-top:4px;padding:2px 6px;font-size:11px;border-radius:6px;
+  .type-badge{display:inline-block;margin-top:2px;padding:1px 5px;font-size:10px;border-radius:4px;
     background:#eef2ff;color:#334;border:1px solid #dde3f0;}
-  .note-badge{position:absolute; top:8px; left:8px; background:#ffc107; color:#111;
-    font-weight:700; padding:2px 8px; border-radius:6px; font-size:12px;}
+  .price{color:#0066cc;font-weight:700;font-size:12px}
+  .row-meta{display:flex;justify-content:space-between;align-items:center}
+  .add-btn{width:24px;height:24px;border-radius:6px;border:none;background:var(--main);color:#fff;
+           font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .add-btn:hover{background:#000f66}
+  .note-badge{position:absolute; top:6px; left:6px; background:#ffc107; color:#111;
+    font-weight:700; padding:1px 6px; border-radius:4px; font-size:11px;}
 
   footer{margin-top:24px;padding:18px;background:var(--main);color:#fff;text-align:center;font-size:13px}
-  @keyframes pulseSk{0%{opacity:1}50%{opacity:.5}100%{opacity:1}}
 </style>
 </head>
 <body>
@@ -101,7 +100,7 @@
     <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4500">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img src="https://picsum.photos/1600/280?random=21" class="d-block w-100" alt="">
+          <img src="https://picsum.photos/1600/200?random=21" class="d-block w-100" alt="">
           <div class="hero-caption">Đặt hàng theo thiết kế riêng<div class="hero-sub">Mạ vàng, đổ men màu, đúc nổi 3D</div></div>
         </div>
       </div>
@@ -119,15 +118,15 @@
   <div class="row g-3">
     <!-- SIDEBAR -->
     <div class="col-lg-3">
-      <aside class="sidebar" id="sidebarLeft">
+      <aside class="sidebar">
         <div class="side-card mb-3">
           <div class="side-title">Quyền lợi khi đặt hàng qua 2606ai.vn</div>
           <div class="service-list">
-            <div class="service-item"><div class="service-icon">🏷️</div><div><div class="fw-bold">Báo giá nhanh 24h</div><div class="text-muted small">So sánh nhiều xưởng – tối ưu chi phí.</div></div></div>
-            <div class="service-item"><div class="service-icon">🛠️</div><div><div class="fw-bold">Thiết kế & chỉnh sửa file miễn phí</div><div class="text-muted small">Mockup 2D/3D, sửa file in/đúc.</div></div></div>
-            <div class="service-item"><div class="service-icon">🔍</div><div><div class="fw-bold">Duyệt mẫu trước khi sản xuất</div><div class="text-muted small">Ảnh/mẫu thật; chỉ sản xuất khi bạn OK.</div></div></div>
-            <div class="service-item"><div class="service-icon">✅</div><div><div class="fw-bold">QC 2 lớp & bảo hành</div><div class="text-muted small">Kiểm soát chất lượng; lỗi đổi mới.</div></div></div>
-            <div class="service-item"><div class="service-icon">🚚</div><div><div class="fw-bold">Giao hàng toàn quốc</div><div class="text-muted small">Đóng gói chống va đập; có HĐ GTGT.</div></div></div>
+            <div class="service-item"><div class="service-icon">🏷️</div><div>Báo giá nhanh 24h</div></div>
+            <div class="service-item"><div class="service-icon">🛠️</div><div>Thiết kế & chỉnh sửa file miễn phí</div></div>
+            <div class="service-item"><div class="service-icon">🔍</div><div>Duyệt mẫu trước khi sản xuất</div></div>
+            <div class="service-item"><div class="service-icon">✅</div><div>QC 2 lớp & bảo hành</div></div>
+            <div class="service-item"><div class="service-icon">🚚</div><div>Giao hàng toàn quốc</div></div>
           </div>
         </div>
         <div class="side-card" id="factories">
@@ -136,6 +135,7 @@
         </div>
       </aside>
     </div>
+
     <!-- PRODUCT GRID -->
     <div class="col-lg-9">
       <div class="product-section">
@@ -158,33 +158,13 @@
 <script>
 const API_URL = "https://script.google.com/macros/s/AKfycbzASzlggc3PXo390AaRwU3_kopkmS10J7vKIQBnvE5BybgzA3RQ4Vd2vdzFT0RcsZEc/exec";
 
-const state={page:1,pageSize:30,q:'',group:''}; // 30 = 5 cột × 6 hàng
+const state={page:1,pageSize:30,q:'',group:''};
 const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
-function hiRes(url,w=600){return(url||'').replace(/=s\\d+/,'=s'+w);}
-function esc(s){return(s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function hiRes(url,w=250){return (url||'').replace(/=s\\d+/,'=s'+w);}
+function esc(s){return(s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 
-// FACTORIES
-const FACTORIES=[
-  {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',logo:'https://picsum.photos/80?random=41',href:'#'},
-  {name:'Xưởng 2 – In UV',desc:'In UV độ bền cao, chi tiết sắc nét',logo:'https://picsum.photos/80?random=42',href:'#'},
-  {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ màu cao cấp',logo:'https://picsum.photos/80?random=43',href:'#'},
-];
-function renderFactories(){
-  const box=document.getElementById('factoryList');
-  box.innerHTML=FACTORIES.map(f=>`
-    <div class="factory-item">
-      <div class="factory-logo"><img src="${f.logo}"></div>
-      <div class="factory-body">
-        <div class="factory-name">${esc(f.name)}</div>
-        <div class="factory-desc">${esc(f.desc)}</div>
-      </div>
-      <div class="factory-cta"><a href="${esc(f.href)}" target="_blank">Xem</a></div>
-    </div>`).join('');
-}
-
-// PRODUCT CARD
 function productCardHtml(it){
-  const img=hiRes(it.img,600); const full=it.full||img;
+  const img=hiRes(it.img,250); const full=it.full||img;
   return `
     <div class="cardx" data-full="${esc(full)}">
       ${it.chuy?`<span class="note-badge">${esc(it.chuy)}</span>`:''}
@@ -195,7 +175,8 @@ function productCardHtml(it){
         ${it.type?`<div class="type-badge">${esc(it.type)}</div>`:''}
         <div class="row-meta mt-1">
           <div class="price">${fmtVND(it.price)}</div>
-          <button class="add-btn" data-add='${JSON.stringify(it).replace(/'/g,"&apos;")}'>+</button>
+          <button class="add-btn" title="Thêm vào giỏ"
+            data-add='${JSON.stringify(it).replace(/'/g,"&apos;")}'>+</button>
         </div>
       </div>
     </div>`;
@@ -228,13 +209,12 @@ function fetchPage(){
     .catch(err=>{console.error(err);document.getElementById('productGrid').innerHTML='<div>Lỗi tải dữ liệu</div>';});
 }
 
-// EVENTS
 document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}};
 document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();};
 document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();};
 document.getElementById('searchBox').addEventListener('keypress',e=>{if(e.key==='Enter'){state.q=e.target.value.trim();state.page=1;fetchPage();}});
 
-document.addEventListener('DOMContentLoaded',()=>{renderFactories();fetchPage();});
+document.addEventListener('DOMContentLoaded',()=>{fetchPage();});
 </script>
 </body>
 </html>
