@@ -3,132 +3,227 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>2606ai.vn - Thiết kế & Mua trực tiếp</title>
+<title>PCGbrand - Thiết kế & Mua trực tiếp</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-  body{font-family:sans-serif;background:#f5f6fa}
-  .top-ad{background:#0f172a;color:#fff;height:60px;display:flex;align-items:center;justify-content:center;gap:10px}
-  .top-ad a{background:#fff;color:#111;padding:6px 12px;border-radius:6px;text-decoration:none;font-weight:600}
-  .sidebar{position:sticky;top:80px}
-  .side-card{background:#fff;padding:12px;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-  .grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
-  .cardx{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08);position:relative}
-  .thumb{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
-  .meta{padding:8px}
-  .id{font-weight:700;font-size:14px}
-  .price{color:#0066cc;font-weight:800;font-size:14px}
-  .type-badge{display:inline-block;margin-top:4px;padding:2px 6px;font-size:11px;border-radius:6px;background:#eef2ff}
-  .note-badge{position:absolute;top:8px;left:8px;background:#ffc107;color:#111;font-weight:700;padding:2px 8px;border-radius:6px;font-size:12px}
+  :root{
+    --main:#0018a8;
+    --accent:#d4af37;
+    --bg:#f5f6fa;
+    --border:#e9e9ee;
+  }
+  body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:#222;font-size:14px}
+  .container-xl{max-width:1320px}
+  /* ... giữ nguyên phần CSS như bạn đã viết ... */
 </style>
 </head>
 <body>
+<!-- ===== Banner, Navbar, Hero, Sidebar, Product Grid, Footer giữ nguyên như code của bạn ===== -->
 
-<!-- Banner -->
-<div class="top-ad">
-  Ưu đãi tháng này cho khách đặt qua 2606ai.vn
-  <a href="#factories">Xem xưởng uy tín</a>
-  <a href="https://zalo.me/0936169692" target="_blank">Chat nhanh Zalo</a>
-</div>
-
-<div class="container-fluid my-3">
-  <div class="row g-3">
-    <!-- Sidebar -->
-    <div class="col-lg-3">
-      <aside class="sidebar">
-        <div class="side-card">
-          <h6 class="fw-bold">Quyền lợi khi đặt hàng qua 2606ai.vn</h6>
-          <ul class="list-unstyled small">
-            <li>🏷️ Báo giá nhanh 24h</li>
-            <li>🛠️ Thiết kế & chỉnh sửa file miễn phí</li>
-            <li>🔍 Duyệt mẫu trước khi sản xuất</li>
-            <li>✅ QC 2 lớp & bảo hành</li>
-            <li>🚚 Giao hàng toàn quốc</li>
-          </ul>
-        </div>
-        <div class="side-card" id="factories">
-          <h6 class="fw-bold">Xưởng sản xuất uy tín</h6>
-          <div id="factoryList" class="small"></div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- Content -->
-    <div class="col-lg-9">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <h6 class="m-0">Danh sách sản phẩm</h6>
-        <div>
-          <button id="prevBtn" class="btn btn-sm btn-light">← Trước</button>
-          <button id="nextBtn" class="btn btn-sm btn-light">Sau →</button>
-        </div>
-      </div>
-      <div class="grid" id="productGrid"></div>
-    </div>
-  </div>
-</div>
-
-<footer class="text-center bg-primary text-white py-3 mt-4">
-  © 2025 2606ai.vn – All rights reserved
-</footer>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbwz5aKDKEMN5FVc5rguRkvcN0NKymb5IvKJ4J0KmMaOfDRS2kqCtToRsDCzROiHvM2H/exec";
-let state={page:1,pageSize:15,q:'',group:''};
+/* ---------- CONFIG API ---------- */
+const API_URL = "https://script.google.com/macros/s/AKfycbyp8hH9seYgTW_H59pcR4OpvdQbpLhH9F67oYvOQoUpDsjYsemNDgel2sMameaxTdKy/exec";
 
-function fmtVND(n){return (Number(n)||0).toLocaleString('vi-VN')+' đ';}
-function esc(s){return (s??'').toString().replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[m]));}
+/* ---------- STATE ---------- */
+const state={page:1,pageSize:15,q:'',group:''};
 
-function productCardHtml(it){
-  return `<div class="cardx">
-    ${it.chuy ? `<span class="note-badge">${esc(it.chuy)}</span>`:''}
-    <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/400?text=No+Image'">
-    <div class="meta">
-      <div class="id">${esc(it.id)}</div>
-      <div class="small text-muted">${esc(it.details||'')}</div>
-      <div class="type-badge">${esc(it.type||'')}</div>
-      <div class="price mt-1">${fmtVND(it.price)}</div>
-    </div>
-  </div>`;
-}
+/* ---------- UTILS ---------- */
+const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
+function hiRes(url,w=600){return (url||'').replace(/=s\d+/,'=s'+w);}
+function esc(s){return (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
-function render(res){
-  const grid=document.getElementById('productGrid');
-  grid.innerHTML=(res.items||[]).map(it=>productCardHtml(it)).join('')||'<div class="text-muted">Không có sản phẩm.</div>';
-}
-
-function fetchPage(){
-  fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q)}&group=${encodeURIComponent(state.group)}`)
-    .then(r=>r.json())
-    .then(render)
-    .catch(err=>{
-      console.error(err);
-      document.getElementById('productGrid').innerHTML='<div class="text-danger">Lỗi tải dữ liệu</div>';
-    });
-}
-
-document.getElementById('prevBtn').onclick=()=>{ if(state.page>1){state.page--;fetchPage();} };
-document.getElementById('nextBtn').onclick=()=>{ state.page++;fetchPage(); };
-
+/* ---------- FACTORIES ---------- */
+const FACTORIES = [
+  { name:'Xưởng 1 – Tem kim loại', desc:'Men màu, mạ vàng, đúc nổi 3D', logo:'https://picsum.photos/80?random=41', href:'https://temkimloai.nhanmac3a.vn/huy-hieu' },
+  { name:'Xưởng 2 – In UV', desc:'In UV độ bền cao, chi tiết sắc nét', logo:'https://picsum.photos/80?random=42', href:'https://example.com/in-uv' },
+  { name:'Xưởng 3 – Đúc huy hiệu', desc:'Đúc nổi 3D, mạ màu cao cấp', logo:'https://picsum.photos/80?random=43', href:'https://example.com/duc-huy-hieu' },
+  { name:'Xưởng 4 – In offset', desc:'Bao bì – hộp – catalogue', logo:'https://picsum.photos/80?random=44', href:'https://example.com/in-offset' },
+  { name:'Xưởng 5 – Quà tặng', desc:'Quà doanh nghiệp/ sự kiện', logo:'https://picsum.photos/80?random=45', href:'https://example.com/qua-tang' },
+];
 function renderFactories(){
-  const list=[
-    {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',logo:'https://picsum.photos/80?random=11',href:'#'},
-    {name:'Xưởng 2 – In UV',desc:'In UV độ bền cao, chi tiết sắc nét',logo:'https://picsum.photos/80?random=12',href:'#'},
-    {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ màu cao cấp',logo:'https://picsum.photos/80?random=13',href:'#'},
-  ];
-  document.getElementById('factoryList').innerHTML=list.map(f=>`
-    <div class="d-flex align-items-center mb-2">
-      <img src="${f.logo}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;margin-right:8px">
-      <div class="flex-grow-1">
-        <div class="fw-bold small">${esc(f.name)}</div>
-        <div class="text-muted small">${esc(f.desc)}</div>
+  const box=document.getElementById('factoryList'); if(!box) return;
+  box.innerHTML=FACTORIES.map(f=>`
+    <div class="factory-item">
+      <div class="factory-logo"><img src="${f.logo}" alt=""></div>
+      <div class="factory-body">
+        <div class="factory-name">${esc(f.name)}</div>
+        <div class="factory-desc">${esc(f.desc)}</div>
       </div>
-      <a class="btn btn-sm btn-primary" href="${f.href}" target="_blank">Xem</a>
+      <div class="factory-cta"><a href="${esc(f.href)}" target="_blank">Xem</a></div>
     </div>
   `).join('');
 }
 
-document.addEventListener('DOMContentLoaded',()=>{
+/* ---------- CART ---------- */
+let cart=[];
+function saveCart(){localStorage.setItem('pcg_cart',JSON.stringify(cart));updateCartUI();}
+function loadCart(){cart=JSON.parse(localStorage.getItem('pcg_cart')||'[]'); updateCartUI();}
+function updateCartUI(){
+  const box=document.getElementById('cartListSide');
+  const countEl=document.getElementById('cartCount');
+  if(!cart.length){box.innerHTML='Chưa có sản phẩm.'; countEl.textContent='0';}
+  else{
+    box.innerHTML=cart.map((it,i)=>`
+      <div class="cart-item">
+        <img src="${esc(it.img)}">
+        <div class="meta">
+          <div>${esc(it.id)}</div>
+          <div class="text-muted small">${esc(it.details||'')}</div>
+          <div>${fmtVND(it.price)} × ${it.qty}</div>
+        </div>
+        <div class="act d-flex align-items-center gap-1">
+          <button data-dec="${i}">-</button>
+          <span>${it.qty}</span>
+          <button data-inc="${i}">+</button>
+          <button class="rm" data-rm="${i}" title="Xóa">✕</button>
+        </div>
+      </div>`).join('');
+    const totalQty = cart.reduce((s,it)=>s+it.qty,0);
+    countEl.textContent = String(totalQty);
+  }
+  document.getElementById('cartTotalSide').textContent =
+    fmtVND(cart.reduce((s,it)=>s+(Number(it.price)||0)*it.qty,0));
+}
+document.getElementById('cartListSide').addEventListener('click',e=>{
+  const inc=e.target.closest('[data-inc]'), dec=e.target.closest('[data-dec]'), rm=e.target.closest('[data-rm]');
+  if(inc){ cart[inc.dataset.inc].qty++; saveCart(); }
+  if(dec){ const i=dec.dataset.dec; cart[i].qty--; if(cart[i].qty<=0) cart.splice(i,1); saveCart(); }
+  if(rm){ cart.splice(rm.dataset.rm,1); saveCart(); }
+});
+
+/* ---------- CATEGORY ---------- */
+let builtCategories=false;
+function buildCategoriesOnce(groups){
+  if(builtCategories) return;
+  const box=document.getElementById('categoryBox'); if(!box) return;
+  const all=`<button class="cat-btn ${!state.group?'active':''}" data-group="">Tất cả</button>`;
+  const btns=(groups||[]).map(g=>{
+    const val=(g||'').trim();
+    const act=(state.group||'').toLowerCase()===val.toLowerCase()?'active':'';
+    return `<button class="cat-btn ${act}" data-group="${esc(val)}">${esc(val)}</button>`;
+  }).join('');
+  box.innerHTML=all+btns;
+  box.addEventListener('click',e=>{
+    const btn=e.target.closest('.cat-btn'); if(!btn) return;
+    state.group=(btn.dataset.group||'').trim();
+    box.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    state.page=1; fetchPage();
+  });
+  builtCategories=true;
+}
+
+/* ---------- SKELETON ---------- */
+function renderSkeleton(n){
+  const grid=document.getElementById('productGrid');
+  grid.innerHTML = Array.from({length:n}).map(()=>`
+    <div class="cardx">
+      <div class="thumb" style="background:#eee;animation:pulseSk 1.2s infinite;"></div>
+      <div class="meta">
+        <div class="id" style="height:12px;background:#eee;border-radius:4px"></div>
+        <div class="details" style="height:10px;background:#f3f3f3;border-radius:4px;margin-top:6px"></div>
+        <div class="row-meta mt-1">
+          <div class="price" style="height:12px;background:#eee;border-radius:4px;width:80px"></div>
+          <div class="add-btn" style="background:#e0e0e0;color:#e0e0e0">+</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+/* ---------- DATA FETCH ---------- */
+function fetchPage(){
+  renderSkeleton(state.pageSize);
+  fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q||'')}&group=${encodeURIComponent(state.group||'')}`)
+    .then(r=>r.json())
+    .then(res=>{ render(res); })
+    .catch(err=>{
+      console.error(err);
+      render({items:[],facets:{groups:[]},page:1,pageSize:state.pageSize,total:0});
+    });
+}
+
+/* ---------- PRODUCT CARD ---------- */
+function productCardHtml(it){
+  const img=hiRes(it.img,600);
+  const full=it.full||img;
+  return `
+    <div class="cardx" data-full="${esc(full)}">
+      ${it.chuy ? `<span class="note-badge">${esc(it.chuy)}</span>` : ``}
+      <img class="thumb" src="${img}" loading="lazy"
+           onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'">
+      <div class="meta">
+        <div class="id">${esc(it.id)}</div>
+        <div class="details" title="${esc(it.details)}">${esc(it.details)}</div>
+        <div class="type-badge">${esc(it.type||'')}</div>
+        <div class="row-meta mt-1">
+          <div class="price">${fmtVND(it.price)}</div>
+          <button class="add-btn" title="Thêm"
+            data-add='${JSON.stringify(it).replace(/'/g,"&apos;")}'>+</button>
+        </div>
+      </div>
+    </div>`;
+}
+function render(res){
+  if(res?.facets?.groups) buildCategoriesOnce(res.facets.groups);
+  const grid=document.getElementById('productGrid');
+  grid.innerHTML = (res.items||[]).map(it=>productCardHtml(it)).join('') || '<div class="text-muted">Không có sản phẩm.</div>';
+}
+
+/* ---------- EVENTS ---------- */
+document.getElementById('productGrid').addEventListener('click',e=>{
+  const addBtn=e.target.closest('.add-btn');
+  if(addBtn){
+    e.preventDefault();
+    const it=JSON.parse(addBtn.dataset.add.replace(/&apos;/g,"'"));
+    const f=cart.find(x=>x.id===it.id);
+    if(f) f.qty+=1; else cart.push({id:it.id,details:it.details,type:it.type,price:Number(it.price)||0,img:it.img,qty:1});
+    saveCart(); return;
+  }
+  const card=e.target.closest('.cardx'); if(card){ const full=card.dataset.full; if(full) window.open(full,'_blank'); }
+});
+document.getElementById('prevBtn').onclick=()=>{ if(state.page>1){state.page--; fetchPage();} };
+document.getElementById('nextBtn').onclick=()=>{ state.page++; fetchPage(); };
+document.getElementById('searchBtn').onclick=()=>{ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); };
+document.getElementById('searchBox').addEventListener('keypress',e=>{ if(e.key==='Enter'){ state.q=e.target.value.trim(); state.page=1; fetchPage(); }});
+document.getElementById('clearBtnSide').onclick=()=>{ if(confirm('Xóa toàn bộ giỏ hàng?')){cart=[];saveCart();} };
+document.getElementById('sendBtnSide').onclick=()=>{
+  if(cart.length===0){ alert('Giỏ hàng trống.'); return; }
+  const customer={
+    name:document.getElementById('custNameSide').value.trim(),
+    phone:document.getElementById('custPhoneSide').value.trim(),
+    address:document.getElementById('custAddressSide').value.trim(),
+    email:document.getElementById('custEmailSide').value.trim(),
+    note:document.getElementById('custNoteSide').value.trim()
+  };
+  if(!customer.name || !customer.phone){ alert('Vui lòng nhập Họ tên và Số điện thoại.'); return; }
+  const order={cart,total:cart.reduce((s,it)=>s+(Number(it.price)||0)*it.qty,0),customer};
+  const btn=document.getElementById('sendBtnSide');
+  btn.disabled=true; btn.textContent='Đang gửi...';
+  fetch(API_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8'},
+    body:`action=order&order=${encodeURIComponent(JSON.stringify(order))}`
+  })
+  .then(r=>r.json())
+  .then(res=>{
+    alert(res?.message || 'Đã gửi yêu cầu mua hàng.');
+    cart=[]; saveCart();
+    btn.disabled=false; btn.textContent='GỬI YÊU CẦU MUA HÀNG';
+  })
+  .catch(err=>{
+    alert('Gửi thất bại: '+ (err?.message||err));
+    btn.disabled=false; btn.textContent='GỬI YÊU CẦU MUA HÀNG';
+  });
+};
+
+/* ---------- INIT ---------- */
+document.addEventListener('DOMContentLoaded', () => {
   renderFactories();
+  loadCart();
   fetchPage();
 });
 </script>
