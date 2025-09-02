@@ -1,233 +1,102 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>PCGbrand - Thiết kế & Mua trực tiếp</title>
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-:root{
-  --main:#0018a8; --accent:#d4af37;
-  --bg:#f5f6fa; --border:#e9e9ee;
-}
+:root{--main:#0018a8;--accent:#d4af37;--bg:#f5f6fa;--border:#e9e9ee;}
 body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:#222;font-size:14px}
 .container-xl{max-width:1320px}
-
-/* Banner */
-.top-ad{background:#0f172a;color:#fff;height:56px;display:flex;align-items:center;justify-content:center;position:sticky;top:0;z-index:1030}
-.top-ad .inner{max-width:1320px;width:100%;display:flex;align-items:center;gap:10px}
-.top-ad .msg{font-weight:700}
-.top-ad .cta{margin-left:auto;display:flex;gap:8px}
-.top-ad .cta a{background:#fff;color:#111;padding:6px 12px;border-radius:6px;text-decoration:none;font-weight:600}
-.top-ad .cta a:hover{opacity:.9}
-
-/* Navbar */
 .navbar{background:#fff;border-bottom:1px solid var(--border)}
-.search-input{border:1px solid #ddd;border-radius:10px;padding:6px 12px;width:100%}
-.btn-cart{background:var(--main);color:#fff;border:none;border-radius:10px;padding:6px 12px}
+.brand{font-weight:800;color:var(--main)}
+.search-input{border:1px solid #ddd;border-radius:10px;padding:8px 12px;width:100%}
+.btn-cart{background:var(--main);color:#fff;border:none;border-radius:10px;padding:8px 12px}
 .btn-cart .count{background:#fff;color:#111;border-radius:999px;padding:2px 8px;margin-left:6px;font-weight:800}
-
-/* Hero */
-.hero-card{border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 18px 45px rgba(11,20,64,.08)}
-#heroCarousel .carousel-item img{height:240px;object-fit:cover}
-.hero-caption{position:absolute;left:0;right:0;bottom:14px;color:#fff;text-align:center;font-weight:700;font-size:20px;text-shadow:0 4px 18px rgba(0,0,0,.5)}
-
-/* Categories */
 .cats{display:flex;gap:8px;overflow:auto;padding:8px}
-.cat-btn{white-space:nowrap;border:1px solid var(--border);padding:6px 14px;border-radius:999px;background:#fff;cursor:pointer;font-weight:600;font-size:13px}
-.cat-btn.active,.cat-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
-
-/* Sidebar */
-.side-card{background:#fff;border:1px solid var(--border);border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.06);padding:12px;margin-bottom:12px}
-.service-item,.factory-item{display:flex;gap:10px;align-items:center;padding:8px;border:1px solid #eef0f4;border-radius:12px;background:#fff}
-.service-icon,.factory-logo{flex:0 0 40px;height:40px;width:40px;border-radius:10px;overflow:hidden;background:#f7f9ff;display:flex;align-items:center;justify-content:center}
-.factory-logo img{width:100%;height:100%;object-fit:cover}
-
-/* Product grid */
-.product-section{background:#fff;padding:12px;border-radius:18px;border:1px solid var(--border)}
-.grid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
-@media(min-width:768px){.grid{grid-template-columns:repeat(3,1fr)}}
-@media(min-width:1200px){.grid{grid-template-columns:repeat(4,1fr)}}
-.cardx{border:1px solid #eee;border-radius:12px;overflow:hidden;background:#fff;transition:.2s}
-.cardx:hover{box-shadow:0 6px 14px rgba(0,0,0,.08)}
+.cat-btn{white-space:nowrap;border:1px solid var(--border);padding:6px 14px;border-radius:999px;background:#fff;cursor:pointer;font-weight:600;transition:.15s;font-size:13px}
+.cat-btn:hover,.cat-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.grid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+.cardx{border:0;background:#fff;transition:.2s;cursor:pointer;border-radius:12px;overflow:hidden;position:relative;box-shadow:0 6px 14px rgba(0,0,0,.08)}
 .thumb{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
-.meta{padding:8px}
+.meta{padding:8px;border-top:1px solid #eee}
 .id{font-weight:700;font-size:13px}
 .price{color:#0066cc;font-weight:800;font-size:13px}
-.note-badge{position:absolute;top:6px;left:6px;background:#ffc107;color:#111;padding:2px 6px;border-radius:6px;font-size:12px;font-weight:600}
-
-/* Cart offcanvas */
-.cart-item{display:flex;gap:8px;align-items:center;border-bottom:1px solid #eee;padding:6px 0}
-.cart-item img{width:46px;height:46px;border-radius:6px;object-fit:cover}
-.cart-item .meta{flex:1}
-.total{font-weight:800;color:var(--accent)}
-
-footer{margin-top:24px;padding:18px;background:var(--main);color:#fff;text-align:center;font-size:13px}
+.note-badge{position:absolute;top:8px;left:8px;background:#ffc107;color:#111;font-weight:700;padding:2px 8px;border-radius:6px;font-size:12px}
 </style>
 </head>
 <body>
-
-<!-- Banner -->
-<div class="top-ad">
-  <div class="inner">
-    <div class="msg">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
-    <div class="cta">
-      <a href="#factories">Xem xưởng uy tín</a>
-      <a href="https://zalo.me/0936169692" target="_blank">Chat nhanh Zalo</a>
-    </div>
-  </div>
-</div>
-
-<!-- Navbar -->
 <nav class="navbar">
   <div class="container-xl d-flex align-items-center gap-2 py-2">
-    <div class="fw-bold text-primary">PCGbrand</div>
+    <div class="brand me-2">PCGbrand</div>
     <input id="searchBox" class="search-input" placeholder="Tìm sản phẩm...">
-    <button id="searchBtn" class="btn btn-primary">🔍</button>
-    <button class="btn-cart ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">
-      🛒 Giỏ hàng <span id="cartCount" class="count">0</span>
-    </button>
+    <button id="searchBtn" class="btn-cart ms-2">🔍</button>
+    <button class="btn-cart ms-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">🛒 Giỏ hàng <span id="cartCount" class="count">0</span></button>
   </div>
 </nav>
-
-<div class="container-xl my-3">
+<div class="container-xl mt-3">
   <div class="row g-3">
-    <!-- Sidebar -->
+    <!-- Sidebar trái -->
     <div class="col-lg-3">
-      <div class="side-card">
+      <div class="mb-3 p-2 bg-white rounded shadow-sm">
         <div class="fw-bold mb-2">Quyền lợi khi đặt hàng qua 2606ai.vn</div>
-        <div class="service-item"><div class="service-icon">🏷️</div><div>Báo giá nhanh 24h</div></div>
-        <div class="service-item"><div class="service-icon">🛠️</div><div>Thiết kế & chỉnh sửa file miễn phí</div></div>
-        <div class="service-item"><div class="service-icon">🔍</div><div>Duyệt mẫu trước khi sản xuất</div></div>
-        <div class="service-item"><div class="service-icon">✅</div><div>QC 2 lớp & bảo hành</div></div>
-        <div class="service-item"><div class="service-icon">🚚</div><div>Giao hàng toàn quốc</div></div>
+        <ul class="list-unstyled small">
+          <li>🏷️ Báo giá nhanh 24h</li>
+          <li>🛠️ Thiết kế & chỉnh sửa file miễn phí</li>
+          <li>🔍 Duyệt mẫu trước khi sản xuất</li>
+          <li>✅ QC 2 lớp & bảo hành</li>
+          <li>🚚 Giao hàng toàn quốc</li>
+        </ul>
       </div>
-
-      <div class="side-card" id="factories">
+      <div class="p-2 bg-white rounded shadow-sm">
         <div class="fw-bold mb-2">Xưởng sản xuất uy tín</div>
         <div id="factoryList"></div>
       </div>
     </div>
-
     <!-- Main content -->
     <div class="col-lg-9">
-      <!-- Hero -->
-      <div class="hero-card mb-3">
-        <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="https://picsum.photos/1200/240?random=21" class="d-block w-100">
-              <div class="hero-caption">Đặt hàng theo thiết kế riêng</div>
-            </div>
-            <div class="carousel-item">
-              <img src="https://picsum.photos/1200/240?random=22" class="d-block w-100">
-              <div class="hero-caption">QC 2 lớp – Bảo hành uy tín</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Categories -->
       <div id="categoryBox" class="cats"></div>
-
-      <!-- Products -->
-      <div class="product-section">
-        <div class="d-flex justify-content-between mb-2">
-          <h6 class="m-0">Danh sách sản phẩm</h6>
-          <div>
-            <button id="prevBtn" class="btn btn-light btn-sm">← Trước</button>
-            <button id="nextBtn" class="btn btn-light btn-sm">Sau →</button>
-          </div>
-        </div>
-        <div id="productGrid" class="grid"></div>
+      <div id="productGrid" class="grid"></div>
+      <div class="d-flex justify-content-between mt-2">
+        <button id="prevBtn" class="btn btn-light btn-sm">← Trước</button>
+        <button id="nextBtn" class="btn btn-light btn-sm">Sau →</button>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Cart -->
-<div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas">
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title">🛒 Giỏ hàng</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-  </div>
-  <div class="offcanvas-body">
-    <div id="cartListSide">Chưa có sản phẩm.</div>
-    <div class="d-flex justify-content-between mt-2">
-      <span>Tổng:</span><span id="cartTotalSide" class="total">0 đ</span>
-    </div>
-  </div>
-</div>
-
-<footer>
-  © 2025 2606ai.vn – All rights reserved
-</footer>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-/* ---------- CONFIG ---------- */
-const API_URL = "https://script.google.com/macros/s/AKfycbzn3_6jlvS8MlUsHrDCe5x8EwQTCgeIoDaTwM8Mg0Ba4Bq6jeRf1OodQRkVIFmR-2TB/exec";
-let state={page:1,pageSize:12,q:'',group:''};
-let cart=[];
-
-/* ---------- UTILS ---------- */
+const API_URL="https://script.google.com/macros/s/AKfycbzASzlggc3PXo390AaRwU3_kopkmS10J7vKIQBnvE5BybgzA3RQ4Vd2vdzFT0RcsZEc/exec";
+const state={page:1,pageSize:12,q:'',group:'',dong:'',loai:''};
 const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
-const esc=s=>(s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-/* ---------- FACTORIES ---------- */
-function renderFactories(){
-  const data=[
-    {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',logo:'https://picsum.photos/80?1'},
-    {name:'Xưởng 2 – In UV',desc:'In UV độ bền cao',logo:'https://picsum.photos/80?2'},
-    {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ màu cao cấp',logo:'https://picsum.photos/80?3'}
-  ];
-  document.getElementById('factoryList').innerHTML=data.map(f=>`
-    <div class="factory-item">
-      <div class="factory-logo"><img src="${f.logo}"></div>
-      <div>${esc(f.name)}<br><span class="text-muted small">${esc(f.desc)}</span></div>
-    </div>`).join('');
-}
-
-/* ---------- RENDER ---------- */
+function esc(s){return (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 function productCardHtml(it){
-  return `<div class="cardx">
-    ${it.chuy?`<span class="note-badge">${esc(it.chuy)}</span>`:''}
-    <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
-    <div class="meta">
-      <div class="id">${esc(it.id)}</div>
-      <div class="small text-muted">${esc(it.details)}</div>
-      <div class="price">${fmtVND(it.price)}</div>
-    </div>
-  </div>`;
+  return `<div class="cardx"><img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/200'"><div class="meta"><div class="id">${esc(it.id)}</div><div>${esc(it.details)}</div><div class="price">${fmtVND(it.price)}</div></div>${it.chuy?`<div class="note-badge">${esc(it.chuy)}</div>`:''}</div>`;
 }
-function render(res){
-  if(res?.facets?.groups){
-    const box=document.getElementById('categoryBox');
-    box.innerHTML=`<button class="cat-btn ${!state.group?'active':''}" data-group="">Tất cả</button>`+
-      res.facets.groups.map(g=>`<button class="cat-btn ${state.group===g?'active':''}" data-group="${esc(g)}">${esc(g)}</button>`).join('');
-    box.querySelectorAll('.cat-btn').forEach(b=>b.onclick=()=>{state.group=b.dataset.group;state.page=1;fetchPage();});
-  }
-  document.getElementById('productGrid').innerHTML=(res.items||[]).map(productCardHtml).join('')||'<div class="text-muted">Không có sản phẩm.</div>';
+function renderCategories(facets){
+  let html='';
+  if(facets.groups) html+=facets.groups.map(g=>`<button class="cat-btn ${state.group===g?'active':''}" data-type="group" data-value="${esc(g)}">${esc(g)}</button>`).join('');
+  if(facets.dongs) html+=facets.dongs.map(d=>`<button class="cat-btn ${state.dong===d?'active':''}" data-type="dong" data-value="${esc(d)}">${esc(d)}</button>`).join('');
+  if(facets.loais) html+=facets.loais.map(l=>`<button class="cat-btn ${state.loai===l?'active':''}" data-type="loai" data-value="${esc(l)}">${esc(l)}</button>`).join('');
+  document.getElementById('categoryBox').innerHTML=html;
+  document.querySelectorAll('.cat-btn').forEach(btn=>btn.onclick=()=>{state[btn.dataset.type]=btn.dataset.value;state.page=1;fetchPage();});
 }
-
-/* ---------- FETCH ---------- */
 function fetchPage(){
-  fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q)}&group=${encodeURIComponent(state.group)}`)
-    .then(r=>r.json()).then(render)
-    .catch(e=>{document.getElementById('productGrid').innerHTML='<div class="text-danger">Lỗi tải dữ liệu</div>';console.error(e)});
+  fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q)}&group=${encodeURIComponent(state.group)}&dong=${encodeURIComponent(state.dong)}&loai=${encodeURIComponent(state.loai)}`)
+  .then(r=>r.json()).then(res=>{
+    if(res.facets) renderCategories(res.facets);
+    document.getElementById('productGrid').innerHTML=(res.items||[]).map(it=>productCardHtml(it)).join('');
+  }).catch(err=>{
+    document.getElementById('productGrid').innerHTML='<div class="text-danger">Lỗi tải dữ liệu</div>';
+    console.error(err);
+  });
 }
-
-/* ---------- EVENTS ---------- */
 document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();}
-document.getElementById('searchBox').addEventListener('keypress',e=>{if(e.key==='Enter'){state.q=e.target.value.trim();state.page=1;fetchPage();}})
 document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}}
-document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}  
-
-/* ---------- INIT ---------- */
-document.addEventListener('DOMContentLoaded',()=>{renderFactories();fetchPage();});
+document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}
+fetchPage();
 </script>
 </body>
 </html>
