@@ -1,209 +1,114 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PCGbrand - Thiết kế & Mua trực tiếp</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PCGbrand</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
   <style>
-    :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; --border:#e9e9ee; }
-    body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:#222;font-size:14px}
-    .container-xl{max-width:1320px}
-
-    .hero img{width:100%;border-radius:8px}
-
-    .cardx{border:1px solid #e5e5e5;border-radius:8px;background:#fff;overflow:hidden;transition:transform .2s;position:relative}
-    .cardx:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+    :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
+    body{font-family:sans-serif;background:var(--bg);font-size:14px}
+    .cardx{border:1px solid #ddd;border-radius:8px;background:#fff;overflow:hidden;position:relative;transition:.2s}
+    .cardx:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(0,0,0,.1)}
     .cardx img.thumb{width:100%;height:200px;object-fit:cover}
-    .cardx .note-badge{position:absolute;top:6px;left:6px;background:#ff9800;color:#fff;font-size:12px;font-weight:600;padding:2px 6px;border-radius:6px}
+    .cardx .note-badge{position:absolute;top:8px;left:8px;background:#ff9800;color:#fff;padding:2px 6px;font-size:12px;border-radius:6px}
     .cardx .meta{padding:8px}
-    .cardx .id{font-weight:600;color:#0000fc;font-size:13px}
-    .cardx .details{font-size:13px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cardx .id{font-weight:600;color:#0018a8}
+    .cardx .details{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cardx .type-badge{font-size:12px;color:#555;margin-top:4px}
     .cardx .row-meta{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
     .cardx .price{font-weight:700;color:#d32f2f}
-    .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer}
+    .filter-box h6{font-size:14px;font-weight:600;margin-bottom:6px}
+    .filter-btn{border:none;padding:6px 14px;border-radius:20px;background:#f0f0f0;cursor:pointer;font-size:13px;margin:2px}
+    .filter-btn.active{background:var(--accent);color:#fff}
   </style>
 </head>
 <body>
-  <div class="container-xl my-3">
-    <!-- Hero -->
-    <div class="hero mb-3">
-      <img src="https://via.placeholder.com/1200x250?text=Banner+PCGbrand" alt="Hero">
+<div class="container-xl my-3">
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="p-3 bg-white rounded mb-3">
+        <h6 class="fw-bold">Quyền lợi</h6>
+        <ul class="small">
+          <li>⚡ Báo giá nhanh</li><li>🎨 Thiết kế miễn phí</li>
+          <li>👁️ Duyệt mẫu trước SX</li><li>✅ QC 2 lớp</li><li>🚚 Giao hàng toàn quốc</li>
+        </ul>
+      </div>
     </div>
-
-    <div class="row">
-      <!-- Sidebar -->
-      <div class="col-lg-3 mb-3">
-        <div class="p-3 bg-white rounded shadow-sm mb-3">
-          <h6 class="fw-bold mb-3">Quyền lợi khi đặt hàng qua 2606ai.vn</h6>
-          <ul class="list-unstyled small">
-            <li>⚡ Báo giá nhanh 24h</li>
-            <li>🎨 Thiết kế & chỉnh sửa file miễn phí</li>
-            <li>👁️ Duyệt mẫu trước khi sản xuất</li>
-            <li>✅ QC 2 lớp & bảo hành</li>
-            <li>🚚 Giao hàng toàn quốc</li>
-          </ul>
-        </div>
-        <div class="p-3 bg-white rounded shadow-sm">
-          <h6 class="fw-bold">Xưởng sản xuất uy tín</h6>
-          <div id="factoryList"></div>
-        </div>
+    <div class="col-lg-9">
+      <div class="input-group mb-3">
+        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm...">
+        <button id="searchBtn" class="btn btn-primary">🔍</button>
       </div>
 
-      <!-- Content -->
-      <div class="col-lg-9">
-        <!-- Search -->
-        <div class="input-group mb-3">
-          <input id="searchBox" type="text" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả, TYPE)">
-          <button id="searchBtn" class="btn btn-primary"><i class="bi bi-search"></i></button>
-          <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#cartCanvas">
-            🛒 Giỏ hàng <span id="cartCount">0</span>
-          </button>
-        </div>
+      <!-- Filter -->
+      <div id="filters">
+        <div class="filter-box"><h6>Dòng sản phẩm</h6><div id="dongBox"></div></div>
+        <div class="filter-box"><h6>Loại sản phẩm</h6><div id="loaiBox"></div></div>
+        <div class="filter-box"><h6>Type</h6><div id="typeBox"></div></div>
+      </div>
 
-        <!-- Category -->
-        <div id="categoryBox" class="mb-3 d-flex flex-wrap gap-2"></div>
-
-        <!-- Product list -->
-        <div class="bg-white rounded shadow-sm p-3">
-          <h6 class="fw-bold mb-3">Danh sách sản phẩm</h6>
-          <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3"></div>
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <button id="prevBtn" class="btn btn-outline-secondary btn-sm">← Trước</button>
-            <button id="nextBtn" class="btn btn-outline-secondary btn-sm">Sau →</button>
-          </div>
-        </div>
+      <div id="productGrid" class="row row-cols-2 row-cols-md-3 g-3"></div>
+      <div class="d-flex justify-content-between mt-3">
+        <button id="prevBtn" class="btn btn-outline-secondary btn-sm">← Trước</button>
+        <button id="nextBtn" class="btn btn-outline-secondary btn-sm">Sau →</button>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Giỏ hàng -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title">Giỏ hàng (<span id="cartCount2">0</span>)</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-      <div id="cartListSide" class="mb-2 small text-muted"></div>
-      <div class="fw-bold mb-2">Tổng: <span id="cartTotalSide">0 đ</span></div>
-      <input id="custNameSide" type="text" class="form-control mb-2" placeholder="Họ tên *">
-      <input id="custPhoneSide" type="text" class="form-control mb-2" placeholder="Số điện thoại *">
-      <input id="custAddressSide" type="text" class="form-control mb-2" placeholder="Địa chỉ">
-      <input id="custEmailSide" type="email" class="form-control mb-2" placeholder="Email">
-      <textarea id="custNoteSide" class="form-control mb-2" rows="2" placeholder="Ghi chú"></textarea>
-      <div class="d-flex gap-2">
-        <button id="clearBtnSide" class="btn btn-outline-danger flex-fill">Xóa giỏ</button>
-        <button id="sendBtnSide" class="btn btn-success flex-fill">Gửi đơn</button>
-      </div>
-    </div>
-  </div>
+<script>
+const API_URL="LINK_WEB_APP_CỦA_BẠN";
+const state={page:1,pageSize:12,q:'',group:'',dong:'',loai:'',type:''};
+const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
+const esc=s=>(s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+function productCardHtml(it){
+  return `<div class="col"><div class="cardx">
+    ${it.chuy?`<span class="note-badge">${esc(it.chuy)}</span>`:''}
+    <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+    <div class="meta">
+      <div class="id">${esc(it.id)}</div>
+      <div class="details">${esc(it.details||'')}</div>
+      <div class="type-badge">${esc(it.type||'')}</div>
+      <div class="row-meta"><div class="price">${fmtVND(it.price)}</div>
+      <button class="add-btn">+</button></div>
+    </div></div></div>`;
+}
 
-  <script>
-    /* ---------- CONFIG API ---------- */
-    const API_URL = "https://script.google.com/macros/s/AKfycbyBxgYIh4IDWSumB8C7HxACUa8mOjNyKGkCVYQHpHpBi7IP0BUfGYfiywo78uMqdhC_/exec";
-    const state={page:1,pageSize:12,q:'',group:''};
-    const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
-    const esc = s => (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function buildFilterBox(boxId, items, field){
+  const box=document.getElementById(boxId);if(!box) return;
+  const allBtn=`<button class="filter-btn ${!state[field]?'active':''}" data-field="${field}" data-value="">Tất cả</button>`;
+  const btns=(items||[]).map(val=>{
+    const act=(state[field]||'').toLowerCase()===(val||'').toLowerCase()?'active':'';
+    return `<button class="filter-btn ${act}" data-field="${field}" data-value="${esc(val)}">${esc(val)}</button>`;
+  }).join('');
+  box.innerHTML=allBtn+btns;
+}
 
-    // Render card sản phẩm
-    function productCardHtml(it){
-      return `
-      <div class="col">
-        <div class="cardx">
-          ${it.chuy?`<span class="note-badge">${esc(it.chuy)}</span>`:''}
-          <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-          <div class="meta">
-            <div class="id">${esc(it.id)}</div>
-            <div class="details" title="${esc(it.details)}">${esc(it.details||'')}</div>
-            <div class="row-meta">
-              <div class="price">${fmtVND(it.price)}</div>
-              <button class="add-btn" data-add='${JSON.stringify(it)}'>+</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-    }
+function render(res){
+  document.getElementById('productGrid').innerHTML=(res.items||[]).map(it=>productCardHtml(it)).join('');
+  if(res.facets){
+    buildFilterBox('dongBox',res.facets.dongs,'dong');
+    buildFilterBox('loaiBox',res.facets.loais,'loai');
+    buildFilterBox('typeBox',res.facets.types,'type');
+  }
+}
 
-    function render(res){
-      const grid=document.getElementById('productGrid');
-      if(!res.items || !res.items.length){ grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>'; return; }
-      grid.innerHTML=res.items.map(it=>productCardHtml(it)).join('');
-      // Category
-      const box=document.getElementById('categoryBox');
-      if(res.facets?.groups){
-        box.innerHTML = `<button class="btn btn-sm ${!state.group?'btn-warning':'btn-outline-secondary'}" data-group="">Tất cả</button>` +
-          res.facets.groups.map(g=>`<button class="btn btn-sm ${state.group===g?'btn-warning':'btn-outline-secondary'}" data-group="${esc(g)}">${esc(g)}</button>`).join('');
-      }
-    }
+function fetchPage(){
+  const params=new URLSearchParams({...state,action:'list'});
+  fetch(API_URL+'?'+params.toString()).then(r=>r.json()).then(render);
+}
 
-    function fetchPage(){
-      fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q)}&group=${encodeURIComponent(state.group)}`)
-        .then(r=>r.json()).then(res=>render(res)).catch(e=>console.error(e));
-    }
-
-    // Cart
-    let cart=[];
-    function updateCartUI(){
-      document.getElementById('cartCount').textContent=cart.reduce((s,it)=>s+it.qty,0);
-      document.getElementById('cartCount2').textContent=document.getElementById('cartCount').textContent;
-      document.getElementById('cartListSide').innerHTML=cart.map((it,i)=>`
-        <div class="d-flex mb-2">
-          <img src="${esc(it.img)}" style="width:40px;height:40px;object-fit:cover" class="me-2">
-          <div class="flex-grow-1 small">
-            <div>${esc(it.id)}</div>
-            <div>${fmtVND(it.price)} × ${it.qty}</div>
-          </div>
-          <button class="btn btn-sm btn-outline-danger" onclick="cart.splice(${i},1);updateCartUI()">X</button>
-        </div>
-      `).join('');
-      document.getElementById('cartTotalSide').textContent=fmtVND(cart.reduce((s,it)=>s+it.price*it.qty,0));
-    }
-
-    document.getElementById('productGrid').addEventListener('click',e=>{
-      const btn=e.target.closest('[data-add]');
-      if(btn){
-        const it=JSON.parse(btn.dataset.add);
-        const f=cart.find(x=>x.id===it.id);
-        if(f) f.qty++; else cart.push({id:it.id,details:it.details,price:it.price,img:it.img,qty:1});
-        updateCartUI();
-      }
-    });
-
-    document.getElementById('searchBtn').onclick=()=>{
-      state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();
-    };
-    document.getElementById('categoryBox').addEventListener('click',e=>{
-      const b=e.target.closest('[data-group]');if(!b)return;
-      state.group=b.dataset.group;state.page=1;fetchPage();
-    });
-    document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}};
-    document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();};
-    document.getElementById('clearBtnSide').onclick=()=>{cart=[];updateCartUI();};
-
-    document.getElementById('sendBtnSide').onclick=()=>{
-      if(!cart.length){alert('Giỏ hàng trống');return;}
-      const customer={
-        name:document.getElementById('custNameSide').value.trim(),
-        phone:document.getElementById('custPhoneSide').value.trim(),
-        address:document.getElementById('custAddressSide').value.trim(),
-        email:document.getElementById('custEmailSide').value.trim(),
-        note:document.getElementById('custNoteSide').value.trim()
-      };
-      if(!customer.name||!customer.phone){alert('Nhập Họ tên và SĐT');return;}
-      const order={cart,total:cart.reduce((s,it)=>s+it.price*it.qty,0),customer};
-      fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-        body:'action=order&order='+encodeURIComponent(JSON.stringify(order))})
-        .then(r=>r.json()).then(res=>{alert(res.message||'Đã gửi đơn');cart=[];updateCartUI();})
-        .catch(e=>alert('Lỗi gửi: '+e));
-    };
-
-    document.addEventListener('DOMContentLoaded',()=>{fetchPage();updateCartUI();});
-  </script>
+document.getElementById('filters').addEventListener('click',e=>{
+  const btn=e.target.closest('.filter-btn');if(!btn)return;
+  state[btn.dataset.field]=btn.dataset.value;state.page=1;fetchPage();
+});
+document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();}
+document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}}
+document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}
+document.addEventListener('DOMContentLoaded',fetchPage);
+</script>
 </body>
 </html>
