@@ -18,7 +18,18 @@
   body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:#222;font-size:14px}
   .container-xl{max-width:1320px}
 
-  /* CATEGORY */
+  /* Banner */
+  .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-size:13px;font-weight:600}
+
+  /* Hero */
+  .hero{margin:15px 0;border-radius:12px;overflow:hidden}
+  .hero img{width:100%;height:200px;object-fit:cover}
+
+  /* Sidebar */
+  .sidebar{background:#fff;border-radius:10px;padding:15px;margin-bottom:15px;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
+  .sidebar h6{font-weight:700;margin-bottom:10px}
+
+  /* Category */
   #categoryBox {margin:15px 0;}
   #categoryBox .cat-btn{
     border:none;background:#fff;border:1px solid var(--border);
@@ -26,8 +37,8 @@
   }
   #categoryBox .cat-btn.active{background:var(--accent);color:#fff;font-weight:600}
 
-  /* PRODUCT GRID */
-  #productGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:15px;margin-top:10px}
+  /* Product Grid */
+  #productGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:15px}
   .cardx{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 5px rgba(0,0,0,0.05);position:relative;cursor:pointer}
   .cardx img.thumb{width:100%;height:180px;object-fit:cover}
   .cardx .note-badge{
@@ -45,52 +56,96 @@
     width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center
   }
 
-  /* PAGINATION */
+  /* Pagination */
   .pager{text-align:right;margin:15px 0}
   .pager button{border:none;background:none;margin:0 5px;font-weight:600;color:var(--main)}
 </style>
 </head>
 <body>
+
+<!-- Banner -->
+<div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
+
 <div class="container-xl py-3">
-  <h5>PCGbrand</h5>
+  <!-- Hero -->
+  <div class="hero">
+    <img src="https://picsum.photos/1200/300?random=10" alt="hero">
+  </div>
+
+  <!-- Search -->
   <div class="input-group mb-3">
     <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả, TYPE)">
     <button id="searchBtn" class="btn btn-primary">🔍</button>
     <button class="btn btn-outline-primary ms-2">🛒 Giỏ hàng <span id="cartCount">0</span></button>
   </div>
 
-  <!-- CATEGORY FILTER -->
-  <div id="categoryBox"></div>
+  <div class="row">
+    <!-- Sidebar -->
+    <div class="col-md-3">
+      <div class="sidebar">
+        <h6>Quyền lợi khi đặt hàng qua 2606ai.vn</h6>
+        <ul class="list-unstyled small">
+          <li>⚡ Báo giá nhanh 24h</li>
+          <li>🎨 Thiết kế & chỉnh sửa file miễn phí</li>
+          <li>🔍 Duyệt mẫu trước khi sản xuất</li>
+          <li>✅ QC 2 lớp & bảo hành</li>
+          <li>🚚 Giao hàng toàn quốc</li>
+        </ul>
+      </div>
+      <div class="sidebar">
+        <h6>Xưởng sản xuất uy tín</h6>
+        <div id="factoryList"></div>
+      </div>
+    </div>
 
-  <!-- PRODUCT GRID -->
-  <h6>Danh sách sản phẩm</h6>
-  <div id="productGrid"></div>
+    <!-- Main -->
+    <div class="col-md-9">
+      <!-- Category -->
+      <div id="categoryBox"></div>
 
-  <!-- PAGINATION -->
-  <div class="pager">
-    <button id="prevBtn">← Trước</button>
-    <button id="nextBtn">Sau →</button>
+      <!-- Grid -->
+      <h6>Danh sách sản phẩm</h6>
+      <div id="productGrid"></div>
+
+      <!-- Pagination -->
+      <div class="pager">
+        <button id="prevBtn">← Trước</button>
+        <button id="nextBtn">Sau →</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-/* ---------- CONFIG API ---------- */
 const API_URL = "https://script.google.com/macros/s/AKfycbyp8hH9seYgTW_H59pcR4OpvdQbpLhH9F67oYvOQoUpDsjYsemNDgel2sMameaxTdKy/exec";
-
-/* ---------- STATE ---------- */
 const state={page:1,pageSize:30,q:'',group:''};
-
-/* ---------- UTILS ---------- */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
 function hiRes(url,w=600){return (url||'').replace(/=s\\d+/,'=s'+w);}
-function esc(s){return (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function esc(s){return (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-/* ---------- CATEGORY ---------- */
+/* Factories */
+const FACTORIES = [
+  { name:'Xưởng 1 – Tem kim loại', desc:'Men màu, mạ vàng, đúc nổi 3D', logo:'https://picsum.photos/80?random=41', href:'#' },
+  { name:'Xưởng 2 – In UV', desc:'In UV độ bền cao, chi tiết sắc nét', logo:'https://picsum.photos/80?random=42', href:'#' },
+  { name:'Xưởng 3 – Đúc huy hiệu', desc:'Đúc nổi 3D, mạ màu cao cấp', logo:'https://picsum.photos/80?random=43', href:'#' }
+];
+function renderFactories(){
+  const box=document.getElementById('factoryList');
+  box.innerHTML=FACTORIES.map(f=>`
+    <div class="d-flex align-items-center mb-2">
+      <img src="${f.logo}" class="me-2" style="width:40px;height:40px;border-radius:6px;object-fit:cover">
+      <div>
+        <div class="fw-bold small">${esc(f.name)}</div>
+        <div class="text-muted small">${esc(f.desc)}</div>
+      </div>
+    </div>`).join('');
+}
+
+/* Category */
 let builtCategories=false;
 function buildCategoriesOnce(groups){
   if(builtCategories) return;
-  const box=document.getElementById('categoryBox'); if(!box) return;
+  const box=document.getElementById('categoryBox');
   const all=`<button class="cat-btn ${!state.group?'active':''}" data-group="">Tất cả</button>`;
   const btns=(groups||[]).map(g=>{
     const val=(g||'').trim();
@@ -108,63 +163,46 @@ function buildCategoriesOnce(groups){
   builtCategories=true;
 }
 
-/* ---------- DATA FETCH ---------- */
+/* Data fetch */
 function fetchPage(){
   document.getElementById('productGrid').innerHTML='<div>Đang tải...</div>';
-  fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q||'')}&group=${encodeURIComponent(state.group||'')}`)
-    .then(r=>r.json())
-    .then(res=>{ render(res); })
-    .catch(err=>{
-      console.error(err);
-      document.getElementById('productGrid').innerHTML='<div class="text-danger">Lỗi tải dữ liệu</div>';
-    });
+  fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q)}&group=${encodeURIComponent(state.group)}`)
+    .then(r=>r.json()).then(res=>render(res))
+    .catch(()=>{document.getElementById('productGrid').innerHTML='<div class="text-danger">Lỗi tải dữ liệu</div>';});
 }
 
-/* ---------- PRODUCT CARD ---------- */
+/* Product card */
 function productCardHtml(it){
   const img=hiRes(it.img,400);
-  const full=it.full||img;
   return `
-    <div class="cardx" data-full="${esc(full)}">
+    <div class="cardx">
       ${it.chuy ? `<span class="note-badge">${esc(it.chuy)}</span>` : ``}
-      <img class="thumb" src="${img}" loading="lazy"
-           onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+      <img class="thumb" src="${img}">
       <div class="meta">
         <div class="id">${esc(it.id)}</div>
-        <div class="details" title="${esc(it.details)}">${esc(it.details)}</div>
+        <div class="details">${esc(it.details)}</div>
         <div class="type-badge">${esc(it.type||'')}</div>
         <div class="row-meta">
           <div class="price">${fmtVND(it.price)}</div>
-          <button class="add-btn" title="Thêm" 
-            data-add='${JSON.stringify(it).replace(/'/g,"&apos;")}'>+</button>
+          <button class="add-btn" title="Thêm">+</button>
         </div>
       </div>
     </div>`;
 }
 function render(res){
   if(res?.facets?.groups) buildCategoriesOnce(res.facets.groups);
-  const grid=document.getElementById('productGrid');
-  grid.innerHTML = (res.items||[]).map(it=>productCardHtml(it)).join('') || '<div class="text-muted">Không có sản phẩm.</div>';
+  document.getElementById('productGrid').innerHTML =
+    (res.items||[]).map(it=>productCardHtml(it)).join('') || '<div>Không có sản phẩm</div>';
 }
 
-/* ---------- EVENTS ---------- */
-document.getElementById('productGrid').addEventListener('click',e=>{
-  const addBtn=e.target.closest('.add-btn');
-  if(addBtn){
-    e.preventDefault();
-    alert("Đã thêm vào giỏ: " + addBtn.dataset.add);
-    return;
-  }
-});
-document.getElementById('prevBtn').onclick=()=>{ if(state.page>1){state.page--; fetchPage();} };
-document.getElementById('nextBtn').onclick=()=>{ state.page++; fetchPage(); };
-document.getElementById('searchBtn').onclick=()=>{ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); };
-document.getElementById('searchBox').addEventListener('keypress',e=>{ if(e.key==='Enter'){ state.q=e.target.value.trim(); state.page=1; fetchPage(); }});
+/* Events */
+document.getElementById('prevBtn').onclick=()=>{ if(state.page>1){state.page--; fetchPage();}};
+document.getElementById('nextBtn').onclick=()=>{state.page++; fetchPage();};
+document.getElementById('searchBtn').onclick=()=>{ state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();};
+document.getElementById('searchBox').addEventListener('keypress',e=>{if(e.key==='Enter'){state.q=e.target.value.trim();state.page=1;fetchPage();}});
 
-/* ---------- INIT ---------- */
-document.addEventListener('DOMContentLoaded', () => {
-  fetchPage();
-});
+/* Init */
+document.addEventListener('DOMContentLoaded',()=>{renderFactories();fetchPage();});
 </script>
 </body>
 </html>
