@@ -1,208 +1,105 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>PCGbrand - Thiết kế & Mua trực tiếp</title>
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap" rel="stylesheet">
-
 <style>
-  :root{
-    --main:#0018a8;
-    --accent:#d4af37;
-    --bg:#f5f6fa;
-    --border:#e9e9ee;
-  }
-  body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:#222;font-size:14px}
-  .container-xl{max-width:1320px}
+:root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; --border:#e9e9ee; }
+body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);color:#222;font-size:14px}
+.container-xl{max-width:1320px}
 
-  /* Banner */
-  .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-size:13px;font-weight:600}
-
-  /* Hero */
-  .hero{margin:15px 0;border-radius:12px;overflow:hidden}
-  .hero img{width:100%;height:200px;object-fit:cover}
-
-  /* Sidebar */
-  .sidebar{background:#fff;border-radius:10px;padding:15px;margin-bottom:15px;box-shadow:0 2px 5px rgba(0,0,0,0.05)}
-  .sidebar h6{font-weight:700;margin-bottom:10px}
-
-  /* Category */
-  #categoryBox {margin:15px 0;}
-  #categoryBox .cat-btn{
-    border:none;background:#fff;border:1px solid var(--border);
-    border-radius:20px;padding:6px 14px;margin:2px;font-size:13px;cursor:pointer;
-  }
-  #categoryBox .cat-btn.active{background:var(--accent);color:#fff;font-weight:600}
-
-  /* Product Grid */
-  #productGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:15px}
-  .cardx{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 2px 5px rgba(0,0,0,0.05);position:relative;cursor:pointer}
-  .cardx img.thumb{width:100%;height:180px;object-fit:cover}
-  .cardx .note-badge{
-    position:absolute;top:6px;left:6px;background:#f4c430;color:#000;
-    font-size:12px;padding:2px 6px;border-radius:6px;font-weight:600
-  }
-  .cardx .meta{padding:8px}
-  .cardx .id{font-weight:700;font-size:13px;color:#0000fc}
-  .cardx .details{font-size:12px;color:#444;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .cardx .type-badge{font-size:11px;color:#555;margin-top:2px}
-  .cardx .row-meta{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
-  .cardx .price{color:#d32f2f;font-weight:700;font-size:14px}
-  .cardx .add-btn{
-    border:none;background:var(--main);color:#fff;font-size:16px;font-weight:700;
-    width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center
-  }
-
-  /* Pagination */
-  .pager{text-align:right;margin:15px 0}
-  .pager button{border:none;background:none;margin:0 5px;font-weight:600;color:var(--main)}
+/* Card sản phẩm */
+.cardx{border:1px solid #e5e5e5;border-radius:8px;background:#fff;overflow:hidden;transition:transform .2s;position:relative}
+.cardx:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(0,0,0,.08)}
+.cardx img.thumb{width:100%;height:200px;object-fit:cover}
+.cardx .note-badge{position:absolute;top:6px;left:6px;background:#ff9800;color:#fff;font-size:12px;font-weight:600;padding:2px 6px;border-radius:6px}
+.cardx .meta{padding:8px}
+.cardx .id{font-weight:600;color:#0000fc;font-size:13px}
+.cardx .details{font-size:13px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cardx .row-meta{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+.cardx .price{font-weight:700;color:#d32f2f}
+.cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:28px;height:28px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 </style>
 </head>
 <body>
-
-<!-- Banner -->
-<div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
-
-<div class="container-xl py-3">
-  <!-- Hero -->
-  <div class="hero">
-    <img src="https://picsum.photos/1200/300?random=10" alt="hero">
-  </div>
-
-  <!-- Search -->
-  <div class="input-group mb-3">
-    <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả, TYPE)">
-    <button id="searchBtn" class="btn btn-primary">🔍</button>
-    <button class="btn btn-outline-primary ms-2">🛒 Giỏ hàng <span id="cartCount">0</span></button>
-  </div>
-
+<div class="container-xl my-3">
   <div class="row">
     <!-- Sidebar -->
-    <div class="col-md-3">
-      <div class="sidebar">
-        <h6>Quyền lợi khi đặt hàng qua 2606ai.vn</h6>
+    <div class="col-lg-3 mb-3">
+      <div class="p-3 bg-white rounded shadow-sm mb-3">
+        <h6 class="fw-bold mb-3">Quyền lợi khi đặt hàng qua 2606ai.vn</h6>
         <ul class="list-unstyled small">
           <li>⚡ Báo giá nhanh 24h</li>
           <li>🎨 Thiết kế & chỉnh sửa file miễn phí</li>
-          <li>🔍 Duyệt mẫu trước khi sản xuất</li>
+          <li>👁️ Duyệt mẫu trước khi sản xuất</li>
           <li>✅ QC 2 lớp & bảo hành</li>
           <li>🚚 Giao hàng toàn quốc</li>
         </ul>
       </div>
-      <div class="sidebar">
-        <h6>Xưởng sản xuất uy tín</h6>
+      <div class="p-3 bg-white rounded shadow-sm">
+        <h6 class="fw-bold">Xưởng sản xuất uy tín</h6>
         <div id="factoryList"></div>
       </div>
     </div>
 
-    <!-- Main -->
-    <div class="col-md-9">
+    <!-- Content -->
+    <div class="col-lg-9">
+      <!-- Search -->
+      <div class="input-group mb-3">
+        <input id="searchBox" type="text" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả, TYPE)">
+        <button id="searchBtn" class="btn btn-primary"><i class="bi bi-search"></i></button>
+      </div>
+
       <!-- Category -->
-      <div id="categoryBox"></div>
+      <div id="categoryBox" class="mb-3 d-flex flex-wrap gap-2"></div>
 
-      <!-- Grid -->
-      <h6>Danh sách sản phẩm</h6>
-      <div id="productGrid"></div>
-
-      <!-- Pagination -->
-      <div class="pager">
-        <button id="prevBtn">← Trước</button>
-        <button id="nextBtn">Sau →</button>
+      <!-- Product list -->
+      <div class="bg-white rounded shadow-sm p-3">
+        <h6 class="fw-bold mb-3">Danh sách sản phẩm</h6>
+        <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3"></div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <button id="prevBtn" class="btn btn-outline-secondary btn-sm">← Trước</button>
+          <button id="nextBtn" class="btn btn-outline-secondary btn-sm">Sau →</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Giỏ hàng (offcanvas) -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title">Giỏ hàng (<span id="cartCount">0</span>)</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="cartListSide" class="mb-2 small text-muted"></div>
+    <div class="fw-bold mb-2">Tổng: <span id="cartTotalSide">0 đ</span></div>
+    <input id="custNameSide" type="text" class="form-control mb-2" placeholder="Họ tên *">
+    <input id="custPhoneSide" type="text" class="form-control mb-2" placeholder="Số điện thoại *">
+    <input id="custAddressSide" type="text" class="form-control mb-2" placeholder="Địa chỉ">
+    <input id="custEmailSide" type="email" class="form-control mb-2" placeholder="Email">
+    <textarea id="custNoteSide" class="form-control mb-2" rows="2" placeholder="Ghi chú"></textarea>
+    <div class="d-flex gap-2">
+      <button id="clearBtnSide" class="btn btn-outline-danger flex-fill">Xóa giỏ</button>
+      <button id="sendBtnSide" class="btn btn-success flex-fill">Gửi đơn</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap + Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script API + Render -->
 <script>
+// ========== giữ nguyên script bạn đã có ==========
+// chỉ cần đổi API_URL thành link Apps Script của bạn
 const API_URL = "https://script.google.com/macros/s/AKfycbyp8hH9seYgTW_H59pcR4OpvdQbpLhH9F67oYvOQoUpDsjYsemNDgel2sMameaxTdKy/exec";
-const state={page:1,pageSize:30,q:'',group:''};
-const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
-function hiRes(url,w=600){return (url||'').replace(/=s\\d+/,'=s'+w);}
-function esc(s){return (s??'').toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-/* Factories */
-const FACTORIES = [
-  { name:'Xưởng 1 – Tem kim loại', desc:'Men màu, mạ vàng, đúc nổi 3D', logo:'https://picsum.photos/80?random=41', href:'#' },
-  { name:'Xưởng 2 – In UV', desc:'In UV độ bền cao, chi tiết sắc nét', logo:'https://picsum.photos/80?random=42', href:'#' },
-  { name:'Xưởng 3 – Đúc huy hiệu', desc:'Đúc nổi 3D, mạ màu cao cấp', logo:'https://picsum.photos/80?random=43', href:'#' }
-];
-function renderFactories(){
-  const box=document.getElementById('factoryList');
-  box.innerHTML=FACTORIES.map(f=>`
-    <div class="d-flex align-items-center mb-2">
-      <img src="${f.logo}" class="me-2" style="width:40px;height:40px;border-radius:6px;object-fit:cover">
-      <div>
-        <div class="fw-bold small">${esc(f.name)}</div>
-        <div class="text-muted small">${esc(f.desc)}</div>
-      </div>
-    </div>`).join('');
-}
-
-/* Category */
-let builtCategories=false;
-function buildCategoriesOnce(groups){
-  if(builtCategories) return;
-  const box=document.getElementById('categoryBox');
-  const all=`<button class="cat-btn ${!state.group?'active':''}" data-group="">Tất cả</button>`;
-  const btns=(groups||[]).map(g=>{
-    const val=(g||'').trim();
-    const act=(state.group||'').toLowerCase()===val.toLowerCase()?'active':'';
-    return `<button class="cat-btn ${act}" data-group="${esc(val)}">${esc(val)}</button>`;
-  }).join('');
-  box.innerHTML=all+btns;
-  box.addEventListener('click',e=>{
-    const btn=e.target.closest('.cat-btn'); if(!btn) return;
-    state.group=(btn.dataset.group||'').trim();
-    box.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    state.page=1; fetchPage();
-  });
-  builtCategories=true;
-}
-
-/* Data fetch */
-function fetchPage(){
-  document.getElementById('productGrid').innerHTML='<div>Đang tải...</div>';
-  fetch(`${API_URL}?action=list&page=${state.page}&pageSize=${state.pageSize}&q=${encodeURIComponent(state.q)}&group=${encodeURIComponent(state.group)}`)
-    .then(r=>r.json()).then(res=>render(res))
-    .catch(()=>{document.getElementById('productGrid').innerHTML='<div class="text-danger">Lỗi tải dữ liệu</div>';});
-}
-
-/* Product card */
-function productCardHtml(it){
-  const img=hiRes(it.img,400);
-  return `
-    <div class="cardx">
-      ${it.chuy ? `<span class="note-badge">${esc(it.chuy)}</span>` : ``}
-      <img class="thumb" src="${img}">
-      <div class="meta">
-        <div class="id">${esc(it.id)}</div>
-        <div class="details">${esc(it.details)}</div>
-        <div class="type-badge">${esc(it.type||'')}</div>
-        <div class="row-meta">
-          <div class="price">${fmtVND(it.price)}</div>
-          <button class="add-btn" title="Thêm">+</button>
-        </div>
-      </div>
-    </div>`;
-}
-function render(res){
-  if(res?.facets?.groups) buildCategoriesOnce(res.facets.groups);
-  document.getElementById('productGrid').innerHTML =
-    (res.items||[]).map(it=>productCardHtml(it)).join('') || '<div>Không có sản phẩm</div>';
-}
-
-/* Events */
-document.getElementById('prevBtn').onclick=()=>{ if(state.page>1){state.page--; fetchPage();}};
-document.getElementById('nextBtn').onclick=()=>{state.page++; fetchPage();};
-document.getElementById('searchBtn').onclick=()=>{ state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();};
-document.getElementById('searchBox').addEventListener('keypress',e=>{if(e.key==='Enter'){state.q=e.target.value.trim();state.page=1;fetchPage();}});
-
-/* Init */
-document.addEventListener('DOMContentLoaded',()=>{renderFactories();fetchPage();});
+// (toàn bộ script cart, fetchPage, render... dán vào đây)
 </script>
 </body>
 </html>
