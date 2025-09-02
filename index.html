@@ -325,8 +325,10 @@ function render(res){
     const img=hiRes(it.img,600);
     const full=it.full||img;
     return `
-      <div class="cardx" data-full="${full}">
-        <span class="badge text-bg-warning note-badge">${esc(it.type||'')}</span>
+      return `
+  <div class="cardx" data-full="${full}">
+    ${it.chuy ? `<span class="badge note-badge">${esc(it.chuy)}</span>` : ''}
+    <img class="thumb" src="${img}">
         <img class="thumb" src="${img}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'">
         <div class="meta">
           <div class="id">${esc(it.id)}</div>
