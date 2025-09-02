@@ -321,28 +321,31 @@ function fetchPage(){
 function render(res){
   if(res?.facets?.groups) buildCategories(res.facets.groups);
   const grid=document.getElementById('productGrid');
+
   const html = (res.items||[]).map(it=>{
     const img=hiRes(it.img,600);
     const full=it.full||img;
     return `
-      return `
-  <div class="cardx" data-full="${full}">
-    ${it.chuy ? `<span class="badge note-badge">${esc(it.chuy)}</span>` : ''}
-    <img class="thumb" src="${img}">
-        <img class="thumb" src="${img}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'">
+      <div class="cardx" data-full="${full}">
+        ${it.chuy ? `<span class="note-badge">${esc(it.chuy)}</span>` : ''}
+        <img class="thumb" src="${img}" loading="lazy"
+             onerror="this.src='https://via.placeholder.com/600x600?text=No+Image'">
         <div class="meta">
           <div class="id">${esc(it.id)}</div>
           <div class="details" title="${esc(it.details)}">${esc(it.details)}</div>
           <div class="type-badge">${esc(it.type||'')}</div>
           <div class="row-meta mt-1">
             <div class="price">${fmtVND(it.price)}</div>
-            <button class="add-btn" title="Thêm" data-add='${JSON.stringify(it).replace(/\'/g,"&apos;")}'>+</button>
+            <button class="add-btn" title="Thêm"
+                    data-add='${JSON.stringify(it).replace(/\'/g,"&apos;")}'>+</button>
           </div>
         </div>
       </div>`;
   }).join('');
+
   grid.innerHTML = html || '<div class="text-muted">Không có sản phẩm.</div>';
 }
+
 
 /* ---------- EVENTS ---------- */
 document.getElementById('searchBtn').onclick=()=>{ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); };
