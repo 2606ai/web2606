@@ -10,7 +10,7 @@
 body{
   font-family:'Be Vietnam Pro',sans-serif;
   background:var(--bg);font-size:14px;
-  padding-top:70px; /* tránh header che nội dung */
+  padding-top:70px; /* tránh header che hero */
 }
 .container-fluid{max-width:1400px;margin:auto;}
 .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-weight:600}
@@ -32,23 +32,24 @@ body{
 
 /* Card sản phẩm */
 .cardx {
-  border:none;border-radius:12px;background:#fff;overflow:hidden;
-  transition:.2s;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.08);
-  display:flex;flex-direction:column;position:relative;
+  border:1px solid #ddd;border-radius:8px;background:#fff;overflow:hidden;
+  transition:.2s;height:100%;box-shadow:0 1px 3px rgba(0,0,0,.05);
+  position:relative;
 }
-.cardx:hover {transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
-.cardx img.thumb {width:100%;height:200px;object-fit:cover;}
+.cardx:hover {transform:translateY(-3px);box-shadow:0 4px 8px rgba(0,0,0,.1);}
+.cardx img.thumb {width:100%;height:160px;object-fit:cover;}
 .cardx .note-badge {
-  position:absolute;top:8px;left:8px;
-  padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;
+  position:absolute;top:6px;left:6px;
+  background:#ff9800;color:#fff;
+  padding:2px 6px;font-size:12px;border-radius:4px
 }
-.cardx .meta {padding:10px;flex:1;display:flex;flex-direction:column;}
-.cardx .id {font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
-.cardx .details {font-size:12px;color:#666;flex:1}
-.cardx .price {font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
-.cardx .row-meta {display:flex;justify-content:space-between;align-items:center}
-.cardx .type-badge {display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px}
-.cardx .add-btn {border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+.cardx .meta {padding:8px}
+.cardx .id {font-weight:600;color:#0018a8;font-size:12px}
+.cardx .details {font-size:11px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cardx .type-badge {display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;margin-top:4px}
+.cardx .row-meta {display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+.cardx .price {font-weight:700;color:#d32f2f;font-size:0.9rem}
+.cardx .add-btn {border:none;background:var(--main);color:#fff;border-radius:50%;width:26px;height:26px;font-size:14px;font-weight:bold;display:flex;align-items:center;justify-content:center;cursor:pointer}
 
 /* Giỏ hàng sidebar */
 #cartSidebar{position:fixed;top:0;right:-400px;width:350px;height:100%;background:#fff;
