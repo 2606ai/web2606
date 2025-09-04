@@ -24,7 +24,21 @@
     .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:12px;font-weight:600;padding:2px 8px;border-radius:12px;margin-top:4px}
     .cardx .row-meta{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
     .cardx .price{font-weight:700;color:#d32f2f;font-size:1rem}
-    .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .cardx .add-btn{
+      border:none;
+      background:var(--main);
+      color:#fff;
+      border-radius:50%;
+      width:32px;
+      height:32px;
+      font-size:18px;
+      font-weight:bold;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      cursor:pointer;
+      flex-shrink:0;
+    }
 
     /* Bộ lọc */
     .filter-box h6{font-size:14px;font-weight:600;margin:6px 0}
@@ -130,11 +144,13 @@
     const API_URL="https://script.google.com/macros/s/AKfycbyBxgYIh4IDWSumB8C7HxACUa8mOjNyKGkCVYQHpHpBi7IP0BUfGYfiywo78uMqdhC_/exec";
     const state={page:1,pageSize:30,q:'',group:'',dong:'',loai:'',type:''};
     const cart=[];
+    const products={}; // map lưu sản phẩm theo id
 
     const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
     const esc=s=>(s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
     function productCardHtml(it){
+      products[it.id]=it;
       return `<div class="col"><div class="cardx">
         ${it.chuy?`<span class="note-badge">${esc(it.chuy)}</span>`:''}
         <a href="${esc(it.full||it.img)}" target="_blank">
@@ -146,9 +162,14 @@
           <div class="type-badge">${esc(it.type||'')}</div>
           <div class="row-meta">
             <div class="price">${fmtVND(it.price)}</div>
-            <button class="add-btn" onclick='addToCart(${JSON.stringify(it)})'>+</button>
+            <button class="add-btn" onclick="addToCartById('${esc(it.id)}')">+</button>
           </div>
         </div></div></div>`;
+    }
+
+    function addToCartById(id){
+      const item=products[id];
+      if(item) addToCart(item);
     }
 
     function buildFilterBox(boxId, items, field){
