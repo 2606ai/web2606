@@ -28,7 +28,6 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 /* Category */
 .category-item{text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s}
 .category-item:hover{background:#f5f5f5}
-.category-item img{width:50px;height:50px;object-fit:contain;margin-bottom:6px}
 .category-item span{font-size:13px;display:block}
 .category-item.active{background:#e6f0ff;border:1px solid #007bff}
 
@@ -37,7 +36,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
   transition:.2s;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.08);
   display:flex;flex-direction:column;position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover}
-.cardx .note-badge{position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff}
+.cardx .note-badge{position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;background:#ff9800}
 .cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column}
 .cardx .id{font-weight:600;color:#0018a8;font-size:13px;margin-bottom:2px}
 .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;
@@ -117,7 +116,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
       <!-- Search -->
       <div class="input-group mb-3">
         <span class="input-group-text bg-primary text-white">🔍</span>
-        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)">
+        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (id, details)">
         <button id="searchBtn" class="btn btn-primary">Tìm</button>
       </div>
 
@@ -155,32 +154,31 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
   </div>
   <div class="offcanvas-body">
     <h6>TYPE</h6><div id="typeBox" class="mb-3"></div>
-    <h6>LOẠI SẢN PHẨM</h6><div id="loaiBox" class="mb-3"></div>
-    <h6>CHÚ Ý</h6><div id="chuyBox" class="mb-3"></div>
+    <h6>LOẠI</h6><div id="loaiBox" class="mb-3"></div>
+    <h6>NOTE</h6><div id="noteBox" class="mb-3"></div>
   </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const API_URL="https://script.google.com/macros/s/AKfycbyBxgYIh4IDWSumB8C7HxACUa8mOjNyKGkCVYQHpHpBi7IP0BUfGYfiywo78uMqdhC_/exec"; // thay bằng link Apps Script
-const state={page:1,pageSize:36,q:'',group:'',type:'',loai:'',chuy:'',danhmuc:''};
+const API_URL="https://script.google.com/macros/s/AKfycbyBxgYIh4IDWSumB8C7HxACUa8mOjNyKGkCVYQHpHpBi7IP0BUfGYfiywo78uMqdhC_/exec";
+const state={page:1,pageSize:36,q:'',category:'',type:'',loai:'',note:''};
 const cart=[]; const products={};
 const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
-const esc=s=>(s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function productCardHtml(it){
-  products[it["ID"]]=it;
+  products[it.id]=it;
   return `<div class="col"><div class="cardx">
-    ${it["CHU Y"]?`<span class="note-badge">${esc(it["CHU Y"])}</span>`:''}
-    <a href="${esc(it["LinkFull"]||it["Big Img"])}" target="_blank">
-      <img class="thumb" src="${esc(it["Big Img"])}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+    ${it.note?`<span class="note-badge">${it.note}</span>`:''}
+    <a href="${it.linkFull}" target="_blank">
+      <img class="thumb" src="${it.bigImg}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
     </a>
     <div class="meta">
-      <div class="id">${esc(it["ID"])}</div>
-      <div class="type-badge">${esc(it["TYPE"]||'')}</div>
-      <div class="details">${esc(it["Details"]||'')}</div>
-      <div class="price">${fmtVND(it["Price"])}</div>
-      <button class="add-btn" onclick="addToCartById('${esc(it["ID"])}')">+</button>
+      <div class="id">${it.id}</div>
+      <div class="type-badge">${it.type||''}</div>
+      <div class="details">${it.details||''}</div>
+      <div class="price">${fmtVND(it.price)}</div>
+      <button class="add-btn" onclick="addToCartById('${it.id}')">+</button>
     </div>
   </div></div>`;
 }
@@ -190,18 +188,17 @@ function render(res){
   if(!res.items || res.items.length===0){grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>';return;}
   grid.innerHTML=res.items.map(it=>productCardHtml(it)).join('');
   if(res.facets){
-    buildCategory(res.facets["DANH MỤC SẢN PHẨM"]);
-    buildFilterBox('typeBox',res.facets["TYPE"],'type');
-    buildFilterBox('loaiBox',res.facets["LOẠI SẢN PHẨM"],'loai');
-    buildFilterBox('chuyBox',res.facets["CHU Y"],'chuy');
+    buildCategory(res.facets.category);
+    buildFilterBox('typeBox',res.facets.type,'type');
+    buildFilterBox('loaiBox',res.facets.loai,'loai');
+    buildFilterBox('noteBox',res.facets.note,'note');
   }
 }
 
 function fetchPage(){
   const params=new URLSearchParams({
     action:'list',page:state.page,pageSize:state.pageSize,
-    q:state.q,group:state.group,
-    "TYPE":state.type,"LOẠI SẢN PHẨM":state.loai,"CHU Y":state.chuy,"DANH MỤC SẢN PHẨM":state.danhmuc
+    q:state.q,category:state.category,type:state.type,loai:state.loai,note:state.note
   });
   fetch(API_URL+'?'+params.toString()).then(r=>r.json()).then(render);
 }
@@ -210,60 +207,59 @@ function buildCategory(items){
   const grid=document.getElementById("categoryGrid");
   grid.innerHTML=(items||[]).map(val=>`
     <div class="col">
-      <div class="category-item ${state.danhmuc===val?'active':''}" onclick="selectCategory('${val}')">
-        <img src="https://img.icons8.com/color/96/000000/category.png">
-        <span>${esc(val)}</span>
+      <div class="category-item ${state.category===val?'active':''}" onclick="selectCategory('${val}')">
+        <span>${val}</span>
       </div>
     </div>`).join('');
 }
 function selectCategory(val){
-  state.danhmuc=val;state.page=1;fetchPage();
-  document.querySelectorAll('.category-item').forEach(el=>{el.classList.toggle('active', el.innerText.trim()===val);});
+  state.category=val;state.page=1;fetchPage();
+  document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active',el.innerText.trim()===val));
 }
 
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   box.innerHTML=(items||[]).map(val=>`
     <button class="btn btn-sm ${state[field]===val?'btn-primary':'btn-outline-secondary'} me-1 mb-1"
-      onclick="state.${field}='${val}';state.page=1;fetchPage();updateFilterCount()">${esc(val)}</button>
+      onclick="state.${field}='${val}';state.page=1;fetchPage();updateFilterCount()">${val}</button>
   `).join('');
 }
 function updateFilterCount(){
-  let count=0;if(state.type) count++;if(state.loai) count++;if(state.chuy) count++;if(state.danhmuc) count++;
+  let count=0;if(state.type)count++;if(state.loai)count++;if(state.note)count++;if(state.category)count++;
   document.getElementById("filterBtn").innerText=`⚙️ Bộ lọc${count>0?' ('+count+')':''}`;
 }
 
 // Cart
-function addToCartById(id){const item=products[id];if(item){const found=cart.find(p=>p["ID"]===id);if(found)found.qty++;else cart.push({...item,qty:1});updateCart();}}
-function changeQty(id,delta){const it=cart.find(p=>p["ID"]===id);if(!it)return;it.qty+=delta;if(it.qty<=0)cart.splice(cart.indexOf(it),1);updateCart();}
-function removeItem(id){const idx=cart.findIndex(p=>p["ID"]===id);if(idx>=0)cart.splice(idx,1);updateCart();}
+function addToCartById(id){const item=products[id];if(item){const f=cart.find(p=>p.id===id);if(f)f.qty++;else cart.push({...item,qty:1});updateCart();}}
+function changeQty(id,delta){const it=cart.find(p=>p.id===id);if(!it)return;it.qty+=delta;if(it.qty<=0)cart.splice(cart.indexOf(it),1);updateCart();}
+function removeItem(id){const idx=cart.findIndex(p=>p.id===id);if(idx>=0)cart.splice(idx,1);updateCart();}
 function clearCart(){cart.length=0;updateCart();}
 function updateCart(){
   document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
   const list=document.getElementById('cartList');let total=0;
-  list.innerHTML=cart.map(it=>{const sub=it.qty*(Number(it["Price"])||0);total+=sub;return `
+  list.innerHTML=cart.map(it=>{const sub=it.qty*(Number(it.price)||0);total+=sub;return `
     <div class="cart-item">
-      <img src="${esc(it["Big Img"])}" onerror="this.src='https://via.placeholder.com/60'">
-      <div class="cart-info"><div class="cart-title">${esc(it["Details"]||it["ID"])}</div><div>${fmtVND(it["Price"])}</div></div>
-      <div class="cart-actions"><button class="qty-btn" onclick="changeQty('${it["ID"]}',-1)">-</button><span>${it.qty}</span><button class="qty-btn" onclick="changeQty('${it["ID"]}',1)">+</button></div>
+      <img src="${it.bigImg}" onerror="this.src='https://via.placeholder.com/60'">
+      <div class="cart-info"><div class="cart-title">${it.details||it.id}</div><div>${fmtVND(it.price)}</div></div>
+      <div class="cart-actions"><button class="qty-btn" onclick="changeQty('${it.id}',-1)">-</button><span>${it.qty}</span><button class="qty-btn" onclick="changeQty('${it.id}',1)">+</button></div>
       <div style="min-width:80px;text-align:right">${fmtVND(sub)}</div>
-      <button class="remove-btn" onclick="removeItem('${it["ID"]}')">&times;</button>
+      <button class="remove-btn" onclick="removeItem('${it.id}')">&times;</button>
     </div>`;}).join('');
   document.getElementById('cartTotal').innerText=fmtVND(total);
 }
 
 function submitOrder(){
   if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
-  const name=document.getElementById("buyerName").value.trim();
-  const email=document.getElementById("buyerEmail").value.trim();
-  const phone=document.getElementById("buyerPhone").value.trim();
-  const address=document.getElementById("buyerAddress").value.trim();
-  const note=document.getElementById("buyerNote").value.trim();
-  if(!name||!email||!phone||!address){alert("Vui lòng nhập đầy đủ thông tin!");return;}
-  const order={customer:{name,email,phone,address,note},items:cart,total:cart.reduce((a,b)=>a+b.qty*(Number(b["Price"])||0),0)};
+  const order={customer:{
+    name:document.getElementById("buyerName").value.trim(),
+    email:document.getElementById("buyerEmail").value.trim(),
+    phone:document.getElementById("buyerPhone").value.trim(),
+    address:document.getElementById("buyerAddress").value.trim(),
+    note:document.getElementById("buyerNote").value.trim()
+  },items:cart,total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)};
   fetch(API_URL,{method:"POST",body:JSON.stringify({action:"order",email:"lehaidangem836@gmail.com",data:order})})
-  .then(r=>r.json()).then(res=>{alert("Đã gửi đơn hàng thành công!");cart.length=0;updateCart();})
-  .catch(e=>{console.error(e);alert("Gửi đơn hàng thất bại!");});
+    .then(r=>r.json()).then(res=>{alert("Đã gửi đơn hàng thành công!");cart.length=0;updateCart();})
+    .catch(e=>{console.error(e);alert("Gửi đơn hàng thất bại!");});
 }
 
 // Toggle cart
