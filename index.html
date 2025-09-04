@@ -30,54 +30,35 @@ body{
 .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
-/* Card sản phẩm */
-.cardx {
-  border:none;border-radius:12px;background:#fff;overflow:hidden;
-  transition:.2s;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.08);
-  display:flex;flex-direction:column;position:relative;
-}
-.cardx:hover {transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
-.cardx img.thumb {width:100%;height:200px;object-fit:cover;}
-.cardx .note-badge {
-  position:absolute;top:8px;left:8px;
-  padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;
-}
-.cardx .meta {padding:10px;flex:1;display:flex;flex-direction:column;}
-.cardx .id {font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
-.cardx .details {font-size:12px;color:#666;flex:1}
-.cardx .price {font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
-.cardx .row-meta {display:flex;justify-content:space-between;align-items:center}
-.cardx .type-badge {display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px}
-.cardx .add-btn {border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+/* Hero */
+.hero-left img{width:100%;height:100%;object-fit:cover;border-radius:8px}
+.hero-right img{width:100%;object-fit:cover;border-radius:8px}
 
-/* Danh mục */
+/* Category */
+.category-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px}
 .category-item{
-  background:#fff;
-  border:1px solid #eee;
-  border-radius:12px;
-  padding:12px 8px;
-  text-align:center;
-  cursor:pointer;
-  transition:.2s;
+  text-align:center;background:#fff;border:1px solid #eee;border-radius:10px;
+  padding:12px;cursor:pointer;transition:.2s;height:100%;
 }
-.category-item:hover{
-  box-shadow:0 2px 6px rgba(0,0,0,0.1);
-  transform:translateY(-2px);
-}
-.category-item img{
-  width:50px;height:50px;
-  object-fit:contain;
-  margin-bottom:6px;
-}
-.category-item span{
-  font-size:13px;
-  color:#333;
-  display:block;
-}
-.category-item.active{
-  border-color:var(--main);
-  background:#f0f6ff;
-}
+.category-item:hover{box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+.category-item img{width:40px;height:40px;object-fit:contain;margin-bottom:6px}
+.category-item span{font-size:13px;display:block;color:#333}
+.category-item.active{border-color:var(--main);background:#f0f6ff}
+
+/* Card sản phẩm */
+.cardx{border:none;border-radius:12px;background:#fff;overflow:hidden;
+  transition:.2s;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.08);
+  display:flex;flex-direction:column;position:relative;}
+.cardx:hover{transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.cardx img.thumb{width:100%;height:200px;object-fit:cover;}
+.cardx .note-badge{position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff}
+.cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;}
+.cardx .id{font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
+.cardx .details{font-size:12px;color:#666;flex:1}
+.cardx .price{font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
+.cardx .row-meta{display:flex;justify-content:space-between;align-items:center}
+.cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px}
+.cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center}
 
 /* Giỏ hàng sidebar */
 #cartSidebar{position:fixed;top:0;right:-400px;width:350px;height:100%;background:#fff;
@@ -104,12 +85,23 @@ body{
       <span class="brand-title">2606AI Marketplace</span>
     </div>
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#filterPanel">⚙️ Bộ lọc</button>
+      <button id="filterBtn" class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#filterPanel">⚙️ Bộ lọc <span id="filterCount" class="badge bg-danger">0</span></button>
       <button id="cartBtn" class="btn btn-outline-dark">🛒 Giỏ hàng <span id="cartCount">0</span></button>
     </div>
   </div>
 
   <div class="container-fluid my-3">
+    <!-- Hero -->
+    <div class="row mb-3">
+      <div class="col-lg-8 hero-left">
+        <img src="https://picsum.photos/800/300?random=1">
+      </div>
+      <div class="col-lg-4 hero-right d-flex flex-column gap-2">
+        <img src="https://picsum.photos/400/145?random=11">
+        <img src="https://picsum.photos/400/145?random=12">
+      </div>
+    </div>
+
     <div class="row">
       <!-- Sidebar -->
       <div class="col-lg-3 col-md-4">
@@ -130,39 +122,10 @@ body{
 
       <!-- Content -->
       <div class="col-lg-9 col-md-8">
-        <!-- Hero -->
-        <div class="row g-2 mb-3">
-          <div class="col-lg-8">
-            <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel">
-              <div class="carousel-inner h-100">
-                <div class="carousel-item active h-100">
-                  <img src="https://picsum.photos/800/300?random=1" class="d-block w-100 h-100 rounded" alt="">
-                </div>
-                <div class="carousel-item h-100">
-                  <img src="https://picsum.photos/800/300?random=2" class="d-block w-100 h-100 rounded" alt="">
-                </div>
-                <div class="carousel-item h-100">
-                  <img src="https://picsum.photos/800/300?random=3" class="d-block w-100 h-100 rounded" alt="">
-                </div>
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon"></span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon"></span>
-              </button>
-            </div>
-          </div>
-          <div class="col-lg-4 d-flex flex-column gap-2">
-            <img src="https://picsum.photos/400/145?random=11" class="w-100 rounded">
-            <img src="https://picsum.photos/400/145?random=12" class="w-100 rounded">
-          </div>
-        </div>
-
         <!-- Danh mục -->
-        <div class="category-box p-3 bg-white rounded mb-3">
-          <h6 class="fw-bold mb-3">DANH MỤC SẢN PHẨM</h6>
-          <div class="row row-cols-3 row-cols-md-6 g-3 text-center" id="categoryGrid"></div>
+        <div class="category-box mb-3">
+          <h6 class="fw-bold mb-2">DANH MỤC</h6>
+          <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
         </div>
 
         <!-- Thanh tìm kiếm -->
@@ -189,10 +152,8 @@ body{
     <h5>Giỏ hàng</h5>
     <div id="cartList"></div>
     <div class="cart-footer"><span>Tổng cộng</span><span id="cartTotal">0 đ</span></div>
-    <div class="d-flex gap-2 mt-2">
-      <button class="btn btn-danger w-50" onclick="clearCart()">Xóa toàn bộ</button>
-      <button class="btn btn-success w-50" onclick="submitOrder()">Gửi đơn hàng</button>
-    </div>
+    <button class="btn btn-danger w-100 mb-2" onclick="clearCart()">Xóa toàn bộ</button>
+    <button class="btn btn-success w-100" onclick="submitOrder()">Gửi đơn hàng</button>
   </div>
 
   <!-- Offcanvas Filter -->
@@ -260,13 +221,7 @@ function render(res){
 }
 
 function fetchPage(){
-  const params=new URLSearchParams({action:'list',page:state.page,pageSize:state.pageSize});
-  if(state.q) params.append('q', state.q);
-  if(state.danhmuc) params.append('danhmuc', state.danhmuc);
-  if(state.loai) params.append('loai', state.loai);
-  if(state.type) params.append('type', state.type);
-  if(state.chuy) params.append('chuy', state.chuy);
-
+  const params=new URLSearchParams({...state,action:'list'});
   fetch(API_URL+'?'+params.toString()).then(r=>r.json()).then(render);
 }
 
@@ -275,7 +230,7 @@ function buildCategory(items){
   grid.innerHTML=(items||[]).map(val=>`
     <div class="col">
       <div class="category-item ${state.danhmuc===val?'active':''}" onclick="selectCategory('${val}')">
-        <img src="https://img.icons8.com/color/96/000000/category.png" alt="${esc(val)}">
+        <img src="https://img.icons8.com/color/48/000000/category.png"/>
         <span>${esc(val)}</span>
       </div>
     </div>
@@ -292,18 +247,20 @@ function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   box.innerHTML=(items||[]).map(val=>`
     <button class="btn btn-sm ${state[field]===val?'btn-primary':'btn-outline-secondary'} me-1 mb-1"
-      onclick="state.${field}='${val}';state.page=1;fetchPage();updateFilterCount()">${esc(val)}</button>
+      onclick="toggleFilter('${field}','${val}')">${esc(val)}</button>
   `).join('');
+}
+
+function toggleFilter(field,val){
+  state[field]=(state[field]===val?'':val);
   updateFilterCount();
+  fetchPage();
 }
 
 function updateFilterCount(){
-  let count = 0;
-  if(state.type) count++;
-  if(state.loai) count++;
-  if(state.chuy) count++;
-  const btn = document.querySelector('[data-bs-target="#filterPanel"]');
-  btn.innerText = `⚙️ Bộ lọc${count>0?' ('+count+')':''}`;
+  let count=0;
+  ['type','loai','chuy'].forEach(f=>{if(state[f]) count++;});
+  document.getElementById('filterCount').innerText=count;
 }
 
 // Giỏ hàng
@@ -322,12 +279,7 @@ function removeItem(id){
   if(idx>=0)cart.splice(idx,1);
   updateCart();
 }
-function clearCart(){
-  if(confirm("Bạn có chắc muốn xóa toàn bộ giỏ hàng?")){
-    cart.length = 0;
-    updateCart();
-  }
-}
+function clearCart(){cart.length=0;updateCart();}
 function updateCart(){
   document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
   const list=document.getElementById('cartList');
@@ -362,14 +314,13 @@ function submitOrder(){
   const email=prompt("Nhập email:");
   const phone=prompt("Nhập số điện thoại:");
   const address=prompt("Nhập địa chỉ nhận hàng:");
-  const note=prompt("Ghi chú thêm:");
 
   if(!name||!email||!phone||!address){
     alert("Vui lòng nhập đầy đủ thông tin!");return;
   }
 
   const order={
-    customer:{name,email,phone,address,note},
+    customer:{name,email,phone,address},
     items:cart,
     total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
   };
@@ -378,7 +329,7 @@ function submitOrder(){
     method:"POST",
     body:JSON.stringify({
       action:"order",
-      email:"lehaidangem836@gmail.com",
+            email:"lehaidangem836@gmail.com",
       data:order
     })
   })
@@ -401,12 +352,18 @@ document.addEventListener('click',e=>{
 });
 
 // Search + Pagination
-document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();}
+document.getElementById('searchBtn').onclick=()=>{
+  state.q=document.getElementById('searchBox').value.trim();
+  state.page=1;
+  fetchPage();
+}
 document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}}
 document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}
 
+// Init
 document.addEventListener('DOMContentLoaded',()=>{
   fetchPage();
+  // Demo factories
   const factories=[
     {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
     {name:'Xưởng 2 – In UV',desc:'Chi tiết sắc nét, độ bền cao',img:'https://picsum.photos/80?2'},
