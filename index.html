@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>2606AI - PCGbrand</title>
+  <title>2606AI Marketplace</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
@@ -17,6 +17,31 @@
 
     /* Hero slider */
     .hero img{width:100%;height:350px;object-fit:cover}
+
+    /* Sidebar */
+    .sidebar-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:12px}
+
+    /* Category grid */
+    .category-item{
+      text-align:center;
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:8px;
+      padding:10px;
+      cursor:pointer;
+      transition:0.2s;
+    }
+    .category-item:hover{box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+    .category-item img{
+      width:50px;height:50px;object-fit:contain;margin-bottom:6px;
+    }
+    .category-item span{
+      font-size:13px;display:block;color:#333;
+    }
+    .category-item.active{
+      border-color:var(--main);
+      background:#f0f6ff;
+    }
 
     /* Card sản phẩm */
     .cardx{border:1px solid #ddd;border-radius:6px;background:#fff;overflow:hidden;position:relative;transition:.2s}
@@ -34,35 +59,6 @@
       width:28px;height:28px;font-size:16px;font-weight:bold;
       display:flex;align-items:center;justify-content:center;
       cursor:pointer;flex-shrink:0;
-    }
-
-    /* Sidebar */
-    .sidebar-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:12px}
-
-    /* Filter tag style (Idea 2) */
-    .filter-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:4px;
-      border:1px solid #ddd;
-      padding:5px 12px;
-      border-radius:16px;
-      background:#fff;
-      margin:4px;
-      font-size:13px;
-      cursor:pointer;
-      transition:0.2s;
-    }
-    .filter-btn:hover{background:#f0f0f0;}
-    .filter-btn.active{
-      background:var(--main);
-      color:#fff;
-      border-color:var(--main);
-    }
-    .filter-btn.active::after{
-      content:" ✕";
-      font-size:11px;
-      margin-left:4px;
     }
 
     /* Giỏ hàng */
@@ -127,12 +123,10 @@
           <button id="searchBtn" class="btn btn-primary">🔍</button>
         </div>
 
-        <!-- Filter -->
-        <div id="filters" class="mb-2">
-          <div class="filter-box"><h6>Nhóm</h6><div id="groupBox"></div></div>
-          <div class="filter-box"><h6>Dòng sản phẩm</h6><div id="dongBox"></div></div>
-          <div class="filter-box"><h6>Loại sản phẩm</h6><div id="loaiBox"></div></div>
-          <div class="filter-box"><h6>Type</h6><div id="typeBox"></div></div>
+        <!-- Category grid -->
+        <div class="category-box p-2 bg-white rounded mb-3">
+          <h6 class="fw-bold mb-2">DANH MỤC</h6>
+          <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
         </div>
 
         <!-- Grid sản phẩm -->
@@ -193,26 +187,10 @@
       if(item) addToCart(item);
     }
 
-    function buildFilterBox(boxId, items, field){
-      const box=document.getElementById(boxId); if(!box) return;
-      const allBtn=`<button class="filter-btn ${!state[field]?'active':''}" data-field="${field}" data-value="">Tất cả</button>`;
-      const btns=(items||[]).map(val=>{
-        const act=(state[field]||'').toLowerCase()===(val||'').toLowerCase()?'active':''; 
-        return `<button class="filter-btn ${act}" data-field="${field}" data-value="${esc(val)}">${esc(val)}</button>`;
-      }).join('');
-      box.innerHTML=allBtn+btns;
-    }
-
     function render(res){
       const grid=document.getElementById('productGrid');
       if(!res.items || res.items.length===0){grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>';return;}
       grid.innerHTML=res.items.map(it=>productCardHtml(it)).join('');
-      if(res.facets){
-        buildFilterBox('groupBox',res.facets.groups,'group');
-        buildFilterBox('dongBox',res.facets.dongs,'dong');
-        buildFilterBox('loaiBox',res.facets.loais,'loai');
-        buildFilterBox('typeBox',res.facets.types,'type');
-      }
     }
 
     function fetchPage(){
@@ -268,17 +246,39 @@
       list.innerHTML+=`<div class="cart-footer"><div>Tổng cộng</div><div>${fmtVND(total)}</div></div>`;
     }
 
-    // Events
-    document.getElementById('filters').addEventListener('click',e=>{
-      const btn=e.target.closest('.filter-btn'); if(!btn)return;
-      state[btn.dataset.field]=btn.dataset.value;state.page=1;fetchPage();
-    });
-    document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();}
-    document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}}
-    document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}
+    // Demo categories
+    const categories=[
+      {name:"Thời Trang Nam",img:"https://img.icons8.com/color/96/000000/t-shirt.png"},
+      {name:"Điện Thoại",img:"https://img.icons8.com/color/96/000000/iphone.png"},
+      {name:"Laptop",img:"https://img.icons8.com/color/96/000000/laptop.png"},
+      {name:"Đồng Hồ",img:"https://img.icons8.com/color/96/000000/watch.png"},
+      {name:"Giày Dép",img:"https://img.icons8.com/color/96/000000/shoes.png"},
+      {name:"Sức Khỏe",img:"https://img.icons8.com/color/96/000000/pill.png"}
+    ];
+
+    function renderCategories(){
+      const grid=document.getElementById("categoryGrid");
+      grid.innerHTML=categories.map(c=>`
+        <div class="col">
+          <div class="category-item" onclick="selectCategory('${c.name}')">
+            <img src="${c.img}" alt="${c.name}">
+            <span>${c.name}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function selectCategory(name){
+      state.group=name;
+      fetchPage();
+      document.querySelectorAll('.category-item').forEach(el=>{
+        el.classList.toggle('active',el.innerText.trim()===name);
+      });
+    }
 
     document.addEventListener('DOMContentLoaded',()=>{
       fetchPage();
+      renderCategories();
       // Demo factories
       const factories=[
         {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
@@ -288,10 +288,11 @@
         {name:'Xưởng 5 – Quà tặng',desc:'Quà doanh nghiệp, sự kiện',img:'https://picsum.photos/80?5'},
       ];
       document.getElementById('factoryList').innerHTML=factories.map(f=>`
-        <div class="factory-item">
-          <img src="${f.img}"><div class="factory-body">
-            <div class="factory-name">${f.name}</div>
-            <div class="factory-desc">${f.desc}</div>
+        <div class="factory-item d-flex align-items-center gap-2 mb-2">
+          <img src="${f.img}" width="40" height="40" style="object-fit:cover;border-radius:6px;">
+          <div>
+            <div class="fw-bold small">${f.name}</div>
+            <div class="text-muted small">${f.desc}</div>
           </div>
         </div>`).join('');
     });
