@@ -177,21 +177,19 @@ const cart=[]; const products={};
 const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
 const esc=s=>(s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
-function badgeColor(txt){if(!txt) return "#555";if(txt.includes("Mẫu")) return "#4caf50";if(txt.includes("giảm")) return "#ff9800";if(txt.includes("gấp")) return "#d32f2f";return "#555";}
-
 function productCardHtml(it){
-  products[it.ID]=it;
+  products[it["ID"]]=it;
   return `<div class="col"><div class="cardx">
-    ${it["CHU Y"]?`<span class="note-badge" style="background:${badgeColor(it["CHU Y"])}">${esc(it["CHU Y"])}</span>`:''}
-    <a href="${esc(it.LinkFull||it["Big Img"])}" target="_blank">
+    ${it["CHU Y"]?`<span class="note-badge">${esc(it["CHU Y"])}</span>`:''}
+    <a href="${esc(it["LinkFull"]||it["Big Img"])}" target="_blank">
       <img class="thumb" src="${esc(it["Big Img"])}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
     </a>
     <div class="meta">
-      <div class="id">${esc(it.ID)}</div>
-      <div class="type-badge">${esc(it.TYPE||'')}</div>
-      <div class="details">${esc(it.Details||'')}</div>
-      <div class="price">${fmtVND(it.Price)}</div>
-      <button class="add-btn" onclick="addToCartById('${esc(it.ID)}')">+</button>
+      <div class="id">${esc(it["ID"])}</div>
+      <div class="type-badge">${esc(it["TYPE"]||'')}</div>
+      <div class="details">${esc(it["Details"]||'')}</div>
+      <div class="price">${fmtVND(it["Price"])}</div>
+      <button class="add-btn" onclick="addToCartById('${esc(it["ID"])}')">+</button>
     </div>
   </div></div>`;
 }
@@ -209,7 +207,11 @@ function render(res){
 }
 
 function fetchPage(){
-  const params=new URLSearchParams({...state,action:'list'});
+  const params=new URLSearchParams({
+    action:'list',page:state.page,pageSize:state.pageSize,
+    q:state.q,group:state.group,
+    "TYPE":state.type,"LOẠI SẢN PHẨM":state.loai,"CHU Y":state.chuy,"DANH MỤC SẢN PHẨM":state.danhmuc
+  });
   fetch(API_URL+'?'+params.toString()).then(r=>r.json()).then(render);
 }
 
@@ -235,28 +237,26 @@ function buildFilterBox(boxId, items, field){
       onclick="state.${field}='${val}';state.page=1;fetchPage();updateFilterCount()">${esc(val)}</button>
   `).join('');
 }
-
 function updateFilterCount(){
-  let count=0;
-  if(state.type) count++; if(state.loai) count++; if(state.chuy) count++; if(state.danhmuc) count++;
+  let count=0;if(state.type) count++;if(state.loai) count++;if(state.chuy) count++;if(state.danhmuc) count++;
   document.getElementById("filterBtn").innerText=`⚙️ Bộ lọc${count>0?' ('+count+')':''}`;
 }
 
 // Cart
-function addToCartById(id){const item=products[id];if(item){const found=cart.find(p=>p.ID===id);if(found)found.qty++;else cart.push({...item,qty:1});updateCart();}}
-function changeQty(id,delta){const it=cart.find(p=>p.ID===id);if(!it)return;it.qty+=delta;if(it.qty<=0)cart.splice(cart.indexOf(it),1);updateCart();}
-function removeItem(id){const idx=cart.findIndex(p=>p.ID===id);if(idx>=0)cart.splice(idx,1);updateCart();}
+function addToCartById(id){const item=products[id];if(item){const found=cart.find(p=>p["ID"]===id);if(found)found.qty++;else cart.push({...item,qty:1});updateCart();}}
+function changeQty(id,delta){const it=cart.find(p=>p["ID"]===id);if(!it)return;it.qty+=delta;if(it.qty<=0)cart.splice(cart.indexOf(it),1);updateCart();}
+function removeItem(id){const idx=cart.findIndex(p=>p["ID"]===id);if(idx>=0)cart.splice(idx,1);updateCart();}
 function clearCart(){cart.length=0;updateCart();}
 function updateCart(){
   document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
   const list=document.getElementById('cartList');let total=0;
-  list.innerHTML=cart.map(it=>{const sub=it.qty*(Number(it.Price)||0);total+=sub;return `
+  list.innerHTML=cart.map(it=>{const sub=it.qty*(Number(it["Price"])||0);total+=sub;return `
     <div class="cart-item">
       <img src="${esc(it["Big Img"])}" onerror="this.src='https://via.placeholder.com/60'">
-      <div class="cart-info"><div class="cart-title">${esc(it.Details||it.ID)}</div><div>${fmtVND(it.Price)}</div></div>
-      <div class="cart-actions"><button class="qty-btn" onclick="changeQty('${it.ID}',-1)">-</button><span>${it.qty}</span><button class="qty-btn" onclick="changeQty('${it.ID}',1)">+</button></div>
+      <div class="cart-info"><div class="cart-title">${esc(it["Details"]||it["ID"])}</div><div>${fmtVND(it["Price"])}</div></div>
+      <div class="cart-actions"><button class="qty-btn" onclick="changeQty('${it["ID"]}',-1)">-</button><span>${it.qty}</span><button class="qty-btn" onclick="changeQty('${it["ID"]}',1)">+</button></div>
       <div style="min-width:80px;text-align:right">${fmtVND(sub)}</div>
-      <button class="remove-btn" onclick="removeItem('${it.ID}')">&times;</button>
+      <button class="remove-btn" onclick="removeItem('${it["ID"]}')">&times;</button>
     </div>`;}).join('');
   document.getElementById('cartTotal').innerText=fmtVND(total);
 }
@@ -269,45 +269,34 @@ function submitOrder(){
   const address=document.getElementById("buyerAddress").value.trim();
   const note=document.getElementById("buyerNote").value.trim();
   if(!name||!email||!phone||!address){alert("Vui lòng nhập đầy đủ thông tin!");return;}
-  const order={customer:{name,email,phone,address,note},items:cart,total:cart.reduce((a,b)=>a+b.qty*(Number(b.Price)||0),0)};
+  const order={customer:{name,email,phone,address,note},items:cart,total:cart.reduce((a,b)=>a+b.qty*(Number(b["Price"])||0),0)};
   fetch(API_URL,{method:"POST",body:JSON.stringify({action:"order",email:"lehaidangem836@gmail.com",data:order})})
   .then(r=>r.json()).then(res=>{alert("Đã gửi đơn hàng thành công!");cart.length=0;updateCart();})
   .catch(e=>{console.error(e);alert("Gửi đơn hàng thất bại!");});
 }
 
+// Toggle cart
 document.getElementById('cartBtn').onclick=()=>document.getElementById('cartSidebar').classList.add('open');
 document.addEventListener('click',e=>{if(!e.target.closest('#cartSidebar') && !e.target.closest('#cartBtn')) document.getElementById('cartSidebar').classList.remove('open');});
 
-document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage
-// Pagination
-document.getElementById('prevBtn').onclick = () => {
-  if (state.page > 1) {
-    state.page--;
-    fetchPage();
-  }
-};
-document.getElementById('nextBtn').onclick = () => {
-  state.page++;
-  fetchPage();
-};
+// Search + Pagination
+document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();}
+document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}}
+document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}}
 
-// Khởi tạo trang
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded',()=>{
   fetchPage();
-  const factories = [
+  const factories=[
     {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
     {name:'Xưởng 2 – In UV',desc:'Chi tiết sắc nét, độ bền cao',img:'https://picsum.photos/80?2'},
     {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ cao cấp',img:'https://picsum.photos/80?3'},
     {name:'Xưởng 4 – In offset',desc:'Bao bì, hộp, catalogue',img:'https://picsum.photos/80?4'},
     {name:'Xưởng 5 – Quà tặng',desc:'Quà doanh nghiệp, sự kiện',img:'https://picsum.photos/80?5'}
   ];
-  document.getElementById('factoryList').innerHTML = factories.map(f => `
+  document.getElementById('factoryList').innerHTML=factories.map(f=>`
     <div class="d-flex align-items-center gap-2 mb-2">
       <img src="${f.img}" width="40" height="40" style="object-fit:cover;border-radius:6px;">
-      <div>
-        <div class="fw-bold small">${f.name}</div>
-        <div class="text-muted small">${f.desc}</div>
-      </div>
+      <div><div class="fw-bold small">${f.name}</div><div class="text-muted small">${f.desc}</div></div>
     </div>`).join('');
 });
 </script>
