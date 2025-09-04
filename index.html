@@ -12,8 +12,18 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-weight:600}
 
 /* Header */
-.site-header{background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
-  display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.site-header{
+  background:#fff;
+  padding:10px 15px;
+  border-bottom:1px solid #eee;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+  position:sticky;
+  top:0;
+  z-index:1055;
+}
 .site-header img.logo{height:45px}
 .site-header .brand-title{font-weight:800;font-size:18px;color:var(--main)}
 
@@ -28,11 +38,10 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 .category-item{text-align:center;background:#fff;border:1px solid #eee;border-radius:8px;
   padding:10px;cursor:pointer;transition:.2s;height:100%}
 .category-item:hover{box-shadow:0 3px 8px rgba(0,0,0,0.12);}
-.category-item img{width:50px;height:50px;object-fit:contain;margin-bottom:6px}
 .category-item span{font-size:13px;font-weight:500;color:#333;display:block;margin-top:6px}
 .category-item.active{border-color:var(--main);background:#f0f6ff}
 
-/* Card sản phẩm mới */
+/* Card sản phẩm */
 .cardx {
   border: none;
   border-radius: 12px;
@@ -46,38 +55,20 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
   position: relative;
 }
 .cardx:hover {transform: translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
-.cardx img.thumb {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
+.cardx img.thumb {width: 100%;height: 200px;object-fit: cover;}
 .cardx .note-badge {
-  position: absolute;
-  top: 8px; left: 8px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  color:#fff;
+  position: absolute;top: 8px;left: 8px;
+  padding: 2px 8px;border-radius: 12px;
+  font-size: 12px;font-weight: 600;color:#fff;
 }
-.cardx .meta {
-  padding: 10px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
+.cardx .meta {padding: 10px;flex: 1;display: flex;flex-direction: column;}
 .cardx .id {font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
 .cardx .details {font-size:12px;color:#666;flex:1}
 .cardx .price {font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
 .cardx .row-meta {display:flex;justify-content:space-between;align-items:center}
 .cardx .type-badge {
-  display: inline-block;
-  background: #e0f0ff;
-  color: #0056b3;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 12px;
+  display:inline-block;background:#e0f0ff;color:#0056b3;
+  font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;
 }
 .cardx .add-btn {
   border:none;background:var(--main);color:#fff;border-radius:50%;
@@ -167,7 +158,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
         </div>
 
         <!-- Grid sản phẩm -->
-        <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-3"></div>
+        <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
 
         <!-- Pagination -->
         <div class="d-flex justify-content-between mt-2">
@@ -333,4 +324,19 @@ document.addEventListener('DOMContentLoaded',()=>{
   const factories=[
     {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
     {name:'Xưởng 2 – In UV',desc:'Chi tiết sắc nét, độ bền cao',img:'https://picsum.photos/80?2'},
-    {name:'X
+    {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ cao cấp',img:'https://picsum.photos/80?3'},
+    {name:'Xưởng 4 – In offset',desc:'Bao bì, hộp, catalogue',img:'https://picsum.photos/80?4'},
+    {name:'Xưởng 5 – Quà tặng',desc:'Quà doanh nghiệp, sự kiện',img:'https://picsum.photos/80?5'}
+  ];
+  document.getElementById('factoryList').innerHTML=factories.map(f=>`
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <img src="${f.img}" width="40" height="40" style="object-fit:cover;border-radius:6px;">
+      <div>
+        <div class="fw-bold small">${f.name}</div>
+        <div class="text-muted small">${f.desc}</div>
+      </div>
+    </div>`).join('');
+});
+</script>
+</body>
+</html>
