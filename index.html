@@ -8,91 +8,100 @@
   <style>
     :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
     body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px}
-    .container-fluid{max-width:1200px;margin:auto;}
+    .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-weight:600}
 
     /* Header */
-    .site-header{background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
-      display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 6px rgba(0,0,0,.05)}
-    .site-header img.logo{height:45px}
+    .site-header{background:#fff;border-bottom:1px solid #ddd;padding:8px 15px;display:flex;align-items:center;justify-content:space-between}
+    .site-header img.logo{height:48px}
     .site-header .brand-title{font-weight:800;font-size:18px;color:var(--main)}
 
+    /* Hero slider */
+    .hero img{width:100%;height:350px;object-fit:cover}
+
     /* Sidebar */
-    .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
-    .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
+    .sidebar-box{background:#fff;padding:10px;border-radius:6px;margin-bottom:12px}
 
-    /* Hero */
-    .hero img{border-radius:8px;object-fit:cover}
-
-    /* Category */
+    /* Category grid */
     .category-item{
-      text-align:center;background:#fff;border:1px solid #eee;border-radius:10px;
-      padding:12px;cursor:pointer;transition:.2s;height:100%;
+      text-align:center;
+      background:#fff;
+      border:1px solid #eee;
+      border-radius:8px;
+      padding:10px;
+      cursor:pointer;
+      transition:0.2s;
     }
-    .category-item:hover{box-shadow:0 3px 8px rgba(0,0,0,0.12);}
-    .category-item span{font-size:13px;font-weight:500;color:#333;display:block;margin-top:6px}
-    .category-item.active{border-color:var(--main);background:#f0f6ff}
+    .category-item:hover{box-shadow:0 2px 6px rgba(0,0,0,0.1);}
+    .category-item img{
+      width:50px;height:50px;object-fit:contain;margin-bottom:6px;
+    }
+    .category-item span{
+      font-size:13px;display:block;color:#333;
+    }
+    .category-item.active{
+      border-color:var(--main);
+      background:#f0f6ff;
+    }
 
     /* Card sản phẩm */
-    .cardx{border:1px solid #ddd;border-radius:8px;background:#fff;overflow:hidden;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+    .cardx{border:1px solid #ddd;border-radius:6px;background:#fff;overflow:hidden;position:relative;transition:.2s}
     .cardx:hover{transform:translateY(-3px);box-shadow:0 4px 10px rgba(0,0,0,.1)}
-    .cardx img.thumb{width:100%;height:150px;object-fit:cover}
+    .cardx img.thumb{width:100%;height:180px;object-fit:cover}
+    .cardx .note-badge{position:absolute;top:6px;left:6px;background:#ff9800;color:#fff;padding:2px 6px;font-size:12px;border-radius:4px}
     .cardx .meta{padding:6px}
-    .cardx .id{font-weight:600;color:#0018a8;font-size:12px}
-    .cardx .details{font-size:11px;color:#555;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .cardx .row-meta{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+    .cardx .id{font-weight:600;color:#0018a8;font-size:13px}
+    .cardx .details{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;margin-top:4px}
+    .cardx .row-meta{display:flex;justify-content:space-between;align-items:center;margin-top:4px;min-height:28px}
     .cardx .price{font-weight:700;color:#d32f2f;font-size:0.9rem}
-    .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:26px;height:26px;font-size:14px;font-weight:bold;display:flex;align-items:center;justify-content:center;cursor:pointer}
+    .cardx .add-btn{
+      border:none;background:var(--main);color:#fff;border-radius:50%;
+      width:28px;height:28px;font-size:16px;font-weight:bold;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;flex-shrink:0;
+    }
 
-    /* Giỏ hàng sidebar */
-    #cartSidebar{position:fixed;top:0;right:-400px;width:350px;height:100%;background:#fff;
-      box-shadow:-3px 0 8px rgba(0,0,0,.2);transition:right .3s;z-index:1050;padding:15px;overflow:auto}
-    #cartSidebar.open{right:0}
+    /* Giỏ hàng */
     .cart-item{display:flex;align-items:center;gap:8px;border-bottom:1px solid #eee;padding:8px 0}
-    .cart-item img{width:40px;height:40px;object-fit:cover;border-radius:4px;border:1px solid #ddd}
+    .cart-item img{width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd}
     .cart-info{flex:1}
     .cart-title{font-weight:600;font-size:13px}
     .cart-actions{display:flex;align-items:center;gap:4px}
-    .qty-btn{width:20px;height:20px;border:1px solid #ccc;background:#f9f9f9;border-radius:4px;cursor:pointer;font-size:12px;line-height:1}
+    .qty-btn{width:24px;height:24px;border:1px solid #ccc;background:#f9f9f9;border-radius:4px;cursor:pointer}
     .remove-btn{background:none;border:none;color:#d32f2f;font-size:16px;cursor:pointer}
-    .cart-footer{padding:10px 0;font-weight:600;font-size:15px;display:flex;justify-content:space-between}
+    .cart-footer{display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-weight:600;font-size:15px}
   </style>
 </head>
 <body>
+  <!-- Banner -->
+  <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
+
   <!-- Header -->
   <div class="site-header">
     <div class="d-flex align-items-center gap-2">
       <img src="https://raw.githubusercontent.com/datnguyenIT/2606ai-assets/main/logo.png" class="logo" alt="2606AI logo">
       <span class="brand-title">2606AI Marketplace</span>
     </div>
-    <div class="d-flex gap-2">
-      <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#filterPanel">⚙️ Bộ lọc</button>
-      <button id="cartBtn" class="btn btn-outline-dark">🛒 Giỏ hàng <span id="cartCount">0</span></button>
-    </div>
+    <button id="cartBtn" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#cartModal">🛒 Giỏ hàng <span id="cartCount">0</span></button>
   </div>
 
-  <div class="container-fluid my-3">
-    <!-- Hero -->
-    <div class="row g-2 mb-3">
-      <div class="col-lg-8">
-        <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel">
-          <div class="carousel-inner h-100">
-            <div class="carousel-item active h-100"><img src="https://picsum.photos/800/300?random=1" class="d-block w-100 h-100" alt=""></div>
-            <div class="carousel-item h-100"><img src="https://picsum.photos/800/300?random=2" class="d-block w-100 h-100" alt=""></div>
-            <div class="carousel-item h-100"><img src="https://picsum.photos/800/300?random=3" class="d-block w-100 h-100" alt=""></div>
-          </div>
-        </div>
+  <div class="container-fluid px-2">
+    <!-- Hero slider -->
+    <div id="heroCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active"><img src="https://picsum.photos/1600/350?random=1" class="d-block w-100" alt="Slide 1"></div>
+        <div class="carousel-item"><img src="https://picsum.photos/1600/350?random=2" class="d-block w-100" alt="Slide 2"></div>
+        <div class="carousel-item"><img src="https://picsum.photos/1600/350?random=3" class="d-block w-100" alt="Slide 3"></div>
       </div>
-      <div class="col-lg-4 d-flex flex-column gap-2">
-        <img src="https://picsum.photos/400/145?random=11" class="w-100 rounded">
-        <img src="https://picsum.photos/400/145?random=12" class="w-100 rounded">
-      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
     </div>
 
     <div class="row">
       <!-- Sidebar -->
       <div class="col-lg-3 col-md-4">
         <div class="sidebar-box">
-          <h6>Quyền lợi</h6>
+          <h6 class="fw-bold">Quyền lợi</h6>
           <ul class="small mb-0">
             <li>⚡ Báo giá nhanh 24h</li>
             <li>🎨 Thiết kế miễn phí</li>
@@ -102,28 +111,26 @@
           </ul>
         </div>
         <div class="sidebar-box">
-          <h6>Xưởng đề xuất</h6>
+          <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
           <div id="factoryList"></div>
         </div>
       </div>
 
       <!-- Content -->
       <div class="col-lg-9 col-md-8">
-        <!-- Danh mục -->
-        <div class="p-2 bg-white rounded mb-3">
-          <h6 class="fw-bold mb-2">DANH MỤC (DÒNG SẢN PHẨM)</h6>
+        <div class="input-group mb-2">
+          <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả, TYPE)">
+          <button id="searchBtn" class="btn btn-primary">🔍</button>
+        </div>
+
+        <!-- Category grid -->
+        <div class="category-box p-2 bg-white rounded mb-3">
+          <h6 class="fw-bold mb-2">DANH MỤC</h6>
           <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
         </div>
 
-        <!-- Thanh tìm kiếm -->
-        <div class="input-group mb-3">
-          <span class="input-group-text bg-primary text-white">🔍</span>
-          <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)">
-          <button id="searchBtn" class="btn btn-primary">Tìm</button>
-        </div>
-
         <!-- Grid sản phẩm -->
-        <div id="productGrid" class="row row-cols-2 row-cols-md-6 g-3"></div>
+        <div id="productGrid" class="row row-cols-2 row-cols-md-6 row-cols-xl-8 g-2"></div>
 
         <!-- Pagination -->
         <div class="d-flex justify-content-between mt-2">
@@ -134,35 +141,25 @@
     </div>
   </div>
 
-  <!-- Giỏ hàng sidebar -->
-  <div id="cartSidebar">
-    <h5>Giỏ hàng</h5>
-    <div id="cartList"></div>
-    <div class="cart-footer"><span>Tổng cộng</span><span id="cartTotal">0 đ</span></div>
-    <button class="btn btn-success w-100">Đặt hàng</button>
-  </div>
-
-  <!-- Offcanvas Filter -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="filterPanel">
-    <div class="offcanvas-header">
-      <h5>Bộ lọc nâng cao</h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
-    </div>
-    <div class="offcanvas-body">
-      <h6>TYPE</h6>
-      <div id="typeBox" class="mb-3"></div>
-      <h6>LOẠI SẢN PHẨM</h6>
-      <div id="loaiBox" class="mb-3"></div>
-      <h6>CHÚ Ý</h6>
-      <div id="chuyBox" class="mb-3"></div>
+  <!-- Modal giỏ hàng -->
+  <div class="modal fade" id="cartModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title">Giỏ hàng</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body" id="cartList"></div>
+        <div class="modal-footer">
+          <button class="btn btn-success">Đặt hàng</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     const API_URL="https://script.google.com/macros/s/AKfycbyBxgYIh4IDWSumB8C7HxACUa8mOjNyKGkCVYQHpHpBi7IP0BUfGYfiywo78uMqdhC_/exec";
-    const state={page:1,pageSize:36,q:'',type:'',dong:'',loai:'',chuy:''};
-    const cart=[]; const products={};
+    const state={page:1,pageSize:30,q:'',group:'',dong:'',loai:'',type:''};
+    const cart=[];
+    const products={};
 
     const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
     const esc=s=>(s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -170,10 +167,14 @@
     function productCardHtml(it){
       products[it.id]=it;
       return `<div class="col"><div class="cardx">
-        <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        ${it.chuy?`<span class="note-badge">${esc(it.chuy)}</span>`:''}
+        <a href="${esc(it.full||it.img)}" target="_blank">
+          <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        </a>
         <div class="meta">
           <div class="id">${esc(it.id)}</div>
           <div class="details">${esc(it.details||'')}</div>
+          <div class="type-badge">${esc(it.type||'')}</div>
           <div class="row-meta">
             <div class="price">${fmtVND(it.price)}</div>
             <button class="add-btn" onclick="addToCartById('${esc(it.id)}')">+</button>
@@ -181,16 +182,15 @@
         </div></div></div>`;
     }
 
+    function addToCartById(id){
+      const item=products[id];
+      if(item) addToCart(item);
+    }
+
     function render(res){
       const grid=document.getElementById('productGrid');
       if(!res.items || res.items.length===0){grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>';return;}
       grid.innerHTML=res.items.map(it=>productCardHtml(it)).join('');
-      if(res.facets){
-        buildCategory(res.facets.dongs);
-        buildFilterBox('typeBox',res.facets.types,'type');
-        buildFilterBox('loaiBox',res.facets.loais,'loai');
-        buildFilterBox('chuyBox',res.facets.chuys,'chuy');
-      }
     }
 
     function fetchPage(){
@@ -198,68 +198,102 @@
       fetch(API_URL+'?'+params.toString()).then(r=>r.json()).then(render);
     }
 
-    function buildCategory(items){
+    // Giỏ hàng
+    function addToCart(item){
+      const found=cart.find(p=>p.id===item.id);
+      if(found){found.qty+=1;}
+      else{cart.push({...item,qty:1});}
+      updateCart();
+    }
+
+    function changeQty(id,delta){
+      const it=cart.find(p=>p.id===id);
+      if(!it)return;
+      it.qty+=delta;
+      if(it.qty<=0){cart.splice(cart.indexOf(it),1);}
+      updateCart();
+    }
+
+    function removeItem(id){
+      const idx=cart.findIndex(p=>p.id===id);
+      if(idx>=0)cart.splice(idx,1);
+      updateCart();
+    }
+
+    function updateCart(){
+      document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
+      const list=document.getElementById('cartList');
+      let total=0;
+      list.innerHTML=cart.map(it=>{
+        const sub=it.qty*(Number(it.price)||0);
+        total+=sub;
+        return `
+        <div class="cart-item">
+          <img src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/60'">
+          <div class="cart-info">
+            <div class="cart-title">${esc(it.details||it.id)}</div>
+            <div>${fmtVND(it.price)}</div>
+          </div>
+          <div class="cart-actions">
+            <button class="qty-btn" onclick="changeQty('${it.id}',-1)">-</button>
+            <span>${it.qty}</span>
+            <button class="qty-btn" onclick="changeQty('${it.id}',1)">+</button>
+          </div>
+          <div style="min-width:80px;text-align:right">${fmtVND(sub)}</div>
+          <button class="remove-btn" onclick="removeItem('${it.id}')">&times;</button>
+        </div>`;
+      }).join('');
+      list.innerHTML+=`<div class="cart-footer"><div>Tổng cộng</div><div>${fmtVND(total)}</div></div>`;
+    }
+
+    // Demo categories
+    const categories=[
+      {name:"Thời Trang Nam",img:"https://img.icons8.com/color/96/000000/t-shirt.png"},
+      {name:"Điện Thoại",img:"https://img.icons8.com/color/96/000000/iphone.png"},
+      {name:"Laptop",img:"https://img.icons8.com/color/96/000000/laptop.png"},
+      {name:"Đồng Hồ",img:"https://img.icons8.com/color/96/000000/watch.png"},
+      {name:"Giày Dép",img:"https://img.icons8.com/color/96/000000/shoes.png"},
+      {name:"Sức Khỏe",img:"https://img.icons8.com/color/96/000000/pill.png"}
+    ];
+
+    function renderCategories(){
       const grid=document.getElementById("categoryGrid");
-      grid.innerHTML=(items||[]).map(val=>`
+      grid.innerHTML=categories.map(c=>`
         <div class="col">
-          <div class="category-item ${state.dong===val?'active':''}" onclick="selectCategory('${val}')">
-            <span>${esc(val)}</span>
+          <div class="category-item" onclick="selectCategory('${c.name}')">
+            <img src="${c.img}" alt="${c.name}">
+            <span>${c.name}</span>
           </div>
         </div>
       `).join('');
     }
-    function selectCategory(val){state.dong=val;state.page=1;fetchPage();}
 
-    function buildFilterBox(boxId, items, field){
-      const box=document.getElementById(boxId);
-      box.innerHTML=(items||[]).map(val=>`
-        <button class="btn btn-sm ${state[field]===val?'btn-primary':'btn-outline-secondary'} me-1 mb-1"
-          onclick="state.${field}='${val}';state.page=1;fetchPage()">${esc(val)}</button>
-      `).join('');
+    function selectCategory(name){
+      state.group=name;
+      fetchPage();
+      document.querySelectorAll('.category-item').forEach(el=>{
+        el.classList.toggle('active',el.innerText.trim()===name);
+      });
     }
 
-    function addToCartById(id){
-      const item=products[id];
-      if(item){const found=cart.find(p=>p.id===id);if(found)found.qty++;else cart.push({...item,qty:1});updateCart();}
-    }
-    function changeQty(id,delta){const it=cart.find(p=>p.id===id);if(!it)return;it.qty+=delta;if(it.qty<=0)cart.splice(cart.indexOf(it),1);updateCart();}
-    function removeItem(id){const idx=cart.findIndex(p=>p.id===id);if(idx>=0)cart.splice(idx,1);updateCart();}
-    function updateCart(){
-      document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
-      let total=0;
-      document.getElementById('cartList').innerHTML=cart.map(it=>{
-        const sub=it.qty*(Number(it.price)||0);total+=sub;
-        return `<div class="cart-item">
-          <img src="${esc(it.img)}"><div class="cart-info"><div class="cart-title">${esc(it.details||it.id)}</div><div>${fmtVND(it.price)}</div></div>
-          <div class="cart-actions"><button class="qty-btn" onclick="changeQty('${it.id}',-1)">-</button><span>${it.qty}</span><button class="qty-btn" onclick="changeQty('${it.id}',1)">+</button></div>
-          <div style="min-width:70px;text-align:right">${fmtVND(sub)}</div>
-          <button class="remove-btn" onclick="removeItem('${it.id}')">&times;</button>
-        </div>`;
-      }).join('');
-      document.getElementById('cartTotal').innerText=fmtVND(total);
-    }
-
-    // Toggle giỏ hàng
-    document.getElementById('cartBtn').onclick=()=>document.getElementById('cartSidebar').classList.add('open');
-    document.addEventListener('click',e=>{
-      if(!e.target.closest('#cartSidebar') && !e.target.closest('#cartBtn')) document.getElementById('cartSidebar').classList.remove('open');
-    });
-
-    // Search + Pagination
-    document.getElementById('searchBtn').onclick=()=>{state.q=document.getElementById('searchBox').value.trim();state.page=1;fetchPage();}
-    document.getElementById('prevBtn').onclick=()=>{if(state.page>1){state.page--;fetchPage();}}
-    document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}
-
-    document.addEventListener('DOMContentLoaded',()=>{fetchPage();
-      const factories=[{name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
+    document.addEventListener('DOMContentLoaded',()=>{
+      fetchPage();
+      renderCategories();
+      // Demo factories
+      const factories=[
+        {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
         {name:'Xưởng 2 – In UV',desc:'Chi tiết sắc nét, độ bền cao',img:'https://picsum.photos/80?2'},
         {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ cao cấp',img:'https://picsum.photos/80?3'},
         {name:'Xưởng 4 – In offset',desc:'Bao bì, hộp, catalogue',img:'https://picsum.photos/80?4'},
-        {name:'Xưởng 5 – Quà tặng',desc:'Quà doanh nghiệp, sự kiện',img:'https://picsum.photos/80?5'}];
+        {name:'Xưởng 5 – Quà tặng',desc:'Quà doanh nghiệp, sự kiện',img:'https://picsum.photos/80?5'},
+      ];
       document.getElementById('factoryList').innerHTML=factories.map(f=>`
-        <div class="d-flex align-items-center gap-2 mb-2">
+        <div class="factory-item d-flex align-items-center gap-2 mb-2">
           <img src="${f.img}" width="40" height="40" style="object-fit:cover;border-radius:6px;">
-          <div><div class="fw-bold small">${f.name}</div><div class="text-muted small">${f.desc}</div></div>
+          <div>
+            <div class="fw-bold small">${f.name}</div>
+            <div class="text-muted small">${f.desc}</div>
+          </div>
         </div>`).join('');
     });
   </script>
