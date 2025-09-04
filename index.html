@@ -31,34 +31,35 @@ body{
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
 /* Hero */
-.hero-left img{width:100%;height:100%;object-fit:cover;border-radius:8px}
-.hero-right img{width:100%;object-fit:cover;border-radius:8px}
+.hero-slide img{border-radius:8px;object-fit:cover}
 
-/* Category */
-.category-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px}
+/* Card sản phẩm */
+.cardx {
+  border:none;border-radius:12px;background:#fff;overflow:hidden;
+  transition:.2s;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.08);
+  display:flex;flex-direction:column;position:relative;
+}
+.cardx:hover {transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.cardx img.thumb {width:100%;height:200px;object-fit:cover;}
+.cardx .note-badge {
+  position:absolute;top:8px;left:8px;
+  padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;
+}
+.cardx .meta {padding:10px;flex:1;display:flex;flex-direction:column;}
+.cardx .id {font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
+.cardx .details {font-size:12px;color:#666;}
+.cardx .type-badge {display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;margin:4px 0}
+.cardx .price {font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
+.cardx .row-meta {display:flex;justify-content:flex-end;align-items:center}
+.cardx .add-btn {border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center}
+
+/* Danh mục */
 .category-item{
   text-align:center;background:#fff;border:1px solid #eee;border-radius:10px;
   padding:12px;cursor:pointer;transition:.2s;height:100%;
 }
 .category-item:hover{box-shadow:0 2px 6px rgba(0,0,0,0.1);}
-.category-item img{width:40px;height:40px;object-fit:contain;margin-bottom:6px}
-.category-item span{font-size:13px;display:block;color:#333}
 .category-item.active{border-color:var(--main);background:#f0f6ff}
-
-/* Card sản phẩm */
-.cardx{border:none;border-radius:12px;background:#fff;overflow:hidden;
-  transition:.2s;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.08);
-  display:flex;flex-direction:column;position:relative;}
-.cardx:hover{transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
-.cardx img.thumb{width:100%;height:200px;object-fit:cover;}
-.cardx .note-badge{position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff}
-.cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;}
-.cardx .id{font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
-.cardx .details{font-size:12px;color:#666;flex:1}
-.cardx .price{font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
-.cardx .row-meta{display:flex;justify-content:space-between;align-items:center}
-.cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px}
-.cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center}
 
 /* Giỏ hàng sidebar */
 #cartSidebar{position:fixed;top:0;right:-400px;width:350px;height:100%;background:#fff;
@@ -85,20 +86,28 @@ body{
       <span class="brand-title">2606AI Marketplace</span>
     </div>
     <div class="d-flex gap-2">
-      <button id="filterBtn" class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#filterPanel">⚙️ Bộ lọc <span id="filterCount" class="badge bg-danger">0</span></button>
+      <button class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#filterPanel">⚙️ Bộ lọc <span id="filterCount" class="badge bg-danger ms-1">0</span></button>
       <button id="cartBtn" class="btn btn-outline-dark">🛒 Giỏ hàng <span id="cartCount">0</span></button>
     </div>
   </div>
 
   <div class="container-fluid my-3">
     <!-- Hero -->
-    <div class="row mb-3">
-      <div class="col-lg-8 hero-left">
-        <img src="https://picsum.photos/800/300?random=1">
+    <div class="row g-2 mb-3">
+      <div class="col-lg-8">
+        <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel">
+          <div class="carousel-inner h-100">
+            <div class="carousel-item active h-100"><img src="https://picsum.photos/800/300?random=1" class="d-block w-100 h-100" alt=""></div>
+            <div class="carousel-item h-100"><img src="https://picsum.photos/800/300?random=2" class="d-block w-100 h-100" alt=""></div>
+            <div class="carousel-item h-100"><img src="https://picsum.photos/800/300?random=3" class="d-block w-100 h-100" alt=""></div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+          <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+        </div>
       </div>
-      <div class="col-lg-4 hero-right d-flex flex-column gap-2">
-        <img src="https://picsum.photos/400/145?random=11">
-        <img src="https://picsum.photos/400/145?random=12">
+      <div class="col-lg-4 d-flex flex-column gap-2">
+        <img src="https://picsum.photos/400/145?random=11" class="w-100 rounded">
+        <img src="https://picsum.photos/400/145?random=12" class="w-100 rounded">
       </div>
     </div>
 
@@ -123,8 +132,8 @@ body{
       <!-- Content -->
       <div class="col-lg-9 col-md-8">
         <!-- Danh mục -->
-        <div class="category-box mb-3">
-          <h6 class="fw-bold mb-2">DANH MỤC</h6>
+        <div class="category-box p-2 bg-white rounded mb-3">
+          <h6 class="fw-bold mb-2">DANH MỤC SẢN PHẨM</h6>
           <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
         </div>
 
@@ -152,8 +161,16 @@ body{
     <h5>Giỏ hàng</h5>
     <div id="cartList"></div>
     <div class="cart-footer"><span>Tổng cộng</span><span id="cartTotal">0 đ</span></div>
-    <button class="btn btn-danger w-100 mb-2" onclick="clearCart()">Xóa toàn bộ</button>
-    <button class="btn btn-success w-100" onclick="submitOrder()">Gửi đơn hàng</button>
+    <button class="btn btn-danger w-100 mb-2" onclick="clearCart()">🗑 Xóa toàn bộ</button>
+    <!-- Form thông tin khách hàng -->
+    <div class="mt-3">
+      <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên">
+      <input id="buyerEmail" class="form-control mb-2" placeholder="Email">
+      <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại">
+      <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
+      <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
+      <button class="btn btn-success w-100" onclick="submitOrder()">Gửi đơn hàng</button>
+    </div>
   </div>
 
   <!-- Offcanvas Filter -->
@@ -175,7 +192,7 @@ body{
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbyBxgYIh4IDWSumB8C7HxACUa8mOjNyKGkCVYQHpHpBi7IP0BUfGYfiywo78uMqdhC_/exec";
-const state={page:1,pageSize:36,q:'',danhmuc:'',loai:'',type:'',chuy:''};
+const state={page:1,pageSize:36,q:'',type:'',loai:'',chuy:'',danhmuc:''};
 const cart=[]; const products={};
 
 const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
@@ -199,9 +216,9 @@ function productCardHtml(it){
       <div class="meta">
         <div class="id">${esc(it.id)}</div>
         <div class="details">${esc(it.details||'')}</div>
+        <div class="type-badge">${esc(it.type||'')}</div>
         <div class="price">${fmtVND(it.price)}</div>
         <div class="row-meta">
-          <div class="type-badge">${esc(it.type||'')}</div>
           <button class="add-btn" onclick="addToCartById('${esc(it.id)}')">+</button>
         </div>
       </div>
@@ -230,7 +247,6 @@ function buildCategory(items){
   grid.innerHTML=(items||[]).map(val=>`
     <div class="col">
       <div class="category-item ${state.danhmuc===val?'active':''}" onclick="selectCategory('${val}')">
-        <img src="https://img.icons8.com/color/48/000000/category.png"/>
         <span>${esc(val)}</span>
       </div>
     </div>
@@ -239,7 +255,7 @@ function buildCategory(items){
 function selectCategory(val){
   state.danhmuc=val;state.page=1;fetchPage();
   document.querySelectorAll('.category-item').forEach(el=>{
-    el.classList.toggle('active', el.innerText.trim()===val);
+    el.classList.toggle('active',el.innerText.trim()===val);
   });
 }
 
@@ -247,20 +263,16 @@ function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   box.innerHTML=(items||[]).map(val=>`
     <button class="btn btn-sm ${state[field]===val?'btn-primary':'btn-outline-secondary'} me-1 mb-1"
-      onclick="toggleFilter('${field}','${val}')">${esc(val)}</button>
+      onclick="state.${field}='${val}';state.page=1;updateFilterCount();fetchPage()">${esc(val)}</button>
   `).join('');
-}
-
-function toggleFilter(field,val){
-  state[field]=(state[field]===val?'':val);
-  updateFilterCount();
-  fetchPage();
 }
 
 function updateFilterCount(){
   let count=0;
-  ['type','loai','chuy'].forEach(f=>{if(state[f]) count++;});
-  document.getElementById('filterCount').innerText=count;
+  if(state.type)count++;
+  if(state.loai)count++;
+  if(state.chuy)count++;
+  document.getElementById("filterCount").innerText=count;
 }
 
 // Giỏ hàng
@@ -279,7 +291,10 @@ function removeItem(id){
   if(idx>=0)cart.splice(idx,1);
   updateCart();
 }
-function clearCart(){cart.length=0;updateCart();}
+function clearCart(){
+  cart.length=0;
+  updateCart();
+}
 function updateCart(){
   document.getElementById('cartCount').innerText=cart.reduce((a,b)=>a+b.qty,0);
   const list=document.getElementById('cartList');
@@ -310,17 +325,19 @@ function updateCart(){
 function submitOrder(){
   if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
 
-  const name=prompt("Nhập họ và tên:");
-  const email=prompt("Nhập email:");
-  const phone=prompt("Nhập số điện thoại:");
-  const address=prompt("Nhập địa chỉ nhận hàng:");
+  const name=document.getElementById("buyerName").value.trim();
+  const email=document.getElementById("buyerEmail").value.trim();
+  const phone=document.getElementById("buyerPhone").value.trim();
+  const address=document.getElementById("buyerAddress").value.trim();
+  const note=document.getElementById("buyerNote").value.trim();
 
   if(!name||!email||!phone||!address){
-    alert("Vui lòng nhập đầy đủ thông tin!");return;
+    alert("Vui lòng nhập đầy đủ thông tin!");
+    return;
   }
 
   const order={
-    customer:{name,email,phone,address},
+    customer:{name,email,phone,address,note},
     items:cart,
     total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
   };
@@ -329,7 +346,7 @@ function submitOrder(){
     method:"POST",
     body:JSON.stringify({
       action:"order",
-            email:"lehaidangem836@gmail.com",
+      email:"lehaidangem836@gmail.com",
       data:order
     })
   })
@@ -337,6 +354,11 @@ function submitOrder(){
   .then(res=>{
     alert("Đã gửi đơn hàng thành công!");
     cart.length=0; updateCart();
+    document.getElementById("buyerName").value="";
+    document.getElementById("buyerEmail").value="";
+    document.getElementById("buyerPhone").value="";
+    document.getElementById("buyerAddress").value="";
+    document.getElementById("buyerNote").value="";
   })
   .catch(e=>{
     console.error(e);
