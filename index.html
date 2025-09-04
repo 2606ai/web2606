@@ -13,16 +13,10 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 
 /* Header */
 .site-header{
-  background:#fff;
-  padding:10px 15px;
-  border-bottom:1px solid #eee;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+  background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
+  display:flex;align-items:center;justify-content:space-between;
   box-shadow:0 2px 6px rgba(0,0,0,.05);
-  position:sticky;
-  top:0;
-  z-index:1055;
+  position:sticky;top:0;z-index:1055;
 }
 .site-header img.logo{height:45px}
 .site-header .brand-title{font-weight:800;font-size:18px;color:var(--main)}
@@ -31,50 +25,25 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
-/* Hero slider */
-.hero img{width:100%;height:350px;object-fit:cover;border-radius:8px}
-
-/* Category */
-.category-item{text-align:center;background:#fff;border:1px solid #eee;border-radius:8px;
-  padding:10px;cursor:pointer;transition:.2s;height:100%}
-.category-item:hover{box-shadow:0 3px 8px rgba(0,0,0,0.12);}
-.category-item span{font-size:13px;font-weight:500;color:#333;display:block;margin-top:6px}
-.category-item.active{border-color:var(--main);background:#f0f6ff}
-
 /* Card sản phẩm */
 .cardx {
-  border: none;
-  border-radius: 12px;
-  background: #fff;
-  overflow: hidden;
-  transition: .2s;
-  height: 100%;
-  box-shadow: 0 2px 6px rgba(0,0,0,.08);
-  display: flex;
-  flex-direction: column;
-  position: relative;
+  border:none;border-radius:12px;background:#fff;overflow:hidden;
+  transition:.2s;height:100%;box-shadow:0 2px 6px rgba(0,0,0,.08);
+  display:flex;flex-direction:column;position:relative;
 }
-.cardx:hover {transform: translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
-.cardx img.thumb {width: 100%;height: 200px;object-fit: cover;}
+.cardx:hover {transform:translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
+.cardx img.thumb {width:100%;height:200px;object-fit:cover;}
 .cardx .note-badge {
-  position: absolute;top: 8px;left: 8px;
-  padding: 2px 8px;border-radius: 12px;
-  font-size: 12px;font-weight: 600;color:#fff;
+  position:absolute;top:8px;left:8px;
+  padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600;color:#fff;
 }
-.cardx .meta {padding: 10px;flex: 1;display: flex;flex-direction: column;}
+.cardx .meta {padding:10px;flex:1;display:flex;flex-direction:column;}
 .cardx .id {font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
 .cardx .details {font-size:12px;color:#666;flex:1}
 .cardx .price {font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
 .cardx .row-meta {display:flex;justify-content:space-between;align-items:center}
-.cardx .type-badge {
-  display:inline-block;background:#e0f0ff;color:#0056b3;
-  font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;
-}
-.cardx .add-btn {
-  border:none;background:var(--main);color:#fff;border-radius:50%;
-  width:32px;height:32px;font-size:18px;font-weight:bold;
-  display:flex;align-items:center;justify-content:center;
-}
+.cardx .type-badge {display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px}
+.cardx .add-btn {border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center}
 
 /* Giỏ hàng sidebar */
 #cartSidebar{position:fixed;top:0;right:-400px;width:350px;height:100%;background:#fff;
@@ -107,23 +76,6 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
   </div>
 
   <div class="container-fluid my-3">
-    <!-- Hero -->
-    <div class="row g-2 mb-3">
-      <div class="col-lg-8">
-        <div id="heroCarousel" class="carousel slide h-100" data-bs-ride="carousel">
-          <div class="carousel-inner h-100">
-            <div class="carousel-item active h-100"><img src="https://picsum.photos/800/300?random=1" class="d-block w-100 h-100"></div>
-            <div class="carousel-item h-100"><img src="https://picsum.photos/800/300?random=2" class="d-block w-100 h-100"></div>
-            <div class="carousel-item h-100"><img src="https://picsum.photos/800/300?random=3" class="d-block w-100 h-100"></div>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-4 d-flex flex-column gap-2">
-        <img src="https://picsum.photos/400/145?random=11" class="w-100 rounded">
-        <img src="https://picsum.photos/400/145?random=12" class="w-100 rounded">
-      </div>
-    </div>
-
     <div class="row">
       <!-- Sidebar -->
       <div class="col-lg-3 col-md-4">
@@ -174,7 +126,16 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
     <h5>Giỏ hàng</h5>
     <div id="cartList"></div>
     <div class="cart-footer"><span>Tổng cộng</span><span id="cartTotal">0 đ</span></div>
-    <button class="btn btn-success w-100">Đặt hàng</button>
+
+    <!-- Form thông tin khách hàng -->
+    <div class="mt-3">
+      <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên">
+      <input id="buyerEmail" class="form-control mb-2" placeholder="Email">
+      <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại">
+      <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
+      <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
+      <button class="btn btn-success w-100" onclick="submitOrder()">Gửi đơn hàng</button>
+    </div>
   </div>
 
   <!-- Offcanvas Filter -->
@@ -308,6 +269,51 @@ function updateCart(){
   document.getElementById('cartTotal').innerText=fmtVND(total);
 }
 
+// Submit order
+function submitOrder(){
+  if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
+
+  const name=document.getElementById("buyerName").value.trim();
+  const email=document.getElementById("buyerEmail").value.trim();
+  const phone=document.getElementById("buyerPhone").value.trim();
+  const address=document.getElementById("buyerAddress").value.trim();
+  const note=document.getElementById("buyerNote").value.trim();
+
+  if(!name||!email||!phone||!address){
+    alert("Vui lòng nhập đầy đủ thông tin!");
+    return;
+  }
+
+  const order={
+    customer:{name,email,phone,address,note},
+    items:cart,
+    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+  };
+
+  fetch(API_URL,{
+    method:"POST",
+    body:JSON.stringify({
+      action:"order",
+      email:"lehaidangem836@gmail.com",
+      data:order
+    })
+  })
+  .then(r=>r.json())
+  .then(res=>{
+    alert("Đã gửi đơn hàng thành công!");
+    cart.length=0; updateCart();
+    document.getElementById("buyerName").value="";
+    document.getElementById("buyerEmail").value="";
+    document.getElementById("buyerPhone").value="";
+    document.getElementById("buyerAddress").value="";
+    document.getElementById("buyerNote").value="";
+  })
+  .catch(e=>{
+    console.error(e);
+    alert("Gửi đơn hàng thất bại!");
+  });
+}
+
 // Toggle giỏ hàng
 document.getElementById('cartBtn').onclick=()=>document.getElementById('cartSidebar').classList.add('open');
 document.addEventListener('click',e=>{
@@ -324,19 +330,4 @@ document.addEventListener('DOMContentLoaded',()=>{
   const factories=[
     {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
     {name:'Xưởng 2 – In UV',desc:'Chi tiết sắc nét, độ bền cao',img:'https://picsum.photos/80?2'},
-    {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ cao cấp',img:'https://picsum.photos/80?3'},
-    {name:'Xưởng 4 – In offset',desc:'Bao bì, hộp, catalogue',img:'https://picsum.photos/80?4'},
-    {name:'Xưởng 5 – Quà tặng',desc:'Quà doanh nghiệp, sự kiện',img:'https://picsum.photos/80?5'}
-  ];
-  document.getElementById('factoryList').innerHTML=factories.map(f=>`
-    <div class="d-flex align-items-center gap-2 mb-2">
-      <img src="${f.img}" width="40" height="40" style="object-fit:cover;border-radius:6px;">
-      <div>
-        <div class="fw-bold small">${f.name}</div>
-        <div class="text-muted small">${f.desc}</div>
-      </div>
-    </div>`).join('');
-});
-</script>
-</body>
-</html>
+    {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ cao cấp',img:'https://picsum.photos/80
