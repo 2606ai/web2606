@@ -123,7 +123,7 @@
           <button id="searchBtn" class="btn btn-primary">🔍</button>
         </div>
 
-        <!-- Category grid -->
+        <!-- Category grid (filter) -->
         <div class="category-box p-2 bg-white rounded mb-3">
           <h6 class="fw-bold mb-2">DANH MỤC</h6>
           <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
@@ -246,8 +246,9 @@
       list.innerHTML+=`<div class="cart-footer"><div>Tổng cộng</div><div>${fmtVND(total)}</div></div>`;
     }
 
-    // Demo categories
+    // Danh mục filter
     const categories=[
+      {name:"Tất cả",img:"https://img.icons8.com/color/96/grid.png"},
       {name:"Thời Trang Nam",img:"https://img.icons8.com/color/96/t-shirt.png"},
       {name:"Điện Thoại",img:"https://img.icons8.com/color/96/iphone.png"},
       {name:"Laptop",img:"https://img.icons8.com/color/96/laptop.png"},
@@ -269,7 +270,7 @@
     }
 
     function selectCategory(name){
-      state.group=name;
+      state.group = (name==="Tất cả") ? "" : name;
       fetchPage();
       document.querySelectorAll('.category-item').forEach(el=>{
         el.classList.toggle('active',el.innerText.trim()===name);
