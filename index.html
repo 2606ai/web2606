@@ -32,49 +32,44 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 .category-item span{font-size:13px;font-weight:500;color:#333;display:block;margin-top:6px}
 .category-item.active{border-color:var(--main);background:#f0f6ff}
 
-/* Card sản phẩm */
+/* Card sản phẩm mới */
 .cardx {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: none;
+  border-radius: 12px;
   background: #fff;
   overflow: hidden;
-  position: relative;
-  transition: 0.2s;
+  transition: .2s;
   height: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,.08);
   display: flex;
   flex-direction: column;
+  position: relative;
 }
-.cardx:hover {transform: translateY(-3px);box-shadow: 0 4px 10px rgba(0,0,0,.1)}
-.cardx a {display:block;flex-shrink:0}
+.cardx:hover {transform: translateY(-4px);box-shadow:0 6px 14px rgba(0,0,0,.15)}
 .cardx img.thumb {
   width: 100%;
-  height: 160px;
+  height: 200px;
   object-fit: cover;
 }
 .cardx .note-badge {
   position: absolute;
-  top: 6px;
-  left: 6px;
-  background: #ff9800;
-  color: #fff;
-  padding: 2px 6px;
+  top: 8px; left: 8px;
+  padding: 2px 8px;
+  border-radius: 12px;
   font-size: 12px;
-  border-radius: 4px;
+  font-weight: 600;
+  color:#fff;
 }
 .cardx .meta {
-  padding: 8px;
+  padding: 10px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-.cardx .id {font-weight:600;color:#0018a8;font-size:12px}
-.cardx .details {
-  font-size: 12px;
-  color: #555;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+.cardx .id {font-weight:600;color:#0018a8;font-size:13px;margin-bottom:4px}
+.cardx .details {font-size:12px;color:#666;flex:1}
+.cardx .price {font-weight:700;color:#d32f2f;font-size:1rem;margin:4px 0}
+.cardx .row-meta {display:flex;justify-content:space-between;align-items:center}
 .cardx .type-badge {
   display: inline-block;
   background: #e0f0ff;
@@ -83,29 +78,11 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
   font-weight: 600;
   padding: 2px 6px;
   border-radius: 12px;
-  margin-top: 4px;
 }
-.cardx .row-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: auto;
-}
-.cardx .price {font-weight:700;color:#d32f2f;font-size:0.9rem}
 .cardx .add-btn {
-  border: none;
-  background: var(--main);
-  color: #fff;
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  font-size: 18px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
+  border:none;background:var(--main);color:#fff;border-radius:50%;
+  width:32px;height:32px;font-size:18px;font-weight:bold;
+  display:flex;align-items:center;justify-content:center;
 }
 
 /* Giỏ hàng sidebar */
@@ -228,25 +205,33 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 const API_URL="https://script.google.com/macros/s/AKfycbyBxgYIh4IDWSumB8C7HxACUa8mOjNyKGkCVYQHpHpBi7IP0BUfGYfiywo78uMqdhC_/exec";
-const state={page:1,pageSize:36,q:'',group:'',dong:'',loai:'',type:''}; // 6x6 = 36 sp
+const state={page:1,pageSize:36,q:'',group:'',dong:'',loai:'',type:''};
 const cart=[]; const products={};
 
 const fmtVND=n=>(Number(n)||0).toLocaleString('vi-VN')+' đ';
 const esc=s=>(s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
+function badgeColor(txt){
+  if(!txt) return "#555";
+  if(txt.includes("Mẫu")) return "#4caf50";
+  if(txt.includes("giảm")) return "#ff9800";
+  if(txt.includes("gấp")) return "#d32f2f";
+  return "#555";
+}
+
 function productCardHtml(it){
   products[it.id]=it;
   return `<div class="col"><div class="cardx">
-      ${it.chuy?`<span class="note-badge">${esc(it.chuy)}</span>`:''}
+      ${it.chuy?`<span class="note-badge" style="background:${badgeColor(it.chuy)}">${esc(it.chuy)}</span>`:''}
       <a href="${esc(it.full||it.img)}" target="_blank">
         <img class="thumb" src="${esc(it.img)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
       </a>
       <div class="meta">
         <div class="id">${esc(it.id)}</div>
         <div class="details">${esc(it.details||'')}</div>
-        <div class="type-badge">${esc(it.type||'')}</div>
+        <div class="price">${fmtVND(it.price)}</div>
         <div class="row-meta">
-          <div class="price">${fmtVND(it.price)}</div>
+          <div class="type-badge">${esc(it.type||'')}</div>
           <button class="add-btn" onclick="addToCartById('${esc(it.id)}')">+</button>
         </div>
       </div>
@@ -345,23 +330,7 @@ document.getElementById('nextBtn').onclick=()=>{state.page++;fetchPage();}
 
 document.addEventListener('DOMContentLoaded',()=>{
   fetchPage();
-  // Demo factories
   const factories=[
     {name:'Xưởng 1 – Tem kim loại',desc:'Men màu, mạ vàng, đúc nổi 3D',img:'https://picsum.photos/80?1'},
     {name:'Xưởng 2 – In UV',desc:'Chi tiết sắc nét, độ bền cao',img:'https://picsum.photos/80?2'},
-    {name:'Xưởng 3 – Đúc huy hiệu',desc:'Đúc nổi 3D, mạ cao cấp',img:'https://picsum.photos/80?3'},
-    {name:'Xưởng 4 – In offset',desc:'Bao bì, hộp, catalogue',img:'https://picsum.photos/80?4'},
-    {name:'Xưởng 5 – Quà tặng',desc:'Quà doanh nghiệp, sự kiện',img:'https://picsum.photos/80?5'}
-  ];
-  document.getElementById('factoryList').innerHTML=factories.map(f=>`
-    <div class="d-flex align-items-center gap-2 mb-2">
-      <img src="${f.img}" width="40" height="40" style="object-fit:cover;border-radius:6px;">
-      <div>
-        <div class="fw-bold small">${f.name}</div>
-        <div class="text-muted small">${f.desc}</div>
-      </div>
-    </div>`).join('');
-});
-</script>
-</body>
-</html>
+    {name:'X
