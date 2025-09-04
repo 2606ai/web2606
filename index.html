@@ -11,7 +11,7 @@
     .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-weight:600}
 
     /* Hero slider */
-    .hero img{width:100%;height:320px;object-fit:cover}
+    .hero img{width:100%;height:350px;object-fit:cover}
 
     /* Card sản phẩm */
     .cardx{border:1px solid #ddd;border-radius:6px;background:#fff;overflow:hidden;position:relative;transition:.2s}
@@ -25,18 +25,10 @@
     .cardx .row-meta{display:flex;justify-content:space-between;align-items:center;margin-top:4px;min-height:28px}
     .cardx .price{font-weight:700;color:#d32f2f;font-size:0.9rem}
     .cardx .add-btn{
-      border:none;
-      background:var(--main);
-      color:#fff;
-      border-radius:50%;
-      width:28px;
-      height:28px;
-      font-size:16px;
-      font-weight:bold;
-      line-height:28px;
-      text-align:center;
-      cursor:pointer;
-      flex-shrink:0;
+      border:none;background:var(--main);color:#fff;border-radius:50%;
+      width:28px;height:28px;font-size:16px;font-weight:bold;
+      display:flex;align-items:center;justify-content:center;
+      cursor:pointer;flex-shrink:0;
     }
 
     /* Sidebar */
@@ -57,13 +49,13 @@
   <!-- Banner -->
   <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
 
-  <div class="container-fluid my-2 px-3">
+  <div class="container-fluid px-2">
     <!-- Hero slider -->
     <div id="heroCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
       <div class="carousel-inner">
-        <div class="carousel-item active"><img src="https://picsum.photos/1400/320?random=1" class="d-block w-100" alt="Slide 1"></div>
-        <div class="carousel-item"><img src="https://picsum.photos/1400/320?random=2" class="d-block w-100" alt="Slide 2"></div>
-        <div class="carousel-item"><img src="https://picsum.photos/1400/320?random=3" class="d-block w-100" alt="Slide 3"></div>
+        <div class="carousel-item active"><img src="https://picsum.photos/1600/350?random=1" class="d-block w-100" alt="Slide 1"></div>
+        <div class="carousel-item"><img src="https://picsum.photos/1600/350?random=2" class="d-block w-100" alt="Slide 2"></div>
+        <div class="carousel-item"><img src="https://picsum.photos/1600/350?random=3" class="d-block w-100" alt="Slide 3"></div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
       <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
@@ -71,7 +63,7 @@
 
     <div class="row">
       <!-- Sidebar -->
-      <div class="col-lg-2">
+      <div class="col-lg-3 col-md-4">
         <div class="sidebar-box">
           <h6 class="fw-bold">Quyền lợi</h6>
           <ul class="small mb-0">
@@ -89,7 +81,7 @@
       </div>
 
       <!-- Content -->
-      <div class="col-lg-10">
+      <div class="col-lg-9 col-md-8">
         <div class="input-group mb-2">
           <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả, TYPE)">
           <button id="searchBtn" class="btn btn-primary">🔍</button>
