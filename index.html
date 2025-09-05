@@ -1,156 +1,163 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2606AI</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet">
-<style>
-:root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
-body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px;padding-top:70px}
-.container-fluid{max-width:1400px;margin:auto}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-/* Thanh ưu đãi: xanh + sticky ngay dưới header */
-.top-banner{
-  background:var(--main)!important;color:#fff;text-align:center;padding:6px;font-weight:700;
-  position:sticky; top:70px; z-index:1054; border:0;
-}
+  <title>2606AI - Huy hiệu theo thiết kế, báo giá nhanh</title>
+  <link rel="canonical" href="https://2606ai.vn/" />
+  <meta name="description" content="2606AI - Sản xuất huy hiệu, badge, móc khóa theo thiết kế. Báo giá 24h, thiết kế miễn phí, QC 2 lớp, giao hàng toàn quốc." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="theme-color" content="#0018a8" />
 
-/* Header (logo + SEARCH full chiều ngang) */
-.site-header{
-  background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
-  position:fixed;top:0;left:0;right:0;z-index:1055;height:70px;
-  box-shadow:0 2px 6px rgba(0,0,0,.05);
-}
-.site-header .wrap{
-  max-width:1400px;margin:0 auto;
-  display:flex;align-items:center;justify-content:space-between;gap:12px; /* full width */
-}
-.site-header img.logo{height:56px;width:auto;display:block}
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="2606AI" />
+  <meta property="og:title" content="2606AI - Huy hiệu theo thiết kế, báo giá nhanh" />
+  <meta property="og:description" content="Thiết kế miễn phí, QC 2 lớp, giao hàng toàn quốc." />
+  <meta property="og:url" content="https://2606ai.vn/" />
+  <meta property="og:image" content="https://2606ai.vn/og-cover.jpg" />
+  <meta property="og:image:alt" content="2606AI - Huy hiệu theo thiết kế" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-/* Thu gọn thanh tìm kiếm + chữ nhỏ lại — và cho full width */
-.header-search{ flex:1 1 auto; max-width:100%; min-width:240px; }
-@media (max-width: 992px){
-  .site-header .wrap{ justify-content:center }
-  .header-search{ flex:1 1 100%; max-width:100% }
-}
-.header-search .form-control{ font-size:13px;padding:6px 10px }
-.header-search .form-control::placeholder{ font-size:13px; opacity:.75 }
-.header-search .btn{ font-size:13px;padding:6px 12px; line-height:1.1 }
-.header-search .input-group-text{background:#fff}
+  <!-- Hiệu năng -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="dns-prefetch" href="//img.icons8.com" />
+  <link rel="preload" as="image"
+        href="https://picsum.photos/1200/300?random=11"
+        imagesrcset="https://picsum.photos/800/200?random=11 800w, https://picsum.photos/1200/300?random=11 1200w"
+        imagesizes="(min-width:992px) 800px, 100vw" />
 
-/* Sidebar */
-.sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
-.sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"2606AI","url":"https://2606ai.vn/","logo":"https://2606ai.vn/logo.png"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","url":"https://2606ai.vn/","name":"2606AI","potentialAction":{"@type":"SearchAction","target":"https://2606ai.vn/?q={search_term_string}","query-input":"required name=search_term_string"}}
+  </script>
 
-/* Hero */
-.hero{margin-bottom:15px}
-.hero .carousel{border-radius:8px;overflow:hidden}
-.hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
-.hero .mini img{width:100%;height:145px;object-fit:cover;border-radius:8px}
-.hero .mini .carousel{height:145px}
-.hero .main img{width:100%;height:300px;object-fit:cover;border-radius:8px}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet" />
 
-/* Danh mục */
-.category-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
-.category-item{ text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s;border:1px solid #e9edf5;background:#fff }
-.category-item:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.06)}
-.category-item .icon{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#f1f4ff;margin-bottom:6px}
-.category-item .icon img{width:28px;height:28px;object-fit:contain}
-.category-item span{font-size:12.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.category-item.active{background:#e6f0ff;border:1px solid #007bff}
+  <style>
+  :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
+  body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px;padding-top:70px}
+  .container-fluid{max-width:1400px;margin:auto}
 
-/* Card sản phẩm */
-.cardx{border:1px solid #edf0f6;border-radius:14px;background:#fff;overflow:hidden;transition:.2s;height:100%;
-  box-shadow:0 6px 20px rgba(0,0,0,.06);display:flex;flex-direction:column;position:relative}
-.cardx img.thumb{width:100%;height:210px;object-fit:contain;background:#fafbfe;border-bottom:1px solid #eef1f6}
-.cardx .note-badge{display:none} /* bỏ badge nổi trên ảnh — chuyển thành note-line */
-.cardx .meta{padding:12px;flex:1;display:flex;flex-direction:column;}
-.cardx .id{font-weight:700;color:#0018a8;font-size:14px;margin-bottom:4px;text-decoration:none}
-.cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px;margin-bottom:6px;border:1px solid #dbe6ff}
-.cardx .details{font-size:12.5px;color:#6b7280;flex:1;margin-bottom:6px;line-height:1.45;min-height:38px}
-.cardx .price{font-weight:800;color:#b42318;font-size:16px;margin-bottom:8px}
-.cardx .add-btn{border:none;background:linear-gradient(180deg,#0a3ea1,#001e7b);color:#fff;border-radius:50%;width:36px;height:36px;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;align-self:flex-end;box-shadow:0 6px 16px rgba(0,24,168,.25)}
+  /* Header */
+  .site-header{
+    background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
+    position:fixed;top:0;left:0;right:0;z-index:1055;height:70px;
+    box-shadow:0 2px 6px rgba(0,0,0,.05)
+  }
+  .site-header .wrap{
+    max-width:1400px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .site-header img.logo{height:56px;width:auto;display:block}
 
-/* Hàng hành động & nút từ 'loai' (bỏ icon quà) */
-.cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px }
-.cardx .btn-gift{
-  background:#fff; border:1px solid #cfe0ff; color:#0a3ea1;
-  font-weight:700; padding:8px 10px; border-radius:999px;
-  font-size:12px; line-height:1; display:inline-flex; align-items:center; gap:6px;
-  max-width:76%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-}
-.cardx .btn-gift::before{content:none!important} /* bỏ icon */
-.cardx .btn-gift:hover{ background:#0a3ea1; color:#fff; border-color:#0a3ea1 }
+  /* Search: kéo full */
+  .header-search{ flex:1 1 auto; max-width:100%; min-width:320px; }
+  @media (max-width: 992px){
+    .site-header .wrap{ justify-content:center }
+    .header-search{ flex:1 1 100%; max-width:100% }
+  }
+  .header-search .form-control{ font-size:13px;padding:6px 10px }
+  .header-search .form-control::placeholder{ font-size:13px; opacity:.75 }
+  .header-search .btn{ font-size:13px;padding:6px 12px; line-height:1.1 }
+  .header-search .input-group-text{background:#fff}
 
-/* NOTE nằm trên ID, nhỏ hơn */
-.cardx .note-line{
-  font-size:11px; font-weight:600; color:#555; margin-bottom:2px; line-height:1.2;
-}
+  /* Banner */
+  .top-banner{
+    background:var(--main)!important;color:#fff;text-align:center;padding:6px;font-weight:700;
+    position:sticky; top:70px; z-index:1054; border:0;
+  }
 
-/* Error box */
-#errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
+  /* Sidebar */
+  .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+  .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
-/* FABs */
-.cart-fab, .filter-fab{
-  position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:18px;
-  color:#fff; font-size:22px; line-height:54px; box-shadow:0 14px 34px rgba(0,0,0,.18); z-index:2500; cursor:pointer;
-  display:flex; align-items:center; justify-content:center; gap:4px;
-}
-.cart-fab{ background:#0018a8; bottom:84px }
-.filter-fab{ background:#6c757d; bottom:148px }
-.fab-badge{
-  position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700;
-}
+  /* Hero */
+  .hero{margin-bottom:15px}
+  .hero .carousel{border-radius:8px;overflow:hidden}
+  .hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
+  .hero .mini img{width:100%;height:145px;object-fit:cover;border-radius:8px}
+  .hero .main img{width:100%;height:300px;object-fit:cover;border-radius:8px}
 
-/* Offcanvas trên header */
-.offcanvas{ z-index: 2000; border-left:1px solid #edf0f6 }
-.offcanvas-backdrop{ z-index: 1990 }
-.offcanvas-backdrop.show{opacity:.35}
+  /* Danh mục */
+  .category-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+  .category-item{ text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s;border:1px solid #e9edf5;background:#fff }
+  .category-item:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.06)}
+  .category-item .icon{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#f1f4ff;margin-bottom:6px}
+  .category-item .icon img{width:28px;height:28px;object-fit:contain}
+  .category-item span{font-size:12.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .category-item.active{background:#e6f0ff;border:1px solid #007bff}
 
-/* Pager: gom phải */
-#pagerRow{display:flex;justify-content:flex-end;gap:.5rem}
-@media (min-width: 992px){ .cart-fab{ bottom:16px } .filter-fab{ bottom:80px } }
+  /* Card sản phẩm (UI only) */
+  .cardx{border:1px solid #edf0f6;border-radius:14px;background:#fff;overflow:hidden;transition:.2s;height:100%;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
+  .cardx img.thumb{width:100%;height:210px;object-fit:contain;background:#fafbfe;border-bottom:1px solid #eef1f6}
+  .cardx .meta{padding:12px;flex:1;display:flex;flex-direction:column;}
+  .cardx .note-badge{display:none} /* bỏ badge cũ trên ảnh */
+  .cardx .note-line{font-size:11px;font-weight:600;color:#555;margin-bottom:2px;line-height:1.2}
+  .cardx .id{font-weight:700;color:#0018a8;font-size:14px;margin-bottom:4px;text-decoration:none}
+  .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px;margin-bottom:6px;border:1px solid #dbe6ff}
+  .cardx .details{font-size:12.5px;color:#6b7280;flex:1;margin-bottom:6px;line-height:1.45;min-height:38px}
+  .cardx .price{font-weight:800;color:#b42318;font-size:16px;margin-bottom:8px}
+  .cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .cardx .btn-gift{
+    background:#fff;border:1px solid #cfe0ff;color:#0a3ea1;font-weight:700;
+    padding:8px 10px;border-radius:999px;font-size:12px;line-height:1;
+    max-width:76%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+  }
+  .cardx .btn-gift::before{content:none!important} /* bỏ icon quà */
+  .cardx .btn-gift:hover{background:#0a3ea1;color:#fff;border-color:#0a3ea1}
+  .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:36px;height:36px;font-size:20px;font-weight:800;display:flex;align-items:center;justify-content:center;align-self:flex-end}
 
-/* Footer */
-.site-footer{
-  background:#fff; border-top:1px solid #edf0f6; padding:18px 0 26px; margin-top:24px;
-}
-.site-footer .footer-card{
-  max-width:1400px; margin:0 auto; background:#ffffff; border:1px solid #edf0f6; border-radius:14px;
-  padding:16px 18px; box-shadow:0 6px 16px rgba(0,0,0,.05);
-  display:grid; grid-template-columns: 1.2fr 1fr; gap:16px;
-}
-.site-footer .footer-brand .fb-name{
-  font-weight:800; letter-spacing:.2px; color:#0a3ea1; font-size:16px; margin-bottom:4px; text-transform:uppercase;
-}
-.site-footer .footer-brand .fb-sub{ color:#667085; font-size:13px }
-.site-footer .footer-info{ font-size:13.5px; color:#1c1e21; line-height:1.6 }
-.site-footer a{ color:#0018a8; text-decoration:none }
-.site-footer a:hover{ text-decoration:underline }
-@media (max-width: 768px){ .site-footer .footer-card{ grid-template-columns: 1fr } }
-</style>
+  /* FABs */
+  .cart-fab,.filter-fab{
+    position:fixed;right:16px;width:54px;height:54px;border:none;border-radius:18px;
+    color:#fff;font-size:22px;line-height:54px;box-shadow:0 14px 34px rgba(0,0,0,.18);z-index:2500;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:4px
+  }
+  .cart-fab{ background:#0018a8; bottom:84px }
+  .filter-fab{ background:#6c757d; bottom:148px }
+  .fab-badge{position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;padding:2px 6px;font-size:12px;font-weight:700;display:none}
+
+  .offcanvas{ z-index:2000; border-left:1px solid #edf0f6 }
+  .offcanvas-backdrop{ z-index:1990; }
+
+  #pagerRow{display:flex;justify-content:flex-end;gap:.5rem}
+  @media (min-width: 992px){ .cart-fab{ bottom:16px } .filter-fab{ bottom:80px } }
+
+  /* Footer */
+  .site-footer{background:#fff;border-top:1px solid #edf0f6;padding:18px 0 26px;margin-top:24px}
+  .site-footer .footer-card{max-width:1400px;margin:0 auto;background:#ffffff;border:1px solid #edf0f6;border-radius:14px;padding:16px 18px;box-shadow:0 6px 16px rgba(0,0,0,.05)}
+  .site-footer .footer-card .line{font-size:13.5px;color:#1c1e21;line-height:1.6}
+  .site-footer a{color:#0018a8;text-decoration:none}
+  .site-footer a:hover{text-decoration:underline}
+  </style>
 </head>
 <body>
 
-<!-- Header (logo + SEARCH căn giữa) -->
+<!-- Header -->
 <header class="site-header">
   <div class="wrap">
-    <a href="/" class="d-flex align-items-center text-decoration-none" aria-label="Trang chủ 2606AI">
-      <img src="https://drive.google.com/thumbnail?id=1jXc4uRzVs6G9Tjryffg5tT98nFFeRF4Z" class="logo" alt="2606AI logo" width="160" height="56">
+    <a href="/" class="d-flex align-items-center text-decoration-none">
+      <img src="https://drive.google.com/thumbnail?id=1jXc4uRzVs6G9Tjryffg5tT98nFFeRF4Z" class="logo" alt="2606AI logo">
     </a>
-    <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;" role="search" aria-label="Tìm kiếm sản phẩm">
+    <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
       <div class="input-group">
         <span class="input-group-text">🔍</span>
-        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)" autocomplete="off">
+        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)">
       </div>
-      <button id="searchBtn" class="btn btn-primary" type="button">Tìm</button>
+      <button id="searchBtn" class="btn btn-primary">Tìm</button>
     </form>
   </div>
 </header>
 
-<!-- Thanh ưu đãi -->
+<!-- Banner -->
 <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
 
 <div class="container-fluid my-3">
@@ -273,20 +280,15 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 
 <!-- FABs -->
 <button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">🛒 <span id="cartFabCount" class="fab-badge" style="display:none"></span></button>
-<button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️ <span id="filterFabCount" class="fab-badge" style="display:none">0</span></button>
+<button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️ <span id="filterFabCount" class="fab-badge" style="display:none"></span></button>
 
 <!-- Footer -->
 <footer class="site-footer" role="contentinfo">
   <div class="container-fluid">
     <div class="footer-card">
-      <div class="footer-brand">
-        <div class="fb-name">HỘ KINH DOANH DỊCH VỤ MARKETING VINAGASE</div>
-        <div class="fb-sub">2606AI.vn – Thiết kế & sản xuất huy hiệu theo yêu cầu</div>
-      </div>
-      <div class="footer-info">
-        <div><strong>Địa chỉ:</strong> 103A/181A Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh</div>
-        <div><strong>Liên hệ:</strong> <a href="tel:0334131836">0334 131 836</a></div>
-      </div>
+      <div class="line"><strong>HỘ KINH DOANH DỊCH VỤ MARKETING VINAGASE</strong></div>
+      <div class="line">Địa chỉ: 103A/181A Nguyễn Thị Thập, Phường Tân Phú, Quận 7, TP. Hồ Chí Minh</div>
+      <div class="line">Liên hệ: <a href="tel:0334131836">0334 131 836</a></div>
     </div>
   </div>
 </footer>
@@ -307,9 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ====== API URL ====== */
 const API_URL="https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
 
-/* không tự mở giỏ khi thêm */
 const AUTO_OPEN_ON_ADD = false;
-
 const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'' };
 const cart = []; const products = {};
 
@@ -323,8 +323,6 @@ function badgeColor(txt){
   if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
   return "#555";
 }
-
-/* Lấy link đầu tiên từ imageClick */
 function firstLink(s){
   if(!s) return '';
   const parts = String(s).split(/[\s,;|\n]+/).filter(Boolean);
@@ -341,7 +339,6 @@ function productCardHtml(it){
   const giftLabel = (it.loai || 'Tư vấn').toString().trim();
 
   return `<div class="col"><div class="cardx">
-    <!-- note-badge bị bỏ, chuyển thành note-line trong meta -->
     <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
       <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}"
            width="600" height="210" loading="lazy" decoding="async"
@@ -448,13 +445,8 @@ function updateCart(){
   const count = cart.reduce((a,b)=>a+b.qty,0);
   const fabCount = document.getElementById('cartFabCount');
   if (fabCount) {
-    if (count > 0) {
-      fabCount.textContent = count;
-      fabCount.style.display = 'inline-block';
-    } else {
-      fabCount.style.display = 'none';
-      fabCount.textContent = '';
-    }
+    if (count > 0) { fabCount.textContent = count; fabCount.style.display = 'inline-block'; }
+    else { fabCount.style.display = 'none'; fabCount.textContent = ''; }
   }
 
   const list=document.getElementById('cartList'); let total=0;
