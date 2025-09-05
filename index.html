@@ -11,16 +11,16 @@
     .container-fluid{max-width:1400px;margin:auto}
     .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-weight:600}
     .site-header{background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
-      display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;height:70px;z-index:10}
+      display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;height:70px;z-index:10;box-shadow:0 2px 6px rgba(0,0,0,.05)}
     .brand-title{font-weight:800;color:var(--main)}
     .hero img{width:100%;height:300px;object-fit:cover;border-radius:8px}
-    .sidebar-box{background:#fff;border-radius:8px;padding:12px;margin-bottom:12px}
+    .sidebar-box{background:#fff;border-radius:8px;padding:12px;margin-bottom:12px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
     .category-item{padding:10px;border-radius:8px;text-align:center;background:#fff}
-    .cardx{background:#fff;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column}
+    .cardx{background:#fff;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column;position:relative}
     .cardx img.thumb{width:100%;height:180px;object-fit:cover}
     #cartSidebar{position:fixed;top:0;right:-400px;width:350px;height:100%;background:#fff;box-shadow:-3px 0 10px rgba(0,0,0,.2);transition:right .3s;z-index:20;padding:15px;overflow:auto}
     #cartSidebar.open{right:0}
-    /* Overlay chẩn đoán lỗi */
+    /* Error box hiện lỗi để tránh trắng trang */
     #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:9999;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
   </style>
 </head>
@@ -119,7 +119,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
   <script>
-  // ===== Hiển thị lỗi ra màn hình để tránh trắng trang =====
+  // ===== Hiển thị lỗi để tránh trắng trang =====
   (function(){
     const box = document.getElementById('errbox');
     function show(msg){
@@ -131,166 +131,162 @@
     window.addEventListener('unhandledrejection', e => show('Promise rejected: ' + (e.reason && e.reason.message ? e.reason.message : e.reason)));
   })();
 
-  // ===== App =====
-  const API_URL = "https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
+  // ===== App (chạy ngay) =====
+  document.addEventListener('DOMContentLoaded', () => {
+    const API_URL = "https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
 
-  const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'' };
-  const cart = []; const products = {};
+    const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'' };
+    const cart = []; const products = {};
 
-  const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
-  const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
-  function badgeColor(txt){
-    if(!txt) return "#555";
-    const t = txt.toLowerCase();
-    if(t.includes("mẫu")||t.includes("sample")) return "#4caf50";
-    if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800";
-    if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
-    return "#555";
-  }
-
-  function productCardHtml(it){
-    products[it.id]=it;
-    return `<div class="col"><div class="cardx">
-      ${it.note?`<span class="position-absolute badge text-bg-danger" style="left:8px;top:8px;background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
-      <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-      </a>
-      <div class="p-2 d-flex flex-column">
-        <div class="fw-semibold" style="color:#0018a8">${esc(it.id)}</div>
-        <div class="badge text-bg-light align-self-start mb-1">${esc(it.type||'')}</div>
-        <div class="text-muted small flex-grow-1">${esc(it.details||'')}</div>
-        <div class="fw-bold" style="color:#d32f2f">${fmtVND(it.price)}</div>
-        <button class="btn btn-sm btn-primary align-self-end mt-1" data-action="add" data-id="${esc(it.id)}">Thêm</button>
-      </div>
-    </div></div>`;
-  }
-
-  function render(res){
-    const grid=document.getElementById('productGrid');
-    if(!res||!res.items||res.items.length===0){
-      grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>';
-    }else{
-      grid.innerHTML=res.items.map(productCardHtml).join('');
-    }
-    const facets=res&&res.facets?res.facets:{};
-    buildCategory(facets.groups||[]);
-    buildFilterBox('typeBox',facets.types||[],'type');
-    buildFilterBox('loaiBox',facets.loais||[],'loai');
-    buildFilterBox('noteBox',facets.notes||[],'note');
-  }
-
-  function fetchPage(){
-    const params=new URLSearchParams({
-      action:'list',page:state.page,pageSize:state.pageSize,
-      q:state.q,group:state.group,type:state.type,loai:state.loai,note:state.note,category:state.category
-    });
-    fetch(API_URL+'?'+params.toString())
-      .then(r=>r.json())
-      .then(render)
-      .catch(err=>{ throw err; });
-  }
-
-  function buildCategory(items){
-    const grid=document.getElementById('categoryGrid');
-    grid.innerHTML=(items||[]).map(v=>`
-      <div class="col">
-        <div class="category-item" data-action="cat" data-val="${esc(v)}">${esc(v||'Khác')}</div>
-      </div>`).join('');
-  }
-  function buildFilterBox(boxId,items,field){
-    const box=document.getElementById(boxId);
-    box.innerHTML=(items||[]).map(v=>`
-      <button class="btn btn-sm btn-outline-secondary me-1 mb-1" data-action="flt" data-field="${field}" data-val="${esc(v)}">${esc(v)}</button>
-    `).join('');
-  }
-
-  // Cart
-  function updateCart(){
-    document.getElementById('cartCount').textContent = cart.reduce((a,b)=>a+b.qty,0);
-    const list=document.getElementById('cartList'); let total=0;
-    list.innerHTML=cart.map(it=>{
-      const sub=it.qty*(Number(it.price)||0); total+=sub;
-      return `<div class="d-flex align-items-center border-bottom py-2">
-        <img src="${esc(it.img)}" width="50" height="50" class="me-2" style="object-fit:cover">
-        <div class="flex-grow-1">
-          <div class="fw-semibold small">${esc(it.details||it.id)}</div>
-          <div class="small text-muted">${fmtVND(it.price)}</div>
-        </div>
-        <div class="d-flex align-items-center gap-1">
-          <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-d="-1">-</button>
-          <span>${it.qty}</span>
-          <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-d="1">+</button>
-        </div>
-        <div style="min-width:80px" class="text-end ms-2">${fmtVND(sub)}</div>
-        <button class="btn btn-sm btn-link text-danger" data-action="rm" data-id="${esc(it.id)}">&times;</button>
-      </div>`;
-    }).join('');
-    document.getElementById('cartTotal').textContent=fmtVND(total);
-  }
-  function openCart(){ document.getElementById('cartSidebar').classList.add('open'); }
-
-  // Submit order
-  function submitOrder(){
-    if(cart.length===0){ alert('Giỏ hàng trống!'); return; }
-    const name=document.getElementById('buyerName').value.trim();
-    const email=document.getElementById('buyerEmail').value.trim();
-    const phone=document.getElementById('buyerPhone').value.trim();
-    const address=document.getElementById('buyerAddress').value.trim();
-    const note=document.getElementById('buyerNote').value.trim();
-    if(!name||!email||!phone||!address){ alert('Vui lòng nhập đủ thông tin'); return; }
-    const order={
-      customer:{name,email,phone,address,note},
-      items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
-      total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+    const $ = id => document.getElementById(id);
+    const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
+    const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    const badgeColor = t=>{
+      if(!t) return "#555"; t = t.toLowerCase();
+      if(t.includes("mẫu")||t.includes("sample")) return "#4caf50";
+      if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800";
+      if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
+      return "#555";
     };
-    fetch(API_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({action:'order',email:'lehaidangem836@gmail.com',data:order})
-    }).then(r=>r.json()).then(res=>{
-      if(res && (res.ok || res.success)){ alert('Đã gửi đơn hàng!'); cart.length=0; updateCart(); }
-      else alert('Gửi đơn hàng thất bại');
-    }).catch(err=>{ throw err; });
-  }
 
-  // Events
-  document.addEventListener('click',e=>{
-    const el=e.target;
-
-    if(el.matches('#searchBtn')){
-      state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage();
+    function productCardHtml(it){
+      products[it.id]=it;
+      return `<div class="col"><div class="cardx">
+        ${it.note?`<span class="position-absolute badge text-bg-danger" style="left:8px;top:8px;background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
+        <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
+          <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        </a>
+        <div class="p-2 d-flex flex-column">
+          <div class="fw-semibold" style="color:#0018a8">${esc(it.id)}</div>
+          <div class="badge text-bg-light align-self-start mb-1">${esc(it.type||'')}</div>
+          <div class="text-muted small flex-grow-1">${esc(it.details||'')}</div>
+          <div class="fw-bold" style="color:#d32f2f">${fmtVND(it.price)}</div>
+          <button class="btn btn-sm btn-primary align-self-end mt-1" data-action="add" data-id="${esc(it.id)}">Thêm</button>
+        </div>
+      </div></div>`;
     }
-    if(el.matches('#prevBtn')){ if(state.page>1){state.page--; fetchPage();} }
-    if(el.matches('#nextBtn')){ state.page++; fetchPage(); }
 
-    if(el.matches('#cartBtn')) openCart();
-    if(el.matches('#clearCartBtn')){ if(confirm('Xoá toàn bộ giỏ?')){ cart.length=0; updateCart(); } }
-    if(el.matches('#submitOrderBtn')) submitOrder();
-
-    if(el.closest('[data-action="cat"]')){ state.group = el.closest('[data-action="cat"]').dataset.val || ''; state.page=1; fetchPage(); }
-    if(el.matches('[data-action="flt"]')){ state[el.dataset.field] = el.dataset.val || ''; state.page=1; fetchPage(); }
-
-    if(el.matches('[data-action="add"]')){ 
-      const id=el.dataset.id; const it=products[id];
-      if(it){ const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); openCart(); }
+    function render(res){
+      const grid = $('productGrid');
+      if(!res || !res.items || res.items.length===0){
+        grid.innerHTML = '<div class="text-muted">Không có sản phẩm.</div>';
+      } else {
+        grid.innerHTML = res.items.map(productCardHtml).join('');
+      }
+      const facets = res && res.facets ? res.facets : {};
+      buildCategory(facets.groups || []);
+      buildFilterBox('typeBox', facets.types || [], 'type');
+      buildFilterBox('loaiBox', facets.loais || [], 'loai');
+      buildFilterBox('noteBox', facets.notes || [], 'note');
     }
-    if(el.matches('[data-action="qty"]')){ 
-      const id=el.dataset.id, d=Number(el.dataset.d||0);
-      const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=d; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart();
-    }
-    if(el.matches('[data-action="rm"]')){ 
-      const id=el.dataset.id; const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart();
-    }
-  });
 
-  // Khởi chạy
-  (function boot(){
-    // demo factories
-    document.getElementById('factoryList').innerHTML =
-      ['Xưởng A','Xưởng B','Xưởng C'].map(n=>`<div>${n}</div>`).join('');
+    function fetchPage(){
+      const params = new URLSearchParams({
+        action:'list', page:state.page, pageSize:state.pageSize,
+        q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+      });
+      fetch(API_URL + '?' + params.toString())
+        .then(r => r.json())
+        .then(render)
+        .catch(err => { throw err; });
+    }
+
+    // Category & Filter builders (không dùng inline onclick để tránh vỡ cú pháp)
+    function buildCategory(items){
+      const grid = $('categoryGrid');
+      grid.innerHTML = (items||[]).map(v=>`
+        <div class="col">
+          <div class="category-item" data-action="cat" data-val="${esc(v)}">${esc(v||'Khác')}</div>
+        </div>`).join('');
+    }
+    function buildFilterBox(boxId, items, field){
+      const box = $(boxId);
+      box.innerHTML = (items||[]).map(v=>`
+        <button class="btn btn-sm btn-outline-secondary me-1 mb-1" data-action="flt" data-field="${field}" data-val="${esc(v)}">${esc(v)}</button>
+      `).join('');
+    }
+
+    // Cart
+    function updateCart(){
+      $('cartCount').textContent = cart.reduce((a,b)=>a+b.qty,0);
+      const list = $('cartList'); let total=0;
+      list.innerHTML = cart.map(it=>{
+        const sub=it.qty*(Number(it.price)||0); total+=sub;
+        return `<div class="d-flex align-items-center border-bottom py-2">
+          <img src="${esc(it.img)}" width="50" height="50" class="me-2" style="object-fit:cover">
+          <div class="flex-grow-1">
+            <div class="fw-semibold small">${esc(it.details||it.id)}</div>
+            <div class="small text-muted">${fmtVND(it.price)}</div>
+          </div>
+          <div class="d-flex align-items-center gap-1">
+            <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-d="-1">-</button>
+            <span>${it.qty}</span>
+            <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-d="1">+</button>
+          </div>
+          <div style="min-width:80px" class="text-end ms-2">${fmtVND(sub)}</div>
+          <button class="btn btn-sm btn-link text-danger" data-action="rm" data-id="${esc(it.id)}">&times;</button>
+        </div>`;
+      }).join('');
+      $('cartTotal').textContent = fmtVND(total);
+    }
+    function openCart(){ $('cartSidebar').classList.add('open'); }
+
+    function submitOrder(){
+      if(cart.length===0){ alert('Giỏ hàng trống!'); return; }
+      const name=$('buyerName').value.trim();
+      const email=$('buyerEmail').value.trim();
+      const phone=$('buyerPhone').value.trim();
+      const address=$('buyerAddress').value.trim();
+      const note=$('buyerNote').value.trim();
+      if(!name||!email||!phone||!address){ alert('Vui lòng nhập đủ thông tin'); return; }
+      const order={
+        customer:{name,email,phone,address,note},
+        items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
+        total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+      };
+      fetch(API_URL,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({action:'order',email:'lehaidangem836@gmail.com',data:order})
+      }).then(r=>r.json()).then(res=>{
+        if(res && (res.ok || res.success)){ alert('Đã gửi đơn hàng!'); cart.length=0; updateCart(); }
+        else alert('Gửi đơn hàng thất bại');
+      }).catch(err=>{ throw err; });
+    }
+
+    // Event delegation (1 listener cho toàn trang)
+    document.addEventListener('click', e=>{
+      const el=e.target;
+
+      if(el.matches('#searchBtn')){ state.q=$('searchBox').value.trim(); state.page=1; fetchPage(); }
+      if(el.matches('#prevBtn')){ if(state.page>1){ state.page--; fetchPage(); } }
+      if(el.matches('#nextBtn')){ state.page++; fetchPage(); }
+      if(el.matches('#cartBtn')) openCart();
+      if(el.matches('#clearCartBtn')){ if(confirm('Xoá toàn bộ giỏ?')){ cart.length=0; updateCart(); } }
+      if(el.matches('#submitOrderBtn')) submitOrder();
+
+      const cat = el.closest('[data-action="cat"]');
+      if(cat){ state.group = cat.dataset.val || ''; state.page=1; fetchPage(); }
+
+      if(el.matches('[data-action="flt"]')){ state[el.dataset.field] = el.dataset.val || ''; state.page=1; fetchPage(); }
+
+      if(el.matches('[data-action="add"]')){
+        const id=el.dataset.id; const it=products[id];
+        if(it){ const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); openCart(); }
+      }
+      if(el.matches('[data-action="qty"]')){ 
+        const id=el.dataset.id, d=Number(el.dataset.d||0);
+        const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=d; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart();
+      }
+      if(el.matches('[data-action="rm"]')){ 
+        const id=el.dataset.id; const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart();
+      }
+    });
+
+    // Demo factories + tải trang đầu
+    $('factoryList').innerHTML = ['Xưởng A','Xưởng B','Xưởng C'].map(n=>`<div>${n}</div>`).join('');
     fetchPage();
-  })();
+  });
   </script>
 </body>
 </html>
