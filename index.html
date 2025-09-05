@@ -1,267 +1,296 @@
-<script>
-/* ====== API URL của bạn ====== */
-const API_URL="https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2606AI Marketplace</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root{ --main:#0018a8; --bg:#f5f6fa; }
+    body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Be Vietnam Pro",sans-serif;background:var(--bg);font-size:14px;padding-top:70px}
+    .container-fluid{max-width:1400px;margin:auto}
+    .top-banner{background:#000;color:#fff;text-align:center;padding:6px;font-weight:600}
+    .site-header{background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
+      display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;height:70px;z-index:10}
+    .brand-title{font-weight:800;color:var(--main)}
+    .hero img{width:100%;height:300px;object-fit:cover;border-radius:8px}
+    .sidebar-box{background:#fff;border-radius:8px;padding:12px;margin-bottom:12px}
+    .category-item{padding:10px;border-radius:8px;text-align:center;background:#fff}
+    .cardx{background:#fff;border-radius:12px;box-shadow:0 2px 6px rgba(0,0,0,.08);overflow:hidden;display:flex;flex-direction:column}
+    .cardx img.thumb{width:100%;height:180px;object-fit:cover}
+    #cartSidebar{position:fixed;top:0;right:-400px;width:350px;height:100%;background:#fff;box-shadow:-3px 0 10px rgba(0,0,0,.2);transition:right .3s;z-index:20;padding:15px;overflow:auto}
+    #cartSidebar.open{right:0}
+    /* Overlay chẩn đoán lỗi */
+    #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:9999;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
+  </style>
+</head>
+<body>
+  <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
 
-const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'' };
-const cart = []; const products = {};
-
-const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
-const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-
-function badgeColor(txt){
-  if(!txt) return "#555";
-  const t = txt.toLowerCase();
-  if(t.includes("mẫu") || t.includes("sample")) return "#4caf50";
-  if(t.includes("giảm") || t.includes("sale") || t.includes("km")) return "#ff9800";
-  if(t.includes("gấp") || t.includes("urgent")) return "#d32f2f";
-  return "#555";
-}
-
-/* ===== Card sản phẩm: dùng data-id thay onclick ===== */
-function productCardHtml(it){
-  products[it.id] = it;
-  return `<div class="col"><div class="cardx">
-    ${it.note?`<span class="note-badge" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
-    <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
-      <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}"
-        onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-    </a>
-    <div class="meta">
-      <div class="id">${esc(it.id)}</div>
-      <div class="type-badge">${esc(it.type || '')}</div>
-      <div class="details">${esc(it.details || '')}</div>
-      <div class="price">${fmtVND(it.price)}</div>
-      <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}">+</button>
+  <div class="site-header">
+    <div class="d-flex align-items-center gap-2">
+      <img src="https://drive.google.com/uc?export=view&id=1jXc4uRzVs6G9Tjryffg5tT98nFFeRF4Z" alt="2606AI logo" style="height:45px">
+      <span class="brand-title">2606AI Marketplace</span>
     </div>
-  </div></div>`;
-}
+    <div class="d-flex gap-2">
+      <button id="filterBtn" class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#filterPanel">⚙️ Bộ lọc</button>
+      <button id="cartBtn" class="btn btn-outline-dark">🛒 Giỏ hàng <span id="cartCount">0</span></button>
+    </div>
+  </div>
 
-function render(res){
-  const grid = document.getElementById('productGrid');
-  if(!res || !res.items || res.items.length===0){
-    grid.innerHTML = '<div class="text-muted">Không có sản phẩm.</div>';
-  } else {
-    grid.innerHTML = res.items.map(it => productCardHtml(it)).join('');
-  }
+  <div class="container-fluid my-3">
+    <div class="row">
+      <div class="col-lg-3 col-md-4">
+        <div class="sidebar-box">
+          <h6 class="fw-bold">Quyền lợi</h6>
+          <ul class="small mb-0">
+            <li>⚡ Báo giá nhanh 24h</li>
+            <li>🎨 Thiết kế miễn phí</li>
+            <li>✅ QC 2 lớp</li>
+            <li>🚚 Giao hàng toàn quốc</li>
+          </ul>
+        </div>
+        <div class="sidebar-box">
+          <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
+          <div id="factoryList" class="small text-muted">Đang tải...</div>
+        </div>
+      </div>
 
-  const facets = res && res.facets ? res.facets : {};
-  buildCategory(facets.groups || []);
-  buildFilterBox('typeBox', facets.types || [], 'type');
-  buildFilterBox('loaiBox', facets.loais || [], 'loai');
-  buildFilterBox('noteBox', facets.notes || [], 'note');
-}
+      <div class="col-lg-9 col-md-8">
+        <div class="hero row g-2 mb-2">
+          <div class="col-md-8"><img src="https://picsum.photos/800/300?random=1" alt=""></div>
+          <div class="col-md-4 d-flex flex-column gap-2">
+            <img src="https://picsum.photos/400/145?random=2" alt="">
+            <img src="https://picsum.photos/400/145?random=3" alt="">
+          </div>
+        </div>
 
-function fetchPage(){
-  const params = new URLSearchParams({
-    action:'list',
-    page: state.page,
-    pageSize: state.pageSize,
-    q: state.q,
-    group: state.group,
-    type: state.type,
-    loai: state.loai,
-    note: state.note,
-    category: state.category
-  });
-  fetch(API_URL + '?' + params.toString())
-    .then(r => r.json())
-    .then(res => { render(res); })
-    .catch(err => {
-      console.error(err);
-      document.getElementById('productGrid').innerHTML =
-        '<div class="text-danger">Không tải được dữ liệu. Kiểm tra API_URL hoặc quyền truy cập Web App.</div>';
-    });
-}
+        <div class="p-2 bg-white rounded mb-3">
+          <h6 class="fw-bold mb-2">DANH MỤC SẢN PHẨM</h6>
+          <div id="categoryGrid" class="row row-cols-3 row-cols-md-6 g-2"></div>
+        </div>
 
-/* ===== Category: dùng data-val, không nhúng vào chuỗi JS ===== */
-function buildCategory(items){
-  const grid = document.getElementById("categoryGrid");
-  grid.innerHTML = (items||[]).map(val=>`
-    <div class="col">
-      <div class="category-item ${state.group===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
-        <img src="https://img.icons8.com/color/96/000000/category.png" alt="">
-        <span>${esc(val)}</span>
+        <div class="input-group mb-3">
+          <span class="input-group-text bg-primary text-white">🔍</span>
+          <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)">
+          <button id="searchBtn" class="btn btn-primary">Tìm</button>
+        </div>
+
+        <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
+
+        <div class="d-flex justify-content-between mt-2">
+          <button id="prevBtn" class="btn btn-outline-secondary">← Trước</button>
+          <button id="nextBtn" class="btn btn-outline-secondary">Sau →</button>
+        </div>
       </div>
     </div>
-  `).join('');
-}
-function selectCategory(val){
-  state.group = val; state.page = 1; fetchPage();
-  document.querySelectorAll('.category-item').forEach(el=>{
-    el.classList.toggle('active', el.dataset.val === val);
-  });
-}
+  </div>
 
-/* ===== Filter: cũng dùng data-attr thay onclick ===== */
-function buildFilterBox(boxId, items, field){
-  const box = document.getElementById(boxId);
-  box.innerHTML = (items||[]).map(val=>`
-    <button class="btn btn-sm ${state[field]===val?'btn-primary':'btn-outline-secondary'} me-1 mb-1"
-      data-action="set-filter" data-field="${field}" data-val="${esc(val)}">${esc(val)}</button>
-  `).join('');
-}
-function updateFilterCount(){
-  let count = 0;
-  if(state.type) count++;
-  if(state.loai) count++;
-  if(state.note) count++;
-  if(state.category) count++;
-  document.getElementById("filterBtn").innerText = `⚙️ Bộ lọc${count>0?' ('+count+')':''}`;
-}
+  <!-- Giỏ hàng -->
+  <div id="cartSidebar">
+    <h5>Giỏ hàng</h5>
+    <div id="cartList"></div>
+    <div class="d-flex justify-content-between fw-bold my-2"><span>Tổng cộng</span><span id="cartTotal">0 đ</span></div>
+    <button class="btn btn-danger w-100 mb-2" id="clearCartBtn">Xóa toàn bộ</button>
+    <div>
+      <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên">
+      <input id="buyerEmail" class="form-control mb-2" placeholder="Email">
+      <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại">
+      <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
+      <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
+      <button class="btn btn-success w-100" id="submitOrderBtn">Gửi đơn hàng</button>
+    </div>
+  </div>
 
-/* ===== Giỏ hàng ===== */
-function addToCartById(id){
-  const item = products[id];
-  if(item){
-    const found = cart.find(p=>p.id===id);
-    if(found) found.qty++;
-    else cart.push({...item, qty:1});
-    updateCart(); openCart();
-  }
-}
-function changeQty(id,delta){
-  const it = cart.find(p=>p.id===id); if(!it) return;
-  it.qty += delta; if(it.qty<=0) cart.splice(cart.indexOf(it),1);
-  updateCart();
-}
-function removeItem(id){
-  const idx = cart.findIndex(p=>p.id===id);
-  if(idx>=0) cart.splice(idx,1);
-  updateCart();
-}
-function clearCart(){
-  if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length = 0; updateCart(); }
-}
-function updateCart(){
-  document.getElementById('cartCount').innerText = cart.reduce((a,b)=>a+b.qty,0);
-  const list = document.getElementById('cartList');
-  let total = 0;
-  list.innerHTML = cart.map(it=>{
-    const sub = it.qty*(Number(it.price)||0); total += sub;
-    return `<div class="cart-item">
-      <img src="${esc(it.img)}" alt="">
-      <div class="cart-info">
-        <div class="cart-title">${esc(it.details||it.id)}</div>
-        <div>${fmtVND(it.price)}</div>
-      </div>
-      <div class="cart-actions">
-        <button class="qty-btn" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
-        <span>${it.qty}</span>
-        <button class="qty-btn" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
-      </div>
-      <div style="min-width:80px;text-align:right">${fmtVND(sub)}</div>
-      <button class="remove-btn" data-action="remove" data-id="${esc(it.id)}">&times;</button>
-    </div>`;
-  }).join('');
-  document.getElementById('cartTotal').innerText = fmtVND(total);
-}
+  <!-- Offcanvas Filter -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="filterPanel">
+    <div class="offcanvas-header">
+      <h5>Bộ lọc nâng cao</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+      <h6>TYPE</h6><div id="typeBox" class="mb-3"></div>
+      <h6>LOẠI SẢN PHẨM</h6><div id="loaiBox" class="mb-3"></div>
+      <h6>CHÚ Ý</h6><div id="noteBox" class="mb-3"></div>
+    </div>
+  </div>
 
-/* ===== Gửi đơn hàng ===== */
-function submitOrder(){
-  if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
-  const name = document.getElementById("buyerName").value.trim();
-  const email = document.getElementById("buyerEmail").value.trim();
-  const phone = document.getElementById("buyerPhone").value.trim();
-  const address = document.getElementById("buyerAddress").value.trim();
-  const note = document.getElementById("buyerNote").value.trim();
-  if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+  <div id="errbox"></div>
 
-  const order = {
-    customer:{name,email,phone,address,note},
-    items: cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({
-      id, details, type, price, qty, img, linkFull, group, loai, category, note
-    })),
-    total: cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
-  };
-
-  fetch(API_URL, {
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body: JSON.stringify({ action:"order", email:"lehaidangem836@gmail.com", data:order })
-  })
-  .then(r=>r.json())
-  .then(res=>{
-    if(res && (res.ok || res.success)){
-      alert("Đã gửi đơn hàng thành công! Chúng tôi sẽ liên hệ sớm.");
-      cart.length = 0; updateCart();
-    }else{
-      alert("Gửi đơn hàng thất bại. Vui lòng thử lại.");
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+  <script>
+  // ===== Hiển thị lỗi ra màn hình để tránh trắng trang =====
+  (function(){
+    const box = document.getElementById('errbox');
+    function show(msg){
+      box.style.display='block';
+      box.textContent = '[ERROR] ' + msg;
+      console.error(msg);
     }
-  })
-  .catch(()=>alert("Không thể gửi đơn hàng. Kiểm tra kết nối hoặc API_URL."));
-}
+    window.addEventListener('error', e => show(e.message + (e.filename?(' @ '+e.filename+':'+e.lineno):'')));
+    window.addEventListener('unhandledrejection', e => show('Promise rejected: ' + (e.reason && e.reason.message ? e.reason.message : e.reason)));
+  })();
 
-/* ===== Event delegation: gỡ hết onclick inline ===== */
-document.addEventListener('click', (e)=>{
-  const el = e.target;
+  // ===== App =====
+  const API_URL = "https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
 
-  // Add to cart
-  if(el.matches('[data-action="add-to-cart"]')){
-    addToCartById(el.dataset.id);
+  const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'' };
+  const cart = []; const products = {};
+
+  const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
+  const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  function badgeColor(txt){
+    if(!txt) return "#555";
+    const t = txt.toLowerCase();
+    if(t.includes("mẫu")||t.includes("sample")) return "#4caf50";
+    if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800";
+    if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
+    return "#555";
   }
 
-  // Category
-  if(el.closest('[data-action="select-category"]')){
-    const target = el.closest('[data-action="select-category"]');
-    selectCategory(target.dataset.val||'');
-  }
-
-  // Filter buttons
-  if(el.matches('[data-action="set-filter"]')){
-    const field = el.dataset.field;
-    const val = el.dataset.val||'';
-    state[field] = val; state.page=1; fetchPage(); updateFilterCount();
-  }
-
-  // Qty change
-  if(el.matches('[data-action="qty"]')){
-    changeQty(el.dataset.id, Number(el.dataset.delta||0));
-  }
-
-  // Remove item
-  if(el.matches('[data-action="remove"]')){
-    removeItem(el.dataset.id);
-  }
-});
-
-/* ===== Cart toggle ===== */
-function openCart(){ document.getElementById('cartSidebar').classList.add('open'); }
-function closeCart(){ document.getElementById('cartSidebar').classList.remove('open'); }
-
-/* ===== Search & paging ===== */
-document.getElementById('searchBtn').addEventListener('click', ()=>{
-  state.q = document.getElementById('searchBox').value.trim();
-  state.page = 1; fetchPage();
-});
-document.getElementById('searchBox').addEventListener('keydown', (e)=>{
-  if(e.key==='Enter') document.getElementById('searchBtn').click();
-});
-document.getElementById('prevBtn').addEventListener('click', ()=>{
-  if(state.page>1){ state.page--; fetchPage(); }
-});
-document.getElementById('nextBtn').addEventListener('click', ()=>{
-  state.page++; fetchPage();
-});
-document.getElementById('cartBtn').addEventListener('click', openCart);
-
-/* ===== Khởi động ===== */
-function loadFactories(){
-  const holder = document.getElementById('factoryList');
-  const demo = [
-    {name:'Xưởng A',desc:'Chuyên huy hiệu, mạ vàng',url:'#'},
-    {name:'Xưởng B',desc:'In UV, số lượng lớn',url:'#'},
-    {name:'Xưởng C',desc:'Ép khuôn, men mềm',url:'#'}
-  ];
-  holder.innerHTML = demo.map(x=>`
-    <div class="d-flex align-items-start gap-2 mb-2">
-      <img src="https://picsum.photos/seed/${encodeURIComponent(x.name)}/56/56" width="56" height="56" class="rounded" alt="">
-      <div>
-        <div class="fw-bold">${esc(x.name)}</div>
-        <div class="small text-muted">${esc(x.desc)}</div>
-        <a href="${esc(x.url)}" class="small">Xem chi tiết</a>
+  function productCardHtml(it){
+    products[it.id]=it;
+    return `<div class="col"><div class="cardx">
+      ${it.note?`<span class="position-absolute badge text-bg-danger" style="left:8px;top:8px;background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
+      <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
+        <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+      </a>
+      <div class="p-2 d-flex flex-column">
+        <div class="fw-semibold" style="color:#0018a8">${esc(it.id)}</div>
+        <div class="badge text-bg-light align-self-start mb-1">${esc(it.type||'')}</div>
+        <div class="text-muted small flex-grow-1">${esc(it.details||'')}</div>
+        <div class="fw-bold" style="color:#d32f2f">${fmtVND(it.price)}</div>
+        <button class="btn btn-sm btn-primary align-self-end mt-1" data-action="add" data-id="${esc(it.id)}">Thêm</button>
       </div>
-    </div>`).join('');
-}
-loadFactories();
-fetchPage();
-</script>
+    </div></div>`;
+  }
+
+  function render(res){
+    const grid=document.getElementById('productGrid');
+    if(!res||!res.items||res.items.length===0){
+      grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>';
+    }else{
+      grid.innerHTML=res.items.map(productCardHtml).join('');
+    }
+    const facets=res&&res.facets?res.facets:{};
+    buildCategory(facets.groups||[]);
+    buildFilterBox('typeBox',facets.types||[],'type');
+    buildFilterBox('loaiBox',facets.loais||[],'loai');
+    buildFilterBox('noteBox',facets.notes||[],'note');
+  }
+
+  function fetchPage(){
+    const params=new URLSearchParams({
+      action:'list',page:state.page,pageSize:state.pageSize,
+      q:state.q,group:state.group,type:state.type,loai:state.loai,note:state.note,category:state.category
+    });
+    fetch(API_URL+'?'+params.toString())
+      .then(r=>r.json())
+      .then(render)
+      .catch(err=>{ throw err; });
+  }
+
+  function buildCategory(items){
+    const grid=document.getElementById('categoryGrid');
+    grid.innerHTML=(items||[]).map(v=>`
+      <div class="col">
+        <div class="category-item" data-action="cat" data-val="${esc(v)}">${esc(v||'Khác')}</div>
+      </div>`).join('');
+  }
+  function buildFilterBox(boxId,items,field){
+    const box=document.getElementById(boxId);
+    box.innerHTML=(items||[]).map(v=>`
+      <button class="btn btn-sm btn-outline-secondary me-1 mb-1" data-action="flt" data-field="${field}" data-val="${esc(v)}">${esc(v)}</button>
+    `).join('');
+  }
+
+  // Cart
+  function updateCart(){
+    document.getElementById('cartCount').textContent = cart.reduce((a,b)=>a+b.qty,0);
+    const list=document.getElementById('cartList'); let total=0;
+    list.innerHTML=cart.map(it=>{
+      const sub=it.qty*(Number(it.price)||0); total+=sub;
+      return `<div class="d-flex align-items-center border-bottom py-2">
+        <img src="${esc(it.img)}" width="50" height="50" class="me-2" style="object-fit:cover">
+        <div class="flex-grow-1">
+          <div class="fw-semibold small">${esc(it.details||it.id)}</div>
+          <div class="small text-muted">${fmtVND(it.price)}</div>
+        </div>
+        <div class="d-flex align-items-center gap-1">
+          <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-d="-1">-</button>
+          <span>${it.qty}</span>
+          <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-d="1">+</button>
+        </div>
+        <div style="min-width:80px" class="text-end ms-2">${fmtVND(sub)}</div>
+        <button class="btn btn-sm btn-link text-danger" data-action="rm" data-id="${esc(it.id)}">&times;</button>
+      </div>`;
+    }).join('');
+    document.getElementById('cartTotal').textContent=fmtVND(total);
+  }
+  function openCart(){ document.getElementById('cartSidebar').classList.add('open'); }
+
+  // Submit order
+  function submitOrder(){
+    if(cart.length===0){ alert('Giỏ hàng trống!'); return; }
+    const name=document.getElementById('buyerName').value.trim();
+    const email=document.getElementById('buyerEmail').value.trim();
+    const phone=document.getElementById('buyerPhone').value.trim();
+    const address=document.getElementById('buyerAddress').value.trim();
+    const note=document.getElementById('buyerNote').value.trim();
+    if(!name||!email||!phone||!address){ alert('Vui lòng nhập đủ thông tin'); return; }
+    const order={
+      customer:{name,email,phone,address,note},
+      items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
+      total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+    };
+    fetch(API_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({action:'order',email:'lehaidangem836@gmail.com',data:order})
+    }).then(r=>r.json()).then(res=>{
+      if(res && (res.ok || res.success)){ alert('Đã gửi đơn hàng!'); cart.length=0; updateCart(); }
+      else alert('Gửi đơn hàng thất bại');
+    }).catch(err=>{ throw err; });
+  }
+
+  // Events
+  document.addEventListener('click',e=>{
+    const el=e.target;
+
+    if(el.matches('#searchBtn')){
+      state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage();
+    }
+    if(el.matches('#prevBtn')){ if(state.page>1){state.page--; fetchPage();} }
+    if(el.matches('#nextBtn')){ state.page++; fetchPage(); }
+
+    if(el.matches('#cartBtn')) openCart();
+    if(el.matches('#clearCartBtn')){ if(confirm('Xoá toàn bộ giỏ?')){ cart.length=0; updateCart(); } }
+    if(el.matches('#submitOrderBtn')) submitOrder();
+
+    if(el.closest('[data-action="cat"]')){ state.group = el.closest('[data-action="cat"]').dataset.val || ''; state.page=1; fetchPage(); }
+    if(el.matches('[data-action="flt"]')){ state[el.dataset.field] = el.dataset.val || ''; state.page=1; fetchPage(); }
+
+    if(el.matches('[data-action="add"]')){ 
+      const id=el.dataset.id; const it=products[id];
+      if(it){ const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); openCart(); }
+    }
+    if(el.matches('[data-action="qty"]')){ 
+      const id=el.dataset.id, d=Number(el.dataset.d||0);
+      const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=d; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart();
+    }
+    if(el.matches('[data-action="rm"]')){ 
+      const id=el.dataset.id; const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart();
+    }
+  });
+
+  // Khởi chạy
+  (function boot(){
+    // demo factories
+    document.getElementById('factoryList').innerHTML =
+      ['Xưởng A','Xưởng B','Xưởng C'].map(n=>`<div>${n}</div>`).join('');
+    fetchPage();
+  })();
+  </script>
+</body>
+</html>
