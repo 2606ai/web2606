@@ -446,12 +446,18 @@ document.addEventListener('click', (e)=>{
   if(el.matches('#submitOrderBtn')) submitOrder();
 });
 
-/* ===== FAB bindings ===== */
-document.getElementById('cartFab').addEventListener('click', toggleCart);
-document.getElementById('filterFab').addEventListener('click', ()=>{
-  const offcanvas = new bootstrap.Offcanvas('#filterPanel');
-  offcanvas.show();
+// Tạo 1 instance duy nhất cho Offcanvas bộ lọc
+const filterPanelEl = document.getElementById('filterPanel');
+const filterOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(filterPanelEl, {
+  backdrop: true,  // backdrop của Bootstrap
+  scroll: false
 });
+
+// Click FAB thì toggle, KHÔNG tạo instance mới
+document.getElementById('filterFab').addEventListener('click', () => {
+  filterOffcanvas.toggle();
+});
+
 
 /* ===== Demo factories + load ===== */
 document.getElementById('factoryList').innerHTML =
