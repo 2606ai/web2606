@@ -3,13 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2606AI</title>
+<title>2606AI - Huy hiệu theo thiết kế, báo giá nhanh</title>
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&display=swap" rel="stylesheet">
+
+<!-- SEO basics -->
+<link rel="canonical" href="https://2606ai.vn/">
+<meta name="description" content="2606AI - Sản xuất huy hiệu, badge, móc khóa theo thiết kế. Báo giá 24h, thiết kế miễn phí, QC 2 lớp, giao hàng toàn quốc.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<meta name="theme-color" content="#0018a8">
+
+<!-- Open Graph / Social -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="2606AI">
+<meta property="og:title" content="2606AI - Huy hiệu theo thiết kế, báo giá nhanh">
+<meta property="og:description" content="Thiết kế miễn phí, QC 2 lớp, giao hàng toàn quốc.">
+<meta property="og:url" content="https://2606ai.vn/">
+<meta property="og:image" content="https://2606ai.vn/og-cover.jpg">
+<meta property="og:image:alt" content="2606AI - Huy hiệu theo thiết kế">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Hiệu năng -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//img.icons8.com">
+
+<!-- Preload hero ảnh đầu (giảm LCP) -->
+<link rel="preload" as="image"
+      href="https://picsum.photos/1200/300?random=11"
+      imagesrcset="https://picsum.photos/800/200?random=11 800w, https://picsum.photos/1200/300?random=11 1200w"
+      imagesizes="(min-width:992px) 800px, 100vw">
+
+<!-- JSON-LD: Organization + WebSite(SearchAction) -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"2606AI",
+  "url":"https://2606ai.vn/",
+  "logo":"https://2606ai.vn/logo.png",
+  "sameAs":[]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "url":"https://2606ai.vn/",
+  "name":"2606AI",
+  "potentialAction":{
+    "@type":"SearchAction",
+    "target":"https://2606ai.vn/?q={search_term_string}",
+    "query-input":"required name=search_term_string"
+  }
+}
+</script>
+
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px;padding-top:70px}
-.container-fluid{max-width:1400px;margin:auto;}
+.container-fluid{max-width:1400px;margin:auto}
 
 /* Thanh ưu đãi: xanh + sticky ngay dưới header */
 .top-banner{
@@ -30,20 +84,14 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 .site-header img.logo{height:56px;width:auto;display:block}
 
 /* Thu gọn thanh tìm kiếm + chữ nhỏ lại */
-.header-search{
-  flex: 0 1 680px;
-  max-width: 680px;
-  min-width: 320px;
-}
+.header-search{ flex:0 1 680px; max-width:680px; min-width:320px }
 @media (max-width: 992px){
-  .site-header .wrap{ justify-content:center; }
-  .header-search{ flex:1 1 100%; max-width:100%; }
+  .site-header .wrap{ justify-content:center }
+  .header-search{ flex:1 1 100%; max-width:100% }
 }
-.header-search .form-control{
-  font-size:13px;padding:6px 10px;
-}
-.header-search .form-control::placeholder{ font-size:13px; opacity:.75; }
-.header-search .btn{ font-size:13px;padding:6px 12px; line-height:1.1; }
+.header-search .form-control{ font-size:13px;padding:6px 10px }
+.header-search .form-control::placeholder{ font-size:13px; opacity:.75 }
+.header-search .btn{ font-size:13px;padding:6px 12px; line-height:1.1 }
 .header-search .input-group-text{background:#fff}
 
 /* Sidebar */
@@ -80,14 +128,14 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;align-self:flex-end}
 
 /* Hàng hành động & nút lấy từ 'loai' */
-.cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px }
 .cardx .btn-gift{
   background:#fff; border:1px solid var(--main); color:var(--main);
   font-weight:700; padding:6px 10px; border-radius:999px;
   font-size:12px; line-height:1; display:inline-flex; align-items:center; gap:6px;
   max-width:70%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
-.cardx .btn-gift:hover{ background:var(--main); color:#fff; }
+.cardx .btn-gift:hover{ background:var(--main); color:#fff }
 
 /* Error box */
 #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
@@ -98,35 +146,72 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
   color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:2500; cursor:pointer;
   display:flex; align-items:center; justify-content:center; gap:4px;
 }
-.cart-fab{ background:#0018a8; bottom:84px; }
-.filter-fab{ background:#6c757d; bottom:148px; }
+.cart-fab{ background:#0018a8; bottom:84px }
+.filter-fab{ background:#6c757d; bottom:148px }
 .fab-badge{
   position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700;
 }
 
 /* Offcanvas trên header */
-.offcanvas{ z-index: 2000; }
-.offcanvas-backdrop{ z-index: 1990; }
+.offcanvas{ z-index: 2000 }
+.offcanvas-backdrop{ z-index: 1990 }
 
 /* Pager: gom phải */
 #pagerRow{display:flex;justify-content:flex-end;gap:.5rem}
-@media (min-width: 992px){ .cart-fab{ bottom:16px; } .filter-fab{ bottom:80px; } }
+@media (min-width: 992px){ .cart-fab{ bottom:16px } .filter-fab{ bottom:80px } }
+
+/* ==== THEME: Neo-Minimal B2B (lightweight overrides) =========== */
+:root{
+  --text:#1c1e21; --muted:#667085; --card:#ffffff; --line:#eceff3; --ring:#dbe4ff;
+  --r:14px; --r-lg:18px; --sd:0 6px 18px rgba(0,0,0,.06); --sdh:0 12px 28px rgba(0,0,0,.10);
+}
+body{ color:var(--text); letter-spacing:.1px }
+.site-header{ box-shadow:0 4px 14px rgba(0,0,0,.06); height:72px }
+.top-banner{ font-size:13px; letter-spacing:.3px }
+.category-box, .sidebar-box{ border:1px solid var(--line); border-radius:var(--r) }
+.category-item{ border:1px solid transparent; transition:transform .15s, box-shadow .15s, border-color .15s }
+.category-item:hover{ transform:translateY(-2px); box-shadow:var(--sd); border-color:#e6eeff }
+.category-item.active{ background:#eef4ff; border-color:#cfe0ff }
+.cardx{
+  border-radius:var(--r-lg); background:var(--card); box-shadow:var(--sd);
+  transition:transform .18s, box-shadow .18s; border:1px solid var(--line)
+}
+.cardx:hover{ transform:translateY(-4px); box-shadow:var(--sdh) }
+.cardx img.thumb{
+  height:210px; object-fit:contain; background:#f7f8fc; border-bottom:1px solid var(--line)
+}
+.cardx .id{ font-weight:700; color:var(--main); font-size:14px }
+.cardx .details{ color:var(--muted); font-size:12.5px; line-height:1.5 }
+.cardx .type-badge{ background:#eef4ff; color:#0a3ea1; border:1px solid #dbe6ff; font-weight:700 }
+.cardx .price{ color:#b42318; font-size:16px; letter-spacing:.2px }
+.cardx .btn-gift{ border-color:#cfe0ff; color:#0a3ea1; background:#fff; padding:8px 10px; font-weight:700; max-width:75% }
+.cardx .btn-gift:hover{ background:#0a3ea1; color:#fff; border-color:#0a3ea1 }
+.add-btn{ width:36px; height:36px; font-size:20px; font-weight:800; background:linear-gradient(180deg,#0a3ea1,#001e7b); box-shadow:0 6px 16px rgba(0,24,168,.25) }
+#statsBar .badge{ font-size:12px; padding:6px 10px; border:1px solid #dbe4ff }
+.cart-fab, .filter-fab{ width:52px; height:52px; border-radius:18px; line-height:52px; box-shadow:0 14px 34px rgba(0,0,0,.18) }
+.fab-badge{ box-shadow:0 4px 10px rgba(0,0,0,.20) }
+:focus-visible{ outline:2px solid var(--ring); outline-offset:2px; border-radius:10px }
+#pagerRow .btn{ padding:6px 12px; border-radius:999px }
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important }
+}
 </style>
 </head>
 <body>
 
 <!-- Header (logo + SEARCH căn giữa) -->
-<header class="site-header">
+<header class="site-header" role="banner">
   <div class="wrap">
-    <a href="/" class="d-flex align-items-center text-decoration-none">
-      <img src="https://drive.google.com/thumbnail?id=1jXc4uRzVs6G9Tjryffg5tT98nFFeRF4Z" class="logo" alt="2606AI logo">
+    <a href="/" class="d-flex align-items-center text-decoration-none" aria-label="Trang chủ 2606AI">
+      <img src="https://drive.google.com/thumbnail?id=1jXc4uRzVs6G9Tjryffg5tT98nFFeRF4Z"
+           class="logo" alt="Logo 2606AI" width="160" height="56" loading="eager" decoding="async">
     </a>
-    <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
+    <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false" role="search" aria-label="Tìm kiếm sản phẩm">
       <div class="input-group">
-        <span class="input-group-text">🔍</span>
-        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)">
+        <span class="input-group-text" aria-hidden="true">🔍</span>
+        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)" autocomplete="off">
       </div>
-      <button id="searchBtn" class="btn btn-primary">Tìm</button>
+      <button id="searchBtn" class="btn btn-primary" type="button">Tìm</button>
     </form>
   </div>
 </header>
@@ -134,121 +219,142 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 <!-- Thanh ưu đãi -->
 <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
 
-<div class="container-fluid my-3">
-  <div class="row">
-    <!-- Sidebar -->
-    <div class="col-lg-3 col-md-4">
-      <div class="sidebar-box">
-        <h6 class="fw-bold">Quyền lợi</h6>
-        <ul class="small mb-0">
-          <li>⚡ Báo giá nhanh 24h</li>
-          <li>🎨 Thiết kế miễn phí</li>
-          <li>✅ QC 2 lớp</li>
-          <li>🚚 Giao hàng toàn quốc</li>
-        </ul>
-      </div>
-      <div class="sidebar-box">
-        <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
-        <div id="factoryList"></div>
-      </div>
-    </div>
+<h1 class="visually-hidden">2606AI - Huy hiệu theo thiết kế, báo giá nhanh</h1>
+<main id="maincontent" tabindex="-1">
+  <div class="container-fluid my-3">
+    <div class="row">
+      <!-- Sidebar -->
+      <aside class="col-lg-3 col-md-4" aria-label="Thông tin và xưởng đề xuất">
+        <div class="sidebar-box">
+          <h2 class="fw-bold fs-6 mb-2">Quyền lợi</h2>
+          <ul class="small mb-0">
+            <li>⚡ Báo giá nhanh 24h</li>
+            <li>🎨 Thiết kế miễn phí</li>
+            <li>✅ QC 2 lớp</li>
+            <li>🚚 Giao hàng toàn quốc</li>
+          </ul>
+        </div>
+        <div class="sidebar-box">
+          <h2 class="fw-bold fs-6 mb-2">Xưởng đề xuất</h2>
+          <div id="factoryList"></div>
+        </div>
+      </aside>
 
-    <!-- Content -->
-    <div class="col-lg-9 col-md-8">
-      <!-- HERO -->
-      <div class="hero row g-2">
-        <div class="col-md-8 main">
-          <div id="heroMain" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#heroMain" data-bs-slide-to="0" class="active"></button>
-              <button type="button" data-bs-target="#heroMain" data-bs-slide-to="1"></button>
-              <button type="button" data-bs-target="#heroMain" data-bs-slide-to="2"></button>
+      <!-- Content -->
+      <section class="col-lg-9 col-md-8">
+        <!-- HERO -->
+        <div class="hero row g-2">
+          <div class="col-md-8 main">
+            <div id="heroMain" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000" aria-label="Khung ảnh nổi bật">
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroMain" data-bs-slide-to="0" class="active" aria-label="Ảnh 1"></button>
+                <button type="button" data-bs-target="#heroMain" data-bs-slide-to="1" aria-label="Ảnh 2"></button>
+                <button type="button" data-bs-target="#heroMain" data-bs-slide-to="2" aria-label="Ảnh 3"></button>
+              </div>
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img class="d-block w-100"
+                       src="https://picsum.photos/1200/300?random=11"
+                       srcset="https://picsum.photos/800/200?random=11 800w, https://picsum.photos/1200/300?random=11 1200w"
+                       sizes="(min-width: 992px) 800px, 100vw"
+                       alt="Sản xuất huy hiệu theo thiết kế - ảnh 1"
+                       width="1200" height="300"
+                       loading="eager" fetchpriority="high" decoding="async">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="https://picsum.photos/1200/300?random=12"
+                       alt="Sản xuất huy hiệu theo thiết kế - ảnh 2"
+                       width="1200" height="300"
+                       loading="lazy" decoding="async">
+                </div>
+                <div class="carousel-item">
+                  <img class="d-block w-100" src="https://picsum.photos/1200/300?random=13"
+                       alt="Sản xuất huy hiệu theo thiết kế - ảnh 3"
+                       width="1200" height="300"
+                       loading="lazy" decoding="async">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#heroMain" data-bs-slide="prev" aria-label="Ảnh trước"><span class="carousel-control-prev-icon"></span></button>
+              <button class="carousel-control-next" type="button" data-bs-target="#heroMain" data-bs-slide="next" aria-label="Ảnh sau"><span class="carousel-control-next-icon"></span></button>
             </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active"><img class="d-block w-100" src="https://picsum.photos/1200/300?random=11" alt=""></div>
-              <div class="carousel-item"><img class="d-block w-100" src="https://picsum.photos/1200/300?random=12" alt=""></div>
-              <div class="carousel-item"><img class="d-block w-100" src="https://picsum.photos/1200/300?random=13" alt=""></div>
+          </div>
+          <div class="col-md-4 d-flex flex-column gap-2 mini">
+            <div id="heroRight1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+              <div class="carousel-inner">
+                <div class="carousel-item active"><img src="https://picsum.photos/600/145?random=21" class="d-block w-100" alt="Banner phụ 1" width="600" height="145" loading="lazy" decoding="async"></div>
+                <div class="carousel-item"><img src="https://picsum.photos/600/145?random=22" class="d-block w-100" alt="Banner phụ 2" width="600" height="145" loading="lazy" decoding="async"></div>
+              </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroMain" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroMain" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+            <div id="heroRight2" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4200">
+              <div class="carousel-inner">
+                <div class="carousel-item active"><img src="https://picsum.photos/600/145?random=23" class="d-block w-100" alt="Banner phụ 3" width="600" height="145" loading="lazy" decoding="async"></div>
+                <div class="carousel-item"><img src="https://picsum.photos/600/145?random=24" class="d-block w-100" alt="Banner phụ 4" width="600" height="145" loading="lazy" decoding="async"></div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-md-4 d-flex flex-column gap-2 mini">
-          <div id="heroRight1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
-            <div class="carousel-inner">
-              <div class="carousel-item active"><img src="https://picsum.photos/600/145?random=21" class="d-block w-100" alt=""></div>
-              <div class="carousel-item"><img src="https://picsum.photos/600/145?random=22" class="d-block w-100" alt=""></div>
-            </div>
-          </div>
-          <div id="heroRight2" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4200">
-            <div class="carousel-inner">
-              <div class="carousel-item active"><img src="https://picsum.photos/600/145?random=23" class="d-block w-100" alt=""></div>
-              <div class="carousel-item"><img src="https://picsum.photos/600/145?random=24" class="d-block w-100" alt=""></div>
-            </div>
+
+        <!-- Danh mục -->
+        <div class="category-box mb-3">
+          <h2 class="fw-bold fs-6 mb-2">DANH MỤC SẢN PHẨM</h2>
+          <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
+        </div>
+
+        <!-- Thống kê -->
+        <div id="statsBar" class="mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fw-semibold">TỔNG SỐ SẢN PHẨM TÌM THẤY:</span>
+            <span id="totalCount" class="badge text-bg-primary">0</span>
           </div>
         </div>
-      </div>
 
-      <!-- Danh mục -->
-      <div class="category-box mb-3">
-        <h6 class="fw-bold mb-2">DANH MỤC SẢN PHẨM</h6>
-        <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
-      </div>
+        <!-- Grid -->
+        <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
 
-      <!-- Thống kê -->
-      <div id="statsBar" class="mb-3">
-        <div class="d-flex align-items-center gap-2">
-          <span class="fw-semibold">TỔNG SỐ SẢN PHẨM TÌM THẤY:</span>
-          <span id="totalCount" class="badge text-bg-primary">0</span>
+        <!-- Pagination -->
+        <div id="pagerRow" class="mt-2" aria-label="Điều hướng trang">
+          <button id="prevBtn" class="btn btn-outline-secondary" type="button">← Trước</button>
+          <button id="nextBtn" class="btn btn-outline-secondary" type="button">Sau →</button>
         </div>
-      </div>
-
-      <!-- Grid -->
-      <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
-
-      <!-- Pagination -->
-      <div id="pagerRow" class="mt-2">
-        <button id="prevBtn" class="btn btn-outline-secondary">← Trước</button>
-        <button id="nextBtn" class="btn btn-outline-secondary">Sau →</button>
-      </div>
+      </section>
     </div>
   </div>
-</div>
+</main>
 
 <!-- Offcanvas: Giỏ hàng -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas" aria-labelledby="cartCanvasLabel">
   <div class="offcanvas-header">
-    <h5 id="cartCanvasLabel" class="mb-0">Giỏ hàng</h5>
-    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <h2 id="cartCanvasLabel" class="fw-bold fs-6 mb-0">Giỏ hàng</h2>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
   </div>
   <div class="offcanvas-body">
     <div id="cartList"></div>
     <div class="d-flex justify-content-between align-items-center py-2 fw-bold">
       <span>Tổng cộng</span><span id="cartTotal">0 đ</span>
     </div>
-    <button class="btn btn-danger w-100 mb-2" id="clearCartBtn">Xóa toàn bộ</button>
-    <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên">
-    <input id="buyerEmail" class="form-control mb-2" placeholder="Email">
-    <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại">
-    <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
+    <button class="btn btn-danger w-100 mb-2" id="clearCartBtn" type="button">Xóa toàn bộ</button>
+    <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên" autocomplete="name">
+    <input id="buyerEmail" class="form-control mb-2" placeholder="Email" autocomplete="email" inputmode="email">
+    <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại" autocomplete="tel" inputmode="tel">
+    <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng" autocomplete="street-address">
     <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
-    <button class="btn btn-success w-100" id="submitOrderBtn">Gửi đơn hàng</button>
+    <button class="btn btn-success w-100" id="submitOrderBtn" type="button">Gửi đơn hàng</button>
   </div>
 </div>
 
 <!-- Offcanvas: Bộ lọc -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="filterPanel" aria-labelledby="filterPanelLabel">
   <div class="offcanvas-header">
-    <h5 id="filterPanelLabel" class="mb-0">Bộ lọc nâng cao</h5>
+    <h2 id="filterPanelLabel" class="fw-bold fs-6 mb-0">Bộ lọc nâng cao</h2>
     <div class="d-flex gap-2">
       <button type="button" class="btn btn-outline-danger btn-sm" id="clearFiltersBtn">Xóa bộ lọc</button>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Đóng"></button>
     </div>
   </div>
   <div class="offcanvas-body">
-    <h6>TYPE</h6><div id="typeBox" class="mb-3"></div>
-    <h6>LOẠI SẢN PHẨM</h6><div id="loaiBox" class="mb-3"></div>
-    <h6>CHÚ Ý</h6><div id="noteBox" class="mb-3"></div>
+    <h3 class="fw-bold fs-6">TYPE</h3><div id="typeBox" class="mb-3"></div>
+    <h3 class="fw-bold fs-6">LOẠI SẢN PHẨM</h3><div id="loaiBox" class="mb-3"></div>
+    <h3 class="fw-bold fs-6">CHÚ Ý</h3><div id="noteBox" class="mb-3"></div>
   </div>
 </div>
 
@@ -256,14 +362,14 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 <button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">🛒 <span id="cartFabCount" class="fab-badge">0</span></button>
 <button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️ <span id="filterFabCount" class="fab-badge" style="display:none">0</span></button>
 
-<div id="errbox"></div>
+<div id="errbox" role="alert" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 /* ===== Hiển lỗi ===== */
 (function(){
   const box=document.getElementById('errbox');
-  function show(msg){ box.style.display='block'; box.textContent='[ERROR] '+msg; console.error(msg); }
+  function show(msg){ box.style.display='block'; box.textContent='[ERROR] '+msg; console.error(msg) }
   window.addEventListener('error', e=>show(e.message+(e.filename?(' @ '+e.filename+':'+e.lineno):'')));
   window.addEventListener('unhandledrejection', e=>show('Promise rejected: '+((e.reason&&e.reason.message)||e.reason)));
 })();
@@ -297,33 +403,56 @@ function firstLink(s){
   return parts[0] || '';
 }
 
+/* ===== Structured Data (ItemList) ===== */
+function injectListSchema(res){
+  try{
+    if(!res || !Array.isArray(res.items)) return;
+    const itemList = {
+      "@context":"https://schema.org",
+      "@type":"ItemList",
+      "itemListElement": res.items.slice(0,36).map((it,idx)=>({
+        "@type":"ListItem",
+        "position": idx+1,
+        "url": it.linkFull || it.img,
+        "name": it.details || it.id,
+        "image": it.img
+      }))
+    };
+    document.querySelectorAll('script[data-schema="itemlist"]').forEach(n=>n.remove());
+    const s=document.createElement('script');
+    s.type='application/ld+json';
+    s.setAttribute('data-schema','itemlist');
+    s.textContent=JSON.stringify(itemList);
+    document.body.appendChild(s);
+  }catch(e){/* ignore */}
+}
+
 /* ===== Product card ===== */
 function productCardHtml(it){
   products[it.id]=it;
 
-  // Nút hiển thị nếu có link trong imageClick (không phụ thuộc note)
   const giftUrl   = firstLink(it.imageClick);
   const showGift  = !!giftUrl;
-  // Nhãn nút lấy từ 'loai' (fallback)
   const giftLabel = (it.loai || 'Nhận quà').toString().trim();
 
   return `<div class="col"><div class="cardx">
     ${it.note?`<span class="note-badge" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
-      <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+      <img class="thumb"
+           src="${esc(it.img)}"
+           alt="${esc(it.details || it.id)}"
+           width="600" height="210"
+           loading="lazy" decoding="async"
+           onerror="this.src='https://via.placeholder.com/600x210?text=No+Image'">
     </a>
     <div class="meta">
       <div class="id">${esc(it.id)}</div>
-
+      <div class="type-badge" ${it.type?'':'style="display:none"'}>${esc(it.type||'')}</div>
       <div class="details">${esc(it.details||'')}</div>
-
-      ${it.type ? `<div class="type-badge">${esc(it.type)}</div>` : ``}
-
       <div class="price">${fmtVND(it.price)}</div>
-
       <div class="meta-actions">
         ${showGift ? `<a class="btn-gift" href="${esc(giftUrl)}" target="_blank" rel="noopener" title="${esc(giftLabel)}">🎁 <span>${esc(giftLabel)}</span></a>` : `<span></span>`}
-        <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}">+</button>
+        <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}" aria-label="Thêm vào giỏ">+</button>
       </div>
     </div>
   </div></div>`;
@@ -343,6 +472,9 @@ function render(res){
 
   const totalEl = document.getElementById('totalCount');
   if (totalEl) totalEl.textContent = Number(res?.total||0).toLocaleString('vi-VN');
+
+  // Cập nhật structured data
+  injectListSchema(res);
 }
 
 function fetchPage(){
@@ -372,7 +504,7 @@ function buildCategory(items){
     return `
       <div class="col">
         <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
-          <div class="icon"><img src="${icon}" alt=""></div>
+          <div class="icon"><img src="${icon}" alt="Biểu tượng danh mục ${esc(val||'Khác')}" width="28" height="28" referrerpolicy="no-referrer" loading="lazy" decoding="async"></div>
           <span>${esc(val||'Khác')}</span>
         </div>
       </div>`;
@@ -421,18 +553,18 @@ function updateCart(){
   list.innerHTML=cart.map(it=>{
     const sub=it.qty*(Number(it.price)||0); total+=sub;
     return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
-      <img src="${esc(it.img)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
+      <img src="${esc(it.img)}" alt="${esc(it.details || it.id)}" width="50" height="50" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd" loading="lazy" decoding="async">
       <div class="flex-grow-1">
         <div class="fw-semibold small">${esc(it.details||it.id)}</div>
         <div class="text-muted small">${fmtVND(it.price)}</div>
       </div>
       <div class="d-flex align-items-center gap-1">
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
-        <span>${it.qty}</span>
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
+        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1" aria-label="Giảm số lượng">-</button>
+        <span aria-live="polite">${it.qty}</span>
+        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1" aria-label="Tăng số lượng">+</button>
       </div>
       <div style="min-width:90px;text-align:right" class="small">${fmtVND(sub)}</div>
-      <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}">&times;</button>
+      <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}" aria-label="Xóa sản phẩm">&times;</button>
     </div>`;
   }).join('');
   document.getElementById('cartTotal').innerText=fmtVND(total);
@@ -493,6 +625,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
 document.getElementById('factoryList').innerHTML =
   ['Xưởng A','Xưởng B','Xưởng C'].map(n=>`<div>${n}</div>`).join('');
 
+/* Tải dữ liệu lần đầu */
 fetchPage(); updateFilterCount();
 });
 </script>
