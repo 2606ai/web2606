@@ -11,7 +11,7 @@
 body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px;padding-top:70px}
 .container-fluid{max-width:1400px;margin:auto;}
 
-/* Thanh ưu đãi: đổi xanh + sticky ngay dưới header */
+/* Thanh ưu đãi: xanh + sticky ngay dưới header */
 .top-banner{
   background:var(--main)!important;color:#fff;text-align:center;padding:6px;font-weight:700;
   position:sticky; top:70px; z-index:1054; border:0;
@@ -25,7 +25,22 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
   position:fixed;top:0;left:0;right:0;z-index:1055;height:70px;
 }
 .site-header img.logo{height:56px;width:auto;display:block} /* logo to hơn */
-.header-search{flex:1 1 520px;min-width:240px}
+
+/* === Thu gọn thanh tìm kiếm + chữ nhỏ lại === */
+.header-search{
+  flex: 0 1 680px;      /* không chiếm hết bề ngang */
+  max-width: 680px;
+  min-width: 320px;
+}
+@media (max-width: 992px){
+  .header-search{ flex:1 1 100%; max-width:100%; }
+}
+.header-search .form-control{
+  font-size:13px;
+  padding:6px 10px;
+}
+.header-search .form-control::placeholder{ font-size:13px; opacity:.75; }
+.header-search .btn{ font-size:13px; padding:6px 12px; line-height:1.1; }
 .header-search .input-group-text{background:#fff}
 
 /* Sidebar */
@@ -60,6 +75,15 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 .cardx .details{font-size:12px;color:#666;flex:1;margin-bottom:4px}
 .cardx .price{font-weight:700;color:#d32f2f;font-size:1rem;margin-bottom:6px}
 .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;align-self:flex-end}
+
+/* CTA “Nhận quà” và hàng hành động */
+.cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; margin-top:8px; }
+.cardx .btn-gift{
+  background:#fff; border:1px solid var(--main); color:var(--main);
+  font-weight:700; padding:6px 10px; border-radius:999px;
+  font-size:12px; line-height:1; display:inline-flex; align-items:center; gap:6px;
+}
+.cardx .btn-gift:hover{ background:var(--main); color:#fff; }
 
 /* Error box */
 #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
@@ -161,7 +185,7 @@ body{font-family:'Be Vietnam Pro',sans-serif;background:var(--bg);font-size:14px
 
         <!-- Danh mục -->
         <div class="category-box mb-3">
-          <h6 class="fw-bold mb-2">DANH MỤC QUÀ TẶNG</h6>
+          <h6 class="fw-bold mb-2">DANH MỤC SẢN PHẨM</h6>
           <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
         </div>
 
@@ -259,9 +283,23 @@ function badgeColor(txt){
   return "#555";
 }
 
+/* Lấy link đầu tiên từ imageClick */
+function firstLink(s){
+  if(!s) return '';
+  const parts = String(s).split(/[\s,;|\n]+/).filter(Boolean);
+  for(const p of parts) if(/^https?:\/\//i.test(p)) return p;
+  return parts[0] || '';
+}
+
 /* ===== Product card ===== */
 function productCardHtml(it){
   products[it.id]=it;
+
+  // Chỉ hiện “Nhận quà” khi note = "Quà tặng"
+  const noteClean = (it.note || '').toString().trim().toLowerCase();
+  const giftUrl   = noteClean === 'quà tặng' ? firstLink(it.imageClick) : '';
+  const showGift  = !!giftUrl;
+
   return `<div class="col"><div class="cardx">
     ${it.note?`<span class="note-badge" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
@@ -272,7 +310,11 @@ function productCardHtml(it){
       <div class="type-badge">${esc(it.type||'')}</div>
       <div class="details">${esc(it.details||'')}</div>
       <div class="price">${fmtVND(it.price)}</div>
-      <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}">+</button>
+
+      <div class="meta-actions">
+        ${showGift ? `<a class="btn-gift" href="${esc(giftUrl)}" target="_blank" rel="noopener" title="Nhận quà theo ưu đãi">🎁 <span>Nhận quà</span></a>` : `<span></span>`}
+        <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}">+</button>
+      </div>
     </div>
   </div></div>`;
 }
@@ -289,7 +331,6 @@ function render(res){
   buildFilterBox('loaiBox',facets.loais||[],'loai');
   buildFilterBox('noteBox',facets.notes||[],'note');
 
-  // >>> cập nhật thống kê tổng số
   const totalEl = document.getElementById('totalCount');
   if (totalEl) totalEl.textContent = Number(res?.total||0).toLocaleString('vi-VN');
 }
