@@ -4,6 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2606AI</title>
+
+<!-- CSP & security meta (không đổi giao diện) -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' https: data:; connect-src 'self' https://script.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://script.google.com; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), interest-cohort=()">
+
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
@@ -58,10 +66,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 }
 .benefits-v3 .ic{width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px}
 /* Benefits: tiêu đề chữ thường, không in đậm */
-.benefits-v3 .ttl{
-  font-weight: 400;      /* hoặc 500 nếu muốn đậm nhẹ */
-  text-transform: none;  /* đảm bảo không bị in hoa */
-}
+.benefits-v3 .ttl{ font-weight:400; text-transform:none; }
 .benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
 
 /* Xưởng đề xuất – card preview */
@@ -127,29 +132,27 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .offcanvas{ z-index: 4000; }
 .offcanvas-backdrop{ z-index: 3990; }
 /* Category grid: rút ngắn khoảng cách giữa 2 hàng còn 1/2 */
-#categoryGrid{
-  --bs-gutter-y: .25rem;   /* g-2 = .5rem -> .25rem = ngắn lại x2 */
-  /* tùy chọn: nếu muốn cả ngang cũng sát hơn, bật dòng dưới */
-  /* --bs-gutter-x: .25rem; */
-}
+#categoryGrid{ --bs-gutter-y: .25rem; /* --bs-gutter-x: .25rem; */ }
 
 /* (tùy chọn) giảm padding bên trong mỗi item cho gọn hơn */
 .category-item{ padding:8px; }
 /* === Benefits: icon ở trên, chữ căn giữa (override) === */
-.benefits-v3 .bcard{
-  flex-direction: column;   /* icon -> text */
-  align-items: center;      /* căn giữa ngang */
-  text-align: center;       /* căn giữa chữ */
-  gap: 6px;
-  padding: 12px;
-}
-.benefits-v3 .ic{
-  width: 36px;
-  height: 36px;
-  margin: 0 0 6px 0;        /* cách chữ một chút */
-  flex: 0 0 auto;
-}
+.benefits-v3 .bcard{ flex-direction:column; align-items:center; text-align:center; gap:6px; padding:12px; }
+.benefits-v3 .ic{ width:36px; height:36px; margin:0 0 6px 0; flex:0 0 auto; }
+/* ... các CSS trước đó ... */
+
+/* ===== Footer ===== */
+.site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
+.site-footer .brand{ font-weight:700; color:var(--main); margin-bottom:4px; }
+.site-footer a{ color:inherit; text-decoration:none; }
+.site-footer a:hover{ text-decoration:underline; }
+.footer-social{ display:flex; gap:8px; justify-content:flex-start; }
+.footer-social .social{ width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:800; text-decoration:none; }
+.footer-social .social-zalo{ background:#0068ff; }
+.footer-social .social-fb{ background:#1877F2; }
+@media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
 </style>
+
 </head>
 <body>
 
@@ -193,6 +196,27 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
           <div class="bcard"><div class="ic">🤝</div><div><div class="ttl">Hỗ trợ tranh chấp (Hỗ trợ xử lý phát sinh)</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div></div>
         </div>
       </div>
+</div>  <!-- .container-fluid my-3 -->
+
+<footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row align-items-center g-2">
+      <div class="col-12 col-md">
+        <div class="brand">HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE</div>
+        <div>Mã số thuế: <strong>12333211232</strong></div>
+        <div>Liên hệ: <a href="tel:012345678">012345678</a> • Email: <a href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a></div>
+      </div>
+      <div class="col-12 col-md-auto">
+        <div class="footer-social">
+          <a class="social social-zalo" href="#" target="_blank" rel="noopener" aria-label="Zalo">Z</a>
+          <a class="social social-fb" href="#" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Offcanvas: Giỏ hàng -->
 
       <!-- Xưởng đề xuất: nút chuyển + auto 10s -->
       <div class="sidebar-box">
@@ -341,7 +365,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
-const API_URL="https://script.google.com/macros/s/AKfycbwJmjnykwS31st72FmS7rigwEv7iQgQ1csdwoSW4W9n7rEo1FY7p4gw0kskaoNuDZlT/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbzIC-CJPzbziBltHbEB_D1xxDhelCk0wG_hE6IBX7vJQ2PO-gPQBO9ZjzquVJx0pXCs/exec";
 const ZALO_URL = "#"; // thay sau
 
 /* STATE */
@@ -353,15 +377,31 @@ const cart = []; const products = {};
 let adsData = [];
 let adsIndex = 0;
 let adsTimer = null;
-const ADS_PAGE_SIZE = 5;       // hiển thị 5 thẻ
-const ADS_INTERVAL = 10000;    // tự động chuyển mỗi 10s
+const ADS_PAGE_SIZE = 5;
+const ADS_INTERVAL = 10000;
 
-/* UTILS */
-const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
-const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+/* UTILS: ESC + URL an toàn */
+const esc = s => (s??'').toString().replace(/[&<>"'`]/g, c => (
+  { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;','`':'&#96;' }[c]
+));
+function safeUrl(u){
+  try{
+    const url = new URL(String(u||''));
+    if(url.protocol==='http:' || url.protocol==='https:') return url.href;
+  }catch(e){}
+  return '#';
+}
+function fmtVND(n){ return (Number(n)||0).toLocaleString('vi-VN') + ' đ'; }
 function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
-function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
+function firstLink(s){
+  if(!s) return '';
+  const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean);
+  for(const p of parts){
+    try{ const u=new URL(p); if(u.protocol==='http:'||u.protocol==='https:') return u.href; }catch(_){}
+  }
+  return '';
+}
 
 /* ===== Logo reload ===== */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.location.reload(); });
@@ -375,8 +415,8 @@ function productCardHtml(it){
 
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
-      <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+      <a href="${esc(safeUrl(it.linkFull || it.img))}" target="_blank" rel="noopener noreferrer">
+        <img class="thumb" src="${esc(safeUrl(it.img))}" alt="${esc(it.id)}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
       </a>
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     </div>
@@ -386,7 +426,7 @@ function productCardHtml(it){
       ${it.type ? `<div class="type-badge">${esc(it.type)}</div>` : ``}
       <div class="price">${fmtVND(it.price)}</div>
       <div class="meta-actions">
-        ${showGift ? `<a class="btn-gift" href="${esc(giftUrl)}" target="_blank" rel="noopener" title="${esc(giftLabel)}"><span>${esc(giftLabel)}</span></a>` : `<span></span>`}
+        ${showGift ? `<a class="btn-gift" href="${esc(safeUrl(giftUrl))}" target="_blank" rel="noopener noreferrer" title="${esc(giftLabel)}"><span>${esc(giftLabel)}</span></a>` : `<span></span>`}
         <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}">+</button>
       </div>
     </div>
@@ -404,7 +444,6 @@ function render(res){
   buildFilterBox('typeBox',facets.types||[],'type');
   buildFilterBox('loaiBox',facets.loais||[],'loai');
   buildFilterBox('noteBox',facets.notes||[],'note');
-  /* đưa categories vào panel bộ lọc */
   buildFilterBox('brandBox',facets.categories||[],'category');
 
   const totalEl = document.getElementById('totalCount');
@@ -450,7 +489,7 @@ function selectCategory(val){
   fetchAdsByCategory(val).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 }
 
-/* ===== Filters (nút trong offcanvas) ===== */
+/* ===== Filters ===== */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
@@ -475,7 +514,7 @@ function fetchLinkPreview(url){
 function renderAds(list){
   adsData  = Array.isArray(list) ? list : [];
   adsIndex = 0;
-  if (!adsData.length){ 
+  if (!adsData.length){
     document.getElementById('adsList').innerHTML = '';
     document.getElementById('adsEmpty').style.display = 'block';
     stopAdsTimer();
@@ -506,11 +545,11 @@ function drawAdsWindow(){
     const card = box.children[i]; if (!card) return;
     let p=null; try{ p = await fetchLinkPreview(s.url); }catch(e){}
     const host = hostnameFromUrl(s.url);
-    const img  = (p && p.ok && p.image)      ? p.image   : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
-    const tit  = (p && p.ok && p.title)      ? p.title   : (s.name || host);
+    const img  = (p && p.ok && p.image) ? safeUrl(p.image) : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+    const tit  = (p && p.ok && p.title) ? p.title : (s.name || host);
     const des  = (p && p.ok && p.description)? p.description : '';
-    const ico  = (p && p.ok && p.favicon)    ? p.favicon : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
-    const site = (p && p.ok && p.siteName)   ? p.siteName: host;
+    const ico  = (p && p.ok && p.favicon)? safeUrl(p.favicon) : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
+    const site = (p && p.ok && p.siteName)? p.siteName : host;
     card.innerHTML = `
       <img class="thumb" src="${esc(img)}" alt="">
       <div class="meta" style="flex:1;min-width:0">
@@ -519,9 +558,9 @@ function drawAdsWindow(){
         <div class="site">
           <img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">${esc(site)}
         </div>
-        <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
+        <div><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="small">Mở trang</a></div>
       </div>
-      <div><a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
+      <div><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
     `;
   });
 }
@@ -543,7 +582,7 @@ function updateCart(){
   list.innerHTML=cart.map(it=>{
     const sub=it.qty*(Number(it.price)||0); total+=sub;
     return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
-      <img src="${esc(it.img)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
+      <img src="${esc(safeUrl(it.img))}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
       <div class="flex-grow-1">
         <div class="fw-semibold small">${esc(it.details||it.id)}</div>
         <div class="text-muted small">${fmtVND(it.price)}</div>
@@ -572,8 +611,10 @@ function submitOrder(){
     items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
     total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
   };
-  fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({action:"order",email:"lehaidangem836@gmail.com",data:order})})
+  fetch(API_URL,{
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({action:"order", /*key:"<API_KEY nếu bật>",*/ data:order})
+  })
   .then(r=>r.json()).then(res=>{
     if(res && (res.ok||res.success)){ alert("Đã gửi đơn hàng thành công!"); cart.length=0; updateCart(); }
     else alert("Gửi đơn hàng thất bại.");
@@ -639,7 +680,7 @@ function loadSuppliers(){
       box.innerHTML = res.items.map(s=>`
         <div class="mb-2 p-2 border rounded bg-white">
           <div class="fw-semibold">${esc(s.name||'Xưởng')}</div>
-          ${s.url?`<a href="${esc(s.url)}" target="_blank" class="small d-block">${esc(s.url)}</a>`:''}
+          ${s.url?`<a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="small d-block">${esc(s.url)}</a>`:''}
           ${s.address?`<div class="text-muted small">📍 ${esc(s.address)}</div>`:''}
           ${s.cert?`<div class="text-muted small">🗂 ${esc(s.cert)}</div>`:''}
         </div>
