@@ -11,11 +11,18 @@
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
 .container-fluid{max-width:1400px;margin:auto;}
 
+/* ===== Banner chạy chữ (thay bản cũ) ===== */
 .top-banner{
-  background:var(--main)!important;color:#fff;text-align:center;padding:6px;font-weight:700;
-  position:sticky; top:70px; z-index:1054; border:0;
+  background:var(--main)!important;color:#fff;font-weight:700;position:sticky; top:70px; z-index:1054;
+  height:32px; display:flex; align-items:center; overflow:hidden; border:0;
 }
+.top-banner .marquee{
+  display:inline-block; white-space:nowrap; padding-left:100%;
+  animation: marquee 18s linear infinite;
+}
+@keyframes marquee{ 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
 
+/* Header */
 .site-header{
   background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
   position:fixed;top:0;left:0;right:0;z-index:1055;height:70px;
@@ -32,15 +39,30 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .header-search .form-control{ font-size:13px;padding:6px 10px; }
 .header-search .input-group-text{background:#fff}
 
+/* ===== Fix header trên mobile (<=576px) ===== */
+@media (max-width:576px){
+  .site-header img.logo{ width:64px; }
+  .header-search{ min-width:0; }
+  #searchBtn{ display:none; } /* Enter vẫn tìm */
+  .site-header .wrap{ gap:8px; }
+  .header-search .form-control{ font-size:14px; padding:6px 10px; }
+}
+
 /* Sidebar chung */
 .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
-/* Quyền lợi – layout đẹp hơn, vẫn y nguyên nội dung */
-.benefits{list-style:none;padding-left:0;margin:0}
-.benefits li{display:flex;gap:10px;align-items:flex-start;margin:7px 0}
-.benefits .ico{width:22px;height:22px;border-radius:6px;background:#f0f4ff;display:flex;align-items:center;justify-content:center;flex:0 0 22px}
-.benefits .txt{line-height:1.35}
+/* ===== Benefits – Option 3: cards 2 cột ===== */
+.benefits-v3 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media (max-width: 480px){ .benefits-v3 .grid{grid-template-columns:1fr} }
+.benefits-v3 .bcard{
+  background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px
+}
+.benefits-v3 .ic{
+  width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px
+}
+.benefits-v3 .ttl{font-weight:700;color:#0018a8;line-height:1.2}
+.benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
 
 /* Xưởng đề xuất – card preview */
 .link-preview{display:flex; gap:10px; border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px; }
@@ -120,24 +142,48 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   </div>
 </header>
 
-<!-- Thanh ưu đãi -->
-<div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
+<!-- Banner chạy chữ -->
+<div class="top-banner">
+  <div class="marquee">
+    Để đảm bảo quyền lợi hãy thông báo với 2606AI.VN khi bạn đã chốt đơn hàng &nbsp; • &nbsp;
+    Nguồn thu của 2606AI.VN đến từ quảng cáo &nbsp; • &nbsp;
+    Có sự hỗ trợ của 2606AI.VN tự tin sản xuất mọi sản phẩm
+  </div>
+</div>
 
 <div class="container-fluid my-3">
   <div class="row g-3">
     <!-- Sidebar -->
     <div class="col-lg-3 col-md-4">
-      <!-- Quyền lợi -->
-      <div class="sidebar-box">
+      <!-- Quyền lợi: Option 3 (thẻ 2 cột) -->
+      <div class="sidebar-box benefits-v3">
         <h6 class="mb-2">Quyền lợi</h6>
-        <ul class="benefits">
-          <li><span class="ico">📚</span><div class="txt">10,000+ mẫu tham khảo – không lo thiếu ý tưởng</div></li>
-          <li><span class="ico">🏭</span><div class="txt">500+ nhà cung cấp – báo giá minh bạch, dễ dàng lấy giá</div></li>
-          <li><span class="ico">🎨</span><div class="txt">Tư vấn &amp; thiết kế sản phẩm – đáp ứng nhiều nhu cầu</div></li>
-          <li><span class="ico">⚙️</span><div class="txt">Hỗ trợ thiết kế sản xuất – giảm thiểu lỗi và rủi ro</div></li>
-          <li><span class="ico">📦</span><div class="txt">Dịch vụ hậu cần, đóng gói – giải quyết các vấn đề hậu cần</div></li>
-          <li><span class="ico">🤝</span><div class="txt">Hỗ trợ giải quyết tranh chấp – đảm bảo quyền lợi khách hàng</div></li>
-        </ul>
+        <div class="grid">
+          <div class="bcard">
+            <div class="ic">📚</div>
+            <div><div class="ttl">10,000+ mẫu</div><div class="sub">Không lo thiếu ý tưởng</div></div>
+          </div>
+          <div class="bcard">
+            <div class="ic">🏭</div>
+            <div><div class="ttl">500+ nhà cung cấp</div><div class="sub">Báo giá minh bạch, dễ lấy giá</div></div>
+          </div>
+          <div class="bcard">
+            <div class="ic">🎨</div>
+            <div><div class="ttl">Tư vấn & thiết kế</div><div class="sub">Đáp ứng nhiều nhu cầu</div></div>
+          </div>
+          <div class="bcard">
+            <div class="ic">⚙️</div>
+            <div><div class="ttl">Giảm lỗi sản xuất</div><div class="sub">Hỗ trợ thiết kế sản xuất</div></div>
+          </div>
+          <div class="bcard">
+            <div class="ic">📦</div>
+            <div><div class="ttl">Hậu cần – đóng gói</div><div class="sub">Xử lý khâu vận hành</div></div>
+          </div>
+          <div class="bcard">
+            <div class="ic">🤝</div>
+            <div><div class="ttl">Hỗ trợ tranh chấp</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div>
+          </div>
+        </div>
       </div>
 
       <!-- Xưởng đề xuất: nút chuyển + auto 10s -->
