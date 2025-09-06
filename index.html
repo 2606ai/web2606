@@ -101,37 +101,17 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   display:none;
 }
 
-/* Link preview */
+/* Link preview dùng cho xưởng đề xuất */
 .link-preview{display:flex;gap:10px;border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px}
-.link-preview img.thumb{width:72px;height:72px;object-fit:cover;border-radius:8px;background:#f6f7fb}
-.link-preview .meta{font-size:13px}
+.link-preview img.thumb{width:64px;height:64px;object-fit:cover;border-radius:8px;background:#f6f7fb}
+.link-preview .meta{font-size:12px}
 .link-preview .title{font-weight:700;margin-bottom:2px}
-.link-preview .desc{color:#6c757d;max-height:2.8em;overflow:hidden}
+.link-preview .desc{color:#6c757d;max-height:2.4em;overflow:hidden}
 .link-preview .site{font-size:12px;color:#8898aa}
 
-/* ===== Horizontal slider for Suggested Suppliers ===== */
-.ads-wrap{ position:relative; }
-.ads-scroller{
-  display:flex; gap:10px; overflow-x:auto; overflow-y:hidden;
-  scroll-snap-type:x mandatory; padding-bottom:6px;
-}
-.ads-item{ flex:0 0 auto; width:280px; scroll-snap-align:start; }
-.ads-nav{
-  position:absolute; top:50%; transform:translateY(-50%);
-  width:28px; height:28px; border-radius:999px;
-  border:1px solid #e5e7eb; background:#fff; color:#333;
-  display:flex; align-items:center; justify-content:center;
-  box-shadow:0 2px 6px rgba(0,0,0,.08); cursor:pointer; z-index:2;
-}
-.ads-nav:hover{ background:#f8f9fa }
-.ads-nav.prev{ left:-6px; }
-.ads-nav.next{ right:-6px; }
-
-/* Thu gọn preview card cho sidebar */
-.link-preview img.thumb{ width:64px; height:64px; }
-.link-preview .meta{ font-size:12px }
-.link-preview .title{ font-size:13px }
-.link-preview .desc{ max-height:2.4em }
+/* Offcanvas nổi cao để tránh bị che */
+.offcanvas{ z-index: 4000; }
+.offcanvas-backdrop{ z-index: 3990; }
 </style>
 </head>
 <body>
@@ -140,7 +120,8 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 <header class="site-header">
   <div class="wrap">
     <a href="/" class="d-flex align-items-center text-decoration-none">
-      <img src="https://drive.google.com/file/d/1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F/view?usp=sharing" class="logo" alt="2606AI logo">
+      <!-- Logo dùng thumbnail Google Drive -->
+      <img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w160" class="logo" alt="2606AI logo">
     </a>
     <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
       <div class="input-group w-100">
@@ -171,21 +152,14 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </ul>
       </div>
 
+      <!-- Xưởng đề xuất: 5 dòng dọc + nút refresh -->
       <div class="sidebar-box">
-        <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
-        <!-- Thanh trượt ngang -->
-        <div class="ads-wrap">
-          <button type="button" class="ads-nav prev" id="adsPrev">‹</button>
-          <div id="adsScroller" class="ads-scroller"></div>
-          <button type="button" class="ads-nav next" id="adsNext">›</button>
-        </div>
-        <div id="adsEmpty" class="small text-muted mt-1">Chọn danh mục để xem đơn vị cung cấp phù hợp.</div>
-      </div>
-
-      <div class="sidebar-box">
-        <h6>Xem nhanh link</h6>
-        <input id="previewUrl" class="form-control form-control-sm" placeholder="Dán link bất kỳ để xem nhanh…">
-        <div id="previewBox" class="mt-2"></div>
+        <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
+          Xưởng đề xuất
+          <button type="button" class="btn btn-sm btn-outline-secondary" id="refreshAdsBtn">↻</button>
+        </h6>
+        <div id="adsList" class="d-flex flex-column gap-2"></div>
+        <div id="adsEmpty" class="small text-muted">Chọn danh mục để xem đơn vị cung cấp phù hợp.</div>
       </div>
     </div>
 
@@ -231,11 +205,12 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         <div class="row row-cols-3 row-cols-md-6 g-2" id="categoryGrid"></div>
       </div>
 
-      <!-- Thống kê -->
+      <!-- Thống kê + nút Xóa bộ lọc -->
       <div id="statsBar" class="mb-3">
         <div class="d-flex align-items-center gap-2">
           <span class="fw-semibold">TỔNG SỐ SẢN PHẨM TÌM THẤY:</span>
           <span id="totalCount" class="badge text-bg-primary">0</span>
+          <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger">Xóa bộ lọc</button>
         </div>
       </div>
 
@@ -319,7 +294,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ====== API URL / ZALO URL ====== */
-const API_URL="https://script.google.com/macros/s/AKfycbz-hvzX7x73MLF0rrmB4B3pa7olfvqxlR56DBpwYuhbzOHgexMwjCjucCRL8BZq7ntW/exec";
+const API_URL="https://script.google.com/macros/s/AKfycbwJmjnykwS31st72FmS7rigwEv7iQgQ1csdwoSW4W9n7rEo1FY7p4gw0kskaoNuDZlT/exec";
 const ZALO_URL = "#"; // thay link Zalo thật ở đây
 
 /* không tự mở giỏ khi thêm */
@@ -446,39 +421,38 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-/* ===== XƯỞNG ĐỀ XUẤT – slider ngang + preview ===== */
+/* ===== XƯỞNG ĐỀ XUẤT – 5 dòng dọc với preview ===== */
 function renderAds(list){
-  const scroller = document.getElementById('adsScroller');
-  const emptyMsg = document.getElementById('adsEmpty');
+  const box = document.getElementById('adsList');
+  const empty = document.getElementById('adsEmpty');
 
-  if(!list || !list.length){
-    scroller.innerHTML = '';
-    emptyMsg.style.display = 'block';
+  const data = (list || []).slice(0, 5);
+  if(!data.length){
+    box.innerHTML = '';
+    empty.style.display = 'block';
     return;
   }
-  emptyMsg.style.display = 'none';
+  empty.style.display = 'none';
 
-  scroller.innerHTML = list.map((s, i) => `
-    <div class="ads-item" id="ad-item-${i}">
-      <div class="supplier-card">
-        <div class="ava">#${i+1}</div>
+  box.innerHTML = data.map((s)=>`
+    <div class="border rounded-3 p-2">
+      <div class="d-flex align-items-start gap-2">
+        <div class="rounded" style="width:64px;height:64px;background:#f1f4ff;display:flex;align-items:center;justify-content:center">🔗</div>
         <div class="flex-grow-1" style="min-width:0">
-          <div class="meta">${esc(s.name || 'Đang tải…')}</div>
-          <div class="text-truncate"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>
+          <div class="fw-semibold text-truncate" title="${esc(s.name||'')}">${esc(s.name||'Nhà cung cấp')}</div>
+          <div class="small text-truncate"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>
         </div>
-        <div class="ms-auto">
-          <a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
-        </div>
+        <a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
       </div>
     </div>
   `).join('');
 
-  list.forEach((s, i) => {
-    fetchLinkPreview(s.url).then(p => {
+  data.forEach((s, i)=>{
+    fetchLinkPreview(s.url).then(p=>{
       if(!p || !p.ok) return;
-      const host = document.getElementById('ad-item-' + i);
-      if(!host) return;
-      host.innerHTML = `
+      const card = box.children[i];
+      if(!card) return;
+      card.innerHTML = `
         <div class="link-preview">
           ${p.image
             ? `<img class="thumb" src="${esc(p.image)}" alt="">`
@@ -486,7 +460,10 @@ function renderAds(list){
           <div class="meta" style="flex:1; min-width:0">
             <div class="title text-truncate" title="${esc(p.title||s.name||'')}">${esc(p.title || s.name || 'Nhà cung cấp')}</div>
             <div class="desc">${esc(p.description || '')}</div>
-            <div class="site">${p.favicon ? `<img src="${esc(p.favicon)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">` : ''}${esc(p.siteName || '')}</div>
+            <div class="site">
+              ${p.favicon?`<img src="${esc(p.favicon)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">`:''}
+              ${esc(p.siteName || '')}
+            </div>
             <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
           </div>
           <div><a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
@@ -580,6 +557,9 @@ document.addEventListener('click', (e)=>{
   if(el.matches('#nextBtn')){ state.page++; fetchPage(); }
   if(el.matches('#clearCartBtn')) clearCart();
   if(el.matches('#submitOrderBtn')) submitOrder();
+  if(el.matches('#refreshAdsBtn')){
+    fetchAdsByCategory(state.category).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
+  }
 });
 
 /* Enter để tìm */
@@ -593,35 +573,14 @@ document.getElementById('filterFab').addEventListener('click', () => filterOffca
 document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
 
-/* Clear filters */
-document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
+/* Clear filters (cả hai nút) */
+function clearAllFilters(){
   state.type=''; state.loai=''; state.note=''; state.category='';
   updateFilterCount(); fetchPage();
   fetchAdsByCategory(state.category).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
-});
-
-/* ===== Xem nhanh link nhập tay ===== */
-function renderLinkPreviewBox(data){
-  const box=document.getElementById('previewBox');
-  if(!data||!data.ok){ box.innerHTML='<div class="text-muted small">Không lấy được thông tin.</div>'; return; }
-  box.innerHTML=`<div class="link-preview">
-    ${data.image?`<img class="thumb" src="${esc(data.image)}">`:`<div class="thumb" style="width:72px;height:72px;border-radius:8px;background:#f1f4ff;display:flex;align-items:center;justify-content:center;">🔗</div>`}
-    <div class="meta">
-      <div class="title">${esc(data.title||'Không tiêu đề')}</div>
-      <div class="desc">${esc(data.description||'')}</div>
-      <div class="site">${data.favicon?`<img src="${esc(data.favicon)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">`:''}${esc(data.siteName||'')}</div>
-      <div><a href="${esc(data.url)}" target="_blank" class="small">Mở trang</a></div>
-    </div>
-  </div>`;
 }
-const prevInput=document.getElementById('previewUrl');
-if(prevInput){
-  let tm=null; prevInput.addEventListener('input',()=>{
-    const v=prevInput.value.trim(); clearTimeout(tm);
-    if(!/^https?:\/\//i.test(v)){ document.getElementById('previewBox').innerHTML=''; return; }
-    tm=setTimeout(()=>{ fetchLinkPreview(v).then(renderLinkPreviewBox).catch(()=>{document.getElementById('previewBox').innerHTML='<div class="text-danger small">Lỗi khi lấy preview.</div>';}); },350);
-  });
-}
+document.getElementById('clearFiltersBtn').addEventListener('click', clearAllFilters);
+document.getElementById('clearFiltersBtn2').addEventListener('click', clearAllFilters);
 
 /* ===== Danh sách xưởng từ sheet NHAXUONG (offcanvas) ===== */
 function loadSuppliers(){
@@ -642,17 +601,6 @@ function loadSuppliers(){
     })
     .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
 }
-
-/* ===== Gán sự kiện cho nút điều hướng slider (xưởng đề xuất) ===== */
-(function bindAdsNav(){
-  const scroller = document.getElementById('adsScroller');
-  const prevBtn  = document.getElementById('adsPrev');
-  const nextBtn  = document.getElementById('adsNext');
-  if(!scroller || !prevBtn || !nextBtn) return;
-  const STEP = 300;
-  prevBtn.addEventListener('click', () => scroller.scrollBy({ left: -STEP, behavior: 'smooth' }));
-  nextBtn.addEventListener('click', () => scroller.scrollBy({ left:  STEP, behavior: 'smooth' }));
-})();
 
 /* ===== Khởi động ===== */
 fetchPage(); updateFilterCount();
