@@ -1,68 +1,38 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>2606AI</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 
-/* 1) Font toàn site = Helvetica */
-body{
-  font-family:'Helvetica','Arial',sans-serif;
-  background:var(--bg);
-  font-size:14px;
-  padding-top:70px;
-}
+body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
 .container-fluid{max-width:1400px;margin:auto;}
 
-/* Thanh ưu đãi: sticky dưới header */
-.top-banner{
-  background:var(--main)!important;color:#fff;text-align:center;padding:6px;font-weight:700;
-  position:sticky; top:70px; z-index:1054; border:0;
-}
+/* Top banner */
+.top-banner{ background:var(--main)!important;color:#fff;text-align:center;padding:6px;font-weight:700; position:sticky; top:70px; z-index:1054; border:0; }
 
-/* Header (logo + SEARCH căn giữa) */
-.site-header{
-  background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
-  position:fixed;top:0;left:0;right:0;z-index:1055;height:70px;
-  box-shadow:0 2px 6px rgba(0,0,0,.05);
-}
-.site-header .wrap{
-  max-width:1400px;
-  width:100%; /* 2) cho search full width = hero */
-  margin:0 auto;
-  display:flex;align-items:center;justify-content:center;gap:12px;
-}
-/* 3) Logo tỉ lệ 3:2 */
-.site-header img.logo{
-  height:auto;
-  width:84px;           /* chỉnh theo ý nếu cần */
-  aspect-ratio:3/2;
-  object-fit:contain;
-  display:block;
-}
-
-/* 2) Thanh tìm kiếm bằng hero */
-.header-search{
-  flex:1 1 auto;
-  width:100%;
-  max-width:100%;
-  min-width:360px;
-}
-@media (max-width: 992px){
-  .site-header .wrap{ justify-content:center; }
-  .header-search{ flex:1 1 100%; max-width:100%; }
-}
-.header-search .form-control{ font-size:13px;padding:6px 10px; }
-.header-search .form-control::placeholder{ font-size:13px; opacity:.75; }
-.header-search .btn{ font-size:13px;padding:6px 12px; line-height:1.1; }
+/* Header */
+.site-header{ background:#fff;padding:10px 15px;border-bottom:1px solid #eee; position:fixed;top:0;left:0;right:0;z-index:1055;height:70px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
+.site-header .wrap{ max-width:1400px; width:100%; margin:0 auto; display:flex;align-items:center;justify-content:center;gap:12px; }
+.site-header img.logo{ width:84px; aspect-ratio:3/2; object-fit:contain; display:block; }
+.header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:360px; }
+@media (max-width:992px){ .site-header .wrap{justify-content:center} .header-search{flex:1 1 100%} }
+.header-search .form-control{ font-size:13px;padding:6px 10px }
 .header-search .input-group-text{background:#fff}
 
-/* Sidebar */
+/* Boxes */
 .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
+
+/* Supplier cards */
+.supplier-card{border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px;display:flex;gap:10px;align-items:flex-start}
+.supplier-card + .supplier-card{margin-top:8px}
+.supplier-card .ava{width:36px;height:36px;border-radius:8px;background:#eef4ff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.supplier-card .name{font-weight:700;}
+.supplier-card .meta{font-size:12px;color:#6c757d}
 
 /* Hero */
 .hero{margin-bottom:15px}
@@ -72,7 +42,7 @@ body{
 .hero .mini .carousel{height:145px}
 .hero .main img{width:100%;height:300px;object-fit:cover;border-radius:8px}
 
-/* Danh mục */
+/* Category */
 .category-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .category-item{ text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s }
 .category-item:hover{background:#f5f5f5}
@@ -81,63 +51,32 @@ body{
 .category-item span{font-size:13px;display:block}
 .category-item.active{background:#e6f0ff;border:1px solid #007bff}
 
-/* Card sản phẩm – GIỮ nguyên, chỉ đảm bảo note đúng vị trí dưới hình */
-.cardx{border:none;border-radius:12px;background:#fff;overflow:hidden;transition:.2s;height:100%;
-  box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
+/* Product cards */
+.cardx{border:none;border-radius:12px;background:#fff;overflow:hidden;transition:.2s;height:100%; box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover;background:#fff}
 .cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;}
-/* Note: dưới hình – trên ID, căn trái, chữ mảnh */
-.cardx .note-chip{
-  display:inline-flex; align-items:center; justify-content:center;
-  padding:2px 8px; border-radius:999px;
-  font-size:11px; font-weight:500; color:#fff; margin-bottom:6px;
-  background:#555;
-}
+.cardx .note-chip{display:inline-flex;align-items:center;justify-content:center;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:500;color:#fff;margin-bottom:6px;background:#555;}
 .cardx .id{font-weight:600;color:#0018a8;font-size:13px;margin-bottom:2px}
 .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;margin:6px 0}
 .cardx .details{font-size:12px;color:#666;flex:1;margin-bottom:6px}
 .cardx .price{font-weight:600;color:#d32f2f;font-size:1rem;margin-bottom:8px}
 .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;align-self:flex-end}
 .cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px }
-.cardx .btn-gift{
-  background:#fff; border:1px solid var(--main); color:var(--main);
-  font-weight:700; padding:6px 10px; border-radius:999px;
-  font-size:12px; line-height:1; display:inline-flex; align-items:center; gap:6px;
-  max-width:70%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-  text-decoration:none;
-}
+.cardx .btn-gift{ background:#fff; border:1px solid var(--main); color:var(--main); font-weight:700; padding:6px 10px; border-radius:999px; font-size:12px; line-height:1; display:inline-flex; align-items:center; gap:6px; max-width:70%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-decoration:none; }
 .cardx .btn-gift:hover{ background:var(--main); color:#fff; text-decoration:none }
 
 /* Error box */
 #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
 
 /* FABs */
-.cart-fab, .filter-fab{
-  position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:50%;
-  color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:2500; cursor:pointer;
-  display:flex; align-items:center; justify-content:center; gap:4px;
-}
+.cart-fab, .filter-fab{ position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:50%; color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:2500; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:4px; }
 .cart-fab{ background:#0018a8; bottom:84px; }
 .filter-fab{ background:#6c757d; bottom:148px; }
-.fab-badge{
-  position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700;
-  display:none;  /* chỉ hiện khi > 0 */
-}
+.fab-badge{ position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700; display:none; }
 
-/* Offcanvas */
-.offcanvas{ z-index: 2000; }
-.offcanvas-backdrop{ z-index: 1990; }
-
-/* Pager */
+.offcanvas{ z-index: 2000; } .offcanvas-backdrop{ z-index: 1990; }
 #pagerRow{display:flex;justify-content:flex-end;gap:.5rem}
-@media (min-width: 992px){ .cart-fab{ bottom:16px } .filter-fab{ bottom:80px } }
-
-/* ======= THÊM MỚI: card cho Xưởng đề xuất ======= */
-.supplier-card{border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px;display:flex;gap:10px;align-items:flex-start}
-.supplier-card + .supplier-card{margin-top:8px}
-.supplier-card .ava{width:36px;height:36px;border-radius:8px;background:#eef4ff;display:flex;align-items:center;justify-content:center;font-weight:700}
-.supplier-card .name{font-weight:700;}
-.supplier-card .meta{font-size:12px;color:#6c757d}
+@media (min-width:992px){ .cart-fab{ bottom:16px } .filter-fab{ bottom:80px } }
 </style>
 </head>
 <body>
@@ -146,43 +85,43 @@ body{
 <header class="site-header">
   <div class="wrap">
     <a href="/" class="d-flex align-items-center text-decoration-none">
-      <img src="https://drive.google.com/file/d/1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F/view?usp=sharing" class="logo" alt="2606AI logo">
+      <img src="https://drive.google.com/file/d/1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F/view?usp=sharing" class="logo" alt="2606AI logo" />
     </a>
     <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
       <div class="input-group w-100">
         <span class="input-group-text">🔍</span>
-        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)">
+        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)" />
       </div>
       <button id="searchBtn" class="btn btn-primary">Tìm</button>
     </form>
   </div>
 </header>
 
-<!-- Thanh ưu đãi -->
+<!-- Banner -->
 <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
 
 <div class="container-fluid my-3">
-  <div class="row">
-    <!-- Sidebar -->
-    <div class="p-3 bg-white rounded shadow-sm">
-  <h6>Quyền lợi</h6>
-  <ul class="mb-0 small">
-    <li>📚 10,000+ mẫu tham khảo – không lo thiếu ý tưởng</li>
-    <li>🏭 500+ nhà cung cấp – báo giá minh bạch, dễ dàng lấy giá</li>
-    <li>🎨 Tư vấn & thiết kế sản phẩm – đáp ứng nhiều nhu cầu</li>
-    <li>⚙️ Hỗ trợ thiết kế sản xuất – giảm thiểu lỗi và rủi ro</li>
-    <li>📦 Dịch vụ hậu cần, đóng gói – giải quyết các vấn đề hậu cần</li>
-    <li>🤝 Hỗ trợ giải quyết tranh chấp – đảm bảo quyền lợi khách hàng</li>
-  </ul>
-</div>
-
+  <div class="row g-3">
+    <!-- Sidebar trái -->
+    <div class="col-lg-3 col-md-4">
+      <div class="sidebar-box">
+        <h6>Quyền lợi</h6>
+        <ul class="mb-0 small">
+          <li>📚 10,000+ mẫu tham khảo – không lo thiếu ý tưởng</li>
+          <li>🏭 500+ nhà cung cấp – báo giá minh bạch, dễ dàng lấy giá</li>
+          <li>🎨 Tư vấn & thiết kế sản phẩm – đáp ứng nhiều nhu cầu</li>
+          <li>⚙️ Hỗ trợ thiết kế sản xuất – giảm thiểu lỗi và rủi ro</li>
+          <li>📦 Dịch vụ hậu cần, đóng gói – giải quyết các vấn đề hậu cần</li>
+          <li>🤝 Hỗ trợ giải quyết tranh chấp – đảm bảo quyền lợi khách hàng</li>
+        </ul>
+      </div>
       <div class="sidebar-box">
         <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
-        <div id="factoryList"></div>
+        <div id="factoryList" class="small text-muted">Chọn danh mục để xem đơn vị cung cấp phù hợp.</div>
       </div>
     </div>
 
-    <!-- Content -->
+    <!-- Nội dung chính -->
     <div class="col-lg-9 col-md-8">
       <!-- HERO -->
       <div class="hero row g-2">
@@ -232,10 +171,10 @@ body{
         </div>
       </div>
 
-      <!-- Grid -->
+      <!-- Lưới sản phẩm -->
       <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
 
-      <!-- Pagination -->
+      <!-- Phân trang -->
       <div id="pagerRow" class="mt-2">
         <button id="prevBtn" class="btn btn-outline-secondary">← Trước</button>
         <button id="nextBtn" class="btn btn-outline-secondary">Sau →</button>
@@ -299,7 +238,7 @@ body{
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ====== API URL ====== */
-const API_URL="https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
+const API_URL = "PUT_YOUR_APPS_SCRIPT_WEBAPP_URL_HERE"; // <-- đổi thành URL Web App
 
 /* không tự mở giỏ khi thêm */
 const AUTO_OPEN_ON_ADD = false;
@@ -317,8 +256,6 @@ function badgeColor(txt){
   if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
   return "#555";
 }
-
-/* Lấy link đầu tiên từ imageClick */
 function firstLink(s){
   if(!s) return '';
   const parts = String(s).split(/[\s,;|\n]+/).filter(Boolean);
@@ -329,7 +266,6 @@ function firstLink(s){
 /* ===== Product card ===== */
 function productCardHtml(it){
   products[it.id]=it;
-
   const giftUrl   = firstLink(it.imageClick);
   const showGift  = !!giftUrl;
   const giftLabel = (it.loai || 'Nhận quà').toString().trim();
@@ -352,17 +288,16 @@ function productCardHtml(it){
   </div></div>`;
 }
 
-/* ===== RENDER + cập nhật thống kê ===== */
+/* ===== Render trang + facets ===== */
 function render(res){
   const grid=document.getElementById('productGrid');
-  if(!res||!res.items||res.items.length===0){ grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>'; }
-  else{ grid.innerHTML=res.items.map(productCardHtml).join(''); }
+  grid.innerHTML = (res && res.items && res.items.length) ? res.items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
 
-  const facets=res&&res.facets?res.facets:{};
+  const facets = res?.facets || {};
   buildCategory(facets.categories||[]);
-  buildFilterBox('typeBox',facets.types||[],'type');
-  buildFilterBox('loaiBox',facets.loais||[],'loai');
-  buildFilterBox('noteBox',facets.notes||[],'note');
+  buildFilterBox('typeBox', facets.types||[], 'type');
+  buildFilterBox('loaiBox', facets.loais||[], 'loai');
+  buildFilterBox('noteBox', facets.notes||[], 'note');
 
   const totalEl = document.getElementById('totalCount');
   if (totalEl) totalEl.textContent = Number(res?.total||0).toLocaleString('vi-VN');
@@ -375,7 +310,7 @@ function fetchPage(){
   });
   fetch(API_URL+'?'+params.toString())
     .then(r=>r.json())
-    .then(res=>{ render(res); })
+    .then(render)
     .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
 }
 
@@ -404,11 +339,7 @@ function buildCategory(items){
 function selectCategory(val){
   state.category=val; state.page=1; fetchPage();
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
-
-  /* ===== THÊM: gọi quảng cáo xưởng theo category ===== */
-  fetchAdsByCategory(val)
-    .then(res => renderAds(res.items||[]))
-    .catch(() => renderAds([]));
+  fetchAdsByCategory(val).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 }
 
 /* ===== Filters ===== */
@@ -425,7 +356,7 @@ function updateFilterCount(){
   if(fb){ fb.textContent=c; fb.style.display=c? 'inline-block':'none'; }
 }
 
-/* ===== THÊM: ADS (quảng cáo xưởng theo category) ===== */
+/* ===== Xưởng đề xuất (ADS) ===== */
 function renderAds(list) {
   const box = document.getElementById('factoryList');
   if (!list || !list.length) {
@@ -468,10 +399,7 @@ function clearCart(){ if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length=0
 function updateCart(){
   const count = cart.reduce((a,b)=>a+b.qty,0);
   const fabCount = document.getElementById('cartFabCount');
-  if(fabCount){ 
-    fabCount.textContent = count;
-    fabCount.style.display = count>0 ? 'inline-block' : 'none';
-  }
+  if(fabCount){ fabCount.textContent = count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
 
   const list=document.getElementById('cartList'); let total=0;
   list.innerHTML=cart.map(it=>{
@@ -505,7 +433,7 @@ function submitOrder(){
   if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
   const order={
     customer:{name,email,phone,address,note},
-    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})) ,
+    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
     total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
   };
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
@@ -543,17 +471,14 @@ document.getElementById('searchBox').addEventListener('keydown',e=>{
 document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
 document.getElementById('filterFab').addEventListener('click', () => filterOffcanvas.toggle());
 
-/* Clear filters */
+/* Xóa bộ lọc */
 document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
   state.type=''; state.loai=''; state.note=''; state.category='';
   updateFilterCount(); fetchPage();
-
-  /* Khi xóa category cũng refresh xưởng đề xuất */
   fetchAdsByCategory(state.category).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 });
 
-/* Demo factories + load */
-/* THAY VÌ DEMO Xưởng A/B/C, ta render từ API theo category hiện tại */
+/* Load lần đầu */
 fetchPage(); updateFilterCount();
 fetchAdsByCategory(state.category).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 });
