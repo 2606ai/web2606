@@ -126,7 +126,15 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Offcanvas z-index cao để không bị che */
 .offcanvas{ z-index: 4000; }
 .offcanvas-backdrop{ z-index: 3990; }
+/* Category grid: rút ngắn khoảng cách giữa 2 hàng còn 1/2 */
+#categoryGrid{
+  --bs-gutter-y: .25rem;   /* g-2 = .5rem -> .25rem = ngắn lại x2 */
+  /* tùy chọn: nếu muốn cả ngang cũng sát hơn, bật dòng dưới */
+  /* --bs-gutter-x: .25rem; */
+}
 
+/* (tùy chọn) giảm padding bên trong mỗi item cho gọn hơn */
+.category-item{ padding:8px; }
 /* === Benefits: icon ở trên, chữ căn giữa (override) === */
 .benefits-v3 .bcard{
   flex-direction: column;   /* icon -> text */
