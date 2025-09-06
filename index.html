@@ -35,12 +35,12 @@ body{
   margin:0 auto;
   display:flex;align-items:center;justify-content:center;gap:12px;
 }
-/* 3) Logo tỉ lệ 3:2 */
+/* Logo tỉ lệ 3:2 */
 .site-header img.logo{
   height:auto; width:84px; aspect-ratio:3/2; object-fit:contain; display:block;
 }
 
-/* 2) Thanh tìm kiếm bằng hero */
+/* Thanh tìm kiếm bằng hero */
 .header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:360px; }
 @media (max-width: 992px){
   .site-header .wrap{ justify-content:center; }
@@ -58,11 +58,20 @@ body{
 /* Sticky cho cột trái */
 .sidebar-sticky{ position:sticky; top:92px; }
 
-/* “Quyền lợi” – trình bày đẹp, không bullet đen */
-.benefits{ list-style:none; margin:0; padding:0; }
-.benefits li{ display:flex; gap:8px; align-items:flex-start; margin:6px 0; line-height:1.45; }
-.benefits li .ico{ width:20px; flex:0 0 20px; text-align:center; }
-.benefits strong{ font-weight:700; }
+/* Quyền lợi option B (card mini 2 cột) */
+.benefit-card{
+  background:#f8f9fd;
+  border:1px solid #eef2ff;
+  border-radius:10px;
+  padding:10px;
+  height:100%;
+  text-align:left;
+  transition:.2s;
+}
+.benefit-card:hover{ background:#eef4ff; border-color:#d0e0ff; }
+.benefit-card .b-ico{ font-size:18px; line-height:1; }
+.benefit-card .b-title{ font-weight:700; font-size:13px; margin-top:4px; }
+.benefit-card .b-sub{ font-size:12px; color:#6c757d; margin-top:2px; }
 
 /* Hero */
 .hero{margin-bottom:15px}
@@ -81,7 +90,7 @@ body{
 .category-item span{font-size:13px;display:block}
 .category-item.active{background:#e6f0ff;border:1px solid #007bff}
 
-/* Card sản phẩm */
+/* Card sản phẩm – GIỮ nguyên */
 .cardx{border:none;border-radius:12px;background:#fff;overflow:hidden;transition:.2s;height:100%;
   box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover;background:#fff}
@@ -120,7 +129,7 @@ body{
 .filter-fab{ background:#6c757d; bottom:148px; }
 .fab-badge{
   position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700;
-  display:none;
+  display:none;  /* chỉ hiện khi > 0 */
 }
 
 /* Offcanvas */
@@ -155,19 +164,55 @@ body{
 
 <div class="container-fluid my-3">
   <div class="row g-3 align-items-start">
-    <!-- SIDEBAR TRÁI -->
+    <!-- Sidebar -->
     <aside class="col-12 col-md-4 col-lg-3 sidebar-sticky">
-      <!-- Quyền lợi -->
+      <!-- Quyền lợi: OPTION B -->
       <div class="sidebar-box">
         <h6 class="mb-2">Quyền lợi</h6>
-        <ul class="benefits">
-          <li><span class="ico">📚</span><span><strong>10,000+ mẫu tham khảo</strong> – không lo thiếu ý tưởng</span></li>
-          <li><span class="ico">🏭</span><span><strong>500+ nhà cung cấp</strong> – báo giá minh bạch, dễ dàng lấy giá</span></li>
-          <li><span class="ico">🎨</span><span><strong>Tư vấn & thiết kế sản phẩm</strong> – đáp ứng nhiều nhu cầu</span></li>
-          <li><span class="ico">⚙️</span><span><strong>Hỗ trợ thiết kế sản xuất</strong> – giảm thiểu lỗi và rủi ro</span></li>
-          <li><span class="ico">📦</span><span><strong>Dịch vụ hậu cần, đóng gói</strong> – giải quyết các vấn đề hậu cần</span></li>
-          <li><span class="ico">🤝</span><span><strong>Hỗ trợ giải quyết tranh chấp</strong> – đảm bảo quyền lợi khách hàng</span></li>
-        </ul>
+        <div class="row g-2">
+          <div class="col-6">
+            <div class="benefit-card">
+              <div class="b-ico">📚</div>
+              <div class="b-title">10,000+ mẫu tham khảo</div>
+              <div class="b-sub">Không lo thiếu ý tưởng</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-card">
+              <div class="b-ico">🏭</div>
+              <div class="b-title">500+ nhà cung cấp</div>
+              <div class="b-sub">Giá minh bạch, dễ dàng lấy giá</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-card">
+              <div class="b-ico">🎨</div>
+              <div class="b-title">Tư vấn & thiết kế</div>
+              <div class="b-sub">Đáp ứng nhiều nhu cầu</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-card">
+              <div class="b-ico">⚙️</div>
+              <div class="b-title">Hỗ trợ sản xuất</div>
+              <div class="b-sub">Giảm thiểu lỗi & rủi ro</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-card">
+              <div class="b-ico">📦</div>
+              <div class="b-title">Hậu cần & đóng gói</div>
+              <div class="b-sub">Giải quyết trọn gói</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="benefit-card">
+              <div class="b-ico">🤝</div>
+              <div class="b-title">Giải quyết tranh chấp</div>
+              <div class="b-sub">Bảo vệ quyền lợi khách hàng</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Xưởng đề xuất -->
@@ -177,8 +222,8 @@ body{
       </div>
     </aside>
 
-    <!-- CONTENT PHẢI -->
-    <main class="col-12 col-md-8 col-lg-9">
+    <!-- Content -->
+    <div class="col-12 col-md-8 col-lg-9">
       <!-- HERO -->
       <div class="hero row g-2">
         <div class="col-md-8 main">
@@ -235,7 +280,7 @@ body{
         <button id="prevBtn" class="btn btn-outline-secondary">← Trước</button>
         <button id="nextBtn" class="btn btn-outline-secondary">Sau →</button>
       </div>
-    </main>
+    </div>
   </div>
 </div>
 
