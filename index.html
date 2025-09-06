@@ -18,7 +18,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 }
 .top-banner .marquee{
   display:inline-block; white-space:nowrap; padding-left:100%;
-  animation: marquee 90s linear infinite; /* 18s -> 90s */
+  animation: marquee 60s linear infinite; /* 18s -> 90s */
 }
 @keyframes marquee{ 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
 
@@ -57,7 +57,11 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px
 }
 .benefits-v3 .ic{width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px}
-.benefits-v3 .ttl{font-weight:700;color:#0018a8;line-height:1.2}
+/* Benefits: tiêu đề chữ thường, không in đậm */
+.benefits-v3 .ttl{
+  font-weight: 400;      /* hoặc 500 nếu muốn đậm nhẹ */
+  text-transform: none;  /* đảm bảo không bị in hoa */
+}
 .benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
 
 /* Xưởng đề xuất – card preview */
@@ -177,7 +181,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
           <div class="bcard"><div class="ic">🏭</div><div><div class="ttl">500+ nhà cung cấp và xưởng sản xuất</div><div class="sub">Báo giá nhanh, đa dạng</div></div></div>
           <div class="bcard"><div class="ic">🎨</div><div><div class="ttl">Tư vấn chuyên nghiệp (Miễn phí)</div><div class="sub">Đáp ứng nhiều nhu cầu</div></div></div>
           <div class="bcard"><div class="ic">⚙️</div><div><div class="ttl">Thiết kế 2D, 3D sản xuất (Miễn phí)</div><div class="sub">Hỗ trợ thiết kế sản xuất</div></div></div>
-          <div class="bcard"><div class="ic">📦</div><div><div class="ttl">Hậu cần vận chueeryn – đóng gói hàng hóa (Dịch vụ thêm)</div><div class="sub">Xử lý khâu vận hành</div></div></div>
+          <div class="bcard"><div class="ic">📦</div><div><div class="ttl">Hậu cần vận chuyển – đóng gói hàng hóa (Dịch vụ thêm)</div><div class="sub">Xử lý khâu vận hành</div></div></div>
           <div class="bcard"><div class="ic">🤝</div><div><div class="ttl">Hỗ trợ tranh chấp (Hỗ trợ xử lý phát sinh)</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div></div>
         </div>
       </div>
