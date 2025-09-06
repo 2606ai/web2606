@@ -3,10 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>2606AI • 12 cột (4 Bộ × 3 cột) – mỗi Bộ hiển thị 18 sp</title>
+<title>2606AI • 12 cột – 4 Bộ (mỗi Bộ 3×6, cuộn DỌC độc lập)</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
+
 body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14px; padding-top:70px }
 .container-fluid{ max-width:1600px; margin:auto }
 
@@ -20,23 +21,24 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
 /* Banner */
 .top-banner{ position:sticky; top:70px; z-index:1054; background:var(--main); color:#fff; text-align:center; padding:6px; font-weight:800 }
 
-/* Module = 1 cột (3/12) */
+/* ===== Module = 1 cột (3/12) ===== */
 .module{ background:#fff; border-radius:12px; padding:10px; box-shadow:0 2px 6px rgba(0,0,0,.06); height:100%; display:flex; flex-direction:column; gap:8px }
 .module .head{ display:flex; align-items:center; gap:8px }
 .module .title{ font-weight:800; font-size:15px; white-space:nowrap }
 .module .state{ font-size:12px; background:#eef3ff; color:#233; padding:3px 8px; border-radius:999px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
 .module .head .grow{ flex:1 1 auto; min-width:0 }
 
-/* Dropdown filter */
-.dropdown-menu{ max-height:60vh; overflow:auto }
-.pills .btn{ --bs-btn-padding-y:.25rem; --bs-btn-padding-x:.55rem; --bs-btn-font-size:.75rem; margin:.15rem .2rem }
+/* Thân module có CUỘN DỌC độc lập */
+.module .body{ position:relative; overflow:hidden; border-radius:10px; background:#fafafa }
+.vrail{ height: 720px; /* chỉnh bằng JS cho đồng nhất thiết bị */ overflow-y:auto; padding:8px }
+.vrail::-webkit-scrollbar{ width:8px } .vrail::-webkit-scrollbar-thumb{ background:#cbd3ff; border-radius:999px }
 
 /* Grid trong mỗi Bộ: 3 cột × 6 dòng = 18 item */
 .grid18{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-@media (max-width: 1400px){ .grid18{ grid-template-columns:repeat(2,1fr); } } /* fallback khi màn hình hẹp */
+@media (max-width: 1400px){ .grid18{ grid-template-columns:repeat(2,1fr); } }
 @media (max-width: 768px){ .grid18{ grid-template-columns:repeat(1,1fr); } }
 
-/* Card compact để vừa 3×6 */
+/* Card compact */
 .cardx{ background:#fff; border:none; border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; display:flex; flex-direction:column; height:100% }
 .cardx img.thumb{ width:100%; height:120px; object-fit:cover; background:#fff }
 .cardx .meta{ padding:8px; display:flex; flex-direction:column; gap:6px; flex:1 }
@@ -50,7 +52,11 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
 .cardx .btn-gift:hover{ background:var(--main); color:#fff; text-decoration:none }
 .cardx .add-btn{ width:28px; height:28px; border-radius:50%; border:none; background:var(--main); color:#fff; font-weight:800; line-height:28px }
 
-/* Pager trong mỗi Bộ */
+/* Dropdown filter */
+.dropdown-menu{ max-height:60vh; overflow:auto }
+.pills .btn{ --bs-btn-padding-y:.25rem; --bs-btn-padding-x:.55rem; --bs-btn-font-size:.75rem; margin:.15rem .2rem }
+
+/* Pager (tuỳ chọn) */
 .pager{ display:flex; justify-content:space-between; align-items:center; gap:6px; padding-top:4px }
 .pager .info{ font-size:12px; color:#666 }
 
@@ -84,7 +90,7 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
 
 <div class="container-fluid my-3">
   <div class="row g-3">
-    <!-- ====== 4 Bộ x 3 cột = 12 cột ====== -->
+    <!-- ===== 4 Bộ × 3 cột = 12 cột ===== -->
 
     <!-- Bộ 1 -->
     <div class="col-12 col-md-6 col-lg-3">
@@ -109,7 +115,9 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div id="gridA" class="grid18"></div>
+        <div class="body">
+          <div id="railA" class="vrail"><div id="gridA" class="grid18"></div></div>
+        </div>
         <div class="pager">
           <button id="prevA" class="btn btn-outline-secondary btn-sm">← Trước</button>
           <div class="info" id="infoA"></div>
@@ -141,7 +149,9 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div id="gridB" class="grid18"></div>
+        <div class="body">
+          <div id="railB" class="vrail"><div id="gridB" class="grid18"></div></div>
+        </div>
         <div class="pager">
           <button id="prevB" class="btn btn-outline-secondary btn-sm">← Trước</button>
           <div class="info" id="infoB"></div>
@@ -173,7 +183,9 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div id="gridC" class="grid18"></div>
+        <div class="body">
+          <div id="railC" class="vrail"><div id="gridC" class="grid18"></div></div>
+        </div>
         <div class="pager">
           <button id="prevC" class="btn btn-outline-secondary btn-sm">← Trước</button>
           <div class="info" id="infoC"></div>
@@ -205,7 +217,9 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div id="gridD" class="grid18"></div>
+        <div class="body">
+          <div id="railD" class="vrail"><div id="gridD" class="grid18"></div></div>
+        </div>
         <div class="pager">
           <button id="prevD" class="btn btn-outline-secondary btn-sm">← Trước</button>
           <div class="info" id="infoD"></div>
@@ -237,6 +251,7 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
 document.addEventListener('DOMContentLoaded', ()=>{
 /* ========= CONFIG ========= */
 const API_URL="https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
+const MODULE_BODY_HEIGHT = 720; // px – chỉnh chiều cao vùng cuộn dọc của từng Bộ
 
 /* ========= HELPERS ========= */
 const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -245,7 +260,7 @@ const badgeColor = t => { if(!t) return '#555'; const s=t.toLowerCase(); if(s.in
 function firstLink(s){ if(!s) return ''; const a=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of a) if(/^https?:\/\//i.test(p)) return p; return a[0]||''; }
 function card(it){
   const gift=firstLink(it.imageClick), show=!!gift, label=(it.loai||'Nhận quà').toString().trim();
-  return `<div class="col"><div class="cardx">
+  return `<div class="cardx">
     <a href="${esc(it.linkFull||it.img)}" target="_blank" rel="noopener"><img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'"></a>
     <div class="meta">
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
@@ -258,10 +273,10 @@ function card(it){
         <button class="add-btn" data-add='${esc(JSON.stringify({id:it.id,price:it.price,img:it.img,details:it.details}))}'>+</button>
       </div>
     </div>
-  </div></div>`;
+  </div>`;
 }
 
-/* ========= CART (tối giản) ========= */
+/* ========= CART (rút gọn) ========= */
 const cart=[]; const off=bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartCanvas'));
 function updateCart(){
   const list=document.getElementById('cartList'); let total=0;
@@ -273,8 +288,8 @@ function updateCart(){
   document.getElementById('cartTotal').textContent=fmtVND(total);
   const n=cart.reduce((a,b)=>a+b.qty,0), badge=document.getElementById('cartFabCount'); badge.textContent=n; badge.style.display=n?'inline-block':'none';
 }
-document.getElementById('cartFab').addEventListener('click',()=>off.toggle());
-document.getElementById('clearCartBtn').addEventListener('click',()=>{cart.length=0;updateCart();});
+document.getElementById('cartFab')?.addEventListener('click',()=>off.toggle());
+document.getElementById('clearCartBtn')?.addEventListener('click',()=>{cart.length=0;updateCart();});
 document.addEventListener('click',e=>{
   const t=e.target;
   if(t.dataset.add){ const it=JSON.parse(t.dataset.add); const f=cart.find(x=>x.id===it.id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); }
@@ -283,9 +298,13 @@ document.addEventListener('click',e=>{
 /* ========= MODULE (mỗi Bộ độc lập) ========= */
 function makeModule(letter){
   const st={ page:1, pageSize:18, q:'', category:'', type:'', loai:'', note:'', total:0 };
+  const rail = document.getElementById('rail'+letter);
   const grid = document.getElementById('grid'+letter);
   const info = document.getElementById('info'+letter);
   const state= document.getElementById('state'+letter);
+  // set chiều cao vùng cuộn dọc:
+  rail.style.height = MODULE_BODY_HEIGHT + 'px';
+
   const el = {
     cat : document.getElementById('cat'+letter),
     type: document.getElementById('type'+letter),
@@ -318,9 +337,10 @@ function makeModule(letter){
     st.total = Number(res?.total||0);
     const items = Array.isArray(res?.items)? res.items : [];
     // vẽ grid 3×6
-    if(items.length===0) grid.innerHTML='<div class="text-muted small">Không có sản phẩm.</div>';
-    else grid.innerHTML = items.map(card).join('');
+    grid.innerHTML = items.length? items.map(card).join('') : '<div class="text-muted small">Không có sản phẩm.</div>';
     fillFacets(res?.facets||{}); updateState();
+    // cuộn lên đầu mỗi khi đổi trang/lọc
+    rail.scrollTop = 0;
   }
   function fetchPage(){
     const p=new URLSearchParams({action:'list',page:st.page,pageSize:st.pageSize,q:st.q,category:st.category,type:st.type,loai:st.loai,note:st.note});
@@ -347,9 +367,9 @@ function makeModule(letter){
 const modA=makeModule('A'), modB=makeModule('B'), modC=makeModule('C'), modD=makeModule('D');
 
 /* Category mặc định (đổi theo sheet của bạn) */
-modA.setCategory('Huy hiệu');
-modB.setCategory('Móc khóa');
-modC.setCategory('Huy chương');
+modA.setCategory('Huy hiệu tạo hình sự kiện');
+modB.setCategory('Huy hiệu tạo hình nhân vật');
+modC.setCategory('Huy chương phối sẵn');
 modD.load();
 
 /* Tìm toàn trang -> đổ vào cả 4 Bộ */
