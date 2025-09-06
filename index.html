@@ -305,6 +305,8 @@ const cart = []; const products = {};
 
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
 const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* Helper: màu badge ghi chú */
 function badgeColor(txt){
   if(!txt) return "#555";
   const t=txt.toLowerCase();
@@ -313,6 +315,13 @@ function badgeColor(txt){
   if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
   return "#555";
 }
+
+/* Helper: lấy hostname cho fallback */
+function hostnameFromUrl(u){
+  try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); }
+}
+
+/* Helper: link đầu tiên trong chuỗi */
 function firstLink(s){
   if(!s) return '';
   const parts = String(s).split(/[\s,;|\n]+/).filter(Boolean);
@@ -421,54 +430,60 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-/* ===== XƯỞNG ĐỀ XUẤT – 5 dòng dọc với preview ===== */
+/* ===== XƯỞNG ĐỀ XUẤT – luôn hiển thị card preview (ảnh + title + desc) ===== */
 function renderAds(list){
-  const box = document.getElementById('adsList');
+  const box   = document.getElementById('adsList');
   const empty = document.getElementById('adsEmpty');
 
   const data = (list || []).slice(0, 5);
-  if(!data.length){
+  if (!data.length){
     box.innerHTML = '';
     empty.style.display = 'block';
     return;
   }
   empty.style.display = 'none';
 
-  box.innerHTML = data.map((s)=>`
-    <div class="border rounded-3 p-2">
-      <div class="d-flex align-items-start gap-2">
-        <div class="rounded" style="width:64px;height:64px;background:#f1f4ff;display:flex;align-items:center;justify-content:center">🔗</div>
-        <div class="flex-grow-1" style="min-width:0">
-          <div class="fw-semibold text-truncate" title="${esc(s.name||'')}">${esc(s.name||'Nhà cung cấp')}</div>
-          <div class="small text-truncate"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>
-        </div>
-        <a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
+  // skeleton trước cho mượt
+  box.innerHTML = data.map(()=>`
+    <div class="link-preview">
+      <div class="thumb" style="width:64px;height:64px;border-radius:8px;background:#f1f4ff"></div>
+      <div class="meta" style="flex:1;min-width:0">
+        <div class="title placeholder-glow"><span class="placeholder col-8" style="height:16px"></span></div>
+        <div class="desc placeholder-glow"><span class="placeholder col-10" style="height:12px"></span></div>
+        <div class="site placeholder-glow"><span class="placeholder col-4" style="height:12px"></span></div>
+        <div><span class="small text-muted">Đang tải…</span></div>
       </div>
     </div>
   `).join('');
 
-  data.forEach((s, i)=>{
-    fetchLinkPreview(s.url).then(p=>{
-      if(!p || !p.ok) return;
-      const card = box.children[i];
-      if(!card) return;
-      card.innerHTML = `
-        <div class="link-preview">
-          ${p.image
-            ? `<img class="thumb" src="${esc(p.image)}" alt="">`
-            : `<div class="thumb" style="width:64px;height:64px;border-radius:8px;background:#f1f4ff;display:flex;align-items:center;justify-content:center;">🔗</div>`}
-          <div class="meta" style="flex:1; min-width:0">
-            <div class="title text-truncate" title="${esc(p.title||s.name||'')}">${esc(p.title || s.name || 'Nhà cung cấp')}</div>
-            <div class="desc">${esc(p.description || '')}</div>
-            <div class="site">
-              ${p.favicon?`<img src="${esc(p.favicon)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">`:''}
-              ${esc(p.siteName || '')}
-            </div>
-            <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
-          </div>
-          <div><a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
-        </div>`;
-    }).catch(()=>{});
+  // lấy preview & đổ nội dung thật
+  data.forEach(async (s, i)=>{
+    const card = box.children[i];
+    if (!card) return;
+
+    let p = null;
+    try { p = await fetchLinkPreview(s.url); } catch(e){}
+
+    const host = hostnameFromUrl(s.url);
+    const img  = (p && p.ok && p.image)      ? p.image   : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+    const tit  = (p && p.ok && p.title)      ? p.title   : (s.name || host);
+    const des  = (p && p.ok && p.description)? p.description : '';
+    const ico  = (p && p.ok && p.favicon)    ? p.favicon : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
+    const site = (p && p.ok && p.siteName)   ? p.siteName: host;
+
+    card.innerHTML = `
+      <img class="thumb" src="${esc(img)}" alt="">
+      <div class="meta" style="flex:1;min-width:0">
+        <div class="title text-truncate" title="${esc(tit)}">${esc(tit)}</div>
+        <div class="desc">${esc(des)}</div>
+        <div class="site">
+          <img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">
+          ${esc(site)}
+        </div>
+        <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
+      </div>
+      <div><a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
+    `;
   });
 }
 function fetchAdsByCategory(cat){
