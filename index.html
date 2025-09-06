@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>2606AI • 12 cột (4 bộ x 3 cột) – Slider & Filter độc lập</title>
+<title>2606AI • 12 cột (4 Bộ × 3 cột) – mỗi Bộ hiển thị 18 sp</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
@@ -17,42 +17,42 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
 .header-search{ flex:1 1 auto; min-width:340px }
 .header-search .input-group-text{ background:#fff }
 
-/* Top banner */
+/* Banner */
 .top-banner{ position:sticky; top:70px; z-index:1054; background:var(--main); color:#fff; text-align:center; padding:6px; font-weight:800 }
 
-/* Module (mỗi 3 cột) */
+/* Module = 1 cột (3/12) */
 .module{ background:#fff; border-radius:12px; padding:10px; box-shadow:0 2px 6px rgba(0,0,0,.06); height:100%; display:flex; flex-direction:column; gap:8px }
 .module .head{ display:flex; align-items:center; gap:8px }
-.module .title{ font-weight:800; font-size:15px; flex:1 }
-.module .state{ font-size:12px; background:#eef3ff; color:#233; padding:3px 8px; border-radius:999px; max-width:55%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.module .title{ font-weight:800; font-size:15px; white-space:nowrap }
+.module .state{ font-size:12px; background:#eef3ff; color:#233; padding:3px 8px; border-radius:999px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.module .head .grow{ flex:1 1 auto; min-width:0 }
 
 /* Dropdown filter */
 .dropdown-menu{ max-height:60vh; overflow:auto }
 .pills .btn{ --bs-btn-padding-y:.25rem; --bs-btn-padding-x:.55rem; --bs-btn-font-size:.75rem; margin:.15rem .2rem }
 
-/* Slider (trượt ngang) */
-.slider-wrap{ position:relative; overflow:hidden; border-radius:10px; background:#fafafa }
-.slider-rail{ display:flex; gap:10px; padding:10px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth }
-.slider-rail::-webkit-scrollbar{ height:8px } .slider-rail::-webkit-scrollbar-thumb{ background:#cbd3ff; border-radius:999px }
-.slide-item{ min-width:100%; max-width:100%; scroll-snap-align:start }    /* 1 sản phẩm/khung; muốn 2-3 sp/khung: đổi 100% -> 50%/33.333% */
+/* Grid trong mỗi Bộ: 3 cột × 6 dòng = 18 item */
+.grid18{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+@media (max-width: 1400px){ .grid18{ grid-template-columns:repeat(2,1fr); } } /* fallback khi màn hình hẹp */
+@media (max-width: 768px){ .grid18{ grid-template-columns:repeat(1,1fr); } }
 
-/* Card sản phẩm */
+/* Card compact để vừa 3×6 */
 .cardx{ background:#fff; border:none; border-radius:10px; box-shadow:0 1px 4px rgba(0,0,0,.08); overflow:hidden; display:flex; flex-direction:column; height:100% }
-.cardx img.thumb{ width:100%; height:160px; object-fit:cover; background:#fff }
-.cardx .meta{ padding:10px; display:flex; flex-direction:column; gap:6px; flex:1 }
-.cardx .note-chip{ align-self:flex-start; padding:2px 8px; border-radius:999px; font-size:11px; color:#fff; background:#555 }
-.cardx .id{ font-weight:800; color:#0018a8; font-size:13px; line-height:1.1 }
-.cardx .details{ font-size:12px; color:#666; flex:1 }
-.cardx .type-badge{ display:inline-block; background:#e0f0ff; color:#0056b3; font-size:11px; font-weight:700; padding:2px 6px; border-radius:12px }
-.cardx .price{ font-weight:800; color:#d32f2f }
-.cardx .meta-actions{ display:flex; justify-content:space-between; align-items:center; gap:8px }
-.cardx .btn-gift{ background:#fff; border:1px solid var(--main); color:var(--main); border-radius:999px; padding:6px 10px; font-size:12px; text-decoration:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.cardx img.thumb{ width:100%; height:120px; object-fit:cover; background:#fff }
+.cardx .meta{ padding:8px; display:flex; flex-direction:column; gap:6px; flex:1 }
+.cardx .note-chip{ align-self:flex-start; padding:2px 6px; border-radius:999px; font-size:10px; color:#fff; background:#555 }
+.cardx .id{ font-weight:800; color:#0018a8; font-size:12px; line-height:1.1 }
+.cardx .details{ font-size:11px; color:#666; flex:1 }
+.cardx .type-badge{ display:inline-block; background:#e0f0ff; color:#0056b3; font-size:10px; font-weight:700; padding:2px 6px; border-radius:12px }
+.cardx .price{ font-weight:800; color:#d32f2f; font-size:13px }
+.cardx .meta-actions{ display:flex; justify-content:space-between; align-items:center; gap:6px }
+.cardx .btn-gift{ background:#fff; border:1px solid var(--main); color:var(--main); border-radius:999px; padding:4px 8px; font-size:11px; text-decoration:none; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:70% }
 .cardx .btn-gift:hover{ background:var(--main); color:#fff; text-decoration:none }
-.cardx .add-btn{ width:32px; height:32px; border-radius:50%; border:none; background:var(--main); color:#fff; font-weight:800 }
+.cardx .add-btn{ width:28px; height:28px; border-radius:50%; border:none; background:var(--main); color:#fff; font-weight:800; line-height:28px }
 
-/* Slider nav */
-.navbtn{ position:absolute; top:50%; transform:translateY(-50%); width:34px; height:34px; border:none; border-radius:50%; background:rgba(0,0,0,.55); color:#fff; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2 }
-.navbtn.left{ left:6px } .navbtn.right{ right:6px }
+/* Pager trong mỗi Bộ */
+.pager{ display:flex; justify-content:space-between; align-items:center; gap:6px; padding-top:4px }
+.pager .info{ font-size:12px; color:#666 }
 
 /* Cart FAB (tối giản) */
 .cart-fab{ position:fixed; right:16px; bottom:16px; width:54px; height:54px; border:none; border-radius:50%; background:#0018a8; color:#fff; font-size:22px; display:flex; align-items:center; justify-content:center; box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:2500 }
@@ -72,7 +72,7 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
     <form class="header-search d-flex gap-2 m-0" onsubmit="return false;">
       <div class="input-group w-100">
         <span class="input-group-text">🔍</span>
-        <input id="qGlobal" class="form-control" placeholder="Tìm toàn trang (đổ vào cả 4 bộ)..." />
+        <input id="qGlobal" class="form-control" placeholder="Tìm toàn trang (đổ vào cả 4 Bộ)..." />
       </div>
       <button id="btnGlobal" class="btn btn-outline-primary">Tìm</button>
     </form>
@@ -84,14 +84,14 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
 
 <div class="container-fluid my-3">
   <div class="row g-3">
-    <!-- ===== Row 12 cột: 4 bộ x 3 cột ===== -->
+    <!-- ====== 4 Bộ x 3 cột = 12 cột ====== -->
 
     <!-- Bộ 1 -->
     <div class="col-12 col-md-6 col-lg-3">
       <div class="module" id="modA">
         <div class="head">
           <div class="title">Bộ 1</div>
-          <div id="stateA" class="state">All</div>
+          <div class="grow"><div id="stateA" class="state">All</div></div>
           <div class="dropdown">
             <button class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">Bộ lọc</button>
             <div class="dropdown-menu dropdown-menu-end p-2" style="min-width:280px">
@@ -109,10 +109,11 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div class="slider-wrap">
-          <button class="navbtn left"  data-slider="A" data-dir="-1">‹</button>
-          <div id="railA" class="slider-rail"></div>
-          <button class="navbtn right" data-slider="A" data-dir="1">›</button>
+        <div id="gridA" class="grid18"></div>
+        <div class="pager">
+          <button id="prevA" class="btn btn-outline-secondary btn-sm">← Trước</button>
+          <div class="info" id="infoA"></div>
+          <button id="nextA" class="btn btn-outline-secondary btn-sm">Sau →</button>
         </div>
       </div>
     </div>
@@ -122,7 +123,7 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
       <div class="module" id="modB">
         <div class="head">
           <div class="title">Bộ 2</div>
-          <div id="stateB" class="state">All</div>
+          <div class="grow"><div id="stateB" class="state">All</div></div>
           <div class="dropdown">
             <button class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">Bộ lọc</button>
             <div class="dropdown-menu dropdown-menu-end p-2" style="min-width:280px">
@@ -140,10 +141,11 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div class="slider-wrap">
-          <button class="navbtn left"  data-slider="B" data-dir="-1">‹</button>
-          <div id="railB" class="slider-rail"></div>
-          <button class="navbtn right" data-slider="B" data-dir="1">›</button>
+        <div id="gridB" class="grid18"></div>
+        <div class="pager">
+          <button id="prevB" class="btn btn-outline-secondary btn-sm">← Trước</button>
+          <div class="info" id="infoB"></div>
+          <button id="nextB" class="btn btn-outline-secondary btn-sm">Sau →</button>
         </div>
       </div>
     </div>
@@ -153,7 +155,7 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
       <div class="module" id="modC">
         <div class="head">
           <div class="title">Bộ 3</div>
-          <div id="stateC" class="state">All</div>
+          <div class="grow"><div id="stateC" class="state">All</div></div>
           <div class="dropdown">
             <button class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">Bộ lọc</button>
             <div class="dropdown-menu dropdown-menu-end p-2" style="min-width:280px">
@@ -171,10 +173,11 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div class="slider-wrap">
-          <button class="navbtn left"  data-slider="C" data-dir="-1">‹</button>
-          <div id="railC" class="slider-rail"></div>
-          <button class="navbtn right" data-slider="C" data-dir="1">›</button>
+        <div id="gridC" class="grid18"></div>
+        <div class="pager">
+          <button id="prevC" class="btn btn-outline-secondary btn-sm">← Trước</button>
+          <div class="info" id="infoC"></div>
+          <button id="nextC" class="btn btn-outline-secondary btn-sm">Sau →</button>
         </div>
       </div>
     </div>
@@ -184,7 +187,7 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
       <div class="module" id="modD">
         <div class="head">
           <div class="title">Bộ 4</div>
-          <div id="stateD" class="state">All</div>
+          <div class="grow"><div id="stateD" class="state">All</div></div>
           <div class="dropdown">
             <button class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown">Bộ lọc</button>
             <div class="dropdown-menu dropdown-menu-end p-2" style="min-width:280px">
@@ -202,10 +205,11 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
             </div>
           </div>
         </div>
-        <div class="slider-wrap">
-          <button class="navbtn left"  data-slider="D" data-dir="-1">‹</button>
-          <div id="railD" class="slider-rail"></div>
-          <button class="navbtn right" data-slider="D" data-dir="1">›</button>
+        <div id="gridD" class="grid18"></div>
+        <div class="pager">
+          <button id="prevD" class="btn btn-outline-secondary btn-sm">← Trước</button>
+          <div class="info" id="infoD"></div>
+          <button id="nextD" class="btn btn-outline-secondary btn-sm">Sau →</button>
         </div>
       </div>
     </div>
@@ -233,7 +237,6 @@ body{ font-family:Helvetica,Arial,sans-serif; background:var(--bg); font-size:14
 document.addEventListener('DOMContentLoaded', ()=>{
 /* ========= CONFIG ========= */
 const API_URL="https://script.google.com/macros/s/AKfycbz-P3biIvSq1FYSt5I4T6tLYtv5mggIwRR3ug1FIUSbuZe6HMkLazUlbRyM1IW7LxH6/exec";
-const cart=[]; const off=bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartCanvas'));
 
 /* ========= HELPERS ========= */
 const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -242,7 +245,7 @@ const badgeColor = t => { if(!t) return '#555'; const s=t.toLowerCase(); if(s.in
 function firstLink(s){ if(!s) return ''; const a=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of a) if(/^https?:\/\//i.test(p)) return p; return a[0]||''; }
 function card(it){
   const gift=firstLink(it.imageClick), show=!!gift, label=(it.loai||'Nhận quà').toString().trim();
-  return `<div class="slide-item"><div class="cardx">
+  return `<div class="col"><div class="cardx">
     <a href="${esc(it.linkFull||it.img)}" target="_blank" rel="noopener"><img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'"></a>
     <div class="meta">
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
@@ -258,7 +261,8 @@ function card(it){
   </div></div>`;
 }
 
-/* ========= CART ========= */
+/* ========= CART (tối giản) ========= */
+const cart=[]; const off=bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartCanvas'));
 function updateCart(){
   const list=document.getElementById('cartList'); let total=0;
   list.innerHTML=cart.map(x=>{const sub=x.qty*(Number(x.price)||0); total+=sub; return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
@@ -276,10 +280,11 @@ document.addEventListener('click',e=>{
   if(t.dataset.add){ const it=JSON.parse(t.dataset.add); const f=cart.find(x=>x.id===it.id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); }
 });
 
-/* ========= MODULE (mỗi 3 cột) ========= */
+/* ========= MODULE (mỗi Bộ độc lập) ========= */
 function makeModule(letter){
-  const st={ page:1, pageSize:12, q:'', category:'', type:'', loai:'', note:'' };
-  const rail = document.getElementById('rail'+letter);
+  const st={ page:1, pageSize:18, q:'', category:'', type:'', loai:'', note:'', total:0 };
+  const grid = document.getElementById('grid'+letter);
+  const info = document.getElementById('info'+letter);
   const state= document.getElementById('state'+letter);
   const el = {
     cat : document.getElementById('cat'+letter),
@@ -288,7 +293,9 @@ function makeModule(letter){
     note: document.getElementById('note'+letter),
     q   : document.getElementById('q'+letter),
     apply: document.getElementById('apply'+letter),
-    clear: document.getElementById('clear'+letter)
+    clear: document.getElementById('clear'+letter),
+    prev: document.getElementById('prev'+letter),
+    next: document.getElementById('next'+letter),
   };
 
   function pill(val, field){
@@ -304,14 +311,20 @@ function makeModule(letter){
   function updateState(){
     const a=[]; if(st.category)a.push(st.category); if(st.type)a.push(st.type); if(st.loai)a.push(st.loai); if(st.note)a.push(st.note); if(st.q)a.push('Q:'+st.q);
     state.textContent=a.length?a.join(' · '):'All';
+    const from=(st.page-1)*st.pageSize+1, to=Math.min(st.page*st.pageSize, st.total||0);
+    info.textContent = st.total? `${from}-${to} / ${st.total}` : '';
   }
   function render(res){
-    rail.innerHTML=(res?.items||[]).map(card).join('')||'<div class="p-3 text-muted">Không có sản phẩm.</div>';
+    st.total = Number(res?.total||0);
+    const items = Array.isArray(res?.items)? res.items : [];
+    // vẽ grid 3×6
+    if(items.length===0) grid.innerHTML='<div class="text-muted small">Không có sản phẩm.</div>';
+    else grid.innerHTML = items.map(card).join('');
     fillFacets(res?.facets||{}); updateState();
   }
   function fetchPage(){
     const p=new URLSearchParams({action:'list',page:st.page,pageSize:st.pageSize,q:st.q,category:st.category,type:st.type,loai:st.loai,note:st.note});
-    fetch(API_URL+'?'+p.toString()).then(r=>r.json()).then(render).catch(()=>{ rail.innerHTML='<div class="p-3 text-danger">Lỗi tải dữ liệu.</div>'; });
+    fetch(API_URL+'?'+p.toString()).then(r=>r.json()).then(render).catch(()=>{ grid.innerHTML='<div class="text-danger small">Lỗi tải dữ liệu.</div>'; });
   }
 
   // Events
@@ -321,36 +334,25 @@ function makeModule(letter){
       const field=t.dataset.field, val=t.dataset.val||'';
       st[field]= (st[field]===val)?'':val; st.page=1; fetchPage();
     }
-    if(t.dataset.slider===letter){
-      const dir=Number(t.dataset.dir||0); rail.scrollBy({left:dir*rail.clientWidth,behavior:'smooth'});
-    }
   });
-  document.querySelectorAll(`[data-slider="${letter}"]`).forEach(b=>b.addEventListener('click',()=>{}));
   el.apply.addEventListener('click',()=>{ st.q=el.q.value.trim(); st.page=1; fetchPage(); });
   el.clear.addEventListener('click',()=>{ st.q=''; st.category=''; st.type=''; st.loai=''; st.note=''; el.q.value=''; st.page=1; fetchPage(); });
+  el.prev.addEventListener('click',()=>{ if(st.page>1){ st.page--; fetchPage(); } });
+  el.next.addEventListener('click',()=>{ st.page++; fetchPage(); });
 
-  return { load:fetchPage, setCategory:(v)=>{ st.category=v||''; fetchPage(); }, search:(q)=>{ st.q=q||''; fetchPage(); } };
+  return { load:fetchPage, setCategory:(v)=>{ st.category=v||''; st.page=1; fetchPage(); }, search:(q)=>{ st.q=q||''; st.page=1; fetchPage(); } };
 }
 
-/* Tạo 4 module = 12 cột */
+/* Tạo 4 Bộ = 12 cột */
 const modA=makeModule('A'), modB=makeModule('B'), modC=makeModule('C'), modD=makeModule('D');
 
-/* Category mặc định cho từng bộ (đổi theo sheet của bạn) */
-modA.setCategory('Huy hiệu');   // ví dụ
-modB.setCategory('Móc khóa');   // ví dụ
-modC.setCategory('Huy chương'); // ví dụ
+/* Category mặc định (đổi theo sheet của bạn) */
+modA.setCategory('Huy hiệu');
+modB.setCategory('Móc khóa');
+modC.setCategory('Huy chương');
 modD.load();
 
-/* Slider nút điều hướng */
-document.addEventListener('click',e=>{
-  const t=e.target;
-  if(t.classList.contains('navbtn')){
-    const rail=document.getElementById('rail'+t.dataset.slider);
-    rail.scrollBy({ left:Number(t.dataset.dir||0)*rail.clientWidth, behavior:'smooth' });
-  }
-});
-
-/* Tìm toàn trang -> áp vào cả 4 bộ */
+/* Tìm toàn trang -> đổ vào cả 4 Bộ */
 const doGlobal=()=>{ const q=document.getElementById('qGlobal').value.trim(); modA.search(q); modB.search(q); modC.search(q); modD.search(q); };
 document.getElementById('btnGlobal').addEventListener('click',doGlobal);
 document.getElementById('qGlobal').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); doGlobal(); }});
