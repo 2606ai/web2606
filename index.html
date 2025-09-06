@@ -122,6 +122,21 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Offcanvas z-index cao để không bị che */
 .offcanvas{ z-index: 4000; }
 .offcanvas-backdrop{ z-index: 3990; }
+
+/* === Benefits: icon ở trên, chữ căn giữa (override) === */
+.benefits-v3 .bcard{
+  flex-direction: column;   /* icon -> text */
+  align-items: center;      /* căn giữa ngang */
+  text-align: center;       /* căn giữa chữ */
+  gap: 6px;
+  padding: 12px;
+}
+.benefits-v3 .ic{
+  width: 36px;
+  height: 36px;
+  margin: 0 0 6px 0;        /* cách chữ một chút */
+  flex: 0 0 auto;
+}
 </style>
 </head>
 <body>
