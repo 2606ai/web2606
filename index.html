@@ -31,17 +31,26 @@ body{
 }
 .site-header .wrap{
   max-width:1400px;
-  width:100%;
+  width:100%; /* 2) cho search full width = hero */
   margin:0 auto;
   display:flex;align-items:center;justify-content:center;gap:12px;
 }
-/* Logo tỉ lệ 3:2 */
+/* 3) Logo tỉ lệ 3:2 */
 .site-header img.logo{
-  height:auto; width:84px; aspect-ratio:3/2; object-fit:contain; display:block;
+  height:auto;
+  width:84px;           /* chỉnh theo ý nếu cần */
+  aspect-ratio:3/2;
+  object-fit:contain;
+  display:block;
 }
 
-/* Thanh tìm kiếm bằng hero */
-.header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:360px; }
+/* 2) Thanh tìm kiếm bằng hero */
+.header-search{
+  flex:1 1 auto;
+  width:100%;
+  max-width:100%;
+  min-width:360px;
+}
 @media (max-width: 992px){
   .site-header .wrap{ justify-content:center; }
   .header-search{ flex:1 1 100%; max-width:100%; }
@@ -54,24 +63,6 @@ body{
 /* Sidebar */
 .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
-
-/* Sticky cho cột trái */
-.sidebar-sticky{ position:sticky; top:92px; }
-
-/* Quyền lợi option B (card mini 2 cột) */
-.benefit-card{
-  background:#f8f9fd;
-  border:1px solid #eef2ff;
-  border-radius:10px;
-  padding:10px;
-  height:100%;
-  text-align:left;
-  transition:.2s;
-}
-.benefit-card:hover{ background:#eef4ff; border-color:#d0e0ff; }
-.benefit-card .b-ico{ font-size:18px; line-height:1; }
-.benefit-card .b-title{ font-weight:700; font-size:13px; margin-top:4px; }
-.benefit-card .b-sub{ font-size:12px; color:#6c757d; margin-top:2px; }
 
 /* Hero */
 .hero{margin-bottom:15px}
@@ -90,11 +81,12 @@ body{
 .category-item span{font-size:13px;display:block}
 .category-item.active{background:#e6f0ff;border:1px solid #007bff}
 
-/* Card sản phẩm – GIỮ nguyên */
+/* Card sản phẩm – GIỮ nguyên, chỉ đảm bảo note đúng vị trí dưới hình */
 .cardx{border:none;border-radius:12px;background:#fff;overflow:hidden;transition:.2s;height:100%;
   box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover;background:#fff}
 .cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;}
+/* Note: dưới hình – trên ID, căn trái, chữ mảnh */
 .cardx .note-chip{
   display:inline-flex; align-items:center; justify-content:center;
   padding:2px 8px; border-radius:999px;
@@ -139,6 +131,13 @@ body{
 /* Pager */
 #pagerRow{display:flex;justify-content:flex-end;gap:.5rem}
 @media (min-width: 992px){ .cart-fab{ bottom:16px } .filter-fab{ bottom:80px } }
+
+/* ======= THÊM MỚI: card cho Xưởng đề xuất ======= */
+.supplier-card{border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px;display:flex;gap:10px;align-items:flex-start}
+.supplier-card + .supplier-card{margin-top:8px}
+.supplier-card .ava{width:36px;height:36px;border-radius:8px;background:#eef4ff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.supplier-card .name{font-weight:700;}
+.supplier-card .meta{font-size:12px;color:#6c757d}
 </style>
 </head>
 <body>
@@ -163,67 +162,28 @@ body{
 <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
 
 <div class="container-fluid my-3">
-  <div class="row g-3 align-items-start">
+  <div class="row">
     <!-- Sidebar -->
-    <aside class="col-12 col-md-4 col-lg-3 sidebar-sticky">
-      <!-- Quyền lợi: OPTION B -->
-      <div class="sidebar-box">
-        <h6 class="mb-2">Quyền lợi</h6>
-        <div class="row g-2">
-          <div class="col-6">
-            <div class="benefit-card">
-              <div class="b-ico">📚</div>
-              <div class="b-title">10,000+ mẫu tham khảo</div>
-              <div class="b-sub">Không lo thiếu ý tưởng</div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="benefit-card">
-              <div class="b-ico">🏭</div>
-              <div class="b-title">500+ nhà cung cấp</div>
-              <div class="b-sub">Giá minh bạch, dễ dàng lấy giá</div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="benefit-card">
-              <div class="b-ico">🎨</div>
-              <div class="b-title">Tư vấn & thiết kế</div>
-              <div class="b-sub">Đáp ứng nhiều nhu cầu</div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="benefit-card">
-              <div class="b-ico">⚙️</div>
-              <div class="b-title">Hỗ trợ sản xuất</div>
-              <div class="b-sub">Giảm thiểu lỗi & rủi ro</div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="benefit-card">
-              <div class="b-ico">📦</div>
-              <div class="b-title">Hậu cần & đóng gói</div>
-              <div class="b-sub">Giải quyết trọn gói</div>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="benefit-card">
-              <div class="b-ico">🤝</div>
-              <div class="b-title">Giải quyết tranh chấp</div>
-              <div class="b-sub">Bảo vệ quyền lợi khách hàng</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="p-3 bg-white rounded shadow-sm">
+  <h6>Quyền lợi</h6>
+  <ul class="mb-0 small">
+    <li>📚 10,000+ mẫu tham khảo – không lo thiếu ý tưởng</li>
+    <li>🏭 500+ nhà cung cấp – báo giá minh bạch, dễ dàng lấy giá</li>
+    <li>🎨 Tư vấn & thiết kế sản phẩm – đáp ứng nhiều nhu cầu</li>
+    <li>⚙️ Hỗ trợ thiết kế sản xuất – giảm thiểu lỗi và rủi ro</li>
+    <li>📦 Dịch vụ hậu cần, đóng gói – giải quyết các vấn đề hậu cần</li>
+    <li>🤝 Hỗ trợ giải quyết tranh chấp – đảm bảo quyền lợi khách hàng</li>
+  </ul>
+</div>
 
-      <!-- Xưởng đề xuất -->
       <div class="sidebar-box">
         <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
         <div id="factoryList"></div>
       </div>
-    </aside>
+    </div>
 
     <!-- Content -->
-    <div class="col-12 col-md-8 col-lg-9">
+    <div class="col-lg-9 col-md-8">
       <!-- HERO -->
       <div class="hero row g-2">
         <div class="col-md-8 main">
@@ -415,7 +375,7 @@ function fetchPage(){
   });
   fetch(API_URL+'?'+params.toString())
     .then(r=>r.json())
-    .then(render)
+    .then(res=>{ render(res); })
     .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
 }
 
@@ -444,6 +404,11 @@ function buildCategory(items){
 function selectCategory(val){
   state.category=val; state.page=1; fetchPage();
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
+
+  /* ===== THÊM: gọi quảng cáo xưởng theo category ===== */
+  fetchAdsByCategory(val)
+    .then(res => renderAds(res.items||[]))
+    .catch(() => renderAds([]));
 }
 
 /* ===== Filters ===== */
@@ -458,6 +423,31 @@ function updateFilterCount(){
   let c=0; if(state.type)c++; if(state.loai)c++; if(state.note)c++; if(state.category)c++;
   const fb=document.getElementById('filterFabCount');
   if(fb){ fb.textContent=c; fb.style.display=c? 'inline-block':'none'; }
+}
+
+/* ===== THÊM: ADS (quảng cáo xưởng theo category) ===== */
+function renderAds(list) {
+  const box = document.getElementById('factoryList');
+  if (!list || !list.length) {
+    box.innerHTML = `<div class="text-muted small">Chọn danh mục để xem đơn vị cung cấp phù hợp.</div>`;
+    return;
+  }
+  box.innerHTML = list.map((s, i) => `
+    <div class="supplier-card">
+      <div class="ava">#${i+1}</div>
+      <div>
+        <div class="name">${esc(s.name || 'Nhà cung cấp')}</div>
+        <div class="meta"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>
+      </div>
+      <div class="ms-auto">
+        <a href="${esc(s.url)}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">Liên hệ</a>
+      </div>
+    </div>
+  `).join('');
+}
+function fetchAdsByCategory(cat){
+  const params = new URLSearchParams({ action:'ads', category: cat || '' });
+  return fetch(API_URL + '?' + params.toString()).then(r => r.json());
 }
 
 /* ===== Cart ===== */
@@ -557,13 +547,15 @@ document.getElementById('filterFab').addEventListener('click', () => filterOffca
 document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
   state.type=''; state.loai=''; state.note=''; state.category='';
   updateFilterCount(); fetchPage();
+
+  /* Khi xóa category cũng refresh xưởng đề xuất */
+  fetchAdsByCategory(state.category).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 });
 
 /* Demo factories + load */
-document.getElementById('factoryList').innerHTML =
-  ['Xưởng A','Xưởng B','Xưởng C'].map(n=>`<div>${n}</div>`).join('');
-
+/* THAY VÌ DEMO Xưởng A/B/C, ta render từ API theo category hiện tại */
 fetchPage(); updateFilterCount();
+fetchAdsByCategory(state.category).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 });
 </script>
 </body>
