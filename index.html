@@ -77,6 +77,14 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .offcanvas{ z-index: 2000; } .offcanvas-backdrop{ z-index: 1990; }
 #pagerRow{display:flex;justify-content:flex-end;gap:.5rem}
 @media (min-width:992px){ .cart-fab{ bottom:16px } .filter-fab{ bottom:80px } }
+
+/* Link preview (xem nhanh) */
+.link-preview{display:flex;gap:10px;border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px}
+.link-preview img.thumb{width:72px;height:72px;object-fit:cover;border-radius:8px;background:#f6f7fb}
+.link-preview .meta{font-size:13px}
+.link-preview .title{font-weight:700;margin-bottom:2px}
+.link-preview .desc{color:#6c757d;max-height:2.8em;overflow:hidden}
+.link-preview .site{font-size:12px;color:#8898aa}
 </style>
 </head>
 <body>
@@ -115,9 +123,17 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
           <li>🤝 Hỗ trợ giải quyết tranh chấp – đảm bảo quyền lợi khách hàng</li>
         </ul>
       </div>
+
       <div class="sidebar-box">
         <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
         <div id="factoryList" class="small text-muted">Chọn danh mục để xem đơn vị cung cấp phù hợp.</div>
+      </div>
+
+      <!-- Box xem nhanh link (không ảnh hưởng giao diện cũ) -->
+      <div class="sidebar-box">
+        <h6>Xem nhanh link</h6>
+        <input id="previewUrl" class="form-control form-control-sm" placeholder="Dán link bất kỳ để xem nhanh…" />
+        <div id="previewBox" class="mt-2"></div>
       </div>
     </div>
 
@@ -238,7 +254,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ====== API URL ====== */
-const API_URL = "https://script.google.com/macros/s/AKfycbwJmjnykwS31st72FmS7rigwEv7iQgQ1csdwoSW4W9n7rEo1FY7p4gw0kskaoNuDZlT/exec"; // <-- đổi thành URL Web App
+const API_URL = "https://script.google.com/macros/s/AKfycbz7nV2vf0HLEH5uinA3ZehbH9CiSJhMpKFu1NgCfBYTKi_VIszZvLVlA9RO9p5jLb1g/exec";
 
 /* không tự mở giỏ khi thêm */
 const AUTO_OPEN_ON_ADD = false;
@@ -291,7 +307,7 @@ function productCardHtml(it){
 /* ===== Render trang + facets ===== */
 function render(res){
   const grid=document.getElementById('productGrid');
-  grid.innerHTML = (res && res.items && res.items.length) ? res.items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
+  grid.innerHTML = (res && res.items && res.items.length) ? res.items.map(productCardHtml).join('') : '<div class="text-danger">Không tải được dữ liệu.</div>';
 
   const facets = res?.facets || {};
   buildCategory(facets.categories||[]);
@@ -366,9 +382,10 @@ function renderAds(list) {
   box.innerHTML = list.map((s, i) => `
     <div class="supplier-card">
       <div class="ava">#${i+1}</div>
-      <div>
+      ${s.img ? `<img src="${esc(s.img)}" alt="" style="width:40px;height:40px;object-fit:cover;border-radius:6px">` : ''}
+      <div class="flex-grow-1 ms-1">
         <div class="name">${esc(s.name || 'Nhà cung cấp')}</div>
-        <div class="meta"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></div>
+        <a href="${esc(s.url)}" target="_blank" rel="noopener" class="meta text-truncate d-block" style="max-width:260px">${esc(s.url)}</a>
       </div>
       <div class="ms-auto">
         <a href="${esc(s.url)}" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary">Liên hệ</a>
@@ -381,7 +398,7 @@ function fetchAdsByCategory(cat){
   return fetch(API_URL + '?' + params.toString()).then(r => r.json());
 }
 
-/* ===== Cart ===== */
+/* ===== Giỏ hàng ===== */
 function addToCartById(id){
   const item=products[id]; if(!item) return;
   const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...item,qty:1});
@@ -477,6 +494,40 @@ document.getElementById('clearFiltersBtn').addEventListener('click', ()=>{
   updateFilterCount(); fetchPage();
   fetchAdsByCategory(state.category).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 });
+
+/* ===== Link Preview (xem nhanh) ===== */
+function renderLinkPreview(data){
+  const box = document.getElementById('previewBox');
+  if(!data || !data.ok){ box.innerHTML = '<div class="text-muted small">Không lấy được thông tin.</div>'; return; }
+  box.innerHTML = `
+    <div class="link-preview">
+      ${data.image ? `<img class="thumb" src="${esc(data.image)}" alt="">` : `<div class="thumb" style="width:72px;height:72px;border-radius:8px;background:#f1f4ff;display:flex;align-items:center;justify-content:center;">🔗</div>`}
+      <div class="meta">
+        <div class="title">${esc(data.title || 'Không tiêu đề')}</div>
+        <div class="desc">${esc(data.description || '')}</div>
+        <div class="site">${data.favicon ? `<img src="${esc(data.favicon)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">` : ''}${esc(data.siteName || '')}</div>
+        <div><a href="${esc(data.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
+      </div>
+    </div>`;
+}
+function fetchLinkPreview(url){
+  const qs = new URLSearchParams({ action:'preview', url });
+  return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
+}
+const prevInput = document.getElementById('previewUrl');
+if(prevInput){
+  let tm=null;
+  prevInput.addEventListener('input', ()=>{
+    const v = prevInput.value.trim();
+    clearTimeout(tm);
+    if(!/^https?:\/\//i.test(v)){ document.getElementById('previewBox').innerHTML=''; return; }
+    tm = setTimeout(()=>{
+      fetchLinkPreview(v)
+        .then(data => renderLinkPreview(data))
+        .catch(()=>{ document.getElementById('previewBox').innerHTML='<div class="text-danger small">Lỗi khi lấy preview.</div>'; });
+    }, 350);
+  });
+}
 
 /* Load lần đầu */
 fetchPage(); updateFilterCount();
