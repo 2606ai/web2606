@@ -4,14 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2606AI</title>
-
-<!-- CSP & security meta (không đổi giao diện) -->
-<meta http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' https: data:; connect-src 'self' https://script.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://script.google.com; upgrade-insecure-requests">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-<meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), interest-cohort=()">
-
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
@@ -26,7 +18,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 }
 .top-banner .marquee{
   display:inline-block; white-space:nowrap; padding-left:100%;
-  animation: marquee 60s linear infinite; /* 18s -> 90s */
+  animation: marquee 60s linear infinite;
 }
 @keyframes marquee{ 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
 
@@ -65,9 +57,12 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px
 }
 .benefits-v3 .ic{width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px}
-/* Benefits: tiêu đề chữ thường, không in đậm */
 .benefits-v3 .ttl{ font-weight:400; text-transform:none; }
 .benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
+
+/* === Benefits: icon ở trên, chữ căn giữa (override) === */
+.benefits-v3 .bcard{ flex-direction:column; align-items:center; text-align:center; gap:6px; padding:12px; }
+.benefits-v3 .ic{ width:36px; height:36px; margin:0 0 6px 0; flex:0 0 auto; }
 
 /* Xưởng đề xuất – card preview */
 .link-preview{display:flex; gap:10px; border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px; }
@@ -122,24 +117,23 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:2500; cursor:pointer;
   display:flex; align-items:center; justify-content:center;
 }
-.filter-fab{ background:#6c757d; bottom:212px; } /* 1 */
-.cart-fab{ background:#0018a8; bottom:148px; } /* 2 */
-.suppliers-fab{ background:#0d6efd; bottom:84px; } /* 3 */
-.zalo-fab{ background:#25D366; bottom:20px; } /* 4 */
+.filter-fab{ background:#6c757d; bottom:212px; }
+.cart-fab{ background:#0018a8; bottom:148px; }
+.suppliers-fab{ background:#0d6efd; bottom:84px; }
+.zalo-fab{ background:#25D366; bottom:20px; }
 .fab-badge{position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700; display:none}
 
 /* Offcanvas z-index cao để không bị che */
 .offcanvas{ z-index: 4000; }
 .offcanvas-backdrop{ z-index: 3990; }
-/* Category grid: rút ngắn khoảng cách giữa 2 hàng còn 1/2 */
-#categoryGrid{ --bs-gutter-y: .25rem; /* --bs-gutter-x: .25rem; */ }
 
+/* Category grid: rút ngắn khoảng cách giữa 2 hàng còn 1/2 */
+#categoryGrid{
+  --bs-gutter-y: .25rem;
+  /* --bs-gutter-x: .25rem; */
+}
 /* (tùy chọn) giảm padding bên trong mỗi item cho gọn hơn */
 .category-item{ padding:8px; }
-/* === Benefits: icon ở trên, chữ căn giữa (override) === */
-.benefits-v3 .bcard{ flex-direction:column; align-items:center; text-align:center; gap:6px; padding:12px; }
-.benefits-v3 .ic{ width:36px; height:36px; margin:0 0 6px 0; flex:0 0 auto; }
-/* ... các CSS trước đó ... */
 
 /* ===== Footer ===== */
 .site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
@@ -147,12 +141,15 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .site-footer a{ color:inherit; text-decoration:none; }
 .site-footer a:hover{ text-decoration:underline; }
 .footer-social{ display:flex; gap:8px; justify-content:flex-start; }
-.footer-social .social{ width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:800; text-decoration:none; }
+.footer-social .social{
+  width:36px; height:36px; border-radius:50%;
+  display:inline-flex; align-items:center; justify-content:center;
+  color:#fff; font-weight:800; text-decoration:none;
+}
 .footer-social .social-zalo{ background:#0068ff; }
 .footer-social .social-fb{ background:#1877F2; }
 @media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
 </style>
-
 </head>
 <body>
 
@@ -184,7 +181,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   <div class="row g-3">
     <!-- Sidebar -->
     <div class="col-lg-3 col-md-4">
-      <!-- Quyền lợi -->
       <div class="sidebar-box benefits-v3">
         <h6 class="mb-2">Chúng tôi có gì cho bạn!!</h6>
         <div class="grid">
@@ -196,29 +192,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
           <div class="bcard"><div class="ic">🤝</div><div><div class="ttl">Hỗ trợ tranh chấp (Hỗ trợ xử lý phát sinh)</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div></div>
         </div>
       </div>
-</div>  <!-- .container-fluid my-3 -->
 
-<footer class="site-footer">
-  <div class="container-fluid">
-    <div class="row align-items-center g-2">
-      <div class="col-12 col-md">
-        <div class="brand">HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE</div>
-        <div>Mã số thuế: <strong>12333211232</strong></div>
-        <div>Liên hệ: <a href="tel:012345678">012345678</a> • Email: <a href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a></div>
-      </div>
-      <div class="col-12 col-md-auto">
-        <div class="footer-social">
-          <a class="social social-zalo" href="#" target="_blank" rel="noopener" aria-label="Zalo">Z</a>
-          <a class="social social-fb" href="#" target="_blank" rel="noopener" aria-label="Facebook">f</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-
-<!-- Offcanvas: Giỏ hàng -->
-
-      <!-- Xưởng đề xuất: nút chuyển + auto 10s -->
       <div class="sidebar-box">
         <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
           Xưởng đề xuất
@@ -287,14 +261,30 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       <!-- Grid -->
       <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
 
-      <!-- Pagination -->
-      <div id="pagerRow" class="mt-2">
-        <button id="prevBtn" class="btn btn-outline-secondary">← Trước</button>
-        <button id="nextBtn" class="btn btn-outline-secondary">Sau →</button>
-      </div>
+      <!-- Pagination dạng số -->
+      <div id="pagerRow" class="mt-3 d-flex flex-wrap gap-2"></div>
     </div>
   </div>
 </div>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row align-items-center g-2">
+      <div class="col-12 col-md">
+        <div class="brand">HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE</div>
+        <div>Mã số thuế: <strong>12333211232</strong></div>
+        <div>Liên hệ: <a href="tel:012345678">012345678</a> • Email: <a href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a></div>
+      </div>
+      <div class="col-12 col-md-auto">
+        <div class="footer-social">
+          <a class="social social-zalo" href="#" target="_blank" rel="noopener" aria-label="Zalo">Z</a>
+          <a class="social social-fb" href="#" target="_blank" rel="noopener" aria-label="Facebook">f</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <!-- Offcanvas: Giỏ hàng -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas" aria-labelledby="cartCanvasLabel">
@@ -380,28 +370,12 @@ let adsTimer = null;
 const ADS_PAGE_SIZE = 5;
 const ADS_INTERVAL = 10000;
 
-/* UTILS: ESC + URL an toàn */
-const esc = s => (s??'').toString().replace(/[&<>"'`]/g, c => (
-  { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;', "'":'&#39;','`':'&#96;' }[c]
-));
-function safeUrl(u){
-  try{
-    const url = new URL(String(u||''));
-    if(url.protocol==='http:' || url.protocol==='https:') return url.href;
-  }catch(e){}
-  return '#';
-}
-function fmtVND(n){ return (Number(n)||0).toLocaleString('vi-VN') + ' đ'; }
+/* UTILS */
+const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
+const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
-function firstLink(s){
-  if(!s) return '';
-  const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean);
-  for(const p of parts){
-    try{ const u=new URL(p); if(u.protocol==='http:'||u.protocol==='https:') return u.href; }catch(_){}
-  }
-  return '';
-}
+function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
 
 /* ===== Logo reload ===== */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.location.reload(); });
@@ -415,8 +389,8 @@ function productCardHtml(it){
 
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
-      <a href="${esc(safeUrl(it.linkFull || it.img))}" target="_blank" rel="noopener noreferrer">
-        <img class="thumb" src="${esc(safeUrl(it.img))}" alt="${esc(it.id)}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+      <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
+        <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
       </a>
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     </div>
@@ -426,11 +400,26 @@ function productCardHtml(it){
       ${it.type ? `<div class="type-badge">${esc(it.type)}</div>` : ``}
       <div class="price">${fmtVND(it.price)}</div>
       <div class="meta-actions">
-        ${showGift ? `<a class="btn-gift" href="${esc(safeUrl(giftUrl))}" target="_blank" rel="noopener noreferrer" title="${esc(giftLabel)}"><span>${esc(giftLabel)}</span></a>` : `<span></span>`}
+        ${showGift ? `<a class="btn-gift" href="${esc(giftUrl)}" target="_blank" rel="noopener" title="${esc(giftLabel)}"><span>${esc(giftLabel)}</span></a>` : `<span></span>`}
         <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}">+</button>
       </div>
     </div>
   </div></div>`;
+}
+
+/* ===== Pagination (dạng số) ===== */
+function renderPagination(totalItems, pageSize, currentPage){
+  const pager = document.getElementById('pagerRow');
+  if(!pager) return;
+  const totalPages = Math.ceil((totalItems||0) / pageSize);
+  if(totalPages <= 1){ pager.innerHTML = ''; return; }
+
+  let html = '';
+  for(let i=1;i<=totalPages;i++){
+    const active = (i===currentPage) ? 'btn-primary' : 'btn-outline-secondary';
+    html += `<button class="btn btn-sm ${active}" data-action="goto-page" data-page="${i}">${i}</button>`;
+  }
+  pager.innerHTML = html;
 }
 
 /* ===== Render & Facets ===== */
@@ -448,6 +437,9 @@ function render(res){
 
   const totalEl = document.getElementById('totalCount');
   if (totalEl) totalEl.textContent = Number(res?.total||0).toLocaleString('vi-VN');
+
+  /* render phân trang số */
+  renderPagination(res?.total||0, state.pageSize, state.page);
 }
 
 function fetchPage(){
@@ -489,7 +481,7 @@ function selectCategory(val){
   fetchAdsByCategory(val).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 }
 
-/* ===== Filters ===== */
+/* ===== Filters (nút trong offcanvas) ===== */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
@@ -514,7 +506,7 @@ function fetchLinkPreview(url){
 function renderAds(list){
   adsData  = Array.isArray(list) ? list : [];
   adsIndex = 0;
-  if (!adsData.length){
+  if (!adsData.length){ 
     document.getElementById('adsList').innerHTML = '';
     document.getElementById('adsEmpty').style.display = 'block';
     stopAdsTimer();
@@ -545,11 +537,11 @@ function drawAdsWindow(){
     const card = box.children[i]; if (!card) return;
     let p=null; try{ p = await fetchLinkPreview(s.url); }catch(e){}
     const host = hostnameFromUrl(s.url);
-    const img  = (p && p.ok && p.image) ? safeUrl(p.image) : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
-    const tit  = (p && p.ok && p.title) ? p.title : (s.name || host);
+    const img  = (p && p.ok && p.image)      ? p.image   : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+    const tit  = (p && p.ok && p.title)      ? p.title   : (s.name || host);
     const des  = (p && p.ok && p.description)? p.description : '';
-    const ico  = (p && p.ok && p.favicon)? safeUrl(p.favicon) : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
-    const site = (p && p.ok && p.siteName)? p.siteName : host;
+    const ico  = (p && p.ok && p.favicon)    ? p.favicon : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
+    const site = (p && p.ok && p.siteName)   ? p.siteName: host;
     card.innerHTML = `
       <img class="thumb" src="${esc(img)}" alt="">
       <div class="meta" style="flex:1;min-width:0">
@@ -558,9 +550,9 @@ function drawAdsWindow(){
         <div class="site">
           <img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">${esc(site)}
         </div>
-        <div><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="small">Mở trang</a></div>
+        <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
       </div>
-      <div><a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
+      <div><a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
     `;
   });
 }
@@ -582,7 +574,7 @@ function updateCart(){
   list.innerHTML=cart.map(it=>{
     const sub=it.qty*(Number(it.price)||0); total+=sub;
     return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
-      <img src="${esc(safeUrl(it.img))}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
+      <img src="${esc(it.img)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
       <div class="flex-grow-1">
         <div class="fw-semibold small">${esc(it.details||it.id)}</div>
         <div class="text-muted small">${fmtVND(it.price)}</div>
@@ -611,10 +603,8 @@ function submitOrder(){
     items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
     total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
   };
-  fetch(API_URL,{
-    method:"POST", headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({action:"order", /*key:"<API_KEY nếu bật>",*/ data:order})
-  })
+  fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({action:"order",email:"lehaidangem836@gmail.com",data:order})})
   .then(r=>r.json()).then(res=>{
     if(res && (res.ok||res.success)){ alert("Đã gửi đơn hàng thành công!"); cart.length=0; updateCart(); }
     else alert("Gửi đơn hàng thất bại.");
@@ -639,8 +629,13 @@ document.addEventListener('click', (e)=>{
   }
   if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
   if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
-  if(el.matches('#prevBtn')){ if(state.page>1){ state.page--; fetchPage(); } }
-  if(el.matches('#nextBtn')){ state.page++; fetchPage(); }
+
+  /* Phân trang số */
+  if(el.matches('[data-action="goto-page"]')){
+    const p = Number(el.dataset.page);
+    if(p && p !== state.page){ state.page = p; fetchPage(); }
+  }
+
   if(el.matches('#clearCartBtn')) clearCart();
 });
 
@@ -680,7 +675,7 @@ function loadSuppliers(){
       box.innerHTML = res.items.map(s=>`
         <div class="mb-2 p-2 border rounded bg-white">
           <div class="fw-semibold">${esc(s.name||'Xưởng')}</div>
-          ${s.url?`<a href="${esc(safeUrl(s.url))}" target="_blank" rel="noopener noreferrer" class="small d-block">${esc(s.url)}</a>`:''}
+          ${s.url?`<a href="${esc(s.url)}" target="_blank" class="small d-block">${esc(s.url)}</a>`:''}
           ${s.address?`<div class="text-muted small">📍 ${esc(s.address)}</div>`:''}
           ${s.cert?`<div class="text-muted small">🗂 ${esc(s.cert)}</div>`:''}
         </div>
