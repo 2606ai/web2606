@@ -31,26 +31,17 @@ body{
 }
 .site-header .wrap{
   max-width:1400px;
-  width:100%; /* 2) cho search full width = hero */
+  width:100%;
   margin:0 auto;
   display:flex;align-items:center;justify-content:center;gap:12px;
 }
 /* 3) Logo tỉ lệ 3:2 */
 .site-header img.logo{
-  height:auto;
-  width:84px;           /* chỉnh theo ý nếu cần */
-  aspect-ratio:3/2;
-  object-fit:contain;
-  display:block;
+  height:auto; width:84px; aspect-ratio:3/2; object-fit:contain; display:block;
 }
 
 /* 2) Thanh tìm kiếm bằng hero */
-.header-search{
-  flex:1 1 auto;
-  width:100%;
-  max-width:100%;
-  min-width:360px;
-}
+.header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:360px; }
 @media (max-width: 992px){
   .site-header .wrap{ justify-content:center; }
   .header-search{ flex:1 1 100%; max-width:100%; }
@@ -63,6 +54,15 @@ body{
 /* Sidebar */
 .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
+
+/* Sticky cho cột trái */
+.sidebar-sticky{ position:sticky; top:92px; }
+
+/* “Quyền lợi” – trình bày đẹp, không bullet đen */
+.benefits{ list-style:none; margin:0; padding:0; }
+.benefits li{ display:flex; gap:8px; align-items:flex-start; margin:6px 0; line-height:1.45; }
+.benefits li .ico{ width:20px; flex:0 0 20px; text-align:center; }
+.benefits strong{ font-weight:700; }
 
 /* Hero */
 .hero{margin-bottom:15px}
@@ -81,12 +81,11 @@ body{
 .category-item span{font-size:13px;display:block}
 .category-item.active{background:#e6f0ff;border:1px solid #007bff}
 
-/* Card sản phẩm – GIỮ nguyên, chỉ đảm bảo note đúng vị trí dưới hình */
+/* Card sản phẩm */
 .cardx{border:none;border-radius:12px;background:#fff;overflow:hidden;transition:.2s;height:100%;
   box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover;background:#fff}
 .cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;}
-/* Note: dưới hình – trên ID, căn trái, chữ mảnh */
 .cardx .note-chip{
   display:inline-flex; align-items:center; justify-content:center;
   padding:2px 8px; border-radius:999px;
@@ -121,7 +120,7 @@ body{
 .filter-fab{ background:#6c757d; bottom:148px; }
 .fab-badge{
   position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700;
-  display:none;  /* chỉ hiện khi > 0 */
+  display:none;
 }
 
 /* Offcanvas */
@@ -155,28 +154,31 @@ body{
 <div class="top-banner">Ưu đãi tháng này cho khách đặt qua 2606ai.vn</div>
 
 <div class="container-fluid my-3">
-  <div class="row">
-    <!-- Sidebar -->
-    <div class="p-3 bg-white rounded shadow-sm">
-  <h6>Quyền lợi</h6>
-  <ul class="mb-0 small">
-    <li>📚 10,000+ mẫu tham khảo – không lo thiếu ý tưởng</li>
-    <li>🏭 500+ nhà cung cấp – báo giá minh bạch, dễ dàng lấy giá</li>
-    <li>🎨 Tư vấn & thiết kế sản phẩm – đáp ứng nhiều nhu cầu</li>
-    <li>⚙️ Hỗ trợ thiết kế sản xuất – giảm thiểu lỗi và rủi ro</li>
-    <li>📦 Dịch vụ hậu cần, đóng gói – giải quyết các vấn đề hậu cần</li>
-    <li>🤝 Hỗ trợ giải quyết tranh chấp – đảm bảo quyền lợi khách hàng</li>
-  </ul>
-</div>
+  <div class="row g-3 align-items-start">
+    <!-- SIDEBAR TRÁI -->
+    <aside class="col-12 col-md-4 col-lg-3 sidebar-sticky">
+      <!-- Quyền lợi -->
+      <div class="sidebar-box">
+        <h6 class="mb-2">Quyền lợi</h6>
+        <ul class="benefits">
+          <li><span class="ico">📚</span><span><strong>10,000+ mẫu tham khảo</strong> – không lo thiếu ý tưởng</span></li>
+          <li><span class="ico">🏭</span><span><strong>500+ nhà cung cấp</strong> – báo giá minh bạch, dễ dàng lấy giá</span></li>
+          <li><span class="ico">🎨</span><span><strong>Tư vấn & thiết kế sản phẩm</strong> – đáp ứng nhiều nhu cầu</span></li>
+          <li><span class="ico">⚙️</span><span><strong>Hỗ trợ thiết kế sản xuất</strong> – giảm thiểu lỗi và rủi ro</span></li>
+          <li><span class="ico">📦</span><span><strong>Dịch vụ hậu cần, đóng gói</strong> – giải quyết các vấn đề hậu cần</span></li>
+          <li><span class="ico">🤝</span><span><strong>Hỗ trợ giải quyết tranh chấp</strong> – đảm bảo quyền lợi khách hàng</span></li>
+        </ul>
+      </div>
 
+      <!-- Xưởng đề xuất -->
       <div class="sidebar-box">
         <h6 class="fw-bold mb-2">Xưởng đề xuất</h6>
         <div id="factoryList"></div>
       </div>
-    </div>
+    </aside>
 
-    <!-- Content -->
-    <div class="col-lg-9 col-md-8">
+    <!-- CONTENT PHẢI -->
+    <main class="col-12 col-md-8 col-lg-9">
       <!-- HERO -->
       <div class="hero row g-2">
         <div class="col-md-8 main">
@@ -233,7 +235,7 @@ body{
         <button id="prevBtn" class="btn btn-outline-secondary">← Trước</button>
         <button id="nextBtn" class="btn btn-outline-secondary">Sau →</button>
       </div>
-    </div>
+    </main>
   </div>
 </div>
 
@@ -468,7 +470,7 @@ function submitOrder(){
   if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
   const order={
     customer:{name,email,phone,address,note},
-    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
+    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})) ,
     total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
   };
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
