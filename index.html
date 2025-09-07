@@ -9,9 +9,21 @@
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
 .container-fluid{max-width:1400px;margin:auto;}
-.top-banner{background:var(--main)!important;color:#fff;font-weight:700;position:sticky; top:70px; z-index:1054;height:32px; display:flex; align-items:center; overflow:hidden; border:0;}
-.top-banner .marquee{display:inline-block; white-space:nowrap; padding-left:100%; animation: marquee 60s linear infinite;}
-@keyframes marquee{ 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
+/* shared wrap width giống header */
+.wrap{max-width:1400px;width:100%;margin:0 auto;}
+
+/* Top banner (marquee) – sticky + căn giữa theo chiều dọc */
+.top-banner{
+  background:var(--main)!important;color:#fff;font-weight:700;
+  position:sticky; top:70px; z-index:1054; height:32px;
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden; border:0;
+}
+.top-banner .marquee{
+  display:inline-block; white-space:nowrap;
+  animation: marquee 60s linear infinite;
+}
+@keyframes marquee{ 0%{transform:translateX(100%)} 100%{transform:translateX(-100%)} }
 
 /* Header */
 .site-header{background:#fff;padding:10px 15px;border-bottom:1px solid #eee; position:fixed;top:0;left:0;right:0;z-index:1055;height:auto; box-shadow:0 2px 6px rgba(0,0,0,.05); }
@@ -19,7 +31,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .site-header img.logo{ width:84px; aspect-ratio:3/2; object-fit:contain; display:block; cursor:pointer; }
 .header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:280px; }
 @media (max-width: 992px){
-  body{ padding-top:96px; }
   .site-header .wrap{ flex-direction:column; align-items:stretch; gap:8px; }
   .site-header img.logo{ width:84px; margin:0 auto; }
   .header-search .input-group{ width:100%; }
@@ -105,6 +116,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Error box */
 #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
 #pagerRow .btn{min-width:38px}
+#pagerRowTop .btn{min-width:34px;padding:2px 6px}
 
 /* Footer */
 .site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
@@ -117,7 +129,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .footer-social .social-fb{ background:#1877F2; }
 @media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
 
-/* ====== Bộ lọc nâng cao (UI mới, không đổi logic) ====== */
+/* ====== Bộ lọc nâng cao ====== */
 #filterPanel h6 { font-weight:700; font-size:14px; margin:16px 0 8px; color:#0018a8; text-transform:uppercase; letter-spacing:.3px; }
 .filter-box-group { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
 .filter-tag{ border:1px solid #dbe3ff; background:#f9faff; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:500; color:#333; cursor:pointer; transition:.2s; }
@@ -127,7 +139,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Stats bar */
 #statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
 
-/* ===== Suppliers panel ===== */
+/* ===== Suppliers panel (offcanvas Danh sách xưởng) ===== */
 .sup-toolbar{ position: sticky; top: 0; z-index: 2; background:#fff; margin:-12px -12px 12px; padding:12px; border-bottom:1px solid #eef2ff; border-radius:12px 12px 0 0; }
 .sup-toolbar .form-select, .sup-toolbar .form-control{ border-radius:10px; }
 .sup-toolbar .counter{ font-size:12px; color:#6b7483; display:flex; align-items:center; gap:8px; }
@@ -138,12 +150,53 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .supplier-card .chips{ display:flex; gap:6px; flex-wrap:wrap; margin-top:6px; }
 .supplier-card .chip{ font-size:11px; padding:2px 8px; border-radius:999px; background:#f6f7fb; border:1px solid #e5e9ff; color:#475569; }
 .supplier-card .chip.ok{ background:#e8f7ee; border-color:#c7ead5; color:#256c3b; }
+.supplier-card .chip.warn{ background:#fff3cd; border-color:#ffeeba; color:#8a6d3b; }
 .supplier-list{ max-height: 62vh; overflow:auto; padding-right:4px; }
 
-/* ===== Xưởng đề xuất – theme xanh + chỉ 6 dòng/“trang” ===== */
-.ads-box{ background:linear-gradient(180deg,#eef3ff 0%, #ffffff 40%); border:1px solid #dbe3ff; }
-.ads-box h6{ color:var(--main); }
-#adsList{ max-height: calc(6*92px); overflow:hidden; } /* khung 6 dòng gọn gàng */
+/* ===== Xưởng đề xuất – theme xanh + cuộn dọc ===== */
+.ads-box{
+  background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 1px solid #90caf9; border-radius: 12px; padding: 12px;
+}
+.ads-box h6{ color:#0d47a1; }
+#adsList{
+  max-height:62vh; overflow-y:auto; overflow-x:hidden; padding-right:4px; scroll-behavior:smooth;
+}
+#adsList::-webkit-scrollbar{ width:8px }
+#adsList::-webkit-scrollbar-thumb{ background:#dbe3ff; border-radius:8px }
+#adsList:hover::-webkit-scrollbar-thumb{ background:#b7c7ff }
+#adsList .link-preview{
+  background:#ffffff; border:1px solid #e3f2fd; border-radius:10px; box-shadow:0 2px 6px rgba(0,0,0,0.05);
+}
+#adsList .title{ color:#0d47a1; font-weight:600; }
+#adsList .site{ color:#1565c0; }
+#adsList .actions .btn-outline-primary{ border-color:#0d47a1; color:#0d47a1; }
+#adsList .actions .btn-outline-primary:hover{ background:#0d47a1; color:#fff; }
+
+/* ===== Cart Offcanvas – đồng bộ UI ===== */
+#cartCanvas .offcanvas-header{
+  background:var(--main); color:#fff; border:0; border-radius:12px 12px 0 0;
+}
+#cartCanvas .offcanvas-header h5{ font-weight:700; font-size:16px; }
+#cartCanvas .offcanvas-body{ font-size:13px; padding:16px; }
+#cartCanvas input.form-control,
+#cartCanvas textarea.form-control,
+#cartCanvas select.form-select{
+  border-radius:10px; font-size:13px; border:1px solid #dbe3ff;
+}
+#cartCanvas input:focus,
+#cartCanvas textarea:focus,
+#cartCanvas select:focus{
+  border-color:var(--main); box-shadow:0 0 0 0.2rem rgba(0,24,168,0.15);
+}
+#cartCanvas .btn{ border-radius:999px; font-weight:600; font-size:13px; }
+#cartCanvas #clearCartBtn{ background:#fbe9e7; color:#d32f2f; border:1px solid #ffcdd2; }
+#cartCanvas #clearCartBtn:hover{ background:#ffcdd2; }
+#cartCanvas #submitOrderBtn{ background:#2e7d32; border:none; }
+#cartCanvas #submitOrderBtn:hover{ background:#1b5e20; }
+#cartCanvas .alert{ border-radius:10px; font-size:12px; background:#f4f6fd; color:#333; border:1px solid #dbe3ff; }
+#cartCanvas .summary-box{ background:#fff8e1; border:1px solid #ffe082; border-radius:10px; padding:8px 12px; margin-bottom:12px; }
+#cartCanvas #cartTotal{ font-weight:700; font-size:16px; color:#d32f2f; }
 </style>
 </head>
 <body>
@@ -163,10 +216,12 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 </header>
 
 <div class="top-banner">
-  <div class="marquee">
-    Để đảm bảo quyền lợi hãy thông báo với 2606AI.VN khi bạn đã chốt đơn hàng &nbsp; • &nbsp;
-    Nguồn thu của 2606AI.VN đến từ quảng cáo &nbsp; • &nbsp;
-    Có sự hỗ trợ của 2606AI.VN tự tin sản xuất mọi sản phẩm
+  <div class="wrap">
+    <div class="marquee">
+      Để đảm bảo quyền lợi hãy thông báo với 2606AI.VN khi bạn đã chốt đơn hàng &nbsp; • &nbsp;
+      Nguồn thu của 2606AI.VN đến từ quảng cáo &nbsp; • &nbsp;
+      Có sự hỗ trợ của 2606AI.VN tự tin sản xuất mọi sản phẩm
+    </div>
   </div>
 </div>
 
@@ -177,7 +232,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       <div class="sidebar-box benefits-v3">
         <h6 class="mb-2">Chúng tôi có gì cho bạn...</h6>
         <div class="grid">
-          <!-- thêm data-benefit + role + tabindex cho 6 thẻ bên dưới -->
           <div class="bcard" data-benefit="b1" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
             <div class="ic">📚</div><div><div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div><div class="sub">Không lo thiếu ý tưởng</div></div>
@@ -212,14 +266,15 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
             Xưởng đề xuất
             <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
           </span>
-          <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-outline-secondary" id="adsPrevBtn">‹</button>
-            <button type="button" class="btn btn-outline-secondary" id="adsNextBtn">›</button>
-            <button type="button" class="btn btn-outline-secondary" id="refreshAdsBtn">↻</button>
-          </div>
         </h6>
         <div id="adsList" class="d-flex flex-column gap-2"></div>
         <div id="adsEmpty" class="small text-muted">Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).</div>
+        <div class="mt-2 text-center">
+          <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
+             class="btn btn-sm fw-bold px-3" style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
+             📢 LIÊN HỆ ĐẶT QUẢNG CÁO
+          </a>
+        </div>
       </div>
     </div>
 
@@ -266,7 +321,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       </div>
 
       <!-- Thống kê -->
-      <div id="statsBar" class="mb-3">
+      <div id="statsBar" class="mb-2">
         <div class="d-flex align-items-center gap-2">
           <span class="fw-semibold">TỔNG SỐ SẢN PHẨM TÌM THẤY:</span>
           <span id="totalCount" class="badge text-bg-primary">0</span>
@@ -274,10 +329,13 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
+      <!-- Pagination Top -->
+      <div id="pagerRowTop" class="mb-2 d-flex justify-content-end flex-wrap gap-2"></div>
+
       <!-- Grid -->
       <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
 
-      <!-- Phân trang dạng số -->
+      <!-- Pagination Bottom -->
       <div id="pagerRow" class="mt-3 d-flex flex-wrap gap-2"></div>
     </div>
   </div>
@@ -310,7 +368,8 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   </div>
   <div class="offcanvas-body">
     <div id="cartList"></div>
-    <div class="d-flex justify-content-between align-items-center py-2 fw-bold">
+
+    <div class="summary-box d-flex justify-content-between align-items-center">
       <span>Tổng cộng</span><span id="cartTotal">0 đ</span>
     </div>
 
@@ -322,7 +381,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
     <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
     <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
 
-    <!-- Tải tệp + dịch vụ -->
     <label class="form-label mt-2">Tải tệp yêu cầu / thiết kế (tùy chọn)</label>
     <input id="buyerFile" type="file" class="form-control mb-2" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.zip">
 
@@ -343,7 +401,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       </div>
     </div>
 
-    <!-- Note hướng dẫn -->
     <div class="alert alert-secondary mt-3 mb-2" style="font-size:12px">
       <div><strong>Hướng dẫn:</strong></div>
       <div>1) Bạn cần làm giống mẫu nào hoặc mua sản phẩm gì bấm gửi, chúng tôi sẽ sớm liên hệ lại sau.</div>
@@ -379,7 +436,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
   </div>
   <div class="offcanvas-body">
-    <!-- Toolbar -->
     <div class="sup-toolbar">
       <div class="row g-2 align-items-center">
         <div class="col-12">
@@ -404,10 +460,8 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       </div>
     </div>
 
-    <!-- Danh sách -->
     <div id="suppliersList" class="supplier-list">Chưa có dữ liệu.</div>
 
-    <!-- CTA đặt quảng cáo -->
     <div class="mt-3">
       <a id="adsContactBtn" href="#" target="_blank" rel="noopener"
          class="btn btn-primary w-100">LIÊN HỆ ĐẶT QUẢNG CÁO</a>
@@ -434,7 +488,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
     </div>
   </div>
 </div>
-<!-- ===== /Modal ===== -->
 
 <button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️</button>
 <button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">🛒 <span id="cartFabCount" class="fab-badge">0</span></button>
@@ -465,13 +518,6 @@ const AUTO_OPEN_ON_ADD = false;
 const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'' };
 const cart = []; const products = {};
 
-/* ADS slider state (6 dòng/trang) */
-let adsData = [];
-let adsIndex = 0;
-let adsTimer = null;
-const ADS_PAGE_SIZE = 6;      // <= hiển thị 6 dòng
-const ADS_INTERVAL = 10000;
-
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
 const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -479,8 +525,8 @@ function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
 function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
 
-/* Logo reload */
-document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.location.reload(); });
+/* Logo reload (mượt) */
+document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>location.reload(),150); });
 
 /* Product card */
 function productCardHtml(it){
@@ -509,24 +555,33 @@ function productCardHtml(it){
   </div></div>`;
 }
 
-/* Pagination */
+/* Pagination (2 nơi: trên & dưới) */
 function renderPagination(totalItems, pageSize, currentPage){
-  const pager = document.getElementById('pagerRow');
   const totalPages = Math.ceil((totalItems||0) / pageSize);
-  if(totalPages <= 1){ pager.innerHTML = ''; return; }
+  const pagerBottom = document.getElementById('pagerRow');
+  const pagerTop = document.getElementById('pagerRowTop');
+
+  if(totalPages <= 1){
+    pagerBottom.innerHTML = '';
+    if (pagerTop) pagerTop.innerHTML = '';
+    return;
+  }
+
   let html = '';
   for(let i=1;i<=totalPages;i++){
     const active = (i===currentPage) ? 'btn-primary' : 'btn-outline-secondary';
     html += `<button class="btn btn-sm ${active}" data-action="goto-page" data-page="${i}">${i}</button>`;
   }
-  pager.innerHTML = html;
+  pagerBottom.innerHTML = html;
+  if (pagerTop) pagerTop.innerHTML = html;
 }
 
 /* Render + facets */
 function render(res){
+  const items = (res?.items||[]);
   const grid=document.getElementById('productGrid');
-  if(!res||!res.items||res.items.length===0){ grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>'; }
-  else{ grid.innerHTML=res.items.map(productCardHtml).join(''); }
+  if(items.length===0){ grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>'; }
+  else{ grid.innerHTML=items.map(productCardHtml).join(''); }
 
   const facets=res&&res.facets?res.facets:{};
   buildCategory(facets.categories||[]);
@@ -580,7 +635,7 @@ function selectCategory(val){
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
 }
 
-/* Filter buttons trong offcanvas — tag UI */
+/* Filter buttons (offcanvas) */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
@@ -604,7 +659,8 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-/* ===== XƯỞNG ĐỀ XUẤT ===== */
+/* ===== XƯỞNG ĐỀ XUẤT – SCROLL LIST (không auto) ===== */
+let adsData = [];
 function fetchAds(){
   const qs = new URLSearchParams({
     action:'ads',
@@ -617,9 +673,7 @@ function fetchAds(){
 }
 function renderAds(list){
   adsData = Array.isArray(list) ? list : [];
-  adsIndex = 0;
 
-  // Đếm
   const countEl = document.getElementById('adsCount');
   if (countEl){
     countEl.textContent = String(adsData.length);
@@ -627,23 +681,17 @@ function renderAds(list){
   }
 
   const empty = document.getElementById('adsEmpty');
+  const box   = document.getElementById('adsList');
+
   if (!adsData.length){
-    document.getElementById('adsList').innerHTML = '';
+    box.innerHTML = '';
     empty.style.display = 'block';
-    stopAdsTimer();
     return;
   }
   empty.style.display = 'none';
-  drawAdsWindow();
-  startAdsTimer();
-}
-function drawAdsWindow(){
-  const box = document.getElementById('adsList');
-  const n = adsData.length;
-  const take = Math.min(ADS_PAGE_SIZE, n);
-  const win = [];
-  for(let i=0;i<take;i++){ win.push(adsData[(adsIndex + i) % n]); }
-  box.innerHTML = win.map(()=>`
+
+  // Skeleton
+  box.innerHTML = adsData.map(()=>`
     <div class="link-preview">
       <div class="thumb" style="width:64px;height:64px;border-radius:8px;background:#f1f4ff"></div>
       <div class="meta" style="flex:1;min-width:0">
@@ -655,35 +703,37 @@ function drawAdsWindow(){
       <div class="actions"></div>
     </div>
   `).join('');
-  win.forEach(async (s, i)=>{
+
+  // Fill nội dung thật
+  adsData.forEach(async (s, i)=>{
     const card = box.children[i]; if (!card) return;
     let p=null; try{ p = await fetchLinkPreview(s.url); }catch(e){}
-    const host = hostnameFromUrl(s.url);
-    const img  = (p && p.ok && p.image)      ? p.image   : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
-    const tit  = (p && p.ok && p.title)      ? p.title   : host;
-    const des  = (p && p.ok && p.description)? p.description : '';
-    const ico  = (p && p.ok && p.favicon)    ? p.favicon : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
-    const site = (p && p.ok && p.siteName)   ? p.siteName: host;
+    const host = hostnameFromUrl(s.url||'');
+    const img  = (p && p.ok && p.image)      ? p.image   : (host?`https://www.google.com/s2/favicons?domain=${host}&sz=64`:'https://via.placeholder.com/64');
+    const tit  = (p && p.ok && p.title)      ? p.title   : (s.title || host || 'Đơn vị');
+    const des  = (p && p.ok && p.description)? p.description : (s.desc || '');
+    const ico  = (p && p.ok && p.favicon)    ? p.favicon : (host?`https://www.google.com/s2/favicons?domain=${host}&sz=16`:'');
+    const site = (p && p.ok && p.siteName)   ? p.siteName: (host || '');
+    const safeUrl = s.url && /^https?:\/\//i.test(s.url) ? s.url : '#';
+
     card.innerHTML = `
       <img class="thumb" src="${esc(img)}" alt="">
       <div class="meta" style="flex:1;min-width:0">
         <div class="title text-truncate" title="${esc(tit)}">${esc(tit)}</div>
         <div class="desc">${esc(des)}</div>
         <div class="site">
-          <img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">${esc(site)}
+          ${ ico ? `<img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">` : '' }
+          ${esc(site)}
         </div>
-        <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
+        <div><a href="${esc(safeUrl)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
       </div>
       <div class="actions">
-        <a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
+        <a href="${esc(safeUrl)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
         ${ s.doc ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>`
                   : `<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>` }
       </div>`;
   });
 }
-function startAdsTimer(){ stopAdsTimer(); if (adsData.length <= ADS_PAGE_SIZE) return;
-  adsTimer = setInterval(()=>{ adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); }, ADS_INTERVAL); }
-function stopAdsTimer(){ if (adsTimer){ clearInterval(adsTimer); adsTimer = null; } }
 
 /* Cart */
 function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
@@ -706,7 +756,7 @@ function updateCart(){
       <div class="d-flex align-items-center gap-1">
         <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
         <span>${it.qty}</span>
-        <button class="btn sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
+        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
       </div>
       <div style="min-width:90px;text-align:right" class="small">${fmtVND(sub)}</div>
       <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}">&times;</button>
@@ -715,7 +765,7 @@ function updateCart(){
   document.getElementById('cartTotal').innerText=fmtVND(total);
 }
 
-/* GỬI ĐƠN – hỗ trợ file (FormData) + tùy chọn dịch vụ */
+/* GỬI ĐƠN – hỗ trợ file */
 async function submitOrder(){
   if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
   const name=document.getElementById("buyerName").value.trim();
@@ -764,7 +814,7 @@ async function submitOrder(){
   }
 }
 
-/* ===== Suppliers: filter + counter ===== */
+/* Suppliers (offcanvas) */
 let suppliersAll = [];
 function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
 function supplierCardHTML(s){
@@ -816,11 +866,7 @@ function loadSuppliers(){
     .then(res=>{
       if(!res||!res.ok||!res.items){ suppliersAll=[]; applySupFilters(); return; }
       suppliersAll = res.items.map(s=>({
-        name: s.name || '',
-        url:  s.url  || '',
-        address: s.address || '',
-        cert: s.cert || '',
-        contact: s.contact || ''
+        name: s.name || '', url:  s.url  || '', address: s.address || '', cert: s.cert || '', contact: s.contact || ''
       }));
       applySupFilters();
     })
@@ -837,19 +883,12 @@ document.addEventListener('click', (e)=>{
   const el=e.target;
   if(el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
   if(el.closest('[data-action="select-category"]')) selectCategory(el.closest('[data-action="select-category"]').dataset.val||'');
-  if(el.matches('[data-action="set-filter"]')){
-    const field = el.dataset.field;
-    state[field]=el.dataset.val||'';
-    state.page=1; fetchPage(); updateFilterCount();
-  }
+  if(el.matches('[data-action="set-filter"]')){ const field = el.dataset.field; state[field]=el.dataset.val||''; state.page=1; fetchPage(); updateFilterCount(); }
   if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
   if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
   if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
   if(el.matches('#clearCartBtn')) clearCart();
 });
-document.getElementById('adsPrevBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex - ADS_PAGE_SIZE + adsData.length) % adsData.length; drawAdsWindow(); startAdsTimer(); });
-document.getElementById('adsNextBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); startAdsTimer(); });
-document.getElementById('refreshAdsBtn').addEventListener('click', fetchAds);
 document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
 
 /* FAB */
@@ -858,10 +897,12 @@ document.getElementById('filterFab').addEventListener('click', () => filterOffca
 document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
 document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
+document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
 
 /* Clear filters (2 nút) */
 function clearAllFilters(){
-  state.type=''; state.loai=''; state.note=''; state.category=''; state.group='';
+  state.type=''; state.loai=''; state.note=''; state.category=''; state.group=''; state.q='';
+  const sb=document.getElementById('searchBox'); if(sb) sb.value='';
   updateFilterCount(); state.page=1; fetchPage();
 }
 document.getElementById('clearFiltersBtn').addEventListener('click', clearAllFilters);
@@ -873,29 +914,17 @@ document.getElementById('submitOrderBtn').addEventListener('click', submitOrder)
 /* ===== Modal Chi tiết Lợi ích ===== */
 const BENEFIT_DETAIL = {
   b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho ý tưởng lớn, cập nhật thường xuyên.', bullets:[
-      'Tìm nhanh theo ID, từ khóa, loại sản phẩm',
-      'Ảnh/Link nguồn tham khảo rõ ràng',
-      'Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
+      'Tìm nhanh theo ID, từ khóa, loại sản phẩm','Ảnh/Link nguồn tham khảo rõ ràng','Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
   b2:{ title:'500+ nhà cung cấp & xưởng sản xuất', lead:'Kết nối nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
-      'Lọc theo loại hình/xuất xứ/ghi chú',
-      'Gợi ý xưởng ngay trong “Xưởng đề xuất”',
-      'Có thể gửi cùng lúc cho nhiều đơn vị' ] },
+      'Lọc theo loại hình/xuất xứ/ghi chú','Gợi ý xưởng ngay trong “Xưởng đề xuất”','Có thể gửi cùng lúc cho nhiều đơn vị' ] },
   b3:{ title:'Hỗ trợ tư vấn sản xuất (Miễn phí)', lead:'Đội ngũ CSKH phản hồi nhanh và cụ thể.', bullets:[
-      'Tư vấn vật liệu, quy cách, định mức',
-      'Ước tính chi phí sơ bộ',
-      'Định hướng phương án tối ưu theo ngân sách' ] },
+      'Tư vấn vật liệu, quy cách, định mức','Ước tính chi phí sơ bộ','Định hướng phương án tối ưu theo ngân sách' ] },
   b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất', lead:'Phục vụ trực tiếp cho đơn hàng đã chốt.', bullets:[
-      'Dựng mockup/khung kỹ thuật cơ bản',
-      'Xuất file .SVG, .PDF theo yêu cầu xưởng',
-      'Miễn phí cho đơn đã xác nhận đặt hàng' ] },
+      'Dựng mockup/khung kỹ thuật cơ bản','Xuất file .SVG, .PDF theo yêu cầu xưởng','Miễn phí cho đơn đã xác nhận đặt hàng' ] },
   b5:{ title:'Hậu cần vận chuyển & đóng gói (Có phí)', lead:'Đảm bảo giao nhận đúng hẹn – an toàn.', bullets:[
-      'Nhận đóng gói – dán tem – chia kiện',
-      'Theo dõi tracking – xử lý phát sinh',
-      'Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
+      'Nhận đóng gói – dán tem – chia kiện','Theo dõi tracking – xử lý phát sinh','Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
   b6:{ title:'Hỗ trợ giải quyết tranh chấp (Có phí)', lead:'Bảo vệ quyền lợi khách hàng khi phát sinh sự cố.', bullets:[
-      'Thu thập chứng cứ – làm việc với xưởng',
-      'Đề xuất phương án khắc phục/hoàn tiền',
-      'Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng có đăng ký qua 2606AI.' }
+      'Thu thập chứng cứ – làm việc với xưởng','Đề xuất phương án khắc phục/hoàn tiền','Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng có đăng ký qua 2606AI.' }
 };
 (function attachBenefitModal(){
   const modalEl = document.getElementById('benefitModal');
@@ -904,7 +933,6 @@ const BENEFIT_DETAIL = {
   const $lead  = document.getElementById('benefitLead');
   const $list  = document.getElementById('benefitList');
   const $note  = document.getElementById('benefitNote');
-
   function openDetail(key){
     const d = BENEFIT_DETAIL[key]; if(!d) return;
     $title.textContent = d.title || 'Chi tiết';
@@ -913,7 +941,6 @@ const BENEFIT_DETAIL = {
     $note.textContent  = d.note || '';
     modal.show();
   }
-
   document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
     const key = card.getAttribute('data-benefit');
     card.addEventListener('click', ()=>openDetail(key));
@@ -924,6 +951,13 @@ const BENEFIT_DETAIL = {
 
 /* INIT */
 fetchPage(); updateFilterCount();
+
+/* Phím tắt nhanh mở search */
+document.addEventListener('keydown', (e)=>{
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){
+    e.preventDefault(); document.getElementById('searchBox').focus();
+  }
+});
 });
 </script>
 </body>
