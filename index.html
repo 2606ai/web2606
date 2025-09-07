@@ -112,6 +112,9 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 /* Stats bar nhẹ */
 #statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
+
+/* Note hướng dẫn trong cart */
+.cart-help{ font-size:12px; color:#4b5563; background:#f8fafc; border:1px dashed #dbeafe; border-radius:8px; padding:8px; }
 </style>
 </head>
 <body>
@@ -277,15 +280,55 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   </div>
   <div class="offcanvas-body">
     <div id="cartList"></div>
-    <div class="d-flex justify-content-between align-items-center py-2 fw-bold">
-      <span>Tổng cộng</span><span id="cartTotal">0 đ</span>
+
+    <!-- Tổng cộng + phí dịch vụ -->
+    <div class="py-2">
+      <div class="d-flex justify-content-between align-items-center fw-bold">
+        <span>Tạm tính</span><span id="cartSubtotal">0 đ</span>
+      </div>
+      <div id="serviceFeeRow" class="d-flex justify-content-between align-items-center text-muted small" style="display:none">
+        <span>Phí dịch vụ</span><span id="serviceFeeText">0 đ</span>
+      </div>
+      <hr class="my-2">
+      <div class="d-flex justify-content-between align-items-center fw-bold">
+        <span>Tổng cộng</span><span id="cartTotal">0 đ</span>
+      </div>
     </div>
+
     <button class="btn btn-danger w-100 mb-2" id="clearCartBtn">Xóa toàn bộ</button>
+
+    <!-- Form thông tin -->
     <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên">
     <input id="buyerEmail" class="form-control mb-2" placeholder="Email">
     <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại">
     <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
     <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
+
+    <!-- Tải tệp -->
+    <label class="form-label mt-1 mb-1">Đính kèm tệp (thiết kế, yêu cầu, hồ sơ…)</label>
+    <input id="buyerFiles" type="file" class="form-control mb-2" multiple
+           accept=".jpg,.jpeg,.png,.webp,.pdf,.ai,.psd,.zip,.rar,.doc,.docx,.xls,.xlsx">
+
+    <!-- Dịch vụ LẤY BÁO GIÁ HỘ -->
+    <label class="form-label mt-2 mb-1">Dịch vụ LẤY BÁO GIÁ HỘ</label>
+    <select id="serviceSelect" class="form-select mb-1">
+      <option value="none">Không chọn</option>
+      <option value="3@100000">100,000 đ / 3 báo giá</option>
+      <option value="10@500000">500,000 đ / 10 báo giá</option>
+    </select>
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="quoteByFile">
+      <label class="form-check-label" for="quoteByFile">Báo giá theo tệp tải lên</label>
+    </div>
+    <div class="form-text mb-2">Phí dịch vụ (nếu chọn) sẽ được cộng vào tổng.</div>
+
+    <!-- Note hướng dẫn -->
+    <div class="cart-help mb-2">
+      <div>1) Bạn cần làm giống mẫu nào hoặc mua sản phẩm gì hãy <b>Gửi đơn hàng</b>, chúng tôi sẽ sớm liên hệ lại.</div>
+      <div>2) Ghi rõ yêu cầu sẽ giúp chúng tôi tư vấn bạn dễ dàng hơn.</div>
+      <div>3) CSKH của 2606ai.vn sẽ liên hệ bạn trong vòng 24h (nếu quá thời gian này phiền bạn chủ động liên hệ lại).</div>
+    </div>
+
     <button class="btn btn-success w-100" id="submitOrderBtn">Gửi đơn hàng</button>
   </div>
 </div>
@@ -337,9 +380,8 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
-// ĐỔI URL này thành Web App bạn vừa triển khai
 const API_URL = "https://script.google.com/macros/s/AKfycbydKdWt4wZIvCgg5dHghFrZuJqaBZGkRUxHypSIUV3oIkqLyH0XqYIqhUQUVMNwMFs/exec";
-const ZALO_URL = "#"; // thay sau
+const ZALO_URL = "#";
 
 /* STATE */
 const AUTO_OPEN_ON_ADD = false;
@@ -350,8 +392,8 @@ const cart = []; const products = {};
 let adsData = [];
 let adsIndex = 0;
 let adsTimer = null;
-const ADS_PAGE_SIZE = 6;       // HIỂN THỊ 6 DÒNG MỖI LẦN
-const ADS_INTERVAL  = 10000;   // 10 giây tự lật; =0 để tắt
+const ADS_PAGE_SIZE = 6;       // 6 dòng / lần
+const ADS_INTERVAL  = 10000;   // ms (0 = tắt auto)
 
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
@@ -359,25 +401,17 @@ const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;
 function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
 function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
+function httpsImage(u){ try{ const url=new URL(u); if(url.protocol==='http:') return 'https://wsrv.nl/?url='+encodeURIComponent(u); return u; }catch(_){ return u; } }
 
-/* Tránh mixed content: proxy ảnh http -> https */
-function httpsImage(u){
-  try{
-    const url = new URL(u);
-    if(url.protocol === 'http:'){ return 'https://wsrv.nl/?url=' + encodeURIComponent(u); }
-    return u;
-  }catch(_){ return u; }
-}
-
-/* Logo reload */
+/* UI: click logo = reload */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.location.reload(); });
 
 /* Product card */
 function productCardHtml(it){
   products[it.id]=it;
-  const giftUrl   = firstLink(it.imageClick);
-  const showGift  = !!giftUrl;
-  const giftLabel = (it.loai || 'Nhận quà').toString().trim();
+  const giftUrl = firstLink(it.imageClick);
+  const showGift= !!giftUrl;
+  const giftLabel=(it.loai||'Nhận quà').toString().trim();
 
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
@@ -472,7 +506,7 @@ function selectCategory(val){
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
 }
 
-/* Filter buttons trong offcanvas — đổi sang tag */
+/* Filter buttons trong offcanvas */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
@@ -496,8 +530,7 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-/* ===== XƯỞNG ĐỀ XUẤT =====
-   API /ads trả { url, doc } với doc lấy từ cột chungnhanDN */
+/* ===== XƯỞNG ĐỀ XUẤT ===== */
 function fetchAds(){
   const qs = new URLSearchParams({
     action:'ads',
@@ -512,7 +545,6 @@ function renderAds(list){
   adsData = Array.isArray(list) ? list : [];
   adsIndex = 0;
 
-  // Cập nhật số xưởng
   const countEl = document.getElementById('adsCount');
   if (countEl){
     countEl.textContent = String(adsData.length);
@@ -571,11 +603,8 @@ function drawAdsWindow(){
       </div>
       <div class="actions">
         <a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
-        ${
-          s.doc
-            ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>`
-            : `<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>`
-        }
+        ${ s.doc ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success">Tệp DN</a>`
+                 : `<span class="doc-missing">Chưa có tệp</span>` }
       </div>
     `;
   });
@@ -587,23 +616,33 @@ function startAdsTimer(){
 }
 function stopAdsTimer(){ if (adsTimer){ clearInterval(adsTimer); adsTimer = null; } }
 
-/* Cart */
+/* ===== CART ===== */
 function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
 function changeQty(id,delta){ const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=delta; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart(); }
 function removeItem(id){ const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart(); }
 function clearCart(){ if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length=0; updateCart(); } }
+
+function getServiceFee(){
+  const v=document.getElementById('serviceSelect')?.value||'none';
+  if(v==='none') return 0;
+  const parts=v.split('@'); return Number(parts[1]||0);
+}
+function getSubtotal(){
+  return cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0);
+}
 function updateCart(){
   const count = cart.reduce((a,b)=>a+b.qty,0);
   const fabCount = document.getElementById('cartFabCount');
   if(fabCount){ fabCount.textContent=count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
-  const list=document.getElementById('cartList'); let total=0;
+
+  const list=document.getElementById('cartList'); let subtotal=0;
   list.innerHTML=cart.map(it=>{
-    const sub=it.qty*(Number(it.price)||0); total+=sub;
+    const sub=it.qty*(Number(it.price)||0); subtotal+=sub;
     return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
       <img src="${esc(httpsImage(it.img))}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd"
            onerror="this.src='https://via.placeholder.com/50?text=%F0%9F%93%8C'">
       <div class="flex-grow-1">
-        <div class="fw-semibold small">${esc(it.details||it.id)}</div>
+        <div class="fw-semibold small text-truncate" title="${esc(it.details||it.id)}">${esc(it.details||it.id)}</div>
         <div class="text-muted small">${fmtVND(it.price)}</div>
       </div>
       <div class="d-flex align-items-center gap-1">
@@ -615,8 +654,17 @@ function updateCart(){
       <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}">&times;</button>
     </div>`;
   }).join('');
-  document.getElementById('cartTotal').innerText=fmtVND(total);
+
+  // hiển thị tổng + phí
+  const fee = getServiceFee();
+  document.getElementById('cartSubtotal').innerText = fmtVND(subtotal);
+  const feeRow = document.getElementById('serviceFeeRow');
+  if(fee>0){ feeRow.style.display='flex'; document.getElementById('serviceFeeText').innerText = fmtVND(fee); }
+  else { feeRow.style.display='none'; }
+  document.getElementById('cartTotal').innerText = fmtVND(subtotal + fee);
 }
+
+/* Submit order: JSON nếu không có tệp; có tệp => multipart */
 function submitOrder(){
   if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
   const name=document.getElementById("buyerName").value.trim();
@@ -624,23 +672,47 @@ function submitOrder(){
   const phone=document.getElementById("buyerPhone").value.trim();
   const address=document.getElementById("buyerAddress").value.trim();
   const note=document.getElementById("buyerNote").value.trim();
+  const files=document.getElementById("buyerFiles").files;
+  const service=document.getElementById("serviceSelect").value;
+  const quoteByFile=document.getElementById("quoteByFile").checked;
+
   if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+
+  const subtotal=getSubtotal();
+  const serviceFee=getServiceFee();
+
   const order={
-    customer:{name,email,phone,address,note},
+    customer:{name,email,phone,address,note, service, quoteByFile, serviceFee},
     items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
-    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+    total: subtotal + serviceFee
   };
+
+  // Có file -> gửi multipart
+  if(files && files.length>0){
+    const fd = new FormData();
+    fd.append('action','order');
+    fd.append('data', JSON.stringify(order));
+    for(const f of files) fd.append('files[]', f, f.name);
+
+    fetch(API_URL,{ method:"POST", body: fd })
+      .then(async r=>{ const t=await r.text(); let j=null; try{ j=JSON.parse(t);}catch(_){}
+        if(!r.ok) throw new Error((j&&j.error)||('HTTP '+r.status+' '+t));
+        if(j && (j.ok||j.success)){ alert("Đã gửi đơn hàng thành công!"); cart.length=0; updateCart(); }
+        else throw new Error((j&&j.error)||"Gửi đơn hàng thất bại.");
+      })
+      .catch(err=>alert("Không thể gửi đơn hàng (multipart). Kiểm tra API_URL / Apps Script.\n"+(err?.message||err)));
+    return;
+  }
+
+  // Không có file -> JSON
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({action:"order",data:order})})
-  .then(async r=>{
-    const txt = await r.text();
-    // cố gắng parse JSON để báo lỗi rõ hơn
-    let res=null; try{ res=JSON.parse(txt);}catch(_){}
-    if(!r.ok){ throw new Error(res?.error || ('HTTP '+r.status+' '+txt.slice(0,200))); }
-    if(res && (res.ok||res.success)){ alert("Đã gửi đơn hàng thành công!"); cart.length=0; updateCart(); }
-    else throw new Error(res?.error || "Gửi đơn hàng thất bại.");
-  })
-  .catch(err=>alert("Không thể gửi đơn hàng. Kiểm tra API_URL.\n"+(err?.message||err)));
+    .then(async r=>{ const t=await r.text(); let j=null; try{ j=JSON.parse(t);}catch(_){}
+      if(!r.ok) throw new Error((j&&j.error)||('HTTP '+r.status+' '+t));
+      if(j && (j.ok||j.success)){ alert("Đã gửi đơn hàng thành công!"); cart.length=0; updateCart(); }
+      else throw new Error((j&&j.error)||"Gửi đơn hàng thất bại.");
+    })
+    .catch(err=>alert("Không thể gửi đơn hàng (JSON). Kiểm tra API_URL.\n"+(err?.message||err)));
 }
 
 /* Offcanvas */
@@ -662,6 +734,7 @@ document.addEventListener('click', (e)=>{
   if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
   if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
   if(el.matches('#clearCartBtn')) clearCart();
+  if(el.matches('[data-action="qty"]')){ changeQty(el.dataset.id, Number(el.dataset.delta)); }
 });
 document.getElementById('adsPrevBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex - ADS_PAGE_SIZE + adsData.length) % adsData.length; drawAdsWindow(); startAdsTimer(); });
 document.getElementById('adsNextBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); startAdsTimer(); });
@@ -674,7 +747,7 @@ document.getElementById('filterFab').addEventListener('click', () => filterOffca
 document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
 document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 
-/* Clear filters (2 nút) */
+/* Clear filters */
 function clearAllFilters(){
   state.type=''; state.loai=''; state.note=''; state.category=''; state.group='';
   updateFilterCount(); state.page=1; fetchPage();
@@ -704,6 +777,8 @@ function loadSuppliers(){
 
 /* INIT */
 fetchPage(); updateFilterCount();
+document.getElementById('serviceSelect').addEventListener('change', updateCart);
+document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
 });
 </script>
 </body>
