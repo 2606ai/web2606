@@ -43,7 +43,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 @media (max-width: 480px){ .benefits-v3 .grid{grid-template-columns:1fr} }
 .benefits-v3 .bcard{background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px; position:relative; font-weight:500}
 .benefits-v3 .ic{width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px}
-.benefits-v3 .ttl{ font-weight:600; text-transform:none;font-size:12px; } /* đậm nhẹ */
+.benefits-v3 .ttl{ font-weight:600; text-transform:none;font-size:12px; }
 .benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
 .benefits-v3 .bcard{ flex-direction:column; align-items:center; text-align:center; gap:6px; padding:12px; }
 .benefits-v3 .ic{ width:36px; height:36px; margin:0 0 6px 0; flex:0 0 auto; }
@@ -104,30 +104,14 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 @media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
 
 /* ====== Bộ lọc nâng cao (UI mới, không đổi logic) ====== */
-#filterPanel h6 {
-  font-weight: 700;
-  font-size: 14px;
-  margin: 16px 0 8px;
-  color: #0018a8;
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
-}
+#filterPanel h6 { font-weight:700; font-size:14px; margin:16px 0 8px; color:#0018a8; text-transform:uppercase; letter-spacing:.3px; }
 .filter-box-group { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
-.filter-tag{
-  border:1px solid #dbe3ff; background:#f9faff; border-radius:20px; padding:6px 12px;
-  font-size:13px; font-weight:500; color:#333; cursor:pointer; transition:.2s;
-}
+.filter-tag{ border:1px solid #dbe3ff; background:#f9faff; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:500; color:#333; cursor:pointer; transition:.2s; }
 .filter-tag:hover{ background:#eef3ff; border-color:#b3c8ff; }
-.filter-tag.active{
-  background:#0018a8; color:#fff; border-color:#0018a8; box-shadow:0 2px 8px rgba(0,24,168,.25);
-}
+.filter-tag.active{ background:#0018a8; color:#fff; border-color:#0018a8; box-shadow:0 2px 8px rgba(0,24,168,.25); }
 
 /* Stats bar nhẹ */
 #statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
-
-/* Cart extra */
-#cartCanvas .input-group-text{ min-width:96px; }
-#cartCanvas .alert{ margin-top:6px; margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -293,51 +277,15 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   </div>
   <div class="offcanvas-body">
     <div id="cartList"></div>
-
     <div class="d-flex justify-content-between align-items-center py-2 fw-bold">
       <span>Tổng cộng</span><span id="cartTotal">0 đ</span>
     </div>
-
     <button class="btn btn-danger w-100 mb-2" id="clearCartBtn">Xóa toàn bộ</button>
-
     <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên">
     <input id="buyerEmail" class="form-control mb-2" placeholder="Email">
     <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại">
     <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
     <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
-
-    <!-- Upload tệp -->
-    <input id="buyerFiles" type="file" class="form-control mb-2" multiple>
-
-    <!-- Dịch vụ lấy báo giá hộ -->
-    <div class="mb-2">
-      <label class="form-label small fw-semibold d-block mb-1">Dịch vụ LẤY BÁO GIÁ HỘ</label>
-      <div class="input-group input-group-sm">
-        <span class="input-group-text">Chọn gói</span>
-        <select id="quoteService" class="form-select">
-          <option value="0">Không dùng</option>
-          <option value="100000">100.000 đ / 3 báo giá</option>
-          <option value="500000">500.000 đ / 10 báo giá</option>
-        </select>
-      </div>
-      <div class="form-text">Phí dịch vụ sẽ cộng vào tổng tiền.</div>
-    </div>
-
-    <!-- Tích chọn báo giá theo tệp tải lên -->
-    <div class="form-check mb-2">
-      <input class="form-check-input" type="checkbox" id="quoteFromFile">
-      <label class="form-check-label small fw-semibold" for="quoteFromFile">
-        Báo giá theo tệp tải lên
-      </label>
-    </div>
-
-    <!-- Note hướng dẫn -->
-    <div class="alert alert-info small" style="white-space:pre-line">
-1. Bạn cần làm giống mẫu nào hoặc mua sản phẩm gì bấm gửi chúng tôi sẽ sớm liên hệ lại sau.
-2. Ghi rõ yêu cầu sẽ giúp chúng tôi tư vấn bạn dễ dàng hơn.
-3. CSKH của 2606ai.vn sẽ trực tiếp liên hệ bạn trong vòng 24h (nếu quá thời gian này phiền bạn hãy liên hệ lại).
-    </div>
-
     <button class="btn btn-success w-100" id="submitOrderBtn">Gửi đơn hàng</button>
   </div>
 </div>
@@ -389,8 +337,9 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
+// ĐỔI URL này thành Web App bạn vừa triển khai
 const API_URL = "https://script.google.com/macros/s/AKfycbydKdWt4wZIvCgg5dHghFrZuJqaBZGkRUxHypSIUV3oIkqLyH0XqYIqhUQUVMNwMFs/exec";
-const ZALO_URL = "#";
+const ZALO_URL = "#"; // thay sau
 
 /* STATE */
 const AUTO_OPEN_ON_ADD = false;
@@ -401,8 +350,8 @@ const cart = []; const products = {};
 let adsData = [];
 let adsIndex = 0;
 let adsTimer = null;
-const ADS_PAGE_SIZE = 300;          // hiển thị 6 dòng/lần
-const ADS_INTERVAL = 10000;
+const ADS_PAGE_SIZE = 6;       // HIỂN THỊ 6 DÒNG MỖI LẦN
+const ADS_INTERVAL  = 10000;   // 10 giây tự lật; =0 để tắt
 
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
@@ -410,6 +359,15 @@ const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;
 function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
 function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
+
+/* Tránh mixed content: proxy ảnh http -> https */
+function httpsImage(u){
+  try{
+    const url = new URL(u);
+    if(url.protocol === 'http:'){ return 'https://wsrv.nl/?url=' + encodeURIComponent(u); }
+    return u;
+  }catch(_){ return u; }
+}
 
 /* Logo reload */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.location.reload(); });
@@ -424,7 +382,8 @@ function productCardHtml(it){
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
       <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        <img class="thumb" src="${esc(httpsImage(it.img))}" alt="${esc(it.id)}"
+             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
       </a>
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     </div>
@@ -501,7 +460,8 @@ function buildCategory(items){
     return `
       <div class="col">
         <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
-          <div class="icon"><img src="${icon}" alt=""></div>
+          <div class="icon"><img src="${icon}" alt=""
+            onerror="this.src='https://via.placeholder.com/48?text=%F0%9F%93%8C'"></div>
           <span>${esc(val||'Khác')}</span>
         </div>
       </div>`;
@@ -512,7 +472,7 @@ function selectCategory(val){
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
 }
 
-/* Filter buttons trong offcanvas — UI tag */
+/* Filter buttons trong offcanvas — đổi sang tag */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
@@ -536,7 +496,8 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-/* ===== XƯỞNG ĐỀ XUẤT ===== */
+/* ===== XƯỞNG ĐỀ XUẤT =====
+   API /ads trả { url, doc } với doc lấy từ cột chungnhanDN */
 function fetchAds(){
   const qs = new URLSearchParams({
     action:'ads',
@@ -551,6 +512,7 @@ function renderAds(list){
   adsData = Array.isArray(list) ? list : [];
   adsIndex = 0;
 
+  // Cập nhật số xưởng
   const countEl = document.getElementById('adsCount');
   if (countEl){
     countEl.textContent = String(adsData.length);
@@ -590,18 +552,20 @@ function drawAdsWindow(){
     const card = box.children[i]; if (!card) return;
     let p=null; try{ p = await fetchLinkPreview(s.url); }catch(e){}
     const host = hostnameFromUrl(s.url);
-    const img  = (p && p.ok && p.image)      ? p.image   : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
-    const tit  = (p && p.ok && p.title)      ? p.title   : host;
-    const des  = (p && p.ok && p.description)? p.description : '';
-    const ico  = (p && p.ok && p.favicon)    ? p.favicon : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
-    const site = (p && p.ok && p.siteName)   ? p.siteName: host;
+    const img  = p?.ok && p.image ? httpsImage(p.image) : `https://www.google.com/s2/favicons?domain=${host}&sz=64`;
+    const tit  = p?.ok && p.title ? p.title : host;
+    const des  = p?.ok && p.description ? p.description : '';
+    const ico  = p?.ok && p.favicon ? p.favicon : `https://www.google.com/s2/favicons?domain=${host}&sz=16`;
+    const site = p?.ok && p.siteName ? p.siteName : host;
     card.innerHTML = `
-      <img class="thumb" src="${esc(img)}" alt="">
+      <img class="thumb" src="${esc(img)}" alt=""
+           onerror="this.src='https://via.placeholder.com/64?text=%F0%9F%93%8C'">
       <div class="meta" style="flex:1;min-width:0">
         <div class="title text-truncate" title="${esc(tit)}">${esc(tit)}</div>
         <div class="desc">${esc(des)}</div>
         <div class="site">
-          <img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">${esc(site)}
+          <img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px"
+               onerror="this.style.display='none'">${esc(site)}
         </div>
         <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
       </div>
@@ -616,10 +580,11 @@ function drawAdsWindow(){
     `;
   });
 }
-function nextAds(){ if(!adsData.length) return; adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); startAdsTimer(); }
-function prevAds(){ if(!adsData.length) return; adsIndex = (adsIndex - ADS_PAGE_SIZE + adsData.length) % adsData.length; drawAdsWindow(); startAdsTimer(); }
-function startAdsTimer(){ stopAdsTimer(); if (adsData.length <= ADS_PAGE_SIZE) return;
-  adsTimer = setInterval(nextAds, ADS_INTERVAL); }
+function startAdsTimer(){
+  stopAdsTimer();
+  if (ADS_INTERVAL <= 0 || adsData.length <= ADS_PAGE_SIZE) return;
+  adsTimer = setInterval(()=>{ adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); }, ADS_INTERVAL);
+}
 function stopAdsTimer(){ if (adsTimer){ clearInterval(adsTimer); adsTimer = null; } }
 
 /* Cart */
@@ -631,11 +596,12 @@ function updateCart(){
   const count = cart.reduce((a,b)=>a+b.qty,0);
   const fabCount = document.getElementById('cartFabCount');
   if(fabCount){ fabCount.textContent=count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
-  const list=document.getElementById('cartList'); let itemsTotal=0;
+  const list=document.getElementById('cartList'); let total=0;
   list.innerHTML=cart.map(it=>{
-    const sub=it.qty*(Number(it.price)||0); itemsTotal+=sub;
+    const sub=it.qty*(Number(it.price)||0); total+=sub;
     return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
-      <img src="${esc(it.img)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
+      <img src="${esc(httpsImage(it.img))}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd"
+           onerror="this.src='https://via.placeholder.com/50?text=%F0%9F%93%8C'">
       <div class="flex-grow-1">
         <div class="fw-semibold small">${esc(it.details||it.id)}</div>
         <div class="text-muted small">${fmtVND(it.price)}</div>
@@ -649,61 +615,32 @@ function updateCart(){
       <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}">&times;</button>
     </div>`;
   }).join('');
-
-  // + phí dịch vụ báo giá hộ (nếu có)
-  const feeSel = document.getElementById('quoteService');
-  const serviceFee = feeSel ? Number(feeSel.value||0) : 0;
-
-  const grandTotal = itemsTotal + serviceFee;
-  document.getElementById('cartTotal').innerText=fmtVND(grandTotal);
+  document.getElementById('cartTotal').innerText=fmtVND(total);
 }
-async function submitOrder(){
+function submitOrder(){
   if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
   const name=document.getElementById("buyerName").value.trim();
   const email=document.getElementById("buyerEmail").value.trim();
   const phone=document.getElementById("buyerPhone").value.trim();
   const address=document.getElementById("buyerAddress").value.trim();
   const note=document.getElementById("buyerNote").value.trim();
-  const feeSel=document.getElementById("quoteService");
-  const serviceFee = feeSel ? Number(feeSel.value||0) : 0;
-  const quoteFromFile = document.getElementById('quoteFromFile')?.checked || false;
-
   if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
-
-  // đọc file -> base64
-  async function readFiles(){
-    const input = document.getElementById('buyerFiles');
-    if(!input || !input.files || !input.files.length) return [];
-    const fs = Array.from(input.files);
-    const readers = fs.map(f => new Promise(res=>{
-      const fr = new FileReader();
-      fr.onload = () => {
-        const base64 = String(fr.result||'').split(',')[1]||'';
-        res({ filename:f.name, mimeType:f.type||'application/octet-stream', data:base64 });
-      };
-      fr.readAsDataURL(f);
-    }));
-    return Promise.all(readers);
-  }
-  const attachments = await readFiles();
-
-  const itemsPayload = cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>
-    ({id,details,type,price,qty,img,linkFull,group,loai,category,note})
-  );
-
   const order={
-    customer:{name,email,phone,address,note, quoteService:serviceFee, quoteFromFile},
-    items: itemsPayload,
-    total: itemsPayload.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0) + serviceFee,
-    attachments
+    customer:{name,email,phone,address,note},
+    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
+    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
   };
-
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({action:"order",data:order})})
-  .then(r=>r.json()).then(res=>{
+  .then(async r=>{
+    const txt = await r.text();
+    // cố gắng parse JSON để báo lỗi rõ hơn
+    let res=null; try{ res=JSON.parse(txt);}catch(_){}
+    if(!r.ok){ throw new Error(res?.error || ('HTTP '+r.status+' '+txt.slice(0,200))); }
     if(res && (res.ok||res.success)){ alert("Đã gửi đơn hàng thành công!"); cart.length=0; updateCart(); }
-    else alert("Gửi đơn hàng thất bại.");
-  }).catch(()=>alert("Không thể gửi đơn hàng. Kiểm tra API_URL."));
+    else throw new Error(res?.error || "Gửi đơn hàng thất bại.");
+  })
+  .catch(err=>alert("Không thể gửi đơn hàng. Kiểm tra API_URL.\n"+(err?.message||err)));
 }
 
 /* Offcanvas */
@@ -726,13 +663,10 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
   if(el.matches('#clearCartBtn')) clearCart();
 });
-document.getElementById('adsPrevBtn').addEventListener('click', prevAds);
-document.getElementById('adsNextBtn').addEventListener('click', nextAds);
+document.getElementById('adsPrevBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex - ADS_PAGE_SIZE + adsData.length) % adsData.length; drawAdsWindow(); startAdsTimer(); });
+document.getElementById('adsNextBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); startAdsTimer(); });
 document.getElementById('refreshAdsBtn').addEventListener('click', fetchAds);
 document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
-
-// cập nhật tổng khi đổi gói dịch vụ
-document.getElementById('quoteService').addEventListener('change', updateCart);
 
 /* FAB */
 document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
@@ -768,30 +702,8 @@ function loadSuppliers(){
     .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
 }
 
-/* Gestures cho adsList */
-const adsListEl = document.getElementById('adsList');
-let startX = 0, isDragging = false;
-adsListEl.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
-adsListEl.addEventListener('touchend',   e => {
-  const dx = e.changedTouches[0].clientX - startX;
-  if (Math.abs(dx) > 40) { dx < 0 ? nextAds() : prevAds(); }
-}, {passive:true});
-adsListEl.addEventListener('pointerdown', e => { isDragging = true; startX = e.clientX; });
-window.addEventListener('pointerup', () => isDragging = false);
-adsListEl.addEventListener('pointermove', e => {
-  if(!isDragging) return;
-  const dx = e.clientX - startX;
-  if (Math.abs(dx) > 60) { dx < 0 ? nextAds() : prevAds(); isDragging = false; }
-});
-adsListEl.addEventListener('wheel', e => {
-  const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-  if (Math.abs(d) < 6) return;
-  d > 0 ? nextAds() : prevAds();
-}, {passive:true});
-
 /* INIT */
 fetchPage(); updateFilterCount();
-document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
 });
 </script>
 </body>
