@@ -41,19 +41,25 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Benefit cards */
 .benefits-v3 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media (max-width: 480px){ .benefits-v3 .grid{grid-template-columns:1fr} }
-.benefits-v3 .bcard{background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px}
+.benefits-v3 .bcard{background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px; position:relative; font-weight:500}
 .benefits-v3 .ic{width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px}
-.benefits-v3 .ttl{ font-weight:400; text-transform:none; }
+.benefits-v3 .ttl{ font-weight:600; text-transform:none; } /* đậm nhẹ */
 .benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
 .benefits-v3 .bcard{ flex-direction:column; align-items:center; text-align:center; gap:6px; padding:12px; }
 .benefits-v3 .ic{ width:36px; height:36px; margin:0 0 6px 0; flex:0 0 auto; }
+/* benefit note badge */
+.benefit-note{ position:absolute; top:6px; right:8px; font-size:11px; font-weight:700; padding:2px 6px; border-radius:999px; color:#fff; }
+.benefit-free{ background:#4caf50; }
+.benefit-paid{ background:#d32f2f; }
 /* Preview card */
-.link-preview{display:flex; gap:10px; border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px; }
+.link-preview{display:flex; gap:10px; border:1px solid #eef2ff;background:#fff;border-radius:10px;padding:10px; align-items:flex-start; }
 .link-preview img.thumb{width:64px;height:64px;object-fit:cover;border-radius:8px;background:#f6f7fb}
 .link-preview .meta{font-size:12px}
 .link-preview .title{font-weight:700;margin-bottom:2px}
 .link-preview .desc{color:#6c757d;max-height:2.4em;overflow:hidden}
 .link-preview .site{font-size:12px;color:#8898aa}
+.link-preview .actions{ display:flex; flex-direction:column; gap:6px; align-items:flex-end; }
+.link-preview .doc-missing{ display:inline-block; font-size:11px; padding:2px 6px; border-radius:999px; background:#f8f9fc; color:#6b7483; border:1px dashed #dfe6ff; }
 /* Hero */
 .hero{margin-bottom:15px}
 .hero .carousel{border-radius:8px;overflow:hidden}
@@ -96,6 +102,28 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .footer-social .social-zalo{ background:#0068ff; }
 .footer-social .social-fb{ background:#1877F2; }
 @media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
+
+/* ====== Bộ lọc nâng cao (UI mới, không đổi logic) ====== */
+#filterPanel h6 {
+  font-weight: 700;
+  font-size: 14px;
+  margin: 16px 0 8px;
+  color: #0018a8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+.filter-box-group { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+.filter-tag{
+  border:1px solid #dbe3ff; background:#f9faff; border-radius:20px; padding:6px 12px;
+  font-size:13px; font-weight:500; color:#333; cursor:pointer; transition:.2s;
+}
+.filter-tag:hover{ background:#eef3ff; border-color:#b3c8ff; }
+.filter-tag.active{
+  background:#0018a8; color:#fff; border-color:#0018a8; box-shadow:0 2px 8px rgba(0,24,168,.25);
+}
+
+/* Stats bar nhẹ */
+#statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
 </style>
 </head>
 <body>
@@ -129,19 +157,40 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       <div class="sidebar-box benefits-v3">
         <h6 class="mb-2">Chúng tôi có gì cho bạn!!</h6>
         <div class="grid">
-          <div class="bcard"><div class="ic">📚</div><div><div class="ttl">10,000+ mẫu sản phẩm</div><div class="sub">Không lo thiếu ý tưởng</div></div></div>
-          <div class="bcard"><div class="ic">🏭</div><div><div class="ttl">500+ nhà cung cấp và xưởng sản xuất</div><div class="sub">Báo giá nhanh, đa dạng</div></div></div>
-          <div class="bcard"><div class="ic">🎨</div><div><div class="ttl">Tư vấn chuyên nghiệp (Miễn phí)</div><div class="sub">Đáp ứng nhiều nhu cầu</div></div></div>
-          <div class="bcard"><div class="ic">⚙️</div><div><div class="ttl">Thiết kế 2D, 3D sản xuất (Miễn phí)</div><div class="sub">Hỗ trợ thiết kế sản xuất</div></div></div>
-          <div class="bcard"><div class="ic">📦</div><div><div class="ttl">Hậu cần vận chuyển – đóng gói hàng hóa (Dịch vụ thêm)</div><div class="sub">Xử lý khâu vận hành</div></div></div>
-          <div class="bcard"><div class="ic">🤝</div><div><div class="ttl">Hỗ trợ tranh chấp (Hỗ trợ xử lý phát sinh)</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div></div>
+          <div class="bcard">
+            <span class="benefit-note benefit-free">Miễn phí</span>
+            <div class="ic">📚</div><div><div class="ttl">10,000+ mẫu sản phẩm</div><div class="sub">Không lo thiếu ý tưởng</div></div>
+          </div>
+          <div class="bcard">
+            <span class="benefit-note benefit-free">Miễn phí</span>
+            <div class="ic">🏭</div><div><div class="ttl">500+ nhà cung cấp và xưởng sản xuất</div><div class="sub">Báo giá nhanh, đa dạng</div></div>
+          </div>
+          <div class="bcard">
+            <span class="benefit-note benefit-free">Miễn phí</span>
+            <div class="ic">🎨</div><div><div class="ttl">Tư vấn chuyên nghiệp</div><div class="sub">Đáp ứng nhiều nhu cầu</div></div>
+          </div>
+          <div class="bcard">
+            <span class="benefit-note benefit-free">Miễn phí</span>
+            <div class="ic">⚙️</div><div><div class="ttl">Thiết kế 2D, 3D sản xuất</div><div class="sub">Hỗ trợ thiết kế sản xuất</div></div>
+          </div>
+          <div class="bcard">
+            <span class="benefit-note benefit-paid">Có phí</span>
+            <div class="ic">📦</div><div><div class="ttl">Hậu cần vận chuyển – đóng gói hàng hóa</div><div class="sub">Xử lý khâu vận hành</div></div>
+          </div>
+          <div class="bcard">
+            <span class="benefit-note benefit-paid">Có phí</span>
+            <div class="ic">🤝</div><div><div class="ttl">Hỗ trợ tranh chấp</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div>
+          </div>
         </div>
       </div>
 
       <!-- XƯỞNG ĐỀ XUẤT -->
       <div class="sidebar-box">
         <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
-          Xưởng đề xuất
+          <span class="d-inline-flex align-items-center gap-2">
+            Xưởng đề xuất
+            <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
+          </span>
           <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-outline-secondary" id="adsPrevBtn">‹</button>
             <button type="button" class="btn btn-outline-secondary" id="adsNextBtn">›</button>
@@ -301,7 +350,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
 // ĐỔI URL này thành Web App bạn vừa triển khai
-const API_URL = "https://script.google.com/macros/s/AKfycbxPyjRUvr4MyiW5lRbnaNZ5rdoSDTJAs-n9gugHlouBvSVAz8Y9EknrfpFEnX3CGBjL/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbydKdWt4wZIvCgg5dHghFrZuJqaBZGkRUxHypSIUV3oIkqLyH0XqYIqhUQUVMNwMFs/exec";
 const ZALO_URL = "#"; // thay sau
 
 /* STATE */
@@ -424,13 +473,16 @@ function selectCategory(val){
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
 }
 
-/* Filter buttons trong offcanvas */
+/* Filter buttons trong offcanvas — đổi sang tag */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
+  box.classList.add("filter-box-group");
   box.innerHTML=(items||[]).map(val=>`
-    <button class="btn btn-sm ${state[field]===val?'btn-primary':'btn-outline-secondary'} me-1 mb-1"
-      data-action="set-filter" data-field="${field}" data-val="${esc(val)}">${esc(val||'Tất cả')}</button>
+    <div class="filter-tag ${state[field]===val?'active':''}"
+      data-action="set-filter" data-field="${field}" data-val="${esc(val)}">
+      ${esc(val||'Tất cả')}
+    </div>
   `).join('');
 }
 function updateFilterCount(){
@@ -446,7 +498,8 @@ function fetchLinkPreview(url){
 }
 
 /* ===== XƯỞNG ĐỀ XUẤT =====
-   Lấy từ cột "quangcao" của các sản phẩm sau khi lọc (API /ads) */
+   Lấy từ cột "quangcao" của các sản phẩm sau khi lọc (API /ads).
+   API trả { url, doc } với doc lấy từ cột chungnhanDN. */
 function fetchAds(){
   const qs = new URLSearchParams({
     action:'ads',
@@ -460,6 +513,14 @@ function fetchAds(){
 function renderAds(list){
   adsData = Array.isArray(list) ? list : [];
   adsIndex = 0;
+
+  // Cập nhật số xưởng
+  const countEl = document.getElementById('adsCount');
+  if (countEl){
+    countEl.textContent = String(adsData.length);
+    countEl.style.display = adsData.length ? 'inline-block' : 'none';
+  }
+
   const empty = document.getElementById('adsEmpty');
   if (!adsData.length){
     document.getElementById('adsList').innerHTML = '';
@@ -486,6 +547,7 @@ function drawAdsWindow(){
         <div class="site placeholder-glow"><span class="placeholder col-4" style="height:12px"></span></div>
         <div><span class="small text-muted">Đang tải…</span></div>
       </div>
+      <div class="actions"></div>
     </div>
   `).join('');
   win.forEach(async (s, i)=>{
@@ -507,7 +569,14 @@ function drawAdsWindow(){
         </div>
         <div><a href="${esc(s.url)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
       </div>
-      <div><a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a></div>
+      <div class="actions">
+        <a href="${esc(s.url)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
+        ${
+          s.doc
+            ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>`
+            : `<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>`
+        }
+      </div>
     `;
   });
 }
