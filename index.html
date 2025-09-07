@@ -1,44 +1,33 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>2606AI</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
 .container-fluid{max-width:1400px;margin:auto;}
 
-/* ===== Banner chạy chữ (chậm x5) ===== */
+/* ===== Banner chạy chữ ===== */
 .top-banner{
   background:var(--main)!important;color:#fff;font-weight:700;position:sticky; top:70px; z-index:1054;
   height:32px; display:flex; align-items:center; overflow:hidden; border:0;
 }
-.top-banner .marquee{
-  display:inline-block; white-space:nowrap; padding-left:100%;
-  animation: marquee 45s linear infinite;
-}
+.top-banner .marquee{ display:inline-block; white-space:nowrap; padding-left:100%; animation: marquee 60s linear infinite; }
 @keyframes marquee{ 0%{transform:translateX(0)} 100%{transform:translateX(-100%)} }
 
 /* Header */
-.site-header{
-  background:#fff;padding:10px 15px;border-bottom:1px solid #eee;
-  position:fixed;top:0;left:0;right:0;z-index:1055;height:70px;
-  box-shadow:0 2px 6px rgba(0,0,0,.05);
-}
+.site-header{ background:#fff;padding:10px 15px;border-bottom:1px solid #eee; position:fixed;top:0;left:0;right:0;z-index:1055;height:70px; box-shadow:0 2px 6px rgba(0,0,0,.05); }
 .site-header .wrap{max-width:1400px;width:100%;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:12px;}
 .site-header img.logo{ width:84px; aspect-ratio:3/2; object-fit:contain; display:block; cursor:pointer; }
-
 .header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:360px; }
-@media (max-width: 992px){
-  .site-header .wrap{ justify-content:center; }
-  .header-search{ flex:1 1 100%; max-width:100%; }
-}
+@media (max-width: 992px){ .site-header .wrap{ justify-content:center; } .header-search{ flex:1 1 100%; max-width:100%; } }
 .header-search .form-control{ font-size:13px;padding:6px 10px; }
 
-/* ===== Fix header mobile (giữ nút Tìm) ===== */
+/* ===== Fix header mobile ===== */
 @media (max-width:576px){
   .site-header img.logo{ width:64px; }
   .header-search{ min-width:0; }
@@ -50,17 +39,14 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .sidebar-box{background:#fff;padding:12px;border-radius:8px;margin-bottom:15px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
-/* Benefits – Option 3: cards 2 cột */
+/* Benefits – cards 2 cột */
 .benefits-v3 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media (max-width: 480px){ .benefits-v3 .grid{grid-template-columns:1fr} }
-.benefits-v3 .bcard{
-  background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px
-}
+.benefits-v3 .bcard{ background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px }
 .benefits-v3 .ic{width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px}
 .benefits-v3 .ttl{ font-weight:400; text-transform:none; }
 .benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
-
-/* === Benefits: icon ở trên, chữ căn giữa (override) === */
+/* override: icon ở trên, chữ căn giữa */
 .benefits-v3 .bcard{ flex-direction:column; align-items:center; text-align:center; gap:6px; padding:12px; }
 .benefits-v3 .ic{ width:36px; height:36px; margin:0 0 6px 0; flex:0 0 auto; }
 
@@ -89,15 +75,12 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .category-item span{font-size:13px;display:block}
 .category-item.active{background:#e6f0ff;border:1px solid #007bff}
 
-/* ===== Card sản phẩm: chữ nhật + chip góc phải trên ảnh ===== */
+/* Card sản phẩm */
 .cardx{border:none;border-radius:0;background:#fff;overflow:hidden;transition:.2s;height:100%;
   box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
 .cardx .thumb-wrap{position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover;background:#fff;border-radius:0}
-.cardx .note-chip{
-  position:absolute; top:8px; right:8px;
-  padding:2px 6px; border-radius:999px; font-size:10px; font-weight:600; color:#fff; background:#555;
-}
+.cardx .note-chip{ position:absolute; top:8px; right:8px; padding:2px 6px; border-radius:999px; font-size:10px; font-weight:600; color:#fff; background:#555; }
 .cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;}
 .cardx .id{font-weight:600;color:#0018a8;font-size:13px;margin-bottom:2px}
 .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;margin:6px 0}
@@ -123,29 +106,22 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .zalo-fab{ background:#25D366; bottom:20px; }
 .fab-badge{position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700; display:none}
 
-/* Offcanvas z-index cao để không bị che */
+/* Offcanvas z-index */
 .offcanvas{ z-index: 4000; }
 .offcanvas-backdrop{ z-index: 3990; }
 
-/* Category grid: rút ngắn khoảng cách giữa 2 hàng còn 1/2 */
-#categoryGrid{
-  --bs-gutter-y: .25rem;
-  /* --bs-gutter-x: .25rem; */
-}
-/* (tùy chọn) giảm padding bên trong mỗi item cho gọn hơn */
+/* Category grid: rút ngắn khoảng cách giữa 2 hàng */
+#categoryGrid{ --bs-gutter-y: .25rem; }
+/* gọn item */
 .category-item{ padding:8px; }
 
-/* ===== Footer ===== */
+/* Footer */
 .site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
 .site-footer .brand{ font-weight:700; color:var(--main); margin-bottom:4px; }
 .site-footer a{ color:inherit; text-decoration:none; }
 .site-footer a:hover{ text-decoration:underline; }
 .footer-social{ display:flex; gap:8px; justify-content:flex-start; }
-.footer-social .social{
-  width:36px; height:36px; border-radius:50%;
-  display:inline-flex; align-items:center; justify-content:center;
-  color:#fff; font-weight:800; text-decoration:none;
-}
+.footer-social .social{ width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:800; text-decoration:none; }
 .footer-social .social-zalo{ background:#0068ff; }
 .footer-social .social-fb{ background:#1877F2; }
 @media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
@@ -181,6 +157,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   <div class="row g-3">
     <!-- Sidebar -->
     <div class="col-lg-3 col-md-4">
+      <!-- Quyền lợi -->
       <div class="sidebar-box benefits-v3">
         <h6 class="mb-2">Chúng tôi có gì cho bạn!!</h6>
         <div class="grid">
@@ -193,6 +170,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
+      <!-- Xưởng đề xuất -->
       <div class="sidebar-box">
         <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
           Xưởng đề xuất
@@ -355,7 +333,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
-const API_URL="https://script.google.com/macros/s/AKfycbzAiOWUcqYa90l2TsVLTUlWCI_i3LJ3qg0t6PPc2KiUD_G6GQVVao_TpI8vqRZHf1s/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzaX3utBe93uUoNhT-uKuuq1Wa3qGWiS7L4_cROhZF0p8iV4s9TDHfERSONjvuZr2rd/exec";
 const ZALO_URL = "#"; // thay sau
 
 /* STATE */
@@ -411,7 +389,7 @@ function productCardHtml(it){
 function renderPagination(totalItems, pageSize, currentPage){
   const pager = document.getElementById('pagerRow');
   if(!pager) return;
-  const totalPages = Math.ceil((totalItems||0) / pageSize);
+  const totalPages = Math.max(1, Math.ceil((totalItems||0) / pageSize));
   if(totalPages <= 1){ pager.innerHTML = ''; return; }
 
   let html = '';
@@ -425,7 +403,18 @@ function renderPagination(totalItems, pageSize, currentPage){
 /* ===== Render & Facets ===== */
 function render(res){
   const grid=document.getElementById('productGrid');
-  if(!res||!res.items||res.items.length===0){ grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>'; }
+
+  const total = Number(res?.total || 0);
+  const totalPages = Math.max(1, Math.ceil(total / state.pageSize));
+
+  // Nếu đang ở trang vượt tổng → kéo về trang cuối và nạp lại
+  if (state.page > totalPages){
+    state.page = totalPages;
+    fetchPage();
+    return;
+  }
+
+  if(!res || !res.items || res.items.length===0){ grid.innerHTML='<div class="text-muted">Không có sản phẩm.</div>'; }
   else{ grid.innerHTML=res.items.map(productCardHtml).join(''); }
 
   const facets=res&&res.facets?res.facets:{};
@@ -436,10 +425,9 @@ function render(res){
   buildFilterBox('brandBox',facets.categories||[],'category');
 
   const totalEl = document.getElementById('totalCount');
-  if (totalEl) totalEl.textContent = Number(res?.total||0).toLocaleString('vi-VN');
+  if (totalEl) totalEl.textContent = total.toLocaleString('vi-VN');
 
-  /* render phân trang số */
-  renderPagination(res?.total||0, state.pageSize, state.page);
+  renderPagination(total, state.pageSize, state.page);
 }
 
 function fetchPage(){
@@ -478,6 +466,7 @@ function buildCategory(items){
 function selectCategory(val){
   state.category=val; state.page=1; fetchPage();
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
+  // chỉ fetch ads khi category thay đổi
   fetchAdsByCategory(val).then(r=>renderAds(r.items||[])).catch(()=>renderAds([]));
 }
 
@@ -506,7 +495,7 @@ function fetchLinkPreview(url){
 function renderAds(list){
   adsData  = Array.isArray(list) ? list : [];
   adsIndex = 0;
-  if (!adsData.length){ 
+  if (!adsData.length){
     document.getElementById('adsList').innerHTML = '';
     document.getElementById('adsEmpty').style.display = 'block';
     stopAdsTimer();
@@ -630,7 +619,7 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
   if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
 
-  /* Phân trang số */
+  // Phân trang số
   if(el.matches('[data-action="goto-page"]')){
     const p = Number(el.dataset.page);
     if(p && p !== state.page){ state.page = p; fetchPage(); }
