@@ -124,6 +124,10 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 /* Stats bar nhẹ */
 #statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
+
+/* Cart extra */
+#cartCanvas .input-group-text{ min-width:96px; }
+#cartCanvas .alert{ margin-top:6px; margin-bottom:8px; }
 </style>
 </head>
 <body>
@@ -284,20 +288,56 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 <!-- Offcanvas: Giỏ hàng -->
 <div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas" aria-labelledby="cartCanvasLabel">
   <div class="offcanvas-header">
-    <h5 id="cartCanvasLabel" class="mb-0">Giỏ hàng</h5>
+    <h5 id="cartCanvasLabel" class="mb-0">Chọn hàng loạt</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
   </div>
   <div class="offcanvas-body">
     <div id="cartList"></div>
+
     <div class="d-flex justify-content-between align-items-center py-2 fw-bold">
       <span>Tổng cộng</span><span id="cartTotal">0 đ</span>
     </div>
+
     <button class="btn btn-danger w-100 mb-2" id="clearCartBtn">Xóa toàn bộ</button>
+
     <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên">
     <input id="buyerEmail" class="form-control mb-2" placeholder="Email">
     <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại">
     <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng">
     <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú"></textarea>
+
+    <!-- Upload tệp -->
+    <input id="buyerFiles" type="file" class="form-control mb-2" multiple>
+
+    <!-- Dịch vụ lấy báo giá hộ -->
+    <div class="mb-2">
+      <label class="form-label small fw-semibold d-block mb-1">Dịch vụ LẤY BÁO GIÁ HỘ</label>
+      <div class="input-group input-group-sm">
+        <span class="input-group-text">Chọn gói</span>
+        <select id="quoteService" class="form-select">
+          <option value="0">Không dùng</option>
+          <option value="100000">100.000 đ / 3 báo giá</option>
+          <option value="500000">500.000 đ / 10 báo giá</option>
+        </select>
+      </div>
+      <div class="form-text">Phí dịch vụ sẽ cộng vào tổng tiền.</div>
+    </div>
+
+    <!-- Tích chọn báo giá theo tệp tải lên -->
+    <div class="form-check mb-2">
+      <input class="form-check-input" type="checkbox" id="quoteFromFile">
+      <label class="form-check-label small fw-semibold" for="quoteFromFile">
+        Báo giá theo tệp tải lên
+      </label>
+    </div>
+
+    <!-- Note hướng dẫn -->
+    <div class="alert alert-info small" style="white-space:pre-line">
+1. Bạn cần làm giống mẫu nào hoặc mua sản phẩm gì bấm gửi chúng tôi sẽ sớm liên hệ lại sau.
+2. Ghi rõ yêu cầu sẽ giúp chúng tôi tư vấn bạn dễ dàng hơn.
+3. CSKH của 2606ai.vn sẽ trực tiếp liên hệ bạn trong vòng 24h (nếu quá thời gian này phiền bạn hãy liên hệ lại).
+    </div>
+
     <button class="btn btn-success w-100" id="submitOrderBtn">Gửi đơn hàng</button>
   </div>
 </div>
@@ -349,9 +389,8 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
-// ĐỔI URL này thành Web App bạn vừa triển khai
 const API_URL = "https://script.google.com/macros/s/AKfycbydKdWt4wZIvCgg5dHghFrZuJqaBZGkRUxHypSIUV3oIkqLyH0XqYIqhUQUVMNwMFs/exec";
-const ZALO_URL = "#"; // thay sau
+const ZALO_URL = "#";
 
 /* STATE */
 const AUTO_OPEN_ON_ADD = false;
@@ -362,7 +401,7 @@ const cart = []; const products = {};
 let adsData = [];
 let adsIndex = 0;
 let adsTimer = null;
-const ADS_PAGE_SIZE = 180;
+const ADS_PAGE_SIZE = 6;          // hiển thị 6 dòng/lần
 const ADS_INTERVAL = 10000;
 
 /* UTILS */
@@ -473,7 +512,7 @@ function selectCategory(val){
   document.querySelectorAll('.category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
 }
 
-/* Filter buttons trong offcanvas — đổi sang tag */
+/* Filter buttons trong offcanvas — UI tag */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
@@ -497,9 +536,7 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-/* ===== XƯỞNG ĐỀ XUẤT =====
-   Lấy từ cột "quangcao" của các sản phẩm sau khi lọc (API /ads).
-   API trả { url, doc } với doc lấy từ cột chungnhanDN. */
+/* ===== XƯỞNG ĐỀ XUẤT ===== */
 function fetchAds(){
   const qs = new URLSearchParams({
     action:'ads',
@@ -514,7 +551,6 @@ function renderAds(list){
   adsData = Array.isArray(list) ? list : [];
   adsIndex = 0;
 
-  // Cập nhật số xưởng
   const countEl = document.getElementById('adsCount');
   if (countEl){
     countEl.textContent = String(adsData.length);
@@ -580,8 +616,10 @@ function drawAdsWindow(){
     `;
   });
 }
+function nextAds(){ if(!adsData.length) return; adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); startAdsTimer(); }
+function prevAds(){ if(!adsData.length) return; adsIndex = (adsIndex - ADS_PAGE_SIZE + adsData.length) % adsData.length; drawAdsWindow(); startAdsTimer(); }
 function startAdsTimer(){ stopAdsTimer(); if (adsData.length <= ADS_PAGE_SIZE) return;
-  adsTimer = setInterval(()=>{ adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); }, ADS_INTERVAL); }
+  adsTimer = setInterval(nextAds, ADS_INTERVAL); }
 function stopAdsTimer(){ if (adsTimer){ clearInterval(adsTimer); adsTimer = null; } }
 
 /* Cart */
@@ -593,9 +631,9 @@ function updateCart(){
   const count = cart.reduce((a,b)=>a+b.qty,0);
   const fabCount = document.getElementById('cartFabCount');
   if(fabCount){ fabCount.textContent=count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
-  const list=document.getElementById('cartList'); let total=0;
+  const list=document.getElementById('cartList'); let itemsTotal=0;
   list.innerHTML=cart.map(it=>{
-    const sub=it.qty*(Number(it.price)||0); total+=sub;
+    const sub=it.qty*(Number(it.price)||0); itemsTotal+=sub;
     return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
       <img src="${esc(it.img)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
       <div class="flex-grow-1">
@@ -611,21 +649,55 @@ function updateCart(){
       <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}">&times;</button>
     </div>`;
   }).join('');
-  document.getElementById('cartTotal').innerText=fmtVND(total);
+
+  // + phí dịch vụ báo giá hộ (nếu có)
+  const feeSel = document.getElementById('quoteService');
+  const serviceFee = feeSel ? Number(feeSel.value||0) : 0;
+
+  const grandTotal = itemsTotal + serviceFee;
+  document.getElementById('cartTotal').innerText=fmtVND(grandTotal);
 }
-function submitOrder(){
+async function submitOrder(){
   if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
   const name=document.getElementById("buyerName").value.trim();
   const email=document.getElementById("buyerEmail").value.trim();
   const phone=document.getElementById("buyerPhone").value.trim();
   const address=document.getElementById("buyerAddress").value.trim();
   const note=document.getElementById("buyerNote").value.trim();
+  const feeSel=document.getElementById("quoteService");
+  const serviceFee = feeSel ? Number(feeSel.value||0) : 0;
+  const quoteFromFile = document.getElementById('quoteFromFile')?.checked || false;
+
   if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+
+  // đọc file -> base64
+  async function readFiles(){
+    const input = document.getElementById('buyerFiles');
+    if(!input || !input.files || !input.files.length) return [];
+    const fs = Array.from(input.files);
+    const readers = fs.map(f => new Promise(res=>{
+      const fr = new FileReader();
+      fr.onload = () => {
+        const base64 = String(fr.result||'').split(',')[1]||'';
+        res({ filename:f.name, mimeType:f.type||'application/octet-stream', data:base64 });
+      };
+      fr.readAsDataURL(f);
+    }));
+    return Promise.all(readers);
+  }
+  const attachments = await readFiles();
+
+  const itemsPayload = cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>
+    ({id,details,type,price,qty,img,linkFull,group,loai,category,note})
+  );
+
   const order={
-    customer:{name,email,phone,address,note},
-    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
-    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+    customer:{name,email,phone,address,note, quoteService:serviceFee, quoteFromFile},
+    items: itemsPayload,
+    total: itemsPayload.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0) + serviceFee,
+    attachments
   };
+
   fetch(API_URL,{method:"POST",headers:{"Content-Type":"application/json"},
     body:JSON.stringify({action:"order",data:order})})
   .then(r=>r.json()).then(res=>{
@@ -654,10 +726,13 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
   if(el.matches('#clearCartBtn')) clearCart();
 });
-document.getElementById('adsPrevBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex - ADS_PAGE_SIZE + adsData.length) % adsData.length; drawAdsWindow(); startAdsTimer(); });
-document.getElementById('adsNextBtn').addEventListener('click', ()=>{ if(!adsData.length) return; adsIndex = (adsIndex + ADS_PAGE_SIZE) % adsData.length; drawAdsWindow(); startAdsTimer(); });
+document.getElementById('adsPrevBtn').addEventListener('click', prevAds);
+document.getElementById('adsNextBtn').addEventListener('click', nextAds);
 document.getElementById('refreshAdsBtn').addEventListener('click', fetchAds);
 document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
+
+// cập nhật tổng khi đổi gói dịch vụ
+document.getElementById('quoteService').addEventListener('change', updateCart);
 
 /* FAB */
 document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
@@ -693,8 +768,30 @@ function loadSuppliers(){
     .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
 }
 
+/* Gestures cho adsList */
+const adsListEl = document.getElementById('adsList');
+let startX = 0, isDragging = false;
+adsListEl.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, {passive:true});
+adsListEl.addEventListener('touchend',   e => {
+  const dx = e.changedTouches[0].clientX - startX;
+  if (Math.abs(dx) > 40) { dx < 0 ? nextAds() : prevAds(); }
+}, {passive:true});
+adsListEl.addEventListener('pointerdown', e => { isDragging = true; startX = e.clientX; });
+window.addEventListener('pointerup', () => isDragging = false);
+adsListEl.addEventListener('pointermove', e => {
+  if(!isDragging) return;
+  const dx = e.clientX - startX;
+  if (Math.abs(dx) > 60) { dx < 0 ? nextAds() : prevAds(); isDragging = false; }
+});
+adsListEl.addEventListener('wheel', e => {
+  const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+  if (Math.abs(d) < 6) return;
+  d > 0 ? nextAds() : prevAds();
+}, {passive:true});
+
 /* INIT */
 fetchPage(); updateFilterCount();
+document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
 });
 </script>
 </body>
