@@ -177,27 +177,28 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       <div class="sidebar-box benefits-v3">
         <h6 class="mb-2">Chúng tôi có gì cho bạn...</h6>
         <div class="grid">
-          <div class="bcard">
+          <!-- thêm data-benefit + role + tabindex cho 6 thẻ bên dưới -->
+          <div class="bcard" data-benefit="b1" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
             <div class="ic">📚</div><div><div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div><div class="sub">Không lo thiếu ý tưởng</div></div>
           </div>
-          <div class="bcard">
+          <div class="bcard" data-benefit="b2" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
             <div class="ic">🏭</div><div><div class="ttl">2. Hơn 500+ nhà cung cấp và xưởng sản xuất</div><div class="sub">Báo giá nhanh, đa dạng, dễ dàng so sánh giá</div></div>
           </div>
-          <div class="bcard">
+          <div class="bcard" data-benefit="b3" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
             <div class="ic">🎨</div><div><div class="ttl">3. Hỗ trợ tư vấn sản xuất</div><div class="sub">Phản hồi nhanh, đáp ứng nhiều nhu cầu</div></div>
           </div>
-          <div class="bcard">
+          <div class="bcard" data-benefit="b4" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
             <div class="ic">⚙️</div><div><div class="ttl">4. Hỗ trợ thiết kế 2D, 3D sản xuất</div><div class="sub">Mockup miễn phí cho các đơn hàng chốt</div></div>
           </div>
-          <div class="bcard">
+          <div class="bcard" data-benefit="b5" role="button" tabindex="0">
             <span class="benefit-note benefit-paid">Có phí</span>
             <div class="ic">📦</div><div><div class="ttl">5. Hậu cần vận chuyển và đóng gói hàng hóa</div><div class="sub">Dịch vụ nhanh chuyên nghiệp</div></div>
           </div>
-          <div class="bcard">
+          <div class="bcard" data-benefit="b6" role="button" tabindex="0">
             <span class="benefit-note benefit-paid">Có phí</span>
             <div class="ic">🤝</div><div><div class="ttl">6. Hỗ trợ giải quyết tranh chấp</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div>
           </div>
@@ -413,6 +414,27 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
     </div>
   </div>
 </div>
+
+<!-- ===== Modal chi tiết Lợi ích ===== -->
+<div class="modal fade" id="benefitModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px">
+      <div class="modal-header" style="background:var(--main);color:#fff;border:0">
+        <h5 class="modal-title" id="benefitTitle">Chi tiết</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter:invert(1)"></button>
+      </div>
+      <div class="modal-body">
+        <div id="benefitLead" class="text-muted mb-2"></div>
+        <ul id="benefitList" class="mb-2"></ul>
+        <div id="benefitNote" class="small text-muted"></div>
+      </div>
+      <div class="modal-footer" style="border:0">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đã hiểu</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ===== /Modal ===== -->
 
 <button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️</button>
 <button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">🛒 <span id="cartFabCount" class="fab-badge">0</span></button>
@@ -845,14 +867,60 @@ function clearAllFilters(){
 document.getElementById('clearFiltersBtn').addEventListener('click', clearAllFilters);
 document.getElementById('clearFiltersBtn2').addEventListener('click', clearAllFilters);
 
-/* Gắn events cho bộ lọc xưởng */
-const onSupSearch = debounce(applySupFilters, 200);
-document.getElementById('supSearch').addEventListener('input', onSupSearch);
-document.getElementById('supHasSite').addEventListener('change', applySupFilters);
-document.getElementById('supSort').addEventListener('change', applySupFilters);
-
 /* Gửi đơn hàng */
 document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
+
+/* ===== Modal Chi tiết Lợi ích ===== */
+const BENEFIT_DETAIL = {
+  b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho ý tưởng lớn, cập nhật thường xuyên.', bullets:[
+      'Tìm nhanh theo ID, từ khóa, loại sản phẩm',
+      'Ảnh/Link nguồn tham khảo rõ ràng',
+      'Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
+  b2:{ title:'500+ nhà cung cấp & xưởng sản xuất', lead:'Kết nối nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
+      'Lọc theo loại hình/xuất xứ/ghi chú',
+      'Gợi ý xưởng ngay trong “Xưởng đề xuất”',
+      'Có thể gửi cùng lúc cho nhiều đơn vị' ] },
+  b3:{ title:'Hỗ trợ tư vấn sản xuất (Miễn phí)', lead:'Đội ngũ CSKH phản hồi nhanh và cụ thể.', bullets:[
+      'Tư vấn vật liệu, quy cách, định mức',
+      'Ước tính chi phí sơ bộ',
+      'Định hướng phương án tối ưu theo ngân sách' ] },
+  b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất', lead:'Phục vụ trực tiếp cho đơn hàng đã chốt.', bullets:[
+      'Dựng mockup/khung kỹ thuật cơ bản',
+      'Xuất file .SVG, .PDF theo yêu cầu xưởng',
+      'Miễn phí cho đơn đã xác nhận đặt hàng' ] },
+  b5:{ title:'Hậu cần vận chuyển & đóng gói (Có phí)', lead:'Đảm bảo giao nhận đúng hẹn – an toàn.', bullets:[
+      'Nhận đóng gói – dán tem – chia kiện',
+      'Theo dõi tracking – xử lý phát sinh',
+      'Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
+  b6:{ title:'Hỗ trợ giải quyết tranh chấp (Có phí)', lead:'Bảo vệ quyền lợi khách hàng khi phát sinh sự cố.', bullets:[
+      'Thu thập chứng cứ – làm việc với xưởng',
+      'Đề xuất phương án khắc phục/hoàn tiền',
+      'Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng có đăng ký qua 2606AI.' }
+};
+(function attachBenefitModal(){
+  const modalEl = document.getElementById('benefitModal');
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+  const $title = document.getElementById('benefitTitle');
+  const $lead  = document.getElementById('benefitLead');
+  const $list  = document.getElementById('benefitList');
+  const $note  = document.getElementById('benefitNote');
+
+  function openDetail(key){
+    const d = BENEFIT_DETAIL[key]; if(!d) return;
+    $title.textContent = d.title || 'Chi tiết';
+    $lead.textContent  = d.lead  || '';
+    $list.innerHTML    = (d.bullets||[]).map(li=>`<li>${li}</li>`).join('');
+    $note.textContent  = d.note || '';
+    modal.show();
+  }
+
+  document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
+    const key = card.getAttribute('data-benefit');
+    card.addEventListener('click', ()=>openDetail(key));
+    card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openDetail(key); }});
+    card.style.cursor = 'pointer';
+  });
+})();
 
 /* INIT */
 fetchPage(); updateFilterCount();
