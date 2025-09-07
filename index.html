@@ -30,12 +30,32 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .site-header .wrap{max-width:1400px;width:100%;margin:0 auto;display:flex;align-items:center;gap:12px;}
 .site-header img.logo{ width:84px; aspect-ratio:3/2; object-fit:contain; display:block; cursor:pointer; }
 .header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:280px; }
+.header-search .form-control{ font-size:13px;padding:6px 10px; }
+
+/* Header mobile: logo bên phải cùng hàng với ô tìm kiếm */
 @media (max-width: 992px){
-  .site-header .wrap{ flex-direction:column; align-items:stretch; gap:8px; }
-  .site-header img.logo{ width:84px; margin:0 auto; }
+  .site-header .wrap{
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+  .header-search{
+    order: 1;
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+  a#logoLink{
+    order: 2;
+    margin: 0;
+  }
+  .site-header img.logo{
+    width: 72px;
+    margin-left: 8px;
+  }
   .header-search .input-group{ width:100%; }
 }
-.header-search .form-control{ font-size:13px;padding:6px 10px; }
 
 /* FABs */
 .cart-fab, .filter-fab, .suppliers-fab, .zalo-fab{
@@ -117,6 +137,12 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
 #pagerRow .btn{min-width:38px}
 #pagerRowTop .btn{min-width:34px;padding:2px 6px}
+/* Pagination top căn trái (ép) */
+#pagerRowTop{
+  display:flex;
+  justify-content:flex-start !important;
+  flex-wrap:wrap; gap:8px;
+}
 
 /* Footer */
 .site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
@@ -329,7 +355,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
-      <!-- Pagination Top -->
+      <!-- Pagination Top (căn trái bằng CSS ở trên) -->
       <div id="pagerRowTop" class="mb-2 d-flex justify-content-end flex-wrap gap-2"></div>
 
       <!-- Grid -->
@@ -508,7 +534,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
-const API_URL = "https://script.google.com/macros/s/AKfycbwoQ9x6uqeTuOZ-F_Zt9v7oqM69eo8iqpprIrroxn0d8zlzMPOfYZvbCjmz3EPATlaO/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbw2k2uaZGIT3GDzl7AkEvmwmx6eXQiQEM7gtdiX5yRWB23BwxYsRB0fgNXAWkUiVrim/exec"; // <— thay bằng Web App URL
 const ZALO_URL = "#";              // thay sau
 const ADS_CONTACT_URL = "#";       // link “LIÊN HỆ ĐẶT QUẢNG CÁO” bạn sẽ cập nhật sau
 const API_KEY = "";                // nếu Apps Script bật API_KEY, điền vào đây
@@ -525,6 +551,22 @@ function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
 function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
 
+/* Nâng chất lượng thumbnail Google Drive/Gusercontent */
+function upgradeThumbQuality(u){
+  try{
+    if(!u) return u;
+    const url = new URL(u, location.href);
+    if (url.hostname.includes('googleusercontent') || url.hostname.includes('google.com')) {
+      if (url.searchParams.has('sz')) url.searchParams.set('sz','w600');
+      else url.searchParams.append('sz','w600');
+      return url.toString();
+    }
+  }catch(_){
+    return String(u).replace(/([?&])sz=w\d+/,'$1sz=w600');
+  }
+  return u;
+}
+
 /* Logo reload (mượt) */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>location.reload(),150); });
 
@@ -535,10 +577,13 @@ function productCardHtml(it){
   const showGift  = !!giftUrl;
   const giftLabel = (it.loai || 'Nhận quà').toString().trim();
 
+  const thumbSrc = upgradeThumbQuality(it.img);
+  const linkHref = esc(it.linkFull || it.img);
+
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
-      <a href="${esc(it.linkFull || it.img)}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(it.img)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+      <a href="${linkHref}" target="_blank" rel="noopener">
+        <img class="thumb" src="${esc(thumbSrc)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
       </a>
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     </div>
@@ -566,7 +611,6 @@ function renderPagination(totalItems, pageSize, currentPage){
     if (pagerTop) pagerTop.innerHTML = '';
     return;
   }
-
   let html = '';
   for(let i=1;i<=totalPages;i++){
     const active = (i===currentPage) ? 'btn-primary' : 'btn-outline-secondary';
