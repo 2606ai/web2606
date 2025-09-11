@@ -29,31 +29,21 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .site-header{background:#fff;padding:10px 15px;border-bottom:1px solid #eee; position:fixed;top:0;left:0;right:0;z-index:1055;height:auto; box-shadow:0 2px 6px rgba(0,0,0,.05); }
 .site-header .wrap{max-width:1400px;width:100%;margin:0 auto;display:flex;align-items:center;gap:12px;}
 .site-header img.logo{ width:84px; aspect-ratio:3/2; object-fit:contain; display:block; cursor:pointer; }
-.header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:280px; }
+.header-search{ flex:1 1 auto; width:100%; max-width:100%; min-width:220px; }
 .header-search .form-control{ font-size:13px;padding:6px 10px; }
 
-/* Header mobile: logo bên phải cùng hàng với ô tìm kiếm */
+/* Header mobile: LOGO Ở GÓC TRÁI (sửa lại đúng yêu cầu) */
 @media (max-width: 992px){
   .site-header .wrap{
     flex-direction: row;
     align-items: center;
     gap: 8px;
   }
+  a#logoLink{ order: 0; margin: 0; }     /* logo luôn bên trái */
   .header-search{
-    order: 1;
-    flex: 1 1 auto;
-    width: 100%;
-    max-width: 100%;
-    min-width: 0;
+    order: 1; flex: 1 1 auto; width: 100%; max-width: 100%; min-width: 0;
   }
-  a#logoLink{
-    order: 2;
-    margin: 0;
-  }
-  .site-header img.logo{
-    width: 72px;
-    margin-left: 8px;
-  }
+  .site-header img.logo{ width:72px; }
   .header-search .input-group{ width:100%; }
 }
 
@@ -80,12 +70,10 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Benefits */
 .benefits-v3 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media (max-width: 480px){ .benefits-v3 .grid{grid-template-columns:1fr} }
-.benefits-v3 .bcard{background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:10px;display:flex;gap:8px;align-items:flex-start;min-height:60px; position:relative; font-weight:500}
-.benefits-v3 .ic{width:28px;height:28px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 28px}
-.benefits-v3 .ttl{ font-weight:600; text-transform:none;font-size:12px; }
+.benefits-v3 .bcard{background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:12px;display:flex;gap:8px;align-items:center;min-height:60px; position:relative; font-weight:500}
+.benefits-v3 .ic{width:36px;height:36px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center;flex:0 0 36px}
+.benefits-v3 .ttl{ font-weight:600; text-transform:none;font-size:12px; line-height:1.3; }
 .benefits-v3 .sub{font-size:12px;color:#6b7483;line-height:1.25;margin-top:2px}
-.benefits-v3 .bcard{ flex-direction:column; align-items:center; text-align:center; gap:6px; padding:12px; }
-.benefits-v3 .ic{ width:36px; height:36px; margin:0 0 6px 0; flex:0 0 auto; }
 .benefit-note{ position:absolute; top:6px; right:8px; font-size:11px; font-weight:700; padding:2px 6px; border-radius:999px; color:#fff; }
 .benefit-free{ background:#4caf50; }
 .benefit-paid{ background:#d32f2f; }
@@ -123,11 +111,11 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .cardx .thumb-wrap{position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover;background:#fff;border-radius:0}
 .cardx .note-chip{position:absolute; top:8px; right:8px;padding:2px 6px; border-radius:999px; font-size:10px; font-weight:600; color:#fff; background:#555;}
-.cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;}
+.cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;justify-content:flex-start}
 .cardx .id{font-weight:600;color:#0018a8;font-size:13px;margin-bottom:2px}
 .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;margin:6px 0}
-.cardx .details{font-size:12px;color:#666;flex:1;margin-bottom:6px}
-.cardx .price{font-weight:600;color:#d32f2f;font-size:1rem;margin-bottom:8px}
+.cardx .details{font-size:12px;color:#666;flex:1;margin-bottom:6px;display:flex;align-items:center} /* fix lệch chữ trong shape */
+.cardx .price{font-weight:600;color:#d32f2f;font-size:1rem;margin:8px 0}
 .cardx .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;align-self:flex-end}
 .cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px }
 .cardx .btn-gift{background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;padding:6px 10px;border-radius:999px;font-size:12px;line-height:1;display:inline-flex;align-items:center;gap:6px;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}
@@ -135,14 +123,11 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 /* Error box */
 #errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
-#pagerRow .btn{min-width:38px}
-#pagerRowTop .btn{min-width:34px;padding:2px 6px}
-/* Pagination top căn trái (ép) */
-#pagerRowTop{
-  display:flex;
-  justify-content:flex-start !important;
-  flex-wrap:wrap; gap:8px;
-}
+
+/* Pagers */
+.pager-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.pager-bar .btn{min-width:40px}
+#pagerTop, #pagerBottom{display:flex; justify-content:flex-start; flex-wrap:wrap; gap:8px}
 
 /* Footer */
 .site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
@@ -165,7 +150,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Stats bar */
 #statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
 
-/* ===== Suppliers panel (offcanvas Danh sách xưởng) ===== */
+/* ===== Suppliers panel ===== */
 .sup-toolbar{ position: sticky; top: 0; z-index: 2; background:#fff; margin:-12px -12px 12px; padding:12px; border-bottom:1px solid #eef2ff; border-radius:12px 12px 0 0; }
 .sup-toolbar .form-select, .sup-toolbar .form-control{ border-radius:10px; }
 .sup-toolbar .counter{ font-size:12px; color:#6b7483; display:flex; align-items:center; gap:8px; }
@@ -179,7 +164,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .supplier-card .chip.warn{ background:#fff3cd; border-color:#ffeeba; color:#8a6d3b; }
 .supplier-list{ max-height: 62vh; overflow:auto; padding-right:4px; }
 
-/* ===== Xưởng đề xuất – theme xanh + cuộn dọc ===== */
+/* ===== Xưởng đề xuất ===== */
 .ads-box{
   background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
   border: 1px solid #90caf9; border-radius: 12px; padding: 12px;
@@ -199,7 +184,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 #adsList .actions .btn-outline-primary{ border-color:#0d47a1; color:#0d47a1; }
 #adsList .actions .btn-outline-primary:hover{ background:#0d47a1; color:#fff; }
 
-/* ===== Cart Offcanvas – đồng bộ UI ===== */
+/* ===== Cart Offcanvas ===== */
 #cartCanvas .offcanvas-header{
   background:var(--main); color:#fff; border:0; border-radius:12px 12px 0 0;
 }
@@ -260,27 +245,51 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         <div class="grid">
           <div class="bcard" data-benefit="b1" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
-            <div class="ic">📚</div><div><div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div><div class="sub">Không lo thiếu ý tưởng</div></div>
+            <div class="ic">📚</div>
+            <div>
+              <div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div>
+              <div class="sub">Không lo thiếu ý tưởng</div>
+            </div>
           </div>
           <div class="bcard" data-benefit="b2" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
-            <div class="ic">🏭</div><div><div class="ttl">2. Hơn 500+ nhà cung cấp và xưởng sản xuất</div><div class="sub">Báo giá nhanh, đa dạng, dễ dàng so sánh giá</div></div>
+            <div class="ic">🏭</div>
+            <div>
+              <div class="ttl">2. Hơn 500+ nhà cung cấp và xưởng sản xuất</div>
+              <div class="sub">Báo giá nhanh, đa dạng, dễ dàng so sánh giá</div>
+            </div>
           </div>
           <div class="bcard" data-benefit="b3" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
-            <div class="ic">🎨</div><div><div class="ttl">3. Hỗ trợ tư vấn sản xuất</div><div class="sub">Phản hồi nhanh, đáp ứng nhiều nhu cầu</div></div>
+            <div class="ic">🎨</div>
+            <div>
+              <div class="ttl">3. Hỗ trợ tư vấn sản xuất</div>
+              <div class="sub">Phản hồi nhanh, đáp ứng nhiều nhu cầu</div>
+            </div>
           </div>
           <div class="bcard" data-benefit="b4" role="button" tabindex="0">
             <span class="benefit-note benefit-free">Miễn phí</span>
-            <div class="ic">⚙️</div><div><div class="ttl">4. Hỗ trợ thiết kế 2D, 3D sản xuất</div><div class="sub">Mockup miễn phí cho các đơn hàng chốt</div></div>
+            <div class="ic">⚙️</div>
+            <div>
+              <div class="ttl">4. Hỗ trợ thiết kế 2D, 3D sản xuất</div>
+              <div class="sub">Mockup miễn phí cho các đơn hàng chốt</div>
+            </div>
           </div>
           <div class="bcard" data-benefit="b5" role="button" tabindex="0">
             <span class="benefit-note benefit-paid">Có phí</span>
-            <div class="ic">📦</div><div><div class="ttl">5. Hậu cần vận chuyển và đóng gói hàng hóa</div><div class="sub">Dịch vụ nhanh chuyên nghiệp</div></div>
+            <div class="ic">📦</div>
+            <div>
+              <div class="ttl">5. Hậu cần vận chuyển và đóng gói hàng hóa</div>
+              <div class="sub">Dịch vụ nhanh chuyên nghiệp</div>
+            </div>
           </div>
           <div class="bcard" data-benefit="b6" role="button" tabindex="0">
             <span class="benefit-note benefit-paid">Có phí</span>
-            <div class="ic">🤝</div><div><div class="ttl">6. Hỗ trợ giải quyết tranh chấp</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div>
+            <div class="ic">🤝</div>
+            <div>
+              <div class="ttl">6. Hỗ trợ giải quyết tranh chấp</div>
+              <div class="sub">Bảo vệ quyền lợi khách hàng</div>
+            </div>
           </div>
         </div>
       </div>
@@ -355,14 +364,14 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
-      <!-- Pagination Top (căn trái bằng CSS ở trên) -->
-      <div id="pagerRowTop" class="mb-2 d-flex justify-content-end flex-wrap gap-2"></div>
+      <!-- Pagination Top (mũi tên + dropdown) -->
+      <div id="pagerTop" class="mb-2 pager-bar"></div>
 
       <!-- Grid -->
       <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
 
-      <!-- Pagination Bottom -->
-      <div id="pagerRow" class="mt-3 d-flex flex-wrap gap-2"></div>
+      <!-- Pagination Bottom (mũi tên + dropdown) -->
+      <div id="pagerBottom" class="mt-3 pager-bar"></div>
     </div>
   </div>
 </div>
@@ -536,12 +545,12 @@ document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
 const API_URL = "https://script.google.com/macros/s/AKfycbwaNSKMG9WiE95-WS8RIETLf8fV4WolpEyaSCpkMvx8d4sI2qwjCgZOGArrrTrpYCKT/exec"; // <— thay bằng Web App URL
 const ZALO_URL = "#";              // thay sau
-const ADS_CONTACT_URL = "#";       // link “LIÊN HỆ ĐẶT QUẢNG CÁO” bạn sẽ cập nhật sau
+const ADS_CONTACT_URL = "#";       // link “LIÊN HỆ ĐẶT QUẢNG CÁO”
 const API_KEY = "";                // nếu Apps Script bật API_KEY, điền vào đây
 
 /* STATE */
 const AUTO_OPEN_ON_ADD = false;
-const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'' };
+const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'', totalPages:1 };
 const cart = []; const products = {};
 
 /* UTILS */
@@ -578,7 +587,7 @@ function productCardHtml(it){
   const giftLabel = (it.loai || 'Nhận quà').toString().trim();
 
   const thumbSrc = upgradeThumbQuality(it.img);
-  const linkHref = esc(it.linkFull || it.img);
+  const linkHref = esc(it.linkFull || it.img || '#');
 
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
@@ -600,24 +609,36 @@ function productCardHtml(it){
   </div></div>`;
 }
 
-/* Pagination (2 nơi: trên & dưới) */
+/* ========= PAGER (mũi tên + dropdown) ========= */
+function pagerHtml(current, total, where){
+  const disabledPrev = current<=1 ? 'disabled' : '';
+  const disabledNext = current>=total ? 'disabled' : '';
+  // menu items
+  let items = '';
+  for (let i=1;i<=total;i++){
+    items += `<li><a class="dropdown-item ${i===current?'active':''}" href="#" data-action="goto-page" data-page="${i}" data-where="${where}">Trang ${i}</a></li>`;
+  }
+  return `
+  <div class="btn-group" role="group" aria-label="pager-${where}">
+    <button class="btn btn-outline-secondary" data-action="page-prev" data-where="${where}" ${disabledPrev}>‹</button>
+    <div class="btn-group" role="group">
+      <button class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Trang ${current}/${total}
+      </button>
+      <ul class="dropdown-menu">${items}</ul>
+    </div>
+    <button class="btn btn-outline-secondary" data-action="page-next" data-where="${where}" ${disabledNext}>›</button>
+  </div>`;
+}
 function renderPagination(totalItems, pageSize, currentPage){
-  const totalPages = Math.ceil((totalItems||0) / pageSize);
-  const pagerBottom = document.getElementById('pagerRow');
-  const pagerTop = document.getElementById('pagerRowTop');
-
-  if(totalPages <= 1){
-    pagerBottom.innerHTML = '';
-    if (pagerTop) pagerTop.innerHTML = '';
-    return;
-  }
-  let html = '';
-  for(let i=1;i<=totalPages;i++){
-    const active = (i===currentPage) ? 'btn-primary' : 'btn-outline-secondary';
-    html += `<button class="btn btn-sm ${active}" data-action="goto-page" data-page="${i}">${i}</button>`;
-  }
-  pagerBottom.innerHTML = html;
-  if (pagerTop) pagerTop.innerHTML = html;
+  const totalPages = Math.max(1, Math.ceil((totalItems||0) / pageSize));
+  state.totalPages = totalPages;
+  const top = document.getElementById('pagerTop');
+  const bottom = document.getElementById('pagerBottom');
+  const html = pagerHtml(currentPage, totalPages, 'top');
+  const html2 = pagerHtml(currentPage, totalPages, 'bottom');
+  top.innerHTML = html;
+  bottom.innerHTML = html2;
 }
 
 /* Render + facets */
@@ -703,7 +724,7 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-/* ===== XƯỞNG ĐỀ XUẤT – SCROLL LIST (không auto) ===== */
+/* ===== XƯỞNG ĐỀ XUẤT – SCROLL LIST ===== */
 let adsData = [];
 function fetchAds(){
   const qs = new URLSearchParams({
@@ -930,7 +951,12 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="set-filter"]')){ const field = el.dataset.field; state[field]=el.dataset.val||''; state.page=1; fetchPage(); updateFilterCount(); }
   if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
   if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
+
+  // Pager actions
+  if(el.matches('[data-action="page-prev"]')){ if(state.page>1){ state.page--; fetchPage(); } }
+  if(el.matches('[data-action="page-next"]')){ if(state.page<state.totalPages){ state.page++; fetchPage(); } }
   if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
+
   if(el.matches('#clearCartBtn')) clearCart();
 });
 document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
