@@ -1023,6 +1023,13 @@ const BENEFIT_DETAIL = {
     card.style.cursor = 'pointer';
   });
 })();
+// expose the needed functions to global for inline handlers
+Object.assign(window, {
+  fetchPage,
+  scrollCats,
+  selectCategory,
+  clearAllFilters
+});
 
 /* INIT */
 fetchPage(); updateFilterCount();
