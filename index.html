@@ -1093,14 +1093,40 @@ document.addEventListener('keydown', (e)=>{
 });
 </script>
   <!-- Footer -->
-<!-- ===== Pre-Footer: Thông tin Doanh nghiệp ===== -->
-<!-- ===== Footer chính ===== -->
-<footer class="text-light pt-5 pb-4" style="background-color:#0018a8;">
+<!-- ===== FOOTER (gộp thông tin DN + các cột) ===== -->
+<footer class="text-light" style="background:#0018a8;">
   <div class="container">
-    <div class="row">
+
+    <!-- Hàng 1: Thông tin DN (trái) + MXH (phải) -->
+    <div class="row align-items-center py-3">
+      <div class="col-lg-9">
+        <div class="small text-uppercase fw-bold mb-1" style="letter-spacing:.4px;">
+          HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE
+        </div>
+        <div class="small opacity-90">
+          Mã số thuế: <strong>12333211232</strong> &nbsp;•&nbsp;
+          Liên hệ: <strong>012345678</strong> &nbsp;•&nbsp;
+          Email: <a class="text-decoration-none text-light" href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a>
+        </div>
+      </div>
+      <div class="col-lg-3 d-flex justify-content-lg-end gap-2 mt-3 mt-lg-0">
+        <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle"
+           style="width:42px;height:42px;background:#1a73e8" aria-label="Zalo">
+          <span class="fw-bold text-white">Z</span>
+        </a>
+        <a href="#" class="d-inline-flex align-items-center justify-content-center rounded-circle"
+           style="width:42px;height:42px;background:#1877f2" aria-label="Facebook">
+          <i class="bi bi-facebook text-white" style="font-size:20px;"></i>
+        </a>
+      </div>
+    </div>
+
+    <hr class="border-light opacity-50 my-0">
+
+    <!-- Hàng 2: 4 cột footer -->
+    <div class="row pt-4 pb-3">
       <!-- Cột 1: Logo + mô tả -->
       <div class="col-md-3 mb-4">
-        <!-- Logo từ Google Drive -->
         <img
           src="https://drive.google.com/uc?export=view&id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F"
           alt="2606AI logo" class="mb-3" style="max-width:160px;height:auto">
@@ -1142,8 +1168,6 @@ document.addEventListener('keydown', (e)=>{
           <li class="mb-2"><i class="bi bi-envelope me-2"></i>Email:
             <a class="link-light text-decoration-none" href="mailto:info@2606ai.vn">info@2606ai.vn</a></li>
         </ul>
-
-        <!-- Icon mạng xã hội nhỏ -->
         <div class="d-flex align-items-center gap-3">
           <a href="#" class="link-light" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
           <a href="#" class="link-light" aria-label="Messenger"><i class="bi bi-messenger"></i></a>
@@ -1155,14 +1179,14 @@ document.addEventListener('keydown', (e)=>{
 
     <hr class="border-light opacity-50">
 
-    <!-- Bản quyền -->
-    <div class="text-center small">
+    <!-- Hàng 3: Bản quyền -->
+    <div class="text-center small pb-3">
       © 2025 <span style="color:#d4af37;">2606AI</span>. Website được phát triển bởi 2606AI.
     </div>
   </div>
 </footer>
 
-<!-- Icons (nếu chưa có trong <head>) -->
+<!-- Bootstrap Icons (nếu chưa có trong <head>) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 </body>
