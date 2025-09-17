@@ -664,7 +664,6 @@ function renderPagination(totalItems, pageSize, currentPage){
 }
 
 <!-- === Category + Icons (drop-in) === -->
-<script>
 // ====== CATEGORY (2 hàng + mũi tên) ======
 let catIndex = 0;
 const catsPerView = 12; // 6 x 2
@@ -760,8 +759,6 @@ function selectCategory(val){
     .forEach(el => el.classList.toggle('active', el.dataset.val === val));
 }
 // === /Category + Icons ===
-</script>
-
 
 /* Filter buttons (offcanvas) */
 function buildFilterBox(boxId, items, field){
@@ -792,15 +789,74 @@ function fetchLinkPreview(url){
 
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
 let adsData = [];
-function fetchAds(){
-  const qs = new URLSearchParams({
-    action:'ads',
-    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+function renderAds(list){
+  adsData = Array.isArray(list) ? list : [];
+
+  const countEl = document.getElementById('adsCount');
+  if (countEl){
+    countEl.textContent = String(adsData.length);
+    countEl.style.display = adsData.length ? 'inline-block' : 'none';
+  }
+
+  const empty = document.getElementById('adsEmpty');
+  const box   = document.getElementById('adsList');
+
+  if (!adsData.length){
+    box.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  // SKELETON (dùng chuỗi thường, không backtick)
+  var skel = ''
+    + '<div class="link-preview">'
+    +   '<div class="thumb" style="width:64px;height:64px;border-radius:8px;background:#f1f4ff"></div>'
+    +   '<div class="meta" style="flex:1;min-width:0">'
+    +     '<div class="title placeholder-glow"><span class="placeholder col-8" style="height:16px"></span></div>'
+    +     '<div class="desc placeholder-glow"><span class="placeholder col-10" style="height:12px"></span></div>'
+    +     '<div class="site placeholder-glow"><span class="placeholder col-4" style="height:12px"></span></div>'
+    +     '<div><span class="small text-muted">Đang tải…</span></div>'
+    +   '</div>'
+    +   '<div class="actions"></div>'
+    + '</div>';
+
+  var html = '';
+  for (var i=0;i<adsData.length;i++) html += skel;
+  box.innerHTML = html;
+
+  // Điền nội dung thật
+  adsData.forEach(async function(s, i){
+    var card = box.children[i]; if(!card) return;
+    var p = null; try{ p = await fetchLinkPreview(s.url); }catch(e){}
+    var host = hostnameFromUrl(s.url||'');
+    var img  = (p && p.ok && p.image)       ? p.image   : (host ? 'https://www.google.com/s2/favicons?domain='+host+'&sz=64' : 'https://via.placeholder.com/64');
+    var tit  = (p && p.ok && p.title)       ? p.title   : (s.title || host || 'Đơn vị');
+    var des  = (p && p.ok && p.description) ? p.description : (s.desc || '');
+    var ico  = (p && p.ok && p.favicon)     ? p.favicon : (host ? 'https://www.google.com/s2/favicons?domain='+host+'&sz=16' : '');
+    var site = (p && p.ok && p.siteName)    ? p.siteName: (host || '');
+    var safeUrl = (s.url && /^https?:\/\//i.test(s.url)) ? s.url : '#';
+
+    var icoHtml = ico
+      ? '<img src="'+esc(ico)+'" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">'
+      : '';
+
+    var docHtml = s.doc
+      ? '<a href="'+esc(safeUrl)+'" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>'
+        + '<a href="'+esc(s.doc)+'" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>'
+      : '<a href="'+esc(safeUrl)+'" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>'
+        + '<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>';
+
+    card.innerHTML =
+        '<img class="thumb" src="'+esc(img)+'" alt="">'
+      + '<div class="meta" style="flex:1;min-width:0">'
+      +   '<div class="title text-truncate" title="'+esc(tit)+'">'+esc(tit)+'</div>'
+      +   '<div class="desc">'+esc(des)+'</div>'
+      +   '<div class="site">'+icoHtml+esc(site)+'</div>'
+      +   '<div><a href="'+esc(safeUrl)+'" target="_blank" rel="noopener" class="small">Mở trang</a></div>'
+      + '</div>'
+      + '<div class="actions">'+docHtml+'</div>';
   });
-  fetch(API_URL + '?' + qs.toString())
-    .then(r=>r.json())
-    .then(r=>renderAds(r.items||[]))
-    .catch(()=>renderAds([]));
 }
 function renderAds(list){
   adsData = Array.isArray(list) ? list : [];
