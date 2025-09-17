@@ -663,45 +663,33 @@ function renderPagination(totalItems, pageSize, currentPage){
   document.getElementById('pagerBottom').innerHTML = pagerHtml(currentPage, totalPages, 'bottom');
 }
 
-/* ====== CATEGORY (2 hàng + mũi tên) ====== */
+<!-- === Category + Icons (drop-in) === -->
+<script>
+// ====== CATEGORY (2 hàng + mũi tên) ======
 let catIndex = 0;
 const catsPerView = 12; // 6 x 2
 let allCategories = [];
 
-<script>
-/* ===================== CATEGORY ICONS MODULE ===================== */
-/* 1) KHAI BÁO ICON (bạn chỉ việc thay link sau này) */
+/* 1) Map icon — bạn sẽ thay link sau */
 const CATEGORY_ICONS = {
-  // Nhóm tổng quát
-  "HUY CHƯƠNG":         "https://img.icons8.com/color/48/trophy.png",
-  "HUY HIỆU":           "https://img.icons8.com/color/48/medal2.png",
-  "MÓC KHÓA":           "https://img.icons8.com/color/48/keychain.png",
-  "TẾT":                "https://img.icons8.com/color/48/fireworks.png",
-  "SỰ KIỆN":            "https://img.icons8.com/color/48/event-accepted.png",
-  "NHÂN VẬT":           "https://img.icons8.com/color/48/gingerbread-man.png",
-  "LOGO":               "https://img.icons8.com/color/48/company.png",
-  "GIÀY":               "https://img.icons8.com/color/48/sneakers.png",
-  "ĐỒNG":               "https://img.icons8.com/color/48/medal.png",
-  "HỢP KIM":            "https://img.icons8.com/color/48/steel-ibeam.png",
-  "KHÁC":               "https://img.icons8.com/color/48/categorize.png",
-
-  // Nhánh “móc khóa” cụ thể (nếu muốn tách icon riêng)
-  "MÓC KHÓA CAO SU":    "https://img.icons8.com/color/48/keychain.png",
-  "MÓC KHÓA HOẠT HÌNH": "https://img.icons8.com/color/48/keychain.png",
-  "MÓC KHÓA HỢP KIM":   "https://img.icons8.com/color/48/steel-ibeam.png",
-
-  // Các “Tết năm …” – mặc định gom về nhóm TẾT (dùng pháo hoa)
-  "MÓC KHÓA TẾT 2025":  "https://img.icons8.com/color/48/fireworks.png",
-  "MÓC KHÓA TẾT 2026":  "https://img.icons8.com/color/48/fireworks.png",
-  "MÓC KHÓA TẾT 2027":  "https://img.icons8.com/color/48/fireworks.png",
-  "MÓC KHÓA TẾT 2028":  "https://img.icons8.com/color/48/fireworks.png",
-  "MÓC KHÓA TẾT 2029":  "https://img.icons8.com/color/48/fireworks.png",
-  "MÓC KHÓA TẾT 2030":  "https://img.icons8.com/color/48/fireworks.png"
+  "HUY CHƯƠNG":         "https://example.com/icon-trophy.png",
+  "HUY HIỆU":           "https://example.com/icon-medal2.png",
+  "MÓC KHÓA":           "https://example.com/icon-keychain.png",
+  "MÓC KHÓA CAO SU":    "https://example.com/icon-keychain-rubber.png",
+  "MÓC KHÓA HOẠT HÌNH": "https://example.com/icon-keychain-cartoon.png",
+  "MÓC KHÓA HỢP KIM":   "https://example.com/icon-steel.png",
+  "TẾT":                "https://example.com/icon-fireworks.png",
+  "SỰ KIỆN":            "https://example.com/icon-event.png",
+  "NHÂN VẬT":           "https://example.com/icon-character.png",
+  "LOGO":               "https://example.com/icon-company.png",
+  "GIÀY":               "https://example.com/icon-sneakers.png",
+  "ĐỒNG":               "https://example.com/icon-medal-gold.png",
+  "HỢP KIM":            "https://example.com/icon-steel.png",
+  "KHÁC":               "https://example.com/icon-categorize.png"
 };
 
-/* 2) BẢNG KEYWORD → CHUẨN HÓA NHÓM (để icon tự bắt khi tên thay đổi) */
+/* 2) Tập luật keyword → gom về nhóm icon phù hợp */
 const CATEGORY_KEYWORDS = [
-  // Ưu tiên cụm dài trước
   { kw: ["MÓC KHÓA CAO SU","CAO SU"],             canon: "MÓC KHÓA CAO SU" },
   { kw: ["MÓC KHÓA HOẠT HÌNH","HOẠT HÌNH"],       canon: "MÓC KHÓA HOẠT HÌNH" },
   { kw: ["MÓC KHÓA HỢP KIM","HỢP KIM"],           canon: "MÓC KHÓA HỢP KIM" },
@@ -717,46 +705,41 @@ const CATEGORY_KEYWORDS = [
   { kw: ["GIÀY"],                                  canon: "GIÀY" },
 
   // Các biến thể Tết & mốc năm
-  { kw: ["TẾT","2025","2026","2027","2028","2029","2030"], canon: "TẾT" }
+  { kw: ["TẾT","2025","2026","2027","2028","2029","2030","2031","2032"], canon: "TẾT" }
 ];
 
-/* 3) HÀM CHUẨN HÓA & LẤY ICON */
+/* 3) Chuẩn hóa tên danh mục → nhóm chuẩn (canon) */
 function canonicalCategory(val){
   const t = (val||"").toString().trim().toUpperCase();
   if (!t) return "KHÁC";
-  // Khớp đúng tên trước (nếu bạn đã map chính xác)
-  if (CATEGORY_ICONS[t]) return t;
-  // Rồi mới dò theo keyword
+  if (CATEGORY_ICONS[t]) return t; // trùng tên map sẵn
   for (const rule of CATEGORY_KEYWORDS){
     if (rule.kw.some(k => t.includes(k))) return rule.canon;
   }
   return "KHÁC";
 }
+
+/* 4) Lấy icon theo danh mục */
 function iconForCat(val){
   const canon = canonicalCategory(val);
   return CATEGORY_ICONS[canon] || CATEGORY_ICONS["KHÁC"];
 }
 
-/* 4) RENDER DANH MỤC (thay thế bản cũ nếu khác) */
-let catIndex = 0;
-const catsPerView = 12; // 6 x 2 như layout của bạn
-let allCategories = [];
-
+/* 5) Render danh mục */
 function renderCategoryPager(items){
   const box = document.getElementById('categoryScroll');
-  const slice = (items||[]).slice(catIndex, catIndex + catsPerView);
+  const list = Array.isArray(items) ? items : [];
+  const slice = list.slice(catIndex, catIndex + catsPerView);
   box.innerHTML = slice.map(val => `
     <div class="category-item ${state.category===val?'active':''}"
-         data-action="select-category" data-val="${esc(val)}"
-         title="${esc(val)}">
-      <div class="icon">
-        <img src="${iconForCat(val)}" alt="" width="28" height="28" style="object-fit:contain">
-      </div>
+         data-action="select-category" data-val="${esc(val)}" title="${esc(val)}">
+      <div class="icon"><img src="${iconForCat(val)}" alt=""></div>
       <span>${esc(val||'Khác')}</span>
     </div>
   `).join('');
 }
 
+/* 6) Điều hướng danh mục */
 function scrollCats(dir){
   const total = allCategories.length;
   catIndex += dir * catsPerView;
@@ -765,7 +748,7 @@ function scrollCats(dir){
   renderCategoryPager(allCategories);
 }
 function buildCategory(items){
-  allCategories = items || [];
+  allCategories = Array.isArray(items) ? items : [];
   catIndex = 0;
   renderCategoryPager(allCategories);
 }
@@ -773,29 +756,12 @@ function selectCategory(val){
   state.category = val;
   state.page = 1;
   fetchPage();
-  // Active state
   document.querySelectorAll('#categoryScroll .category-item')
     .forEach(el => el.classList.toggle('active', el.dataset.val === val));
 }
-/* =================== /END CATEGORY ICONS MODULE =================== */
+// === /Category + Icons ===
 </script>
 
-function scrollCats(dir){
-  const total = allCategories.length;
-  catIndex += dir * catsPerView;
-  if(catIndex < 0) catIndex = 0;
-  if(catIndex >= total) catIndex = Math.max(0, total - catsPerView);
-  renderCategoryPager(allCategories);
-}
-function buildCategory(items){
-  allCategories = items || [];
-  catIndex = 0;
-  renderCategoryPager(allCategories);
-}
-function selectCategory(val){
-  state.category=val; state.page=1; fetchPage();
-  document.querySelectorAll('#categoryScroll .category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
-}
 
 /* Filter buttons (offcanvas) */
 function buildFilterBox(boxId, items, field){
