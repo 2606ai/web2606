@@ -668,27 +668,118 @@ let catIndex = 0;
 const catsPerView = 12; // 6 x 2
 let allCategories = [];
 
-const CATEGORY_ICONS={
-  "MÓC KHÓA":"https://img.icons8.com/color/48/keychain.png",
-  "TƯỢNG ĐẤT":"https://img.icons8.com/color/48/clay.png",
-  "LEN":"https://img.icons8.com/color/48/yarn.png",
-  "BADGE":"https://img.icons8.com/color/48/medal2.png",
-  "KHÁC":"https://img.icons8.com/color/48/categorize.png"
+<script>
+/* ===================== CATEGORY ICONS MODULE ===================== */
+/* 1) KHAI BÁO ICON (bạn chỉ việc thay link sau này) */
+const CATEGORY_ICONS = {
+  // Nhóm tổng quát
+  "HUY CHƯƠNG":         "https://img.icons8.com/color/48/trophy.png",
+  "HUY HIỆU":           "https://img.icons8.com/color/48/medal2.png",
+  "MÓC KHÓA":           "https://img.icons8.com/color/48/keychain.png",
+  "TẾT":                "https://img.icons8.com/color/48/fireworks.png",
+  "SỰ KIỆN":            "https://img.icons8.com/color/48/event-accepted.png",
+  "NHÂN VẬT":           "https://img.icons8.com/color/48/gingerbread-man.png",
+  "LOGO":               "https://img.icons8.com/color/48/company.png",
+  "GIÀY":               "https://img.icons8.com/color/48/sneakers.png",
+  "ĐỒNG":               "https://img.icons8.com/color/48/medal.png",
+  "HỢP KIM":            "https://img.icons8.com/color/48/steel-ibeam.png",
+  "KHÁC":               "https://img.icons8.com/color/48/categorize.png",
+
+  // Nhánh “móc khóa” cụ thể (nếu muốn tách icon riêng)
+  "MÓC KHÓA CAO SU":    "https://img.icons8.com/color/48/keychain.png",
+  "MÓC KHÓA HOẠT HÌNH": "https://img.icons8.com/color/48/keychain.png",
+  "MÓC KHÓA HỢP KIM":   "https://img.icons8.com/color/48/steel-ibeam.png",
+
+  // Các “Tết năm …” – mặc định gom về nhóm TẾT (dùng pháo hoa)
+  "MÓC KHÓA TẾT 2025":  "https://img.icons8.com/color/48/fireworks.png",
+  "MÓC KHÓA TẾT 2026":  "https://img.icons8.com/color/48/fireworks.png",
+  "MÓC KHÓA TẾT 2027":  "https://img.icons8.com/color/48/fireworks.png",
+  "MÓC KHÓA TẾT 2028":  "https://img.icons8.com/color/48/fireworks.png",
+  "MÓC KHÓA TẾT 2029":  "https://img.icons8.com/color/48/fireworks.png",
+  "MÓC KHÓA TẾT 2030":  "https://img.icons8.com/color/48/fireworks.png"
 };
-function iconForCat(val){
-  const key=(val||'').toString().toUpperCase();
-  return CATEGORY_ICONS[key] || CATEGORY_ICONS["KHÁC"];
+
+/* 2) BẢNG KEYWORD → CHUẨN HÓA NHÓM (để icon tự bắt khi tên thay đổi) */
+const CATEGORY_KEYWORDS = [
+  // Ưu tiên cụm dài trước
+  { kw: ["MÓC KHÓA CAO SU","CAO SU"],             canon: "MÓC KHÓA CAO SU" },
+  { kw: ["MÓC KHÓA HOẠT HÌNH","HOẠT HÌNH"],       canon: "MÓC KHÓA HOẠT HÌNH" },
+  { kw: ["MÓC KHÓA HỢP KIM","HỢP KIM"],           canon: "MÓC KHÓA HỢP KIM" },
+  { kw: ["MÓC KHÓA"],                              canon: "MÓC KHÓA" },
+
+  { kw: ["HUY CHƯƠNG"],                            canon: "HUY CHƯƠNG" },
+  { kw: ["HUY HIỆU"],                              canon: "HUY HIỆU" },
+  { kw: ["ĐỒNG"],                                  canon: "ĐỒNG" },
+
+  { kw: ["SỰ KIỆN","CHẠY BỘ","MARATHON"],         canon: "SỰ KIỆN" },
+  { kw: ["NHÂN VẬT"],                              canon: "NHÂN VẬT" },
+  { kw: ["LOGO"],                                  canon: "LOGO" },
+  { kw: ["GIÀY"],                                  canon: "GIÀY" },
+
+  // Các biến thể Tết & mốc năm
+  { kw: ["TẾT","2025","2026","2027","2028","2029","2030"], canon: "TẾT" }
+];
+
+/* 3) HÀM CHUẨN HÓA & LẤY ICON */
+function canonicalCategory(val){
+  const t = (val||"").toString().trim().toUpperCase();
+  if (!t) return "KHÁC";
+  // Khớp đúng tên trước (nếu bạn đã map chính xác)
+  if (CATEGORY_ICONS[t]) return t;
+  // Rồi mới dò theo keyword
+  for (const rule of CATEGORY_KEYWORDS){
+    if (rule.kw.some(k => t.includes(k))) return rule.canon;
+  }
+  return "KHÁC";
 }
+function iconForCat(val){
+  const canon = canonicalCategory(val);
+  return CATEGORY_ICONS[canon] || CATEGORY_ICONS["KHÁC"];
+}
+
+/* 4) RENDER DANH MỤC (thay thế bản cũ nếu khác) */
+let catIndex = 0;
+const catsPerView = 12; // 6 x 2 như layout của bạn
+let allCategories = [];
+
 function renderCategoryPager(items){
   const box = document.getElementById('categoryScroll');
-  const slice = items.slice(catIndex, catIndex + catsPerView);
+  const slice = (items||[]).slice(catIndex, catIndex + catsPerView);
   box.innerHTML = slice.map(val => `
-    <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
-      <div class="icon"><img src="${iconForCat(val)}" alt=""></div>
+    <div class="category-item ${state.category===val?'active':''}"
+         data-action="select-category" data-val="${esc(val)}"
+         title="${esc(val)}">
+      <div class="icon">
+        <img src="${iconForCat(val)}" alt="" width="28" height="28" style="object-fit:contain">
+      </div>
       <span>${esc(val||'Khác')}</span>
     </div>
   `).join('');
 }
+
+function scrollCats(dir){
+  const total = allCategories.length;
+  catIndex += dir * catsPerView;
+  if (catIndex < 0) catIndex = 0;
+  if (catIndex >= total) catIndex = Math.max(0, total - catsPerView);
+  renderCategoryPager(allCategories);
+}
+function buildCategory(items){
+  allCategories = items || [];
+  catIndex = 0;
+  renderCategoryPager(allCategories);
+}
+function selectCategory(val){
+  state.category = val;
+  state.page = 1;
+  fetchPage();
+  // Active state
+  document.querySelectorAll('#categoryScroll .category-item')
+    .forEach(el => el.classList.toggle('active', el.dataset.val === val));
+}
+/* =================== /END CATEGORY ICONS MODULE =================== */
+</script>
+
 function scrollCats(dir){
   const total = allCategories.length;
   catIndex += dir * catsPerView;
