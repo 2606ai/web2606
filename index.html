@@ -768,13 +768,16 @@ function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
   box.classList.add("filter-box-group");
-  box.innerHTML=(items||[]).map(val=>`
+  box.innerHTML = (items||[]).map(val => `
     <div class="filter-tag ${state[field]===val?'active':''}"
-      data-action="set-filter" data-field="${field}" data-val="${esc(val)}">
+         data-action="set-filter"
+         data-field="${field}"
+         data-val="${esc(val)}">
       ${esc(val||'Tất cả')}
     </div>
   `).join('');
 }
+
 function updateFilterCount(){
   let c=0; if(state.type)c++; if(state.loai)c++; if(state.note)c++; if(state.category)c++;
   const fb=document.getElementById('filterFabCount');
