@@ -355,6 +355,71 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   content:""; position:absolute; left:-6px; top:9px; bottom:10px; width:1px;
   background: rgba(255,255,255,.25);
 }
+/* ==== GROUP BAR: nhỏ, sát khung, không bo góc, phân tách và chỉ highlight mục active ==== */
+
+/* Sát viền category-box (ăn vào padding 10px của .category-box) */
+.category-box .group-bar-wrapper{
+  margin: -10px -10px 10px -10px;   /* sát 4 cạnh khung trắng */
+  border-radius: 0;                  /* không bo góc */
+  background: var(--main);
+  padding: 10px 44px 14px;          /* chừa đáy cho gạch chân active */
+  box-shadow: none;
+}
+
+/* Hàng nhóm: giãn cách vừa phải */
+.group-bar-scroll{ gap: 18px; }
+
+/* Mỗi mục nhóm là chữ nhỏ, nền trong suốt */
+.group-chip{
+  background: transparent;
+  border: 0;
+  color: rgba(255,255,255,.85);
+  font-size: 12px;                   /* chữ nhỏ */
+  font-weight: 600;
+  line-height: 1;
+  padding: 6px 0;
+  position: relative;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Vạch phân tách dọc giữa các mục (trừ mục đầu) */
+.group-bar-scroll .group-chip:not(:first-child)::before{
+  content: "";
+  position: absolute;
+  left: -9px;
+  top: 50%;
+  width: 1px;
+  height: 14px;
+  background: rgba(255,255,255,.25);
+  transform: translateY(-50%);
+}
+
+/* Hover nhẹ: chữ trắng rõ hơn */
+.group-chip:hover{ color:#fff; }
+
+/* Mục đang chọn: gạch chân trắng, chỉ mục này “hiện màu” */
+.group-chip.active{
+  color:#fff;
+}
+.group-chip.active::after{
+  content:"";
+  position:absolute;
+  left:0; right:0;
+  bottom:-8px;          /* nằm sát mép đáy thanh xanh */
+  height:3px;
+  background:#fff;
+}
+
+/* Nút mũi tên: vuông nhẹ, nền trắng mờ */
+.group-arrow{
+  width:30px; height:30px;
+  border-radius:6px;
+  background:rgba(255,255,255,.18);
+  border:none; color:#fff;
+}
+.group-arrow:hover{ background:rgba(255,255,255,.28); }
+.group-arrow[disabled]{ opacity:.35; }
 
 </style>
 </head>
