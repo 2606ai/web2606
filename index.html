@@ -586,7 +586,50 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   padding:8px;                       /* giữ layout gọn */
 }
 
-  
+/* ===== Tabs nối màu với khu danh mục (ink-bar) ===== */
+.category-box{ --ink-left:0px; --ink-width:0px; }
+
+/* Khu danh mục khi có group: nền xanh nhạt + viền */
+.category-box.tab-mode .category-wrapper{
+  position:relative;
+  background:#f2f6ff;
+  border:1px solid #dbe3ff;
+  border-radius:10px;
+  padding:8px;
+}
+
+/* Thanh nối (ink-bar) chạy theo chip active, dính vào mép trên danh mục */
+.category-box.tab-mode .category-wrapper::before{
+  content:"";
+  position:absolute; top:-2px;
+  left:var(--ink-left); width:var(--ink-width); height:4px;
+  background:var(--main);
+  border-radius:4px 4px 0 0;
+  transition:left .25s ease, width .25s ease;
+}
+
+/* Sát lề trái, bỏ nút mũi tên chừa chỗ trống */
+.category-box .group-bar-wrapper{ padding-left:0!important; padding-right:0!important; margin-left:0!important; }
+.category-box .group-bar-wrapper>.group-arrow{ display:none!important; }
+
+/* Chip nhỏ gọn + vạch ngăn | ; active nền xanh, chữ trắng */
+#groupBar{ gap:0; }
+#groupBar .group-chip{
+  position:relative; padding:6px 10px;
+  font-size:12px; font-weight:600; line-height:1;
+  color:var(--main); background:transparent; border:0; white-space:nowrap;
+  cursor:pointer; user-select:none;
+}
+#groupBar .group-chip:not(:last-child)::after{
+  content:""; position:absolute; right:0; top:50%;
+  width:1px; height:14px; background:#dfe6ff; transform:translateY(-50%);
+}
+#groupBar .group-chip:hover{ color:#0a33cc; }
+#groupBar .group-chip.active{
+  background:var(--main); color:#fff; border-radius:6px;
+}
+#groupBar .group-chip.active::after{ display:none; }
+
 </style>
 </head>
 <body>
@@ -1519,10 +1562,37 @@ function updateGroupArrows(){
   rightBtn.toggleAttribute('disabled', atEnd);
 }
 
-window.addEventListener('resize', ()=> setTimeout(updateGroupArrows, 50));
-function buildCategoryFromFacets(facets){
-  const groups = facets?.groups_all || facets?.groups || [];
-  renderGroups(groups);
+window.addEventListener('resize', () => requestAnimationFrame(updateInkBar));
+document.getElementById('groupBar')?.addEventListener('scroll', () => {
+  requestAnimationFrame(updateInkBar);
+}, { passive:true });
+/* Đặt vị trí ink-bar theo chip đang active */
+function updateInkBar(){
+  const box  = document.querySelector('.category-box');
+  const chip = document.querySelector('#groupBar .group-chip.active');
+  if (!box || !chip) return;
+
+  const boxRect  = box.getBoundingClientRect();
+  const chipRect = chip.getBoundingClientRect();
+  const left  = chipRect.left - boxRect.left;
+  const width = chipRect.width;
+
+  box.style.setProperty('--ink-left',  left + 'px');
+  box.style.setProperty('--ink-width', width + 'px');
+}
+
+/* Đồng bộ UI khi đổi group: bật nền danh mục, set active chip, cập nhật ink-bar */
+function updateGroupUI(){
+  const hasGroup = !!state.group;
+  const box = document.querySelector('.category-box');
+  if (box) box.classList.toggle('tab-mode', hasGroup);
+
+  // gắn class active cho chip tương ứng (để thấy ngay trước khi fetch xong)
+  document.querySelectorAll('#groupBar .group-chip')
+    .forEach(ch => ch.classList.toggle('active', ch.dataset.val === state.group));
+
+  requestAnimationFrame(updateInkBar);
+}
 
   const catEl = document.getElementById('categoryScroll');
   if(catEl) catEl.classList.add('fade-out');
