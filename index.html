@@ -650,6 +650,14 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   background:linear-gradient(to right, #fff, transparent);
   pointer-events:none;
 }
+/* Khi có group được chọn → bọc nguyên khung */
+.category-box.group-active{
+  border:2px solid #0018a8;     /* viền xanh đậm */
+  border-radius:12px;
+  background:#f8faff;           /* nền xanh nhạt */
+  padding:12px;                 /* padding đều để nhìn thoáng */
+  transition: all .25s ease;
+}
 
 </style>
 </head>
@@ -1615,16 +1623,17 @@ function updateInkBar(){
 
 /* Đồng bộ UI khi đổi group: bật nền danh mục, set active chip, cập nhật ink-bar */
 function updateGroupUI(){
-  const hasGroup = !!state.group;
   const box = document.querySelector('.category-box');
-  if (box) box.classList.toggle('tab-mode', hasGroup);
+  if (!box) return;
 
-  // gắn class active cho chip tương ứng (để thấy ngay trước khi fetch xong)
+  const hasGroup = !!state.group;
+  box.classList.toggle('group-active', hasGroup);
+
+  // gắn active cho chip
   document.querySelectorAll('#groupBar .group-chip')
     .forEach(ch => ch.classList.toggle('active', ch.dataset.val === state.group));
-
-  requestAnimationFrame(updateInkBar);
 }
+
 
 function buildCategoryFromFacets(facets){
   const groups = facets?.groups_all || facets?.groups || [];
