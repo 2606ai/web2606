@@ -159,7 +159,20 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .filter-tag{ border:1px solid #dbe3ff; background:#f9faff; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:500; color:#333; cursor:pointer; transition:.2s; }
 .filter-tag:hover{ background:#eef3ff; border-color:#b3c8ff; }
 .filter-tag.active{ background:#0018a8; color:#fff; border-color:#0018a8; box-shadow:0 2px 8px rgba(0,24,168,.25); }
-
+/* Group selector chips (trên category) */
+.group-chip{
+  border:1px solid #dbe3ff;
+  background:#f9faff;
+  border-radius:999px;
+  padding:4px 12px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  transition:.2s;
+}
+.group-chip:hover{ background:#eef3ff; border-color:#b3c8ff; }
+.group-chip.active{ background:#0018a8; color:#fff; border-color:#0018a8; }
+  
 /* Stats bar */
 #statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
 
@@ -371,15 +384,17 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       </div>
 
       <!-- Danh mục (2 hàng + mũi tên) -->
-      <div class="category-box mb-3">
-        <h6 class="fw-bold mb-2">QUÀ TẶNG THƯƠNG HIỆU</h6>
-        <div class="category-wrapper">
-          <button class="cat-arrow left" type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
-          <div id="categoryScroll" class="category-scroll"></div>
-          <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
-        </div>
-      </div>
+<div class="category-box mb-3">
+  <!-- Thanh chọn Group (thay cho tiêu đề tĩnh) -->
+  <div id="groupBar" class="d-flex flex-wrap gap-2 mb-2"></div>
 
+  <!-- Khung category scroller + mũi tên -->
+  <div class="category-wrapper">
+    <button class="cat-arrow left" type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
+    <div id="categoryScroll" class="category-scroll"></div>
+    <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
+  </div>
+</div>
       <!-- Thống kê -->
       <div id="statsBar" class="mb-2">
         <div class="d-flex align-items-center gap-2">
@@ -974,30 +989,79 @@ const filterOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElem
 const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('suppliersCanvas'));
 
 /* Events */
+/* ==== EVENT DELEGATION ==== */
 document.addEventListener('click', (e)=>{
-  const el=e.target;
+  const el = e.target;
 
-  // chặn nhảy trang nếu lỡ dùng <a href="#"> (dự phòng)
-  if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){ e.preventDefault(); }
+  // Chặn nhảy trang nếu lỡ dùng <a href="#">
+  if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){
+    e.preventDefault();
+  }
 
-  if(el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
-  if(el.closest('[data-action="select-category"]')) selectCategory(el.closest('[data-action="select-category"]').dataset.val||'');
-  if(el.matches('[data-action="set-filter"]')){ const field = el.dataset.field; state[field]=el.dataset.val||''; state.page=1; fetchPage(); updateFilterCount(); }
-  if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
-  if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
-
-  // Pager actions
-  if(el.matches('[data-action="page-prev"]')){ if(state.page>1){ state.page--; fetchPage(); } }
-  if(el.matches('[data-action="page-next"]')){ if(state.page<state.totalPages){ state.page++; fetchPage(); } }
-  if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
-
-  if(el.matches('#clearCartBtn')) clearCart();
-
-  /* BẮT NÚT +/- GIỎ HÀNG (bản vá) */
+  /* === GIỎ HÀNG === */
+  if(el.matches('[data-action="add-to-cart"]')){
+    addToCartById(el.dataset.id);
+  }
+  if(el.matches('[data-action="remove"]')){
+    removeItem(el.dataset.id);
+  }
   if(el.matches('[data-action="qty"]')){
     const id = el.dataset.id;
     const d  = Number(el.dataset.delta)||0;
     changeQty(id, d);
+  }
+  if(el.matches('#clearCartBtn')){
+    clearCart();
+  }
+
+  /* === CATEGORY SCROLLER === */
+  if(el.closest('[data-action="select-category"]')){
+    selectCategory(el.closest('[data-action="select-category"]').dataset.val || '');
+  }
+
+  /* === FILTER TAGS === */
+  if(el.matches('[data-action="set-filter"]')){
+    const field = el.dataset.field;
+    state[field] = el.dataset.val || '';
+    state.page = 1;
+    fetchPage();
+    updateFilterCount();
+  }
+
+  /* === TÌM KIẾM === */
+  if(el.matches('#searchBtn')){
+    state.q = document.getElementById('searchBox').value.trim();
+    state.page = 1;
+    fetchPage();
+  }
+
+  /* === PHÂN TRANG === */
+  if(el.matches('[data-action="page-prev"]')){
+    if(state.page > 1){
+      state.page--;
+      fetchPage();
+    }
+  }
+  if(el.matches('[data-action="page-next"]')){
+    if(state.page < state.totalPages){
+      state.page++;
+      fetchPage();
+    }
+  }
+  if(el.matches('[data-action="goto-page"]')){
+    const p = Number(el.dataset.page);
+    if(p && p !== state.page){
+      state.page = p;
+      fetchPage();
+    }
+  }
+
+  /* === GROUP SELECTOR (thanh group phía trên category) === */
+  if(el.matches('[data-action="select-group"]')){
+    state.group = el.dataset.val || '';
+    state.page  = 1;
+    fetchPage();          // API trả dữ liệu mới → category scroller thay đổi
+    updateFilterCount();  // nếu muốn đếm group như filter FAB
   }
 });
 document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
@@ -1059,9 +1123,18 @@ const BENEFIT_DETAIL = {
     card.style.cursor = 'pointer';
   });
 })();
+ function renderGroups(groups){
+  const box = document.getElementById('groupBar');
+  if(!box) return;
+  box.innerHTML = (groups||[]).map(g=>`
+    <div class="group-chip ${state.group===g?'active':''}"
+         data-action="select-group" data-val="${esc(g)}">${esc(g)}</div>
+  `).join('');
+}
 
 /* ======= API: fetch list + render ======= */
 function buildCategoryFromFacets(facets){
+  renderGroups(facets?.groups||[]);
   buildCategory(facets?.categories||[]);
   buildFilterBox('typeBox', facets?.types||[], 'type');
   buildFilterBox('loaiBox', facets?.loais||[], 'loai');
