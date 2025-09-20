@@ -1402,26 +1402,19 @@ const BENEFIT_DETAIL = {
   if(!box) return;
   const list = Array.isArray(groups) ? groups : [];
 
+  // giao diện đơn giản: chữ xanh, nền trắng, phân tách “|”
   box.innerHTML = list.map(g => `
     <div class="group-chip ${state.group===g?'active':''}"
          data-action="select-group" data-val="${esc(g)}">
       ${esc(g)}
     </div>
   `).join('');
-}
 
-  box.innerHTML = list.map((g,i)=>`
-    <button type="button"
-            class="group-chip group-tab ${state.group===g?'active':''}"
-            data-action="select-group" data-val="${esc(g)}" data-index="${i+1}">
-      <i class="bi ${iconFor(g)} ico" aria-hidden="true"></i>
-      <span>${esc(`${i+1}. ${g}`)}</span>
-    </button>
-  `).join('');
-
+  // nếu còn nút mũi tên thì vẫn cập nhật trạng thái
   updateGroupArrows();
   box.addEventListener('scroll', updateGroupArrows, { passive:true });
 }
+
 
 function scrollGroups(dir){
   const el = document.getElementById('groupBar');
