@@ -522,6 +522,43 @@ img{max-width:100%;display:block}
 
 /* Phần danh mục bên dưới – giữ khoảng cách nhỏ */
 .category-box .category-wrapper{ margin-top:8px; }
+/* Đảm bảo thanh tab và box bo khớp nhau */
+.category-box .group-bar-wrapper{
+  margin:-10px -10px 0 -10px !important;
+  border:1px solid #dce3f5 !important;
+  border-bottom:none !important;
+  border-radius:12px 12px 0 0 !important;
+  background:#fff;
+  overflow:visible !important;
+}
+
+/* Tabs */
+#groupBar{ display:flex; gap:0; }
+#groupBar .group-chip{
+  border-radius:0 !important;
+  border-right:1px solid #dce3f5 !important;
+  border-bottom:1px solid #dce3f5 !important;
+  font-weight:400 !important;
+  text-transform:none !important;
+}
+#groupBar .group-chip:last-child{ border-right:none !important; }
+
+/* Dots: ép nó ra ngoài, bên dưới category-box */
+#groupDots{
+  position:relative;
+  top:10px;                        /* đẩy xuống dưới khung */
+  margin-bottom:10px;
+  display:flex; justify-content:center; gap:6px;
+  z-index:2;
+}
+#groupDots .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#c9d6ff;
+}
+#groupDots .dot.active{
+  background:#0018a8;
+  transform:scale(1.25);
+}
 
    
 </style>
