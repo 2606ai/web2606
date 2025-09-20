@@ -370,15 +370,16 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
-      <!-- Danh mục (2 hàng + mũi tên) -->
-      <div class="category-box mb-3">
-        <h6 class="fw-bold mb-2">QUÀ TẶNG THƯƠNG HIỆU</h6>
-        <div class="category-wrapper">
-          <button class="cat-arrow left" type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
-          <div id="categoryScroll" class="category-scroll"></div>
-          <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
-        </div>
-      </div>
+      <!-- GROUP (cột E) – nằm ngang -->
+<div class="group-box mb-3">
+  <h6 class="fw-bold mb-2">NHÓM SẢN PHẨM</h6>
+  <div class="group-wrapper">
+    <button class="g-arrow left" type="button" aria-label="prev group" onclick="scrollGroups(-1)">‹</button>
+    <div id="groupScroll" class="group-scroll"></div>
+    <button class="g-arrow right" type="button" aria-label="next group" onclick="scrollGroups(1)">›</button>
+  </div>
+</div>
+
 
       <!-- Thống kê -->
       <div id="statsBar" class="mb-2">
