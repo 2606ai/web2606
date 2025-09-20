@@ -629,6 +629,9 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   background:var(--main); color:#fff; border-radius:6px;
 }
 #groupBar .group-chip.active::after{ display:none; }
+/* Pager đứng cùng hàng trong stats bar */
+#statsBar .pager-bar{ margin:0; }
+#statsBar .pager-bar .btn{ min-width:40px; } /* giữ nút gọn */
 
 </style>
 </head>
@@ -791,7 +794,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       <!-- Thống kê -->
       <div id="statsBar" class="mb-2">
         <div class="d-flex align-items-center gap-2">
-          <span class="fw-semibold">TỔNG SỐ SẢN PHẨM TÌM THẤY:</span>
           <span id="totalCount" class="badge text-bg-primary" aria-live="polite">0</span>
           <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger">Xóa bộ lọc</button>
         </div>
@@ -991,6 +993,22 @@ const API_URL = "https://script.google.com/macros/s/AKfycbw8YrHhQX99f7bXsAaBZqRw
 const ZALO_URL = "#";
 const ADS_CONTACT_URL = "#";
 const API_KEY = "";
+
+  // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
+const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
+if (statsRow) {
+  const lbl = statsRow.querySelector('.fw-semibold');
+  if (lbl) lbl.textContent = 'Tìm thấy';
+
+  // cho 2 bên đứng cùng hàng (trái: nhãn + badge + xóa; phải: pager)
+  statsRow.classList.add('justify-content-between','flex-wrap','w-100');
+
+  const pagerTop = document.getElementById('pagerTop');
+  if (pagerTop) {
+    pagerTop.classList.remove('mb-2');     // bỏ margin thừa
+    statsRow.appendChild(pagerTop);        // đưa pagerTop lên cùng hàng
+  }
+}
 
 /* STATE */
 const AUTO_OPEN_ON_ADD = false;
@@ -1606,6 +1624,22 @@ function updateGroupUI(){
 
   // bỏ mờ sau 1 khung hình
   requestAnimationFrame(()=> catEl && catEl.classList.remove('fade-out'));
+}
+
+function buildCategoryFromFacets(facets){
+  const groups = facets?.groups_all || facets?.groups || [];
+  renderGroups(groups);
+
+  const catEl = document.getElementById('categoryScroll');
+  if (catEl) catEl.classList.add('fade-out');
+
+  buildCategory(facets?.categories || []);
+  buildFilterBox('typeBox',  facets?.types  || [], 'type');
+  buildFilterBox('loaiBox',  facets?.loais  || [], 'loai');
+  buildFilterBox('noteBox',  facets?.notes  || [], 'note');
+  buildFilterBox('brandBox', facets?.categories || [], 'category');
+
+  requestAnimationFrame(() => catEl && catEl.classList.remove('fade-out'));
 }
 
 function render(res){
