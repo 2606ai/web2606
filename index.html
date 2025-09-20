@@ -456,6 +456,72 @@ img{max-width:100%;display:block}
   background: #0018a8;
   transform: scale(1.25);
 }
+/* ===== Khung danh mục ===== */
+.category-box{
+  border:1px solid #dce3f5;
+  border-radius:12px;
+  background:#fff;
+  padding:10px;
+}
+
+/* ===== Thanh tab: sát mép trên + bo 2 góc trên ===== */
+.category-box .group-bar-wrapper{
+  margin:-10px -10px 0 -10px !important;   /* ăn sát mép trên/trái/phải của .category-box */
+  padding:0 !important;
+  background:#fff !important;
+  border:1px solid #dce3f5 !important;
+  border-bottom:none !important;           /* dính liền phần dưới */
+  border-radius:12px 12px 0 0 !important;  /* bo 2 góc trên */
+  box-shadow:none !important;
+  position:relative;
+  z-index:1;                               /* thấp hơn dots */
+}
+
+/* Ẩn mũi tên trái/phải */
+.category-box .group-arrow{ display:none !important; }
+
+/* ===== Tabs (chips) – dính liền, không bo góc, chữ thường không đậm ===== */
+#groupBar{
+  display:flex;
+  gap:0;
+  overflow:visible;
+}
+#groupBar .group-chip{
+  padding:10px 16px !important;
+  font-size:14px !important;
+  font-weight:400 !important;              /* không in đậm */
+  text-transform:none !important;          /* chữ thường */
+  color:#0a33cc !important;
+  background:#f8faff !important;
+
+  border:none !important;
+  border-right:1px solid #dce3f5 !important;
+  border-bottom:1px solid #dce3f5 !important;
+  border-radius:0 !important;              /* phẳng, dính nhau */
+  cursor:pointer;
+}
+#groupBar .group-chip:last-child{ border-right:none !important; }
+#groupBar .group-chip:hover{ background:#eef3ff !important; }
+#groupBar .group-chip.active{
+  background:#0018a8 !important;
+  color:#fff !important;
+  border-color:#0018a8 !important;
+}
+
+/* ===== Dots – luôn nhìn thấy, không bị che ===== */
+#groupDots{
+  margin:6px 0 8px !important;             /* nằm dưới tab một chút */
+  display:flex; justify-content:center; gap:6px;
+  position:relative; z-index:2;            /* cao hơn group-bar-wrapper */
+}
+#groupDots .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:#c9d6ff; transition:background .2s, transform .2s;
+}
+#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
+
+/* Phần danh mục bên dưới – giữ khoảng cách nhỏ */
+.category-box .category-wrapper{ margin-top:8px; }
 
    
 </style>
