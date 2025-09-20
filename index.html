@@ -406,7 +406,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   content:"";
   position:absolute;
   left:0; right:0;
-  bottom:-8px;          /* nằm sát mép đáy thanh xanh */
+  bottom:-6px;          /* nằm sát mép đáy thanh xanh */
   height:3px;
   background:#fff;
 }
@@ -420,7 +420,58 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 }
 .group-arrow:hover{ background:rgba(255,255,255,.28); }
 .group-arrow[disabled]{ opacity:.35; }
+/* ==== GROUP TABS (white tabs, blue border; active = blue bg) ==== */
+.category-box .group-bar-wrapper{
+  margin:-10px -10px 10px -10px;   /* sát khung trắng như bạn muốn */
+  padding:10px 44px;               /* chừa chỗ 2 nút mũi tên */
+  background:transparent;
+  border:0; box-shadow:none; border-radius:0;
+}
 
+.group-bar-scroll.group-tabs{
+  display:flex; gap:8px; align-items:center;
+  overflow-x:auto; overflow-y:hidden; white-space:nowrap;
+  scrollbar-width:none;
+}
+.group-bar-scroll.group-tabs::-webkit-scrollbar{ display:none; }
+
+.group-tab{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px;
+  border:1.5px solid var(--main);
+  background:#fff; color:var(--main);
+  border-radius:8px;                /* khối chữ nhật, bo nhẹ cho đẹp */
+  font-size:12px; font-weight:700;  /* chữ nhỏ như yêu cầu */
+  line-height:1; cursor:pointer; user-select:none;
+  white-space:nowrap;
+  transition:background .15s ease, color .15s ease, border-color .15s ease;
+}
+.group-tab .ico{
+  font-size:14px; line-height:1;
+  display:inline-flex; align-items:center; justify-content:center;
+}
+
+.group-tab:hover{ background:#f2f6ff; }
+.group-tab.active{
+  background:var(--main);
+  color:#fff; border-color:var(--main);
+}
+
+/* mũi tên cuộn */
+.group-arrow{
+  width:30px; height:30px; border-radius:8px;
+  background:#fff; border:1px solid var(--main); color:var(--main);
+  box-shadow:none;
+}
+.group-arrow:hover{ background:var(--main); color:#fff; }
+.group-arrow[disabled]{ opacity:.35; }
+.group-tabs .group-tab:not(:last-child)::after{
+  content:""; width:1px; height:60%;
+  background:rgba(0,24,168,.35);
+  margin-left:8px;
+}
+
+  
 </style>
 </head>
 <body>
@@ -1310,21 +1361,33 @@ const BENEFIT_DETAIL = {
  function renderGroups(groups){
   const box = document.getElementById('groupBar');
   if(!box) return;
+
   const list = Array.isArray(groups) ? groups : [];
+  box.classList.add('group-tabs');               // thêm lớp tabs
+
+  // chọn icon theo “từ khóa” trong tên nhóm
+  const iconFor = (name)=>{
+    const s = (name||'').toLowerCase();
+    if(s.includes('express') || s.includes('vận')) return 'bi-truck';
+    if(s.includes('quà'))                           return 'bi-gift';
+    if(s.includes('ấn phẩm') || s.includes('brand'))return 'bi-collection';
+    if(s.includes('sản phẩm'))                      return 'bi-bag';
+    return 'bi-grid-3x3-gap'; // mặc định
+  };
 
   box.innerHTML = list.map((g,i)=>`
-    <div class="group-chip ${state.group===g?'active':''}"
-         data-index="${i+1}"
-         data-action="select-group" data-val="${esc(g)}">
-         ${esc(`${i+1}. ${g}`)}
-    </div>
+    <button type="button"
+            class="group-chip group-tab ${state.group===g?'active':''}"
+            data-action="select-group" data-val="${esc(g)}" data-index="${i+1}">
+      <i class="bi ${iconFor(g)} ico" aria-hidden="true"></i>
+      <span>${esc(`${i+1}. ${g}`)}</span>
+    </button>
   `).join('');
 
-  // cập nhật trạng thái nút trái/phải
   updateGroupArrows();
-  // lắng nghe cuộn để bật/tắt nút theo vị trí
   box.addEventListener('scroll', updateGroupArrows, { passive:true });
 }
+
 function scrollGroups(dir){
   const el = document.getElementById('groupBar');
   if(!el) return;
