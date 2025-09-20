@@ -632,6 +632,24 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Pager đứng cùng hàng trong stats bar */
 #statsBar .pager-bar{ margin:0; }
 #statsBar .pager-bar .btn{ min-width:40px; } /* giữ nút gọn */
+.group-bar-wrapper{
+  position:relative;
+  overflow:hidden;
+}
+.group-bar-wrapper::after{
+  content:"";
+  position:absolute;
+  top:0; right:0; width:40px; height:100%;
+  background:linear-gradient(to left, #fff, transparent);
+  pointer-events:none;
+}
+.group-bar-wrapper::before{
+  content:"";
+  position:absolute;
+  top:0; left:0; width:40px; height:100%;
+  background:linear-gradient(to right, #fff, transparent);
+  pointer-events:none;
+}
 
 </style>
 </head>
@@ -794,6 +812,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
       <!-- Thống kê -->
       <div id="statsBar" class="mb-2">
         <div class="d-flex align-items-center gap-2">
+          <span class="fw-semibold">Tìm thấy</span>
           <span id="totalCount" class="badge text-bg-primary" aria-live="polite">0</span>
           <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger">Xóa bộ lọc</button>
         </div>
