@@ -13,21 +13,6 @@
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
   /* ==== GROUP BAR (chips + horizontal scroll + arrows) ==== */
-.group-bar-wrapper{
-  position: relative;
-  background:#fff;
-  border:1px solid #eef2ff;
-  border-radius:12px;
-  padding:10px 44px;              /* chừa chỗ cho 2 nút mũi tên */
-  margin-bottom:10px;
-  box-shadow:0 2px 6px rgba(0,0,0,.04);
-}
-.group-bar-scroll{
-  display:flex; gap:8px; align-items:center;
-  overflow-x:auto; overflow-y:hidden; white-space:nowrap;
-  scroll-behavior:smooth;
-  scrollbar-width:none;           /* firefox */
-}
 .group-bar-scroll::-webkit-scrollbar{ display:none; } /* chrome/safari */
 
 .group-chip{
@@ -657,6 +642,68 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   background:#f8faff;           /* nền xanh nhạt */
   padding:12px;                 /* padding đều để nhìn thoáng */
   transition: all .25s ease;
+}
+/* ==== GROUP BAR: chữ mảnh, nhỏ, tự wrap nhiều hàng ==== */
+/* 1) Khung tổng gọn lại, bỏ gradient mép và chừa padding nhỏ */
+.group-bar-wrapper{
+  background:#fff;
+  border:1px solid #cfe0ff;
+  border-radius:10px 10px 0 0;
+  padding:8px 10px;          /* nhỏ lại */
+  box-shadow:0 2px 6px rgba(0,0,0,.04);
+  overflow:visible;          /* cho phép chip đổ bóng ra ngoài 1 chút */
+}
+/* bỏ hiệu ứng mờ mép nếu đang có */
+.group-bar-wrapper::before,
+.group-bar-wrapper::after{ display:none !important; }
+
+/* 2) Thanh chứa chips: CHO PHÉP XUỐNG DÒNG */
+.group-bar-scroll{
+  display:flex;
+  flex-wrap: wrap;           /* <-- quan trọng: cho xuống dòng */
+  gap:6px 10px;              /* row-gap 6px, column-gap 10px */
+  white-space: normal;       /* cho text & chip wrap */
+  overflow: visible;         /* không ẩn bớt nội dung */
+  align-items: center;
+}
+
+/* 3) Chip nhỏ + chữ mảnh */
+.group-chip{
+  background:#f9fbff;
+  border:1px solid #dbe3ff;
+  color:#0a33cc;
+  font-size:12px;            /* nhỏ lại */
+  font-weight:500;           /* chữ mảnh */
+  line-height:1.1;
+  padding:6px 10px;          /* nhỏ gọn */
+  border-radius:6px;
+  cursor:pointer; user-select:none;
+  transition:background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
+}
+.group-chip:hover{ background:#eef4ff; border-color:#c8d6ff; }
+.group-chip.active{
+  background:#0018a8;
+  color:#fff;
+  border-color:#0018a8;
+  box-shadow:0 5px 12px rgba(0,24,168,.18);
+}
+
+/* 4) Ẩn mũi tên vì không còn cuộn ngang */
+.group-arrow{ display:none !important; }
+
+/* 5) Thu nhỏ thêm trên mobile */
+@media (max-width: 576px){
+  .group-chip{ font-size:11px; padding:5px 8px; }
+  .group-bar-wrapper{ padding:6px 8px; }
+}
+
+/* 6) Khi chọn group → bọc cả khung category nổi bật (viền + nền) */
+.category-box.group-active{
+  border:2px solid #0018a8;
+  border-radius:12px;
+  background:#f8faff;
+  padding:12px;
+  transition:all .2s ease;
 }
 
 </style>
@@ -1629,10 +1676,11 @@ function updateGroupUI(){
   const hasGroup = !!state.group;
   box.classList.toggle('group-active', hasGroup);
 
-  // gắn active cho chip
+  // set active cho chip
   document.querySelectorAll('#groupBar .group-chip')
     .forEach(ch => ch.classList.toggle('active', ch.dataset.val === state.group));
 }
+
 
 
 function buildCategoryFromFacets(facets){
