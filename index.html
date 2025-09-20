@@ -12,6 +12,71 @@
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
+  /* ==== GROUP BAR (chips + horizontal scroll + arrows) ==== */
+.group-bar-wrapper{
+  position: relative;
+  background:#fff;
+  border:1px solid #eef2ff;
+  border-radius:12px;
+  padding:10px 44px;              /* chừa chỗ cho 2 nút mũi tên */
+  margin-bottom:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+.group-bar-scroll{
+  display:flex; gap:8px; align-items:center;
+  overflow-x:auto; overflow-y:hidden; white-space:nowrap;
+  scroll-behavior:smooth;
+  scrollbar-width:none;           /* firefox */
+}
+.group-bar-scroll::-webkit-scrollbar{ display:none; } /* chrome/safari */
+
+.group-chip{
+  display:inline-block;
+  background:#fff;
+  border:1px solid #dce3f0;
+  border-radius:999px;
+  padding:6px 14px;
+  font-size:13px; font-weight:600; color:#334155;
+  cursor:pointer; user-select:none;
+  transition:all .2s ease;
+  box-shadow:0 1px 2px rgba(0,0,0,.05);
+}
+.group-chip:hover{
+  background:#f3f6ff;
+  transform:translateY(-1px);
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+}
+.group-chip.active{
+  background:var(--main);
+  border-color:var(--main);
+  color:#fff;
+  box-shadow:0 3px 10px rgba(0,24,168,.25);
+}
+
+/* arrows */
+.group-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:32px; height:32px; border-radius:50%;
+  background:#fff; border:1px solid #e6ecf7;
+  box-shadow:0 2px 6px rgba(0,0,0,.08);
+  color:#0018a8; font-weight:700; line-height:30px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer;
+}
+.group-arrow.left{  left:8px;  }
+.group-arrow.right{ right:8px; }
+.group-arrow[disabled]{ opacity:.35; pointer-events:none; }
+
+/* nhỏ gọn trên mobile */
+@media (max-width: 576px){
+  .group-bar-wrapper{ padding:8px 40px; }
+  .group-chip{ padding:6px 12px; font-size:12px; }
+}
+
+/* nhẹ nhàng khi thay category theo group */
+#categoryScroll{ transition:opacity .15s ease; }
+#categoryScroll.fade-out{ opacity:.15; }
+
 .container-fluid{max-width:1400px;margin:auto;}
 /* shared wrap width giống header */
 .wrap{max-width:1400px;width:100%;margin:0 auto;}
@@ -159,19 +224,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .filter-tag{ border:1px solid #dbe3ff; background:#f9faff; border-radius:20px; padding:6px 12px; font-size:13px; font-weight:500; color:#333; cursor:pointer; transition:.2s; }
 .filter-tag:hover{ background:#eef3ff; border-color:#b3c8ff; }
 .filter-tag.active{ background:#0018a8; color:#fff; border-color:#0018a8; box-shadow:0 2px 8px rgba(0,24,168,.25); }
-/* Group selector chips (trên category) */
-.group-chip{
-  border:1px solid #dbe3ff;
-  background:#f9faff;
-  border-radius:999px;
-  padding:4px 12px;
-  font-size:13px;
-  font-weight:500;
-  cursor:pointer;
-  transition:.2s;
-}
-.group-chip:hover{ background:#eef3ff; border-color:#b3c8ff; }
-.group-chip.active{ background:#0018a8; color:#fff; border-color:#0018a8; }
   
 /* Stats bar */
 #statsBar{ background:#fff; border:1px solid #eef2ff; border-radius:10px; padding:8px 12px; }
@@ -383,18 +435,23 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
-      <!-- Danh mục (2 hàng + mũi tên) -->
+    <!-- Danh mục (Group chips + Category scroller) -->
 <div class="category-box mb-3">
-  <!-- Thanh chọn Group (thay cho tiêu đề tĩnh) -->
-  <div id="groupBar" class="d-flex flex-wrap gap-2 mb-2"></div>
+  <!-- GROUP BAR -->
+  <div class="group-bar-wrapper">
+    <button class="group-arrow left"  type="button" aria-label="prev" onclick="scrollGroups(-1)">‹</button>
+    <div id="groupBar" class="group-bar-scroll"></div>
+    <button class="group-arrow right" type="button" aria-label="next" onclick="scrollGroups(1)">›</button>
+  </div>
 
-  <!-- Khung category scroller + mũi tên -->
+  <!-- CATEGORY SCROLLER (2 hàng + mũi tên) -->
   <div class="category-wrapper">
-    <button class="cat-arrow left" type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
+    <button class="cat-arrow left"  type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
     <div id="categoryScroll" class="category-scroll"></div>
     <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
   </div>
 </div>
+
       <!-- Thống kê -->
       <div id="statsBar" class="mb-2">
         <div class="d-flex align-items-center gap-2">
@@ -1126,21 +1183,62 @@ const BENEFIT_DETAIL = {
  function renderGroups(groups){
   const box = document.getElementById('groupBar');
   if(!box) return;
-  box.innerHTML = (groups||[]).map(g=>`
+  const list = Array.isArray(groups) ? groups : [];
+
+  box.innerHTML = list.map((g,i)=>`
     <div class="group-chip ${state.group===g?'active':''}"
-         data-action="select-group" data-val="${esc(g)}">${esc(g)}</div>
+         data-index="${i+1}"
+         data-action="select-group" data-val="${esc(g)}">
+         ${esc(`${i+1}. ${g}`)}
+    </div>
   `).join('');
+
+  // cập nhật trạng thái nút trái/phải
+  updateGroupArrows();
+  // lắng nghe cuộn để bật/tắt nút theo vị trí
+  box.addEventListener('scroll', updateGroupArrows, { passive:true });
+}
+function scrollGroups(dir){
+  const el = document.getElementById('groupBar');
+  if(!el) return;
+  const step = Math.max(240, el.clientWidth * 0.8); // cuộn 80% chiều rộng
+  el.scrollBy({ left: dir * step, behavior: 'smooth' });
+  // chờ một nhịp rồi đánh giá lại
+  setTimeout(updateGroupArrows, 220);
 }
 
-/* ======= API: fetch list + render ======= */
+function updateGroupArrows(){
+  const el = document.getElementById('groupBar');
+  const leftBtn  = document.querySelector('.group-arrow.left');
+  const rightBtn = document.querySelector('.group-arrow.right');
+  if(!el || !leftBtn || !rightBtn) return;
+
+  const atStart = el.scrollLeft <= 2;
+  const atEnd   = (el.scrollLeft + el.clientWidth) >= (el.scrollWidth - 2);
+
+  leftBtn.toggleAttribute('disabled', atStart);
+  rightBtn.toggleAttribute('disabled', atEnd);
+}
+
+window.addEventListener('resize', ()=> setTimeout(updateGroupArrows, 50));
 function buildCategoryFromFacets(facets){
-  renderGroups(facets?.groups||[]);
+  const groups = facets?.groups_all || facets?.groups || [];
+  renderGroups(groups);
+
+  const catEl = document.getElementById('categoryScroll');
+  if(catEl) catEl.classList.add('fade-out');
+
+  // render các filter khác
   buildCategory(facets?.categories||[]);
   buildFilterBox('typeBox', facets?.types||[], 'type');
   buildFilterBox('loaiBox', facets?.loais||[], 'loai');
   buildFilterBox('noteBox', facets?.notes||[], 'note');
   buildFilterBox('brandBox', facets?.categories||[], 'category');
+
+  // bỏ mờ sau 1 khung hình
+  requestAnimationFrame(()=> catEl && catEl.classList.remove('fade-out'));
 }
+
 function render(res){
   const items = (res?.items||[]);
   const grid=document.getElementById('productGrid');
@@ -1164,9 +1262,11 @@ function fetchPage(){
 Object.assign(window, {
   fetchPage,
   scrollCats,
+  scrollGroups,   // <-- thêm dòng này
   selectCategory,
   clearAllFilters
 });
+
 
 /* === INIT === */
 fetchPage();
