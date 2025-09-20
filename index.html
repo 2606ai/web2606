@@ -881,6 +881,57 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* === PATCH: đảm bảo group bar snap theo trang === */
 #groupBar{ scroll-snap-type:x mandatory; }
 #groupBar .group-page{ scroll-snap-align:start; }
+/* === OVERRIDE: Nhóm to, liền nhau, fill đủ hàng === */
+.group-bar-wrapper{
+  background:#fff;
+  border:1px solid #dbe3ff;
+  border-radius:12px;
+  padding:10px 12px;
+  box-shadow:0 4px 10px rgba(0,0,0,.04);
+}
+
+/* Dùng grid auto-fit để ô to và liền nhau, tự co dãn theo bề rộng */
+.group-bar-scroll{
+  display:grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* ô tối thiểu 180px, tự giãn đều */
+  gap:10px;
+  overflow:visible;          /* không cần cuộn ngang nữa */
+}
+
+/* “Khối” nhóm to, chữ dễ đọc */
+.group-chip{
+  display:flex !important;
+  align-items:center; justify-content:center;
+  min-height:48px;
+  padding:10px 16px !important;
+  font-size:14px !important;
+  font-weight:700 !important;
+  color:#0a33cc !important;
+  background:#f8faff !important;
+  border:1.5px solid #dce3f5 !important;
+  border-radius:10px !important;
+  white-space:normal !important;      /* cho phép xuống dòng */
+  text-align:center;
+  cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+}
+.group-chip:hover{ transform:translateY(-1px); box-shadow:0 4px 10px rgba(0,24,168,.10); }
+.group-chip.active{
+  background:#0018a8 !important;
+  color:#fff !important;
+  border-color:#0018a8 !important;
+  box-shadow:0 6px 16px rgba(0,24,168,.18);
+}
+
+/* Dots theo số nhóm */
+.group-dots{
+  display:flex; justify-content:center; gap:8px; margin:6px 0 10px;
+}
+.group-dots .dot{
+  width:8px; height:8px; border-radius:50%;
+  background:#c9d6ff; transition:transform .15s, background .15s;
+}
+.group-dots .dot.active{ background:#0018a8; transform:scale(1.25); }
 
 </style>
 </head>
@@ -1281,26 +1332,23 @@ function renderGroups(groups){
   const dots = document.getElementById('groupDots');
   if(!bar || !dots) return;
 
-  const COLS = getCols();
-  const pages = chunk(groups || [], COLS);
+  const list = groups || [];
 
-  // build HTML cho từng trang
-  bar.innerHTML = pages.map(page => `
-    <div class="group-page">
-      ${page.map(g => `
-        <div class="group-chip ${state.group===g?'active':''}"
-             data-action="select-group" data-val="${esc(g)}">${esc(g)}</div>
-      `).join('')}
-    </div>
+  // render tất cả nhóm (không chia trang nữa)
+  bar.innerHTML = list.map(g => `
+    <div class="group-chip ${state.group===g?'active':''}"
+         data-action="select-group" data-val="${esc(g)}">${esc(g)}</div>
   `).join('');
 
-  // dots
-  dots.innerHTML = pages.map((_,i)=>`<span class="dot ${i===0?'active':''}" data-idx="${i}"></span>`).join('');
+  // dots = số nhóm
+  dots.innerHTML = list.map((_,i)=>`
+    <span class="dot ${ (list[i]===state.group)?'active':'' }" data-idx="${i}"></span>
+  `).join('');
 
-  // cập nhật nút mũi tên & dots theo scroll
-  requestAnimationFrame(updateGroupArrows);
-  requestAnimationFrame(updateGroupDots);
+  // lưu để đồng bộ khi resize
+  window._lastGroups = list;
 }
+
 
 /* === Mũi tên & Dots === */
 const groupBarEl = document.getElementById('groupBar');
@@ -1328,10 +1376,11 @@ function updateGroupArrows(){
   btnNext.disabled = (p >= pc-1);
 }
 function updateGroupDots(){
-  if(!dotBox) return;
-  const p  = currentPage();
-  const ds = dotBox.querySelectorAll('.dot');
-  ds.forEach((d,i)=> d.classList.toggle('active', i===p));
+  const dots = document.querySelectorAll('#groupDots .dot');
+  const chips = document.querySelectorAll('#groupBar .group-chip');
+  let activeIdx = -1;
+  chips.forEach((c,i)=>{ if(c.dataset.val === (state.group||'')) activeIdx = i; });
+  dots.forEach((d,i)=> d.classList.toggle('active', i===activeIdx));
 }
 
 btnPrev?.addEventListener('click', ()=> scrollToPage(Math.max(0, currentPage()-1)));
@@ -1344,8 +1393,20 @@ groupBarEl?.addEventListener('scroll', ()=>{
 });
 dotBox?.addEventListener('click', (e)=>{
   const dot = e.target.closest('.dot'); if(!dot) return;
-  scrollToPage(parseInt(dot.dataset.idx,10)||0);
+  const idx = Number(dot.dataset.idx)||0;
+  const chips = document.querySelectorAll('#groupBar .group-chip');
+  const chip = chips[idx];
+  if(chip){
+    state.group = chip.dataset.val || '';
+    state.page = 1;
+    updateGroupUI();       // đổi active chip + ink-bar
+    updateGroupDots();     // chấm đổi màu
+    fetchPage();           // nạp dữ liệu theo group
+    // Scroll chip đó ra giữa (nếu cần; với layout grid sẽ không cuộn, nhưng để phòng)
+    chip.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+  }
 });
+
 window.addEventListener('resize', ()=>{
   // Re-render khi đổi breakpoint để số cột/ trang cập nhật
   if(window._repaint_t){ clearTimeout(window._repaint_t); }
@@ -1761,6 +1822,13 @@ const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getE
 /* ==== EVENT DELEGATION ==== */
 document.addEventListener('click', (e)=>{
   const el = e.target;
+if(el.matches('[data-action="select-group"]')){
+  state.group = el.dataset.val || '';
+  state.page  = 1;
+  updateGroupUI();
+  fetchPage();
+  updateFilterCount();
+}
 
   // Chặn nhảy trang nếu lỡ dùng <a href="#">
   if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){
@@ -1902,6 +1970,8 @@ function render(res){
   document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
   renderPagination(res?.total||0, state.pageSize, state.page);
   updateGroupUI();  // <-- thêm dòng này
+  updateGroupDots();
+
 }
 function fetchPage(){
   const params=new URLSearchParams({
