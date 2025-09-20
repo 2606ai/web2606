@@ -509,6 +509,35 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* Hover/active chỉ đổi màu chữ */
 #groupBar .group-chip:hover{ color:#0a33cc; }
 #groupBar .group-chip.active{ color:#0a33cc; font-weight:700; }
+/* GROUP BAR – compact + separator dính mép phải */
+#groupBar{ gap:0; }
+
+#groupBar .group-chip{
+  padding:6px 10px;          /* nhỏ gọn hơn */
+  font-size:12px;
+  font-weight:600;
+  color:var(--main);
+  line-height:1;
+  position:relative;         /* để đặt vạch ngăn tuyệt đối */
+  border:none;
+  background:transparent;
+}
+
+/* vạch ngăn sát mép phải của mỗi chip (trừ chip cuối) */
+#groupBar .group-chip:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  right:0;                   /* dính sát mép phải chip */
+  top:50%;
+  width:1px;
+  height:14px;               /* cao vừa chữ */
+  background:#dfe6ff;        /* xanh nhạt */
+  transform:translateY(-50%);
+}
+
+/* hover/active chỉ đổi màu chữ */
+#groupBar .group-chip:hover{ color:#0a33cc; }
+#groupBar .group-chip.active{ color:#0a33cc; font-weight:700; }
 
   
 </style>
