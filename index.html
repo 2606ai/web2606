@@ -321,6 +321,69 @@ img{max-width:100%;display:block}
 
 /* Minor helpers */
 .small{font-size:.875rem}
+/* ===== GROUP BAR: sát mép, không bo góc, dính liền nhau, bỏ mũi tên ===== */
+
+/* Đưa group-bar “ăn” sát mép của .category-box (trên & hai bên), dưới không chừa khoảng */
+.category-box .group-bar-wrapper{
+  margin: -10px -10px 0 -10px;   /* sát mép trên & 2 bên của .category-box (đang padding 10px) */
+  padding: 0;                    /* sát trên/dưới */
+  border: 0;                     /* sạch viền ngoài */
+  border-radius: 0;              /* không bo góc */
+  box-shadow: none;
+  background: #fff;
+}
+
+/* Ẩn hẳn 2 mũi tên qua lại */
+.category-box .group-bar-wrapper > .group-arrow{ display:none !important; }
+
+/* Hàng chip: không khoảng cách để các nút dính liền nhau */
+#groupBar.group-bar-scroll{
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;                /* dính liền nhau */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#groupBar.group-bar-scroll::-webkit-scrollbar{ display:none; }
+
+/* Nút (chip) hình chữ nhật, không bo góc, cao gọn – dính nhau bằng 1 viền chung */
+#groupBar .group-chip{
+  border-radius: 0;                 /* không bo góc */
+  padding: 10px 14px;               /* sát trên–dưới */
+  line-height: 1;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0a33cc;
+  background: #f8faff;
+  border: 1px solid #dce3f5;        /* viền ngoài */
+  border-right: 0;                  /* bỏ viền phải để nối liền nhau */
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition: background .12s, color .12s, box-shadow .12s;
+}
+
+/* Trả lại viền phải cho phần tử cuối để đóng khung hàng tab */
+#groupBar .group-chip:last-child{ border-right: 1px solid #dce3f5; }
+
+/* Hover & Active */
+#groupBar .group-chip:hover{ background:#eef3ff; }
+#groupBar .group-chip.active{
+  background:#0018a8;
+  color:#fff;
+  border-color:#0018a8;
+  box-shadow:none;                  /* giữ phẳng */
+}
+
+/* Dots có thể giữ lại (đang = số nhóm). Gọn hơn một chút */
+.group-dots{ display:flex; justify-content:center; gap:6px; margin:8px 0 6px; }
+.group-dots .dot{ width:6px; height:6px; border-radius:50%; background:#c9d6ff; }
+.group-dots .dot.active{ background:#0018a8; }
+
+/* (Tuỳ chọn) Nhích phần danh mục dưới lên sát group-bar */
+.category-box .category-wrapper{ margin-top: 0; }
+
+   
 </style>
 </head>
 <body>
