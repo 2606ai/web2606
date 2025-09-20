@@ -559,6 +559,78 @@ img{max-width:100%;display:block}
   background:#0018a8;
   transform:scale(1.25);
 }
+/* ===== GROUP TABS – sát mép, vuông, liền nhau ===== */
+.category-box{ --cat-radius:12px; }
+
+/* Thanh tab ăn sát padding của .category-box */
+.category-box .group-bar-wrapper{
+  margin:-10px -10px 0 -10px;        /* ăn sát 4 cạnh phía trên */
+  padding:0;
+  border:0;
+  border-radius:var(--cat-radius) var(--cat-radius) 0 0;  /* bo 2 góc trên khớp khung */
+  background:#fff;
+  overflow:visible;
+}
+
+/* Hàng tab: các khối chạm nhau, không bo góc */
+#groupBar{
+  display:flex;
+  width:100%;
+  gap:0;
+}
+
+#groupBar .group-chip{
+  flex:1 1 0;                         /* chia đều bề rộng */
+  padding:12px 10px;
+  text-align:center;
+  color:#0a33cc;
+  background:#fff;
+  border:1px solid #dce3f5;
+  border-bottom:0;                    /* để liền với phần dưới */
+  border-left:0;
+  border-radius:0 !important;         /* vuông góc */
+  font-weight:400;                    /* không in đậm */
+  text-transform:none;                /* chữ thường */
+  line-height:1.2;
+  white-space:normal;
+}
+#groupBar .group-chip:first-child{ border-left:1px solid #dce3f5; }
+#groupBar .group-chip.active{
+  background:#f2f6ff;
+  color:#0018a8;
+  border-color:#bcd0ff;
+}
+
+/* Ẩn mũi tên cuộn */
+.group-arrow{ display:none !important; }
+
+/* Phần danh mục (bên dưới tabs) – bo 2 góc dưới để khớp khung */
+.category-box .category-wrapper{
+  border:1px solid #dce3f5;
+  border-top:0;
+  border-radius:0 0 var(--cat-radius) var(--cat-radius);
+  padding:12px;
+  background:#fff;
+}
+
+/* Dots chỉ báo trang/nhóm – luôn nhìn thấy, không bị che */
+#groupDots{
+  position:relative;
+  margin:8px 0 10px;
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  z-index:1;
+}
+#groupDots .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:#c9d6ff; transition:transform .15s, background .15s;
+}
+#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
+
+/* Tắt mọi overlay mép trái/phải từng dùng trước đây (tránh đè lên sidebar/xưởng) */
+.group-bar-wrapper::before,
+.group-bar-wrapper::after{ display:none !important; }
 
    
 </style>
@@ -924,11 +996,30 @@ img{max-width:100%;display:block}
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-/* ===== CONFIG ===== */
-const API_URL = "https://script.google.com/macros/s/AKfycbw8YrHhQX99f7bXsAaBZqRwHcmYB0RhQf8MEHCd54J3DPXjbx9kSwogKKi4jE9X-hXs/exec";
-const ZALO_URL = "#";
-const ADS_CONTACT_URL = "#";
-const API_KEY = "";
+  /* ==== CONFIG ===== */
+  const API_URL = "https://script.google.com/macros/s/AKfycbwMRhQX99f7bXsAaBzqRWhcmYB0RhQf8MEhCd543JDPXjbx9kSwogWKi4jE9X-hXs/exec";
+  const ZALO_URL = "#";
+  const ADS_CONTACT_URL = "#";
+  const API_KEY = "";
+
+  // ✅ Đoạn thêm mới: di chuyển #groupDots ra ngoài .category-box
+  const catBox = document.querySelector('.category-box');
+  const dots   = document.getElementById('groupDots');
+  if (catBox && dots && catBox.contains(dots)) {
+    catBox.after(dots);
+  }
+
+  // ==== StatsBar: dời nhãn & pagerTop lên cùng hàng ====
+  const statsRow = document.querySelector('#statsBar.d-flex.align-items-center');
+  if (statsRow) {
+    const lbl = statsRow.querySelector('.fw-semibold');
+    if (lbl) lbl.textContent = 'Tìm thấy';
+
+    // cho 2 bên đứng cùng hàng (trái: nhãn + badge; phải: pager)
+    statsRow.classList.add('justify-content-between','flex-wrap','w-100');
+  }
+});
+
 
   // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
 const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
