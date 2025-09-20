@@ -401,6 +401,61 @@ img{max-width:100%;display:block}
   margin-bottom: 0 !important;
   z-index: 1;
 }
+/* Thanh group bar */
+.group-bar-wrapper{
+  margin: 0 -10px 0 -10px;          /* ăn sát mép trái/phải box */
+  border: 1px solid #dce3f5;
+  border-bottom: none;              /* dính liền với phần dưới */
+  border-radius: 12px 12px 0 0;     /* bo 2 góc trên */
+  background: #fff;
+  overflow: visible !important;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* Tab items */
+#groupBar.group-bar-scroll{
+  display: flex;
+  gap: 0;
+}
+#groupBar .group-chip{
+  border-radius: 0 !important;           /* phẳng */
+  border-right: 1px solid #dce3f5;
+  border-bottom: 1px solid #dce3f5;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0a33cc;
+  background: #f8faff;
+  cursor: pointer;
+  transition: .15s;
+}
+#groupBar .group-chip:last-child{ border-right: none; }
+#groupBar .group-chip.active{
+  background: #0018a8;
+  color: #fff;
+  border-color: #0018a8;
+}
+
+/* Dots nằm ngoài, không bị che */
+.group-dots{
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.group-dots .dot{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c9d6ff;
+  transition: background .2s, transform .2s;
+}
+.group-dots .dot.active{
+  background: #0018a8;
+  transform: scale(1.25);
+}
 
    
 </style>
