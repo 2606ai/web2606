@@ -8,8 +8,47 @@
 <!-- Bootstrap & Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- Styles -->
+  <style>
+/* ===== Group Tabs Bar ===== */
+.groupbar{
+  display:flex; align-items:center; gap:0; overflow-x:auto;
+  border:1px solid #eef2ff; border-radius:12px; background:#fff;
+  padding:6px 4px; scrollbar-width:thin;
+}
+.groupbar .chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 12px; border-radius:999px; cursor:pointer; user-select:none;
+  border:1px solid transparent; background:transparent; color:#0d47a1;
+  font-weight:600; font-size:14px; white-space:nowrap;
+}
+.groupbar .chip .ic{ font-size:18px; line-height:1; }
+.groupbar .chip:hover{ background:#f5f8ff; }
+.groupbar .chip.active{
+  background:#e9f0ff; border-color:#bcd1ff; color:#0018a8;
+  box-shadow:0 1px 0 rgba(0,0,0,.05) inset;
+}
 
-<style>
+/* ===== Category Grid ===== */
+.category-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+.category-wrapper{ position:relative; }
+.category-scroll{
+  display:grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap:12px;
+  overflow:hidden;
+}
+.category-item{ text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s }
+.category-item:hover{background:#f5f5f5}
+.category-item .icon{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#f1f4ff;margin-bottom:6px}
+.category-item .icon img{width:28px;height:28px;object-fit:contain}
+.category-item span{font-size:13px;display:block}
+.category-item.active{background:#e6f0ff;border:1px solid #007bff}
+.cat-arrow{ position:absolute; top:45%; transform:translateY(-50%); background:transparent; border:none; font-size:20px; font-weight:700; color:#0018a8; cursor:pointer; z-index:2; }
+.cat-arrow.left{ left:-4px } .cat-arrow.right{ right:-4px }
+
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
 .container-fluid{max-width:1400px;margin:auto;}
@@ -208,20 +247,23 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 </style>
 </head>
 <body>
+  <header class="site-header">
+    ... header code ...
+  </header>
 
-<header class="site-header">
-  <div class="wrap">
-    <a id="logoLink" href="#" class="d-flex align-items-center text-decoration-none">
-      <img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w160" class="logo" alt="2606AI logo">
-    </a>
-    <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
-      <div class="input-group w-100">
-        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)">
-        <button id="searchBtn" class="btn btn-primary" type="button">Tìm</button>
-      </div>
-    </form>
+  <!-- ====== GROUP BAR ====== -->
+  <div class="groupbar mb-2" id="groupTabs" role="tablist" aria-label="Nhóm sản phẩm"></div>
+
+  <!-- ====== CATEGORY GRID ====== -->
+  <div class="category-box mb-3">
+    <div class="category-wrapper">
+      <button class="cat-arrow left" type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
+      <div id="categoryScroll" class="category-scroll"></div>
+      <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
+    </div>
   </div>
-</header>
+
+  <!-- Sau đây bạn để Hero slider, product grid... -->
 
 <div class="top-banner">
   <div class="wrap">
