@@ -805,6 +805,28 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .group-arrow.left{ left:6px; }
 .group-arrow.right{ right:6px; }
 .group-arrow[disabled]{ opacity:.3; pointer-events:none; }
+/* Thu nhỏ chip group để hiển thị đủ */
+#groupBar .group-chip{
+  flex:0 0 auto;
+  text-align:center;
+  white-space:normal;
+  overflow-wrap:anywhere;
+
+  /* giảm kích thước */
+  font-size:11px;      /* nhỏ chữ hơn */
+  font-weight:500;
+  line-height:1.2;
+  padding:4px 8px;     /* thu padding lại */
+  min-width:90px;      /* hẹp lại */
+  max-width:140px;     /* không quá to */
+  border-radius:4px;
+}
+
+#groupBar .group-chip.active{
+  background:#0018a8;
+  color:#fff;
+  border-color:#0018a8;
+}
 
 </style>
 </head>
