@@ -827,6 +827,57 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   color:#fff;
   border-color:#0018a8;
 }
+/* ===== Group: cuộn theo TRANG, mỗi trang là lưới cột đều ===== */
+.group-bar-wrapper{
+  position:relative; background:#fff; border:1px solid #dbe3ff; border-radius:10px;
+  padding:8px 44px; box-shadow:0 2px 6px rgba(0,0,0,.05); overflow:hidden;
+}
+.group-bar-scroll{
+  display:flex; gap:12px; overflow-x:auto; overflow-y:hidden;
+  scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-width:none;
+}
+.group-bar-scroll::-webkit-scrollbar{ display:none; }
+
+/* mỗi PAGE chiếm đúng 100% bề rộng khung và snap vào mép trái */
+.group-page{
+  min-width:100%; scroll-snap-align:start;
+  display:grid; grid-template-columns:repeat(var(--cols,4), 1fr);
+  gap:10px;
+}
+
+/* khối chữ nhật (chip) */
+.group-chip{
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  padding:8px 10px; height:40px;
+  font-size:12px; font-weight:600; line-height:1.2; color:#0a33cc;
+  background:#f8faff; border:1px solid #dce3f5; border-radius:8px;
+  cursor:pointer; user-select:none; transition:all .15s ease;
+}
+.group-chip:hover{ background:#eef3ff; }
+.group-chip.active{ background:#0018a8; color:#fff; border-color:#0018a8; box-shadow:0 4px 10px rgba(0,24,168,.18); }
+
+/* mũi tên */
+.group-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:30px; height:30px; border-radius:50%;
+  background:#fff; border:1px solid #dbe3f5; color:#0018a8;
+  display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:2;
+}
+.group-arrow.left{ left:6px } .group-arrow.right{ right:6px }
+.group-arrow[disabled]{ opacity:.35; pointer-events:none }
+
+/* chấm tròn chỉ báo số trang */
+.group-dots{ display:flex; justify-content:center; gap:6px; margin:4px 0 6px }
+.group-dots .dot{
+  width:6px; height:6px; border-radius:50%; background:#c9d6ff; transition:transform .2s, background .2s;
+}
+.group-dots .dot.active{ background:#0018a8; transform:scale(1.25); }
+
+/* số cột mỗi trang theo breakpoint (có thể chỉnh) */
+@media (min-width:1200px){ .group-bar-scroll{ --cols:5; } } /* desktop lớn: 5 ô/trang */
+@media (min-width:992px) and (max-width:1199.98px){ .group-bar-scroll{ --cols:4; } }
+@media (min-width:768px) and (max-width:991.98px){ .group-bar-scroll{ --cols:3; } }
+@media (max-width:767.98px){ .group-bar-scroll{ --cols:2; } } /* mobile: 2 ô/trang */
 
 </style>
 </head>
@@ -971,6 +1022,15 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
     <!-- Danh mục (Group chips + Category scroller) -->
 <div class="category-box mb-3">
+  <!-- Dots indicator -->
+<div id="groupDots" class="group-dots" aria-label="Vị trí trang nhóm"></div>
+
+<div class="group-bar-wrapper">
+  <button class="group-arrow left"  id="groupPrev"  aria-label="Trang trước">‹</button>
+  <div id="groupBar" class="group-bar-scroll"></div>
+  <button class="group-arrow right" id="groupNext" aria-label="Trang sau">›</button>
+</div>
+
   <!-- GROUP BAR -->
   <div class="group-bar-wrapper">
   <button class="group-arrow left" id="groupPrev">‹</button>
@@ -1222,6 +1282,107 @@ if (statsRow) {
     pagerTop.classList.remove('mb-2');     // bỏ margin thừa
     statsRow.appendChild(pagerTop);        // đưa pagerTop lên cùng hàng
   }
+}
+/* === Helper: chia mảng thành các trang theo số cột/ trang === */
+function chunk(arr, size){ const out=[]; for(let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size)); return out; }
+/* số cột/ trang hiện tại (theo CSS var --cols) */
+function getCols(){
+  const n = getComputedStyle(document.getElementById('groupBar')).getPropertyValue('--cols');
+  return Math.max(1, parseInt(n,10) || 4);
+}
+
+/* === Render groups theo TRANG + dots === */
+function renderGroups(groups){
+  const bar  = document.getElementById('groupBar');
+  const dots = document.getElementById('groupDots');
+  if(!bar || !dots) return;
+
+  const COLS = getCols();
+  const pages = chunk(groups || [], COLS);
+
+  // build HTML cho từng trang
+  bar.innerHTML = pages.map(page => `
+    <div class="group-page">
+      ${page.map(g => `
+        <div class="group-chip ${state.group===g?'active':''}"
+             data-action="select-group" data-val="${esc(g)}">${esc(g)}</div>
+      `).join('')}
+    </div>
+  `).join('');
+
+  // dots
+  dots.innerHTML = pages.map((_,i)=>`<span class="dot ${i===0?'active':''}" data-idx="${i}"></span>`).join('');
+
+  // cập nhật nút mũi tên & dots theo scroll
+  requestAnimationFrame(updateGroupArrows);
+  requestAnimationFrame(updateGroupDots);
+}
+
+/* === Mũi tên & Dots === */
+const groupBarEl = document.getElementById('groupBar');
+const dotBox     = document.getElementById('groupDots');
+const btnPrev    = document.getElementById('groupPrev');
+const btnNext    = document.getElementById('groupNext');
+
+function currentPage(){
+  if(!groupBarEl) return 0;
+  const w = groupBarEl.clientWidth || 1;
+  return Math.round(groupBarEl.scrollLeft / w);
+}
+function pagesCount(){
+  return groupBarEl ? Math.ceil(groupBarEl.scrollWidth / (groupBarEl.clientWidth||1)) : 1;
+}
+function scrollToPage(p){
+  const w = groupBarEl.clientWidth;
+  groupBarEl.scrollTo({ left: p*w, behavior: 'smooth' });
+}
+
+function updateGroupArrows(){
+  if(!groupBarEl || !btnPrev || !btnNext) return;
+  const p = currentPage(), pc = pagesCount();
+  btnPrev.disabled = (p <= 0);
+  btnNext.disabled = (p >= pc-1);
+}
+function updateGroupDots(){
+  if(!dotBox) return;
+  const p  = currentPage();
+  const ds = dotBox.querySelectorAll('.dot');
+  ds.forEach((d,i)=> d.classList.toggle('active', i===p));
+}
+
+btnPrev?.addEventListener('click', ()=> scrollToPage(Math.max(0, currentPage()-1)));
+btnNext?.addEventListener('click', ()=> scrollToPage(Math.min(pagesCount()-1, currentPage()+1)));
+groupBarEl?.addEventListener('scroll', ()=>{
+  // debounce nhẹ cho mượt
+  clearTimeout(groupBarEl._t); groupBarEl._t = setTimeout(()=>{
+    updateGroupArrows(); updateGroupDots();
+  }, 60);
+});
+dotBox?.addEventListener('click', (e)=>{
+  const dot = e.target.closest('.dot'); if(!dot) return;
+  scrollToPage(parseInt(dot.dataset.idx,10)||0);
+});
+window.addEventListener('resize', ()=>{
+  // Re-render khi đổi breakpoint để số cột/ trang cập nhật
+  if(window._repaint_t){ clearTimeout(window._repaint_t); }
+  window._repaint_t = setTimeout(()=> renderGroups((window._lastGroups)||[]), 120);
+});
+
+/* === GHI ĐÈ buildCategoryFromFacets → gọi renderGroups mới === */
+function buildCategoryFromFacets(facets){
+  const groups = facets?.groups_all || facets?.groups || [];
+  // lưu tạm cho resize
+  window._lastGroups = groups;
+  renderGroups(groups);
+
+  const catEl = document.getElementById('categoryScroll');
+  if (catEl) catEl.classList.add('fade-out');
+  buildCategory(facets?.categories || []);
+  buildFilterBox('typeBox',  facets?.types  || [], 'type');
+  buildFilterBox('loaiBox',  facets?.loais  || [], 'loai');
+  buildFilterBox('noteBox',  facets?.notes  || [], 'note');
+  buildFilterBox('brandBox', facets?.categories || [], 'category');
+  requestAnimationFrame(() => catEl && catEl.classList.remove('fade-out'));
 }
 
 /* STATE */
