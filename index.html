@@ -119,29 +119,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   box-shadow:0 2px 6px rgba(0,0,0,.08);display:flex;flex-direction:column;position:relative}
 .cardx .thumb-wrap{position:relative}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover;background:#fff;border-radius:0}
-
-/* === Ribbon note-chip (chéo góc) === */
-.cardx .note-chip{
-  position:absolute;
-  top:12px;
-  left:-38px;            /* góc trái mặc định */
-  padding:4px 40px;
-  border-radius:0;
-  font-size:11px;
-  font-weight:700;
-  color:#fff;
-  text-transform:uppercase;
-  text-align:center;
-  transform:rotate(-45deg);
-  box-shadow:0 2px 6px rgba(0,0,0,.25);
-  z-index:5;
-}
-.cardx .note-chip.right{
-  left:auto;
-  right:-38px;           /* đẩy sang phải */
-  transform:rotate(45deg);
-}
-
+.cardx .note-chip{position:absolute; top:8px; right:8px;padding:2px 6px; border-radius:999px; font-size:10px; font-weight:600; color:#fff; background:#555;}
 .cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;justify-content:flex-start}
 .cardx .id{font-weight:600;color:#0018a8;font-size:13px;margin-bottom:2px}
 .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:600;padding:2px 6px;border-radius:12px;margin:6px 0}
@@ -573,10 +551,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   </div>
 </div>
 
-<!-- FABs -->
-<button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">
-  ⚙️ <span id="filterFabCount" class="fab-badge">0</span>
-</button>
+<button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️</button>
 <button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">🛒 <span id="cartFabCount" class="fab-badge">0</span></button>
 <button id="suppliersFab" class="suppliers-fab" aria-label="Danh sách xưởng">🏭</button>
 <a id="zaloFab" class="zalo-fab" aria-label="Zalo" href="#" target="_blank" rel="noopener">💬</a>
@@ -608,17 +583,9 @@ const cart = []; const products = {};
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
 const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase();
-  if(t.includes("mẫu")||t.includes("sample")||t.includes("mới")||t.includes("new")) return "#4caf50";
-  if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800";
-  if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
-  if(t.includes("event")) return "#1565c0";
-  if(t.includes("quà")||t.includes("gift")) return "#455a64";
-  return "#555";
-}
+function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
 function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
-const isHttp = u => /^https?:\/\//i.test(u||'');
 
 /* Nâng chất lượng thumbnail Google Drive/Gusercontent */
 function upgradeThumbQuality(u){
@@ -639,34 +606,22 @@ function upgradeThumbQuality(u){
 /* Logo reload */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>location.reload(),150); });
 
-/* Quy tắc chọn góc phải cho ribbon */
-function chipSideFor(note){
-  const t=(note||'').toLowerCase();
-  // Đẩy sang góc phải cho một số nhãn “tích cực”
-  if(t.includes('event') || t.includes('mẫu') || t.includes('new') || t.includes('quà') || t.includes('gift')) return 'right';
-  return ''; // mặc định trái
-}
-
 /* Product card */
 function productCardHtml(it){
   products[it.id]=it;
   const giftUrl   = firstLink(it.imageClick);
-  const showGift  = isHttp(giftUrl);
+  const showGift  = !!giftUrl;
   const giftLabel = (it.loai || 'Nhận quà').toString().trim();
 
   const thumbSrc = upgradeThumbQuality(it.img);
   const linkHref = esc(it.linkFull || it.img || '#');
 
-  const chipSide = chipSideFor(it.note);
-  const chipClass = chipSide ? `note-chip ${chipSide}` : `note-chip`;
-
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
       <a href="${linkHref}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(thumbSrc)}" alt="${esc(it.id)}"
-             onerror="this.src='https://via.placeholder.com/600x180?text=No+Image'">
+        <img class="thumb" src="${esc(thumbSrc)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
       </a>
-      ${it.note?`<span class="${chipClass}" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
+      ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     </div>
     <div class="meta">
       <div class="id">${esc(it.id)}</div>
@@ -828,7 +783,7 @@ function renderAds(list){
     const img  = (p && p.ok && p.image)      ? p.image   : (host?`https://www.google.com/s2/favicons?domain=${host}&sz=64`:'https://via.placeholder.com/64');
     const tit  = (p && p.ok && p.title)      ? p.title   : (s.title || host || 'Đơn vị');
     const des  = (p && p.ok && p.description)? p.description : (s.desc || '');
-    const ico  = (p && p.ok && p.favicon)    ? p.favicon : (host?`https://www.google.com/s2/favicons?domain=${host}&sz=16`:``);
+    const ico  = (p && p.ok && p.favicon)    ? p.favicon : (host?`https://www.google.com/s2/favicons?domain=${host}&sz=16`:'');
     const site = (p && p.ok && p.siteName)   ? p.siteName: (host || '');
     const safeUrl = s.url && /^https?:\/\//i.test(s.url) ? s.url : '#';
 
@@ -1009,11 +964,6 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
 
   if(el.matches('#clearCartBtn')) clearCart();
-
-  // NEW: lắng nghe nút +/- số lượng
-  if(el.matches('[data-action="qty"]')){
-    changeQty(el.dataset.id, Number(el.dataset.delta)||0);
-  }
 });
 document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
 
@@ -1024,11 +974,6 @@ document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSupp
 document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
 document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
-
-/* Gắn sự kiện lọc xưởng */
-document.getElementById('supSearch').addEventListener('input', debounce(applySupFilters, 200));
-document.getElementById('supHasSite').addEventListener('change', applySupFilters);
-document.getElementById('supSort').addEventListener('change', applySupFilters);
 
 /* Clear filters (2 nút) */
 function clearAllFilters(){
@@ -1093,9 +1038,8 @@ function render(res){
   const grid=document.getElementById('productGrid');
   grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
   buildCategoryFromFacets(res?.facets||{});
-  const total = Number(res?.total || 0);
-  document.getElementById('totalCount').textContent = total.toLocaleString('vi-VN');
-  renderPagination(total, state.pageSize, state.page);
+  document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
+  renderPagination(res?.total||0, state.pageSize, state.page);
 }
 function fetchPage(){
   const params=new URLSearchParams({
@@ -1129,19 +1073,32 @@ document.addEventListener('keydown', (e)=>{
 });
 });
 </script>
-
+  <!-- Footer -->
 <!-- ===== FOOTER ===== -->
 <footer class="text-light" style="background:#0018a8;">
   <div class="container">
-    <div class="row pt-5 pb-3">
-      <div class="col-md-3 mb-4 text-center">
-        <img src="https://drive.google.com/uc?export=view&id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" alt="2606AI logo" class="mb-3 d-block mx-auto" style="max-width:160px;height:auto">
-        <p class="small mb-0 opacity-90">
-          Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm.
-          <br>Tham khảo mẫu - Tư vấn - Thiết kế - Lấy báo giá - Đặt hàng - Đóng gói - Vận chuyển.
-        </p>
-      </div>
 
+    <!-- Hàng 1: 4 cột -->
+    <div class="row pt-5 pb-3">
+     <!-- Cột 1: Logo + mô tả -->
+<div class="col-md-3 mb-4 text-center">
+
+  <!-- Logo -->
+  <img 
+    src="https://drive.google.com/uc?export=view&id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" 
+    alt="2606AI logo" 
+    class="mb-3 d-block mx-auto" 
+    style="max-width:160px;height:auto">
+
+  <!-- Giới thiệu ngắn -->
+  <p class="small mb-0 opacity-90">
+    Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm.  
+    <br>Tham khảo mẫu - Tư vấn - Thiết kế - Lấy báo giá - Đặt hàng - Đóng gói - Vận chuyển. 
+  </p>
+</div>
+
+
+      <!-- Cột 2: Liên kết nhanh -->
       <div class="col-md-3 mb-4">
         <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên kết nhanh</h6>
         <ul class="list-unstyled mb-0">
@@ -1152,6 +1109,7 @@ document.addEventListener('keydown', (e)=>{
         </ul>
       </div>
 
+      <!-- Cột 3: Chính sách -->
       <div class="col-md-3 mb-4">
         <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Chính sách</h6>
         <ul class="list-unstyled mb-0">
@@ -1162,6 +1120,7 @@ document.addEventListener('keydown', (e)=>{
         </ul>
       </div>
 
+      <!-- Cột 4: Liên hệ -->
       <div class="col-md-3 mb-4">
         <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên hệ</h6>
         <ul class="list-unstyled small mb-3">
@@ -1172,6 +1131,7 @@ document.addEventListener('keydown', (e)=>{
             <a class="link-light text-decoration-none" href="mailto:info@2606ai.vn">info@2606ai.vn</a></li>
         </ul>
 
+        <!-- Thông tin pháp lý -->
         <div class="small opacity-90 mt-3">
           <div class="fw-bold text-uppercase mb-1">HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE</div>
           Mã số thuế: <strong>12333211232</strong><br>
@@ -1179,6 +1139,7 @@ document.addEventListener('keydown', (e)=>{
           Email: <a class="text-light text-decoration-none" href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a>
         </div>
 
+        <!-- Icon mạng xã hội -->
         <div class="d-flex align-items-center gap-3 mt-3">
           <a href="#" class="link-light" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
           <a href="#" class="link-light" aria-label="Messenger"><i class="bi bi-messenger"></i></a>
@@ -1190,13 +1151,18 @@ document.addEventListener('keydown', (e)=>{
 
     <hr class="border-light opacity-50">
 
+    <!-- Bản quyền -->
     <div class="text-center small pb-3">
       © 2025 <span style="color:#d4af37;">2606AI</span>. Website được phát triển bởi 2606AI.
     </div>
   </div>
 </footer>
 
-<!-- Bootstrap Icons -->
+<!-- Bootstrap Icons (nếu chưa có trong <head>) -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+<!-- Bootstrap Icons (nếu chưa có trong <head>) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </body>
 </html>
