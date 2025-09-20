@@ -878,6 +878,9 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 @media (min-width:992px) and (max-width:1199.98px){ .group-bar-scroll{ --cols:4; } }
 @media (min-width:768px) and (max-width:991.98px){ .group-bar-scroll{ --cols:3; } }
 @media (max-width:767.98px){ .group-bar-scroll{ --cols:2; } } /* mobile: 2 ô/trang */
+/* === PATCH: đảm bảo group bar snap theo trang === */
+#groupBar{ scroll-snap-type:x mandatory; }
+#groupBar .group-page{ scroll-snap-align:start; }
 
 </style>
 </head>
@@ -1232,20 +1235,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-const groupBar = document.getElementById('groupBar');
-const btnPrev  = document.getElementById('groupPrev');
-const btnNext  = document.getElementById('groupNext');
-
-function updateGroupArrows(){
-  if (!groupBar) return;
-  btnPrev.disabled = groupBar.scrollLeft <= 0;
-  btnNext.disabled = groupBar.scrollLeft + groupBar.clientWidth >= groupBar.scrollWidth - 2;
-}
-btnPrev.onclick = ()=>{ groupBar.scrollBy({left:-150, behavior:'smooth'}); };
-btnNext.onclick = ()=>{ groupBar.scrollBy({left:150,  behavior:'smooth'}); };
-groupBar.addEventListener('scroll', updateGroupArrows);
-window.addEventListener('resize', updateGroupArrows);
-updateGroupArrows();
 
 /* ===== ERROR ===== */
 (function(){
@@ -1281,7 +1270,8 @@ if (statsRow) {
 function chunk(arr, size){ const out=[]; for(let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size)); return out; }
 /* số cột/ trang hiện tại (theo CSS var --cols) */
 function getCols(){
-  const n = getComputedStyle(document.getElementById('groupBar')).getPropertyValue('--cols');
+  const el = document.querySelector('.group-bar-scroll') || document.getElementById('groupBar');
+  const n = getComputedStyle(el).getPropertyValue('--cols');
   return Math.max(1, parseInt(n,10) || 4);
 }
 
@@ -1903,96 +1893,6 @@ const BENEFIT_DETAIL = {
     card.style.cursor = 'pointer';
   });
 })();
- function renderGroups(groups){
-  const box = document.getElementById('groupBar');
-  if(!box) return;
-  const list = Array.isArray(groups) ? groups : [];
-
-  // giao diện đơn giản: chữ xanh, nền trắng, phân tách “|”
-  box.innerHTML = list.map(g => `
-    <div class="group-chip ${state.group===g?'active':''}"
-         data-action="select-group" data-val="${esc(g)}">
-      ${esc(g)}
-    </div>
-  `).join('');
-
-  // nếu còn nút mũi tên thì vẫn cập nhật trạng thái
-  updateGroupArrows();
-  box.addEventListener('scroll', updateGroupArrows, { passive:true });
-}
-
-
-function scrollGroups(dir){
-  const el = document.getElementById('groupBar');
-  if(!el) return;
-  const step = Math.max(240, el.clientWidth * 0.8); // cuộn 80% chiều rộng
-  el.scrollBy({ left: dir * step, behavior: 'smooth' });
-  // chờ một nhịp rồi đánh giá lại
-  setTimeout(updateGroupArrows, 220);
-}
-
-function updateGroupArrows(){
-  const el = document.getElementById('groupBar');
-  const leftBtn  = document.querySelector('.group-arrow.left');
-  const rightBtn = document.querySelector('.group-arrow.right');
-  if(!el || !leftBtn || !rightBtn) return;
-
-  const atStart = el.scrollLeft <= 2;
-  const atEnd   = (el.scrollLeft + el.clientWidth) >= (el.scrollWidth - 2);
-
-  leftBtn.toggleAttribute('disabled', atStart);
-  rightBtn.toggleAttribute('disabled', atEnd);
-}
-
-window.addEventListener('resize', () => requestAnimationFrame(updateInkBar));
-document.getElementById('groupBar')?.addEventListener('scroll', () => {
-  requestAnimationFrame(updateInkBar);
-}, { passive:true });
-/* Đặt vị trí ink-bar theo chip đang active */
-function updateInkBar(){
-  const box  = document.querySelector('.category-box');
-  const chip = document.querySelector('#groupBar .group-chip.active');
-  if (!box || !chip) return;
-
-  const boxRect  = box.getBoundingClientRect();
-  const chipRect = chip.getBoundingClientRect();
-  const left  = chipRect.left - boxRect.left;
-  const width = chipRect.width;
-
-  box.style.setProperty('--ink-left',  left + 'px');
-  box.style.setProperty('--ink-width', width + 'px');
-}
-
-/* Đồng bộ UI khi đổi group: bật nền danh mục, set active chip, cập nhật ink-bar */
-function updateGroupUI(){
-  const box = document.querySelector('.category-box');
-  if (!box) return;
-
-  const hasGroup = !!state.group;
-  box.classList.toggle('group-active', hasGroup);
-
-  // set active cho chip
-  document.querySelectorAll('#groupBar .group-chip')
-    .forEach(ch => ch.classList.toggle('active', ch.dataset.val === state.group));
-}
-
-
-
-function buildCategoryFromFacets(facets){
-  const groups = facets?.groups_all || facets?.groups || [];
-  renderGroups(groups);
-
-  const catEl = document.getElementById('categoryScroll');
-  if (catEl) catEl.classList.add('fade-out');
-
-  buildCategory(facets?.categories || []);
-  buildFilterBox('typeBox',  facets?.types  || [], 'type');
-  buildFilterBox('loaiBox',  facets?.loais  || [], 'loai');
-  buildFilterBox('noteBox',  facets?.notes  || [], 'note');
-  buildFilterBox('brandBox', facets?.categories || [], 'category');
-
-  requestAnimationFrame(() => catEl && catEl.classList.remove('fade-out'));
-}
 
 function render(res){
   const items = (res?.items||[]);
@@ -2013,15 +1913,49 @@ function fetchPage(){
     .then(res => { render(res); fetchAds(); })
     .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
 }
+/* === Cập nhật UI cho GROUP BAR (+ ink-bar tab danh mục) === */
+function updateGroupUI(){
+  // Toggle active trên chip group
+  const chips = document.querySelectorAll('#groupBar .group-chip');
+  let activeEl = null;
+  chips.forEach(chip=>{
+    const on = chip.dataset.val === (state.group||'');
+    chip.classList.toggle('active', on);
+    if(on) activeEl = chip;
+  });
+
+  // Bọc khu danh mục khi có group
+  const catBox = document.querySelector('.category-box');
+  if(catBox){
+    const has = !!state.group;
+    catBox.classList.toggle('group-active', has);
+    catBox.classList.toggle('group-highlight', has);
+    catBox.classList.toggle('tab-mode', has);
+  }
+
+  // Ink-bar: căn theo vị trí chip active để "nối màu" với khu danh mục
+  if(activeEl && catBox){
+    const wrap = document.querySelector('.group-bar-wrapper');
+    const r1 = wrap.getBoundingClientRect();
+    const r2 = activeEl.getBoundingClientRect();
+    const left = Math.max(0, r2.left - r1.left);
+    const width = r2.width;
+    catBox.style.setProperty('--ink-left', left + 'px');
+    catBox.style.setProperty('--ink-width', width + 'px');
+  }else if(catBox){
+    catBox.style.removeProperty('--ink-left');
+    catBox.style.removeProperty('--ink-width');
+  }
+}
 
 /* === expose global for inline handlers === */
 Object.assign(window, {
   fetchPage,
   scrollCats,
-  scrollGroups,   // <-- thêm dòng này
   selectCategory,
   clearAllFilters
 });
+
 
 
 /* === INIT === */
