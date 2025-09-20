@@ -470,6 +470,45 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   background:rgba(0,24,168,.35);
   margin-left:8px;
 }
+/* GROUP BAR – tối giản như ảnh: chữ xanh, nền trắng, phân tách bằng “|” */
+.group-bar-wrapper{
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0 0 8px 0;
+  box-shadow: none;
+}
+.group-arrow{ display:none !important; }       /* Ẩn mũi tên trái/phải */
+
+#groupBar{
+  display:flex; align-items:center;
+  gap:0;                         /* đứng sát nhau, không gap */
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+#groupBar::-webkit-scrollbar{ display:none; }
+
+#groupBar .group-chip{
+  background: transparent;
+  border: none; border-radius: 0;
+  padding: 10px 14px;
+  color: var(--main);            /* chữ xanh */
+  font-size: 14px;               /* nhỏ gọn */
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer; user-select: none;
+}
+/* Vạch ngăn cách “|” giữa các mục */
+#groupBar .group-chip:not(:last-child)::after{
+  content: "|";
+  color: #cbd5e1;                /* xám nhạt */
+  margin-left: 14px;
+}
+
+/* Hover/active chỉ đổi màu chữ */
+#groupBar .group-chip:hover{ color:#0a33cc; }
+#groupBar .group-chip.active{ color:#0a33cc; font-weight:700; }
 
   
 </style>
@@ -1361,19 +1400,15 @@ const BENEFIT_DETAIL = {
  function renderGroups(groups){
   const box = document.getElementById('groupBar');
   if(!box) return;
-
   const list = Array.isArray(groups) ? groups : [];
-  box.classList.add('group-tabs');               // thêm lớp tabs
 
-  // chọn icon theo “từ khóa” trong tên nhóm
-  const iconFor = (name)=>{
-    const s = (name||'').toLowerCase();
-    if(s.includes('express') || s.includes('vận')) return 'bi-truck';
-    if(s.includes('quà'))                           return 'bi-gift';
-    if(s.includes('ấn phẩm') || s.includes('brand'))return 'bi-collection';
-    if(s.includes('sản phẩm'))                      return 'bi-bag';
-    return 'bi-grid-3x3-gap'; // mặc định
-  };
+  box.innerHTML = list.map(g => `
+    <div class="group-chip ${state.group===g?'active':''}"
+         data-action="select-group" data-val="${esc(g)}">
+      ${esc(g)}
+    </div>
+  `).join('');
+}
 
   box.innerHTML = list.map((g,i)=>`
     <button type="button"
