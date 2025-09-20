@@ -1009,18 +1009,6 @@ document.addEventListener('DOMContentLoaded', () => {
     catBox.after(dots);
   }
 
-  // ==== StatsBar: dời nhãn & pagerTop lên cùng hàng ====
-  const statsRow = document.querySelector('#statsBar.d-flex.align-items-center');
-  if (statsRow) {
-    const lbl = statsRow.querySelector('.fw-semibold');
-    if (lbl) lbl.textContent = 'Tìm thấy';
-
-    // cho 2 bên đứng cùng hàng (trái: nhãn + badge; phải: pager)
-    statsRow.classList.add('justify-content-between','flex-wrap','w-100');
-  }
-});
-
-
   // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
 const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
 if (statsRow) {
@@ -1757,7 +1745,6 @@ document.addEventListener('keydown', (e)=>{
     e.preventDefault();
     document.getElementById('searchBox').focus();
   }
-});
 });
 </script>
 
