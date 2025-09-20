@@ -294,6 +294,68 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   object-fit:cover;
   border-radius:12px;
 }
+  /* ====== TAB STYLE cho GROUP BAR (nền xanh, chữ trắng) ====== */
+.group-bar-wrapper{
+  background: var(--main);
+  border-color: var(--main);
+  padding: 0 44px;                 /* chừa chỗ 2 nút mũi tên */
+  border-radius: 10px 10px 0 0;
+  position: relative;
+}
+/* đường kẻ đáy để tab active “đè” lên */
+.group-bar-wrapper::after{
+  content:""; position:absolute; left:44px; right:44px; bottom:0; height:1px;
+  background: rgba(255,255,255,.35);
+}
+
+.group-bar-scroll{
+  display:flex; align-items:flex-end; gap:8px;
+  overflow-x:auto; white-space:nowrap; scrollbar-width:none;
+  padding-top:6px;
+}
+.group-bar-scroll::-webkit-scrollbar{ display:none; }
+
+/* tab mặc định (inactive) */
+.group-chip{
+  color:#fff;
+  background: transparent;
+  border:1px solid rgba(255,255,255,.35);
+  border-bottom: none;                     /* để lộ đường kẻ đáy của wrapper */
+  border-radius:12px 12px 0 0;
+  padding:8px 14px 6px;
+  position: relative;
+  top:6px;                                 /* thấp hơn một chút như tab chưa chọn */
+  transition: all .2s ease;
+}
+.group-chip:hover{
+  background: rgba(255,255,255,.10);
+}
+
+/* tab đang chọn */
+.group-chip.active{
+  background:#fff;
+  color: var(--main);
+  border-color:#fff;
+  box-shadow:0 6px 16px rgba(0,0,0,.15);
+  top:0;                                   /* trồi lên như tab active */
+  z-index:1;
+}
+
+/* mũi tên phù hợp nền xanh */
+.group-arrow{
+  background: rgba(255,255,255,.18);
+  border:none;
+  color:#fff;
+}
+.group-arrow:hover{ background: rgba(255,255,255,.28); }
+.group-arrow[disabled]{ opacity:.35; }
+
+/* (tuỳ chọn) vạch ngăn mảnh giữa các tab */
+.group-chip + .group-chip::before{
+  content:""; position:absolute; left:-6px; top:9px; bottom:10px; width:1px;
+  background: rgba(255,255,255,.25);
+}
+
 </style>
 </head>
 <body>
