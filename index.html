@@ -749,6 +749,62 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 @media (max-width:576px){
   #groupBar .group-chip{ font-size:11px; padding:5px 8px; min-width:96px; max-width:180px; }
 }
+/* Wrapper giữ mũi tên và thanh cuộn */
+.group-bar-wrapper{
+  position:relative;
+  background:#fff;
+  border:1px solid #dce3f5;
+  border-radius:10px;
+  padding:8px 40px;          /* chừa khoảng trống 2 bên cho mũi tên */
+  box-shadow:0 2px 6px rgba(0,0,0,.05);
+}
+
+/* Thanh group cuộn ngang */
+.group-bar-scroll{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scrollbar-width:none;
+  scroll-behavior:smooth;
+}
+.group-bar-scroll::-webkit-scrollbar{ display:none; }
+
+/* Chip group */
+.group-chip{
+  flex:0 0 auto;
+  text-align:center;
+  white-space:normal;        /* cho phép xuống dòng */
+  overflow-wrap:anywhere;
+  min-width:110px; max-width:180px;
+  padding:6px 10px;
+  font-size:12px; font-weight:500; line-height:1.3;
+  color:#0a33cc;
+  background:#f8faff;
+  border:1px solid #dce3f5;
+  border-radius:6px;
+  cursor:pointer;
+  transition:all .2s;
+}
+.group-chip:hover{ background:#eef3ff; }
+.group-chip.active{
+  background:#0018a8; color:#fff; border-color:#0018a8;
+  box-shadow:0 4px 10px rgba(0,24,168,.18);
+}
+
+/* Nút mũi tên */
+.group-arrow{
+  position:absolute; top:50%; transform:translateY(-50%);
+  width:28px; height:28px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  background:#fff; border:1px solid #dce3f5; color:#0018a8;
+  cursor:pointer; z-index:2;
+  transition:background .2s;
+}
+.group-arrow:hover{ background:#eef3ff; }
+.group-arrow.left{ left:6px; }
+.group-arrow.right{ right:6px; }
+.group-arrow[disabled]{ opacity:.3; pointer-events:none; }
 
 </style>
 </head>
@@ -895,10 +951,13 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 <div class="category-box mb-3">
   <!-- GROUP BAR -->
   <div class="group-bar-wrapper">
-    <button class="group-arrow left"  type="button" aria-label="prev" onclick="scrollGroups(-1)">‹</button>
-    <div id="groupBar" class="group-bar-scroll"></div>
-    <button class="group-arrow right" type="button" aria-label="next" onclick="scrollGroups(1)">›</button>
+  <button class="group-arrow left" id="groupPrev">‹</button>
+  <div class="group-bar-scroll" id="groupBar">
+    <!-- JS render chip group vào đây -->
   </div>
+  <button class="group-arrow right" id="groupNext">›</button>
+</div>
+
 
   <!-- CATEGORY SCROLLER (2 hàng + mũi tên) -->
   <div class="category-wrapper">
@@ -1097,6 +1156,21 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+const groupBar = document.getElementById('groupBar');
+const btnPrev  = document.getElementById('groupPrev');
+const btnNext  = document.getElementById('groupNext');
+
+function updateGroupArrows(){
+  if (!groupBar) return;
+  btnPrev.disabled = groupBar.scrollLeft <= 0;
+  btnNext.disabled = groupBar.scrollLeft + groupBar.clientWidth >= groupBar.scrollWidth - 2;
+}
+btnPrev.onclick = ()=>{ groupBar.scrollBy({left:-150, behavior:'smooth'}); };
+btnNext.onclick = ()=>{ groupBar.scrollBy({left:150,  behavior:'smooth'}); };
+groupBar.addEventListener('scroll', updateGroupArrows);
+window.addEventListener('resize', updateGroupArrows);
+updateGroupArrows();
+
 /* ===== ERROR ===== */
 (function(){
   const box=document.getElementById('errbox');
