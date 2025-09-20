@@ -538,6 +538,53 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 /* hover/active chỉ đổi màu chữ */
 #groupBar .group-chip:hover{ color:#0a33cc; }
 #groupBar .group-chip.active{ color:#0a33cc; font-weight:700; }
+/* --- Sát lề trái, bỏ chỗ trống của nút mũi tên --- */
+.category-box .group-bar-wrapper{
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+}
+.category-box .group-bar-wrapper > .group-arrow{
+  display: none !important;   /* ẩn hẳn nút, không chiếm chỗ */
+}
+
+/* --- Chip nhỏ gọn, có vạch ngăn và active thành nền xanh --- */
+#groupBar{ gap:0; }
+#groupBar .group-chip{
+  position: relative;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--main);
+  background: transparent;
+  border: 0;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+#groupBar .group-chip:not(:last-child)::after{
+  content:"";
+  position:absolute; right:0; top:50%;
+  width:1px; height:14px; background:#dfe6ff;
+  transform:translateY(-50%);
+}
+#groupBar .group-chip:hover{ color:#0a33cc; }
+
+/* Active: nền xanh, chữ trắng; ẩn vạch ngăn ngay cạnh */
+#groupBar .group-chip.active{
+  background: var(--main);
+  color: #fff;
+  border-radius: 6px;
+}
+#groupBar .group-chip.active::after{ display:none; }
+
+/* --- Nền khu danh mục khi có group đang chọn --- */
+.category-box.group-highlight .category-wrapper{
+  background:#f2f6ff;               /* xanh nhạt */
+  border:1px solid #dbe3ff;
+  border-radius:8px;
+  padding:8px;                       /* giữ layout gọn */
+}
 
   
 </style>
@@ -1037,7 +1084,11 @@ function selectCategory(val){
   state.category=val; state.page=1; fetchPage();
   document.querySelectorAll('#categoryScroll .category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
 }
-
+/* Highlight UI khi chọn group */
+function updateGroupUI(){
+  const box = document.querySelector('.category-box');
+  if (box) box.classList.toggle('group-highlight', !!state.group);
+}
 /* Filter buttons (offcanvas) */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
@@ -1363,6 +1414,7 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="select-group"]')){
     state.group = el.dataset.val || '';
     state.page  = 1;
+    updateGroupUI();
     fetchPage();          // API trả dữ liệu mới → category scroller thay đổi
     updateFilterCount();  // nếu muốn đếm group như filter FAB
   }
@@ -1493,6 +1545,7 @@ function render(res){
   buildCategoryFromFacets(res?.facets||{});
   document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
   renderPagination(res?.total||0, state.pageSize, state.page);
+  updateGroupUI();  // <-- thêm dòng này
 }
 function fetchPage(){
   const params=new URLSearchParams({
