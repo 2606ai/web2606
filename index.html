@@ -1529,14 +1529,6 @@ const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getE
 /* ==== EVENT DELEGATION ==== */
 document.addEventListener('click', (e)=>{
   const el = e.target;
-if(el.matches('[data-action="select-group"]')){
-  state.group = el.dataset.val || '';
-  state.page  = 1;
-  updateGroupUI();
-  fetchPage();
-  updateFilterCount();
-}
-
   // Chặn nhảy trang nếu lỡ dùng <a href="#">
   if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){
     e.preventDefault();
