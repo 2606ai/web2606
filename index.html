@@ -13,8 +13,7 @@
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
 .container-fluid{max-width:1400px;margin:auto;}
-/* shared wrap width giống header */
-.wrap{max-width:1400px;width:100%;margin:0 auto;}
+.wrap{max-width:1400px;width:100%;margin:0 auto}
 
 /* Top banner (marquee) – sticky + căn giữa theo chiều dọc */
 .top-banner{
@@ -94,29 +93,27 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .hero .mini .carousel{height:145px}
 .hero .main img{width:100%;height:300px;object-fit:cover;border-radius:8px}
 
-/* Danh mục – khung, 2 hàng + mũi tên nhỏ */
-.category-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
-.category-wrapper{ position:relative; }
-.category-scroll{
-  display:grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: repeat(2, auto);
-  gap:12px;
-  overflow:hidden;
-}
-.category-item{ text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s }
-.category-item:hover{background:#f5f5f5}
-.category-item .icon{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#f1f4ff;margin-bottom:6px}
-.category-item .icon img{width:28px;height:28px;object-fit:contain}
-.category-item span{font-size:13px;display:block}
-.category-item.active{background:#e6f0ff;border:1px solid #007bff}
-.cat-arrow{
-  position:absolute; top:45%; transform:translateY(-50%);
-  background:transparent; border:none; font-size:20px; font-weight:700;
-  color:#0018a8; cursor:pointer; z-index:2;
-}
-.cat-arrow.left{ left:-4px }
-.cat-arrow.right{ right:-4px }
+/* ===== GROUP (cột E) – 1 hàng ngang có mũi tên ===== */
+.group-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05);margin-bottom:12px}
+.group-wrapper{position:relative}
+.group-scroll{display:grid;grid-template-columns:repeat(10,1fr);gap:12px;overflow:hidden}
+.gitem{text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s;user-select:none}
+.gitem:hover{background:#f5f5f5}
+.gitem .icon{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#f1f4ff;margin-bottom:6px}
+.gitem .icon img{width:26px;height:26px;object-fit:contain}
+.gitem span{font-size:13px;display:block}
+.gitem.active{background:#e6f0ff;border:1px solid #007bff}
+.g-arrow{position:absolute;top:50%;transform:translateY(-50%);background:transparent;border:none;font-size:20px;font-weight:700;color:#0018a8;cursor:pointer;z-index:2}
+.g-arrow.left{left:-4px}
+.g-arrow.right{right:-4px}
+
+/* Error box */
+#errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
+
+/* Pagers */
+.pager-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.pager-bar .btn{min-width:40px}
+#pagerTop, #pagerBottom{display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px}
 
 /* Product card */
 .cardx{border:none;border-radius:0;background:#fff;overflow:hidden;transition:.2s;height:100%;
@@ -133,25 +130,6 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .cardx .btn-gift{background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;padding:6px 10px;border-radius:999px;font-size:12px;line-height:1;display:inline-flex;align-items:center;gap:6px;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}
 .cardx .btn-gift:hover{ background:var(--main); color:#fff; text-decoration:none }
 .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;align-self:flex-end}
-
-/* Error box */
-#errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
-
-/* Pagers */
-.pager-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-.pager-bar .btn{min-width:40px}
-#pagerTop, #pagerBottom{display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px}
-
-/* Footer */
-.site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
-.site-footer .brand{ font-weight:700; color:var(--main); margin-bottom:4px; }
-.site-footer a{ color:inherit; text-decoration:none; }
-.site-footer a:hover{ text-decoration:underline; }
-.footer-social{ display:flex; gap:8px; justify-content:flex-start; }
-.footer-social .social{ width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:800; text-decoration:none; }
-.footer-social .social-zalo{ background:#0068ff; }
-.footer-social .social-fb{ background:#1877F2; }
-@media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
 
 /* ====== Bộ lọc nâng cao ====== */
 #filterPanel h6 { font-weight:700; font-size:14px; margin:16px 0 8px; color:#0018a8; text-transform:uppercase; letter-spacing:.3px; }
@@ -370,16 +348,15 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
-      <!-- GROUP (cột E) – nằm ngang -->
-<div class="group-box mb-3">
-  <h6 class="fw-bold mb-2">NHÓM SẢN PHẨM</h6>
-  <div class="group-wrapper">
-    <button class="g-arrow left" type="button" aria-label="prev group" onclick="scrollGroups(-1)">‹</button>
-    <div id="groupScroll" class="group-scroll"></div>
-    <button class="g-arrow right" type="button" aria-label="next group" onclick="scrollGroups(1)">›</button>
-  </div>
-</div>
-
+      <!-- ===== GROUP (cột E) – Nằm ngang thay cho “Quà tặng thương hiệu” ===== -->
+      <div class="group-box mb-3">
+        <h6 class="fw-bold mb-2">NHÓM SẢN PHẨM</h6>
+        <div class="group-wrapper">
+          <button class="g-arrow left" type="button" aria-label="prev group" onclick="scrollGroups(-1)">‹</button>
+          <div id="groupScroll" class="group-scroll"></div>
+          <button class="g-arrow right" type="button" aria-label="next group" onclick="scrollGroups(1)">›</button>
+        </div>
+      </div>
 
       <!-- Thống kê -->
       <div id="statsBar" class="mb-2">
@@ -678,47 +655,50 @@ function renderPagination(totalItems, pageSize, currentPage){
   document.getElementById('pagerBottom').innerHTML = pagerHtml(currentPage, totalPages, 'bottom');
 }
 
-/* ====== CATEGORY (2 hàng + mũi tên) ====== */
-let catIndex = 0;
-const catsPerView = 12; // 6 x 2
-let allCategories = [];
+/* ====== GROUP (1 hàng ngang) từ cột E ====== */
+let groupIndex = 0;
+const groupsPerView = 10;
+let allGroups = [];
 
-const CATEGORY_ICONS={
-  "MÓC KHÓA":"https://img.icons8.com/color/48/keychain.png",
-  "TƯỢNG ĐẤT":"https://img.icons8.com/color/48/clay.png",
-  "LEN":"https://img.icons8.com/color/48/yarn.png",
-  "BADGE":"https://img.icons8.com/color/48/medal2.png",
+const GROUP_ICONS = {
+  "Huy chương phối sẵn":"https://img.icons8.com/color/48/medal.png",
+  "Huy chương sự kiện chạy bộ":"https://img.icons8.com/color/48/running.png",
+  "Huy hiệu tạo hình nhân vật":"https://img.icons8.com/color/48/user.png",
+  "Móc khóa cao su":"https://img.icons8.com/color/48/rubber.png",
+  "Móc khóa hoạt hình":"https://img.icons8.com/color/48/mascot.png",
+  "Móc khóa hợp kim":"https://img.icons8.com/color/48/keychain.png",
+  "Móc khóa tết 2025":"https://img.icons8.com/color/48/chinese-new-year.png",
+  "Móc khóa tết 2026":"https://img.icons8.com/color/48/horse.png",
+  "Móc khóa tết 2027":"https://img.icons8.com/color/48/calendar-27.png",
+  "Móc khóa tết 2028":"https://img.icons8.com/color/48/calendar-28.png",
+  "Móc khóa tết 2029":"https://img.icons8.com/color/48/calendar-29.png",
+  "Móc khóa tết 2030":"https://img.icons8.com/color/48/calendar-30.png",
   "KHÁC":"https://img.icons8.com/color/48/categorize.png"
 };
-function iconForCat(val){
-  const key=(val||'').toString().toUpperCase();
-  return CATEGORY_ICONS[key] || CATEGORY_ICONS["KHÁC"];
-}
-function renderCategoryPager(items){
-  const box = document.getElementById('categoryScroll');
-  const slice = items.slice(catIndex, catIndex + catsPerView);
+function iconForGroup(val){ const k=(val||'').toString().trim(); return GROUP_ICONS[k]||GROUP_ICONS["KHÁC"]; }
+
+function renderGroupPager(items){
+  const box = document.getElementById('groupScroll');
+  const slice = items.slice(groupIndex, groupIndex + groupsPerView);
   box.innerHTML = slice.map(val => `
-    <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
-      <div class="icon"><img src="${iconForCat(val)}" alt="Danh mục ${esc(val||'Khác')}"></div>
+    <div class="gitem ${state.group===val?'active':''}" data-action="select-group" data-val="${esc(val)}">
+      <div class="icon"><img src="${iconForGroup(val)}" alt=""></div>
       <span>${esc(val||'Khác')}</span>
     </div>
   `).join('');
 }
-function scrollCats(dir){
-  const total = allCategories.length;
-  catIndex += dir * catsPerView;
-  if(catIndex < 0) catIndex = 0;
-  if(catIndex >= total) catIndex = Math.max(0, total - catsPerView);
-  renderCategoryPager(allCategories);
+function scrollGroups(dir){
+  const total = allGroups.length;
+  groupIndex += dir * groupsPerView;
+  if(groupIndex < 0) groupIndex = 0;
+  if(groupIndex >= total) groupIndex = Math.max(0, total - groupsPerView);
+  renderGroupPager(allGroups);
 }
-function buildCategory(items){
-  allCategories = items || [];
-  catIndex = 0;
-  renderCategoryPager(allCategories);
-}
-function selectCategory(val){
-  state.category=val; state.page=1; fetchPage();
-  document.querySelectorAll('#categoryScroll .category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
+function buildGroupBar(items){ allGroups = items||[]; groupIndex=0; renderGroupPager(allGroups); }
+function selectGroup(val){
+  state.group = val||''; state.page=1; fetchPage();
+  document.querySelectorAll('#groupScroll .gitem').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
+  updateFilterCount();
 }
 
 /* Filter buttons (offcanvas) */
@@ -734,12 +714,12 @@ function buildFilterBox(boxId, items, field){
   `).join('');
 }
 function updateFilterCount(){
-  let c=0; if(state.type)c++; if(state.loai)c++; if(state.note)c++; if(state.category)c++;
+  let c=0; if(state.type)c++; if(state.loai)c++; if(state.note)c++; if(state.category)c++; if(state.group)c++;
   const fb=document.getElementById('filterFabCount');
   if(fb){ fb.textContent=c; fb.style.display=c? 'inline-block':'none'; }
 }
 
-/* Link preview API */
+/* Link preview API (cho xưởng đề xuất) */
 function fetchLinkPreview(url){
   const qs = new URLSearchParams({ action:'preview', url });
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
@@ -822,7 +802,7 @@ function renderAds(list){
 }
 
 /* Cart */
-function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
+function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); }
 function changeQty(id,delta){ const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=delta; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart(); }
 function removeItem(id){ const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart(); }
 function clearCart(){ if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length=0; updateCart(); } }
@@ -972,7 +952,7 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){ e.preventDefault(); }
 
   if(el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
-  if(el.closest('[data-action="select-category"]')) selectCategory(el.closest('[data-action="select-category"]').dataset.val||'');
+  if(el.closest('[data-action="select-group"]')) selectGroup(el.closest('[data-action="select-group"]').dataset.val||'');
   if(el.matches('[data-action="set-filter"]')){ const field = el.dataset.field; state[field]=el.dataset.val||''; state.page=1; fetchPage(); updateFilterCount(); }
   if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
   if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
@@ -1046,17 +1026,24 @@ const BENEFIT_DETAIL = {
 
 /* ======= API: fetch list + render ======= */
 function buildCategoryFromFacets(facets){
-  buildCategory(facets?.categories||[]);
+  // vẫn giữ các filter box nếu backend trả facets
   buildFilterBox('typeBox', facets?.types||[], 'type');
   buildFilterBox('loaiBox', facets?.loais||[], 'loai');
   buildFilterBox('noteBox', facets?.notes||[], 'note');
-  buildFilterBox('brandBox', facets?.categories||[], 'category');
+  buildFilterBox('brandBox', facets?.categories||[], 'category'); // “Ấn phẩm thương hiệu” (nếu có)
 }
 function render(res){
   const items = (res?.items||[]);
   const grid=document.getElementById('productGrid');
   grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
+
   buildCategoryFromFacets(res?.facets||{});
+
+  // Build GROUP bar từ facets hoặc tự lấy từ items (cột E: group)
+  const groupsFromFacets = res?.facets?.groups;
+  const groupsFallback = Array.from(new Set(items.map(i => (i.group||'').toString().trim()).filter(Boolean)));
+  buildGroupBar(groupsFromFacets && groupsFromFacets.length ? groupsFromFacets : groupsFallback);
+
   document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
   renderPagination(res?.total||0, state.pageSize, state.page);
 }
@@ -1071,11 +1058,10 @@ function fetchPage(){
     .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
 }
 
-/* === expose global for inline handlers === */
+/* === expose global for inline handlers (mũi tên GROUP) === */
 Object.assign(window, {
   fetchPage,
-  scrollCats,
-  selectCategory,
+  scrollGroups, selectGroup,
   clearAllFilters
 });
 
