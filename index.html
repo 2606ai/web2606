@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2606AI</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 <style>
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
@@ -23,6 +24,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .top-banner .marquee{
   display:inline-block; white-space:nowrap;
   animation: marquee 60s linear infinite;
+  will-change: transform;
 }
 @keyframes marquee{ 0%{transform:translateX(100%)} 100%{transform:translateX(-100%)} }
 
@@ -137,6 +139,13 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .pager-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
 .pager-bar .btn{min-width:40px}
 #pagerTop, #pagerBottom{display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px}
+
+/* Surface trắng quấn grid + pager */
+.content-surface{
+  background:#fff; border:1px solid #eef2ff; border-radius:12px;
+  padding:12px; box-shadow:0 2px 6px rgba(0,0,0,.04);
+}
+.content-surface #statsBar{ border:0; padding:0; margin-bottom:8px; }
 
 /* Footer */
 .site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
@@ -376,23 +385,26 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
-      <!-- Thống kê -->
-      <div id="statsBar" class="mb-2">
-        <div class="d-flex align-items-center gap-2">
-          <span class="fw-semibold">TỔNG SỐ SẢN PHẨM TÌM THẤY:</span>
-          <span id="totalCount" class="badge text-bg-primary">0</span>
-          <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger">Xóa bộ lọc</button>
+      <!-- Surface trắng bọc stats/pager/grid -->
+      <div class="content-surface">
+        <!-- Thống kê -->
+        <div id="statsBar" class="mb-2">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fw-semibold">TỔNG SỐ SẢN PHẨM TÌM THẤY:</span>
+            <span id="totalCount" class="badge text-bg-primary">0</span>
+            <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger">Xóa bộ lọc</button>
+          </div>
         </div>
+
+        <!-- Pagination Top -->
+        <div id="pagerTop" class="mb-2 pager-bar"></div>
+
+        <!-- Grid -->
+        <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
+
+        <!-- Pagination Bottom -->
+        <div id="pagerBottom" class="mt-3 pager-bar"></div>
       </div>
-
-      <!-- Pagination Top -->
-      <div id="pagerTop" class="mb-2 pager-bar"></div>
-
-      <!-- Grid -->
-      <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2"></div>
-
-      <!-- Pagination Bottom -->
-      <div id="pagerBottom" class="mt-3 pager-bar"></div>
 
       <!-- ===== Hero quảng cáo đặt dưới bảng card (FOOTER ADS) ===== -->
       <div class="hero-ads my-3">
@@ -551,8 +563,10 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   </div>
 </div>
 
-<button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️</button>
-<button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">🛒 <span id="cartFabCount" class="fab-badge">0</span></button>
+<button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">⚙️
+  <span id="filterFabCount" class="fab-badge">0</span>
+</button>
+<button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">🛒 <span id="cartFabCount" class="fab-badge" aria-live="polite">0</span></button>
 <button id="suppliersFab" class="suppliers-fab" aria-label="Danh sách xưởng">🏭</button>
 <a id="zaloFab" class="zalo-fab" aria-label="Zalo" href="#" target="_blank" rel="noopener">💬</a>
 
@@ -619,7 +633,10 @@ function productCardHtml(it){
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
       <a href="${linkHref}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(thumbSrc)}" alt="${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        <img class="thumb" src="${esc(thumbSrc)}" alt="${esc(it.id)}"
+             loading="lazy" decoding="async"
+             style="aspect-ratio:1/1"
+             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
       </a>
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     </div>
@@ -796,373 +813,347 @@ function renderAds(list){
           ${ ico ? `<img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px">` : '' }
           ${esc(site)}
         </div>
-        <div><a href="${esc(safeUrl)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
+        <div><a href="${esc(safeUrl)}" target="_blank" rel="noopener nofollow" class="small">Mở trang</a></div>
       </div>
       <div class="actions">
-        <a href="${esc(safeUrl)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
+        <a href="${esc(safeUrl)}" target="_blank" rel="noopener nofollow" class="btn btn-sm btn-outline-primary">Liên hệ</a>
         ${ s.doc ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>`
                   : `<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>` }
       </div>`;
   });
 }
 
-/* Cart */
-function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
-function changeQty(id,delta){ const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=delta; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart(); }
-function removeItem(id){ const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart(); }
-function clearCart(){ if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length=0; updateCart(); } }
-function updateCart(){
-  const count = cart.reduce((a,b)=>a+b.qty,0);
-  const fabCount = document.getElementById('cartFabCount');
-  if(fabCount){ fabCount.textContent=count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
-  const list=document.getElementById('cartList'); let total=0;
-  list.innerHTML=cart.map(it=>{
-    const sub=it.qty*(Number(it.price)||0); total+=sub;
-    return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
-      <img src="${esc(it.img)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
-      <div class="flex-grow-1">
-        <div class="fw-semibold small">${esc(it.details||it.id)}</div>
-        <div class="text-muted small">${fmtVND(it.price)}</div>
-      </div>
-      <div class="d-flex align-items-center gap-1">
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
-        <span>${it.qty}</span>
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
-      </div>
-      <div style="min-width:90px;text-align:right" class="small">${fmtVND(sub)}</div>
-      <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}">&times;</button>
-    </div>`;
-  }).join('');
-  document.getElementById('cartTotal').innerText=fmtVND(total);
-}
+  /* Cart */
+  function addToCartById(id){
+    const it = products[id];
+    if(!it) return;
+    const f = cart.find(p=>p.id===id);
+    if(f) f.qty++;
+    else cart.push({...it, qty:1});
+    updateCart();
+    if(AUTO_OPEN_ON_ADD) cartOffcanvas.show();
+  }
+  function changeQty(id, delta){
+    const it = cart.find(p=>p.id===id);
+    if(!it) return;
+    it.qty += delta;
+    if(it.qty<=0){
+      const i = cart.indexOf(it);
+      if(i>=0) cart.splice(i,1);
+    }
+    updateCart();
+  }
+  function removeItem(id){
+    const i = cart.findIndex(p=>p.id===id);
+    if(i>=0) cart.splice(i,1);
+    updateCart();
+  }
+  function clearCart(){
+    if(confirm('Xóa toàn bộ giỏ hàng?')){
+      cart.length = 0;
+      updateCart();
+    }
+  }
+  function updateCart(){
+    const count = cart.reduce((a,b)=>a+b.qty,0);
+    const fabCount = document.getElementById('cartFabCount');
+    if(fabCount){
+      fabCount.textContent = count;
+      fabCount.style.display = count>0 ? 'inline-block' : 'none';
+    }
 
-/* GỬI ĐƠN – hỗ trợ file */
-async function submitOrder(){
-  if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
-  const name=document.getElementById("buyerName").value.trim();
-  const email=document.getElementById("buyerEmail").value.trim();
-  const phone=document.getElementById("buyerPhone").value.trim();
-  const address=document.getElementById("buyerAddress").value.trim();
-  const note=document.getElementById("buyerNote").value.trim();
-  const file=document.getElementById("buyerFile").files[0]||null;
-  const servicePlan=document.getElementById("servicePlan").value;
-  const fileQuote=document.getElementById("fileQuote").checked;
+    const list = document.getElementById('cartList');
+    let total = 0;
+    list.innerHTML = cart.map(it=>{
+      const sub = it.qty * (Number(it.price)||0); total += sub;
+      return `
+        <div class="d-flex align-items-center gap-2 border-bottom py-2">
+          <img src="${esc(it.img)}" alt="" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
+          <div class="flex-grow-1">
+            <div class="fw-semibold small">${esc(it.details||it.id)}</div>
+            <div class="text-muted small">${fmtVND(it.price)}</div>
+          </div>
+          <div class="d-flex align-items-center gap-1">
+            <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
+            <span>${it.qty}</span>
+            <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
+          </div>
+          <div style="min-width:90px;text-align:right" class="small">${fmtVND(sub)}</div>
+          <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}">&times;</button>
+        </div>`;
+    }).join('');
+    document.getElementById('cartTotal').innerText = fmtVND(total);
+  }
 
-  if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+  /* GỬI ĐƠN – hỗ trợ file */
+  async function submitOrder(){
+    if(cart.length===0){ alert('Giỏ hàng trống!'); return; }
+    const name    = document.getElementById('buyerName').value.trim();
+    const email   = document.getElementById('buyerEmail').value.trim();
+    const phone   = document.getElementById('buyerPhone').value.trim();
+    const address = document.getElementById('buyerAddress').value.trim();
+    const note    = document.getElementById('buyerNote').value.trim();
+    const file    = document.getElementById('buyerFile').files[0] || null;
+    const servicePlan = document.getElementById('servicePlan').value;
+    const fileQuote   = document.getElementById('fileQuote').checked;
 
-  const order={
-    customer:{name,email,phone,address,note, servicePlan, fileQuote},
-    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
-    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+    if(!name||!email||!phone||!address){
+      alert('Vui lòng nhập đầy đủ thông tin!');
+      return;
+    }
+
+    const order = {
+      customer:{ name,email,phone,address,note, servicePlan, fileQuote },
+      items: cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note}) =>
+        ({id,details,type,price,qty,img,linkFull,group,loai,category,note})
+      ),
+      total: cart.reduce((a,b)=>a + b.qty*(Number(b.price)||0), 0)
+    };
+
+    try{
+      let resp;
+      if(file){
+        const fd = new FormData();
+        fd.append('action', 'order');
+        fd.append('data', JSON.stringify(order));
+        if(API_KEY) fd.append('key', API_KEY);
+        fd.append('file', file);
+        resp = await fetch(API_URL, { method:'POST', body: fd });
+      }else{
+        resp = await fetch(API_URL, {
+          method:'POST',
+          headers:{ 'Content-Type':'application/json' },
+          body: JSON.stringify({ action:'order', data:order, key:API_KEY||'' })
+        });
+      }
+      const res = await resp.json();
+      if(res && (res.ok||res.success)){
+        const mailState = res.mail || 'ok';
+        alert(mailState==='ok' ? 'Đã gửi đơn hàng thành công!' : 'Đã lưu đơn hàng. Gửi email bị lỗi — chúng tôi sẽ kiểm tra lại.');
+        cart.length = 0; updateCart();
+      }else{
+        alert('Gửi đơn hàng thất bại.');
+      }
+    }catch(_){
+      alert('Không thể gửi đơn hàng. Kiểm tra API_URL.');
+    }
+  }
+
+  /* Suppliers (offcanvas) */
+  let suppliersAll = [];
+  function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
+  function supplierCardHTML(s){
+    const hasSite = !!s.url;
+    return `
+      <div class="supplier-card mb-2">
+        <div class="title">${esc(s.name||'Xưởng')}</div>
+        ${hasSite
+          ? `<a href="${esc(s.url)}" target="_blank" rel="noopener nofollow" class="small text-truncate d-inline-block" style="max-width:100%">${esc(s.url)}</a>`
+          : `<div class="small text-muted">(Không có website cụ thể)</div>`}
+        ${s.address?`<div class="meta mt-1">📍 ${esc(s.address)}</div>`:''}
+        <div class="chips">
+          <span class="chip ${hasSite?'ok':''}">${hasSite?'Có website':'Chưa có website'}</span>
+          ${s.cert?`<span class="chip">Chứng nhận: ${esc(s.cert)}</span>`:''}
+        </div>
+      </div>`;
+  }
+  function renderSuppliersList(items){
+    const box = document.getElementById('suppliersList');
+    const counter = document.getElementById('suppliersCount');
+    counter.textContent = `${items.length}/${suppliersAll.length}`;
+    box.innerHTML = items.length ? items.map(supplierCardHTML).join('') : '<div class="text-muted">Không tìm thấy xưởng phù hợp.</div>';
+  }
+  function applySupFilters(){
+    const q = normalize(document.getElementById('supSearch').value);
+    const hasSite = document.getElementById('supHasSite').checked;
+    const sortBy  = document.getElementById('supSort').value;
+
+    let out = suppliersAll.filter(s=>{
+      if(hasSite && !s.url) return false;
+      if(!q) return true;
+      const hay = normalize([s.name, s.address, s.cert, s.url].join(' '));
+      return hay.includes(q);
+    });
+
+    if(sortBy==='addr'){
+      out.sort((a,b)=> normalize(a.address).localeCompare(normalize(b.address)));
+    }else{
+      out.sort((a,b)=> normalize(a.name).localeCompare(normalize(b.name)));
+    }
+    renderSuppliersList(out);
+  }
+  function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a),ms); }; }
+  function loadSuppliers(){
+    const box = document.getElementById('suppliersList');
+    box.innerHTML = 'Đang tải…';
+    fetch(API_URL+'?action=suppliers')
+      .then(r=>r.json())
+      .then(res=>{
+        if(!res||!res.ok||!res.items){ suppliersAll=[]; applySupFilters(); return; }
+        suppliersAll = res.items.map(s=>({
+          name: s.name || '',
+          url:  s.url  || '',
+          address: s.address || '',
+          cert: s.cert || '',
+          contact: s.contact || ''
+        }));
+        applySupFilters();
+      })
+      .catch(()=>{ box.innerHTML = '<div class="text-danger">Không tải được danh sách.</div>'; });
+  }
+
+  /* Offcanvas instances */
+  const cartOffcanvas      = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartCanvas'));
+  const filterOffcanvas    = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterPanel'));
+  const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('suppliersCanvas'));
+
+  /* Events (delegation) */
+  document.addEventListener('click', (e)=>{
+    const el = e.target;
+
+    // Cart actions
+    if(el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
+    if(el.matches('[data-action="qty"]')) changeQty(el.dataset.id, Number(el.dataset.delta||0));
+    if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
+
+    // Filters
+    if(el.closest('[data-action="select-category"]')){
+      selectCategory(el.closest('[data-action="select-category"]').dataset.val||'');
+    }
+    if(el.matches('[data-action="set-filter"]')){
+      const field = el.dataset.field;
+      state[field] = el.dataset.val || '';
+      state.page = 1; fetchPage(); updateFilterCount();
+    }
+    if(el.matches('#searchBtn')){
+      state.q = document.getElementById('searchBox').value.trim();
+      state.page = 1; fetchPage();
+    }
+
+    // Pager
+    if(el.matches('[data-action="page-prev"]')){ if(state.page>1){ state.page--; fetchPage(); } }
+    if(el.matches('[data-action="page-next"]')){ if(state.page<state.totalPages){ state.page++; fetchPage(); } }
+    if(el.matches('[data-action="goto-page"]')){
+      const p = Number(el.dataset.page);
+      if(p && p!==state.page){ state.page=p; fetchPage(); }
+    }
+
+    // Clear cart
+    if(el.matches('#clearCartBtn')) clearCart();
+  });
+
+  // Enter on search
+  document.getElementById('searchBox').addEventListener('keydown', e=>{
+    if(e.key==='Enter'){
+      e.preventDefault();
+      document.getElementById('searchBtn').click();
+    }
+  });
+
+  /* FAB */
+  document.getElementById('cartFab').addEventListener('click', ()=> cartOffcanvas.toggle());
+  document.getElementById('filterFab').addEventListener('click', ()=> filterOffcanvas.toggle());
+  document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
+  document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
+  document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
+  document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
+
+  /* Clear filters (2 nút) */
+  function clearAllFilters(){
+    state.type=''; state.loai=''; state.note=''; state.category=''; state.group=''; state.q='';
+    const sb = document.getElementById('searchBox'); if(sb) sb.value='';
+    updateFilterCount(); state.page=1; fetchPage();
+  }
+  document.getElementById('clearFiltersBtn').addEventListener('click', clearAllFilters);
+  document.getElementById('clearFiltersBtn2').addEventListener('click', clearAllFilters);
+
+  /* Gửi đơn hàng */
+  document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
+
+  /* ===== Modal Chi tiết Lợi ích ===== */
+  const BENEFIT_DETAIL = {
+    b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho ý tưởng lớn, cập nhật thường xuyên.', bullets:[
+        'Tìm nhanh theo ID, từ khóa, loại sản phẩm','Ảnh/Link nguồn tham khảo rõ ràng','Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
+    b2:{ title:'500+ nhà cung cấp & xưởng sản xuất', lead:'Kết nối nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
+        'Lọc theo loại hình/xuất xứ/ghi chú','Gợi ý xưởng ngay trong “Xưởng đề xuất”','Có thể gửi cùng lúc cho nhiều đơn vị' ] },
+    b3:{ title:'Hỗ trợ tư vấn sản xuất (Miễn phí)', lead:'Đội ngũ CSKH phản hồi nhanh và cụ thể.', bullets:[
+        'Tư vấn vật liệu, quy cách, định mức','Ước tính chi phí sơ bộ','Định hướng phương án tối ưu theo ngân sách' ] },
+    b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất', lead:'Phục vụ trực tiếp cho đơn hàng đã chốt.', bullets:[
+        'Dựng mockup/khung kỹ thuật cơ bản','Xuất file .SVG, .PDF theo yêu cầu xưởng','Miễn phí cho đơn đã xác nhận đặt hàng' ] },
+    b5:{ title:'Hậu cần vận chuyển & đóng gói (Có phí)', lead:'Đảm bảo giao nhận đúng hẹn – an toàn.', bullets:[
+        'Nhận đóng gói – dán tem – chia kiện','Theo dõi tracking – xử lý phát sinh','Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
+    b6:{ title:'Hỗ trợ giải quyết tranh chấp (Có phí)', lead:'Tăng cường bảo vệ quyền lợi khách hàng khi phát sinh sự cố.', bullets:[
+        'Thu thập chứng cứ – làm việc với xưởng','Đề xuất phương án khắc phục/hoàn tiền','Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng đã thông báo cho 2606AI.' }
   };
-
-  try{
-    let resp;
-    if(file){
-      const fd=new FormData();
-      fd.append('action','order');
-      fd.append('data', JSON.stringify(order));
-      if(API_KEY) fd.append('key', API_KEY);
-      fd.append('file', file);
-      resp = await fetch(API_URL, { method:'POST', body:fd });
-    }else{
-      resp = await fetch(API_URL, {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({action:"order", data:order, key:API_KEY||""})
-      });
+  (function attachBenefitModal(){
+    const modalEl = document.getElementById('benefitModal');
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    const $title = document.getElementById('benefitTitle');
+    const $lead  = document.getElementById('benefitLead');
+    const $list  = document.getElementById('benefitList');
+    const $note  = document.getElementById('benefitNote');
+    function openDetail(key){
+      const d = BENEFIT_DETAIL[key]; if(!d) return;
+      $title.textContent = d.title || 'Chi tiết';
+      $lead.textContent  = d.lead  || '';
+      $list.innerHTML    = (d.bullets||[]).map(li=>`<li>${li}</li>`).join('');
+      $note.textContent  = d.note || '';
+      modal.show();
     }
-    const res = await resp.json();
-    if(res && (res.ok||res.success)){
-      const mailState = res.mail || 'ok';
-      alert(mailState==='ok' ? "Đã gửi đơn hàng thành công!" : "Đã lưu đơn hàng. Gửi email bị lỗi — chúng tôi sẽ kiểm tra lại.");
-      cart.length=0; updateCart();
-    }else{
-      alert("Gửi đơn hàng thất bại.");
+    document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
+      const key = card.getAttribute('data-benefit');
+      card.addEventListener('click', ()=>openDetail(key));
+      card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openDetail(key); }});
+      card.style.cursor = 'pointer';
+    });
+  })();
+
+  /* ======= API: fetch list + render ======= */
+  function buildCategoryFromFacets(facets){
+    buildCategory(facets?.categories||[]);
+    buildFilterBox('typeBox', facets?.types||[], 'type');
+    buildFilterBox('loaiBox', facets?.loais||[], 'loai');
+    buildFilterBox('noteBox', facets?.notes||[], 'note');
+    buildFilterBox('brandBox', facets?.categories||[], 'category');
+  }
+  function render(res){
+    const items = (res?.items||[]);
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
+    buildCategoryFromFacets(res?.facets||{});
+    document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
+    renderPagination(res?.total||0, state.pageSize, state.page);
+  }
+  function fetchPage(){
+    const params = new URLSearchParams({
+      action:'list', page:state.page, pageSize:state.pageSize,
+      q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+    });
+    fetch(API_URL+'?'+params.toString())
+      .then(r=>r.json())
+      .then(res => { render(res); fetchAds(); })
+      .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
+  }
+
+  /* === expose global for inline handlers === */
+  Object.assign(window, {
+    fetchPage,
+    scrollCats,
+    selectCategory,
+    clearAllFilters
+  });
+
+  /* === INIT === */
+  fetchPage();
+  updateFilterCount();
+
+  /* Phím tắt nhanh mở search */
+  document.addEventListener('keydown', (e)=>{
+    if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){
+      e.preventDefault();
+      document.getElementById('searchBox').focus();
     }
-  }catch(_){
-    alert("Không thể gửi đơn hàng. Kiểm tra API_URL.");
-  }
-}
-
-/* Suppliers (offcanvas) */
-let suppliersAll = [];
-function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
-function supplierCardHTML(s){
-  const hasSite = !!s.url;
-  return `
-    <div class="supplier-card mb-2">
-      <div class="title">${esc(s.name||'Xưởng')}</div>
-      ${hasSite
-        ? `<a href="${esc(s.url)}" target="_blank" rel="noopener" class="small text-truncate d-inline-block" style="max-width:100%">${esc(s.url)}</a>`
-        : `<div class="small text-muted">(Không có website cụ thể)</div>`}
-      ${s.address?`<div class="meta mt-1">📍 ${esc(s.address)}</div>`:''}
-      <div class="chips">
-        <span class="chip ${hasSite?'ok':''}">${hasSite?'Có website':'Chưa có website'}</span>
-        ${s.cert?`<span class="chip">Chứng nhận: ${esc(s.cert)}</span>`:''}
-      </div>
-    </div>`;
-}
-function renderSuppliersList(items){
-  const box = document.getElementById('suppliersList');
-  const counter = document.getElementById('suppliersCount');
-  counter.textContent = `${items.length}/${suppliersAll.length}`;
-  box.innerHTML = items.length ? items.map(supplierCardHTML).join('') : '<div class="text-muted">Không tìm thấy xưởng phù hợp.</div>';
-}
-function applySupFilters(){
-  const q = normalize(document.getElementById('supSearch').value);
-  const hasSite = document.getElementById('supHasSite').checked;
-  const sortBy  = document.getElementById('supSort').value;
-
-  let out = suppliersAll.filter(s=>{
-    if(hasSite && !s.url) return false;
-    if(!q) return true;
-    const hay = normalize([s.name, s.address, s.cert, s.url].join(' '));
-    return hay.includes(q);
   });
-
-  if(sortBy === 'addr'){
-    out.sort((a,b)=> normalize(a.address).localeCompare(normalize(b.address)));
-  } else {
-    out.sort((a,b)=> normalize(a.name).localeCompare(normalize(b.name)));
-  }
-  renderSuppliersList(out);
-}
-function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a),ms); }; }
-function loadSuppliers(){
-  const box=document.getElementById('suppliersList');
-  box.innerHTML='Đang tải…';
-  fetch(API_URL+'?action=suppliers')
-    .then(r=>r.json())
-    .then(res=>{
-      if(!res||!res.ok||!res.items){ suppliersAll=[]; applySupFilters(); return; }
-      suppliersAll = res.items.map(s=>({
-        name: s.name || '', url:  s.url  || '', address: s.address || '', cert: s.cert || '', contact: s.contact || ''
-      }));
-      applySupFilters();
-    })
-    .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
-}
-
-/* Offcanvas instances */
-const cartOffcanvas   = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartCanvas'));
-const filterOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterPanel'));
-const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('suppliersCanvas'));
-
-/* Events */
-document.addEventListener('click', (e)=>{
-  const el=e.target;
-  if(el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
-  if(el.closest('[data-action="select-category"]')) selectCategory(el.closest('[data-action="select-category"]').dataset.val||'');
-  if(el.matches('[data-action="set-filter"]')){ const field = el.dataset.field; state[field]=el.dataset.val||''; state.page=1; fetchPage(); updateFilterCount(); }
-  if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
-  if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
-
-  // Pager actions
-  if(el.matches('[data-action="page-prev"]')){ if(state.page>1){ state.page--; fetchPage(); } }
-  if(el.matches('[data-action="page-next"]')){ if(state.page<state.totalPages){ state.page++; fetchPage(); } }
-  if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
-
-  if(el.matches('#clearCartBtn')) clearCart();
-});
-document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
-
-/* FAB */
-document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
-document.getElementById('filterFab').addEventListener('click', () => filterOffcanvas.toggle());
-document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
-document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
-document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
-document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
-
-/* Clear filters (2 nút) */
-function clearAllFilters(){
-  state.type=''; state.loai=''; state.note=''; state.category=''; state.group=''; state.q='';
-  const sb=document.getElementById('searchBox'); if(sb) sb.value='';
-  updateFilterCount(); state.page=1; fetchPage();
-}
-document.getElementById('clearFiltersBtn').addEventListener('click', clearAllFilters);
-document.getElementById('clearFiltersBtn2').addEventListener('click', clearAllFilters);
-
-/* Gửi đơn hàng */
-document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
-
-/* ===== Modal Chi tiết Lợi ích ===== */
-const BENEFIT_DETAIL = {
-  b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho ý tưởng lớn, cập nhật thường xuyên.', bullets:[
-      'Tìm nhanh theo ID, từ khóa, loại sản phẩm','Ảnh/Link nguồn tham khảo rõ ràng','Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
-  b2:{ title:'500+ nhà cung cấp & xưởng sản xuất', lead:'Kết nối nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
-      'Lọc theo loại hình/xuất xứ/ghi chú','Gợi ý xưởng ngay trong “Xưởng đề xuất”','Có thể gửi cùng lúc cho nhiều đơn vị' ] },
-  b3:{ title:'Hỗ trợ tư vấn sản xuất (Miễn phí)', lead:'Đội ngũ CSKH phản hồi nhanh và cụ thể.', bullets:[
-      'Tư vấn vật liệu, quy cách, định mức','Ước tính chi phí sơ bộ','Định hướng phương án tối ưu theo ngân sách' ] },
-  b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất', lead:'Phục vụ trực tiếp cho đơn hàng đã chốt.', bullets:[
-      'Dựng mockup/khung kỹ thuật cơ bản','Xuất file .SVG, .PDF theo yêu cầu xưởng','Miễn phí cho đơn đã xác nhận đặt hàng' ] },
-  b5:{ title:'Hậu cần vận chuyển & đóng gói (Có phí)', lead:'Đảm bảo giao nhận đúng hẹn – an toàn.', bullets:[
-      'Nhận đóng gói – dán tem – chia kiện','Theo dõi tracking – xử lý phát sinh','Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
-  b6:{ title:'Hỗ trợ giải quyết tranh chấp (Có phí)', lead:'Tăng cường bảo vệ quyền lợi khách hàng khi phát sinh sự cố.', bullets:[
-      'Thu thập chứng cứ – làm việc với xưởng','Đề xuất phương án khắc phục/hoàn tiền','Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng đã thông báo cho 2606AI.' }
-};
-(function attachBenefitModal(){
-  const modalEl = document.getElementById('benefitModal');
-  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-  const $title = document.getElementById('benefitTitle');
-  const $lead  = document.getElementById('benefitLead');
-  const $list  = document.getElementById('benefitList');
-  const $note  = document.getElementById('benefitNote');
-  function openDetail(key){
-    const d = BENEFIT_DETAIL[key]; if(!d) return;
-    $title.textContent = d.title || 'Chi tiết';
-    $lead.textContent  = d.lead  || '';
-    $list.innerHTML    = (d.bullets||[]).map(li=>`<li>${li}</li>`).join('');
-    $note.textContent  = d.note || '';
-    modal.show();
-  }
-  document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
-    const key = card.getAttribute('data-benefit');
-    card.addEventListener('click', ()=>openDetail(key));
-    card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openDetail(key); }});
-    card.style.cursor = 'pointer';
-  });
-})();
-
-/* ======= API: fetch list + render ======= */
-function buildCategoryFromFacets(facets){
-  buildCategory(facets?.categories||[]);
-  buildFilterBox('typeBox', facets?.types||[], 'type');
-  buildFilterBox('loaiBox', facets?.loais||[], 'loai');
-  buildFilterBox('noteBox', facets?.notes||[], 'note');
-  buildFilterBox('brandBox', facets?.categories||[], 'category');
-}
-function render(res){
-  const items = (res?.items||[]);
-  const grid=document.getElementById('productGrid');
-  grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
-  buildCategoryFromFacets(res?.facets||{});
-  document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
-  renderPagination(res?.total||0, state.pageSize, state.page);
-}
-function fetchPage(){
-  const params=new URLSearchParams({
-    action:'list',page:state.page,pageSize:state.pageSize,
-    q:state.q,group:state.group,type:state.type,loai:state.loai,note:state.note,category:state.category
-  });
-  fetch(API_URL+'?'+params.toString())
-    .then(r=>r.json())
-    .then(res => { render(res); fetchAds(); })
-    .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
-}
-
-/* === expose global for inline handlers === */
-Object.assign(window, {
-  fetchPage,
-  scrollCats,
-  selectCategory,
-  clearAllFilters
-});
-
-/* === INIT === */
-fetchPage();
-updateFilterCount();
-
-/* Phím tắt nhanh mở search */
-document.addEventListener('keydown', (e)=>{
-  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){
-    e.preventDefault();
-    document.getElementById('searchBox').focus();
-  }
-});
 });
 </script>
-  <!-- Footer -->
-<!-- ===== FOOTER ===== -->
-<footer class="text-light" style="background:#0018a8;">
-  <div class="container">
-
-    <!-- Hàng 1: 4 cột -->
-    <div class="row pt-5 pb-3">
-     <!-- Cột 1: Logo + mô tả -->
-<div class="col-md-3 mb-4 text-center">
-
-  <!-- Logo -->
-  <img 
-    src="https://drive.google.com/uc?export=view&id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" 
-    alt="2606AI logo" 
-    class="mb-3 d-block mx-auto" 
-    style="max-width:160px;height:auto">
-
-  <!-- Giới thiệu ngắn -->
-  <p class="small mb-0 opacity-90">
-    Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm.  
-    <br>Tham khảo mẫu - Tư vấn - Thiết kế - Lấy báo giá - Đặt hàng - Đóng gói - Vận chuyển. 
-  </p>
-</div>
-
-
-      <!-- Cột 2: Liên kết nhanh -->
-      <div class="col-md-3 mb-4">
-        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên kết nhanh</h6>
-        <ul class="list-unstyled mb-0">
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Về chúng tôi</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Danh mục sản phẩm</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Báo giá nhanh</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Câu hỏi thường gặp</a></li>
-        </ul>
-      </div>
-
-      <!-- Cột 3: Chính sách -->
-      <div class="col-md-3 mb-4">
-        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Chính sách</h6>
-        <ul class="list-unstyled mb-0">
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách vận chuyển</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách đổi trả</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Hướng dẫn đặt hàng</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách bảo mật</a></li>
-        </ul>
-      </div>
-
-      <!-- Cột 4: Liên hệ -->
-      <div class="col-md-3 mb-4">
-        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên hệ</h6>
-        <ul class="list-unstyled small mb-3">
-          <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM</li>
-          <li class="mb-2"><i class="bi bi-telephone me-2"></i>Hotline:
-            <a class="link-light text-decoration-none" href="tel:0909123456">0909 123 456</a></li>
-          <li class="mb-2"><i class="bi bi-envelope me-2"></i>Email:
-            <a class="link-light text-decoration-none" href="mailto:info@2606ai.vn">info@2606ai.vn</a></li>
-        </ul>
-
-        <!-- Thông tin pháp lý -->
-        <div class="small opacity-90 mt-3">
-          <div class="fw-bold text-uppercase mb-1">HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE</div>
-          Mã số thuế: <strong>12333211232</strong><br>
-          Liên hệ: <strong>012345678</strong><br>
-          Email: <a class="text-light text-decoration-none" href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a>
-        </div>
-
-        <!-- Icon mạng xã hội -->
-        <div class="d-flex align-items-center gap-3 mt-3">
-          <a href="#" class="link-light" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="link-light" aria-label="Messenger"><i class="bi bi-messenger"></i></a>
-          <a href="#" class="link-light" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
-          <a href="#" class="link-light" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-        </div>
-      </div>
-    </div>
-
-    <hr class="border-light opacity-50">
-
-    <!-- Bản quyền -->
-    <div class="text-center small pb-3">
-      © 2025 <span style="color:#d4af37;">2606AI</span>. Website được phát triển bởi 2606AI.
-    </div>
-  </div>
-</footer>
-
-<!-- Bootstrap Icons (nếu chưa có trong <head>) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-<!-- Bootstrap Icons (nếu chưa có trong <head>) -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
-</body>
-</html>
+<!-- ... dưới nữa nếu bạn có footer/closing tags thì giữ nguyên -->
