@@ -13,7 +13,8 @@
 :root{ --main:#0018a8; --accent:#d4af37; --bg:#f5f6fa; }
 body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-size:14px; padding-top:70px; }
 .container-fluid{max-width:1400px;margin:auto;}
-.wrap{max-width:1400px;width:100%;margin:0 auto}
+/* shared wrap width giống header */
+.wrap{max-width:1400px;width:100%;margin:0 auto;}
 
 /* Top banner (marquee) – sticky + căn giữa theo chiều dọc */
 .top-banner{
@@ -93,27 +94,29 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .hero .mini .carousel{height:145px}
 .hero .main img{width:100%;height:300px;object-fit:cover;border-radius:8px}
 
-/* ===== GROUP (cột E) – 1 hàng ngang có mũi tên ===== */
-.group-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05);margin-bottom:12px}
-.group-wrapper{position:relative}
-.group-scroll{display:grid;grid-template-columns:repeat(10,1fr);gap:12px;overflow:hidden}
-.gitem{text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s;user-select:none}
-.gitem:hover{background:#f5f5f5}
-.gitem .icon{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#f1f4ff;margin-bottom:6px}
-.gitem .icon img{width:26px;height:26px;object-fit:contain}
-.gitem span{font-size:13px;display:block}
-.gitem.active{background:#e6f0ff;border:1px solid #007bff}
-.g-arrow{position:absolute;top:50%;transform:translateY(-50%);background:transparent;border:none;font-size:20px;font-weight:700;color:#0018a8;cursor:pointer;z-index:2}
-.g-arrow.left{left:-4px}
-.g-arrow.right{right:-4px}
-
-/* Error box */
-#errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
-
-/* Pagers */
-.pager-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-.pager-bar .btn{min-width:40px}
-#pagerTop, #pagerBottom{display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px}
+/* Danh mục – khung, 2 hàng + mũi tên nhỏ */
+.category-box{background:#fff;border-radius:8px;padding:10px;box-shadow:0 2px 4px rgba(0,0,0,.05)}
+.category-wrapper{ position:relative; }
+.category-scroll{
+  display:grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap:12px;
+  overflow:hidden;
+}
+.category-item{ text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.2s }
+.category-item:hover{background:#f5f5f5}
+.category-item .icon{width:48px;height:48px;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#f1f4ff;margin-bottom:6px}
+.category-item .icon img{width:28px;height:28px;object-fit:contain}
+.category-item span{font-size:13px;display:block}
+.category-item.active{background:#e6f0ff;border:1px solid #007bff}
+.cat-arrow{
+  position:absolute; top:45%; transform:translateY(-50%);
+  background:transparent; border:none; font-size:20px; font-weight:700;
+  color:#0018a8; cursor:pointer; z-index:2;
+}
+.cat-arrow.left{ left:-4px }
+.cat-arrow.right{ right:-4px }
 
 /* Product card */
 .cardx{border:none;border-radius:0;background:#fff;overflow:hidden;transition:.2s;height:100%;
@@ -130,6 +133,25 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
 .cardx .btn-gift{background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;padding:6px 10px;border-radius:999px;font-size:12px;line-height:1;display:inline-flex;align-items:center;gap:6px;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:none}
 .cardx .btn-gift:hover{ background:var(--main); color:#fff; text-decoration:none }
 .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:bold;display:flex;align-items:center;justify-content:center;align-self:flex-end}
+
+/* Error box */
+#errbox{position:fixed;bottom:8px;left:8px;right:8px;background:#ffefef;border:1px solid #e99;padding:8px;border-radius:8px;z-index:3000;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace}
+
+/* Pagers */
+.pager-bar{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+.pager-bar .btn{min-width:40px}
+#pagerTop, #pagerBottom{display:flex; justify-content:flex-end; flex-wrap:wrap; gap:8px}
+
+/* Footer */
+.site-footer{ background:#fff; border-top:1px solid #eee; padding:16px 0; margin-top:20px; font-size:13px; color:#555; }
+.site-footer .brand{ font-weight:700; color:var(--main); margin-bottom:4px; }
+.site-footer a{ color:inherit; text-decoration:none; }
+.site-footer a:hover{ text-decoration:underline; }
+.footer-social{ display:flex; gap:8px; justify-content:flex-start; }
+.footer-social .social{ width:36px; height:36px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; color:#fff; font-weight:800; text-decoration:none; }
+.footer-social .social-zalo{ background:#0068ff; }
+.footer-social .social-fb{ background:#1877F2; }
+@media (max-width:576px){ .footer-social{ justify-content:flex-start; margin-top:8px; } }
 
 /* ====== Bộ lọc nâng cao ====== */
 #filterPanel h6 { font-weight:700; font-size:14px; margin:16px 0 8px; color:#0018a8; text-transform:uppercase; letter-spacing:.3px; }
@@ -348,13 +370,13 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
         </div>
       </div>
 
-      <!-- ===== GROUP (cột E) – Nằm ngang thay cho “Quà tặng thương hiệu” ===== -->
-      <div class="group-box mb-3">
-        <h6 class="fw-bold mb-2">NHÓM SẢN PHẨM</h6>
-        <div class="group-wrapper">
-          <button class="g-arrow left" type="button" aria-label="prev group" onclick="scrollGroups(-1)">‹</button>
-          <div id="groupScroll" class="group-scroll"></div>
-          <button class="g-arrow right" type="button" aria-label="next group" onclick="scrollGroups(1)">›</button>
+      <!-- Danh mục (2 hàng + mũi tên) -->
+      <div class="category-box mb-3">
+        <h6 class="fw-bold mb-2">QUÀ TẶNG THƯƠNG HIỆU</h6>
+        <div class="category-wrapper">
+          <button class="cat-arrow left" type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
+          <div id="categoryScroll" class="category-scroll"></div>
+          <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
         </div>
       </div>
 
@@ -555,6 +577,7 @@ body{ font-family:'Helvetica','Arial',sans-serif; background:var(--bg); font-siz
   window.addEventListener('unhandledrejection', e=>show('Promise rejected: '+((e.reason&&e.reason.message)||e.reason)));
 })();
 
+
 document.addEventListener('DOMContentLoaded', () => {
 /* ===== CONFIG ===== */
 const API_URL = "https://script.google.com/macros/s/AKfycbxaE5kbfvO-7vC9AmDGtqyCccZqPQ01lKnT4vDETRVgLB90YTkNgVlH5Rn4OKRJ4Enk/exec";
@@ -563,7 +586,7 @@ const ADS_CONTACT_URL = "#";
 const API_KEY = "";
 
 /* STATE */
-const AUTO_OPEN_ON_ADD = false;
+const AUTO_OPEN_ON_ADD = true; // tự mở giỏ khi bấm +
 const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'', totalPages:1 };
 const cart = []; const products = {};
 
@@ -574,14 +597,16 @@ function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
 function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
 
-/* Nâng chất lượng thumbnail Google Drive/Gusercontent */
+/* Nâng chất lượng thumbnail Google Drive/Gusercontent (mobile nhẹ hơn) */
 function upgradeThumbQuality(u){
   try{
     if(!u) return u;
     const url = new URL(u, location.href);
     if (url.hostname.includes('googleusercontent') || url.hostname.includes('google.com')) {
-      if (url.searchParams.has('sz')) url.searchParams.set('sz','w800');
-      else url.searchParams.append('sz','w800');
+      const isMobile = matchMedia('(max-width: 576px)').matches;
+      const size = isMobile ? 'w480' : 'w800';
+      if (url.searchParams.has('sz')) url.searchParams.set('sz', size);
+      else url.searchParams.append('sz', size);
       return url.toString();
     }
   }catch(_){
@@ -655,50 +680,61 @@ function renderPagination(totalItems, pageSize, currentPage){
   document.getElementById('pagerBottom').innerHTML = pagerHtml(currentPage, totalPages, 'bottom');
 }
 
-/* ====== GROUP (1 hàng ngang) từ cột E ====== */
-let groupIndex = 0;
-const groupsPerView = 10;
-let allGroups = [];
+/* ====== CATEGORY (2 hàng + mũi tên) ====== */
+let catIndex = 0;
+const catsPerView = 12; // 6 x 2
+let allCategories = [];
 
-const GROUP_ICONS = {
-  "Huy chương phối sẵn":"https://img.icons8.com/color/48/medal.png",
-  "Huy chương sự kiện chạy bộ":"https://img.icons8.com/color/48/running.png",
-  "Huy hiệu tạo hình nhân vật":"https://img.icons8.com/color/48/user.png",
-  "Móc khóa cao su":"https://img.icons8.com/color/48/rubber.png",
-  "Móc khóa hoạt hình":"https://img.icons8.com/color/48/mascot.png",
-  "Móc khóa hợp kim":"https://img.icons8.com/color/48/keychain.png",
-  "Móc khóa tết 2025":"https://img.icons8.com/color/48/chinese-new-year.png",
-  "Móc khóa tết 2026":"https://img.icons8.com/color/48/horse.png",
-  "Móc khóa tết 2027":"https://img.icons8.com/color/48/calendar-27.png",
-  "Móc khóa tết 2028":"https://img.icons8.com/color/48/calendar-28.png",
-  "Móc khóa tết 2029":"https://img.icons8.com/color/48/calendar-29.png",
-  "Móc khóa tết 2030":"https://img.icons8.com/color/48/calendar-30.png",
+const CATEGORY_ICONS={
+  "MÓC KHÓA":"https://img.icons8.com/color/48/keychain.png",
+  "TƯỢNG ĐẤT":"https://img.icons8.com/color/48/clay.png",
+  "LEN":"https://img.icons8.com/color/48/yarn.png",
+  "BADGE":"https://img.icons8.com/color/48/medal2.png",
   "KHÁC":"https://img.icons8.com/color/48/categorize.png"
 };
-function iconForGroup(val){ const k=(val||'').toString().trim(); return GROUP_ICONS[k]||GROUP_ICONS["KHÁC"]; }
-
-function renderGroupPager(items){
-  const box = document.getElementById('groupScroll');
-  const slice = items.slice(groupIndex, groupIndex + groupsPerView);
+function iconForCat(val){
+  const key=(val||'').toString().toUpperCase();
+  return CATEGORY_ICONS[key] || CATEGORY_ICONS["KHÁC"];
+}
+function renderCategoryPager(items){
+  const box = document.getElementById('categoryScroll');
+  const slice = items.slice(catIndex, catIndex + catsPerView);
   box.innerHTML = slice.map(val => `
-    <div class="gitem ${state.group===val?'active':''}" data-action="select-group" data-val="${esc(val)}">
-      <div class="icon"><img src="${iconForGroup(val)}" alt=""></div>
+    <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
+      <div class="icon"><img src="${iconForCat(val)}" alt="Danh mục ${esc(val||'Khác')}"></div>
       <span>${esc(val||'Khác')}</span>
     </div>
   `).join('');
 }
-function scrollGroups(dir){
-  const total = allGroups.length;
-  groupIndex += dir * groupsPerView;
-  if(groupIndex < 0) groupIndex = 0;
-  if(groupIndex >= total) groupIndex = Math.max(0, total - groupsPerView);
-  renderGroupPager(allGroups);
+function toggleCatArrows(){
+  const need = allCategories.length > catsPerView;
+  const left = document.querySelector('.cat-arrow.left');
+  const right = document.querySelector('.cat-arrow.right');
+  if(left) left.style.visibility = need ? 'visible':'hidden';
+  if(right) right.style.visibility = need ? 'visible':'hidden';
 }
-function buildGroupBar(items){ allGroups = items||[]; groupIndex=0; renderGroupPager(allGroups); }
-function selectGroup(val){
-  state.group = val||''; state.page=1; fetchPage();
-  document.querySelectorAll('#groupScroll .gitem').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
-  updateFilterCount();
+  
+function scrollCats(dir){
+  const total = allCategories.length;
+  catIndex += dir * catsPerView;
+  if(catIndex < 0) catIndex = 0;
+  if(catIndex >= total) catIndex = Math.max(0, total - catsPerView);
+  renderCategoryPager(allCategories);
+  toggleCatArrows();
+}
+
+// Cho phép gọi scrollCats từ HTML onclick
+window.scrollCats = scrollCats;
+
+function buildCategory(items){
+  allCategories = items || [];
+  catIndex = 0;
+  renderCategoryPager(allCategories);
+  toggleCatArrows();
+}
+function selectCategory(val){
+  state.category=val; state.page=1; fetchPage();
+  document.querySelectorAll('#categoryScroll .category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
 }
 
 /* Filter buttons (offcanvas) */
@@ -714,12 +750,12 @@ function buildFilterBox(boxId, items, field){
   `).join('');
 }
 function updateFilterCount(){
-  let c=0; if(state.type)c++; if(state.loai)c++; if(state.note)c++; if(state.category)c++; if(state.group)c++;
+  let c=0; if(state.type)c++; if(state.loai)c++; if(state.note)c++; if(state.category)c++;
   const fb=document.getElementById('filterFabCount');
   if(fb){ fb.textContent=c; fb.style.display=c? 'inline-block':'none'; }
 }
 
-/* Link preview API (cho xưởng đề xuất) */
+/* Link preview API */
 function fetchLinkPreview(url){
   const qs = new URLSearchParams({ action:'preview', url });
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
@@ -795,363 +831,446 @@ function renderAds(list){
       </div>
       <div class="actions">
         <a href="${esc(safeUrl)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
-        ${ s.doc ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>`
-                  : `<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>` }
-      </div>`;
-  });
+        ${ s.doc
+    ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>`
+    : `<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>`
 }
 
-/* Cart */
-function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); }
-function changeQty(id,delta){ const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=delta; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart(); }
-function removeItem(id){ const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart(); }
-function clearCart(){ if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length=0; updateCart(); } }
-function updateCart(){
-  const count = cart.reduce((a,b)=>a+b.qty,0);
-  const fabCount = document.getElementById('cartFabCount');
-  if(fabCount){ fabCount.textContent=count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
-  const list=document.getElementById('cartList'); let total=0;
-  list.innerHTML=cart.map(it=>{
-    const sub=it.qty*(Number(it.price)||0); total+=sub;
-    return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
-      <img src="${esc(it.img)}" alt="Ảnh ${esc(it.id)}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
-      <div class="flex-grow-1">
-        <div class="fw-semibold small">${esc(it.details||it.id)}</div>
-        <div class="text-muted small">${fmtVND(it.price)}</div>
       </div>
-      <div class="d-flex align-items-center gap-1">
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
-        <span>${it.qty}</span>
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
+    `;
+  });
+
+  // Gán link liên hệ (nếu có)
+  const btn = document.getElementById('adsContactBtn2');
+  if (btn) btn.href = ADS_CONTACT_URL || '#';
+}
+
+/* ========== GIỎ HÀNG ========== */
+function findInCart(id){ return cart.find(x=>x.id===id); }
+function addToCart(id){
+  const it = products[id]; if(!it) return;
+  const row = findInCart(id);
+  if(row) row.qty += 1; else cart.push({id, qty:1, price:Number(it.price)||0});
+  renderCart();
+  updateCartBadge();
+  if (AUTO_OPEN_ON_ADD) openCart();
+}
+function removeFromCart(id){
+  const idx = cart.findIndex(x=>x.id===id);
+  if(idx>=0) cart.splice(idx,1);
+  renderCart(); updateCartBadge();
+}
+function changeQty(id,delta){
+  const row = findInCart(id); if(!row) return;
+  row.qty = Math.max(1, row.qty + delta);
+  renderCart(); updateCartBadge();
+}
+function sumCart(){ return cart.reduce((s,r)=>s + r.qty * (Number(r.price)||0), 0); }
+function renderCart(){
+  const box = document.getElementById('cartList');
+  if(!cart.length){ box.innerHTML = '<div class="text-muted">Chưa có sản phẩm.</div>'; }
+  else{
+    box.innerHTML = cart.map(r=>{
+      const it = products[r.id] || {};
+      return `<div class="d-flex align-items-center border rounded p-2 mb-2">
+        <div class="me-2" style="width:56px;height:56px;border-radius:8px;overflow:hidden;background:#fff">
+          <img src="${esc(upgradeThumbQuality(it.img))}" alt="" style="width:100%;height:100%;object-fit:cover">
+        </div>
+        <div class="flex-grow-1">
+          <div class="fw-semibold">${esc(it.id||'')}</div>
+          <div class="small text-muted text-truncate">${esc(it.details||'')}</div>
+          <div class="d-flex align-items-center gap-2 mt-1">
+            <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(r.id)}" data-d="-1">-</button>
+            <span class="px-2">${r.qty}</span>
+            <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(r.id)}" data-d="+1">+</button>
+            <span class="ms-2 fw-semibold text-danger">${fmtVND(r.price)}</span>
+          </div>
+        </div>
+        <button class="btn btn-sm btn-outline-danger ms-2" data-action="rm" data-id="${esc(r.id)}">×</button>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('cartTotal').textContent = fmtVND(sumCart());
+}
+function updateCartBadge(){
+  const n = cart.reduce((s,r)=>s+r.qty,0);
+  const b = document.getElementById('cartFabCount');
+  if(b){ b.textContent = n; b.style.display = n? 'inline-block':'none'; }
+}
+
+/* ========== PAGINATION ========== */
+function onPagerClick(e){
+  const el = e.target.closest('[data-action]');
+  if(!el) return;
+  const act = el.getAttribute('data-action');
+  if(act==='page-prev'){ if(state.page>1){ state.page--; fetchPage(); } }
+  if(act==='page-next'){ if(state.page<state.totalPages){ state.page++; fetchPage(); } }
+  if(act==='goto-page'){ const p = Number(el.dataset.page)||1; state.page=p; fetchPage(); }
+}
+
+/* ========== BỘ LỌC / DANH MỤC ========== */
+function onFilterClick(e){
+  const t = e.target.closest('[data-action="set-filter"]');
+  if(!t) return;
+  const field = t.dataset.field, val = t.dataset.val;
+  state[field] = (state[field]===val ? '' : val);
+  state.page = 1;
+  buildFilterActiveUI();
+  fetchPage();
+}
+function buildFilterActiveUI(){
+  // bật class active
+  ['brandBox','typeBox','loaiBox','noteBox'].forEach(id=>{
+    const box = document.getElementById(id);
+    if(!box) return;
+    box.querySelectorAll('.filter-tag').forEach(tag=>{
+      const f = tag.dataset.field, v = tag.dataset.val;
+      tag.classList.toggle('active', state[f]===v);
+    });
+  });
+  // cập nhật badge trên FAB
+  updateFilterCount();
+}
+function onCategoryClick(e){
+  const t=e.target.closest('[data-action="select-category"]'); if(!t) return;
+  selectCategory(t.dataset.val||'');
+}
+
+/* ========== DỮ LIỆU / API ========== */
+function uniqueNonEmpty(arr){
+  return Array.from(new Set((arr||[]).map(x=>String(x||'').trim()).filter(Boolean)));
+}
+function deriveFacets(items){
+  // fallback khi API không trả facets
+  const brand = uniqueNonEmpty(items.map(x=>x.brand||x.group||''));
+  const type  = uniqueNonEmpty(items.map(x=>x.type||''));
+  const loai  = uniqueNonEmpty(items.map(x=>x.loai||''));
+  const note  = uniqueNonEmpty(items.map(x=>x.note||''));
+  const cats  = uniqueNonEmpty(items.map(x=>x.category||x.group||''));
+  return { brand, type, loai, note, categories: cats };
+}
+function buildFacets(facets){
+  const f = facets || {};
+  buildFilterBox('brandBox', f.brand||[], 'group');
+  buildFilterBox('typeBox',  f.type||[],  'type');
+  buildFilterBox('loaiBox',  f.loai||[],  'loai');
+  buildFilterBox('noteBox',  f.note||[],  'note');
+  buildCategory(f.categories||[]);
+  buildFilterActiveUI();
+}
+function renderGrid(list,total){
+  const grid = document.getElementById('productGrid');
+  grid.innerHTML = (list||[]).map(productCardHtml).join('') || `<div class="col-12 text-muted">Không có dữ liệu.</div>`;
+  document.getElementById('totalCount').textContent = String(total||0);
+  renderPagination(total||0, state.pageSize, state.page);
+}
+async function fetchPage(){
+  // khóa nhẹ để tránh spam
+  try{
+    const qs = new URLSearchParams({
+      action:'list',
+      page: String(state.page),
+      pageSize: String(state.pageSize),
+      q: state.q||'',
+      group: state.group||'',
+      type: state.type||'',
+      loai: state.loai||'',
+      note: state.note||'',
+      category: state.category||'',
+      apiKey: API_KEY||''
+    });
+    const res = await fetch(API_URL + '?' + qs.toString());
+    const json = await res.json();
+
+    const items = Array.isArray(json.items) ? json.items : [];
+    const total = Number(json.total)||items.length;
+
+    // facets
+    const facets = (json.facets && typeof json.facets==='object')
+      ? json.facets
+      : deriveFacets(items);
+
+    renderGrid(items, total);
+    buildFacets(facets);
+
+    // Xưởng đề xuất theo bộ lọc hiện tại
+    fetchAds();
+  }catch(err){
+    console.error(err);
+    document.getElementById('productGrid').innerHTML = `<div class="col-12 text-danger">Không tải được dữ liệu.</div>`;
+  }
+}
+
+/* ========== SỰ KIỆN TRANG ========== */
+// Tìm kiếm
+document.getElementById('searchBtn').addEventListener('click', ()=>{
+  state.q = document.getElementById('searchBox').value.trim();
+  state.page = 1;
+  fetchPage();
+});
+document.getElementById('searchBox').addEventListener('keydown', (e)=>{
+  if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); }
+});
+
+// Pager
+document.getElementById('pagerTop').addEventListener('click', onPagerClick);
+document.getElementById('pagerBottom').addEventListener('click', onPagerClick);
+
+// Danh mục & Bộ lọc
+document.getElementById('categoryScroll').addEventListener('click', onCategoryClick);
+document.getElementById('filterPanel').addEventListener('click', onFilterClick);
+
+// Nút xóa bộ lọc
+function clearFilters(){ state.type=''; state.loai=''; state.note=''; state.category=''; state.group=''; state.page=1; updateFilterCount(); fetchPage(); }
+document.getElementById('clearFiltersBtn').addEventListener('click', clearFilters);
+document.getElementById('clearFiltersBtn2').addEventListener('click', clearFilters);
+
+// FABs mở offcanvas
+const offFilter    = new bootstrap.Offcanvas('#filterPanel');
+const offCart      = new bootstrap.Offcanvas('#cartCanvas');
+const offSuppliers = new bootstrap.Offcanvas('#suppliersCanvas');
+
+function openCart(){ offCart.show(); }
+document.getElementById('filterFab').addEventListener('click', ()=>offFilter.show());
+document.getElementById('cartFab').addEventListener('click', openCart);
+document.getElementById('suppliersFab').addEventListener('click', ()=>offSuppliers.show());
+
+// Zalo & Ads contact
+const zalo = document.getElementById('zaloFab'); if(zalo) zalo.href = ZALO_URL || '#';
+const adsBtn = document.getElementById('adsContactBtn'); if(adsBtn) adsBtn.href = ADS_CONTACT_URL || '#';
+
+// Grid – add to cart
+document.getElementById('productGrid').addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-action="add-to-cart"]'); if(!btn) return;
+  addToCart(btn.dataset.id);
+});
+
+// Cart interactions
+document.getElementById('cartList').addEventListener('click', (e)=>{
+  const t = e.target.closest('[data-action]');
+  if(!t) return;
+  const id = t.dataset.id;
+  if(t.dataset.action==='rm') removeFromCart(id);
+  if(t.dataset.action==='qty'){
+    const d = t.dataset.d==='-1' ? -1 : 1;
+    changeQty(id, d);
+  }
+});
+document.getElementById('clearCartBtn').addEventListener('click', ()=>{
+  cart.splice(0, cart.length);
+  renderCart(); updateCartBadge();
+});
+
+// ====== MODAL LỢI ÍCH (demo nội dung) ======
+const BENEFIT_CONTENT = {
+  b1:{ lead:'Thư viện ý tưởng lớn.', bullets:['Nhiều nhóm ngành','Từ khoá nhanh','Hình ảnh minh hoạ'], note:'Bạn có thể lọc để thu hẹp nhanh.' },
+  b2:{ lead:'Kết nối nhiều xưởng.', bullets:['Dễ so sánh giá','Nhiều vật liệu','Thời gian sản xuất đa dạng'], note:'Chọn đúng xưởng theo nhu cầu.' },
+  b3:{ lead:'Tư vấn miễn phí.', bullets:['Vật liệu & kỹ thuật','Tối ưu chi phí','Khuyến nghị đóng gói'], note:'Phù hợp cả đơn nhỏ.' },
+  b4:{ lead:'Hỗ trợ file sản xuất.', bullets:['2D outline','3D preview','Mockup chốt duyệt'], note:'Miễn phí cho đơn chốt.' },
+  b5:{ lead:'Vận chuyển – đóng gói.', bullets:['Đồng bộ tem nhãn','Đóng gói theo set','Theo dõi lộ trình'], note:'Thu phí theo lô hàng.' },
+  b6:{ lead:'Hỗ trợ tranh chấp.', bullets:['Xử lý sự cố','Làm việc với xưởng','Tư vấn pháp lý cơ bản'], note:'Thu phí theo vụ việc.' },
+};
+document.querySelectorAll('.benefits-v3 .bcard').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const k = card.dataset.benefit;
+    const d = BENEFIT_CONTENT[k] || {lead:'', bullets:[], note:''};
+    document.getElementById('benefitTitle').textContent = card.querySelector('.ttl')?.textContent?.trim() || 'Chi tiết';
+    document.getElementById('benefitLead').textContent = d.lead||'';
+    document.getElementById('benefitList').innerHTML = (d.bullets||[]).map(x=>`<li>${esc(x)}</li>`).join('');
+    document.getElementById('benefitNote').textContent = d.note||'';
+    new bootstrap.Modal('#benefitModal').show();
+  });
+});
+
+// ====== KHỞI TẠO ======
+fetchPage();
+renderCart();
+updateFilterCount();
+updateCartBadge();
+  /* ===== ORDER SUBMIT ===== */
+async function submitOrder(){
+  try{
+    if(!cart.length){ alert('Giỏ hàng đang trống.'); return; }
+
+    const name  = document.getElementById('buyerName').value.trim();
+    const email = document.getElementById('buyerEmail').value.trim();
+    const phone = document.getElementById('buyerPhone').value.trim();
+    const addr  = document.getElementById('buyerAddress').value.trim();
+    const note  = document.getElementById('buyerNote').value.trim();
+    const svc   = document.getElementById('servicePlan').value; // "100000-3" | "500000-10" | ""
+    const byFile= document.getElementById('fileQuote').checked;
+    const file  = document.getElementById('buyerFile').files[0];
+
+    // Tối thiểu tên + số
+    if(!name || !phone){ alert('Vui lòng nhập Họ tên và Số điện thoại.'); return; }
+
+    // Chuẩn bị payload
+    const orderItems = cart.map(r=>{
+      const it = products[r.id]||{};
+      return {
+        id: r.id,
+        qty: r.qty,
+        price: r.price,
+        details: it.details||'',
+        type: it.type||'',
+        loai: it.loai||'',
+        note: it.note||'',
+        img: it.img||'',
+        link: it.linkFull||it.imageClick||''
+      }
+    });
+
+    const fd = new FormData();
+    fd.append('action','order');
+    fd.append('apiKey', API_KEY||'');
+    fd.append('name', name);
+    fd.append('email', email);
+    fd.append('phone', phone);
+    fd.append('address', addr);
+    fd.append('note', note);
+    fd.append('servicePlan', svc);
+    fd.append('fileQuote', byFile ? '1' : '0');
+    fd.append('items', JSON.stringify(orderItems));
+
+    if(file) fd.append('file', file);
+
+    const res = await fetch(API_URL, { method:'POST', body: fd });
+    const json = await res.json();
+
+    if(json && (json.ok || json.success)){
+      const oid = json.orderId || json.id || '';
+      alert('Đã gửi đơn hàng thành công' + (oid?` (Mã: ${oid})`:'') + '. CSKH sẽ liên hệ trong 24h.');
+      // reset giỏ
+      cart.splice(0, cart.length);
+      renderCart(); updateCartBadge();
+      // reset form
+      ['buyerName','buyerEmail','buyerPhone','buyerAddress','buyerNote'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+      document.getElementById('servicePlan').value='';
+      document.getElementById('fileQuote').checked=false;
+      document.getElementById('buyerFile').value='';
+      // đóng offcanvas
+      const off = bootstrap.Offcanvas.getInstance(document.getElementById('cartCanvas'));
+      off && off.hide();
+    }else{
+      throw new Error(json?.message || 'Gửi đơn thất bại');
+    }
+  }catch(err){
+    console.error(err);
+    alert('Có lỗi khi gửi đơn hàng: ' + (err.message||err));
+  }
+}
+
+document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
+
+/* ===== SUPPLIERS ===== */
+let suppliersRaw = [];
+
+function normalizeStr(s){ return (s||'').toString().normalize('NFKC').toLowerCase(); }
+
+function renderSuppliers(list){
+  const box = document.getElementById('suppliersList');
+  const cnt = document.getElementById('suppliersCount');
+  if(!box) return;
+
+  if(!list.length){
+    box.innerHTML = '<div class="text-muted">Chưa có dữ liệu.</div>';
+    if(cnt) cnt.textContent = '0';
+    return;
+  }
+
+  box.innerHTML = list.map(s=>{
+    const name = esc(s.name||s.ten||'Xưởng');
+    const addr = esc(s.addr||s.address||s.diachi||'');
+    const site = s.site||s.website||'';
+    const tags = (s.tags||s.chungnhan||s.cert||'').toString().split(/[,;|]/).map(t=>t.trim()).filter(Boolean);
+    const ok   = (s.ok||'').toString().split(/[,;|]/).filter(Boolean);
+    const warn = (s.warn||'').toString().split(/[,;|]/).filter(Boolean);
+
+    const siteHtml = site ? `<a href="${esc(site)}" target="_blank" rel="noopener">${esc(site)}</a>` : `<span class="text-muted">—</span>`;
+
+    return `<div class="supplier-card mb-2">
+      <div class="d-flex justify-content-between align-items-start">
+        <div class="title">${name}</div>
+        <div class="small text-nowrap text-muted">${siteHtml}</div>
       </div>
-      <div style="min-width:90px;text-align:right" class="small">${fmtVND(sub)}</div>
-      <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}" aria-label="Xóa ${esc(it.id)}">&times;</button>
+      ${addr?`<div class="meta">${addr}</div>`:''}
+      <div class="chips">
+        ${tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}
+        ${ok.map(t=>`<span class="chip ok">${esc(t)}</span>`).join('')}
+        ${warn.map(t=>`<span class="chip warn">${esc(t)}</span>`).join('')}
+      </div>
     </div>`;
   }).join('');
-  document.getElementById('cartTotal').innerText=fmtVND(total);
+
+  if(cnt) cnt.textContent = String(list.length);
 }
 
-/* GỬI ĐƠN – hỗ trợ file */
-async function submitOrder(){
-  if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
-  const name=document.getElementById("buyerName").value.trim();
-  const email=document.getElementById("buyerEmail").value.trim();
-  const phone=document.getElementById("buyerPhone").value.trim();
-  const address=document.getElementById("buyerAddress").value.trim();
-  const note=document.getElementById("buyerNote").value.trim();
-  const file=document.getElementById("buyerFile").files[0]||null;
-  const servicePlan=document.getElementById("servicePlan").value;
-  const fileQuote=document.getElementById("fileQuote").checked;
+function fetchSuppliers(){
+  // Gọi API nếu có, nếu không fallback lọc client từ suppliersRaw
+  const q = normalizeStr(document.getElementById('supSearch')?.value||'');
+  const onlySite = document.getElementById('supHasSite')?.checked || false;
+  const sortBy = document.getElementById('supSort')?.value || 'name';
 
-  if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
-
-  const order={
-    customer:{name,email,phone,address,note, servicePlan, fileQuote},
-    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
-    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
-  };
-
-  try{
-    let resp;
-    if(file){
-      const fd=new FormData();
-      fd.append('action','order');
-      fd.append('data', JSON.stringify(order));
-      if(API_KEY) fd.append('key', API_KEY);
-      fd.append('file', file);
-      resp = await fetch(API_URL, { method:'POST', body:fd });
-    }else{
-      resp = await fetch(API_URL, {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({action:"order", data:order, key:API_KEY||""})
-      });
-    }
-    const res = await resp.json();
-    if(res && (res.ok||res.success)){
-      const mailState = res.mail || 'ok';
-      alert(mailState==='ok' ? "Đã gửi đơn hàng thành công!" : "Đã lưu đơn hàng. Gửi email bị lỗi — chúng tôi sẽ kiểm tra lại.");
-      cart.length=0; updateCart();
-    }else{
-      alert("Gửi đơn hàng thất bại.");
-    }
-  }catch(_){
-    alert("Không thể gửi đơn hàng. Kiểm tra API_URL.");
-  }
-}
-
-/* Suppliers (offcanvas) */
-let suppliersAll = [];
-function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
-function supplierCardHTML(s){
-  const hasSite = !!s.url;
-  return `
-    <div class="supplier-card mb-2">
-      <div class="title">${esc(s.name||'Xưởng')}</div>
-      ${hasSite
-        ? `<a href="${esc(s.url)}" target="_blank" rel="noopener" class="small text-truncate d-inline-block" style="max-width:100%">${esc(s.url)}</a>`
-        : `<div class="small text-muted">(Không có website cụ thể)</div>`}
-      ${s.address?`<div class="meta mt-1">📍 ${esc(s.address)}</div>`:''}
-      <div class="chips">
-        <span class="chip ${hasSite?'ok':''}">${hasSite?'Có website':'Chưa có website'}</span>
-        ${s.cert?`<span class="chip">Chứng nhận: ${esc(s.cert)}</span>`:''}
-      </div>
-    </div>`;
-}
-function renderSuppliersList(items){
-  const box = document.getElementById('suppliersList');
-  const counter = document.getElementById('suppliersCount');
-  counter.textContent = `${items.length}/${suppliersAll.length}`;
-  box.innerHTML = items.length ? items.map(supplierCardHTML).join('') : '<div class="text-muted">Không tìm thấy xưởng phù hợp.</div>';
-}
-function applySupFilters(){
-  const q = normalize(document.getElementById('supSearch').value);
-  const hasSite = document.getElementById('supHasSite').checked;
-  const sortBy  = document.getElementById('supSort').value;
-
-  let out = suppliersAll.filter(s=>{
-    if(hasSite && !s.url) return false;
-    if(!q) return true;
-    const hay = normalize([s.name, s.address, s.cert, s.url].join(' '));
-    return hay.includes(q);
-  });
-
-  if(sortBy === 'addr'){
-    out.sort((a,b)=> normalize(a.address).localeCompare(normalize(b.address)));
-  } else {
-    out.sort((a,b)=> normalize(a.name).localeCompare(normalize(b.name)));
-  }
-  renderSuppliersList(out);
-}
-function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a),ms); }; }
-function loadSuppliers(){
-  const box=document.getElementById('suppliersList');
-  box.innerHTML='Đang tải…';
-  fetch(API_URL+'?action=suppliers')
-    .then(r=>r.json())
-    .then(res=>{
-      if(!res||!res.ok||!res.items){ suppliersAll=[]; applySupFilters(); return; }
-      suppliersAll = res.items.map(s=>({
-        name: s.name || '', url:  s.url  || '', address: s.address || '', cert: s.cert || '', contact: s.contact || ''
-      }));
-      applySupFilters();
+  // Thử gọi API action=suppliers (nếu Apps Script đã hỗ trợ)
+  const params = new URLSearchParams({ action:'suppliers', q, onlySite:String(onlySite), sort:sortBy });
+  fetch(API_URL + '?' + params.toString())
+    .then(r=>r.ok?r.json():Promise.reject('http'))
+    .then(json=>{
+      // Nếu API có trả
+      if(Array.isArray(json.items)){
+        suppliersRaw = json.items;
+        let view = applySuppliersFilter(json.items, q, onlySite, sortBy);
+        renderSuppliers(view);
+      }else{
+        // Fallback (không có items) => dùng local
+        let view = applySuppliersFilter(suppliersRaw, q, onlySite, sortBy);
+        renderSuppliers(view);
+      }
     })
-    .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
+    .catch(_=>{
+      // Fallback: lọc local
+      let view = applySuppliersFilter(suppliersRaw, q, onlySite, sortBy);
+      renderSuppliers(view);
+    });
 }
 
-/* Offcanvas instances */
-const cartOffcanvas   = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartCanvas'));
-const filterOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterPanel'));
-const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('suppliersCanvas'));
-
-/* Events */
-document.addEventListener('click', (e)=>{
-  const el=e.target;
-
-  // chặn nhảy trang nếu lỡ dùng <a href="#"> (dự phòng)
-  if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){ e.preventDefault(); }
-
-  if(el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
-  if(el.closest('[data-action="select-group"]')) selectGroup(el.closest('[data-action="select-group"]').dataset.val||'');
-  if(el.matches('[data-action="set-filter"]')){ const field = el.dataset.field; state[field]=el.dataset.val||''; state.page=1; fetchPage(); updateFilterCount(); }
-  if(el.matches('[data-action="remove"]')) removeItem(el.dataset.id);
-  if(el.matches('#searchBtn')){ state.q=document.getElementById('searchBox').value.trim(); state.page=1; fetchPage(); }
-
-  // Pager actions
-  if(el.matches('[data-action="page-prev"]')){ if(state.page>1){ state.page--; fetchPage(); } }
-  if(el.matches('[data-action="page-next"]')){ if(state.page<state.totalPages){ state.page++; fetchPage(); } }
-  if(el.matches('[data-action="goto-page"]')){ const p=Number(el.dataset.page); if(p&&p!==state.page){ state.page=p; fetchPage(); } }
-
-  if(el.matches('#clearCartBtn')) clearCart();
-});
-document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
-
-/* FAB */
-document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
-document.getElementById('filterFab').addEventListener('click', () => filterOffcanvas.toggle());
-document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
-document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
-document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
-document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
-
-/* Clear filters (2 nút) */
-function clearAllFilters(){
-  state.type=''; state.loai=''; state.note=''; state.category=''; state.group=''; state.q='';
-  const sb=document.getElementById('searchBox'); if(sb) sb.value='';
-  updateFilterCount(); state.page=1; fetchPage();
-}
-document.getElementById('clearFiltersBtn').addEventListener('click', clearAllFilters);
-document.getElementById('clearFiltersBtn2').addEventListener('click', clearAllFilters);
-
-/* Gửi đơn hàng */
-document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
-
-/* ===== Modal Chi tiết Lợi ích ===== */
-const BENEFIT_DETAIL = {
-  b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho ý tưởng lớn, cập nhật thường xuyên.', bullets:[
-      'Tìm nhanh theo ID, từ khóa, loại sản phẩm','Ảnh/Link nguồn tham khảo rõ ràng','Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
-  b2:{ title:'500+ nhà cung cấp & xưởng sản xuất', lead:'Kết nối nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
-      'Lọc theo loại hình/xuất xứ/ghi chú','Gợi ý xưởng ngay trong “Xưởng đề xuất”','Có thể gửi cùng lúc cho nhiều đơn vị' ] },
-  b3:{ title:'Hỗ trợ tư vấn sản xuất (Miễn phí)', lead:'Đội ngũ CSKH phản hồi nhanh và cụ thể.', bullets:[
-      'Tư vấn vật liệu, quy cách, định mức','Ước tính chi phí sơ bộ','Định hướng phương án tối ưu theo ngân sách' ] },
-  b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất', lead:'Phục vụ trực tiếp cho đơn hàng đã chốt.', bullets:[
-      'Dựng mockup/khung kỹ thuật cơ bản','Xuất file .SVG, .PDF theo yêu cầu xưởng','Miễn phí cho đơn đã xác nhận đặt hàng' ] },
-  b5:{ title:'Hậu cần vận chuyển & đóng gói (Có phí)', lead:'Đảm bảo giao nhận đúng hẹn – an toàn.', bullets:[
-      'Nhận đóng gói – dán tem – chia kiện','Theo dõi tracking – xử lý phát sinh','Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
-  b6:{ title:'Hỗ trợ giải quyết tranh chấp (Có phí)', lead:'Tăng cường bảo vệ quyền lợi khách hàng khi phát sinh sự cố.', bullets:[
-      'Thu thập chứng cứ – làm việc với xưởng','Đề xuất phương án khắc phục/hoàn tiền','Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng đã thông báo cho 2606AI.' }
-};
-(function attachBenefitModal(){
-  const modalEl = document.getElementById('benefitModal');
-  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-  const $title = document.getElementById('benefitTitle');
-  const $lead  = document.getElementById('benefitLead');
-  const $list  = document.getElementById('benefitList');
-  const $note  = document.getElementById('benefitNote');
-  function openDetail(key){
-    const d = BENEFIT_DETAIL[key]; if(!d) return;
-    $title.textContent = d.title || 'Chi tiết';
-    $lead.textContent  = d.lead  || '';
-    $list.innerHTML    = (d.bullets||[]).map(li=>`<li>${li}</li>`).join('');
-    $note.textContent  = d.note || '';
-    modal.show();
+function applySuppliersFilter(arr, q, onlySite, sortBy){
+  let list = Array.isArray(arr)? [...arr] : [];
+  // lọc text
+  if(q){
+    list = list.filter(s=>{
+      const hay = [
+        s.name||s.ten||'',
+        s.addr||s.address||s.diachi||'',
+        s.tags||s.chungnhan||s.cert||'',
+        s.note||''
+      ].map(normalizeStr).join(' ');
+      return hay.includes(q);
+    });
   }
-  document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
-    const key = card.getAttribute('data-benefit');
-    card.addEventListener('click', ()=>openDetail(key));
-    card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openDetail(key); }});
-    card.style.cursor = 'pointer';
-  });
-})();
-
-/* ======= API: fetch list + render ======= */
-function buildCategoryFromFacets(facets){
-  // vẫn giữ các filter box nếu backend trả facets
-  buildFilterBox('typeBox', facets?.types||[], 'type');
-  buildFilterBox('loaiBox', facets?.loais||[], 'loai');
-  buildFilterBox('noteBox', facets?.notes||[], 'note');
-  buildFilterBox('brandBox', facets?.categories||[], 'category'); // “Ấn phẩm thương hiệu” (nếu có)
-}
-function render(res){
-  const items = (res?.items||[]);
-  const grid=document.getElementById('productGrid');
-  grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
-
-  buildCategoryFromFacets(res?.facets||{});
-
-  // Build GROUP bar từ facets hoặc tự lấy từ items (cột E: group)
-  const groupsFromFacets = res?.facets?.groups;
-  const groupsFallback = Array.from(new Set(items.map(i => (i.group||'').toString().trim()).filter(Boolean)));
-  buildGroupBar(groupsFromFacets && groupsFromFacets.length ? groupsFromFacets : groupsFallback);
-
-  document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
-  renderPagination(res?.total||0, state.pageSize, state.page);
-}
-function fetchPage(){
-  const params=new URLSearchParams({
-    action:'list',page:state.page,pageSize:state.pageSize,
-    q:state.q,group:state.group,type:state.type,loai:state.loai,note:state.note,category:state.category
-  });
-  fetch(API_URL+'?'+params.toString())
-    .then(r=>r.json())
-    .then(res => { render(res); fetchAds(); })
-    .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
-}
-
-/* === expose global for inline handlers (mũi tên GROUP) === */
-Object.assign(window, {
-  fetchPage,
-  scrollGroups, selectGroup,
-  clearAllFilters
-});
-
-/* === INIT === */
-fetchPage();
-updateFilterCount();
-
-/* Phím tắt nhanh mở search */
-document.addEventListener('keydown', (e)=>{
-  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){
-    e.preventDefault();
-    document.getElementById('searchBox').focus();
+  // chỉ có website
+  if(onlySite){
+    list = list.filter(s=> !!(s.site||s.website));
   }
+  // sắp xếp
+  list.sort((a,b)=>{
+    if(sortBy==='addr'){
+      return (a.addr||a.address||'').localeCompare(b.addr||b.address||'');
+    }
+    return (a.name||a.ten||'').localeCompare(b.name||b.ten||'');
+  });
+  return list;
+}
+
+// Event trong panel xưởng
+document.getElementById('supSearch')?.addEventListener('input', ()=>fetchSuppliers());
+document.getElementById('supHasSite')?.addEventListener('change', ()=>fetchSuppliers());
+document.getElementById('supSort')?.addEventListener('change', ()=>fetchSuppliers());
+
+// Khi mở offcanvas xưởng, tải dữ liệu một lần
+document.getElementById('suppliersCanvas')?.addEventListener('shown.bs.offcanvas', ()=>{
+  if(!suppliersRaw.length) fetchSuppliers(); else renderSuppliers(suppliersRaw);
 });
-});
+
+}); // DOMContentLoaded end
 </script>
-
-<!-- ===== FOOTER ===== -->
-<footer class="text-light" style="background:#0018a8;">
-  <div class="container">
-    <div class="row pt-5 pb-3">
-      <!-- Cột 1: Logo + mô tả -->
-      <div class="col-md-3 mb-4 text-center">
-        <img 
-          src="https://drive.google.com/uc?export=view&id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" 
-          alt="2606AI logo" 
-          class="mb-3 d-block mx-auto" 
-          style="max-width:160px;height:auto">
-        <p class="small mb-0 opacity-90">
-          Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm.  
-          <br>Tham khảo mẫu - Tư vấn - Thiết kế - Lấy báo giá - Đặt hàng - Đóng gói - Vận chuyển. 
-        </p>
-      </div>
-
-      <!-- Cột 2: Liên kết nhanh -->
-      <div class="col-md-3 mb-4">
-        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên kết nhanh</h6>
-        <ul class="list-unstyled mb-0">
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Về chúng tôi</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Danh mục sản phẩm</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Báo giá nhanh</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Câu hỏi thường gặp</a></li>
-        </ul>
-      </div>
-
-      <!-- Cột 3: Chính sách -->
-      <div class="col-md-3 mb-4">
-        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Chính sách</h6>
-        <ul class="list-unstyled mb-0">
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách vận chuyển</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách đổi trả</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Hướng dẫn đặt hàng</a></li>
-          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách bảo mật</a></li>
-        </ul>
-      </div>
-
-      <!-- Cột 4: Liên hệ -->
-      <div class="col-md-3 mb-4">
-        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên hệ</h6>
-        <ul class="list-unstyled small mb-3">
-          <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM</li>
-          <li class="mb-2"><i class="bi bi-telephone me-2"></i>Hotline:
-            <a class="link-light text-decoration-none" href="tel:0909123456">0909 123 456</a></li>
-          <li class="mb-2"><i class="bi bi-envelope me-2"></i>Email:
-            <a class="link-light text-decoration-none" href="mailto:info@2606ai.vn">info@2606ai.vn</a></li>
-        </ul>
-
-        <div class="small opacity-90 mt-3">
-          <div class="fw-bold text-uppercase mb-1">HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE</div>
-          Mã số thuế: <strong>12333211232</strong><br>
-          Liên hệ: <strong>012345678</strong><br>
-          Email: <a class="text-light text-decoration-none" href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a>
-        </div>
-
-        <div class="d-flex align-items-center gap-3 mt-3">
-          <a href="#" class="link-light" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="link-light" aria-label="Messenger"><i class="bi bi-messenger"></i></a>
-          <a href="#" class="link-light" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
-          <a href="#" class="link-light" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
-        </div>
-      </div>
-    </div>
-
-    <hr class="border-light opacity-50">
-
-    <div class="text-center small pb-3">
-      © 2025 <span style="color:#d4af37;">2606AI</span>. Website được phát triển bởi 2606AI.
-    </div>
-  </div>
-</footer>
-
-</body>
-</html>
