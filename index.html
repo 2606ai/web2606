@@ -1060,6 +1060,38 @@ img{max-width:100%;display:block}
     overflow: visible !important;
   }
 }
+/* Mặc định: không sticky (an toàn cho mobile dọc) */
+.ads-box.ads-stick{
+  position: static;
+}
+
+/* Desktop hoặc mobile nằm ngang: bật sticky + chia chiều cao hợp lý */
+@media (min-width: 992px), (orientation: landscape) and (max-width: 991.98px){
+  .ads-box.ads-stick{
+    position: sticky;
+    top: 86px;                              /* chỉnh theo chiều cao header/banner của bạn */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: calc(100vh - 86px - 12px);  /* trừ top + khoảng đệm */
+  }
+  .ads-box.ads-stick #adsList{
+    flex: 1 1 auto;
+    min-height: 0;        /* cho phép co */
+    overflow: auto;
+    max-height: none;     /* bỏ 62vh mặc định nếu có */
+  }
+}
+
+/* Mobile dọc: tắt sticky hoàn toàn (tránh vỡ layout) */
+@media (max-width: 575.98px) and (orientation: portrait){
+  .ads-box.ads-stick{
+    position: static;
+    max-height: none;
+  }
+  /* nếu muốn vẫn giới hạn chút cho mobile dọc: */
+  /* .ads-box.ads-stick #adsList{ max-height: 62vh; overflow:auto; } */
+}
    
 </style>
 </head>
@@ -1150,18 +1182,19 @@ img{max-width:100%;display:block}
         </div>
       </div>
 
-      <!-- XƯỞNG ĐỀ XUẤT -->
-<div class="sidebar-box ads-box">
+    <!-- XƯỞNG ĐỀ XUẤT -->
+<div class="sidebar-box ads-box ads-stick">
   <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
     <span class="d-inline-flex align-items-center gap-2">
       Xưởng đề xuất
       <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
     </span>
   </h6>
-</div> <!-- đóng .col-lg-3 col-md-4 -->
-       
+
   <div id="adsList" class="d-flex flex-column gap-2"></div>
-  <div id="adsEmpty" class="small text-muted">Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).</div>
+  <div id="adsEmpty" class="small text-muted">
+    Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).
+  </div>
 
   <div class="mt-2 text-center">
     <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
