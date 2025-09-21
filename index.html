@@ -92,7 +92,7 @@ img{max-width:100%;display:block}
 .benefit-note{position:absolute;top:6px;right:8px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;color:#fff}
 .benefit-free{background:#4caf50}
 .benefit-paid{background:#d32f2f}
-
+/* Khung sidebar “Xưởng đề xuất” */ .ads-box{ background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%); border:1px solid #90caf9; border-radius:12px; padding:12px; }
 /* ---- Hero banners ---- */
 .hero{margin-bottom:15px}
 .hero .carousel{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
@@ -648,13 +648,6 @@ img{max-width:100%;display:block}
 }
 .found-count .lbl{ margin-right:2px; }
 
-   /* Khung sidebar “Xưởng đề xuất” */
-.ads-box{
-  background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);
-  border:1px solid #90caf9;
-  border-radius:12px;
-  padding:12px;
-}
 
 /* Danh sách link preview */
 #adsList{
@@ -1094,12 +1087,6 @@ img{max-width:100%;display:block}
           </div>
         </div>
       </div>
-
-     <!-- XƯỞNG ĐỀ XUẤT -->
-<div class="col-lg-3 col-md-4">
-  <div class="sidebar-box benefits-v3">
-    <!-- ... nếu có nội dung benefit khác thì giữ lại ... -->
-  </div>
 
   <div class="sidebar-box ads-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
@@ -2012,27 +1999,6 @@ document.addEventListener('click', (e)=>{
     e.preventDefault();
   }
 
-  /* === GIỎ HÀNG === */
-  if (el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
-  if (el.matches('[data-action="remove"]'))     removeItem(el.dataset.id);
-  if (el.matches('[data-action="qty"]'))        changeQty(el.dataset.id, Number(el.dataset.delta)||0);
-  if (el.matches('#clearCartBtn'))              clearCart();
-
-  /* === CATEGORY SCROLLER === */
-  const cat = el.closest('[data-action="select-category"]');
-  if (cat) selectCategory(cat.dataset.val || '');
-
-  /* === FILTER TAGS === */
-  if (el.matches('[data-action="set-filter"]')) {
-    const field = el.dataset.field;
-    state[field] = el.dataset.val || '';
-    state.page = 1;
-    fetchPage();
-    updateFilterCount();
-  }
-
-  /* === TÌM KIẾM === */
-  if (el.matches('#searchBtn')) {
     state.q = document.getElementById('searchBox').value.trim();
     state.page = 1;
     fetchPage();
