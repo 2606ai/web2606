@@ -817,15 +817,6 @@ img{max-width:100%;display:block}
   font-weight: 700;
 }
 
-/* Giữ hàng "Tìm thấy + Xóa bộ lọc + Chuyển trang" chung 1 dòng trên mobile */
-.stats-row,
-.pager-bar{
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-}
-
 /* Đảm bảo phần "Tìm thấy + Xóa bộ lọc" và "Pagination" nằm cùng dòng */
 #pagerTop{
   margin-left: auto;   /* đẩy pagination sang bên phải */
@@ -854,10 +845,6 @@ img{max-width:100%;display:block}
 @media (max-width:576px){
   .stats-row{gap:6px}
   .found-count{flex:1 1 auto; min-width:0}
-}
-/* Giữ bố cục tìm thấy + pagination gọn gàng */
-.stats-row{
-  margin-bottom: 8px;
 }
 
 .found-count{
@@ -917,6 +904,36 @@ img{max-width:100%;display:block}
 @media (max-width: 576px){
   .found-count{ flex: 1 1 auto; }
   #pagerTop   { flex: 0 1 auto; }
+}
+/* ==== FIX Stats row + Pagination ==== */
+.stats-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:nowrap;      /* ❌ không cho xuống hàng */
+  overflow-x:auto;       /* ✔ nếu chật thì tràn ngang */
+  margin-bottom:8px;
+}
+
+#pagerTop .btn,
+#pagerBottom .btn{
+  height:32px;            /* bằng nút "Xóa bộ lọc" */
+  padding:4px 8px;
+  font-size:13px;
+  line-height:1.2;
+  border-radius:6px;
+  min-width:36px;         /* gọn chiều ngang */
+}
+
+#pagerTop .btn-group,
+#pagerBottom .btn-group{
+  gap:4px;
+}
+
+@media (max-width:576px){
+  .found-count{ flex:0 1 auto; }
+  #pagerTop   { flex:0 1 auto; }
 }
    
 </style>
