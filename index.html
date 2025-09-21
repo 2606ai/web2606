@@ -799,7 +799,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // === StatsRow: cập nhật nhãn và gắn pagerTop vào cùng hàng ===
 const statsRow = document.querySelector('.stats-row');
 if (statsRow) {
-  statsRow.querySelector('.lbl')?.textContent = 'Tìm thấy';
+ const lblEl = statsRow.querySelector('.lbl');
+if (lblEl) lblEl.textContent = 'Tìm thấy';
   const pagerTop = document.getElementById('pagerTop');
   if (pagerTop) { pagerTop.classList.remove('mb-2'); statsRow.querySelector('.found-count')?.appendChild(pagerTop); }
 }
