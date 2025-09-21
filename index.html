@@ -632,7 +632,48 @@ img{max-width:100%;display:block}
 .group-bar-wrapper::before,
 .group-bar-wrapper::after{ display:none !important; }
 
-   
+.found-count{
+  display:inline-flex;
+  align-items:center;
+  gap:6px; /* số và chữ sát nhau */
+  font-weight:500;
+}
+.found-count .lbl{ margin-right:2px; }
+
+   /* Khung sidebar “Xưởng đề xuất” */
+.ads-box{
+  background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);
+  border:1px solid #90caf9;
+  border-radius:12px;
+  padding:12px;
+}
+
+/* Danh sách link preview */
+#adsList{
+  max-height:62vh;
+  overflow:auto;
+  padding-right:4px;
+  scroll-behavior:smooth;
+}
+
+/* Card preview từng xưởng */
+#adsList .link-preview{
+  display:flex;
+  gap:10px;
+  background:#fff;
+  border:1px solid #e3f2fd;
+  border-radius:10px;
+  padding:10px;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+}
+#adsList .link-preview .thumb{
+  width:64px; height:64px;
+  border-radius:8px; object-fit:cover; background:#f1f4ff;
+}
+#adsList .link-preview .title{ font-weight:700; }
+#adsList .link-preview .desc{ font-size:12px; color:#6b7280; }
+#adsList .link-preview .site{ font-size:12px; color:#1565c0; }
+
 </style>
 </head>
 <body>
@@ -720,23 +761,26 @@ img{max-width:100%;display:block}
       </div>
 
       <!-- XƯỞNG ĐỀ XUẤT -->
-      <div class="sidebar-box ads-box">
-        <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
-          <span class="d-inline-flex align-items-center gap-2">
-            Xưởng đề xuất
-            <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
-          </span>
-        </h6>
-        <div id="adsList" class="d-flex flex-column gap-2"></div>
-        <div id="adsEmpty" class="small text-muted">Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).</div>
-        <div class="mt-2 text-center">
-          <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
-             class="btn btn-sm fw-bold px-3" style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
-             📢 LIÊN HỆ ĐẶT QUẢNG CÁO
-          </a>
-        </div>
-      </div>
-    </div>
+<div class="sidebar-box ads-box">
+  <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
+    <span class="d-inline-flex align-items-center gap-2">
+      Xưởng đề xuất
+      <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
+    </span>
+  </h6>
+
+  <div id="adsList" class="d-flex flex-column gap-2"></div>
+  <div id="adsEmpty" class="small text-muted">Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).</div>
+
+  <div class="mt-2 text-center">
+    <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
+       class="btn btn-sm fw-bold px-3"
+       style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
+       📢 LIÊN HỆ ĐẶT QUẢNG CÁO
+    </a>
+  </div>
+</div>
+
 
     <!-- Content -->
     <div class="col-lg-9 col-md-8">
@@ -798,13 +842,17 @@ img{max-width:100%;display:block}
 </div>
 
       <!-- Thống kê -->
-      <div id="statsBar" class="mb-2">
-        <div class="d-flex align-items-center gap-2">
-          <span class="fw-semibold">Tìm thấy</span>
-          <span id="totalCount" class="badge text-bg-primary" aria-live="polite">0</span>
-          <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger">Xóa bộ lọc</button>
-        </div>
-      </div>
+      <div class="d-flex align-items-center justify-content-between flex-wrap">
+  <div class="found-count">
+    <span class="lbl">Tìm thấy</span>
+    <span id="totalCount" class="badge text-bg-primary">0</span>
+    <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger ms-2">Xóa bộ lọc</button>
+  </div>
+
+  <!-- Giữ nguyên #pagerTop, JS đã đưa pagerTop vào đây -->
+  <div id="pagerTop"></div>
+</div>
+
 
       <!-- Pagination Top -->
       <div id="pagerTop" class="mb-2 pager-bar"></div>
@@ -1045,11 +1093,6 @@ function renderGroups(groups){
   bar.innerHTML = list.map(g => `
     <div class="group-chip ${state.group===g?'active':''}"
          data-action="select-group" data-val="${esc(g)}">${esc(g)}</div>
-  `).join('');
-
-  // dots = số nhóm
-  dots.innerHTML = list.map((_,i)=>`
-    <span class="dot ${ (list[i]===state.group)?'active':'' }" data-idx="${i}"></span>
   `).join('');
 
   // lưu để đồng bộ khi resize
@@ -1308,69 +1351,7 @@ function fetchAds(){
     .then(r=>renderAds(r.items||[]))
     .catch(()=>renderAds([]));
 }
-function renderAds(list){
-  adsData = Array.isArray(list) ? list : [];
 
-  const countEl = document.getElementById('adsCount');
-  if (countEl){
-    countEl.textContent = String(adsData.length);
-    countEl.style.display = adsData.length ? 'inline-block' : 'none';
-  }
-
-  const empty = document.getElementById('adsEmpty');
-  const box   = document.getElementById('adsList');
-
-  if (!adsData.length){
-    box.innerHTML = '';
-    empty.style.display = 'block';
-    return;
-  }
-  empty.style.display = 'none';
-
-  // Skeleton
-  box.innerHTML = adsData.map(()=>`
-    <div class="link-preview">
-      <div class="thumb" style="width:64px;height:64px;border-radius:8px;background:#f1f4ff"></div>
-      <div class="meta" style="flex:1;min-width:0">
-        <div class="title placeholder-glow"><span class="placeholder col-8" style="height:16px"></span></div>
-        <div class="desc placeholder-glow"><span class="placeholder col-10" style="height:12px"></span></div>
-        <div class="site placeholder-glow"><span class="placeholder col-4" style="height:12px"></span></div>
-        <div><span class="small text-muted">Đang tải…</span></div>
-      </div>
-      <div class="actions"></div>
-    </div>
-  `).join('');
-
-  // Fill nội dung thật
-  adsData.forEach(async (s, i)=>{
-    const card = box.children[i]; if (!card) return;
-    let p=null; try{ p = await fetchLinkPreview(s.url); }catch(e){}
-    const host = hostnameFromUrl(s.url||'');
-    const img  = (p && p.ok && p.image)      ? p.image   : (host?`https://www.google.com/s2/favicons?domain=${host}&sz=64`:'https://via.placeholder.com/64');
-    const tit  = (p && p.ok && p.title)      ? p.title   : (s.title || host || 'Đơn vị');
-    const des  = (p && p.ok && p.description)? p.description : (s.desc || '');
-    const ico  = (p && p.ok && p.favicon)    ? p.favicon : (host?`https://www.google.com/s2/favicons?domain=${host}&sz=16`:'');
-    const site = (p && p.ok && p.siteName)   ? p.siteName: (host || '');
-    const safeUrl = s.url && /^https?:\/\//i.test(s.url) ? s.url : '#';
-
-    card.innerHTML = `
-      <img class="thumb" src="${esc(img)}" alt="Logo ${esc(site)}">
-      <div class="meta" style="flex:1;min-width:0">
-        <div class="title text-truncate" title="${esc(tit)}">${esc(tit)}</div>
-        <div class="desc">${esc(des)}</div>
-        <div class="site">
-          ${ ico ? `<img src="${esc(ico)}" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px" alt="">` : '' }
-          ${esc(site)}
-        </div>
-        <div><a href="${esc(safeUrl)}" target="_blank" rel="noopener" class="small">Mở trang</a></div>
-      </div>
-      <div class="actions">
-        <a href="${esc(safeUrl)}" target="_blank" class="btn btn-sm btn-outline-primary">Liên hệ</a>
-        ${ s.doc ? `<a href="${esc(s.doc)}" target="_blank" class="btn btn-sm btn-outline-success" title="Giấy ĐKKD / Hồ sơ DN">Tệp DN</a>`
-                  : `<span class="doc-missing" title="Chưa có tệp DN">Chưa có tệp</span>` }
-      </div>`;
-  });
-}
 
 /* Cart */
 function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
