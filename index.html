@@ -1013,6 +1013,53 @@ img{max-width:100%;display:block}
   }
   #adsList{ max-height: 62vh; }    /* giữ giới hạn cũ cho mobile dọc */
 }
+/* --- HOTFIX: reset sidebar về bình thường trên mọi thiết bị --- */
+.ads-stick{
+  position: static !important;
+  top: auto !important;
+  height: auto !important;
+  align-self: auto !important;
+  width: auto !important;
+}
+/* Desktop (>=992px): sidebar dính + kéo dài */
+@media (min-width: 992px){
+  .ads-stick{
+    position: sticky !important;
+    top: 84px !important;            /* cao đúng với header của bạn */
+    align-self: flex-start !important;
+  }
+  /* Hộp "Xưởng đề xuất" cuộn được và cao hết cột */
+  .ads-stick .ads-box{
+    max-height: calc(100vh - 84px - 16px) !important;
+    overflow: auto !important;
+  }
+}
+
+/* Mobile nằm ngang: cũng bật sticky nhưng top thấp hơn một tí */
+@media (orientation: landscape) and (max-width: 991.98px){
+  .ads-stick{
+    position: sticky !important;
+    top: 72px !important;
+    align-self: flex-start !important;
+  }
+  .ads-stick .ads-box{
+    max-height: calc(100vh - 72px - 12px) !important;
+    overflow: auto !important;
+  }
+}
+
+/* Mobile dọc: tắt hết – để full-width theo dòng (không sticky) */
+@media (max-width: 575.98px) and (orientation: portrait){
+  .ads-stick{
+    position: static !important;
+    top: auto !important;
+    height: auto !important;
+  }
+  .ads-stick .ads-box{
+    max-height: none !important;
+    overflow: visible !important;
+  }
+}
    
 </style>
 </head>
