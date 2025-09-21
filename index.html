@@ -793,11 +793,14 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(()=>{});
   }
 
-  // ✅ Di chuyển #groupDots ra ngoài .category-box (giữ nguyên UI)
-  const catBox = document.querySelector('.category-box');
-  if (catBox && dots && catBox.contains(dots)) {
-    catBox.after(dots);
-  }
+// ✅ Di chuyển #groupDots ra ngoài .category-box (giữ nguyên UI)
+const catBox = document.querySelector('.category-box');
+const dots   = document.getElementById('groupDots');   // <-- thêm dòng này
+
+if (catBox && dots && catBox.contains(dots)) {
+  catBox.after(dots);
+}
+
 
   /* === Helpers === */
   function chunk(arr, size){ const out=[]; for(let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size)); return out; }
@@ -818,27 +821,29 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   function iconForGroup(name){ return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"]; }
 
- function renderGroups(groups){
+function renderGroups(groups){
   const bar = document.getElementById('groupBar');
   const dotsBox = document.getElementById('groupDots');
   if(!bar || !dotsBox) return;
 
   const list = groups || [];
-
   bar.innerHTML = list.map(g => `
     <div class="group-chip ${state.group === g ? 'active' : ''}"
          data-action="select-group" data-val="${esc(g)}">
-      <span class="chip-icon d-none"></span>
       <span class="chip-text">${esc(g)}</span>
     </div>
   `).join('');
 
-  dotsBox.innerHTML = list.map((_,i) => `
-    <span class="dot ${state.group === list[i] ? 'active' : ''}" data-idx="${i}"></span>
-  `).join('');
+  dotsBox.innerHTML = list.map((_,i) =>
+    `<span class="dot ${state.group === list[i] ? 'active' : ''}" data-idx="${i}"></span>`
+  ).join('');
 
-    window._lastGroups = list;
-  }
+  window._lastGroups = list;
+  // 👇 thêm 2 dòng này
+  updateGroupArrows();
+  updateGroupDots();
+}
+
 
   /* === Mũi tên & Dots === */
   const groupBarEl = document.getElementById('groupBar');
@@ -864,13 +869,15 @@ document.addEventListener('DOMContentLoaded', () => {
     btnPrev.disabled = (p <= 0);
     btnNext.disabled = (p >= pc-1);
   }
+   
   function updateGroupDots(){
-    const dots = document.querySelectorAll('#groupDots .dot');
-    const chips = document.querySelectorAll('#groupBar .group-chip');
-    let activeIdx = -1;
-    chips.forEach((c,i)=>{ if(c.dataset.val === (state.group||'')) activeIdx = i; });
-    dots.forEach((d,i)=> d.classList.toggle('active', i===activeIdx));
-  }
+  const dotEls = document.querySelectorAll('#groupDots .dot');
+  const chips  = document.querySelectorAll('#groupBar .group-chip');
+  let activeIdx = -1;
+  chips.forEach((c,i)=>{ if(c.dataset.val === (state.group||'')) activeIdx = i; });
+  dotEls.forEach((d,i)=> d.classList.toggle('active', i===activeIdx));
+}
+   
   btnPrev?.addEventListener('click', ()=> scrollToPage(Math.max(0, currentPage()-1)));
   btnNext?.addEventListener('click', ()=> scrollToPage(Math.min(pagesCount()-1, currentPage()+1)));
   groupBarEl?.addEventListener('scroll', ()=>{
@@ -922,7 +929,13 @@ document.addEventListener('DOMContentLoaded', () => {
   /* UTILS */
   const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
   const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
+  function badgeColor(txt){
+  const t = String(txt||'').toLowerCase();
+  if(t.includes('mẫu')||t.includes('sample')) return '#4caf50';
+  if(t.includes('giảm')||t.includes('sale')||t.includes('km')) return '#ff9800';
+  if(t.includes('gấp')||t.includes('urgent')) return '#d32f2f';
+  return '#555';
+}
   function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
   function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
 
@@ -1034,16 +1047,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const key=(val||'').toString().toUpperCase();
     return CATEGORY_ICONS[key] || CATEGORY_ICONS["KHÁC"];
   }
+   
   function renderCategoryPager(items){
-    const box = document.getElementById('categoryScroll');
-    const slice = items.slice(catIndex, catIndex + catsPerView);
-    box.innerHTML = slice.map(val => `
-      <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
-        <div class="icon"><img src="${iconForCat(val)}" alt="Danh mục ${esc(val||'Khác')}"></div>
-        <span>${esc(val||'Khác')}</span>
-      </div>
-    `).join('');
-  }
+  const box = document.getElementById('categoryScroll');
+  if(!box) return;
+  const slice = items.slice(catIndex, catIndex + catsPerView);
+  box.innerHTML = slice.map(val => `
+    <div class="category-item ${state.category===val?'active':''}"
+         data-action="select-category" data-val="${esc(val)}">
+      <div class="icon"><img src="${iconForCat(val)}" alt="Danh mục ${esc(val||'Khác')}"></div>
+      <span>${esc(val||'Khác')}</span>
+    </div>
+  `).join('');
+}
+
   function scrollCats(dir){
     const total = allCategories.length;
     catIndex += dir * catsPerView;
