@@ -961,6 +961,8 @@ img{max-width:100%;display:block}
 }
 .stats-row{ gap:8px; }
 #pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
+/* Pager nằm sát nút "Xóa bộ lọc" */
+#pagerTop{ margin-left:0 !important; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
    
 </style>
 </head>
@@ -1548,22 +1550,57 @@ function productCardHtml(it){
 }
 
 /* ========= PAGER (mũi tên + dropdown) ========= */
+/* ========= PAGER (mũi tên + dropdown) ========= */
 function renderPagination(totalItems, pageSize, currentPage){
-  const totalPages = Math.max(1, Math.ceil((totalItems||0) / (pageSize||1)));
+  const totalPages = Math.max(1, Math.ceil((totalItems || 0) / (pageSize || 1)));
   state.totalPages = totalPages;
 
   const block = (where) => `
     <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
       <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-prev" ${currentPage<=1?'disabled':''}>&lsaquo;</button>
       <select class="form-select form-select-sm page-select" style="width:auto">
-        ${Array.from({length: totalPages}, (_,i)=>{
-          const p = i+1;
+        ${Array.from({length: totalPages}, (_, i) => {
+          const p = i + 1;
           return `<option value="${p}" ${p===currentPage?'selected':''}>Trang ${p}/${totalPages}</option>`;
         }).join('')}
       </select>
       <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-next" ${currentPage>=totalPages?'disabled':''}>&rsaquo;</button>
     </div>
   `;
+
+  // Render lên 2 vị trí có sẵn
+  const top = document.getElementById('pagerTop');
+  const bot = document.getElementById('pagerBottom');
+  if (top) top.innerHTML = block('top');
+  if (bot) bot.innerHTML = block('bottom');
+
+  // Sự kiện đổi trang bằng select
+  document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select')
+    .forEach(sel => {
+      sel.onchange = (e) => {
+        state.page = parseInt(e.target.value, 10) || 1;
+        fetchPage();
+      };
+    });
+
+  // Sự kiện nút prev/next
+  document.querySelectorAll('#pagerTop [data-action="page-prev"], #pagerBottom [data-action="page-prev"]')
+    .forEach(btn => btn.onclick = () => {
+      if (state.page > 1) { state.page--; fetchPage(); }
+    });
+
+  document.querySelectorAll('#pagerTop [data-action="page-next"], #pagerBottom [data-action="page-next"]')
+    .forEach(btn => btn.onclick = () => {
+      if (state.page < state.totalPages) { state.page++; fetchPage(); }
+    });
+
+  // Đưa pagerTop sát nút "Xóa bộ lọc"
+  const leftBlock = document.querySelector('.found-count'); // khối "Tìm thấy + Xóa bộ lọc"
+  if (leftBlock && top) {
+    leftBlock.appendChild(top);      // nhét pager vào ngay sau nút Xóa bộ lọc
+    top.classList.add('ms-2');       // cách nhẹ 1 xíu
+  }
+}
 
   // Render lên 2 vị trí có sẵn
   const top = document.getElementById('pagerTop');
