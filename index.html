@@ -996,6 +996,17 @@ img{max-width:100%;display:block}
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   cursor: pointer;
 }
+/* === Force group chip to be a rounded rectangle === */
+#groupBar .group-chip{
+  border-radius: 12px !important;   /* bo góc nhẹ */
+  padding: 12px 14px !important;    /* thu gọn padding để bớt “viên thuốc” */
+  min-height: auto !important;      /* bỏ cố định chiều cao nếu có */
+}
+
+/* nếu vẫn còn bị lớp nào khác thắng, tăng thêm độ ưu tiên */
+.category-box #groupBar .group-chip{
+  border-radius: 12px !important;
+}
 
    
 </style>
