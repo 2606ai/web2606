@@ -768,7 +768,8 @@ img{max-width:100%;display:block}
       <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
     </span>
   </h6>
-
+</div> <!-- đóng .col-lg-3 col-md-4 -->
+       
   <div id="adsList" class="d-flex flex-column gap-2"></div>
   <div id="adsEmpty" class="small text-muted">Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).</div>
 
@@ -852,10 +853,6 @@ img{max-width:100%;display:block}
   <!-- Giữ nguyên #pagerTop, JS đã đưa pagerTop vào đây -->
   <div id="pagerTop"></div>
 </div>
-
-
-      <!-- Pagination Top -->
-      <div id="pagerTop" class="mb-2 pager-bar"></div>
 
       <!-- Grid -->
       <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2" aria-live="polite"></div>
@@ -1084,20 +1081,26 @@ function getCols(){
 /* === Render groups theo TRANG + dots === */
 function renderGroups(groups){
   const bar  = document.getElementById('groupBar');
-  const dots = document.getElementById('groupDots');
-  if(!bar || !dots) return;
+  const dotsBox = document.getElementById('groupDots');
+  if(!bar || !dotsBox) return;
 
   const list = groups || [];
 
-  // render tất cả nhóm (không chia trang nữa)
+  // Render chips
   bar.innerHTML = list.map(g => `
     <div class="group-chip ${state.group===g?'active':''}"
          data-action="select-group" data-val="${esc(g)}">${esc(g)}</div>
   `).join('');
 
-  // lưu để đồng bộ khi resize
+  // Render dots (mỗi group 1 dot, index dùng để click)
+  dotsBox.innerHTML = list.map((_,i) =>
+    `<span class="dot ${state.group===list[i]?'active':''}" data-idx="${i}" aria-label="Nhóm ${i+1}"></span>`
+  ).join('');
+
+  // Lưu để dùng khi resize
   window._lastGroups = list;
 }
+
 
 
 /* === Mũi tên & Dots === */
@@ -1341,6 +1344,40 @@ function fetchLinkPreview(url){
 
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
 let adsData = [];
+function renderAds(items){
+  adsData = items || [];
+  const list = document.getElementById('adsList');
+  const empty = document.getElementById('adsEmpty');
+  const badge = document.getElementById('adsCount');
+
+  if(!list) return;
+  list.innerHTML = adsData.map(it => {
+    const url = it.url || it.link || '';
+    const img = it.img || it.thumb || '';
+    const title = it.title || it.name || 'Đơn vị';
+    const desc = it.desc || it.description || '';
+    const site = url ? (new URL(url, location.href).hostname) : '';
+    return `
+      <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
+        <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://via.placeholder.com/64?text=%20'">
+        <div class="flex-grow-1">
+          <div class="title">${esc(title)}</div>
+          ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
+          ${site ? `<div class="site">${esc(site)}</div>` : ``}
+        </div>
+      </a>
+    `;
+  }).join('');
+
+  if (badge){
+    badge.textContent = adsData.length;
+    badge.style.display = adsData.length ? 'inline-block' : 'none';
+  }
+  if (empty){
+    empty.style.display = adsData.length ? 'none' : 'block';
+  }
+}
+
 function fetchAds(){
   const qs = new URLSearchParams({
     action:'ads',
