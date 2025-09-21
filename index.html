@@ -836,6 +836,28 @@ img{max-width:100%;display:block}
   align-items: center;
   gap: 4px;
 }
+/* Giữ "Tìm thấy …" và pagerTop cùng 1 dòng trên mobile */
+.stats-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:nowrap;        /* không cho rớt dòng */
+}
+
+#pagerTop{
+  margin-left:auto;        /* đẩy pager sang phải */
+  display:flex;
+  align-items:center;
+  gap:4px;
+  flex-shrink:0;           /* không bị co nhỏ quá */
+}
+
+/* Tối ưu khi màn hình rất hẹp */
+@media (max-width:576px){
+  .stats-row{gap:6px}
+  .found-count{flex:1 1 auto; min-width:0}
+}
 
    
 </style>
@@ -1006,17 +1028,18 @@ img{max-width:100%;display:block}
   </div>
 </div>
 
-      <!-- Thống kê -->
-      <div class="d-flex align-items-center justify-content-between flex-wrap">
+      <!-- Thống kê + Pagination (giữ 1 dòng trên mobile) -->
+<div class="stats-row d-flex align-items-center justify-content-between">
   <div class="found-count">
     <span class="lbl">Tìm thấy</span>
     <span id="totalCount" class="badge text-bg-primary">0</span>
     <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger ms-2">Xóa bộ lọc</button>
   </div>
 
-  <!-- Giữ nguyên #pagerTop, JS đã đưa pagerTop vào đây -->
+  <!-- Pagination sẽ được JS render vào đây -->
   <div id="pagerTop"></div>
 </div>
+
 
       <!-- Grid -->
       <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2" aria-live="polite"></div>
