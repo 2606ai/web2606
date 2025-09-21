@@ -882,7 +882,45 @@ img{max-width:100%;display:block}
   }
   #pagerTop{ margin-top:6px; }
 }
+/* Ẩn toàn bộ chấm tròn dưới carousel/pagination */
+.carousel-indicators,
+#groupDots{
+  display: none !important;
+}
+/* ===== PAGER: cao = btn-sm + gọn chiều ngang ===== */
+#pagerTop .btn,
+#pagerBottom .btn{
+  padding: .25rem .5rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  min-width: 40px;
+}
 
+#pagerTop .btn-group,
+#pagerBottom .btn-group{ gap: 4px; }
+
+/* Hàng thống kê phía trên (Tìm thấy + Xóa bộ lọc + Pager) */
+.stats-row,
+.d-flex.align-items-center.justify-content-between.flex-wrap{ 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#pagerTop{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 576px){
+  .found-count{ flex: 1 1 auto; }
+  #pagerTop   { flex: 0 1 auto; }
+}
    
 </style>
 </head>
