@@ -814,12 +814,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const list = groups || [];
     bar.innerHTML = list.map(g => `
-      <div class="group-chip ${state.group===g?'active':''}"
-           data-action="select-group" data-val="${esc(g)}">
-        <span class="chip-icon d-none"></span>
-        <span class="chip-text">${esc(g)}</span>
-      </div>
-    ).join('');
+  <div class="group-chip ${state.group===g ? 'active' : ''}"
+       data-action="select-group" data-val="${esc(g)}">
+    <span class="chip-icon d-none"></span>
+    <span class="chip-text">${esc(g)}</span>
+  </div>
+`).join('');
+
 
     dotsBox.innerHTML = list.map((_,i)=>
       `<span class="dot ${state.group===list[i]?'active':''}" data-idx="${i}"></span>`
@@ -1081,23 +1082,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const badge = document.getElementById('adsCount');
 
     if(!list) return;
-    list.innerHTML = adsData.map(it => {
-      const url = it.url || it.link || '';
-      const img = it.img || it.thumb || '';
-      const title = it.title || it.name || 'Đơn vị';
-      const desc = it.desc || it.description || '';
-      const site = url ? (new URL(url, location.href).hostname) : '';
-      return `
-        <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
-          <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://via.placeholder.com/64?text=%20'">
-          <div class="flex-grow-1">
-            <div class="title">${esc(title)}</div>
-            ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
-            ${site ? `<div class="site">${esc(site)}</div>` : ``}
-          </div>
-        </a>
-      `;
-    }).join('');
+   list.innerHTML = adsData.map(it => {
+  const url   = it.url   || it.link  || '';
+  const img   = it.img   || it.thumb || '';
+  const title = it.title || it.name  || 'Đơn vị';
+  const desc  = it.desc  || it.description || '';
+  const site  = url ? (new URL(url, location.href).hostname) : '';
+
+  return `
+    <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
+      <img class="thumb" src="${esc(img)}" alt="${esc(title)}"
+           onerror="this.src='https://via.placeholder.com/64?text=%20'">
+      <div class="flex-grow-1">
+        <div class="title">${esc(title)}</div>
+        ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
+        ${site ? `<div class="site">${esc(site)}</div>` : ``}
+      </div>
+    </a>
+  `;
+}).join('');
+
 
     if (badge){
       badge.textContent = adsData.length;
