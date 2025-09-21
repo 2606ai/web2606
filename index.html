@@ -971,17 +971,17 @@ img{max-width:100%;display:block}
 #pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
 /* Pager nằm sát nút "Xóa bộ lọc" */
 #pagerTop{ margin-left:0 !important; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
-#fabCart, #fabFilter, #fabSup, #fabChat {
+#cartFab, #filterFab, #suppliersFab, #zaloFab {
   position: fixed;
-  left: 16px;      /* Đặt sát bên trái */
-  right: auto;     /* Hủy cố định bên phải */
+  left: 16px;
+  right: auto;
   z-index: 1055;
 }
 
-#fabCart { bottom: 80px; }
-#fabFilter { bottom: 140px; }
-#fabSup { bottom: 200px; }
-#fabChat { bottom: 260px; }
+#cartFab       { bottom: 148px; }
+#filterFab     { bottom: 212px; }
+#suppliersFab  { bottom: 84px; }
+#zaloFab       { bottom: 20px; }
 .group-arrow {
   display: flex !important;   /* đảm bảo hiện lại */
   align-items: center;
@@ -1010,6 +1010,8 @@ img{max-width:100%;display:block}
 .supplier-card .supplier-doc { margin-top: 8px; font-size: 12px; }
 .supplier-card .doc-input   { max-width: 260px; }
 .supplier-card .doc-preview { font-size: 11px; color: #666; font-style: italic; }
+.chip.muted { color:#6b7280; background:#f3f4f6; }
+.chip.btn-upload-doc { cursor:pointer; }
 
    
 </style>
@@ -1098,28 +1100,34 @@ img{max-width:100%;display:block}
         </div>
       </div>
 
-      <!-- XƯỞNG ĐỀ XUẤT -->
-<div class="sidebar-box ads-box">
-  <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
-    <span class="d-inline-flex align-items-center gap-2">
-      Xưởng đề xuất
-      <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
-    </span>
-  </h6>
-</div> <!-- đóng .col-lg-3 col-md-4 -->
-       
-  <div id="adsList" class="d-flex flex-column gap-2"></div>
-  <div id="adsEmpty" class="small text-muted">Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).</div>
+     <!-- XƯỞNG ĐỀ XUẤT -->
+<div class="col-lg-3 col-md-4">
+  <div class="sidebar-box benefits-v3">
+    <!-- ... nếu có nội dung benefit khác thì giữ lại ... -->
+  </div>
 
-  <div class="mt-2 text-center">
-    <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
-       class="btn btn-sm fw-bold px-3"
-       style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
-       📢 LIÊN HỆ ĐẶT QUẢNG CÁO
-    </a>
+  <div class="sidebar-box ads-box">
+    <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
+      <span class="d-inline-flex align-items-center gap-2">
+        Xưởng đề xuất
+        <span id="adsCount" class="badge rounded-pill text-bg-primary" 
+              style="font-weight:700;display:none">0</span>
+      </span>
+    </h6>
+
+    <div id="adsList" class="d-flex flex-column gap-2"></div>
+    <div id="adsEmpty" class="small text-muted">
+      Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).
+    </div>
+    <div class="mt-2 text-center">
+      <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
+         class="btn btn-sm fw-bold px-3"
+         style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
+        📢 LIÊN HỆ ĐẶT QUẢNG CÁO
+      </a>
+    </div>
   </div>
 </div>
-
 
     <!-- Content -->
     <div class="col-lg-9 col-md-8">
@@ -1847,42 +1855,38 @@ async function submitOrder(){
 let suppliersAll = [];
 function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
 function supplierCardHTML(s){
-  const hasSite = !!s.url;
-  return `
-    <div class="supplier-card mb-2" data-supplier="${esc(s.name || 'Xưởng')}">
-      <div class="title">${esc(s.name || 'Xưởng')}</div>
+ const hasSite = !!s.url;
+const hasDoc = s.cert && /^https?:\/\//i.test(s.cert);
 
-      ${hasSite
-        ? `<a href="${esc(s.url)}" target="_blank" rel="noopener"
-             class="small text-truncate d-inline-block" style="max-width:100%">
-             ${esc(s.url)}
-           </a>`
-        : `<div class="small text-muted">(Không có website cụ thể)</div>`}
+return `
+  <div class="supplier-card mb-2">
+    <div class="title">${(s.name||'').trim()}</div>
 
-      ${s.address ? `<div class="meta mt-1">📍 ${esc(s.address)}</div>` : ''}
+    ${hasSite
+      ? `<a href="${esc(s.url)}" target="_blank" rel="noopener" class="small text-truncate d-inline-block" style="max-width:100%">${esc(s.url)}</a>`
+      : `<div class="small text-muted">(Không có website cụ thể)</div>`}
 
-      <div class="chips">
-        <span class="chip ${hasSite ? 'ok' : ''}">
-          ${hasSite ? 'Có website' : 'Chưa có website'}
-        </span>
-        ${s.cert ? `<span class="chip">Chứng nhận: ${esc(s.cert)}</span>` : ''}
-      </div>
+    ${s.address ? `<div class="meta mt-1">📍 ${esc(s.address)}</div>` : ''}
 
-      <!-- ========== Khối upload giấy tờ DN ========== -->
-      <div class="supplier-doc mt-2">
-        <label class="small fw-semibold d-block mb-1">Giấy tờ DN (PDF/JPG/PNG)</label>
-        <div class="d-flex align-items-center gap-2">
-          <input type="file" class="form-control form-control-sm doc-input"
-                 accept=".pdf,.jpg,.jpeg,.png">
-          <button type="button" class="btn btn-sm btn-outline-primary doc-upload">
-            Tải lên
-          </button>
-        </div>
-        <div class="doc-preview small text-muted mt-1">Chưa chọn tệp</div>
-      </div>
-      <!-- ============================================ -->
+    <div class="chips">
+      <span class="chip ${hasSite?'ok':''}">${hasSite?'Có website':'Chưa có website'}</span>
+
+      <!-- Trạng thái tệp/giấy tờ -->
+      ${
+        hasDoc
+          ? `<span class="chip">
+              <a href="${esc(s.cert)}" target="_blank" rel="noopener">Xem tệp</a>
+             </span>`
+          : `<span class="chip muted" data-doc-status="empty">Chưa có tệp</span>
+             <button class="chip btn-upload-doc" data-supplier="${esc(s.name)}" title="Tải tệp giấy tờ">
+               Tải tệp
+             </button>`
+      }
+
+      ${s.contact ? `<span class="chip">Liên hệ: ${esc(s.contact)}</span>` : ''}
     </div>
-  `;
+  </div>
+`;
 }
 
 function renderSuppliersList(items){
@@ -1891,6 +1895,68 @@ function renderSuppliersList(items){
   counter.textContent = `${items.length}/${suppliersAll.length}`;
   box.innerHTML = items.length ? items.map(supplierCardHTML).join('') : '<div class="text-muted">Không tìm thấy xưởng phù hợp.</div>';
 }
+// URL Web App của Apps Script
+const API_BASE = API_URL;   // dùng chung API_URL
+
+(function initUploadSupplierDoc(){
+  const list = document.getElementById('suppliersList') || document; 
+  const fileInput = document.getElementById('uploadSupplierFile');
+
+  if (!list || !fileInput) return;
+
+  let currentSupplier = '';
+
+  list.addEventListener('click', (ev) => {
+    const btn = ev.target.closest('.btn-upload-doc');
+    if (!btn) return;
+    currentSupplier = btn.getAttribute('data-supplier') || '';
+    fileInput.value = '';
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', async () => {
+    if (!fileInput.files || !fileInput.files[0]) return;
+    const f = fileInput.files[0];
+
+    const btn = document.querySelector(`.btn-upload-doc[data-supplier="${CSS.escape(currentSupplier)}"]`);
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Đang tải...';
+    }
+
+    try{
+      const fd = new FormData();
+      fd.append('action', 'uploadSupplierDoc');
+      fd.append('supplier', currentSupplier);
+      fd.append('file', f, f.name);
+
+      const res = await fetch(API_BASE, { method:'POST', body: fd });
+      const json = await res.json();
+
+      if (json && json.ok && json.url){
+        const card = btn && btn.closest('.supplier-card');
+        if (card){
+          const status = card.querySelector('[data-doc-status="empty"]');
+          if (status){
+            status.outerHTML = `<span class="chip"><a href="${json.url}" target="_blank" rel="noopener">Xem tệp</a></span>`;
+          }
+          btn.remove();
+        }
+        alert('Đã tải tệp thành công.');
+      }else{
+        alert('Tải tệp thất bại.');
+      }
+    }catch(err){
+      alert('Có lỗi khi tải tệp.');
+    }finally{
+      if (btn){
+        btn.disabled = false;
+        btn.textContent = 'Tải tệp';
+      }
+    }
+  });
+})();
+
 function applySupFilters(){
   const q = normalize(document.getElementById('supSearch').value);
   const hasSite = document.getElementById('supHasSite').checked;
@@ -1942,14 +2008,73 @@ const filterOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElem
 const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('suppliersCanvas'));
 
 /* Events */
-/* ==== EVENT DELEGATION ==== */
+/* ==== EVENT DELEGATION (click chung) ==== */
 document.addEventListener('click', (e)=>{
   const el = e.target;
+
   // Chặn nhảy trang nếu lỡ dùng <a href="#">
-  if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){
+  if (el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')) {
     e.preventDefault();
   }
-// Hiển thị tên tệp khi chọn
+
+  /* === GIỎ HÀNG === */
+  if (el.matches('[data-action="add-to-cart"]')) addToCartById(el.dataset.id);
+  if (el.matches('[data-action="remove"]'))     removeItem(el.dataset.id);
+  if (el.matches('[data-action="qty"]'))        changeQty(el.dataset.id, Number(el.dataset.delta)||0);
+  if (el.matches('#clearCartBtn'))              clearCart();
+
+  /* === CATEGORY SCROLLER === */
+  const cat = el.closest('[data-action="select-category"]');
+  if (cat) selectCategory(cat.dataset.val || '');
+
+  /* === FILTER TAGS === */
+  if (el.matches('[data-action="set-filter"]')) {
+    const field = el.dataset.field;
+    state[field] = el.dataset.val || '';
+    state.page = 1;
+    fetchPage();
+    updateFilterCount();
+  }
+
+  /* === TÌM KIẾM === */
+  if (el.matches('#searchBtn')) {
+    state.q = document.getElementById('searchBox').value.trim();
+    state.page = 1;
+    fetchPage();
+  }
+
+  /* === PHÂN TRANG === */
+  if (el.matches('[data-action="page-prev"]') && state.page > 1) {
+    state.page--; fetchPage();
+  }
+  if (el.matches('[data-action="page-next"]') && state.page < state.totalPages) {
+    state.page++; fetchPage();
+  }
+  if (el.matches('[data-action="goto-page"]')) {
+    const p = Number(el.dataset.page);
+    if (p && p !== state.page) { state.page = p; fetchPage(); }
+  }
+
+  /* === GROUP SELECTOR === */
+  if (el.matches('[data-action="select-group"]')) {
+    state.group = el.dataset.val || '';
+    state.page  = 1;
+    updateGroupUI();
+    fetchPage();
+    updateFilterCount();
+  }
+});
+
+/* Enter để tìm kiếm */
+document.getElementById('searchBox')
+  .addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('searchBtn').click();
+    }
+  });
+
+/* ==== Hiển thị tên tệp khi chọn (TÁCH RA NGOÀI) ==== */
 document.addEventListener('change', (e) => {
   const input = e.target.closest('.doc-input');
   if (!input) return;
@@ -1961,15 +2086,15 @@ document.addEventListener('change', (e) => {
     : 'Chưa chọn tệp';
 });
 
-// Gửi tệp lên Apps Script
+/* ==== Upload tệp lên Apps Script (TÁCH RA NGOÀI) ==== */
 document.addEventListener('click', async (e) => {
   const btn = e.target.closest('.doc-upload');
   if (!btn) return;
 
-  const card = btn.closest('.supplier-card');
-  const input = card.querySelector('.doc-input');
+  const card    = btn.closest('.supplier-card');
+  const input   = card.querySelector('.doc-input');
   const preview = card.querySelector('.doc-preview');
-  const file = input.files && input.files[0];
+  const file    = input.files && input.files[0];
 
   if (!file) {
     alert('Vui lòng chọn tệp trước!');
@@ -1978,7 +2103,7 @@ document.addEventListener('click', async (e) => {
 
   try {
     const fd = new FormData();
-    fd.append('action', 'uploadSupplierDoc');     // server sẽ đọc action này
+    fd.append('action', 'uploadSupplierDoc');
     fd.append('supplier', card.dataset.supplier || '');
     fd.append('file', file);
     if (API_KEY) fd.append('key', API_KEY);
@@ -1986,6 +2111,7 @@ document.addEventListener('click', async (e) => {
     btn.disabled = true;
     btn.textContent = 'Đang tải...';
 
+    // dùng chung webapp
     const resp = await fetch(API_URL, { method: 'POST', body: fd });
     const json = await resp.json();
 
@@ -1997,7 +2123,7 @@ document.addEventListener('click', async (e) => {
       alert('Tải lên thất bại. Vui lòng thử lại.');
     }
   } catch (err) {
-    alert('Không thể tải tệp. Kiểm tra lại kết nối/API_URL.');
+    alert('Không thể tải tệp. Kiểm tra kết nối/API_URL.');
   } finally {
     btn.disabled = false;
     btn.textContent = 'Tải lên';
@@ -2285,6 +2411,6 @@ document.addEventListener('keydown', (e) => {
     </div>
   </div>
 </footer>
-
+<input type="file" id="uploadSupplierFile" accept="application/pdf,image/*" style="display:none">
 </body>
 </html>
