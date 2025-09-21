@@ -751,7 +751,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const ZALO_URL = "#";
   const ADS_CONTACT_URL = "#";
   const API_KEY = "";
-
+// Helper: fetch + parse JSON + ném lỗi nếu HTTP không OK
+function fetchJSON(url, opts){
+  return fetch(url, opts).then(r=>{
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  });
+}
   /* ===== FAST PAGINATION CACHE (thêm mới – KHÔNG đổi nội dung) ===== */
   const CACHE = new Map();               // key -> { ts, data }
   const CACHE_MAX = 50;
@@ -777,21 +783,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     CACHE.set(key, { ts: Date.now(), data });
   }
-  function prefetchNext(){
-    if(state.page >= state.totalPages) return;
-    const nextState = { ...state, page: state.page + 1 };
-    const key = cacheKeyFromState(nextState);
-    if (CACHE.has(key)) return;
-    const params = new URLSearchParams({
-      action:'list', page:nextState.page, pageSize:nextState.pageSize,
-      q:nextState.q, group:nextState.group, type:nextState.type,
-      loai:nextState.loai, note:nextState.note, category:nextState.category
-    });
-    fetch(API_URL + '?' + params.toString())
-      .then(r=>r.json())
-      .then(res=> cacheSet(key, res))
-      .catch(()=>{});
-  }
+function prefetchNext(){
+  if(state.page >= state.totalPages) return;
+  const nextState = { ...state, page: state.page + 1 };
+  const key = cacheKeyFromState(nextState);
+  if (CACHE.has(key)) return;
+
+  const params = new URLSearchParams({
+    action:'list',
+    page:nextState.page,
+    pageSize:nextState.pageSize,
+    q:nextState.q,
+    group:nextState.group,
+    type:nextState.type,
+    loai:nextState.loai,
+    note:nextState.note,
+    category:nextState.category
+  });
+
+  fetchJSON(API_URL + '?' + params.toString())
+    .then(res => {
+      cacheSet(key, res);   // chỉ lưu cache, không render UI
+    })
+    .catch(()=>{ /* bỏ qua nếu fail prefetch */ });
+}
 
 // ✅ Di chuyển #groupDots ra ngoài .category-box (giữ nguyên UI)
 const catBox = document.querySelector('.category-box');
@@ -1098,7 +1113,7 @@ function renderGroups(groups){
   /* Link preview API */
   function fetchLinkPreview(url){
     const qs = new URLSearchParams({ action:'preview', url });
-    return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
+    return fetchJSON(API_URL + '?' + qs.toString());
   }
 
   /* ===== XƯỞNG ĐỀ XUẤT ===== */
@@ -1139,16 +1154,17 @@ function renderGroups(groups){
       empty.style.display = adsData.length ? 'none' : 'block';
     }
   }
-  function fetchAds(){
-    const qs = new URLSearchParams({
-      action:'ads',
-      q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
-    });
-    fetch(API_URL + '?' + qs.toString())
-      .then(r=>r.json())
-      .then(r=>renderAds(r.items||[]))
-      .catch(()=>renderAds([]));
-  }
+function fetchAds(){
+  const qs = new URLSearchParams({
+    action:'ads',
+    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+  });
+
+  fetchJSON(API_URL + '?' + qs.toString())
+    .then(res => renderAds(res.items || []))
+    .catch(() => renderAds([]));
+}
+
 
   /* Cart */
   function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
@@ -1273,20 +1289,26 @@ function renderGroups(groups){
     renderSuppliersList(out);
   }
   function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a),ms); }; }
-  function loadSuppliers(){
-    const box = document.getElementById('suppliersList');
-    box.innerHTML='Đang tải…';
-    fetch(API_URL+'?action=suppliers')
-      .then(r=>r.json())
-      .then(res=>{
-        if(!res||!res.ok||!res.items){ suppliersAll=[]; applySupFilters(); return; }
-        suppliersAll = res.items.map(s=>({
-          name: s.name || '', url:  s.url  || '', address: s.address || '', cert: s.cert || '', contact: s.contact || ''
-        }));
-        applySupFilters();
-      })
-      .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
-  }
+function loadSuppliers(){
+  const box = document.getElementById('suppliersList');
+  box.innerHTML='Đang tải…';
+
+  fetchJSON(API_URL + '?action=suppliers')
+    .then(res => {
+      const arr = Array.isArray(res?.items) ? res.items : [];
+      suppliersAll = arr.map(s => ({
+        name: s.name || '',
+        url: s.url || '',
+        address: s.address || '',
+        cert: s.cert || '',
+        contact: s.contact || ''
+      }));
+      applySupFilters();
+    })
+    .catch(() => {
+      box.innerHTML = '<div class="text-danger">Không tải được danh sách.</div>';
+    });
+}
 
   /* GẮN SỰ KIỆN CHO BỘ LỌC XƯỞNG */
   (function bindSuppliersFilterEvents(){
