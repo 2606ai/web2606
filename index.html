@@ -2103,57 +2103,6 @@ document.addEventListener('click', async (e) => {
   }
 });
 
-  /* === GIỎ HÀNG === */
-  if(el.matches('[data-action="add-to-cart"]')){
-    addToCartById(el.dataset.id);
-  }
-  if(el.matches('[data-action="remove"]')){
-    removeItem(el.dataset.id);
-  }
-  if(el.matches('[data-action="qty"]')){
-    const id = el.dataset.id;
-    const d  = Number(el.dataset.delta)||0;
-    changeQty(id, d);
-  }
-  if(el.matches('#clearCartBtn')){
-    clearCart();
-  }
-
-  /* === CATEGORY SCROLLER === */
-  if(el.closest('[data-action="select-category"]')){
-    selectCategory(el.closest('[data-action="select-category"]').dataset.val || '');
-  }
-
-  /* === FILTER TAGS === */
-  if(el.matches('[data-action="set-filter"]')){
-    const field = el.dataset.field;
-    state[field] = el.dataset.val || '';
-    state.page = 1;
-    fetchPage();
-    updateFilterCount();
-  }
-
-  /* === TÌM KIẾM === */
-  if(el.matches('#searchBtn')){
-    state.q = document.getElementById('searchBox').value.trim();
-    state.page = 1;
-    fetchPage();
-  }
-
-  if(el.matches('[data-action="page-next"]')){
-    if(state.page < state.totalPages){
-      state.page++;
-      fetchPage();
-    }
-  }
-  if(el.matches('[data-action="goto-page"]')){
-    const p = Number(el.dataset.page);
-    if(p && p !== state.page){
-      state.page = p;
-      fetchPage();
-    }
-  }
-
   /* === GROUP SELECTOR (thanh group phía trên category) === */
   if(el.matches('[data-action="select-group"]')){
     state.group = el.dataset.val || '';
