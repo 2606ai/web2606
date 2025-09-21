@@ -2008,33 +2008,28 @@ document.addEventListener('click', (ev) => {
   }
 
   /* === PHÂN TRANG === */
-  if (el.matches('[data-action="page-prev"]')) { if (state.page > 1) { state.page--; fetchPage(); } return; }
-  if (el.matches('[data-action="page-next"]')) { if (state.page < state.totalPages) { state.page++; fetchPage(); } return; }
-  if (el.matches('[data-action="goto-page"]')) {
-    const p = Number(el.dataset.page)||0;
+  if (el.matches('[data-action="page-prev"]'))  { if (state.page > 1) { state.page--; fetchPage(); } return; }
+  if (el.matches('[data-action="page-next"]'))  { if (state.page < state.totalPages) { state.page++; fetchPage(); } return; }
+  if (el.matches('[data-action="goto-page"]'))  {
+    const p = Number(el.dataset.page) || 0;
     if (p && p !== state.page) { state.page = p; fetchPage(); }
     return;
   }
-  /* === CATEGORY SELECTOR === */
-const cat = el.closest('[data-action="select-category"]');
-if (cat) {
-  selectCategory(cat.dataset.val || '');
-  return;
-}
-
-/* === GROUP SELECTOR === */
-if (el.matches('[data-action="select-group"]')) {
-  state.group = el.dataset.val || '';
-  state.page  = 1;
-  updateGroupUI();
-  fetchPage();
-  updateFilterCount();
-  return;
-}
 
   /* === CATEGORY === */
-  const cat = el.closest('[data-action="select-category"]');
-  if (cat) { selectCategory(cat.dataset.val || ''); return; }
+  const catEl = el.closest('[data-action="select-category"]');
+  if (catEl) { selectCategory(catEl.dataset.val || ''); return; }
+
+  /* === GROUP === */
+  if (el.matches('[data-action="select-group"]')) {
+    state.group = el.dataset.val || '';
+    state.page  = 1;
+    updateGroupUI();
+    updateGroupDots?.();
+    fetchPage();
+    updateFilterCount();
+    return;
+  }
 
   /* === FILTER TAGS === */
   if (el.matches('[data-action="set-filter"]')) {
