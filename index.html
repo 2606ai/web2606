@@ -127,11 +127,15 @@ img{max-width:100%;display:block}
 
 /* grid that auto-fits columns so tiles are big and flush */
 .group-bar-scroll{
-  display:grid !important;
-  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  display:flex !important;
   gap:10px;
-  overflow:visible;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
 }
+.group-bar-scroll::-webkit-scrollbar{ display:none; }
+
 
 /* tile */
 .group-chip{
@@ -743,7 +747,7 @@ img{max-width:100%;display:block}
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ==== CONFIG ===== */
-  const API_URL = "https://script.google.com/macros/s/AKfycbwBncq29c3854Ap93VvV91SWatslSnKPBkKUqzfqR20Kd4BBwRdne3zkegagwmB8nvN/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbyIFaZx_Y3lTZ0qc06fCvrXGNF3fLxa40A4qqeCgHN6AdKg2UeDoxwgaoMzNPCLv8nf/exec";
   const ZALO_URL = "#";
   const ADS_CONTACT_URL = "#";
   const API_KEY = "";
@@ -791,20 +795,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ✅ Di chuyển #groupDots ra ngoài .category-box (giữ nguyên UI)
   const catBox = document.querySelector('.category-box');
-  const dots   = document.getElementById('groupDots');
   if (catBox && dots && catBox.contains(dots)) {
     catBox.after(dots);
   }
-
-// === StatsRow: cập nhật nhãn và gắn pagerTop vào cùng hàng ===
-const statsRow = document.querySelector('.stats-row');
-if (statsRow) {
- const lblEl = statsRow.querySelector('.lbl');
-if (lblEl) lblEl.textContent = 'Tìm thấy';
-  const pagerTop = document.getElementById('pagerTop');
-  if (pagerTop) { pagerTop.classList.remove('mb-2'); statsRow.querySelector('.found-count')?.appendChild(pagerTop); }
-}
-
 
   /* === Helpers === */
   function chunk(arr, size){ const out=[]; for(let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size)); return out; }
@@ -843,10 +836,6 @@ if (lblEl) lblEl.textContent = 'Tìm thấy';
   dotsBox.innerHTML = list.map((_,i) => `
     <span class="dot ${state.group === list[i] ? 'active' : ''}" data-idx="${i}"></span>
   `).join('');
-
-    dotsBox.innerHTML = list.map((_,i)=>
-      `<span class="dot ${state.group===list[i]?'active':''}" data-idx="${i}"></span>`
-    ).join('');
 
     window._lastGroups = list;
   }
