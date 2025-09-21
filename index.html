@@ -963,6 +963,17 @@ img{max-width:100%;display:block}
 #pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
 /* Pager nằm sát nút "Xóa bộ lọc" */
 #pagerTop{ margin-left:0 !important; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
+#fabCart, #fabFilter, #fabSup, #fabChat {
+  position: fixed;
+  left: 16px;      /* Đặt sát bên trái */
+  right: auto;     /* Hủy cố định bên phải */
+  z-index: 1055;
+}
+
+#fabCart { bottom: 80px; }
+#fabFilter { bottom: 140px; }
+#fabSup { bottom: 200px; }
+#fabChat { bottom: 260px; }
    
 </style>
 </head>
