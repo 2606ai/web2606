@@ -1007,6 +1007,9 @@ img{max-width:100%;display:block}
 .category-box #groupBar .group-chip{
   border-radius: 12px !important;
 }
+.supplier-card .supplier-doc { margin-top: 8px; font-size: 12px; }
+.supplier-card .doc-input   { max-width: 260px; }
+.supplier-card .doc-preview { font-size: 11px; color: #666; font-style: italic; }
 
    
 </style>
@@ -1846,18 +1849,42 @@ function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
 function supplierCardHTML(s){
   const hasSite = !!s.url;
   return `
-    <div class="supplier-card mb-2">
-      <div class="title">${esc(s.name||'Xưởng')}</div>
+    <div class="supplier-card mb-2" data-supplier="${esc(s.name || 'Xưởng')}">
+      <div class="title">${esc(s.name || 'Xưởng')}</div>
+
       ${hasSite
-        ? `<a href="${esc(s.url)}" target="_blank" rel="noopener" class="small text-truncate d-inline-block" style="max-width:100%">${esc(s.url)}</a>`
+        ? `<a href="${esc(s.url)}" target="_blank" rel="noopener"
+             class="small text-truncate d-inline-block" style="max-width:100%">
+             ${esc(s.url)}
+           </a>`
         : `<div class="small text-muted">(Không có website cụ thể)</div>`}
-      ${s.address?`<div class="meta mt-1">📍 ${esc(s.address)}</div>`:''}
+
+      ${s.address ? `<div class="meta mt-1">📍 ${esc(s.address)}</div>` : ''}
+
       <div class="chips">
-        <span class="chip ${hasSite?'ok':''}">${hasSite?'Có website':'Chưa có website'}</span>
-        ${s.cert?`<span class="chip">Chứng nhận: ${esc(s.cert)}</span>`:''}
+        <span class="chip ${hasSite ? 'ok' : ''}">
+          ${hasSite ? 'Có website' : 'Chưa có website'}
+        </span>
+        ${s.cert ? `<span class="chip">Chứng nhận: ${esc(s.cert)}</span>` : ''}
       </div>
-    </div>`;
+
+      <!-- ========== Khối upload giấy tờ DN ========== -->
+      <div class="supplier-doc mt-2">
+        <label class="small fw-semibold d-block mb-1">Giấy tờ DN (PDF/JPG/PNG)</label>
+        <div class="d-flex align-items-center gap-2">
+          <input type="file" class="form-control form-control-sm doc-input"
+                 accept=".pdf,.jpg,.jpeg,.png">
+          <button type="button" class="btn btn-sm btn-outline-primary doc-upload">
+            Tải lên
+          </button>
+        </div>
+        <div class="doc-preview small text-muted mt-1">Chưa chọn tệp</div>
+      </div>
+      <!-- ============================================ -->
+    </div>
+  `;
 }
+
 function renderSuppliersList(items){
   const box = document.getElementById('suppliersList');
   const counter = document.getElementById('suppliersCount');
@@ -1922,6 +1949,60 @@ document.addEventListener('click', (e)=>{
   if(el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')){
     e.preventDefault();
   }
+// Hiển thị tên tệp khi chọn
+document.addEventListener('change', (e) => {
+  const input = e.target.closest('.doc-input');
+  if (!input) return;
+  const card = input.closest('.supplier-card');
+  const preview = card.querySelector('.doc-preview');
+  const f = input.files && input.files[0];
+  preview.textContent = f
+    ? `Đã chọn: ${f.name} (${Math.round(f.size / 1024)} KB)`
+    : 'Chưa chọn tệp';
+});
+
+// Gửi tệp lên Apps Script
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.doc-upload');
+  if (!btn) return;
+
+  const card = btn.closest('.supplier-card');
+  const input = card.querySelector('.doc-input');
+  const preview = card.querySelector('.doc-preview');
+  const file = input.files && input.files[0];
+
+  if (!file) {
+    alert('Vui lòng chọn tệp trước!');
+    return;
+  }
+
+  try {
+    const fd = new FormData();
+    fd.append('action', 'uploadSupplierDoc');     // server sẽ đọc action này
+    fd.append('supplier', card.dataset.supplier || '');
+    fd.append('file', file);
+    if (API_KEY) fd.append('key', API_KEY);
+
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+
+    const resp = await fetch(API_URL, { method: 'POST', body: fd });
+    const json = await resp.json();
+
+    if (json && json.ok) {
+      const url = json.url || '#';
+      preview.innerHTML = `Đã tải lên: <a href="${esc(url)}" target="_blank" rel="noopener">Xem tệp</a>`;
+      input.value = '';
+    } else {
+      alert('Tải lên thất bại. Vui lòng thử lại.');
+    }
+  } catch (err) {
+    alert('Không thể tải tệp. Kiểm tra lại kết nối/API_URL.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Tải lên';
+  }
+});
 
   /* === GIỎ HÀNG === */
   if(el.matches('[data-action="add-to-cart"]')){
