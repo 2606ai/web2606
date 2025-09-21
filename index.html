@@ -858,6 +858,30 @@ img{max-width:100%;display:block}
   .stats-row{gap:6px}
   .found-count{flex:1 1 auto; min-width:0}
 }
+/* Giữ bố cục tìm thấy + pagination gọn gàng */
+.stats-row{
+  margin-bottom: 8px;
+}
+
+.found-count{
+  flex-wrap:nowrap;
+  gap:6px;
+}
+
+#pagerTop{
+  white-space:nowrap;
+}
+
+/* Khi màn hình nhỏ: cho 2 hàng tách nhau */
+@media (max-width:576px){
+  .stats-row .col-auto,
+  .stats-row .col{
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align:center;
+  }
+  #pagerTop{ margin-top:6px; }
+}
 
    
 </style>
@@ -1028,17 +1052,21 @@ img{max-width:100%;display:block}
   </div>
 </div>
 
-      <!-- Thống kê + Pagination (giữ 1 dòng trên mobile) -->
-<div class="stats-row d-flex align-items-center justify-content-between">
-  <div class="found-count">
+      <!-- Thống kê + Pagination -->
+<div class="stats-row row g-2 align-items-center">
+  <!-- Bên trái -->
+  <div class="col-auto d-flex align-items-center found-count">
     <span class="lbl">Tìm thấy</span>
     <span id="totalCount" class="badge text-bg-primary">0</span>
     <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger ms-2">Xóa bộ lọc</button>
   </div>
 
-  <!-- Pagination sẽ được JS render vào đây -->
-  <div id="pagerTop"></div>
+  <!-- Bên phải -->
+  <div class="col text-end">
+    <div id="pagerTop" class="d-inline-flex"></div>
+  </div>
 </div>
+
 
 
       <!-- Grid -->
