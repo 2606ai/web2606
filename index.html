@@ -824,19 +824,26 @@ if (statsRow) {
   };
   function iconForGroup(name){ return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"]; }
 
-  function renderGroups(groups){
-    const bar  = document.getElementById('groupBar');
-    const dotsBox = document.getElementById('groupDots');
-    if(!bar || !dotsBox) return;
+ function renderGroups(groups){
+  const bar = document.getElementById('groupBar');
+  const dotsBox = document.getElementById('groupDots');
+  if(!bar || !dotsBox) return;
 
-    const list = groups || [];
-    bar.innerHTML = list.map(g => `
-  <div class="group-chip ${state.group===g ? 'active' : ''}"
-       data-action="select-group" data-val="${esc(g)}">
-    <span class="chip-icon d-none"></span>
-    <span class="chip-text">${esc(g)}</span>
-  </div>
-`).join('');
+  const list = groups || [];
+
+  bar.innerHTML = list.map(g => `
+    <div class="group-chip ${state.group === g ? 'active' : ''}"
+         data-action="select-group" data-val="${esc(g)}">
+      <span class="chip-icon d-none"></span>
+      <span class="chip-text">${esc(g)}</span>
+    </div>
+  `).join('');
+
+  dotsBox.innerHTML = list.map((_,i) => `
+    <span class="dot ${state.group === list[i] ? 'active' : ''}" data-idx="${i}"></span>
+  `).join('');
+}
+
 
 
     dotsBox.innerHTML = list.map((_,i)=>
