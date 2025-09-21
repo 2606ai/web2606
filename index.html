@@ -747,7 +747,7 @@ img{max-width:100%;display:block}
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ==== CONFIG ===== */
-  const API_URL = "https://script.google.com/macros/s/AKfycbyIFaZx_Y3lTZ0qc06fCvrXGNF3fLxa40A4qqeCgHN6AdKg2UeDoxwgaoMzNPCLv8nf/exec";
+  const API_URL = "https://script.google.com/macros/s/AKfycbyYGZIKPF-vjJTBiKLO431_D5T51x6tuZZd3VYgtVQxjX7_FICmlilLFDb3mBrozmL9/exec";
   const ZALO_URL = "#";
   const ADS_CONTACT_URL = "#";
   const API_KEY = "";
@@ -1503,20 +1503,20 @@ function loadSuppliers(){
       q:state.q,group:state.group,type:state.type,loai:state.loai,note:state.note,category:state.category
     });
 
-    fetch(API_URL+'?'+params.toString(), { signal: ctl.signal })
-      .then(r=>r.json())
-      .then(res => {
-        if(ctl.signal.aborted) return;
-        cacheSet(key, res);
-        render(res);
-        (window.requestIdleCallback?requestIdleCallback(fetchAds):setTimeout(fetchAds,200));
-        (window.requestIdleCallback?requestIdleCallback(prefetchNext):setTimeout(prefetchNext,120));
-      })
-      .catch(err=>{
-        if(err?.name==='AbortError') return;
-        document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>';
-      })
-      .finally(()=> setLoadingUI(false));
+    fetchJSON(API_URL+'?'+params.toString(), { signal: ctl.signal })
+  .then(res => {
+    if(ctl.signal.aborted) return;
+    cacheSet(key, res);
+    render(res);
+    (window.requestIdleCallback?requestIdleCallback(fetchAds):setTimeout(fetchAds,200));
+    (window.requestIdleCallback?requestIdleCallback(prefetchNext):setTimeout(prefetchNext,120));
+  })
+  .catch(err=>{
+    if(err?.name==='AbortError') return;
+    document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>';
+  })
+  .finally(()=> setLoadingUI(false));
+
   }
 
   /* === Cập nhật UI cho GROUP BAR === */
