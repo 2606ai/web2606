@@ -843,9 +843,6 @@ if (lblEl) lblEl.textContent = 'Tìm thấy';
   dotsBox.innerHTML = list.map((_,i) => `
     <span class="dot ${state.group === list[i] ? 'active' : ''}" data-idx="${i}"></span>
   `).join('');
-}
-
-
 
     dotsBox.innerHTML = list.map((_,i)=>
       `<span class="dot ${state.group===list[i]?'active':''}" data-idx="${i}"></span>`
