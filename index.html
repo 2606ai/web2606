@@ -935,6 +935,19 @@ img{max-width:100%;display:block}
   .found-count{ flex:0 1 auto; }
   #pagerTop   { flex:0 1 auto; }
 }
+/* Pager gọn và cùng chiều cao với btn-sm */
+#pagerTop .btn, #pagerBottom .btn{
+  padding:.35rem .6rem;
+  font-size:.875rem;
+  line-height:1.2;
+  border-radius:.25rem;
+  min-width:40px;
+}
+#pagerTop .form-select, #pagerBottom .form-select{
+  min-width:110px;   /* thu gọn ngang một chút cho vừa 1 dòng mobile */
+}
+.stats-row{ gap:8px; }
+#pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
    
 </style>
 </head>
@@ -1522,36 +1535,38 @@ function productCardHtml(it){
 }
 
 /* ========= PAGER (mũi tên + dropdown) ========= */
-function pagerHtml(current, total, where){
-  const disabledPrev = current<=1 ? 'disabled' : '';
-  const disabledNext = current>=total ? 'disabled' : '';
-  let items = '';
-  for (let i=1;i<=total;i++){
-    items += `<li>
-      <button type="button" class="dropdown-item ${i===current?'active':''}"
-        data-action="goto-page" data-page="${i}" data-where="${where}">
-        Trang ${i}
-      </button>
-    </li>`;
-  }
-  return `
-  <div class="btn-group" role="group" aria-label="pager-${where}">
-    <button class="btn btn-outline-secondary" data-action="page-prev" data-where="${where}" ${disabledPrev}>‹</button>
-    <div class="btn-group" role="group">
-      <button class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-        Trang ${current}/${total}
-      </button>
-      <ul class="dropdown-menu">${items}</ul>
-    </div>
-    <button class="btn btn-outline-secondary" data-action="page-next" data-where="${where}" ${disabledNext}>›</button>
-  </div>`;
-}
 function renderPagination(totalItems, pageSize, currentPage){
-  const totalPages = Math.max(1, Math.ceil((totalItems||0) / pageSize));
+  const totalPages = Math.max(1, Math.ceil((totalItems||0) / (pageSize||1)));
   state.totalPages = totalPages;
-  document.getElementById('pagerTop').innerHTML    = pagerHtml(currentPage, totalPages, 'top');
-  document.getElementById('pagerBottom').innerHTML = pagerHtml(currentPage, totalPages, 'bottom');
+
+  const block = (where) => `
+    <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-prev" ${currentPage<=1?'disabled':''}>&lsaquo;</button>
+      <select class="form-select form-select-sm page-select" style="width:auto">
+        ${Array.from({length: totalPages}, (_,i)=>{
+          const p = i+1;
+          return `<option value="${p}" ${p===currentPage?'selected':''}>Trang ${p}/${totalPages}</option>`;
+        }).join('')}
+      </select>
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-next" ${currentPage>=totalPages?'disabled':''}>&rsaquo;</button>
+    </div>
+  `;
+
+  // Render lên 2 vị trí có sẵn
+  const top = document.getElementById('pagerTop');
+  const bot = document.getElementById('pagerBottom');
+  if (top) top.innerHTML = block('top');
+  if (bot) bot.innerHTML = block('bottom');
+
+  // Sự kiện đổi trang khi chọn trong select
+  document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select').forEach(sel=>{
+    sel.onchange = (e)=>{
+      state.page = parseInt(e.target.value,10) || 1;
+      fetchPage();
+    };
+  });
 }
+
 
 /* ====== CATEGORY (2 hàng + mũi tên) ====== */
 let catIndex = 0;
