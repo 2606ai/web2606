@@ -974,124 +974,6 @@ img{max-width:100%;display:block}
 #fabFilter { bottom: 140px; }
 #fabSup { bottom: 200px; }
 #fabChat { bottom: 260px; }
-/* ===== Sticky "Xưởng đề xuất" cho desktop & mobile landscape ===== */
-:root{
-  /* header 70 + banner 32 + khoảng cách 10 */
-  --sticky-gap: 112px;
-}
-
-/* Desktop (>=992px) HOẶC điện thoại/tablet nằm ngang */
-@media (min-width: 992px), (max-width: 991.98px) and (orientation: landscape){
-  .ads-stick{
-    position: sticky;
-    top: var(--sticky-gap);
-    align-self: flex-start;
-    /* chiều cao panel bằng chiều cao cửa sổ trừ phần top */
-    height: calc(100vh - var(--sticky-gap));
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  /* hộp tiêu đề “Xưởng đề xuất” cố định, danh sách chiếm phần còn lại và cuộn */
-  .ads-stick .ads-box{ flex: 0 0 auto; }
-  .ads-stick #adsList{
-    flex: 1 1 auto;
-    overflow: auto;
-    max-height: none !important;   /* ghi đè 62vh cũ */
-    padding-right: 4px;
-  }
-  .ads-stick #adsEmpty,
-  .ads-stick .mt-2{ flex: 0 0 auto; }
-}
-
-/* Điện thoại dọc: trả về hành vi cũ để tránh lỗi */
-@media (max-width: 767.98px) and (orientation: portrait){
-  .ads-stick{
-    position: static;
-    height: auto;
-  }
-  #adsList{ max-height: 62vh; }    /* giữ giới hạn cũ cho mobile dọc */
-}
-/* --- HOTFIX: reset sidebar về bình thường trên mọi thiết bị --- */
-.ads-stick{
-  position: static !important;
-  top: auto !important;
-  height: auto !important;
-  align-self: auto !important;
-  width: auto !important;
-}
-/* Desktop (>=992px): sidebar dính + kéo dài */
-@media (min-width: 992px){
-  .ads-stick{
-    position: sticky !important;
-    top: 84px !important;            /* cao đúng với header của bạn */
-    align-self: flex-start !important;
-  }
-  /* Hộp "Xưởng đề xuất" cuộn được và cao hết cột */
-  .ads-stick .ads-box{
-    max-height: calc(100vh - 84px - 16px) !important;
-    overflow: auto !important;
-  }
-}
-
-/* Mobile nằm ngang: cũng bật sticky nhưng top thấp hơn một tí */
-@media (orientation: landscape) and (max-width: 991.98px){
-  .ads-stick{
-    position: sticky !important;
-    top: 72px !important;
-    align-self: flex-start !important;
-  }
-  .ads-stick .ads-box{
-    max-height: calc(100vh - 72px - 12px) !important;
-    overflow: auto !important;
-  }
-}
-
-/* Mobile dọc: tắt hết – để full-width theo dòng (không sticky) */
-@media (max-width: 575.98px) and (orientation: portrait){
-  .ads-stick{
-    position: static !important;
-    top: auto !important;
-    height: auto !important;
-  }
-  .ads-stick .ads-box{
-    max-height: none !important;
-    overflow: visible !important;
-  }
-}
-/* Mặc định: không sticky (an toàn cho mobile dọc) */
-.ads-box.ads-stick{
-  position: static;
-}
-
-/* Desktop hoặc mobile nằm ngang: bật sticky + chia chiều cao hợp lý */
-@media (min-width: 992px), (orientation: landscape) and (max-width: 991.98px){
-  .ads-box.ads-stick{
-    position: sticky;
-    top: 86px;                              /* chỉnh theo chiều cao header/banner của bạn */
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    max-height: calc(100vh - 86px - 12px);  /* trừ top + khoảng đệm */
-  }
-  .ads-box.ads-stick #adsList{
-    flex: 1 1 auto;
-    min-height: 0;        /* cho phép co */
-    overflow: auto;
-    max-height: none;     /* bỏ 62vh mặc định nếu có */
-  }
-}
-
-/* Mobile dọc: tắt sticky hoàn toàn (tránh vỡ layout) */
-@media (max-width: 575.98px) and (orientation: portrait){
-  .ads-box.ads-stick{
-    position: static;
-    max-height: none;
-  }
-  /* nếu muốn vẫn giới hạn chút cho mobile dọc: */
-  /* .ads-box.ads-stick #adsList{ max-height: 62vh; overflow:auto; } */
-}
    
 </style>
 </head>
@@ -1125,7 +1007,6 @@ img{max-width:100%;display:block}
   <div class="row g-3">
     <!-- Sidebar -->
     <div class="col-lg-3 col-md-4">
-       <div class="col-lg-3 col-md-4 ads-stick">
       <div class="sidebar-box benefits-v3">
         <h6 class="mb-2">Chúng tôi có gì cho bạn...</h6>
         <div class="grid">
@@ -1133,12 +1014,10 @@ img{max-width:100%;display:block}
             <span class="benefit-note benefit-free">Miễn phí</span>
             <div class="ic">📚</div>
             <div>
-               
               <div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div>
               <div class="sub">Không lo thiếu ý tưởng</div>
             </div>
           </div>
-           
           <div class="bcard" data-benefit="b2" role="button" tabindex="0" aria-label="500+ nhà cung cấp và xưởng sản xuất">
             <span class="benefit-note benefit-free">Miễn phí</span>
             <div class="ic">🏭</div>
@@ -1182,19 +1061,18 @@ img{max-width:100%;display:block}
         </div>
       </div>
 
-    <!-- XƯỞNG ĐỀ XUẤT -->
-<div class="sidebar-box ads-box ads-stick">
+      <!-- XƯỞNG ĐỀ XUẤT -->
+<div class="sidebar-box ads-box">
   <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
     <span class="d-inline-flex align-items-center gap-2">
       Xưởng đề xuất
       <span id="adsCount" class="badge rounded-pill text-bg-primary" style="font-weight:700;display:none">0</span>
     </span>
   </h6>
-
+</div> <!-- đóng .col-lg-3 col-md-4 -->
+       
   <div id="adsList" class="d-flex flex-column gap-2"></div>
-  <div id="adsEmpty" class="small text-muted">
-    Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).
-  </div>
+  <div id="adsEmpty" class="small text-muted">Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).</div>
 
   <div class="mt-2 text-center">
     <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
