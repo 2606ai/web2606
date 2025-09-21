@@ -110,6 +110,20 @@ img{max-width:100%;display:block}
   padding:10px 12px; box-shadow:var(--shadow-sm); margin-bottom:6px;
   position:relative;
 }
+/* Arrows for group bar */
+.group-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:transparent;
+  border:none;
+  font-size:22px;
+  color:var(--main);
+  cursor:pointer;
+  z-index:2;
+}
+.group-arrow.left{ left:-4px }
+.group-arrow.right{ right:-4px }
 
 /* grid that auto-fits columns so tiles are big and flush */
 .group-bar-scroll{
@@ -213,7 +227,7 @@ img{max-width:100%;display:block}
 .cardx .price{font-weight:400;color:#d32f2f;font-size:1rem;margin-top:2px}
 .cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cardx .btn-gift{
-  background:#fff;border:1px solid var(--main);color:#var(--main);font-weight:700;
+  background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;
   padding:6px 10px;border-radius:999px;font-size:12px;line-height:1;display:inline-flex;align-items:center;gap:6px;text-decoration:none;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
 .cardx .btn-gift:hover{background:var(--main);color:#fff;text-decoration:none}
@@ -244,7 +258,7 @@ img{max-width:100%;display:block}
   border-bottom:1px solid var(--border); border-radius:12px 12px 0 0
 }
 .sup-toolbar .counter{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
-.sup-toolbar .pill{background:#eef3ff;color:#var(--main);border:1px solid #dbe3ff;padding:2px 8px;border-radius:999px;font-weight:700;font-size:12px}
+.sup-toolbar .pill{background:#eef3ff;color:var(--main);border:1px solid #dbe3ff;padding:2px 8px;border-radius:999px;font-weight:700;font-size:12px}
 .supplier-list{max-height:62vh;overflow:auto;padding-right:4px}
 .supplier-card{
   border:1px solid var(--border);border-radius:12px;padding:10px;background:#fff;
@@ -515,6 +529,20 @@ img{max-width:100%;display:block}
           <div class="group-bar-scroll" id="groupBar"></div>
           <button class="group-arrow right" id="groupNext">›</button>
         </div>
+/* Arrows for group bar */
+.group-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  background:transparent;
+  border:none;
+  font-size:22px;
+  color:var(--main);
+  cursor:pointer;
+  z-index:2;
+}
+.group-arrow.left{ left:-4px }
+.group-arrow.right{ right:-4px }
 
         <div class="category-wrapper">
           <button class="cat-arrow left"  type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
@@ -776,7 +804,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng như cũ ===
-  const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
   if (statsRow) {
     const lbl = statsRow.querySelector('.fw-semibold');
     if (lbl) lbl.textContent = 'Tìm thấy';
