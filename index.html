@@ -1602,22 +1602,6 @@ function renderPagination(totalItems, pageSize, currentPage){
   }
 }
 
-  // Render lên 2 vị trí có sẵn
-  const top = document.getElementById('pagerTop');
-  const bot = document.getElementById('pagerBottom');
-  if (top) top.innerHTML = block('top');
-  if (bot) bot.innerHTML = block('bottom');
-
-  // Sự kiện đổi trang khi chọn trong select
-  document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select').forEach(sel=>{
-    sel.onchange = (e)=>{
-      state.page = parseInt(e.target.value,10) || 1;
-      fetchPage();
-    };
-  });
-}
-
-
 /* ====== CATEGORY (2 hàng + mũi tên) ====== */
 let catIndex = 0;
 const catsPerView = 12; // 6 x 2
