@@ -715,7 +715,112 @@ img{max-width:100%;display:block}
   outline:3px solid rgba(0,24,168,.12);
   outline-offset:0;
 }
-  
+/* === Tách 2 phần & bỏ kiểu khung vuông – style giống Tiki === */
+
+/* Bỏ khung .category-box để tabs và danh mục nhìn rời nhau */
+.category-box{
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Tabs (group bar) thành 1 dải độc lập, không viền */
+.category-box .group-bar-wrapper{
+  margin: 0 0 10px 0 !important;   /* tạo khoảng cách với phần dưới */
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Tabs kiểu Tiki: pill bo tròn, không khung ô vuông */
+#groupBar{
+  display: flex;
+  gap: 10px !important;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#groupBar::-webkit-scrollbar{ display:none; }
+
+#groupBar .group-chip{
+  border: 0 !important;
+  background: transparent !important;
+  color: #0a33cc !important;
+  border-radius: 999px !important;
+  padding: 10px 16px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  line-height: 1.1;
+  white-space: nowrap;
+  transition: background .12s ease, color .12s ease;
+}
+#groupBar .group-chip:hover{
+  background: rgba(0,24,168,.08) !important;
+}
+#groupBar .group-chip.active{
+  background: #0018a8 !important;
+  color: #fff !important;
+}
+
+/* Dots giữ lại nhưng gọn hơn */
+#groupDots{ margin: 6px 0 12px !important; gap: 6px; }
+#groupDots .dot{ width:6px; height:6px; border-radius:50%; background:#c9d6ff; }
+#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
+
+/* Phần danh mục icon: panel trắng bo tròn nhẹ (không viền) */
+.category-box .category-wrapper{
+  border: 0 !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04) !important; /* nhẹ như Tiki */
+}
+
+/* Grid danh mục vẫn 2 hàng nhưng bỏ khung ô vuông từng item */
+.category-scroll{
+  gap: 16px !important;
+}
+.category-item{
+  border: 0 !important;
+  background: transparent !important;
+  padding: 8px 6px !important;
+  border-radius: 12px !important;
+  transition: transform .12s ease, background .12s ease;
+}
+.category-item:hover{
+  background: #f7f9ff !important;
+  transform: translateY(-1px);
+}
+/* Icon tròn nền dịu + shadow nhẹ */
+.category-item .icon{
+  width: 56px !important; height: 56px !important;
+  border-radius: 16px !important;
+  background: #f2f6ff !important;
+  display: inline-flex; align-items:center; justify-content:center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  margin-bottom: 8px !important;
+}
+.category-item .icon img{
+  width: 32px !important; height: 32px !important; object-fit: contain;
+}
+/* Text nhỏ, 2 dòng tối đa */
+.category-item span{
+  font-size: 12px !important;
+  line-height: 1.25;
+  color: #111;
+  display: block;
+}
+.category-item.active span{
+  color: #0018a8;
+  font-weight: 700;
+}
+
+/* Giữ mũi tên nhỏ cho danh mục */
+.cat-arrow{
+  col
+
    
 </style>
 </head>
