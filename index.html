@@ -1499,6 +1499,30 @@ footer.text-light .bi{ color:#fff; }
   background: var(--main-tint) !important;     /* hồng/ xanh nhạt khi hover tùy theme */
   color: var(--main-700) !important;
 }
+/* Nút Nhận quà: nền trắng, viền xanh, chữ xanh */
+.btn-gift,
+.theme-bamboo .btn-gift,
+.btn.btn-success, 
+.btn.btn-primary {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  box-shadow: none !important;
+  font-weight: 600; 
+  border-radius: 999px; /* giữ kiểu viên thuốc */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+}
+
+/* Hover: đổi nền xanh nhạt, chữ xanh đậm */
+.btn-gift:hover,
+.btn.btn-success:hover, 
+.btn.btn-primary:hover {
+  background: var(--main-tint) !important;
+  color: var(--main-700) !important;
+}
 
  
 </style>
