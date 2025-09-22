@@ -1771,6 +1771,113 @@ footer.text-light .bi{
     flex:0 1 auto;
   }
 }
+/* =========================
+   PATCH CSS — Khôi phục style gốc, chỉ đè những phần đang lệch
+   Dán CUỐI <style> để thắng mọi rule trước đó
+   ========================= */
+
+/* 1) Banner chạy – căn giữa chuẩn, chiều cao ổn định */
+.top-banner{height:32px;line-height:32px;display:flex;align-items:center;justify-content:center}
+.top-banner .marquee{white-space:nowrap;display:inline-block}
+
+/* 2) HERO & CAROUSEL – bo góc + ảnh đúng tỷ lệ */
+.hero .carousel{border-radius:12px;overflow:hidden}
+.hero .main img{height:300px;object-fit:cover;border-radius:12px}
+.hero .mini img{height:145px;object-fit:cover;border-radius:12px}
+
+/* 3) GROUP BAR – trả về layout gốc (chip pill trắng, viền theo theme; active = gradient + chữ trắng) */
+.group-bar-wrapper{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;box-shadow:var(--shadow-sm);margin-bottom:8px}
+#groupBar{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
+#groupBar::-webkit-scrollbar{display:none}
+#groupBar .group-chip{
+  border-radius:12px !important;
+  padding:10px 16px !important;
+  font-size:14px !important;
+  font-weight:600 !important;
+  background:#fff !important;
+  color:var(--main) !important;
+  border:1px solid var(--main) !important;
+  white-space:nowrap; cursor:pointer; transition:.15s;
+}
+#groupBar .group-chip:hover{background:var(--main-tint) !important;color:var(--main-700) !important}
+#groupBar .group-chip.active{
+  background:var(--main-grad) !important;color:#fff !important;border-color:transparent !important;
+  box-shadow:0 6px 16px var(--main-shadow) !important;
+}
+
+/* Dots dưới group bar */
+#groupDots,.group-dots{display:flex;justify-content:center;gap:6px;margin:6px 0 10px}
+#groupDots .dot,.group-dots .dot{width:6px;height:6px;border-radius:50%;background:#c9d6ff;transition:.15s}
+#groupDots .dot.active,.group-dots .dot.active{background:var(--main);transform:scale(1.2)}
+
+/* 4) CATEGORY – panel trắng bo tròn; item không viền cứng; hover dịu như bản gốc */
+.category-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;box-shadow:var(--shadow-sm)}
+.category-scroll{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(2,auto);gap:12px}
+.category-item{padding:8px;border-radius:12px;background:transparent;border:0 !important;transition:.15s}
+.category-item:hover{background:#f7f9ff}
+.category-item .icon{width:56px;height:56px;border-radius:16px;background:#f2f6ff;display:inline-flex;align-items:center;justify-content:center;margin-bottom:8px}
+.category-item .icon img{width:32px;height:32px;object-fit:contain}
+.category-item span{font-size:12px;line-height:1.25;color:#111}
+.category-item.active span{color:var(--main-700);font-weight:700}
+
+/* 5) STATS + PAGER – nằm cùng hàng, gọn chiều cao */
+.stats-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:8px}
+#pagerTop{margin-left:auto;white-space:nowrap;display:flex;align-items:center;gap:4px}
+#pagerTop .btn,#pagerBottom .btn{height:32px;padding:.35rem .6rem;font-size:.875rem;line-height:1.2;border-radius:.25rem;min-width:40px}
+#pagerTop .form-select,#pagerBottom .form-select{min-width:110px}
+@media (max-width:576px){.found-count{flex:0 1 auto}#pagerTop{flex:0 1 auto}}
+
+ /* 6) PRODUCT CARD – spacing đúng; nút Nhận quà hover chữ trắng */
+.cardx{border:none;border-radius:12px;background:#fff;box-shadow:var(--shadow-sm);transition:.15s;display:flex;flex-direction:column;height:100%}
+.cardx:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.cardx img.thumb{width:100%;height:180px;object-fit:cover}
+.cardx .id{font-weight:700;color:var(--main);font-size:13px;line-height:1.2;min-height:1.2em}
+.cardx .details{-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;min-height:2.4em}
+.cardx .type-badge{background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px;align-self:flex-start}
+.cardx .price{font-weight:600;color:#d32f2f;font-size:1rem;margin-top:auto}
+.cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.btn-gift{
+  background:#fff !important;color:var(--main) !important;border:1.5px solid var(--main) !important;
+  border-radius:999px;font-weight:600;padding:6px 14px;display:inline-flex;align-items:center;justify-content:center;
+}
+.btn-gift:hover{background:var(--main) !important;color:#fff !important;border-color:var(--main) !important}
+.add-btn{border:none;background:var(--main-grad) !important;color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px}
+
+ /* 7) ADS SIDEBAR – khung xanh nhạt mượt */
+.ads-box{background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);border:1px solid #90caf9;border-radius:12px;padding:12px}
+#adsList{max-height:62vh;overflow:auto;padding-right:4px}
+#adsList .link-preview{display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;box-shadow:var(--shadow-sm)}
+
+ /* 8) FAB – 4 nút tròn kiểu cũ, đúng vị trí và màu */
+#filterFab,#cartFab,#suppliersFab,#zaloFab,
+.filter-fab,.cart-fab,.suppliers-fab,.zalo-fab{
+  position:fixed;right:16px;width:54px;height:54px;border:none;border-radius:50%;
+  color:#fff;font-size:22px;box-shadow:0 8px 20px rgba(0,0,0,.28);z-index:2500;display:flex;align-items:center;justify-content:center;cursor:pointer
+}
+#filterFab,.filter-fab{background:#6c757d;bottom:212px}
+#cartFab,.cart-fab{background:var(--main-grad);bottom:148px}
+#suppliersFab,.suppliers-fab{background:#0d6efd;bottom:84px}
+#zaloFab,.zalo-fab{background:#25D366;bottom:20px}
+
+ /* 9) FILTER TAG – viền theo theme, active = tint dịu */
+#filterPanel h6{font-weight:700;font-size:14px;margin:16px 0 8px;color:var(--main)}
+#filterPanel .filter-tag{border:1px solid var(--main);background:#fff;color:var(--main-700);border-radius:999px;padding:6px 12px;font-weight:600}
+#filterPanel .filter-tag.active{background:var(--main-tint);border-color:var(--main);color:var(--main-700)}
+
+ /* 10) THEME BAMBOO – kế thừa đúng token (không ép shape khác lạ) */
+.theme-bamboo{
+  --main:#2e7d32;--main-600:#1b5e20;--main-700:#124a18;
+  --main-grad:linear-gradient(90deg,#43a047 0%,#2e7d32 100%);
+  --main-tint:#e7f5ea;--main-shadow:rgba(46,125,50,.22);--accent:#a6ce39;
+}
+.theme-bamboo .top-banner{background:var(--main-grad)}
+.theme-bamboo #groupBar .group-chip{background:#fff !important;color:var(--main) !important;border:1px solid var(--main) !important}
+.theme-bamboo #groupBar .group-chip:hover{background:var(--main-tint) !important;color:var(--main-700) !important}
+.theme-bamboo #groupBar .group-chip.active{background:var(--main-grad) !important;color:#fff !important;border-color:transparent !important}
+.theme-bamboo .category-item .icon{background:#edf7ed !important;box-shadow:0 4px 10px rgba(46,125,50,.12)}
+.theme-bamboo .type-badge{background:#e7f3e8;color:#1b5e20}
+.theme-bamboo footer.text-light{background:linear-gradient(180deg,#2e7d32 0%,#1b5e20 100%);color:#fff}
+.theme-bamboo footer.text-light h6{color:var(--accent)}
 
 
 </style>
