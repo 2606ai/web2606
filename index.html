@@ -292,6 +292,8 @@ img{max-width:100%;display:block}
 }
 .filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
 .filter-tag.active{background:var(--main-grad);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
+<h6>GROUP (NHÓM)</h6>
+<div id="groupBox" class="mb-3"></div>
 
 /* ---- Floating Action Buttons ---- */
 .cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
@@ -1547,6 +1549,19 @@ footer.text-light .bi{ color:#fff; }
 .cardx .details {
   margin-bottom: 12px !important;  /* nếu đang là 6px thì x2 thành 12px */
 }
+#filterPanel .filter-tag{
+  border:1px solid var(--main);
+  background:#fff;
+  color:var(--main-700);
+  border-radius:999px;
+  padding:6px 12px;
+  font-weight:600;
+}
+#filterPanel .filter-tag.active{
+  background:var(--main-tint);
+  border-color:var(--main);
+  color:var(--main-700);
+}
 
  
 </style>
@@ -2065,6 +2080,7 @@ function buildCategoryFromFacets(facets){
 
   const catEl = document.getElementById('categoryScroll');
   if (catEl) catEl.classList.add('fade-out');
+  buildFilterBox('groupBox', groups || [], 'group');
   buildCategory(facets?.categories || []);
   buildFilterBox('typeBox',  facets?.types  || [], 'type');
   buildFilterBox('loaiBox',  facets?.loais  || [], 'loai');
