@@ -1543,6 +1543,10 @@ footer.text-light .bi{ color:#fff; }
 .cardx .btn-gift{
   margin-top: 2px !important;
 }
+/* Tăng khoảng cách giữa mô tả và badge "Giá tham khảo" */
+.cardx .details {
+  margin-bottom: 12px !important;  /* nếu đang là 6px thì x2 thành 12px */
+}
 
  
 </style>
@@ -2716,6 +2720,43 @@ const BENEFIT_DETAIL = {
     card.style.cursor = 'pointer';
   });
 })();
+// === GROUP BAR: bắt click 1 lần trên container ===
+const groupBar = document.getElementById('groupBar');
+
+groupBar.addEventListener('click', (e) => {
+  const chip = e.target.closest('.group-chip');
+  if (!chip || !groupBar.contains(chip)) return;
+
+  const val = chip.dataset.val || '';
+  if (state.group === val) return;
+
+  state.group = val;
+  state.page = 1;
+  fetchPage();
+
+  groupBar.querySelectorAll('.group-chip')
+    .forEach(c => c.classList.toggle('active', c === chip));
+});
+
+// === CATEGORY: cũng bắt click trên container ===
+const catScroll = document.getElementById('categoryScroll');
+
+catScroll.addEventListener('click', (e) => {
+  const item = e.target.closest('.category-item');
+  if (!item || !catScroll.contains(item)) return;
+
+  const val = item.dataset.val || '';
+  selectCategory(val);
+});
+
+
+// Gắn click cho toàn bộ .category-item
+document.querySelectorAll('.category-item').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const val = el.dataset.val || '';
+    selectCategory(val);
+  });
+});
 
 function render(res, fromCache){
   const items = (res?.items||[]);
