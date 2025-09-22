@@ -16,7 +16,13 @@
 
 /* ---- Theme tokens ---- */
 :root{
-  --main:#0018a8;
+  /* Chủ đạo hồng + gradient */
+  --main: #e91e63; /* hồng phẳng để dùng cho text/border */
+  --main-600:#d81b60;
+  --main-700:#c2185b;
+
+  --main-grad: linear-gradient(90deg, #ff5aa7 0%, #ff8bd1 100%);
+
   --accent:#d4af37;
   --bg:#f5f6fa;
 
@@ -30,6 +36,7 @@
   --shadow-md:0 2px 8px rgba(0,0,0,.08);
   --shadow-lg:0 6px 16px rgba(0,0,0,.16);
 }
+
 
 /* ---- Base ---- */
 html,body{height:100%}
@@ -64,7 +71,7 @@ img{max-width:100%;display:block}
 .top-banner{
   position:sticky; top:70px; z-index:1054;
   height:32px; display:flex; align-items:center; justify-content:center;
-  background:var(--main); color:#fff; font-weight:700; line-height:32px;
+  background:var(--main-grad); color:#fff; font-weight:700; line-height:32px;
   overflow:hidden
 }
 .top-banner .marquee{
@@ -135,7 +142,7 @@ img{max-width:100%;display:block}
 }
 .group-chip:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .group-chip.active{
-  background:var(--main) !important; color:#fff !important; border-color:var(--main) !important;
+  background:var(--main-grad) !important; color:#fff !important; border-color:var(--main) !important;
   box-shadow:0 6px 16px rgba(0,24,168,.18)
 }
 
@@ -144,7 +151,7 @@ img{max-width:100%;display:block}
 .group-dots .dot{
   width:8px;height:8px;border-radius:50%;background:#c9d6ff;transition:transform .15s, background .15s
 }
-.group-dots .dot.active{background:var(--main);transform:scale(1.25)}
+.group-dots .dot.active{background:var(--main-grad);transform:scale(1.25)}
 
 /* =========================================================
    CATEGORY SCROLLER (two rows grid + small arrows)
@@ -216,9 +223,9 @@ img{max-width:100%;display:block}
   background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;
   padding:6px 10px;border-radius:999px;font-size:12px;line-height:1;display:inline-flex;align-items:center;gap:6px;text-decoration:none;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
-.cardx .btn-gift:hover{background:var(--main);color:#fff;text-decoration:none}
+.cardx .btn-gift:hover{background:var(--main-grad);color:#fff;text-decoration:none}
 .add-btn{
-  border:none;background:var(--main);color:#fff;border-radius:50%;
+  border:none;background:var(--main-grad);color:#fff;border-radius:50%;
   width:32px;height:32px;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center
 }
 
@@ -258,7 +265,7 @@ img{max-width:100%;display:block}
 
 /* ---- Cart Offcanvas ---- */
 #cartCanvas .offcanvas-header{
-  background:var(--main); color:#fff; border:0; border-radius:12px 12px 0 0
+  background:var(--main-grad); color:#fff; border:0; border-radius:12px 12px 0 0
 }
 #cartCanvas .offcanvas-body{font-size:13px;padding:16px}
 #cartCanvas input.form-control,#cartCanvas textarea.form-control,#cartCanvas select.form-select{
@@ -284,7 +291,7 @@ img{max-width:100%;display:block}
   font-size:13px;font-weight:500;color:#333;cursor:pointer;transition:.15s
 }
 .filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
-.filter-tag.active{background:var(--main);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
+.filter-tag.active{background:var(--main-grad);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
 
 /* ---- Floating Action Buttons ---- */
 .cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
@@ -293,7 +300,7 @@ img{max-width:100%;display:block}
   z-index:2500; cursor:pointer; display:flex; align-items:center; justify-content:center
 }
 .filter-fab{background:#6c757d;bottom:212px}
-.cart-fab{background:var(--main);bottom:148px}
+.cart-fab{background:var(--main-grad);bottom:148px}
 .suppliers-fab{background:#0d6efd;bottom:84px}
 .zalo-fab{background:#25D366;bottom:20px}
 .fab-badge{position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;padding:2px 6px;font-size:12px;font-weight:700;display:none}
@@ -1330,7 +1337,7 @@ img{max-width:100%;display:block}
 <div class="modal fade" id="benefitModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius:16px">
-      <div class="modal-header" style="background:var(--main);color:#fff;border:0">
+      <div class="modal-header" style="background:var(--main-grad);color:#fff;border:0">
         <h5 class="modal-title" id="benefitTitle">Chi tiết</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter:invert(1)"></button>
       </div>
@@ -2174,27 +2181,129 @@ const BENEFIT_DETAIL = {
   });
 })();
 
-function render(res){
+function render(res, fromCache){
   const items = (res?.items||[]);
   const grid=document.getElementById('productGrid');
+
+  // Render grid (giữ nguyên)
   grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
-  buildCategoryFromFacets(res?.facets||{});
+
+  // ✅ Chỉ rebuild facets nếu đổi
+  const newHash = hashFacets(res?.facets||{});
+  if (newHash !== _lastFacetsHash){
+    _lastFacetsHash = newHash;
+    buildCategoryFromFacets(res?.facets||{});
+  }
+
   document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
   renderPagination(res?.total||0, state.pageSize, state.page);
-  updateGroupUI();  // <-- thêm dòng này
-  updateGroupDots();
+  updateGroupUI();
+  updateGroupDots?.();
 
+  // (Tuỳ chọn) log nguồn dữ liệu
+  // console.debug('[render]', fromCache ? 'CACHE' : 'NETWORK', state);
 }
+
+/* ===== Fetch tối ưu: debounce + abort + cache (LRU) ===== */
+const FETCH_DEBOUNCE = 160;                 // ms
+let _fetchTimer = 0;
+let _inflightCtl = null;
+
+// LRU cache: key -> {time, payload}
+const _cache = new Map();
+const CACHE_LIMIT = 30;
+function cacheKeyFromState(s){
+  // chỉ key các tham số ảnh hưởng tới dữ liệu
+  return [
+    'list', s.page, s.pageSize,
+    s.q||'', s.group||'', s.type||'', s.loai||'', s.note||'', s.category||''
+  ].join('|');
+}
+function cacheGet(key){
+  if(!_cache.has(key)) return null;
+  const v = _cache.get(key);
+  // làm mới thứ tự LRU
+  _cache.delete(key); _cache.set(key, v);
+  return v.payload;
+}
+function cacheSet(key, payload){
+  _cache.set(key, { time: Date.now(), payload });
+  if(_cache.size > CACHE_LIMIT){
+    const firstKey = _cache.keys().next().value;
+    _cache.delete(firstKey);
+  }
+}
+
+// so sánh facets để tránh rebuild UI không cần thiết
+let _lastFacetsHash = '';
+function hashFacets(facets){
+  try{ return JSON.stringify(facets||{}); }catch{ return ''; }
+}
+
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
 function fetchPage(){
-  const params=new URLSearchParams({
-    action:'list',page:state.page,pageSize:state.pageSize,
-    q:state.q,group:state.group,type:state.type,loai:state.loai,note:state.note,category:state.category
-  });
-  fetch(API_URL+'?'+params.toString())
-    .then(r=>r.json())
-    .then(res => { render(res); fetchAds(); })
-    .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
+  clearTimeout(_fetchTimer);
+  _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
 }
+
+async function _doFetch(){
+  // Huỷ request trước (nếu còn)
+  try{ _inflightCtl?.abort(); }catch(_){}
+  _inflightCtl = new AbortController();
+
+  const params = new URLSearchParams({
+    action:'list',
+    page:state.page, pageSize:state.pageSize,
+    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+  });
+
+  // ===== Cache key theo state hiện tại
+  const key = cacheKeyFromState(state);
+  const cached = cacheGet(key);
+  if (cached){
+    // ⚡ render ngay từ cache để UI phản hồi tức thì
+    render(cached, /*fromCache*/true);
+  }
+
+  try{
+    const resp = await fetch(API_URL + '?' + params.toString(), {
+      signal: _inflightCtl.signal,
+      cache: 'no-store'
+    });
+    const json = await resp.json();
+
+    // Lưu cache và render
+    cacheSet(key, json);
+    render(json, /*fromCache*/false);
+
+    // Trì hoãn ads 1 nhịp để nhường CPU cho grid
+    setTimeout(fetchAds, 200);
+
+    // (Optional) Preload trang kế tiếp nếu còn
+    if (json?.total && state.page * state.pageSize < json.total){
+      const nextState = { ...state, page: state.page + 1 };
+      const nextKey   = cacheKeyFromState(nextState);
+      if (!cacheGet(nextKey)){
+        const p2 = new URLSearchParams({
+          action:'list',
+          page:nextState.page, pageSize:nextState.pageSize,
+          q:nextState.q, group:nextState.group, type:nextState.type,
+          loai:nextState.loai, note:nextState.note, category:nextState.category
+        });
+        // fire-and-forget
+        fetch(API_URL + '?' + p2.toString())
+          .then(r=>r.json()).then(j=>cacheSet(nextKey, j)).catch(()=>{});
+      }
+    }
+  }catch(err){
+    if (err?.name === 'AbortError') return; // bị huỷ bởi lần gọi mới → bỏ qua
+    document.getElementById('productGrid').innerHTML =
+      '<div class="text-danger">Không tải được dữ liệu.</div>';
+  }
+}
+
+
 /* === Cập nhật UI cho GROUP BAR (+ ink-bar tab danh mục) === */
 function updateGroupUI(){
   // Toggle active trên chip group
