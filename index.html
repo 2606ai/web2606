@@ -1270,6 +1270,80 @@ footer.text-light .bi{ color:#fff; }
   background: linear-gradient(180deg,#eaf7ea 0%, #d7eed9 100%);
   border-color: #bfe3c0;
 }
+/* ----- CARD: canh đều đáy ----- */
+.cardx{ display:flex; flex-direction:column; }
+.cardx .meta{
+  display:flex; flex-direction:column; gap:6px;
+  flex:1;                /* cho phần meta chiếm hết chiều cao còn lại */
+}
+
+/* ID 1 dòng cố định chiều cao */
+.cardx .id{
+  line-height:1.2;
+  min-height:1.2em;      /* chống nhảy khi id ngắn/dài */
+}
+
+/* Mô tả: cắt bớt, không tràn */
+.cardx .details{
+  display:-webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* đổi 2->3 nếu muốn 3 dòng */
+  overflow:hidden;
+  min-height:2.4em;      /* 2 dòng x 1.2em để giữ chiều cao cố định */
+}
+
+/* Badge “Giá tham khảo” luôn gọn, không làm vỡ layout */
+.cardx .type-badge{
+  align-self:flex-start;
+  max-width:100%;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+/* Đưa giá xuống đáy cột meta -> các card thẳng hàng */
+.cardx .price{
+  margin-top:auto;       /* đẩy giá xuống sát đáy meta */
+}
+
+/* Khoảng cách nhỏ giữa giá và cụm nút */
+.cardx .meta-actions{ margin-top:6px; }
+
+/* Nút Nhận quà gọn & đều */
+.cardx .btn-gift{
+  max-width:72%;         /* đã có ellipsis, giữ đều chiều ngang */
+}
+
+/* Nếu có card thiếu badge, vẫn giữ khoảng trống như nhau (tùy chọn) */
+.cardx .type-badge:empty{ display:none; }
+/* ===== Category/Group Box Theme ===== */
+.theme-bamboo .category-item span,
+.theme-bamboo .group-chip {
+  background: var(--main-grad) !important; /* nền xanh lá gradient */
+  color: #fff !important;
+  border: none !important;
+  transition: all .2s ease;
+}
+
+/* Hover: sáng hơn một chút */
+.theme-bamboo .category-item span:hover,
+.theme-bamboo .group-chip:hover {
+  filter: brightness(1.05);
+}
+
+/* Active: đảo ngược → nền trắng, chữ xanh lá */
+.theme-bamboo .category-item.active span,
+.theme-bamboo .group-chip.active {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1px solid var(--main) !important;
+}
+/* Bỏ viền bo trong các ô category/group */
+.theme-bamboo .category-item span,
+.theme-bamboo .group-chip {
+  border: none !important;
+  border-radius: 12px; /* giữ bo góc mềm, nếu muốn bỏ bo thì set 0 */
+}
 
  
 </style>
