@@ -1045,6 +1045,27 @@ img{max-width:100%;display:block}
 .cat-arrow{
   color: var(--main-700) !important; /* thay #0a33cc */
 }
+/* Footer dùng theme hồng */
+footer.text-light{
+  background: var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
+  color: #fff;
+}
+
+/* Tiêu đề nổi bật */
+footer.text-light h6{
+  color: var(--accent); /* vàng accent */
+}
+
+/* Đường kẻ trong footer */
+footer.text-light hr{
+  border-color: rgba(255,255,255,.4);
+}
+
+/* Link và icon giữ trắng */
+footer.text-light a,
+footer.text-light .bi{
+  color:#fff;
+}
    
 </style>
 </head>
@@ -2401,7 +2422,7 @@ document.addEventListener('keydown', (e) => {
 </script>
 
 <!-- ===== FOOTER ===== -->
-<footer class="text-light" style="background:#0018a8;">
+<footer class="text-light">
   <div class="container">
     <div class="row pt-5 pb-3">
       <!-- Cột 1: Logo + mô tả -->
