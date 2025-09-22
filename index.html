@@ -515,17 +515,6 @@ img{max-width:100%;display:block}
   border-color:#0018a8 !important;
 }
 
-/* ===== Dots – luôn nhìn thấy, không bị che ===== */
-#groupDots{
-  margin:6px 0 8px !important;             /* nằm dưới tab một chút */
-  display:flex; justify-content:center; gap:6px;
-  position:relative; z-index:2;            /* cao hơn group-bar-wrapper */
-}
-#groupDots .dot{
-  width:6px; height:6px; border-radius:50%;
-  background:#c9d6ff; transition:background .2s, transform .2s;
-}
-#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
 
 /* Phần danh mục bên dưới – giữ khoảng cách nhỏ */
 .category-box .category-wrapper{ margin-top:8px; }
@@ -1092,7 +1081,75 @@ footer.text-light .bi{
   color: var(--main) !important;
   border-color: var(--main) !important;
 }
-   
+.group-chip,
+.category-item span {
+  background:#fff;
+  color:var(--main);
+  border:1px solid var(--main);
+  border-radius:16px;
+  transition:all .2s ease;
+}
+.group-chip:hover,
+.category-item span:hover {
+  background:var(--main-tint);
+  color:var(--main-700);
+}
+.group-chip.active,
+.category-item.active span {
+  background:var(--main-grad)!important;
+  color:#fff!important;
+  border-color:var(--main)!important;
+}
+.group-chip,
+.category-item span {
+  background:#fff;
+  color:var(--main);
+  border:1px solid var(--main);
+  border-radius:16px;
+  transition:all .2s ease;
+}
+.group-chip:hover,
+.category-item span:hover {
+  background:var(--main-tint);
+  color:var(--main-700);
+}
+.group-chip.active,
+.category-item.active span {
+  background:var(--main-grad)!important;
+  color:#fff!important;
+  border-color:var(--main)!important;
+}
+/* ===== FOOTER THEME HỒNG ===== */
+footer.text-light{
+  background:var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
+  color:#fff;
+}
+footer.text-light h6{ color:var(--accent); }
+footer.text-light hr{ border-color:rgba(255,255,255,.4); }
+footer.text-light a,
+footer.text-light .bi{ color:#fff; }
+ /* ===== Dots dưới group-bar ===== */
+#groupDots{
+  margin-top:10px;              /* nằm ngay dưới group-bar */
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  position:relative;
+  z-index:2;
+}
+
+#groupDots .dot{
+  width:10px; height:10px;
+  border-radius:50%;
+  background:#cbd5e1;           /* xám nhạt */
+  transition:all .2s ease;
+}
+
+#groupDots .dot.active{
+  background:var(--main);       /* hồng chủ đạo */
+  transform:scale(1.25);
+}
+  
 </style>
 </head>
 <body>
