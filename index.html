@@ -1472,6 +1472,33 @@ footer.text-light .bi{ color:#fff; }
 .theme-bamboo .search-btn:hover {
   background: var(--main-600) !important; /* đậm hơn khi hover */
 }
+/* Dấu + màu phẳng (không gradient) */
+.add-btn{
+  background: var(--main) !important;        /* xanh lá phẳng */
+  background-image: none !important;         /* bỏ gradient */
+  color:#fff !important;
+  border: none !important;
+}
+
+.add-btn:hover{
+  background: var(--main-600) !important;    /* đậm hơn khi hover */
+}
+/* Nút bên trái: trắng + viền xanh, text giữa */
+.btn-gift{
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;   /* chữ ở giữa */
+  gap: 6px;                              /* giữ khoảng icon-text nếu có */
+  text-decoration: none !important;
+}
+
+.btn-gift:hover{
+  background: var(--main-tint) !important;     /* hồng/ xanh nhạt khi hover tùy theme */
+  color: var(--main-700) !important;
+}
 
  
 </style>
