@@ -1149,7 +1149,128 @@ footer.text-light .bi{ color:#fff; }
   background:var(--main);       /* hồng chủ đạo */
   transform:scale(1.25);
 }
-  
+ /* =========================
+   BAMBOO / NATURE THEME
+   Bật bằng: <body class="theme-bamboo">
+   ========================= */
+
+.theme-bamboo{
+  /* Palette */
+  --main:        #2e7d32;                 /* Xanh tre đậm */
+  --main-600:    #2c6e2f;
+  --main-700:    #1b5e20;
+  --main-grad:   linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
+
+  --accent:      #c6a969;                 /* vàng tre khô / ánh nắng */
+  --bg:          #f7faf7;                 /* nền ngà xanh rất nhẹ */
+  --text:        #1e2a1e;                 /* xanh đen */
+  --muted:       #647b64;
+
+  --card:        #ffffff;
+  --border:      #dfe7df;
+
+  --main-tint:   #e7f5e8;                 /* hover dịu */
+  --main-shadow: rgba(46,125,50,.22);
+}
+
+/* Texture nền rất nhẹ (SVG pattern) – có thể tắt nếu muốn phẳng */
+.theme-bamboo body{
+  background:
+    radial-gradient(1200px 200px at 50% -40px, rgba(102,187,106,.12), transparent 60%),
+    url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'>\
+      <g fill='none' stroke='%23e6efe6' stroke-width='1'>\
+        <path d='M10 0 v180'/> <path d='M60 0 v180'/> <path d='M110 0 v180'/> <path d='M160 0 v180'/>\
+        <path d='M0 20 h180'/> <path d='M0 70 h180'/> <path d='M0 120 h180'/> <path d='M0 170 h180'/>\
+      </g></svg>") repeat;
+  background-size: auto, 180px 180px;
+}
+
+/* Header / Top banner */
+.theme-bamboo .site-header{
+  border-bottom-color: #e4efe4;
+}
+.theme-bamboo .top-banner{
+  background: var(--main-grad);
+}
+
+/* Chip/Tab/Filter – dùng cùng token sẵn có của bạn */
+.theme-bamboo .group-chip,
+.theme-bamboo .filter-tag{
+  background:#fff !important;
+  color:var(--main) !important;
+  border:1px solid var(--main) !important;
+}
+.theme-bamboo .group-chip:hover,
+.theme-bamboo .filter-tag:hover{
+  background:var(--main-tint) !important;
+  color:var(--main-700) !important;
+}
+.theme-bamboo .group-chip.active,
+.theme-bamboo .filter-tag.active{
+  background:var(--main-grad) !important;
+  color:#fff !important;
+  border-color:var(--main) !important;
+  box-shadow:0 6px 16px var(--main-shadow) !important;
+}
+
+/* Category item icon nền xanh nhẹ */
+.theme-bamboo .category-item .icon{
+  background: #edf7ed !important;
+  box-shadow: 0 4px 10px rgba(46,125,50,.12);
+}
+
+/* Button/CTA */
+.theme-bamboo .btn-primary{
+  background: var(--main-grad);
+  border: none;
+}
+.theme-bamboo .btn-primary:hover{
+  filter: brightness(.95);
+}
+.theme-bamboo .btn-outline-secondary{
+  border-color: var(--main);
+  color: var(--main);
+}
+.theme-bamboo .btn-outline-secondary:hover{
+  background: var(--main-tint);
+  color: var(--main-700);
+}
+
+/* Card sản phẩm */
+.theme-bamboo .cardx{
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  border: 1px solid var(--border);
+}
+.theme-bamboo .cardx .id{ color: var(--main); }
+.theme-bamboo .type-badge{
+  background:#e7f3e8; color:#1b5e20;
+}
+
+/* Dots */
+.theme-bamboo #groupDots .dot.active,
+.theme-bamboo .group-dots .dot.active{
+  background: var(--main);
+  transform: scale(1.25);
+}
+
+/* Footer “tre/nắng” */
+.theme-bamboo footer.text-light{
+  background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%);
+  color:#fff;
+}
+.theme-bamboo footer.text-light h6{ color: var(--accent); }
+.theme-bamboo footer.text-light hr{ border-color: rgba(255,255,255,.25); }
+
+/* Accent nhỏ: kẻ ngăn, badge */
+.theme-bamboo .badge.text-bg-primary{
+  background: var(--main);
+}
+.theme-bamboo .ads-box{
+  background: linear-gradient(180deg,#eaf7ea 0%, #d7eed9 100%);
+  border-color: #bfe3c0;
+}
+ 
 </style>
 </head>
 <body>
