@@ -957,8 +957,8 @@ img{max-width:100%;display:block}
 #pagerTop{ margin-left:0 !important; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
 #cartFab, #filterFab, #suppliersFab, #zaloFab {
   position: fixed;
-  left: 16px;
-  right: auto;
+  left: auto;
+  right: 16px;
   z-index: 1055;
 }
 
@@ -1426,6 +1426,51 @@ footer.text-light .bi{ color:#fff; }
   color: #fff !important;
   border: none !important;
   box-shadow: var(--shadow-md);
+}
+/* Bỏ viền xanh nhạt quanh category/group card */
+.theme-bamboo .category-item,
+.theme-bamboo #groupBar .group-chip {
+  border: none !important;
+  box-shadow: var(--shadow-sm); /* giữ bóng nhẹ để phân biệt với nền */
+}
+/* Category chip: chỉ chữ xanh, bỏ nền + viền */
+.theme-bamboo .category-item span {
+  background: transparent !important;
+  border: none !important;
+  color: var(--main) !important;
+  box-shadow: none !important;
+}
+
+/* Hover: chữ xanh đậm hơn, vẫn không nền */
+.theme-bamboo .category-item span:hover {
+  background: transparent !important;
+  color: var(--main-700) !important;
+}
+
+/* Active: chữ đậm hơn để phân biệt */
+.theme-bamboo .category-item.active span {
+  background: transparent !important;
+  color: var(--main-700) !important;
+}
+/* ===== Nút xanh lá phẳng, bỏ gradient ===== */
+.theme-bamboo .btn,
+.theme-bamboo .btn-primary,
+.theme-bamboo .btn-success,
+.theme-bamboo .fab,             /* nút tròn nổi */
+.theme-bamboo .btn-gift,        /* nút Nhận quà */
+.theme-bamboo .search-btn {     /* nút Tìm */
+  background: var(--main) !important;   /* xanh lá phẳng */
+  background-image: none !important;    /* bỏ gradient */
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-bamboo .btn:hover,
+.theme-bamboo .fab:hover,
+.theme-bamboo .btn-gift:hover,
+.theme-bamboo .search-btn:hover {
+  background: var(--main-600) !important; /* đậm hơn khi hover */
 }
 
  
