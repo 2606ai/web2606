@@ -292,8 +292,8 @@ img{max-width:100%;display:block}
 }
 .filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
 .filter-tag.active{background:var(--main-grad);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
-<h6>GROUP (NHÓM)</h6>
-<div id="groupBox" class="mb-3"></div>
+
+
 
 /* ---- Floating Action Buttons ---- */
 .cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
@@ -1562,6 +1562,23 @@ footer.text-light .bi{ color:#fff; }
   border-color:var(--main);
   color:var(--main-700);
 }
+.btn-gift {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-gift:hover {
+  background: var(--main) !important;   /* nền xanh khi hover */
+  color: #fff !important;              /* chữ trắng khi hover */
+  border-color: var(--main) !important;
+}
 
  
 </style>
@@ -1845,6 +1862,8 @@ footer.text-light .bi{ color:#fff; }
     <h6>TYPE</h6><div id="typeBox" class="mb-3"></div>
     <h6>LOẠI SẢN PHẨM</h6><div id="loaiBox" class="mb-3"></div>
     <h6>CHÚ Ý</h6><div id="noteBox" class="mb-3"></div>
+     <h6>GROUP (NHÓM)</h6><div id="groupBox" class="mb-3"></div>
+
   </div>
 </div>
 
@@ -2182,17 +2201,6 @@ function renderPagination(totalItems, pageSize, currentPage){
         state.page = parseInt(e.target.value, 10) || 1;
         fetchPage();
       };
-    });
-
-  // Sự kiện nút prev/next
-  document.querySelectorAll('#pagerTop [data-action="page-prev"], #pagerBottom [data-action="page-prev"]')
-    .forEach(btn => btn.onclick = () => {
-      if (state.page > 1) { state.page--; fetchPage(); }
-    });
-
-  document.querySelectorAll('#pagerTop [data-action="page-next"], #pagerBottom [data-action="page-next"]')
-    .forEach(btn => btn.onclick = () => {
-      if (state.page < state.totalPages) { state.page++; fetchPage(); }
     });
 
   // Đưa pagerTop sát nút "Xóa bộ lọc"
