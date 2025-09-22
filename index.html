@@ -217,7 +217,7 @@ img{max-width:100%;display:block}
 .cardx .id{font-weight:700;color:var(--main);font-size:13px}
 .cardx .details{font-size:12px;color:#666;min-height:2.2em;line-height:1.2}
 .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px}
-.cardx .price{font-weight:400;color:#d32f2f;font-size:1rem;margin-top:2px}
+.cardx .price{font-weight:500;color:#d32f2f;font-size:1rem;margin-top:2px}
 .cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cardx .btn-gift{
   background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;
@@ -1522,6 +1522,26 @@ footer.text-light .bi{ color:#fff; }
 .btn.btn-primary:hover {
   background: var(--main-tint) !important;
   color: var(--main-700) !important;
+}
+/* Gom badge, giá, và nút lại gần nhau */
+.cardx .meta{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;   /* khoảng cách dọc giữa các phần tử, mặc định có thể 10-12px */
+}
+
+.cardx .type-badge{
+  margin-bottom: 2px !important;
+}
+
+.cardx .price{
+  font-weight: 600;        /* chỉnh độ dày chữ giá */
+  margin: 0 !important;
+  line-height: 1.2;        /* giảm chiều cao dòng */
+}
+
+.cardx .btn-gift{
+  margin-top: 2px !important;
 }
 
  
