@@ -1008,6 +1008,43 @@ img{max-width:100%;display:block}
 .chip.muted { color:#6b7280; background:#f3f4f6; }
 .chip.btn-upload-doc { cursor:pointer; }
 
+/* ===== THEME OVERRIDES: ép về hồng + gradient ===== */
+
+/* Hover dịu cùng tông (thay cho rgba xanh) */
+:root{
+  --main-tint: #ffe3f0;          /* nền hover nhạt */
+  --main-shadow: rgba(233,30,99,.22);
+}
+
+/* Group tabs (mọi biến thể) */
+#groupBar .group-chip.active,
+.group-chip.active{
+  background: var(--main-grad) !important;
+  color: #fff !important;
+  border-color: var(--main) !important;
+  box-shadow: 0 6px 16px var(--main-shadow) !important;
+}
+
+/* Hover của group-chip (đồng tông) */
+#groupBar .group-chip:hover,
+.group-chip:hover{
+  background: var(--main-tint) !important;
+  color: var(--main-700) !important;
+}
+
+/* Dots active: dùng hồng phẳng (không gradient cho chấm) */
+.group-dots .dot.active,
+#groupDots .dot.active{
+  background: var(--main) !important;
+  transform: scale(1.25);
+}
+
+/* Các chỗ còn đang blue đậm → đổi về biến main */
+#groupBar .group-chip,
+.category-item.active span,
+.cat-arrow{
+  color: var(--main-700) !important; /* thay #0a33cc */
+}
    
 </style>
 </head>
