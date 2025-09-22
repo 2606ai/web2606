@@ -1375,6 +1375,58 @@ footer.text-light .bi{ color:#fff; }
   background: #fff !important;
   color: var(--main) !important;
 }
+/* ===== FIX: Group chips xanh lá mặc định – click mới chuyển trắng ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: var(--main) !important;   /* xanh lá mặc định */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+}
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-600) !important; /* hơi đậm khi hover */
+  color: #fff !important;
+}
+.theme-bamboo #groupBar .group-chip.active{
+  background: #fff !important;           /* khi bấm -> trắng */
+  color: var(--main) !important;
+  border: none !important;               /* không viền */
+}
+
+/* Category chip nhỏ phía dưới: cũng xanh mặc định – bấm mới chuyển */
+.theme-bamboo .category-item span{
+  background: var(--main) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 999px !important;
+}
+.theme-bamboo .category-item:hover span{
+  background: var(--main-600) !important;
+}
+.theme-bamboo .category-item.active span{
+  background: #fff !important;
+  color: var(--main) !important;
+}
+/* ===== Reset group card về giao diện cũ ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: #fff !important;     /* nền trắng mặc định */
+  color: var(--main) !important;   /* chữ xanh */
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-tint) !important; /* nền xanh nhạt khi hover */
+  color: var(--main-700) !important;
+}
+
+.theme-bamboo #groupBar .group-chip.active{
+  background: var(--main-grad) !important; /* khi chọn: nền xanh gradient */
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--shadow-md);
+}
 
  
 </style>
