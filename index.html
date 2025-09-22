@@ -1066,6 +1066,32 @@ footer.text-light a,
 footer.text-light .bi{
   color:#fff;
 }
+/* ===== SHAPE THEME HỒNG ===== */
+
+/* Mặc định: ô hồng, chữ trắng */
+.group-chip,
+.category-item span {
+  background: var(--main-grad);
+  color: #fff;
+  border: 1px solid var(--main);
+  border-radius: 16px;  /* giữ bo tròn nếu cần */
+  transition: all .2s ease;
+}
+
+/* Hover: hồng nhạt + chữ hồng đậm */
+.group-chip:hover,
+.category-item span:hover {
+  background: var(--main-tint);  /* màu nhạt bạn đã set ở :root */
+  color: var(--main-700);
+}
+
+/* Active: ô trắng, chữ hồng */
+.group-chip.active,
+.category-item.active span {
+  background: #fff !important;
+  color: var(--main) !important;
+  border-color: var(--main) !important;
+}
    
 </style>
 </head>
