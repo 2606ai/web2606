@@ -16,7 +16,13 @@
 
 /* ---- Theme tokens ---- */
 :root{
-  --main:#0018a8;
+  /* Chủ đạo hồng + gradient */
+  --main: #e91e63; /* hồng phẳng để dùng cho text/border */
+  --main-600:#d81b60;
+  --main-700:#c2185b;
+
+  --main-grad: linear-gradient(90deg, #ff5aa7 0%, #ff8bd1 100%);
+
   --accent:#d4af37;
   --bg:#f5f6fa;
 
@@ -30,6 +36,7 @@
   --shadow-md:0 2px 8px rgba(0,0,0,.08);
   --shadow-lg:0 6px 16px rgba(0,0,0,.16);
 }
+
 
 /* ---- Base ---- */
 html,body{height:100%}
@@ -64,7 +71,7 @@ img{max-width:100%;display:block}
 .top-banner{
   position:sticky; top:70px; z-index:1054;
   height:32px; display:flex; align-items:center; justify-content:center;
-  background:var(--main); color:#fff; font-weight:700; line-height:32px;
+  background:var(--main-grad); color:#fff; font-weight:700; line-height:32px;
   overflow:hidden
 }
 .top-banner .marquee{
@@ -135,7 +142,7 @@ img{max-width:100%;display:block}
 }
 .group-chip:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
 .group-chip.active{
-  background:var(--main) !important; color:#fff !important; border-color:var(--main) !important;
+  background:var(--main-grad) !important; color:#fff !important; border-color:var(--main) !important;
   box-shadow:0 6px 16px rgba(0,24,168,.18)
 }
 
@@ -144,7 +151,7 @@ img{max-width:100%;display:block}
 .group-dots .dot{
   width:8px;height:8px;border-radius:50%;background:#c9d6ff;transition:transform .15s, background .15s
 }
-.group-dots .dot.active{background:var(--main);transform:scale(1.25)}
+.group-dots .dot.active{background:var(--main-grad);transform:scale(1.25)}
 
 /* =========================================================
    CATEGORY SCROLLER (two rows grid + small arrows)
@@ -210,15 +217,15 @@ img{max-width:100%;display:block}
 .cardx .id{font-weight:700;color:var(--main);font-size:13px}
 .cardx .details{font-size:12px;color:#666;min-height:2.2em;line-height:1.2}
 .cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px}
-.cardx .price{font-weight:400;color:#d32f2f;font-size:1rem;margin-top:2px}
+.cardx .price{font-weight:500;color:#d32f2f;font-size:1rem;margin-top:2px}
 .cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cardx .btn-gift{
   background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;
   padding:6px 10px;border-radius:999px;font-size:12px;line-height:1;display:inline-flex;align-items:center;gap:6px;text-decoration:none;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
-.cardx .btn-gift:hover{background:var(--main);color:#fff;text-decoration:none}
+.cardx .btn-gift:hover{background:var(--main-grad);color:#fff;text-decoration:none}
 .add-btn{
-  border:none;background:var(--main);color:#fff;border-radius:50%;
+  border:none;background:var(--main-grad);color:#fff;border-radius:50%;
   width:32px;height:32px;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center
 }
 
@@ -258,7 +265,7 @@ img{max-width:100%;display:block}
 
 /* ---- Cart Offcanvas ---- */
 #cartCanvas .offcanvas-header{
-  background:var(--main); color:#fff; border:0; border-radius:12px 12px 0 0
+  background:var(--main-grad); color:#fff; border:0; border-radius:12px 12px 0 0
 }
 #cartCanvas .offcanvas-body{font-size:13px;padding:16px}
 #cartCanvas input.form-control,#cartCanvas textarea.form-control,#cartCanvas select.form-select{
@@ -284,7 +291,9 @@ img{max-width:100%;display:block}
   font-size:13px;font-weight:500;color:#333;cursor:pointer;transition:.15s
 }
 .filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
-.filter-tag.active{background:var(--main);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
+.filter-tag.active{background:var(--main-grad);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
+
+
 
 /* ---- Floating Action Buttons ---- */
 .cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
@@ -293,7 +302,7 @@ img{max-width:100%;display:block}
   z-index:2500; cursor:pointer; display:flex; align-items:center; justify-content:center
 }
 .filter-fab{background:#6c757d;bottom:212px}
-.cart-fab{background:var(--main);bottom:148px}
+.cart-fab{background:var(--main-grad);bottom:148px}
 .suppliers-fab{background:#0d6efd;bottom:84px}
 .zalo-fab{background:#25D366;bottom:20px}
 .fab-badge{position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;padding:2px 6px;font-size:12px;font-weight:700;display:none}
@@ -508,17 +517,6 @@ img{max-width:100%;display:block}
   border-color:#0018a8 !important;
 }
 
-/* ===== Dots – luôn nhìn thấy, không bị che ===== */
-#groupDots{
-  margin:6px 0 8px !important;             /* nằm dưới tab một chút */
-  display:flex; justify-content:center; gap:6px;
-  position:relative; z-index:2;            /* cao hơn group-bar-wrapper */
-}
-#groupDots .dot{
-  width:6px; height:6px; border-radius:50%;
-  background:#c9d6ff; transition:background .2s, transform .2s;
-}
-#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
 
 /* Phần danh mục bên dưới – giữ khoảng cách nhỏ */
 .category-box .category-wrapper{ margin-top:8px; }
@@ -961,8 +959,8 @@ img{max-width:100%;display:block}
 #pagerTop{ margin-left:0 !important; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
 #cartFab, #filterFab, #suppliersFab, #zaloFab {
   position: fixed;
-  left: 16px;
-  right: auto;
+  left: auto;
+  right: 16px;
   z-index: 1055;
 }
 
@@ -1001,10 +999,608 @@ img{max-width:100%;display:block}
 .chip.muted { color:#6b7280; background:#f3f4f6; }
 .chip.btn-upload-doc { cursor:pointer; }
 
-   
+/* ===== THEME OVERRIDES: ép về hồng + gradient ===== */
+
+/* Hover dịu cùng tông (thay cho rgba xanh) */
+:root{
+  --main-tint: #ffe3f0;          /* nền hover nhạt */
+  --main-shadow: rgba(233,30,99,.22);
+}
+
+/* Group tabs (mọi biến thể) */
+#groupBar .group-chip.active,
+.group-chip.active{
+  background: var(--main-grad) !important;
+  color: #fff !important;
+  border-color: var(--main) !important;
+  box-shadow: 0 6px 16px var(--main-shadow) !important;
+}
+
+/* Hover của group-chip (đồng tông) */
+#groupBar .group-chip:hover,
+.group-chip:hover{
+  background: var(--main-tint) !important;
+  color: var(--main-700) !important;
+}
+
+/* Dots active: dùng hồng phẳng (không gradient cho chấm) */
+.group-dots .dot.active,
+#groupDots .dot.active{
+  background: var(--main) !important;
+  transform: scale(1.25);
+}
+
+/* Các chỗ còn đang blue đậm → đổi về biến main */
+#groupBar .group-chip,
+.category-item.active span,
+.cat-arrow{
+  color: var(--main-700) !important; /* thay #0a33cc */
+}
+/* Footer dùng theme hồng */
+footer.text-light{
+  background: var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
+  color: #fff;
+}
+
+/* Tiêu đề nổi bật */
+footer.text-light h6{
+  color: var(--accent); /* vàng accent */
+}
+
+/* Đường kẻ trong footer */
+footer.text-light hr{
+  border-color: rgba(255,255,255,.4);
+}
+
+/* Link và icon giữ trắng */
+footer.text-light a,
+footer.text-light .bi{
+  color:#fff;
+}
+/* ===== SHAPE THEME HỒNG ===== */
+
+/* Mặc định: ô hồng, chữ trắng */
+.group-chip,
+.category-item span {
+  background: var(--main-grad);
+  color: #fff;
+  border: 1px solid var(--main);
+  border-radius: 16px;  /* giữ bo tròn nếu cần */
+  transition: all .2s ease;
+}
+
+/* Hover: hồng nhạt + chữ hồng đậm */
+.group-chip:hover,
+.category-item span:hover {
+  background: var(--main-tint);  /* màu nhạt bạn đã set ở :root */
+  color: var(--main-700);
+}
+
+/* Active: ô trắng, chữ hồng */
+.group-chip.active,
+.category-item.active span {
+  background: #fff !important;
+  color: var(--main) !important;
+  border-color: var(--main) !important;
+}
+.group-chip,
+.category-item span {
+  background:#fff;
+  color:var(--main);
+  border:1px solid var(--main);
+  border-radius:16px;
+  transition:all .2s ease;
+}
+.group-chip:hover,
+.category-item span:hover {
+  background:var(--main-tint);
+  color:var(--main-700);
+}
+.group-chip.active,
+.category-item.active span {
+  background:var(--main-grad)!important;
+  color:#fff!important;
+  border-color:var(--main)!important;
+}
+.group-chip,
+.category-item span {
+  background:#fff;
+  color:var(--main);
+  border:1px solid var(--main);
+  border-radius:16px;
+  transition:all .2s ease;
+}
+.group-chip:hover,
+.category-item span:hover {
+  background:var(--main-tint);
+  color:var(--main-700);
+}
+.group-chip.active,
+.category-item.active span {
+  background:var(--main-grad)!important;
+  color:#fff!important;
+  border-color:var(--main)!important;
+}
+/* ===== FOOTER THEME HỒNG ===== */
+footer.text-light{
+  background:var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
+  color:#fff;
+}
+footer.text-light h6{ color:var(--accent); }
+footer.text-light hr{ border-color:rgba(255,255,255,.4); }
+footer.text-light a,
+footer.text-light .bi{ color:#fff; }
+ /* ===== Dots dưới group-bar ===== */
+#groupDots{
+  margin-top:10px;              /* nằm ngay dưới group-bar */
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  position:relative;
+  z-index:2;
+}
+
+#groupDots .dot{
+  width:10px; height:10px;
+  border-radius:50%;
+  background:#cbd5e1;           /* xám nhạt */
+  transition:all .2s ease;
+}
+
+#groupDots .dot.active{
+  background:var(--main);       /* hồng chủ đạo */
+  transform:scale(1.25);
+}
+ /* =========================
+   BAMBOO / NATURE THEME
+   Bật bằng: <body class="theme-bamboo">
+   ========================= */
+
+.theme-bamboo{
+  /* Palette */
+  --main:        #2e7d32;                 /* Xanh tre đậm */
+  --main-600:    #2c6e2f;
+  --main-700:    #1b5e20;
+  --main-grad:   linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
+
+  --accent:      #c6a969;                 /* vàng tre khô / ánh nắng */
+  --bg:          #f7faf7;                 /* nền ngà xanh rất nhẹ */
+  --text:        #1e2a1e;                 /* xanh đen */
+  --muted:       #647b64;
+
+  --card:        #ffffff;
+  --border:      #dfe7df;
+
+  --main-tint:   #e7f5e8;                 /* hover dịu */
+  --main-shadow: rgba(46,125,50,.22);
+}
+
+/* Texture nền rất nhẹ (SVG pattern) – có thể tắt nếu muốn phẳng */
+.theme-bamboo body{
+  background:
+    radial-gradient(1200px 200px at 50% -40px, rgba(102,187,106,.12), transparent 60%),
+    url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'>\
+      <g fill='none' stroke='%23e6efe6' stroke-width='1'>\
+        <path d='M10 0 v180'/> <path d='M60 0 v180'/> <path d='M110 0 v180'/> <path d='M160 0 v180'/>\
+        <path d='M0 20 h180'/> <path d='M0 70 h180'/> <path d='M0 120 h180'/> <path d='M0 170 h180'/>\
+      </g></svg>") repeat;
+  background-size: auto, 180px 180px;
+}
+
+/* Header / Top banner */
+.theme-bamboo .site-header{
+  border-bottom-color: #e4efe4;
+}
+.theme-bamboo .top-banner{
+  background: var(--main-grad);
+}
+
+/* Chip/Tab/Filter – dùng cùng token sẵn có của bạn */
+.theme-bamboo .group-chip,
+.theme-bamboo .filter-tag{
+  background:#fff !important;
+  color:var(--main) !important;
+  border:1px solid var(--main) !important;
+}
+.theme-bamboo .group-chip:hover,
+.theme-bamboo .filter-tag:hover{
+  background:var(--main-tint) !important;
+  color:var(--main-700) !important;
+}
+.theme-bamboo .group-chip.active,
+.theme-bamboo .filter-tag.active{
+  background:var(--main-grad) !important;
+  color:#fff !important;
+  border-color:var(--main) !important;
+  box-shadow:0 6px 16px var(--main-shadow) !important;
+}
+
+/* Category item icon nền xanh nhẹ */
+.theme-bamboo .category-item .icon{
+  background: #edf7ed !important;
+  box-shadow: 0 4px 10px rgba(46,125,50,.12);
+}
+
+/* Button/CTA */
+.theme-bamboo .btn-primary{
+  background: var(--main-grad);
+  border: none;
+}
+.theme-bamboo .btn-primary:hover{
+  filter: brightness(.95);
+}
+.theme-bamboo .btn-outline-secondary{
+  border-color: var(--main);
+  color: var(--main);
+}
+.theme-bamboo .btn-outline-secondary:hover{
+  background: var(--main-tint);
+  color: var(--main-700);
+}
+
+/* Card sản phẩm */
+.theme-bamboo .cardx{
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  border: 1px solid var(--border);
+}
+.theme-bamboo .cardx .id{ color: var(--main); }
+.theme-bamboo .type-badge{
+  background:#e7f3e8; color:#1b5e20;
+}
+
+/* Dots */
+.theme-bamboo #groupDots .dot.active,
+.theme-bamboo .group-dots .dot.active{
+  background: var(--main);
+  transform: scale(1.25);
+}
+
+/* Footer “tre/nắng” */
+.theme-bamboo footer.text-light{
+  background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%);
+  color:#fff;
+}
+.theme-bamboo footer.text-light h6{ color: var(--accent); }
+.theme-bamboo footer.text-light hr{ border-color: rgba(255,255,255,.25); }
+
+/* Accent nhỏ: kẻ ngăn, badge */
+.theme-bamboo .badge.text-bg-primary{
+  background: var(--main);
+}
+.theme-bamboo .ads-box{
+  background: linear-gradient(180deg,#eaf7ea 0%, #d7eed9 100%);
+  border-color: #bfe3c0;
+}
+/* ----- CARD: canh đều đáy ----- */
+.cardx{ display:flex; flex-direction:column; }
+.cardx .meta{
+  display:flex; flex-direction:column; gap:6px;
+  flex:1;                /* cho phần meta chiếm hết chiều cao còn lại */
+}
+
+/* ID 1 dòng cố định chiều cao */
+.cardx .id{
+  line-height:1.2;
+  min-height:1.2em;      /* chống nhảy khi id ngắn/dài */
+}
+
+/* Mô tả: cắt bớt, không tràn */
+.cardx .details{
+  display:-webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* đổi 2->3 nếu muốn 3 dòng */
+  overflow:hidden;
+  min-height:2.4em;      /* 2 dòng x 1.2em để giữ chiều cao cố định */
+}
+
+/* Badge “Giá tham khảo” luôn gọn, không làm vỡ layout */
+.cardx .type-badge{
+  align-self:flex-start;
+  max-width:100%;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+/* Đưa giá xuống đáy cột meta -> các card thẳng hàng */
+.cardx .price{
+  margin-top:auto;       /* đẩy giá xuống sát đáy meta */
+}
+
+/* Khoảng cách nhỏ giữa giá và cụm nút */
+.cardx .meta-actions{ margin-top:6px; }
+
+/* Nút Nhận quà gọn & đều */
+.cardx .btn-gift{
+  max-width:72%;         /* đã có ellipsis, giữ đều chiều ngang */
+}
+
+/* Nếu có card thiếu badge, vẫn giữ khoảng trống như nhau (tùy chọn) */
+.cardx .type-badge:empty{ display:none; }
+/* ===== Category/Group Box Theme ===== */
+.theme-bamboo .category-item span,
+.theme-bamboo .group-chip {
+  background: var(--main-grad) !important; /* nền xanh lá gradient */
+  color: #fff !important;
+  border: none !important;
+  transition: all .2s ease;
+}
+
+/* Hover: sáng hơn một chút */
+.theme-bamboo .category-item span:hover,
+.theme-bamboo .group-chip:hover {
+  filter: brightness(1.05);
+}
+
+/* Active: đảo ngược → nền trắng, chữ xanh lá */
+.theme-bamboo .category-item.active span,
+.theme-bamboo .group-chip.active {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1px solid var(--main) !important;
+}
+/* Bỏ viền bo trong các ô category/group */
+.theme-bamboo .category-item span,
+.theme-bamboo .group-chip {
+  border: none !important;
+  border-radius: 12px; /* giữ bo góc mềm, nếu muốn bỏ bo thì set 0 */
+}
+/* ===== FIX: Group chips xanh lá mặc định – click mới chuyển trắng ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: var(--main) !important;   /* xanh lá mặc định */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+}
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-600) !important; /* hơi đậm khi hover */
+  color: #fff !important;
+}
+.theme-bamboo #groupBar .group-chip.active{
+  background: #fff !important;           /* khi bấm -> trắng */
+  color: var(--main) !important;
+  border: none !important;               /* không viền */
+}
+
+/* Category chip nhỏ phía dưới: cũng xanh mặc định – bấm mới chuyển */
+.theme-bamboo .category-item span{
+  background: var(--main) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 999px !important;
+}
+.theme-bamboo .category-item:hover span{
+  background: var(--main-600) !important;
+}
+.theme-bamboo .category-item.active span{
+  background: #fff !important;
+  color: var(--main) !important;
+}
+/* ===== FIX: Group chips xanh lá mặc định – click mới chuyển trắng ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: var(--main) !important;   /* xanh lá mặc định */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+}
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-600) !important; /* hơi đậm khi hover */
+  color: #fff !important;
+}
+.theme-bamboo #groupBar .group-chip.active{
+  background: #fff !important;           /* khi bấm -> trắng */
+  color: var(--main) !important;
+  border: none !important;               /* không viền */
+}
+
+/* Category chip nhỏ phía dưới: cũng xanh mặc định – bấm mới chuyển */
+.theme-bamboo .category-item span{
+  background: var(--main) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 999px !important;
+}
+.theme-bamboo .category-item:hover span{
+  background: var(--main-600) !important;
+}
+.theme-bamboo .category-item.active span{
+  background: #fff !important;
+  color: var(--main) !important;
+}
+/* ===== Reset group card về giao diện cũ ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: #fff !important;     /* nền trắng mặc định */
+  color: var(--main) !important;   /* chữ xanh */
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-tint) !important; /* nền xanh nhạt khi hover */
+  color: var(--main-700) !important;
+}
+
+.theme-bamboo #groupBar .group-chip.active{
+  background: var(--main-grad) !important; /* khi chọn: nền xanh gradient */
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--shadow-md);
+}
+/* Bỏ viền xanh nhạt quanh category/group card */
+.theme-bamboo .category-item,
+.theme-bamboo #groupBar .group-chip {
+  border: none !important;
+  box-shadow: var(--shadow-sm); /* giữ bóng nhẹ để phân biệt với nền */
+}
+/* Category chip: chỉ chữ xanh, bỏ nền + viền */
+.theme-bamboo .category-item span {
+  background: transparent !important;
+  border: none !important;
+  color: var(--main) !important;
+  box-shadow: none !important;
+}
+
+/* Hover: chữ xanh đậm hơn, vẫn không nền */
+.theme-bamboo .category-item span:hover {
+  background: transparent !important;
+  color: var(--main-700) !important;
+}
+
+/* Active: chữ đậm hơn để phân biệt */
+.theme-bamboo .category-item.active span {
+  background: transparent !important;
+  color: var(--main-700) !important;
+}
+/* ===== Nút xanh lá phẳng, bỏ gradient ===== */
+.theme-bamboo .btn,
+.theme-bamboo .btn-primary,
+.theme-bamboo .btn-success,
+.theme-bamboo .fab,             /* nút tròn nổi */
+.theme-bamboo .btn-gift,        /* nút Nhận quà */
+.theme-bamboo .search-btn {     /* nút Tìm */
+  background: var(--main) !important;   /* xanh lá phẳng */
+  background-image: none !important;    /* bỏ gradient */
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-bamboo .btn:hover,
+.theme-bamboo .fab:hover,
+.theme-bamboo .btn-gift:hover,
+.theme-bamboo .search-btn:hover {
+  background: var(--main-600) !important; /* đậm hơn khi hover */
+}
+/* Dấu + màu phẳng (không gradient) */
+.add-btn{
+  background: var(--main) !important;        /* xanh lá phẳng */
+  background-image: none !important;         /* bỏ gradient */
+  color:#fff !important;
+  border: none !important;
+}
+
+.add-btn:hover{
+  background: var(--main-600) !important;    /* đậm hơn khi hover */
+}
+/* Nút bên trái: trắng + viền xanh, text giữa */
+.btn-gift{
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;   /* chữ ở giữa */
+  gap: 6px;                              /* giữ khoảng icon-text nếu có */
+  text-decoration: none !important;
+}
+
+.btn-gift:hover{
+  background: var(--main-tint) !important;     /* hồng/ xanh nhạt khi hover tùy theme */
+  color: var(--main-700) !important;
+}
+/* Nút Nhận quà: nền trắng, viền xanh, chữ xanh */
+.btn-gift,
+.theme-bamboo .btn-gift,
+.btn.btn-success, 
+.btn.btn-primary {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  box-shadow: none !important;
+  font-weight: 600; 
+  border-radius: 999px; /* giữ kiểu viên thuốc */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+}
+
+/* Hover: đổi nền xanh nhạt, chữ xanh đậm */
+.btn-gift:hover,
+.btn.btn-success:hover, 
+.btn.btn-primary:hover {
+  background: var(--main-tint) !important;
+  color: var(--main-700) !important;
+}
+/* Gom badge, giá, và nút lại gần nhau */
+.cardx .meta{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;   /* khoảng cách dọc giữa các phần tử, mặc định có thể 10-12px */
+}
+
+.cardx .type-badge{
+  margin-bottom: 2px !important;
+}
+
+.cardx .price{
+  font-weight: 600;        /* chỉnh độ dày chữ giá */
+  margin: 0 !important;
+  line-height: 1.2;        /* giảm chiều cao dòng */
+}
+
+.cardx .btn-gift{
+  margin-top: 2px !important;
+}
+/* Tăng khoảng cách giữa mô tả và badge "Giá tham khảo" */
+.cardx .details {
+  margin-bottom: 12px !important;  /* nếu đang là 6px thì x2 thành 12px */
+}
+#filterPanel .filter-tag{
+  border:1px solid var(--main);
+  background:#fff;
+  color:var(--main-700);
+  border-radius:999px;
+  padding:6px 12px;
+  font-weight:600;
+}
+#filterPanel .filter-tag.active{
+  background:var(--main-tint);
+  border-color:var(--main);
+  color:var(--main-700);
+}
+.btn-gift {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-gift:hover {
+  background: var(--main) !important;   /* nền xanh khi hover */
+  color: #fff !important;              /* chữ trắng khi hover */
+  border-color: var(--main) !important;
+}
+.btn-gift {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-gift:hover {
+  background: var(--main) !important;   /* nền xanh khi hover */
+  color: #fff !important;              /* chữ trắng khi hover */
+  border-color: var(--main) !important;
+}
+
+ 
 </style>
 </head>
-<body>
+<body class="theme-bamboo">
 
 <header class="site-header">
   <div class="wrap">
@@ -1283,6 +1879,8 @@ img{max-width:100%;display:block}
     <h6>TYPE</h6><div id="typeBox" class="mb-3"></div>
     <h6>LOẠI SẢN PHẨM</h6><div id="loaiBox" class="mb-3"></div>
     <h6>CHÚ Ý</h6><div id="noteBox" class="mb-3"></div>
+     <h6>GROUP (NHÓM)</h6><div id="groupBox" class="mb-3"></div>
+
   </div>
 </div>
 
@@ -1330,7 +1928,7 @@ img{max-width:100%;display:block}
 <div class="modal fade" id="benefitModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content" style="border-radius:16px">
-      <div class="modal-header" style="background:var(--main);color:#fff;border:0">
+      <div class="modal-header" style="background:var(--main-grad);color:#fff;border:0">
         <h5 class="modal-title" id="benefitTitle">Chi tiết</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter:invert(1)"></button>
       </div>
@@ -1518,6 +2116,7 @@ function buildCategoryFromFacets(facets){
 
   const catEl = document.getElementById('categoryScroll');
   if (catEl) catEl.classList.add('fade-out');
+  buildFilterBox('groupBox', groups || [], 'group');
   buildCategory(facets?.categories || []);
   buildFilterBox('typeBox',  facets?.types  || [], 'type');
   buildFilterBox('loaiBox',  facets?.loais  || [], 'loai');
@@ -1619,17 +2218,6 @@ function renderPagination(totalItems, pageSize, currentPage){
         state.page = parseInt(e.target.value, 10) || 1;
         fetchPage();
       };
-    });
-
-  // Sự kiện nút prev/next
-  document.querySelectorAll('#pagerTop [data-action="page-prev"], #pagerBottom [data-action="page-prev"]')
-    .forEach(btn => btn.onclick = () => {
-      if (state.page > 1) { state.page--; fetchPage(); }
-    });
-
-  document.querySelectorAll('#pagerTop [data-action="page-next"], #pagerBottom [data-action="page-next"]')
-    .forEach(btn => btn.onclick = () => {
-      if (state.page < state.totalPages) { state.page++; fetchPage(); }
     });
 
   // Đưa pagerTop sát nút "Xóa bộ lọc"
@@ -2173,28 +2761,167 @@ const BENEFIT_DETAIL = {
     card.style.cursor = 'pointer';
   });
 })();
+// === GROUP BAR: bắt click 1 lần trên container ===
+const groupBar = document.getElementById('groupBar');
 
-function render(res){
+groupBar.addEventListener('click', (e) => {
+  const chip = e.target.closest('.group-chip');
+  if (!chip || !groupBar.contains(chip)) return;
+
+  const val = chip.dataset.val || '';
+  if (state.group === val) return;
+
+  state.group = val;
+  state.page = 1;
+  fetchPage();
+
+  groupBar.querySelectorAll('.group-chip')
+    .forEach(c => c.classList.toggle('active', c === chip));
+});
+
+// === CATEGORY: cũng bắt click trên container ===
+const catScroll = document.getElementById('categoryScroll');
+
+catScroll.addEventListener('click', (e) => {
+  const item = e.target.closest('.category-item');
+  if (!item || !catScroll.contains(item)) return;
+
+  const val = item.dataset.val || '';
+  selectCategory(val);
+});
+
+
+// Gắn click cho toàn bộ .category-item
+document.querySelectorAll('.category-item').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const val = el.dataset.val || '';
+    selectCategory(val);
+  });
+});
+
+function render(res, fromCache){
   const items = (res?.items||[]);
   const grid=document.getElementById('productGrid');
+
+  // Render grid (giữ nguyên)
   grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
-  buildCategoryFromFacets(res?.facets||{});
+
+  // ✅ Chỉ rebuild facets nếu đổi
+  const newHash = hashFacets(res?.facets||{});
+  if (newHash !== _lastFacetsHash){
+    _lastFacetsHash = newHash;
+    buildCategoryFromFacets(res?.facets||{});
+  }
+
   document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
   renderPagination(res?.total||0, state.pageSize, state.page);
-  updateGroupUI();  // <-- thêm dòng này
-  updateGroupDots();
+  updateGroupUI();
+  updateGroupDots?.();
 
+  // (Tuỳ chọn) log nguồn dữ liệu
+  // console.debug('[render]', fromCache ? 'CACHE' : 'NETWORK', state);
 }
+
+/* ===== Fetch tối ưu: debounce + abort + cache (LRU) ===== */
+const FETCH_DEBOUNCE = 160;                 // ms
+let _fetchTimer = 0;
+let _inflightCtl = null;
+
+// LRU cache: key -> {time, payload}
+const _cache = new Map();
+const CACHE_LIMIT = 30;
+function cacheKeyFromState(s){
+  // chỉ key các tham số ảnh hưởng tới dữ liệu
+  return [
+    'list', s.page, s.pageSize,
+    s.q||'', s.group||'', s.type||'', s.loai||'', s.note||'', s.category||''
+  ].join('|');
+}
+function cacheGet(key){
+  if(!_cache.has(key)) return null;
+  const v = _cache.get(key);
+  // làm mới thứ tự LRU
+  _cache.delete(key); _cache.set(key, v);
+  return v.payload;
+}
+function cacheSet(key, payload){
+  _cache.set(key, { time: Date.now(), payload });
+  if(_cache.size > CACHE_LIMIT){
+    const firstKey = _cache.keys().next().value;
+    _cache.delete(firstKey);
+  }
+}
+
+// so sánh facets để tránh rebuild UI không cần thiết
+let _lastFacetsHash = '';
+function hashFacets(facets){
+  try{ return JSON.stringify(facets||{}); }catch{ return ''; }
+}
+
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
 function fetchPage(){
-  const params=new URLSearchParams({
-    action:'list',page:state.page,pageSize:state.pageSize,
-    q:state.q,group:state.group,type:state.type,loai:state.loai,note:state.note,category:state.category
-  });
-  fetch(API_URL+'?'+params.toString())
-    .then(r=>r.json())
-    .then(res => { render(res); fetchAds(); })
-    .catch(()=>{ document.getElementById('productGrid').innerHTML='<div class="text-danger">Không tải được dữ liệu.</div>'; });
+  clearTimeout(_fetchTimer);
+  _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
 }
+
+async function _doFetch(){
+  // Huỷ request trước (nếu còn)
+  try{ _inflightCtl?.abort(); }catch(_){}
+  _inflightCtl = new AbortController();
+
+  const params = new URLSearchParams({
+    action:'list',
+    page:state.page, pageSize:state.pageSize,
+    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+  });
+
+  // ===== Cache key theo state hiện tại
+  const key = cacheKeyFromState(state);
+  const cached = cacheGet(key);
+  if (cached){
+    // ⚡ render ngay từ cache để UI phản hồi tức thì
+    render(cached, /*fromCache*/true);
+  }
+
+  try{
+    const resp = await fetch(API_URL + '?' + params.toString(), {
+      signal: _inflightCtl.signal,
+      cache: 'no-store'
+    });
+    const json = await resp.json();
+
+    // Lưu cache và render
+    cacheSet(key, json);
+    render(json, /*fromCache*/false);
+
+    // Trì hoãn ads 1 nhịp để nhường CPU cho grid
+    setTimeout(fetchAds, 200);
+
+    // (Optional) Preload trang kế tiếp nếu còn
+    if (json?.total && state.page * state.pageSize < json.total){
+      const nextState = { ...state, page: state.page + 1 };
+      const nextKey   = cacheKeyFromState(nextState);
+      if (!cacheGet(nextKey)){
+        const p2 = new URLSearchParams({
+          action:'list',
+          page:nextState.page, pageSize:nextState.pageSize,
+          q:nextState.q, group:nextState.group, type:nextState.type,
+          loai:nextState.loai, note:nextState.note, category:nextState.category
+        });
+        // fire-and-forget
+        fetch(API_URL + '?' + p2.toString())
+          .then(r=>r.json()).then(j=>cacheSet(nextKey, j)).catch(()=>{});
+      }
+    }
+  }catch(err){
+    if (err?.name === 'AbortError') return; // bị huỷ bởi lần gọi mới → bỏ qua
+    document.getElementById('productGrid').innerHTML =
+      '<div class="text-danger">Không tải được dữ liệu.</div>';
+  }
+}
+
+
 /* === Cập nhật UI cho GROUP BAR (+ ink-bar tab danh mục) === */
 function updateGroupUI(){
   // Toggle active trên chip group
@@ -2255,7 +2982,7 @@ document.addEventListener('keydown', (e) => {
 </script>
 
 <!-- ===== FOOTER ===== -->
-<footer class="text-light" style="background:#0018a8;">
+<footer class="text-light">
   <div class="container">
     <div class="row pt-5 pb-3">
       <!-- Cột 1: Logo + mô tả -->
