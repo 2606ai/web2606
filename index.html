@@ -1606,6 +1606,21 @@ footer.text-light .bi{ color:#fff; }
   color: #fff !important;              /* chữ trắng khi hover */
   border-color: var(--main) !important;
 }
+/* Tắt gradient khi click/active cho ô NHÓM trong bộ lọc */
+#filterPanel .group-chip,
+#filterPanel .group-chip:hover,
+#filterPanel .group-chip:active,
+#filterPanel .group-chip.active,
+#groupBar .group-chip,
+#groupBar .group-chip:hover,
+#groupBar .group-chip:active,
+#groupBar .group-chip.active{
+  background: #fff !important;          /* giữ nền trắng */
+  background-image: none !important;     /* chặn linear-gradient */
+  border-color: var(--main) !important;  /* viền xanh lá */
+  color: var(--main) !important;         /* chữ xanh lá */
+  box-shadow: 0 1px 2px rgba(0,0,0,.06); /* bóng nhẹ (tuỳ) */
+}
 
  
 </style>
