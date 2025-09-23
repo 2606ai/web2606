@@ -293,19 +293,15 @@ img{max-width:100%;display:block}
 .filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
 .filter-tag.active{background:var(--main-grad);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
 
-
-
-/* ---- Floating Action Buttons ---- */
-.cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
-  position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:50%;
-  color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25);
-  z-index:2500; cursor:pointer; display:flex; align-items:center; justify-content:center
+   /* === FAB phải màn hình (1 nơi duy nhất) === */
+#cartFab,#filterFab,#suppliersFab,#zaloFab{ 
+  position:fixed; right:16px; z-index:1055; 
 }
-.filter-fab{background:#6c757d;bottom:212px}
-.cart-fab{background:var(--main-grad);bottom:148px}
-.suppliers-fab{background:#0d6efd;bottom:84px}
-.zalo-fab{background:#25D366;bottom:20px}
-.fab-badge{position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;padding:2px 6px;font-size:12px;font-weight:700;display:none}
+#filterFab{ bottom:212px } 
+#cartFab{ bottom:148px } 
+#suppliersFab{ bottom:84px } 
+#zaloFab{ bottom:20px }
+
 
 /* ---- Footer ---- */
 .site-footer{background:#fff;border-top:1px solid #eee;padding:16px 0;margin-top:20px;font-size:13px;color:#555}
@@ -330,30 +326,6 @@ img{max-width:100%;display:block}
 
 /* Minor helpers */
 .small{font-size:.875rem}
-/* ===== GROUP BAR: sát mép, không bo góc, dính liền nhau, bỏ mũi tên ===== */
-
-/* Đưa group-bar “ăn” sát mép của .category-box (trên & hai bên), dưới không chừa khoảng */
-.category-box .group-bar-wrapper{
-  margin: -10px -10px 0 -10px;   /* sát mép trên & 2 bên của .category-box (đang padding 10px) */
-  padding: 0;                    /* sát trên/dưới */
-  border: 0;                     /* sạch viền ngoài */
-  border-radius: 0;              /* không bo góc */
-  box-shadow: none;
-  background: #fff;
-}
-
-/* Ẩn hẳn 2 mũi tên qua lại */
-.category-box .group-bar-wrapper > .group-arrow{ display:none !important; }
-
-/* Hàng chip: không khoảng cách để các nút dính liền nhau */
-#groupBar.group-bar-scroll{
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0;                /* dính liền nhau */
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-#groupBar.group-bar-scroll::-webkit-scrollbar{ display:none; }
 
 /* Nút (chip) hình chữ nhật, không bo góc, cao gọn – dính nhau bằng 1 viền chung */
 #groupBar .group-chip{
@@ -391,80 +363,7 @@ img{max-width:100%;display:block}
 
 /* (Tuỳ chọn) Nhích phần danh mục dưới lên sát group-bar */
 .category-box .category-wrapper{ margin-top: 0; }
-/* === FIX Group Bar === */
-#groupBar .group-chip{
-  border-radius: 0 !important;     /* bỏ bo góc */
-  font-weight: 400 !important;     /* chữ thường, không in đậm */
-  text-transform: none !important; /* không ép uppercase */
-}
 
-/* Chừa khoảng dưới để không che dots */
-.group-bar-wrapper{
-  margin-bottom: 24px !important;  /* nhích xuống 1 chút */
-}
-
-/* Căn dots rõ ràng hơn */
-.group-dots{
-  position: relative;
-  margin-top: 4px !important;
-  margin-bottom: 0 !important;
-  z-index: 1;
-}
-/* Thanh group bar */
-.group-bar-wrapper{
-  margin: 0 -10px 0 -10px;          /* ăn sát mép trái/phải box */
-  border: 1px solid #dce3f5;
-  border-bottom: none;              /* dính liền với phần dưới */
-  border-radius: 12px 12px 0 0;     /* bo 2 góc trên */
-  background: #fff;
-  overflow: visible !important;
-  padding: 0;
-  box-shadow: none;
-}
-
-/* Tab items */
-#groupBar.group-bar-scroll{
-  display: flex;
-  gap: 0;
-}
-#groupBar .group-chip{
-  border-radius: 0 !important;           /* phẳng */
-  border-right: 1px solid #dce3f5;
-  border-bottom: 1px solid #dce3f5;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 400;
-  color: #0a33cc;
-  background: #f8faff;
-  cursor: pointer;
-  transition: .15s;
-}
-#groupBar .group-chip:last-child{ border-right: none; }
-#groupBar .group-chip.active{
-  background: #0018a8;
-  color: #fff;
-  border-color: #0018a8;
-}
-
-/* Dots nằm ngoài, không bị che */
-.group-dots{
-  margin-top: 6px !important;
-  margin-bottom: 0 !important;
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-}
-.group-dots .dot{
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #c9d6ff;
-  transition: background .2s, transform .2s;
-}
-.group-dots .dot.active{
-  background: #0018a8;
-  transform: scale(1.25);
-}
 /* ===== Khung danh mục ===== */
 .category-box{
   border:1px solid #dce3f5;
@@ -472,22 +371,6 @@ img{max-width:100%;display:block}
   background:#fff;
   padding:10px;
 }
-
-/* ===== Thanh tab: sát mép trên + bo 2 góc trên ===== */
-.category-box .group-bar-wrapper{
-  margin:-10px -10px 0 -10px !important;   /* ăn sát mép trên/trái/phải của .category-box */
-  padding:0 !important;
-  background:#fff !important;
-  border:1px solid #dce3f5 !important;
-  border-bottom:none !important;           /* dính liền phần dưới */
-  border-radius:12px 12px 0 0 !important;  /* bo 2 góc trên */
-  box-shadow:none !important;
-  position:relative;
-  z-index:1;                               /* thấp hơn dots */
-}
-
-/* Ẩn mũi tên trái/phải */
-.category-box .group-arrow{ display:none !important; }
 
 /* ===== Tabs (chips) – dính liền, không bo góc, chữ thường không đậm ===== */
 #groupBar{
@@ -557,121 +440,6 @@ img{max-width:100%;display:block}
   background:#0018a8;
   transform:scale(1.25);
 }
-/* ===== GROUP TABS – sát mép, vuông, liền nhau ===== */
-.category-box{ --cat-radius:12px; }
-
-/* Thanh tab ăn sát padding của .category-box */
-.category-box .group-bar-wrapper{
-  margin:-10px -10px 0 -10px;        /* ăn sát 4 cạnh phía trên */
-  padding:0;
-  border:0;
-  border-radius:var(--cat-radius) var(--cat-radius) 0 0;  /* bo 2 góc trên khớp khung */
-  background:#fff;
-  overflow:visible;
-}
-
-/* Hàng tab: các khối chạm nhau, không bo góc */
-#groupBar{
-  display:flex;
-  width:100%;
-  gap:0;
-}
-
-#groupBar .group-chip{
-  flex:1 1 0;                         /* chia đều bề rộng */
-  padding:12px 10px;
-  text-align:center;
-  color:#0a33cc;
-  background:#fff;
-  border:1px solid #dce3f5;
-  border-bottom:0;                    /* để liền với phần dưới */
-  border-left:0;
-  border-radius:0 !important;         /* vuông góc */
-  font-weight:400;                    /* không in đậm */
-  text-transform:none;                /* chữ thường */
-  line-height:1.2;
-  white-space:normal;
-}
-#groupBar .group-chip:first-child{ border-left:1px solid #dce3f5; }
-#groupBar .group-chip.active{
-  background:#f2f6ff;
-  color:#0018a8;
-  border-color:#bcd0ff;
-}
-
-/* Phần danh mục (bên dưới tabs) – bo 2 góc dưới để khớp khung */
-.category-box .category-wrapper{
-  border:1px solid #dce3f5;
-  border-top:0;
-  border-radius:0 0 var(--cat-radius) var(--cat-radius);
-  padding:12px;
-  background:#fff;
-}
-.group-chip {
-  border-radius: 10px;    /* bo góc nhẹ, thay vì 50% hay 999px */
-  padding: 16px 12px;     /* có thể chỉnh padding để cân lại */
-  background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  margin: 6px;                     /* khoảng cách giữa các chip */
-}
-
-.group-bar-scroll {
-  row-gap: 8px;  /* nếu có nhiều hàng */
-}
-
-/* Dots chỉ báo trang/nhóm – luôn nhìn thấy, không bị che */
-#groupDots{
-  position:relative;
-  margin:8px 0 10px;
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  z-index:1;
-}
-#groupDots .dot{
-  width:6px; height:6px; border-radius:50%;
-  background:#c9d6ff; transition:transform .15s, background .15s;
-}
-#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
-
-/* Tắt mọi overlay mép trái/phải từng dùng trước đây (tránh đè lên sidebar/xưởng) */
-.group-bar-wrapper::before,
-.group-bar-wrapper::after{ display:none !important; }
-
-.found-count{
-  display:inline-flex;
-  align-items:center;
-  gap:6px; /* số và chữ sát nhau */
-  font-weight:500;
-}
-.found-count .lbl{ margin-right:2px; }
-
-
-/* Danh sách link preview */
-#adsList{
-  max-height:62vh;
-  overflow:auto;
-  padding-right:4px;
-  scroll-behavior:smooth;
-}
-
-/* Card preview từng xưởng */
-#adsList .link-preview{
-  display:flex;
-  gap:10px;
-  background:#fff;
-  border:1px solid #e3f2fd;
-  border-radius:10px;
-  padding:10px;
-  box-shadow:0 1px 2px rgba(0,0,0,.06);
-}
-#adsList .link-preview .thumb{
-  width:64px; height:64px;
-  border-radius:8px; object-fit:cover; background:#f1f4ff;
-}
-#adsList .link-preview .title{ font-weight:700; }
-#adsList .link-preview .desc{ font-size:12px; color:#6b7280; }
-#adsList .link-preview .site{ font-size:12px; color:#1565c0; }
 
  /* ==== GROUP BAR kiểu Tiki ==== */
 .group-bar-wrapper{ background:#fff; border:0; padding:12px; }
@@ -865,40 +633,7 @@ img{max-width:100%;display:block}
   }
   #pagerTop{ margin-top:6px; }
 }
-/* ===== PAGER: cao = btn-sm + gọn chiều ngang ===== */
-#pagerTop .btn,
-#pagerBottom .btn{
-  padding: .25rem .5rem;
-  font-size: .875rem;
-  line-height: 1.5;
-  border-radius: .25rem;
-  min-width: 40px;
-}
 
-#pagerTop .btn-group,
-#pagerBottom .btn-group{ gap: 4px; }
-
-/* Hàng thống kê phía trên (Tìm thấy + Xóa bộ lọc + Pager) */
-.stats-row,
-.d-flex.align-items-center.justify-content-between.flex-wrap{ 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-#pagerTop{
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-@media (max-width: 576px){
-  .found-count{ flex: 1 1 auto; }
-  #pagerTop   { flex: 0 1 auto; }
-}
 /* ==== FIX Stats row + Pagination ==== */
 .stats-row{
   display:flex;
@@ -999,158 +734,7 @@ img{max-width:100%;display:block}
 .chip.muted { color:#6b7280; background:#f3f4f6; }
 .chip.btn-upload-doc { cursor:pointer; }
 
-/* ===== THEME OVERRIDES: ép về hồng + gradient ===== */
 
-/* Hover dịu cùng tông (thay cho rgba xanh) */
-:root{
-  --main-tint: #ffe3f0;          /* nền hover nhạt */
-  --main-shadow: rgba(233,30,99,.22);
-}
-
-/* Group tabs (mọi biến thể) */
-#groupBar .group-chip.active,
-.group-chip.active{
-  background: var(--main-grad) !important;
-  color: #fff !important;
-  border-color: var(--main) !important;
-  box-shadow: 0 6px 16px var(--main-shadow) !important;
-}
-
-/* Hover của group-chip (đồng tông) */
-#groupBar .group-chip:hover,
-.group-chip:hover{
-  background: var(--main-tint) !important;
-  color: var(--main-700) !important;
-}
-
-/* Dots active: dùng hồng phẳng (không gradient cho chấm) */
-.group-dots .dot.active,
-#groupDots .dot.active{
-  background: var(--main) !important;
-  transform: scale(1.25);
-}
-
-/* Các chỗ còn đang blue đậm → đổi về biến main */
-#groupBar .group-chip,
-.category-item.active span,
-.cat-arrow{
-  color: var(--main-700) !important; /* thay #0a33cc */
-}
-/* Footer dùng theme hồng */
-footer.text-light{
-  background: var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
-  color: #fff;
-}
-
-/* Tiêu đề nổi bật */
-footer.text-light h6{
-  color: var(--accent); /* vàng accent */
-}
-
-/* Đường kẻ trong footer */
-footer.text-light hr{
-  border-color: rgba(255,255,255,.4);
-}
-
-/* Link và icon giữ trắng */
-footer.text-light a,
-footer.text-light .bi{
-  color:#fff;
-}
-/* ===== SHAPE THEME HỒNG ===== */
-
-/* Mặc định: ô hồng, chữ trắng */
-.group-chip,
-.category-item span {
-  background: var(--main-grad);
-  color: #fff;
-  border: 1px solid var(--main);
-  border-radius: 16px;  /* giữ bo tròn nếu cần */
-  transition: all .2s ease;
-}
-
-/* Hover: hồng nhạt + chữ hồng đậm */
-.group-chip:hover,
-.category-item span:hover {
-  background: var(--main-tint);  /* màu nhạt bạn đã set ở :root */
-  color: var(--main-700);
-}
-
-/* Active: ô trắng, chữ hồng */
-.group-chip.active,
-.category-item.active span {
-  background: #fff !important;
-  color: var(--main) !important;
-  border-color: var(--main) !important;
-}
-.group-chip,
-.category-item span {
-  background:#fff;
-  color:var(--main);
-  border:1px solid var(--main);
-  border-radius:16px;
-  transition:all .2s ease;
-}
-.group-chip:hover,
-.category-item span:hover {
-  background:var(--main-tint);
-  color:var(--main-700);
-}
-.group-chip.active,
-.category-item.active span {
-  background:var(--main-grad)!important;
-  color:#fff!important;
-  border-color:var(--main)!important;
-}
-.group-chip,
-.category-item span {
-  background:#fff;
-  color:var(--main);
-  border:1px solid var(--main);
-  border-radius:16px;
-  transition:all .2s ease;
-}
-.group-chip:hover,
-.category-item span:hover {
-  background:var(--main-tint);
-  color:var(--main-700);
-}
-.group-chip.active,
-.category-item.active span {
-  background:var(--main-grad)!important;
-  color:#fff!important;
-  border-color:var(--main)!important;
-}
-/* ===== FOOTER THEME HỒNG ===== */
-footer.text-light{
-  background:var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
-  color:#fff;
-}
-footer.text-light h6{ color:var(--accent); }
-footer.text-light hr{ border-color:rgba(255,255,255,.4); }
-footer.text-light a,
-footer.text-light .bi{ color:#fff; }
- /* ===== Dots dưới group-bar ===== */
-#groupDots{
-  margin-top:10px;              /* nằm ngay dưới group-bar */
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  position:relative;
-  z-index:2;
-}
-
-#groupDots .dot{
-  width:10px; height:10px;
-  border-radius:50%;
-  background:#cbd5e1;           /* xám nhạt */
-  transition:all .2s ease;
-}
-
-#groupDots .dot.active{
-  background:var(--main);       /* hồng chủ đạo */
-  transform:scale(1.25);
-}
  /* =========================
    BAMBOO / NATURE THEME
    Bật bằng: <body class="theme-bamboo">
@@ -1196,13 +780,7 @@ footer.text-light .bi{ color:#fff; }
   background: var(--main-grad);
 }
 
-/* Chip/Tab/Filter – dùng cùng token sẵn có của bạn */
-.theme-bamboo .group-chip,
-.theme-bamboo .filter-tag{
-  background:#fff !important;
-  color:var(--main) !important;
-  border:1px solid var(--main) !important;
-}
+
 .theme-bamboo .group-chip:hover,
 .theme-bamboo .filter-tag:hover{
   background:var(--main-tint) !important;
