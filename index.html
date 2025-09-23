@@ -2259,8 +2259,9 @@ function renderCategoryPager(items){
   box.innerHTML = slice.map(val => `
     <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
       <div class="icon">
-  <img src="${esc(it.img || 'https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI')}" 
-     alt="${esc(it.title)}">
+ <img src="${esc(iconForCat(val))}"
+     alt="${esc(val)}">
+
 </div>
 
       <span>${esc(val||'Khác')}</span>
