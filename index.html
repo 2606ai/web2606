@@ -11,27 +11,26 @@
 
 <style>
 /* =========================
-   2606AI – CLEAN BASE CSS (merged & optimized)
+   2606AI – CLEAN BASE CSS (Theme Xanh Lá - Bamboo)
    ========================= */
 
-/* ---- Theme tokens (giữ profile Hồng, có thể bị override bởi body.theme-bamboo) ---- */
+/* ---- Theme tokens ---- */
 :root{
-  --main:#e91e63;            /* hồng phẳng cho text/border */
-  --main-600:#d81b60;
-  --main-700:#c2185b;
-  --main-grad:linear-gradient(90deg,#ff5aa7 0%, #ff8bd1 100%);
-
-  --accent:#d4af37;
+  --main:#2e7d32;       /* xanh lá chính */
+  --main-600:#2c6e2f;
+  --main-700:#1b5e20;
+  --main-grad:linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
+  --accent:#c6a969;
   --bg:#f5f6fa;
 
   --text:#1f2937;
   --muted:#6b7280;
 
   --card:#ffffff;
-  --border:#e7ecf7;
+  --border:#dfe7df;
 
-  --main-tint:#ffe3f0;       /* hover dịu */
-  --main-shadow:rgba(233,30,99,.22);
+  --main-tint:#e7f5e8;  /* hover dịu */
+  --main-shadow:rgba(46,125,50,.22);
 
   --shadow-sm:0 1px 2px rgba(0,0,0,.06);
   --shadow-md:0 2px 8px rgba(0,0,0,.08);
@@ -41,12 +40,12 @@
 /* ---- Base ---- */
 html,body{height:100%}
 body{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
   font-size:14px; color:var(--text); background:var(--bg); padding-top:70px;
 }
 img{max-width:100%;display:block}
 
-/* Giữ width đồng nhất với header/footer */
+/* Wrap width */
 .container-fluid,.wrap{max-width:1400px;margin:0 auto}
 
 /* ---- Header ---- */
@@ -70,19 +69,24 @@ img{max-width:100%;display:block}
 .top-banner .marquee{ white-space:nowrap; display:inline-block; animation:marquee 60s linear infinite }
 @keyframes marquee{ from{transform:translateX(100%)} to{transform:translateX(-100%)} }
 
-/* ---- Sidebar generic block ---- */
+/* ---- Sidebar block ---- */
 .sidebar-box{
-  background:var(--card); border:1px solid var(--border);
+  background:#fff; border:1px solid var(--border);
   border-radius:12px; padding:12px; box-shadow:var(--shadow-sm); margin-bottom:15px;
 }
-.sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
-
-/* ---- Benefits (6 items) ---- */
-.benefits-v3 .grid{display:grid;grid-template-columns:1fr;gap:8px}
-.benefits-v3 .bcard{
-  background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:12px;
-  display:flex;gap:10px;align-items:center;min-height:60px;position:relative;box-shadow:var(--shadow-sm)
+.sidebar-box h6{font-weight:700;font-size:14px;margin-bottom:10px;color:var(--main)}
+/* Supplier list items */
+.sidebar-box .supplier-item{
+  background:#f3f8f3; border:1px solid #e1ede1; border-radius:8px;
+  padding:6px 10px; margin-bottom:6px; font-size:13px;
+  transition:background .15s, box-shadow .15s;
 }
+.sidebar-box .supplier-item:hover{background:#e7f5e8;box-shadow:0 2px 6px rgba(46,125,50,0.15)}
+
+/* ---- Benefits ---- */
+.benefits-v3 .grid{display:grid;grid-template-columns:1fr;gap:8px}
+.benefits-v3 .bcard{background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:12px;
+  display:flex;gap:10px;align-items:center;min-height:60px;position:relative;box-shadow:var(--shadow-sm)}
 .benefits-v3 .ic{width:36px;height:36px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center}
 .benefits-v3 .ttl{font-weight:600;font-size:12px;line-height:1.3}
 .benefits-v3 .sub{font-size:12px;color:var(--muted)}
@@ -96,279 +100,178 @@ img{max-width:100%;display:block}
 .hero .main img{height:300px;object-fit:cover;border-radius:12px}
 .hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
 
+/* ==== Slider arrows (custom) ==== */
+.carousel-control-prev,.carousel-control-next{
+  width:36px;height:36px;background:rgba(46,125,50,0.7);
+  border-radius:50%;top:50%;transform:translateY(-50%);
+  opacity:.9;transition:all .2s;
+}
+.carousel-control-prev:hover,.carousel-control-next:hover{background:rgba(27,94,32,0.9)}
+.carousel-control-prev-icon,.carousel-control-next-icon{filter:invert(1);width:20px;height:20px}
+
 /* =========================================================
-   GROUP TABS – **Consolidated (Tiki style)** – single source of truth
+   GROUP TABS – Tiki style (gọn hơn)
    ========================================================= */
-.category-box{
-  background:transparent; border:0; padding:0; box-shadow:none; /* rời khung để nhẹ mắt */
-}
-.category-box .group-bar-wrapper{
-  margin:0 0 10px 0; padding:0; background:transparent; border:0; border-radius:0; box-shadow:none;
-}
-#groupBar{
-  display:flex; align-items:center; gap:10px; overflow-x:auto; scrollbar-width:none;
-}
+.category-box{background:transparent;border:0;padding:0;box-shadow:none}
+.category-box .group-bar-wrapper{margin:0 0 10px 0;padding:0;background:transparent;border:0;box-shadow:none}
+#groupBar{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
 #groupBar::-webkit-scrollbar{display:none}
-
 #groupBar .group-chip{
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
-  min-width:120px; padding:12px 10px;
-  background:#fff; border:1px solid #eef2ff; border-radius:16px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  min-width:100px;padding:10px 8px;
+  background:#fff;border:1px solid #eef2ff;border-radius:16px;
   box-shadow:0 1px 2px rgba(0,0,0,.04);
-  color:#111827; font-weight:600; font-size:13px; text-align:center; white-space:normal; line-height:1.25;
-  cursor:pointer; transition:transform .12s, box-shadow .12s, background .12s, border-color .12s;
+  color:#111827;font-weight:600;font-size:13px;text-align:center;line-height:1.25;cursor:pointer;
+  transition:.12s;
 }
-#groupBar .group-chip:hover{ transform:translateY(-1px); box-shadow:0 4px 14px rgba(0,0,0,.10) }
-#groupBar .group-chip.active{
-  border-color:#c7d2fe; background:#f8faff; box-shadow:0 6px 20px rgba(0,24,168,.10);
-}
-#groupBar .chip-icon{
-  width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(180deg,#f5f7ff 0%,#edf1ff 100%); box-shadow:inset 0 1px 0 rgba(255,255,255,.7); overflow:hidden;
-}
-#groupBar .chip-icon img{width:34px;height:34px;object-fit:contain}
+#groupBar .group-chip:hover{background:var(--main-tint)}
+#groupBar .group-chip.active{border-color:#c7eac9;background:#e7f5e8;color:var(--main-700);box-shadow:0 2px 6px rgba(46,125,50,.15)}
+#groupBar .chip-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:#f5f7ff}
+#groupBar .chip-icon img{width:28px;height:28px;object-fit:contain}
 
-/* Dots dưới tabs (nếu cần sử dụng) */
-#groupDots{ margin:6px 0 12px; display:flex; justify-content:center; gap:6px }
-#groupDots .dot{ width:6px;height:6px;border-radius:50%;background:#c9d6ff;transition:background .2s,transform .2s }
-#groupDots .dot.active{ background:var(--main); transform:scale(1.2) }
+/* ---- Dots ---- */
+#groupDots{margin:6px 0 12px;display:flex;justify-content:center;gap:6px}
+#groupDots .dot{width:6px;height:6px;border-radius:50%;background:#c9d6ff}
+#groupDots .dot.active{background:var(--main);transform:scale(1.2)}
 
 /* =========================================================
-   CATEGORY SCROLLER (2 hàng grid)
+   CATEGORY GRID (2 hàng icon nhỏ hơn)
    ========================================================= */
-.category-wrapper{
-  border:0; border-radius:12px; padding:14px; background:#fff;
-  box-shadow:0 2px 10px rgba(0,0,0,.04);
-}
-.category-scroll{
-  display:grid; grid-template-columns:repeat(6,1fr); grid-template-rows:repeat(2,auto);
-  gap:16px; overflow:hidden;
-}
-@media (max-width:1200px){ .category-scroll{grid-template-columns:repeat(5,1fr)} }
-@media (max-width:992px){  .category-scroll{grid-template-columns:repeat(4,1fr)} }
-@media (max-width:768px){  .category-scroll{grid-template-columns:repeat(3,1fr)} }
-@media (max-width:576px){  .category-scroll{grid-template-columns:repeat(2,1fr)} }
+.category-wrapper{border:0;border-radius:12px;padding:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.category-scroll{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(2,auto);gap:12px;overflow:hidden}
+@media (max-width:1200px){.category-scroll{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:992px){.category-scroll{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:768px){.category-scroll{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:576px){.category-scroll{grid-template-columns:repeat(2,1fr)}}
+.category-item{text-align:center;padding:6px;border-radius:12px;cursor:pointer;transition:.12s}
+.category-item:hover{background:#f7f9ff}
+.category-item .icon{width:48px;height:48px;border-radius:12px;background:#edf7ed;display:flex;align-items:center;justify-content:center;margin-bottom:6px;box-shadow:0 2px 6px rgba(46,125,50,.12)}
+.category-item .icon img{width:28px;height:28px}
+.category-item span{font-size:12px;line-height:1.25;color:#111}
+.category-item.active span{color:var(--main);font-weight:700}
 
-.category-item{
-  text-align:center; padding:8px 6px; border-radius:12px; cursor:pointer;
-  transition:transform .12s, background .12s; border:0; background:transparent;
-}
-.category-item:hover{ background:#f7f9ff; transform:translateY(-1px) }
-.category-item .icon{
-  width:56px;height:56px;border-radius:16px;background:#f2f6ff;
-  display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.06);margin-bottom:8px;
-}
-.category-item .icon img{ width:32px;height:32px;object-fit:contain }
-.category-item span{ font-size:12px; line-height:1.25; color:#111; display:block }
-.category-item.active span{ color:#0018a8; font-weight:700 }
-
-/* ---- Stats + Pager (Consolidated) ---- */
-.stats-row{
-  display:flex; align-items:center; justify-content:space-between;
-  gap:8px; flex-wrap:nowrap; overflow-x:auto; margin-bottom:8px;
-}
-.found-count{ display:inline-flex; align-items:center; gap:6px; font-weight:500; }
-#pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
-#pagerTop .btn, #pagerBottom .btn{
-  height:32px; padding:4px 8px; font-size:13px; line-height:1.2; border-radius:6px; min-width:36px;
-}
-#pagerTop .btn-group, #pagerBottom .btn-group{ gap:4px }
-@media (max-width:576px){
-  .found-count{ flex:0 1 auto } #pagerTop{ flex:0 1 auto }
-}
+/* ---- Stats + Pager ---- */
+.stats-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:nowrap;overflow-x:auto;margin-bottom:8px}
+.found-count{display:inline-flex;align-items:center;gap:6px;font-weight:500}
+#pagerTop{margin-left:auto;white-space:nowrap;display:flex;align-items:center;gap:4px}
+#pagerTop .btn{height:28px;padding:2px 6px;font-size:12px;line-height:1.2;border-radius:6px;min-width:32px}
+@media (max-width:576px){.found-count{flex:0 1 auto}#pagerTop{flex:0 1 auto}}
 
 /* =========================================================
-   PRODUCT CARD GRID (+ perf tweaks)
+   PRODUCT CARD
    ========================================================= */
-.product-grid, #productList{ contain:content; }                /* giảm render vùng ngoài */
+.product-grid,#productList{contain:content}
 .cardx{
-  border:none; border-radius:12px; background:#fff; overflow:hidden;
-  box-shadow:var(--shadow-sm); transition:transform .1s, box-shadow .1s;
-  height:100%; display:flex; flex-direction:column;
-  content-visibility:auto; contain-intrinsic-size:260px;      /* perf: list dài */
+  border:none;border-radius:12px;background:#fff;overflow:hidden;box-shadow:var(--shadow-sm);
+  transition:transform .1s,box-shadow .1s;height:100%;display:flex;flex-direction:column;
+  content-visibility:auto;contain-intrinsic-size:260px;
 }
-.cardx:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md) }
-.cardx .thumb-wrap{ position:relative; background:#fff }
-.cardx img.thumb{ width:100%; height:180px; object-fit:cover; aspect-ratio:4/3 }
-.cardx .note-chip{
-  position:absolute; top:8px; right:8px; padding:2px 6px; border-radius:999px;
-  font-size:10px; font-weight:400; color:#fff; background:#555;
-}
-.cardx .meta{ padding:10px; display:flex; flex-direction:column; gap:6px; flex:1 }
-.cardx .id{ font-weight:700; color:var(--main); font-size:13px; line-height:1.2; min-height:1.2em }
-.cardx .details{
-  font-size:12px; color:#666; line-height:1.2;
-  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; min-height:2.4em;
-}
-.cardx .type-badge{
-  display:inline-block; background:#e0f0ff; color:#0056b3; font-size:11px; font-weight:700;
-  padding:2px 6px; border-radius:12px; align-self:flex-start; white-space:nowrap; text-overflow:ellipsis; overflow:hidden;
-}
-.cardx .price{ font-weight:600; color:#d32f2f; font-size:1rem; margin:0; line-height:1.2 }
-.cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:6px }
-
-/* Nút Nhận quà – single source of truth */
+.cardx:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.cardx img.thumb{width:100%;height:180px;object-fit:cover;aspect-ratio:4/3}
+.cardx .meta{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.cardx .id{font-weight:700;color:var(--main);font-size:13px}
+.cardx .details{font-size:12px;color:#666;line-height:1.2;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.cardx .price{font-weight:600;color:#d32f2f;font-size:1rem;margin:0}
 .btn-gift{
-  background:#fff; color:var(--main); border:1.5px solid var(--main);
-  border-radius:999px; font-weight:600; padding:6px 14px;
-  display:inline-flex; align-items:center; justify-content:center; gap:6px;
-  text-decoration:none; transition:background .12s, color .12s, border-color .12s, box-shadow .12s;
+  background:#fff;color:var(--main);border:1.5px solid var(--main);border-radius:999px;
+  font-weight:600;padding:6px 14px;display:inline-flex;align-items:center;gap:6px;
+  transition:.12s;
 }
-.btn-gift:hover{ background:var(--main-tint); color:var(--main-700); border-color:var(--main) }
+.btn-gift:hover{background:var(--main-tint);color:var(--main-700)}
+.add-btn{border:none;background:var(--main-grad);color:#fff;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
 
-/* Add (+) tròn */
-.add-btn{
-  border:none; background:var(--main-grad); color:#fff; border-radius:50%;
-  width:32px; height:32px; font-size:18px; font-weight:800; display:flex; align-items:center; justify-content:center;
-}
-@media (prefers-reduced-motion:reduce){
-  .group-chip:hover,.cardx:hover{ transform:none !important; box-shadow:var(--shadow-sm) !important; }
-}
-
-/* ---- Ads list (sidebar) ---- */
-.ads-box{ background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%); border:1px solid #90caf9; border-radius:12px; padding:12px }
-#adsList{ max-height:62vh; overflow:auto; padding-right:4px; scroll-behavior:smooth }
-#adsList .link-preview{
-  display:flex; gap:10px; background:#fff; border:1px solid #e3f2fd; border-radius:10px; padding:10px; box-shadow:var(--shadow-sm)
-}
-#adsList .title{font-weight:700} .#adsList .desc{font-size:12px;color:var(--muted)} .#adsList .site{font-size:12px;color:#1565c0}
-
-/* ---- Suppliers Offcanvas ---- */
-.offcanvas{z-index:4000} .offcanvas-backdrop{z-index:3990}
-.sup-toolbar{
-  position:sticky; top:0; z-index:2; background:#fff; margin:-12px -12px 12px; padding:12px;
-  border-bottom:1px solid var(--border); border-radius:12px 12px 0 0
-}
-.sup-toolbar .counter{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
-.sup-toolbar .pill{background:#eef3ff;color:var(--main);border:1px solid #dbe3ff;padding:2px 8px;border-radius:999px;font-weight:700;font-size:12px}
-.supplier-list{max-height:62vh;overflow:auto;padding-right:4px}
-.supplier-card{ border:1px solid var(--border);border-radius:12px;padding:10px;background:#fff; box-shadow:var(--shadow-sm) }
-.supplier-card .title{font-weight:700;font-size:14px}
-.supplier-card .meta{font-size:12px;color:var(--muted)}
-.supplier-card .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-.supplier-card .chip{font-size:11px;padding:2px 8px;border-radius:999px;background:#f6f7fb;border:1px solid #e5e9ff;color:#475569}
-.supplier-card .chip.ok{background:#e8f7ee;border-color:#c7ead5;color:#256c3b}
-
-/* ---- Cart Offcanvas ---- */
-#cartCanvas .offcanvas-header{ background:var(--main-grad); color:#fff; border:0; border-radius:12px 12px 0 0 }
-#cartCanvas .offcanvas-body{font-size:13px;padding:16px}
-#cartCanvas input.form-control,#cartCanvas textarea.form-control,#cartCanvas select.form-select{
-  border-radius:10px;font-size:13px;border:1px solid #dbe3ff
-}
-#cartCanvas input:focus,#cartCanvas textarea:focus,#cartCanvas select:focus{
-  border-color:var(--main); box-shadow:0 0 0 0.2rem rgba(0,24,168,0.15)
-}
-#cartCanvas .btn{border-radius:999px;font-weight:600;font-size:13px}
-#cartCanvas #clearCartBtn{background:#fbe9e7;color:#d32f2f;border:1px solid #ffcdd2}
-#cartCanvas #clearCartBtn:hover{background:#ffcdd2}
-#cartCanvas #submitOrderBtn{background:#2e7d32;border:none}
-#cartCanvas #submitOrderBtn:hover{background:#1b5e20}
-#cartCanvas .alert{border-radius:10px;font-size:12px;background:#f4f6fd;color:#333;border:1px solid #dbe3ff}
-#cartCanvas .summary-box{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:8px 12px;margin-bottom:12px}
-#cartCanvas #cartTotal{font-weight:700;font-size:16px;color:#d32f2f}
-
-/* ---- Filter panel ---- */
-#filterPanel h6{font-weight:700;font-size:14px;margin:16px 0 8px;color:var(--main);text-transform:uppercase;letter-spacing:.3px}
-.filter-box-group{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.filter-tag{
-  border:1px solid #dbe3ff;background:#f9faff;border-radius:20px;padding:6px 12px;
-  font-size:13px;font-weight:500;color:#333;cursor:pointer;transition:.15s
-}
-.filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
-.filter-tag.active{
-  background:var(--main-grad);color:#fff;border-color:var(--main);
-  box-shadow:0 2px 8px rgba(0,24,168,.25)
-}
-
-/* ---- Floating Action Buttons ---- */
+/* ---- FAB ---- */
 .cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
-  position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:50%;
-  color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25);
-  z-index:2500; cursor:pointer; display:flex; align-items:center; justify-content:center
+  position:fixed;right:16px;width:54px;height:54px;border-radius:50%;
+  color:#fff;font-size:22px;line-height:54px;box-shadow:0 6px 16px rgba(0,0,0,.25);
+  z-index:2500;display:flex;align-items:center;justify-content:center
 }
 .filter-fab{background:#6c757d;bottom:212px}
 .cart-fab{background:var(--main-grad);bottom:148px}
 .suppliers-fab{background:#0d6efd;bottom:84px}
 .zalo-fab{background:#25D366;bottom:20px}
+@media(max-width:576px){
+  .cart-fab{bottom:112px}
+  .filter-fab{bottom:168px}
+}
 .fab-badge{position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;padding:2px 6px;font-size:12px;font-weight:700;display:none}
 
 /* ---- Footer ---- */
 .site-footer{background:#fff;border-top:1px solid #eee;padding:16px 0;margin-top:20px;font-size:13px;color:#555}
 .site-footer .brand{font-weight:700;color:var(--main)}
-.site-footer a{color:inherit;text-decoration:none}
-.site-footer a:hover{text-decoration:underline}
 .footer-social{display:flex;gap:8px}
-.footer-social .social{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;text-decoration:none}
-.footer-social .social-zalo{background:#0068ff}
-.footer-social .social-fb{background:#1877F2}
-@media (max-width:576px){.footer-social{justify-content:flex-start;margin-top:8px}}
-
-/* ---- Error toast ---- */
-#errbox{
-  position:fixed;left:8px;right:8px;bottom:8px;z-index:3000;
-  background:#ffefef;border:1px solid #e99;border-radius:8px;padding:8px;
-  display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace
-}
-
-/* ---- Footer hero ads ---- */
-.hero-ads img{height:180px;object-fit:cover;border-radius:12px}
+.footer-social .social{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.footer-social .social-zalo{background:#0068ff}.footer-social .social-fb{background:#1877F2}
+@media(max-width:576px){.footer-social{justify-content:flex-start;margin-top:8px}}
 
 /* ---- Helpers ---- */
-.small{font-size:.875rem}
-:focus-visible{ outline:2px solid var(--main); outline-offset:2px }
+:focus-visible{outline:2px solid var(--main);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.top-banner .marquee{animation:none}.cardx:hover{transform:none;box-shadow:var(--shadow-sm)}}
+/* ===== HOTFIX 2606AI (paste cuối file) ===== */
 
-/* =========================================================
-   THEME: BAMBOO / NATURE – bật bằng <body class="theme-bamboo">
-   (đã rút gọn để không đè qua lại)
-   ========================================================= */
-.theme-bamboo{
-  --main:#2e7d32; --main-600:#2c6e2f; --main-700:#1b5e20;
-  --main-grad:linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
-  --accent:#c6a969; --bg:#f7faf7; --text:#1e2a1e; --muted:#647b64;
-  --card:#ffffff; --border:#dfe7df; --main-tint:#e7f5e8; --main-shadow:rgba(46,125,50,.22);
-}
-.theme-bamboo body{
-  background:
-    radial-gradient(1200px 200px at 50% -40px, rgba(102,187,106,.12), transparent 60%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><g fill='none' stroke='%23e6efe6' stroke-width='1'><path d='M10 0 v180'/><path d='M60 0 v180'/><path d='M110 0 v180'/><path d='M160 0 v180'/><path d='M0 20 h180'/><path d='M0 70 h180'/><path d='M0 120 h180'/><path d='M0 170 h180'/></g></svg>") repeat;
-  background-size:auto,180px 180px;
-}
-.theme-bamboo .top-banner{ background:var(--main-grad) }
+/* 1) Sửa lỗi selector gãy chuỗi ở ADS LIST */
+#adsList .title{ font-weight:700; }
+#adsList .desc{ font-size:12px; color:var(--muted); }
+#adsList .site{ font-size:12px; color:#1565c0; }
 
-/* Chip/Filter/Bộ lọc theo xanh lá – chỉ 1 phiên bản */
-.theme-bamboo .filter-tag,
-.theme-bamboo #groupBar .group-chip{
-  background:#fff !important; color:var(--main) !important; border:1px solid var(--main) !important;
-  box-shadow:var(--shadow-sm);
+/* 2) Mũi tên slider: bỏ viền đen, gọn tròn – xanh lá */
+.carousel-control-prev,
+.carousel-control-next{
+  width:36px; height:36px;
+  background:rgba(46,125,50,.7);
+  border:none !important; outline:none !important; box-shadow:none !important;
+  border-radius:50%;
+  top:50%; transform:translateY(-50%);
+  opacity:.9; transition:all .2s;
 }
-.theme-bamboo #groupBar .group-chip:hover,
-.theme-bamboo .filter-tag:hover{
-  background:var(--main-tint) !important; color:var(--main-700) !important;
-}
-.theme-bamboo #groupBar .group-chip.active{
-  background:var(--main-grad) !important; color:#fff !important; border:none !important; box-shadow:var(--shadow-md);
-}
-.theme-bamboo .category-item .icon{ background:#edf7ed !important; box-shadow:0 4px 10px rgba(46,125,50,.12) }
-.theme-bamboo .btn-primary{ background:var(--main-grad); border:none }
-.theme-bamboo .btn-primary:hover{ filter:brightness(.95) }
-.theme-bamboo .btn-outline-secondary{ border-color:var(--main); color:var(--main) }
-.theme-bamboo .btn-outline-secondary:hover{ background:var(--main-tint); color:var(--main-700) }
-.theme-bamboo .cardx{ box-shadow:0 2px 10px rgba(0,0,0,.06); border:1px solid var(--border) }
-.theme-bamboo .cardx .id{ color:var(--main) }
-.theme-bamboo .type-badge{ background:#e7f3e8; color:#1b5e20 }
-.theme-bamboo #groupDots .dot.active{ background:var(--main); transform:scale(1.2) }
-.theme-bamboo footer.text-light{
-  background:linear-gradient(180deg,#2e7d32 0%, #1b5e20 100%); color:#fff;
-}
-.theme-bamboo footer.text-light h6{ color:var(--accent) }
-.theme-bamboo footer.text-light hr{ border-color:rgba(255,255,255,.25) }
+.carousel-control-prev:hover,.carousel-control-next:hover{ background:rgba(27,94,32,.9); }
+.carousel-control-prev-icon,.carousel-control-next-icon{ filter:invert(1); width:20px; height:20px; }
 
-/* =========================================================
-   Accessibility & motion prefs
-   ========================================================= */
-@media (prefers-reduced-motion:reduce){
-  .top-banner .marquee{ animation:none }
+/* 3) Xưởng đề xuất: hỗ trợ cả .supplier-card và .supplier-item */
+.sidebar-box h6{ color:var(--main); }
+.sidebar-box .supplier-item,
+.sidebar-box .supplier-card{
+  background:#f3f8f3;
+  border:1px solid #e1ede1;
+  border-radius:8px;
+  padding:6px 10px; margin-bottom:6px;
+  font-size:13px;
+  transition:background .15s, box-shadow .15s;
 }
+.sidebar-box .supplier-item:hover,
+.sidebar-box .supplier-card:hover{
+  background:#e7f5e8;
+  box-shadow:0 2px 6px rgba(46,125,50,.15);
+}
+
+/* 4) Group tabs: gọn lại nhưng KHÔNG đè quá tay */
+#groupBar{ gap:10px; overflow-x:auto; scrollbar-width:none; }
+#groupBar::-webkit-scrollbar{ display:none; }
+#groupBar .group-chip{
+  min-width:100px; padding:10px 8px;
+  background:#fff; border:1px solid #eef2ff; border-radius:16px;
+  color:#111827; font-weight:600; font-size:13px; line-height:1.25;
+  transition:background .12s, box-shadow .12s;
+}
+#groupBar .group-chip:hover{ background:var(--main-tint); }
+#groupBar .group-chip.active{
+  background:#e7f5e8; border-color:#c7eac9; color:var(--main-700);
+  box-shadow:0 2px 6px rgba(46,125,50,.15);
+}
+
+/* 5) Category icon nhỏ hơn một nhịp (tránh vỡ hàng) */
+.category-item .icon{ width:48px; height:48px; border-radius:12px; }
+
+/* 6) FAB không che pager ở mobile */
+@media (max-width:576px){
+  .cart-fab{ bottom:112px !important; }
+  .filter-fab{ bottom:168px !important; }
+}
+
+/* 7) An toàn hiệu năng cho list dài */
+.product-grid, #productList{ contain: content; }
+.cardx{ content-visibility:auto; contain-intrinsic-size:260px; }
+.cardx img.thumb{ aspect-ratio:4/3; height:auto; object-fit:cover; }
 
 </style>
 </head>
