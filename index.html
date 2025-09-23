@@ -2974,7 +2974,59 @@ Object.assign(window, {
   selectCategory,
   clearAllFilters
 });
+/* Swipe-to-close cho tất cả Bootstrap Offcanvas trên mobile */
+(function () {
+  const MIN_SWIPE_X = 60;  // kéo ngang tối thiểu 60px
+  const MAX_SWIPE_Y = 40;  // lệch dọc tối đa 40px
 
+  function enableSwipeClose(el) {
+    if (!el) return;
+    let startX = 0, startY = 0, tracking = false;
+
+    const onStart = (e) => {
+      if (window.innerWidth > 768) return; // chỉ áp dụng mobile
+      const t = e.touches ? e.touches[0] : e;
+      startX = t.clientX;
+      startY = t.clientY;
+      tracking = true;
+    };
+
+    const onMove = (e) => {
+      if (!tracking) return;
+      const t = e.touches ? e.touches[0] : e;
+      const dx = t.clientX - startX;
+      const dy = Math.abs(t.clientY - startY);
+
+      // Vuốt sang phải đủ xa và không lệch dọc nhiều
+      if (dx > MIN_SWIPE_X && dy < MAX_SWIPE_Y) {
+        tracking = false;
+        const inst = bootstrap.Offcanvas.getOrCreateInstance(el);
+        inst.hide();
+      }
+    };
+
+    const onEnd = () => (tracking = false);
+
+    // Gắn sự kiện lên panel
+    el.addEventListener('touchstart', onStart, { passive: true });
+    el.addEventListener('touchmove', onMove, { passive: true });
+    el.addEventListener('touchend', onEnd, { passive: true });
+
+    // Gắn thêm lên backdrop khi panel mở
+    document.addEventListener('shown.bs.offcanvas', (ev) => {
+      if (ev.target !== el) return;
+      const backdrop = document.querySelector('.offcanvas-backdrop');
+      if (backdrop) {
+        backdrop.addEventListener('touchstart', onStart, { passive: true });
+        backdrop.addEventListener('touchmove', onMove, { passive: true });
+        backdrop.addEventListener('touchend', onEnd, { passive: true });
+      }
+    });
+  }
+
+  // Quét toàn bộ offcanvas hiện có trên trang
+  document.querySelectorAll('.offcanvas').forEach(el => enableSwipeClose(el));
+})();
 
 
 /* === INIT === */
