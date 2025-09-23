@@ -385,14 +385,13 @@ img{max-width:100%;display:block}
 /* Trả lại viền phải cho phần tử cuối để đóng khung hàng tab */
 #groupBar .group-chip:last-child{ border-right: 1px solid #dce3f5; }
 
-/* Hover & Active */
-#groupBar .group-chip:hover{ background:#eef3ff; }
-#groupBar .group-chip.active{
-  background:#0018a8;
-  color:#fff;
-  border-color:#0018a8;
-  box-shadow:none;                  /* giữ phẳng */
+/#groupBar .group-chip.active {
+  background: #fff !important;         /* bỏ gradient, giữ trắng */
+  color: var(--main) !important;       /* chữ xanh lá */
+  border-color: var(--main) !important;/* viền xanh lá */
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);/* bóng nhẹ (tuỳ chọn) */
 }
+
 
 /* Dots có thể giữ lại (đang = số nhóm). Gọn hơn một chút */
 .group-dots{ display:flex; justify-content:center; gap:6px; margin:8px 0 6px; }
@@ -2259,7 +2258,11 @@ function renderCategoryPager(items){
   const slice = items.slice(catIndex, catIndex + catsPerView);
   box.innerHTML = slice.map(val => `
     <div class="category-item ${state.category===val?'active':''}" data-action="select-category" data-val="${esc(val)}">
-      <div class="icon"><img src="${iconForCat(val)}" alt="Danh mục ${esc(val||'Khác')}"></div>
+      <div class="icon">
+  <img src="${esc(it.img || 'https://drive.google.com/file/d/1ixc_p6X925a0JpSG4YIWwpyauVmhRakI/view?usp=sharing')}" 
+       alt="${esc(it.title)}">
+</div>
+
       <span>${esc(val||'Khác')}</span>
     </div>
   `).join('');
@@ -2320,7 +2323,7 @@ function renderAds(items){
     const desc = it.desc || it.description || '';
     const site = url ? (new URL(url, location.href).hostname) : '';
     return `
-      <a class="https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI" href="${esc(url||'#')}" target="_blank" rel="noopener">
+      <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
         <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://via.placeholder.com/64?text=%20'">
         <div class="flex-grow-1">
           <div class="title">${esc(title)}</div>
@@ -3024,6 +3027,17 @@ Object.assign(window, {
     });
   }
 
+// Chỉ cho click card khi bấm vào ảnh icon .thumb
+document.addEventListener('click', function(e){
+  const a = e.target.closest('a.link-preview');
+  if (!a) return;
+  const onThumb = e.target.closest('.thumb');
+  if (!onThumb) {
+    e.preventDefault(); // bấm chỗ khác không đi link
+  }
+});
+
+   
   // Quét toàn bộ offcanvas hiện có trên trang
   document.querySelectorAll('.offcanvas').forEach(el => enableSwipeClose(el));
 })();
