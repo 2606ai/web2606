@@ -1622,7 +1622,24 @@ footer.text-light .bi{ color:#fff; }
   box-shadow: 0 1px 2px rgba(0,0,0,.06); /* bóng nhẹ (tuỳ) */
 }
 
- 
+/* Hover cho chip sản phẩm: chỉ in đậm chữ, không border */
+.category-chip,
+.group-chip,
+.filter-tag {
+  border: none !important;       /* bỏ border mặc định */
+  transition: font-weight .2s;   /* hiệu ứng mượt */
+}
+
+.category-chip:hover,
+.group-chip:hover,
+.filter-tag:hover {
+  font-weight: 700 !important;   /* chỉ in đậm chữ */
+  border: none !important;       /* không thêm border */
+  background: inherit !important;/* giữ nguyên nền */
+  color: inherit !important;     /* giữ nguyên màu chữ */
+}
+
+   
 </style>
 </head>
 <body class="theme-bamboo">
