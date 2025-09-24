@@ -1991,12 +1991,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-// Khi trang sẵn sàng → nạp dữ liệu
-document.addEventListener('DOMContentLoaded', () => {
-  updateFilterCount && updateFilterCount();  // nếu có
-  fetchPage();                               // gọi API và render
-});
-
   // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
 const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
 if (statsRow) {
@@ -2142,9 +2136,20 @@ function buildCategoryFromFacets(facets){
 }
 
 /* STATE */
-const AUTO_OPEN_ON_ADD = false;
-const state = { page:1, pageSize:36, q:'', group:'', type:'', loai:'', note:'', category:'', totalPages:1 };
-const cart = []; const products = {};
+/* STATE (global, safe) */
+window.state = window.state || {
+  page: 1,
+  pageSize: 36,
+  q: '',
+  group: '',
+  type: '',
+  loai: '',
+  note: '',
+  category: '',
+  totalPages: 1
+};
+const state = window.state;   // alias để phần code dưới vẫn dùng `state`
+
 
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
@@ -2744,19 +2749,33 @@ document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
 document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
 
-// Clear filters (2 nút) – bản an toàn
 function clearAllFilters(){
-  state.type=''; state.loai=''; state.note=''; state.category=''; state.group=''; state.q='';
+  Object.assign(state, { type:'', loai:'', note:'', category:'', group:'', q:'', page:1 });
   const sb = document.getElementById('searchBox'); if (sb) sb.value = '';
-
-  // bỏ active trên các chip/nút lọc nếu có
   document.querySelectorAll('.group-chip.active, .category-item.active, .filter-tag.active')
     .forEach(el => el.classList.remove('active'));
-
-  state.page = 1;
   if (typeof updateFilterCount === 'function') updateFilterCount();
   fetchPage();
 }
+
+// Gắn sự kiện an toàn (nếu thiếu nút sẽ không lỗi)
+document.getElementById('clearFiltersBtn')?.addEventListener('click', clearAllFilters);
+document.getElementById('clearFiltersBtn2')?.addEventListener('click', clearAllFilters);
+
+/* Helper setFilter + delegate click (chống “lọc cứng”) */
+function setFilter(key, val){
+  state[key] = (val == null ? '' : String(val));
+  state.page = 1;
+  fetchPage();
+}
+document.addEventListener('click', (e)=>{
+  const catEl = e.target.closest('[data-action="select-category"]');
+  if (catEl) setFilter('category', catEl.dataset.val || '');
+  const grpEl = e.target.closest('[data-action="select-group"]');
+  if (grpEl) setFilter('group', grpEl.dataset.val || '');
+});
+
+
 // Gắn sự kiện an toàn (nếu thiếu nút sẽ không lỗi)
 document.getElementById('clearFiltersBtn')?.addEventListener('click', clearAllFilters);
 document.getElementById('clearFiltersBtn2')?.addEventListener('click', clearAllFilters);
@@ -2776,13 +2795,16 @@ document.addEventListener('click', (e)=>{
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
-  if (window.__initDone) return; window.__initDone = true;
-  state.type=''; state.loai=''; state.note='';
-  state.category=''; state.group=''; state.q='';
-  state.page=1;
+  if (window.__initDone) return;
+  window.__initDone = true;
+
+  // reset state
+  Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
+
   if (typeof updateFilterCount === 'function') updateFilterCount();
   fetchPage();
 });
+
 
 /* Gửi đơn hàng */
 document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
