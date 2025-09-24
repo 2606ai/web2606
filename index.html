@@ -1989,6 +1989,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (catBox && dots && catBox.contains(dots)) {
     catBox.after(dots);
   }
+// === State mặc định rỗng ===
+const state = { type:'', loai:'', note:'', category:'', group:'', q:'', page:1 };
+
+// Khi trang sẵn sàng → nạp dữ liệu
+document.addEventListener('DOMContentLoaded', () => {
+  updateFilterCount && updateFilterCount();  // nếu có
+  fetchPage();                               // gọi API và render
+});
 
   // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
 const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
@@ -2737,17 +2745,48 @@ document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
 document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
 
-/* Clear filters (2 nút) */
+// Clear filters (2 nút) – bản an toàn
 function clearAllFilters(){
   state.type=''; state.loai=''; state.note=''; state.category=''; state.group=''; state.q='';
-  const sb=document.getElementById('searchBox'); if(sb) sb.value='';
-  updateFilterCount(); state.page=1; fetchPage();
+  const sb = document.getElementById('searchBox'); if (sb) sb.value = '';
+
+  // bỏ active trên các chip/nút lọc nếu có
+  document.querySelectorAll('.group-chip.active, .category-item.active, .filter-tag.active')
+    .forEach(el => el.classList.remove('active'));
+
+  state.page = 1;
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+  fetchPage();
 }
-document.getElementById('clearFiltersBtn').addEventListener('click', clearAllFilters);
-document.getElementById('clearFiltersBtn2').addEventListener('click', clearAllFilters);
+// Gắn sự kiện an toàn (nếu thiếu nút sẽ không lỗi)
+document.getElementById('clearFiltersBtn')?.addEventListener('click', clearAllFilters);
+document.getElementById('clearFiltersBtn2')?.addEventListener('click', clearAllFilters);
+
+// ==== Ý B: helper setFilter ====
+function setFilter(key, val){
+  state[key] = (val == null ? '' : String(val));
+  state.page = 1;
+  fetchPage();
+}
+document.addEventListener('click', (e)=>{
+  const catEl = e.target.closest('[data-action="select-category"]');
+  if (catEl) setFilter('category', catEl.dataset.val || '');
+  const grpEl = e.target.closest('[data-action="select-group"]');
+  if (grpEl) setFilter('group', grpEl.dataset.val || '');
+});
+
+
+document.addEventListener('DOMContentLoaded', ()=>{
+  if (window.__initDone) return; window.__initDone = true;
+  state.type=''; state.loai=''; state.note='';
+  state.category=''; state.group=''; state.q='';
+  state.page=1;
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+  fetchPage();
+});
 
 /* Gửi đơn hàng */
-document.getElementById('submitOrderBtn').addEventListener('click', submitOrder);
+document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
 
 /* ===== Modal Chi tiết Lợi ích ===== */
 const BENEFIT_DETAIL = {
