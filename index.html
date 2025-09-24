@@ -1982,6 +1982,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* ==== CONFIG ===== */
   const API_URL = "https://script.google.com/macros/s/AKfycby2PjYOKiRRphQCOI9eSDo8ShAY-Bugp_gQD7JjgJPaYE7fmaoDjbP4kXGWLpOQxWOh/exec";
   const API_KEY = "";
+  const AUTO_OPEN_ON_ADD = false;   // auto mở giỏ khi thêm sp (true/false)
 
   // ✅ Đoạn thêm mới: di chuyển #groupDots ra ngoài .category-box
   const catBox = document.querySelector('.category-box');
@@ -2149,6 +2150,9 @@ window.state = window.state || {
   totalPages: 1
 };
 const state = window.state;   // alias để phần code dưới vẫn dùng `state`
+// Thêm 2 biến toàn cục còn thiếu
+window.cart = window.cart || [];
+window.products = window.products || {};
 
 
 /* UTILS */
