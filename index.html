@@ -2996,9 +2996,14 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     render(json, true);
   })
   .catch((err) => {
-    console.error('[API ERR]', err);
-    showError('Không tải được dữ liệu.');
-  });
+  console.error('[API ERR]', err);
+  const box = document.getElementById('errbox');
+  if (box) {
+    box.style.display = 'block';
+    box.textContent = '[ERROR] Không tải được dữ liệu.';
+  }
+});
+
 
     const json = await resp.json();
 
