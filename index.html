@@ -2974,10 +2974,32 @@ async function _doFetch(){
   }
 
   try{
-    const resp = await fetch(API_URL + '?' + params.toString(), {
-      signal: _inflightCtl.signal,
-      cache: 'no-store'
-    });
+    const url = API_URL + '?' + params.toString();
+fetch(url, { redirect: 'follow', mode: 'cors' })
+  .then(async (r) => {
+    const txt = await r.text();
+    console.log('[API RAW]', txt.slice(0, 400));  // xem thử server trả gì
+    // cố parse JSON: một số deployment có thể không set content-type JSON hoặc có tiền tố
+    try {
+      return JSON.parse(txt);
+    } catch (_) {
+      // loại các tiền tố XSSI / BOM nếu có rồi parse lại
+      const cleaned = txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim();
+      return JSON.parse(cleaned);
+    }
+  })
+  .then((json) => {
+    // kiểm schema tối thiểu
+    if (!json || json.ok === false || !Array.isArray(json.items)) {
+      throw new Error('Bad JSON schema or empty data');
+    }
+    render(json, true);
+  })
+  .catch((err) => {
+    console.error('[API ERR]', err);
+    showError('Không tải được dữ liệu.');
+  });
+
     const json = await resp.json();
 
     // Lưu cache và render
