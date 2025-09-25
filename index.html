@@ -2743,7 +2743,6 @@ document.addEventListener('click', async (e) => {
   }
 });
 
-document.getElementById('searchBox').addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); document.getElementById('searchBtn').click(); } });
 
 /* FAB */
 document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
@@ -2781,15 +2780,6 @@ document.addEventListener('click', (e)=>{
 
 
 // Gắn sự kiện an toàn (nếu thiếu nút sẽ không lỗi)
-document.getElementById('clearFiltersBtn')?.addEventListener('click', clearAllFilters);
-document.getElementById('clearFiltersBtn2')?.addEventListener('click', clearAllFilters);
-
-// ==== Ý B: helper setFilter ====
-function setFilter(key, val){
-  state[key] = (val == null ? '' : String(val));
-  state.page = 1;
-  fetchPage();
-}
 document.addEventListener('click', (e)=>{
   const catEl = e.target.closest('[data-action="select-category"]');
   if (catEl) setFilter('category', catEl.dataset.val || '');
