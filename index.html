@@ -1770,6 +1770,9 @@ footer.text-light .bi{ color:#fff; }
     <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
   </div>
 </div>
+let catIndex = 0;
+const catsPerView = 12;   // hiển thị 12 danh mục mỗi trang (6 cột x 2 hàng)
+let allCategories = [];
 
       <!-- Thống kê + Pagination -->
 <div class="stats-row row g-2 align-items-center">
