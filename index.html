@@ -2887,7 +2887,7 @@ function render(res, fromCache){
   const grid=document.getElementById('productGrid');
 
   // Render grid (giữ nguyên)
-  grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Không có sản phẩm.</div>';
+  grid.innerHTML = items.length ? items.map(productCardHtml).join('') : '<div class="text-muted">Đang tải dữ liệu...</div>';
 
   // ✅ Chỉ rebuild facets nếu đổi
   const newHash = hashFacets(res?.facets||{});
