@@ -385,7 +385,7 @@ img{max-width:100%;display:block}
 /* Trả lại viền phải cho phần tử cuối để đóng khung hàng tab */
 #groupBar .group-chip:last-child{ border-right: 1px solid #dce3f5; }
 
-/#groupBar .group-chip.active {
+#groupBar .group-chip.active {
   background: #fff !important;         /* bỏ gradient, giữ trắng */
   color: var(--main) !important;       /* chữ xanh lá */
   border-color: var(--main) !important;/* viền xanh lá */
@@ -2903,8 +2903,6 @@ function render(res = {}, fromCache){
       renderSuppliers(res?.facets || {});
     }
   }
-}
-
 
   document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
   renderPagination(res?.total||0, state.pageSize, state.page);
