@@ -2119,23 +2119,79 @@ window.addEventListener('resize', ()=>{
   window._repaint_t = setTimeout(()=> renderGroups((window._lastGroups)||[]), 120);
 });
 
+ // ===== CATEGORY CONFIG (mỗi ô = 1 cấu hình riêng) =====
+const CAT_CONFIG = [
+  { id:'huy-chuong-phoi-san', label:'Huy chương phôi sẵn',
+    icon:'https://your.cdn/img/huychuong.png', link:'#',
+    filters:{ category:'Huy chương', q:'phôi sẵn' } },
+  { id:'huy-chuong-chay-bo', label:'Huy chương sự kiện chạy bộ',
+    icon:'https://your.cdn/img/chaybo.png', link:'#',
+    filters:{ category:'Huy chương', q:'chạy bộ' } },
+  { id:'moc-khoa-cao-su', label:'Móc khóa cao su',
+    icon:'https://your.cdn/img/caosu.png', link:'#',
+    filters:{ category:'Móc khóa', q:'cao su' } },
+  { id:'moc-khoa-hoat-hinh', label:'Móc khóa hoạt hình',
+    icon:'https://your.cdn/img/hoathinh.png', link:'#',
+    filters:{ category:'Móc khóa', q:'hoạt hình' } },
+  { id:'moc-khoa-hop-kim', label:'Móc khóa hợp kim',
+    icon:'https://your.cdn/img/hopkim.png', link:'#',
+    filters:{ category:'Móc khóa', q:'hợp kim' } },
+  ...[2025,2026,2027,2030,2031,2032,2036].map(y => ({
+    id:`moc-khoa-tet-${y}`, label:`Móc khóa tết ${y}`,
+    icon:'https://your.cdn/img/tet.png', link:'#',
+    filters:{ category:'Móc khóa', q:`tết ${y}` }
+  })),
+];
+function renderCategoriesFromConfig(){
+  const wrap = document.getElementById('categoryScroll'); // dùng wrapper sẵn có
+  if (!wrap) return;
+
+  wrap.innerHTML = CAT_CONFIG.map(c => `
+    <a class="category-item"
+       href="${c.link || '#'}"
+       data-action="apply-filters"
+       data-id="${c.id}"
+       data-category="${c.filters?.category || ''}"
+       data-group="${c.filters?.group || ''}"
+       data-type="${c.filters?.type || ''}"
+       data-loai="${c.filters?.loai || ''}"
+       data-note="${c.filters?.note || ''}"
+       data-q="${c.filters?.q || ''}">
+      <div class="icon">
+        <img src="${c.icon}" alt="${c.label}" style="width:100%;height:100%;object-fit:contain">
+      </div>
+      <div class="label">${c.label}</div>
+    </a>
+  `).join('');
+}
+
+  
 /* === GHI ĐÈ buildCategoryFromFacets → gọi renderGroups mới === */
 function buildCategoryFromFacets(facets){
   const groups = facets?.groups_all || facets?.groups || [];
-  // lưu tạm cho resize
+
+  // lưu tạm cho resize & vẽ group chips
   window._lastGroups = groups;
   renderGroups(groups);
 
+  // hiệu ứng mờ nhẹ khi cập nhật
   const catEl = document.getElementById('categoryScroll');
   if (catEl) catEl.classList.add('fade-out');
-  buildFilterBox('groupBox', groups || [], 'group');
-  buildCategory(facets?.categories || []);
-  buildFilterBox('typeBox',  facets?.types  || [], 'type');
-  buildFilterBox('loaiBox',  facets?.loais  || [], 'loai');
-  buildFilterBox('noteBox',  facets?.notes  || [], 'note');
-  buildFilterBox('brandBox', facets?.categories || [], 'category');
-  requestAnimationFrame(() => catEl && catEl.classList.remove('fade-out'));
+
+  // 🔁 THAY DÒNG NÀY
+  // buildCategory(facets?.categories || []);
+  renderCategoriesFromConfig();   // <-- gọi renderer theo cấu hình icon
+
+  // các box lọc khác giữ nguyên
+  buildFilterBox('groupBox',  groups || [], 'group');
+  buildFilterBox('typeBox',   facets?.types     || [], 'type');
+  buildFilterBox('loaiBox',   facets?.loais     || [], 'loai');
+  buildFilterBox('noteBox',   facets?.notes     || [], 'note');
+  buildFilterBox('brandBox',  facets?.categories|| [], 'category');
+
+  requestAnimationFrame(()=> catEl && catEl.classList.remove('fade-out'));
 }
+
 
 /* STATE */
 /* STATE (global, safe) */
