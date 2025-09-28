@@ -3160,7 +3160,7 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
   }catch(err){
     if (err?.name === 'AbortError') return; // bị huỷ bởi lần gọi mới → bỏ qua
     document.getElementById('productGrid').innerHTML =
-      '<div class="text-danger">Đang tải được dữ liệu.</div>';
+      '<div class="text-danger">Đang tải dữ liệu...</div>';
   }
 }
 
