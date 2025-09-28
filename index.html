@@ -2892,17 +2892,18 @@ function render(res = {}, fromCache){
     : '<div class="text-muted">Đang tải dữ liệu...</div>';
 
   // 🔁 Rebuild facets khi đổi
-  const newHash = hashFacets(res?.facets || {});
-  if (newHash !== _lastFacetsHash){
-    _lastFacetsHash = newHash;
-    buildCategoryFromFacets(res?.facets || {});
-    renderSuppliers(res?.facets || {});   // ⬅️ THÊM DÒNG NÀY
-  } else {
-    // phòng trường hợp lần đầu chưa có gì trong supBox
-    if (!document.querySelector('#supBox .sup-list')?.children?.length){
-      renderSuppliers(res?.facets || {});
-    }
+const newHash = hashFacets(res?.facets || {});
+if (newHash !== _lastFacetsHash){
+  _lastFacetsHash = newHash;
+  buildCategoryFromFacets(res?.facets || {});
+  fetchAds();   // <-- thay cho renderSuppliers(...)
+} else {
+  // phòng trường hợp lần đầu chưa có gì trong supBox
+  if (!document.querySelector('#adsList')?.children?.length){
+    fetchAds(); // <-- thay cho renderSuppliers(...)
   }
+}
+
 
   document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
   renderPagination(res?.total||0, state.pageSize, state.page);
