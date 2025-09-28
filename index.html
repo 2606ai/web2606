@@ -2149,6 +2149,20 @@ window.addEventListener('resize', ()=>{
   window._repaint_t = setTimeout(()=> renderGroups((window._lastGroups)||[]), 120);
 });
 
+// Base & ảnh dự phòng (dùng link tuyệt đối)
+const ICON_FALLBACK = 'https://placehold.co/44x44?text=%20&bg=E8F5E9&fc=2E7D32';
+
+// Nếu bạn có thư mục icon riêng, có thể dùng thêm base:
+const ICON_BASE = ''; // vd: 'https://2606ai.github.io/web2606/assets/cat/'
+
+// Helper: nhận tên file hoặc URL tuyệt đối → trả URL hợp lệ
+function iconUrl(u){
+  if (!u) return ICON_FALLBACK;
+  if (/^https?:\/\//i.test(u)) return u;          // đã là URL đầy đủ
+  if (ICON_BASE) return new URL(u, ICON_BASE).href;
+  return ICON_FALLBACK;
+}
+   
  // ===== CATEGORY CONFIG (mỗi ô = 1 cấu hình riêng) =====
 const CAT_CONFIG = [
   { id:'huy-chuong-phoi-san', label:'Huy chương phôi sẵn',
