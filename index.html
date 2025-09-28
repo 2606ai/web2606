@@ -2216,15 +2216,9 @@ function renderCategoriesFromConfig(){
 
   wrap.innerHTML = CAT_CONFIG.map(c => `
     <a class="category-item"
-       href="${c.link || '#'}"
-       data-action="apply-filters"
-       data-id="${c.id}"
-       data-category="${c.filters?.category || ''}"
-       data-group="${c.filters?.group || ''}"
-       data-type="${c.filters?.type || ''}"
-       data-loai="${c.filters?.loai || ''}"
-       data-note="${c.filters?.note || ''}"
-       data-q="${c.filters?.q || ''}">
+       href="#"
+       data-action="select-category"
+       data-val="${c.filters?.category || ''}">
       <div class="icon">
         <img src="${c.icon}" alt="${c.label}" style="width:100%;height:100%;object-fit:contain">
       </div>
@@ -2232,6 +2226,7 @@ function renderCategoriesFromConfig(){
     </a>
   `).join('');
 }
+
 
   
 /* === GHI ĐÈ buildCategoryFromFacets → gọi renderGroups mới === */
@@ -2901,19 +2896,15 @@ function setFilter(key, val){
 }
 document.addEventListener('click', (e)=>{
   const catEl = e.target.closest('[data-action="select-category"]');
-  if (catEl) setFilter('category', catEl.dataset.val || '');
+  if (catEl) {
+    e.preventDefault();  // tránh nhảy lên đầu trang
+    setFilter('category', catEl.dataset.val || '');
+  }
+
   const grpEl = e.target.closest('[data-action="select-group"]');
   if (grpEl) setFilter('group', grpEl.dataset.val || '');
 });
 
-
-// Gắn sự kiện an toàn (nếu thiếu nút sẽ không lỗi)
-document.addEventListener('click', (e)=>{
-  const catEl = e.target.closest('[data-action="select-category"]');
-  if (catEl) setFilter('category', catEl.dataset.val || '');
-  const grpEl = e.target.closest('[data-action="select-group"]');
-  if (grpEl) setFilter('group', grpEl.dataset.val || '');
-});
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
