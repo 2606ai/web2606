@@ -1605,6 +1605,36 @@ footer.text-light .bi{ color:#fff; }
   color: #fff !important;              /* chữ trắng khi hover */
   border-color: var(--main) !important;
 }
+/* Category icons & labels */
+#categoryScroll .category-item{
+  display:block;
+  color:var(--text);
+  text-decoration:none;
+}
+#categoryScroll .category-item:hover{
+  text-decoration:none;
+}
+#categoryScroll .category-item .label{
+  display:block;
+  margin-top:6px;
+  font-weight:700;
+  font-size:13px;
+  line-height:1.35;
+  color:var(--text);
+  text-decoration:none;
+  text-align:center;
+  /* tùy chọn: cắt bớt nếu quá dài */
+  /* white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
+}
+#categoryScroll .category-item:hover .label{
+  color:var(--main-600);
+  text-decoration:none;
+}
+#categoryScroll .category-item .icon img{
+  display:block;
+  width:100%; height:100%;
+  object-fit:contain;
+}
 
    
 </style>
