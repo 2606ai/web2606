@@ -2153,25 +2153,49 @@ window.addEventListener('resize', ()=>{
 const CAT_CONFIG = [
   { id:'huy-chuong-phoi-san', label:'Huy chương phôi sẵn',
     icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Huy chương phôi sẵn', q:'Huy chương phôi sẵn' } },
+    filters:{ category:'Huy chương phôi sẵn' } },
+
   { id:'huy-chuong-chay-bo', label:'Huy chương sự kiện chạy bộ',
     icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Huy hiệu tạo hình giày', q:'huy hiệu' } },
+    filters:{ category:'Huy chương sự kiện chạy bộ' } },
+
   { id:'moc-khoa-cao-su', label:'Móc khóa cao su',
     icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Huy chương phôi sẵn', q:'Huy chương phôi sẵn' } },
-  { id:'moc-khoa-hoat-hinh', label:'Móc khóa hoạt hình',
-    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Huy chương phôi sẵn', q:'Huy chương phôi sẵn' } },
+    filters:{ category:'Móc khóa cao su' } },
+
   { id:'moc-khoa-hop-kim', label:'Móc khóa hợp kim',
     icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Huy chương phôi sẵn', q:'Huy chương phôi sẵn' } },
-  ...[2025,2026,2027,2030,2031,2032,2036].map(y => ({
-    id:`moc-khoa-tet-${y}`, label:`Móc khóa tết ${y}`,
-    icon:'https://your.cdn/img/tet.png', link:'#',
-    filters:{ category:'Móc khóa', q:`tết ${y}` }
-  })),
+    filters:{ category:'Móc khóa hợp kim' } },
+
+  { id:'moc-khoa-tet-2025', label:'Móc khóa tết 2025',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2025' } },
+
+  { id:'moc-khoa-tet-2026', label:'Móc khóa tết 2026',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2026' } },
+
+  { id:'moc-khoa-tet-2027', label:'Móc khóa tết 2027',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2027' } },
+
+  { id:'moc-khoa-tet-2030', label:'Móc khóa tết 2030',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2030' } },
+
+  { id:'moc-khoa-tet-2031', label:'Móc khóa tết 2031',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2031' } },
+
+  { id:'moc-khoa-tet-2032', label:'Móc khóa tết 2032',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2032' } },
+
+  { id:'moc-khoa-tet-2036', label:'Móc khóa tết 2036',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2036' } },
 ];
+
 function renderCategoriesFromConfig(){
   const wrap = document.getElementById('categoryScroll'); // dùng wrapper sẵn có
   if (!wrap) return;
