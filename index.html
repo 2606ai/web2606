@@ -1651,6 +1651,26 @@ footer.text-light .bi{ color:#fff; }
   width:100%; height:100%;
   object-fit:contain;
 }
+/* Force icon fill for both Category & Group rows */
+#categoryScroll .category-item .icon,
+#groupScroll .category-item .icon{
+  width:100% !important;
+  height:140px !important;      /* tăng/giảm 120–180 tùy ý */
+  padding:0 !important;
+  background:none !important;
+  border-radius:12px;
+  overflow:hidden;
+  display:block !important;
+}
+
+#categoryScroll .category-item .icon img,
+#groupScroll .category-item .icon img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  display:block !important;
+  border-radius:inherit;
+}
 
    
 </style>
