@@ -170,19 +170,23 @@ img{max-width:100%;display:block}
 .category-item:hover{background:#f8f9ff}
 .category-item.active{background:#e8f1ff;border-color:#a7c4ff}
 .category-item .icon {
-  width:100% !important;
-  height:140px !important;   /* chỉnh 120–160px tuỳ bạn muốn ô cao bao nhiêu */
+  width:100%;
+  height:140px;           /* tăng chiều cao để logo to ra */
   border-radius:12px;
-  background:none !important;
+  background:none;        /* bỏ nền xám */
   margin-bottom:6px;
-  overflow:hidden;           /* để bo góc ảnh */
+  overflow:hidden;        /* bo tròn viền ảnh */
+  display:block;
 }
+
 .category-item .icon img {
-  width:100% !important;
-  height:100% !important;
-  object-fit:cover;          /* cover để ảnh lấp đầy ô */
+  width:100%;
+  height:100%;
+  object-fit:cover;       /* ảnh phủ đầy, không méo */
   border-radius:inherit;
+  display:block;
 }
+
 .category-item span{font-size:13px;display:block}
 
 .cat-arrow{
