@@ -2240,6 +2240,7 @@ function renderCategoriesFromConfig(){
        <div class="label category-label">${c.label}</div>
      </a>
    `).join('');
+    }
 
 
 
@@ -2256,19 +2257,19 @@ function buildCategoryFromFacets(facets){
   const catEl = document.getElementById('categoryScroll');
   if (catEl) catEl.classList.add('fade-out');
 
-  // 🔁 THAY DÒNG NÀY
-  // buildCategory(facets?.categories || []);
-  renderCategoriesFromConfig();   // <-- gọi renderer theo cấu hình icon
+  // ⬇️ dùng cấu hình icon cố định
+  renderCategoriesFromConfig();
 
-  // các box lọc khác giữ nguyên
-  buildFilterBox('groupBox',  groups || [], 'group');
-  buildFilterBox('typeBox',   facets?.types     || [], 'type');
-  buildFilterBox('loaiBox',   facets?.loais     || [], 'loai');
-  buildFilterBox('noteBox',   facets?.notes     || [], 'note');
-  buildFilterBox('brandBox',  facets?.categories|| [], 'category');
+  // các box lọc khác giữ nguyên (DÙNG facets, KHÔNG phải facets2)
+  buildFilterBox('groupBox', groups || [], 'group');
+  buildFilterBox('typeBox',  facets?.types || [], 'type');
+  buildFilterBox('loaiBox',  facets?.loais || [], 'loai');
+  buildFilterBox('noteBox',  facets?.notes || [], 'note');
+  buildFilterBox('brandBox', facets?.categories || [], 'category');
 
-  requestAnimationFrame(()=> catEl && catEl.classList.remove('fade-out'));
+  requestAnimationFrame(() => catEl && catEl.classList.remove('fade-out'));
 }
+
 
 
 /* STATE */
