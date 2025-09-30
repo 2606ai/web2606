@@ -20,11 +20,9 @@ on:
   # Cho phép bấm chạy tay từ tab Actions
   workflow_dispatch:
 
-# Không cần quyền ghi gì đặc biệt
 permissions:
   contents: read
 
-# Nếu push liên tiếp, huỷ run cũ cho nhanh
 concurrency:
   group: firebase-deploy
   cancel-in-progress: true
@@ -37,21 +35,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Nếu sau này có dự án build bằng Node (Vite/React/etc.), bật cache cho nhanh
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      # (Tuỳ chọn) cài deps nếu bạn có package.json/bước build
-      # - run: npm ci
-      # - run: npm run build
+          node-version: 18
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      - name: Deploy to Firebase Hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: firebase deploy --only hosting --token "$FIREBASE_TOKEN"
+      - name: Deploy to Firebase
+        run: firebase deploy --token "${{ secrets.FIREBASE_TOKEN }}"
