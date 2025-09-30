@@ -2806,15 +2806,12 @@ async function _doFetch(){
         });
         // fire-and-forget
         fetch(API_URL + '?' + p2.toString())
-          .then(r=>r.json()).then(j=>cacheSet(nextKey, j)).catch(()=>{});
-      }
+  .then(r => r.json())
+  .then(j => cacheSet(nextKey, j))
+  .catch(() => {});
     }
-  catch(err){
-    if (err?.name === 'AbortError') return; // bị huỷ bởi lần gọi mới → bỏ qua
-    document.getElementById('productGrid').innerHTML =
-      '<div class="text-danger">Đang tải dữ liệu...</div>';
-  }
-}
+  } catch {} // kết thúc preload, không hiển thị lỗi ở đây
+
 
 
 /* === Cập nhật UI cho GROUP BAR (+ ink-bar tab danh mục) === */
