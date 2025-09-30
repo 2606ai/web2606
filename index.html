@@ -2699,26 +2699,21 @@ if (newHash !== _lastFacetsHash){
   // console.debug('[render]', fromCache ? 'CACHE' : 'NETWORK', state);
 }
 
-/* ===== Fetch tối ưu: debounce + abort + cache (LRU) ===== */
-const FETCH_DEBOUNCE = 160;                 // ms
+ /* ===== Fetch tối ưu: debounce + abort + cache (LRU) ===== */
+const FETCH_DEBOUNCE = 160; // ms
 let _fetchTimer = 0;
 let _inflightCtl = null;
 
-// LRU cache: key -> {time, payload}
+// LRU cache
 const _cache = new Map();
 const CACHE_LIMIT = 30;
 function cacheKeyFromState(s){
-  // chỉ key các tham số ảnh hưởng tới dữ liệu
-  return [
-    'list', s.page, s.pageSize,
-    s.q||'', s.group||'', s.type||'', s.loai||'', s.note||'', s.category||''
-  ].join('|');
+  return ['list', s.page, s.pageSize, s.q||'', s.group||'', s.type||'', s.loai||'', s.note||'', s.category||''].join('|');
 }
 function cacheGet(key){
   if(!_cache.has(key)) return null;
   const v = _cache.get(key);
-  // làm mới thứ tự LRU
-  _cache.delete(key); _cache.set(key, v);
+  _cache.delete(key); _cache.set(key, v); // refresh LRU
   return v.payload;
 }
 function cacheSet(key, payload){
@@ -2731,17 +2726,15 @@ function cacheSet(key, payload){
 
 // so sánh facets để tránh rebuild UI không cần thiết
 let _lastFacetsHash = '';
-function hashFacets(facets){
-  try{ return JSON.stringify(facets||{}); }catch{ return ''; }
-}
+function hashFacets(facets){ try{ return JSON.stringify(facets||{}); }catch{ return ''; } }
+
 function fetchPage(){
   clearTimeout(_fetchTimer);
   _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
 }
 
-// === SỬA HÀM NÀY ===
 async function _doFetch(){
-  // Hủy request trước (nếu có)
+  // hủy request trước (nếu có)
   try { _inflightCtl?.abort(); } catch(_) {}
   _inflightCtl = new AbortController();
 
@@ -2759,9 +2752,7 @@ async function _doFetch(){
 
   const key = cacheKeyFromState(state);
   const cached = cacheGet(key);
-  if (cached) {
-    render(cached, true);
-  }
+  if (cached) render(cached, true);
 
   try {
     const url  = API_URL + '?' + params.toString();
@@ -2772,10 +2763,9 @@ async function _doFetch(){
     try { json = JSON.parse(txt); }
     catch {
       const cleaned = txt
-  .replace(/^\)\]\}'[^\n]*\n?/, '')  // bỏ XSSI prefix nếu có
-  .replace(/^\uFEFF/, '')            // bỏ BOM nếu có
-  .trim();
-
+        .replace(/^\)\]\}'[^\n]*\n?/, '') // strip XSSI
+        .replace(/^\uFEFF/, '')           // strip BOM
+        .trim();
       json = JSON.parse(cleaned);
     }
 
@@ -2783,27 +2773,36 @@ async function _doFetch(){
 
     cacheSet(key, json);
     render(json, false);
-    setTimeout(fetchAds, 200);   // nạp ads trễ 1 nhịp
-  } catch (err) {
-    console.error('[API ERR]', err);
-    showError('Không tải được dữ liệu.');
-  }
-}
 
-    // Trì hoãn ads 1 nhịp để nhường CPU cho grid
+    // gọi ads trễ 1 nhịp
     setTimeout(fetchAds, 200);
 
-    // (Optional) Preload trang kế tiếp nếu còn
-    if (json?.total && state.page * state.pageSize < json.total){
+    // (Optional) preload trang kế tiếp – fire-and-forget
+    if (json.total && state.page * state.pageSize < json.total) {
       const nextState = { ...state, page: state.page + 1 };
       const nextKey   = cacheKeyFromState(nextState);
-      if (!cacheGet(nextKey)){
+      if (!cacheGet(nextKey)) {
         const p2 = new URLSearchParams({
           action:'list',
           page:nextState.page, pageSize:nextState.pageSize,
           q:nextState.q, group:nextState.group, type:nextState.type,
           loai:nextState.loai, note:nextState.note, category:nextState.category
         });
+        fetch(API_URL + '?' + p2.toString())
+          .then(r => r.json())
+          .then(j => cacheSet(nextKey, j))
+          .catch(()=>{ /* im lặng */ });
+      }
+    }
+  } catch (err) {
+    console.error('[API ERR]', err);
+    if (err && err.name === 'AbortError') return;
+    showError('Không tải được dữ liệu.');
+    const grid = document.getElementById('productGrid');
+    if (grid) grid.innerHTML = '<div class="text-danger">Đang tải dữ liệu...</div>';
+  }
+}
+
        // === Fetch dữ liệu trang hiện tại ===
 async function fetchPage(){
   try{
