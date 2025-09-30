@@ -349,6 +349,10 @@ img{max-width:100%;display:block}
   background:#ffefef;border:1px solid #e99;border-radius:8px;padding:8px;
   display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace
 }
+.fade-out {
+  opacity: .6;
+  transition: opacity .2s ease;
+}
 
 /* ---- Footer hero ads ---- */
 .hero-ads img{height:180px;object-fit:cover;border-radius:12px}
@@ -837,154 +841,7 @@ img{max-width:100%;display:block}
 .chip.muted { color:#6b7280; background:#f3f4f6; }
 .chip.btn-upload-doc { cursor:pointer; }
 
-/* ===== THEME OVERRIDES: ép về hồng + gradient ===== */
-:root {
-  --main-tint: #ffe3f0;              /* nền hover nhạt */
-  --main-shadow: rgba(233,30,99,.22);
-}
 
-#groupBar .group-chip.active,
-.group-chip.active {
-  background: var(--main-grad) !important;
-  color: #fff !important;
-  border-color: var(--main) !important;
-  box-shadow: 0 6px 16px var(--main-shadow) !important;
-}
-
-#groupBar .group-chip:hover,
-.group-chip:hover {
-  background: var(--main-tint) !important;
-  color: var(--main-700) !important;
-}
-
-.group-dots .dot.active,
-#groupDots .dot.active {
-  background: var(--main) !important;
-  transform: scale(1.25);
-}
-
-
-/* Các chỗ còn đang blue đậm → đổi về biến main */
-#groupBar .group-chip,
-.category-item.active span,
-.cat-arrow{
-  color: var(--main-700) !important; /* thay #0a33cc */
-}
-/* Footer dùng theme hồng */
-footer.text-light{
-  background: var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
-  color: #fff;
-}
-
-/* Tiêu đề nổi bật */
-footer.text-light h6{
-  color: var(--accent); /* vàng accent */
-}
-
-/* Đường kẻ trong footer */
-footer.text-light hr{
-  border-color: rgba(255,255,255,.4);
-}
-
-/* Link và icon giữ trắng */
-footer.text-light a,
-footer.text-light .bi{
-  color:#fff;
-}
-/* ===== SHAPE THEME HỒNG ===== */
-
-/* Mặc định: ô hồng, chữ trắng */
-.group-chip,
-.category-item span {
-  background: var(--main-grad);
-  color: #fff;
-  border: 1px solid var(--main);
-  border-radius: 16px;  /* giữ bo tròn nếu cần */
-  transition: all .2s ease;
-}
-
-/* Hover: hồng nhạt + chữ hồng đậm */
-.group-chip:hover,
-.category-item span:hover {
-  background: var(--main-tint);  /* màu nhạt bạn đã set ở :root */
-  color: var(--main-700);
-}
-
-/* Active: ô trắng, chữ hồng */
-.group-chip.active,
-.category-item.active span {
-  background: #fff !important;
-  color: var(--main) !important;
-  border-color: var(--main) !important;
-}
-.group-chip,
-.category-item span {
-  background:#fff;
-  color:var(--main);
-  border:1px solid var(--main);
-  border-radius:16px;
-  transition:all .2s ease;
-}
-.group-chip:hover,
-.category-item span:hover {
-  background:var(--main-tint);
-  color:var(--main-700);
-}
-.group-chip.active,
-.category-item.active span {
-  background:var(--main-grad)!important;
-  color:#fff!important;
-  border-color:var(--main)!important;
-}
-.group-chip,
-.category-item span {
-  background:#fff;
-  color:var(--main);
-  border:1px solid var(--main);
-  border-radius:16px;
-  transition:all .2s ease;
-}
-.group-chip:hover,
-.category-item span:hover {
-  background:var(--main-tint);
-  color:var(--main-700);
-}
-.group-chip.active,
-.category-item.active span {
-  background:var(--main-grad)!important;
-  color:#fff!important;
-  border-color:var(--main)!important;
-}
-/* ===== FOOTER THEME HỒNG ===== */
-footer.text-light{
-  background:var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
-  color:#fff;
-}
-footer.text-light h6{ color:var(--accent); }
-footer.text-light hr{ border-color:rgba(255,255,255,.4); }
-footer.text-light a,
-footer.text-light .bi{ color:#fff; }
- /* ===== Dots dưới group-bar ===== */
-#groupDots{
-  margin-top:10px;              /* nằm ngay dưới group-bar */
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  position:relative;
-  z-index:2;
-}
-
-#groupDots .dot{
-  width:10px; height:10px;
-  border-radius:50%;
-  background:#cbd5e1;           /* xám nhạt */
-  transition:all .2s ease;
-}
-
-#groupDots .dot.active{
-  background:var(--main);       /* hồng chủ đạo */
-  transform:scale(1.25);
-}
  /* =========================
    BAMBOO / NATURE THEME
    Bật bằng: <body class="theme-bamboo">
@@ -1469,16 +1326,6 @@ footer.text-light .bi{ color:#fff; }
 .category-item:hover .category-label {
   color: #ffffff;       /* đổi thành trắng khi hover */
 }
-#errbox {
-  display:none;
-  margin:8px 0;
-  padding:8px 12px;
-  border-radius:6px;
-  background:#fdecea;
-  color:#b71c1c;
-  font-weight:600;
-}
-
    
 </style>
 </head>
@@ -2739,20 +2586,6 @@ document.addEventListener('click', (e)=>{
   if (grpEl) setFilter('group', grpEl.dataset.val || '');
 });
 
-
-
-document.addEventListener('DOMContentLoaded', ()=>{
-  if (window.__initDone) return;
-  window.__initDone = true;
-
-  // reset state
-  Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
-
-  if (typeof updateFilterCount === 'function') updateFilterCount();
-  fetchPage();
-});
-
-
 /* Gửi đơn hàng */
 document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
 
@@ -2956,12 +2789,6 @@ async function _doFetch(){
     showError('Không tải được dữ liệu.');
   }
 }
-
-    const json = await resp.json();
-
-    // Lưu cache và render
-    cacheSet(key, json);
-    render(json, /*fromCache*/false);
 
     // Trì hoãn ads 1 nhịp để nhường CPU cho grid
     setTimeout(fetchAds, 200);
