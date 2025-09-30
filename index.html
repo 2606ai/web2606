@@ -1469,6 +1469,15 @@ footer.text-light .bi{ color:#fff; }
 .category-item:hover .category-label {
   color: #ffffff;       /* đổi thành trắng khi hover */
 }
+#errbox {
+  display:none;
+  margin:8px 0;
+  padding:8px 12px;
+  border-radius:6px;
+  background:#fdecea;
+  color:#b71c1c;
+  font-weight:600;
+}
 
    
 </style>
@@ -2892,13 +2901,6 @@ let _lastFacetsHash = '';
 function hashFacets(facets){
   try{ return JSON.stringify(facets||{}); }catch{ return ''; }
 }
-
-/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
-/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
-// Debounce wrapper (giữ nguyên)
-const FETCH_DEBOUNCE = 120;     // ms
-let _fetchTimer = null;
-
 function fetchPage(){
   clearTimeout(_fetchTimer);
   _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
