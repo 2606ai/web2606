@@ -2809,7 +2809,7 @@ async function _doFetch(){
           .then(r=>r.json()).then(j=>cacheSet(nextKey, j)).catch(()=>{});
       }
     }
-  }catch(err){
+  catch(err){
     if (err?.name === 'AbortError') return; // bị huỷ bởi lần gọi mới → bỏ qua
     document.getElementById('productGrid').innerHTML =
       '<div class="text-danger">Đang tải dữ liệu...</div>';
