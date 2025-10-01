@@ -3503,6 +3503,39 @@ document.addEventListener('keydown', (e) => {
     </div>
   </div>
 </footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const ads  = document.getElementById('adsBox');
+
+  // 1) Tìm đúng cột trái (ưu tiên id nếu bạn gắn vào cột)
+  // -> GỢI Ý: thêm id cho cột trái: <div id="leftCol" class="col-lg-3 col-md-4">
+  let left =
+    document.getElementById('leftCol') ||
+    document.querySelector('.row .col-lg-3.col-md-4') ||
+    document.querySelector('.row .col-xl-3, .row .left-col, [data-left-col]');
+
+  if (ads && left && !left.contains(ads)) {
+    left.appendChild(ads);                 // kéo adsBox về đúng cột trái nếu lạc
+  }
+
+  // 2) Ép hiển thị trong mọi trường hợp (tránh bị media query/utility ẩn)
+  if (ads){
+    ads.style.display    = 'block';
+    ads.style.visibility = 'visible';
+    ads.style.opacity    = '1';
+  }
+
+  // 3) Debug viền để bạn nhìn thấy khung (xóa 2 dòng này khi OK)
+  if (ads){
+    ads.style.outline = '2px dashed #2e7d32';
+    if (!ads.querySelector('#adsList')){
+      ads.insertAdjacentHTML('beforeend',
+        '<div class="small text-muted">(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.</div>');
+    }
+  }
+});
+</script>
+
 <input type="file" id="uploadSupplierFile" accept="application/pdf,image/*" style="display:none">
 </body>
 </html>
