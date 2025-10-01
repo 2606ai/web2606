@@ -355,31 +355,7 @@ img{max-width:100%;display:block}
 
 /* Minor helpers */
 .small{font-size:.875rem}
-/* ===== GROUP BAR: sát mép, không bo góc, dính liền nhau, bỏ mũi tên ===== */
-
-/* Đưa group-bar “ăn” sát mép của .category-box (trên & hai bên), dưới không chừa khoảng */
-.category-box .group-bar-wrapper{
-  margin: -10px -10px 0 -10px;   /* sát mép trên & 2 bên của .category-box (đang padding 10px) */
-  padding: 0;                    /* sát trên/dưới */
-  border: 0;                     /* sạch viền ngoài */
-  border-radius: 0;              /* không bo góc */
-  box-shadow: none;
-  background: #fff;
-}
-
-/* Ẩn hẳn 2 mũi tên qua lại */
-.category-box .group-bar-wrapper > .group-arrow{ display:none !important; }
-
-/* Hàng chip: không khoảng cách để các nút dính liền nhau */
-#groupBar.group-bar-scroll{
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 0;                /* dính liền nhau */
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-#groupBar.group-bar-scroll::-webkit-scrollbar{ display:none; }
-
+   
 /* Nút (chip) hình chữ nhật, không bo góc, cao gọn – dính nhau bằng 1 viền chung */
 #groupBar .group-chip{
   border-radius: 0;                 /* không bo góc */
@@ -397,8 +373,6 @@ img{max-width:100%;display:block}
   transition: background .12s, color .12s, box-shadow .12s;
 }
 
-/* Trả lại viền phải cho phần tử cuối để đóng khung hàng tab */
-#groupBar .group-chip:last-child{ border-right: 1px solid #dce3f5; }
 
 #groupBar .group-chip.active {
   background: #fff !important;         /* bỏ gradient, giữ trắng */
@@ -415,36 +389,6 @@ img{max-width:100%;display:block}
 
 /* (Tuỳ chọn) Nhích phần danh mục dưới lên sát group-bar */
 .category-box .category-wrapper{ margin-top: 0; }
-/* === FIX Group Bar === */
-#groupBar .group-chip{
-  border-radius: 0 !important;     /* bỏ bo góc */
-  font-weight: 400 !important;     /* chữ thường, không in đậm */
-  text-transform: none !important; /* không ép uppercase */
-}
-
-/* Chừa khoảng dưới để không che dots */
-.group-bar-wrapper{
-  margin-bottom: 24px !important;  /* nhích xuống 1 chút */
-}
-
-/* Căn dots rõ ràng hơn */
-.group-dots{
-  position: relative;
-  margin-top: 4px !important;
-  margin-bottom: 0 !important;
-  z-index: 1;
-}
-/* Thanh group bar */
-.group-bar-wrapper{
-  margin: 0 -10px 0 -10px;          /* ăn sát mép trái/phải box */
-  border: 1px solid #dce3f5;
-  border-bottom: none;              /* dính liền với phần dưới */
-  border-radius: 12px 12px 0 0;     /* bo 2 góc trên */
-  background: #fff;
-  overflow: visible !important;
-  padding: 0;
-  box-shadow: none;
-}
 
 /* Tab items */
 #groupBar.group-bar-scroll{
@@ -463,7 +407,6 @@ img{max-width:100%;display:block}
   cursor: pointer;
   transition: .15s;
 }
-#groupBar .group-chip:last-child{ border-right: none; }
 #groupBar .group-chip.active{
   background: #0018a8;
   color: #fff;
@@ -497,51 +440,6 @@ img{max-width:100%;display:block}
   padding:10px;
 }
 
-/* ===== Thanh tab: sát mép trên + bo 2 góc trên ===== */
-.category-box .group-bar-wrapper{
-  margin:-10px -10px 0 -10px !important;   /* ăn sát mép trên/trái/phải của .category-box */
-  padding:0 !important;
-  background:#fff !important;
-  border:1px solid #dce3f5 !important;
-  border-bottom:none !important;           /* dính liền phần dưới */
-  border-radius:12px 12px 0 0 !important;  /* bo 2 góc trên */
-  box-shadow:none !important;
-  position:relative;
-  z-index:1;                               /* thấp hơn dots */
-}
-
-/* Ẩn mũi tên trái/phải */
-.category-box .group-arrow{ display:none !important; }
-
-/* ===== Tabs (chips) – dính liền, không bo góc, chữ thường không đậm ===== */
-#groupBar{
-  display:flex;
-  gap:0;
-  overflow:visible;
-}
-#groupBar .group-chip{
-  padding:10px 16px !important;
-  font-size:14px !important;
-  font-weight:400 !important;              /* không in đậm */
-  text-transform:none !important;          /* chữ thường */
-  color:#0a33cc !important;
-  background:#f8faff !important;
-
-  border:none !important;
-  border-right:1px solid #dce3f5 !important;
-  border-bottom:1px solid #dce3f5 !important;
-  border-radius:0 !important;              /* phẳng, dính nhau */
-  cursor:pointer;
-}
-#groupBar .group-chip:last-child{ border-right:none !important; }
-#groupBar .group-chip:hover{ background:#eef3ff !important; }
-#groupBar .group-chip.active{
-  background:#0018a8 !important;
-  color:#fff !important;
-  border-color:#0018a8 !important;
-}
-
-
 /* Phần danh mục bên dưới – giữ khoảng cách nhỏ */
 .category-box .category-wrapper{ margin-top:8px; }
 /* Đảm bảo thanh tab và box bo khớp nhau */
@@ -554,16 +452,6 @@ img{max-width:100%;display:block}
   overflow:visible !important;
 }
 
-/* Tabs */
-#groupBar{ display:flex; gap:0; }
-#groupBar .group-chip{
-  border-radius:0 !important;
-  border-right:1px solid #dce3f5 !important;
-  border-bottom:1px solid #dce3f5 !important;
-  font-weight:400 !important;
-  text-transform:none !important;
-}
-#groupBar .group-chip:last-child{ border-right:none !important; }
 
 /* Dots: ép nó ra ngoài, bên dưới category-box */
 #groupDots{
@@ -595,33 +483,6 @@ img{max-width:100%;display:block}
 }
 
 /* Hàng tab: các khối chạm nhau, không bo góc */
-#groupBar{
-  display:flex;
-  width:100%;
-  gap:0;
-}
-
-#groupBar .group-chip{
-  flex:1 1 0;                         /* chia đều bề rộng */
-  padding:12px 10px;
-  text-align:center;
-  color:#0a33cc;
-  background:#fff;
-  border:1px solid #dce3f5;
-  border-bottom:0;                    /* để liền với phần dưới */
-  border-left:0;
-  border-radius:0 !important;         /* vuông góc */
-  font-weight:400;                    /* không in đậm */
-  text-transform:none;                /* chữ thường */
-  line-height:1.2;
-  white-space:normal;
-}
-#groupBar .group-chip:first-child{ border-left:1px solid #dce3f5; }
-#groupBar .group-chip.active{
-  background:#f2f6ff;
-  color:#0018a8;
-  border-color:#bcd0ff;
-}
 
 /* Phần danh mục (bên dưới tabs) – bo 2 góc dưới để khớp khung */
 .category-box .category-wrapper{
@@ -889,134 +750,87 @@ img{max-width:100%;display:block}
   }
   #pagerTop{ margin-top:6px; }
 }
-/* ===== PAGER: cao = btn-sm + gọn chiều ngang ===== */
+/* ===== PAGER: gọn đồng bộ với btn-sm ===== */
+#pagerTop {
+  margin-left: 0 !important;     /* nằm sát nút "Xóa bộ lọc" */
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
 #pagerTop .btn,
-#pagerBottom .btn{
-  padding: .25rem .5rem;
+#pagerBottom .btn {
+  height: 32px;                  /* bằng nút "Xóa bộ lọc" */
+  padding: .35rem .6rem;
   font-size: .875rem;
-  line-height: 1.5;
+  line-height: 1.2;
   border-radius: .25rem;
   min-width: 40px;
 }
 
 #pagerTop .btn-group,
-#pagerBottom .btn-group{ gap: 4px; }
+#pagerBottom .btn-group {
+  gap: 4px;
+}
 
-/* Hàng thống kê phía trên (Tìm thấy + Xóa bộ lọc + Pager) */
-.stats-row,
-.d-flex.align-items-center.justify-content-between.flex-wrap{ 
+#pagerTop .form-select,
+#pagerBottom .form-select {
+  min-width: 110px;              /* gọn ngang cho vừa 1 dòng mobile */
+}
+
+.stats-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;             /* ❌ không cho xuống hàng */
+  overflow-x: auto;              /* ✔ nếu chật thì tràn ngang */
+  margin-bottom: 8px;
 }
 
-#pagerTop{
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+@media (max-width: 576px) {
+  .found-count { flex: 0 1 auto; }
+  #pagerTop    { flex: 0 1 auto; }
 }
 
-@media (max-width: 576px){
-  .found-count{ flex: 1 1 auto; }
-  #pagerTop   { flex: 0 1 auto; }
-}
-/* ==== FIX Stats row + Pagination ==== */
-.stats-row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  flex-wrap:nowrap;      /* ❌ không cho xuống hàng */
-  overflow-x:auto;       /* ✔ nếu chật thì tràn ngang */
-  margin-bottom:8px;
-}
-
-#pagerTop .btn,
-#pagerBottom .btn{
-  height:32px;            /* bằng nút "Xóa bộ lọc" */
-  padding:4px 8px;
-  font-size:13px;
-  line-height:1.2;
-  border-radius:6px;
-  min-width:36px;         /* gọn chiều ngang */
-}
-
-#pagerTop .btn-group,
-#pagerBottom .btn-group{
-  gap:4px;
-}
-
-@media (max-width:576px){
-  .found-count{ flex:0 1 auto; }
-  #pagerTop   { flex:0 1 auto; }
-}
-/* Pager gọn và cùng chiều cao với btn-sm */
-#pagerTop .btn, #pagerBottom .btn{
-  padding:.35rem .6rem;
-  font-size:.875rem;
-  line-height:1.2;
-  border-radius:.25rem;
-  min-width:40px;
-}
-#pagerTop .form-select, #pagerBottom .form-select{
-  min-width:110px;   /* thu gọn ngang một chút cho vừa 1 dòng mobile */
-}
-.stats-row{ gap:8px; }
-#pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
-/* Pager gọn và cùng chiều cao với btn-sm */
-#pagerTop .btn, #pagerBottom .btn{
-  padding:.35rem .6rem;
-  font-size:.875rem;
-  line-height:1.2;
-  border-radius:.25rem;
-  min-width:40px;
-}
-#pagerTop .form-select, #pagerBottom .form-select{
-  min-width:110px;   /* thu gọn ngang một chút cho vừa 1 dòng mobile */
-}
-.stats-row{ gap:8px; }
-#pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
-/* Pager nằm sát nút "Xóa bộ lọc" */
-#pagerTop{ margin-left:0 !important; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
+/* ===== FAB Buttons ===== */
 #cartFab, #filterFab, #suppliersFab, #zaloFab {
   position: fixed;
-  left: auto;
   right: 16px;
   z-index: 1055;
 }
-
 #cartFab       { bottom: 148px; }
 #filterFab     { bottom: 212px; }
 #suppliersFab  { bottom: 84px; }
 #zaloFab       { bottom: 20px; }
+
+/* ===== Group Arrow ===== */
 .group-arrow {
-  display: flex !important;   /* đảm bảo hiện lại */
+  display: flex !important;
   align-items: center;
   justify-content: center;
-
-  font-size: 28px;     /* to hơn */
-  width: 44px;         /* vùng bấm rộng */
+  font-size: 28px;
+  width: 44px;
   height: 44px;
-  border-radius: 50%;  /* tròn nút */
+  border-radius: 50%;
   background: #fff;
   color: #333;
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   cursor: pointer;
 }
-/* === Force group chip to be a rounded rectangle === */
-#groupBar .group-chip{
-  border-radius: 12px !important;   /* bo góc nhẹ */
-  padding: 12px 14px !important;    /* thu gọn padding để bớt “viên thuốc” */
-  min-height: auto !important;      /* bỏ cố định chiều cao nếu có */
-}
 
-/* nếu vẫn còn bị lớp nào khác thắng, tăng thêm độ ưu tiên */
-.category-box #groupBar .group-chip{
+/* === Force group chip bo góc nhẹ thay vì pill === */
+#groupBar .group-chip {
+  border-radius: 12px !important;
+  padding: 12px 14px !important;
+  min-height: auto !important;
+}
+.category-box #groupBar .group-chip {
   border-radius: 12px !important;
 }
+
+/* ===== Supplier Docs ===== */
 .supplier-card .supplier-doc { margin-top: 8px; font-size: 12px; }
 .supplier-card .doc-input   { max-width: 260px; }
 .supplier-card .doc-preview { font-size: 11px; color: #666; font-style: italic; }
@@ -1024,35 +838,31 @@ img{max-width:100%;display:block}
 .chip.btn-upload-doc { cursor:pointer; }
 
 /* ===== THEME OVERRIDES: ép về hồng + gradient ===== */
-
-/* Hover dịu cùng tông (thay cho rgba xanh) */
-:root{
-  --main-tint: #ffe3f0;          /* nền hover nhạt */
+:root {
+  --main-tint: #ffe3f0;              /* nền hover nhạt */
   --main-shadow: rgba(233,30,99,.22);
 }
 
-/* Group tabs (mọi biến thể) */
 #groupBar .group-chip.active,
-.group-chip.active{
+.group-chip.active {
   background: var(--main-grad) !important;
   color: #fff !important;
   border-color: var(--main) !important;
   box-shadow: 0 6px 16px var(--main-shadow) !important;
 }
 
-/* Hover của group-chip (đồng tông) */
 #groupBar .group-chip:hover,
-.group-chip:hover{
+.group-chip:hover {
   background: var(--main-tint) !important;
   color: var(--main-700) !important;
 }
 
-/* Dots active: dùng hồng phẳng (không gradient cho chấm) */
 .group-dots .dot.active,
-#groupDots .dot.active{
+#groupDots .dot.active {
   background: var(--main) !important;
   transform: scale(1.25);
 }
+
 
 /* Các chỗ còn đang blue đậm → đổi về biến main */
 #groupBar .group-chip,
@@ -1650,6 +1460,15 @@ footer.text-light .bi{ color:#fff; }
   width:100%; height:100%;
   object-fit:contain;
 }
+.category-label {
+  color: #16a34a;       /* xanh lá */
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.category-item:hover .category-label {
+  color: #ffffff;       /* đổi thành trắng khi hover */
+}
 
    
 </style>
@@ -1742,8 +1561,9 @@ footer.text-light .bi{ color:#fff; }
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
       <span class="d-inline-flex align-items-center gap-2">
         Xưởng đề xuất
-        <span id="adsCount" class="badge rounded-pill text-bg-primary" 
-              style="font-weight:700;display:none">0</span>
+        <span id="adsCount" class="badge rounded-pill text-bg-primary"
+      style="font-weight:700">0</span>
+
       </span>
     </h6>
 
@@ -1752,7 +1572,7 @@ footer.text-light .bi{ color:#fff; }
       Chọn bộ lọc để xem đơn vị phù hợp (dựa trên cột “quangcao”).
     </div>
     <div class="mt-2 text-center">
-      <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
+      <a id="adsContactBtn2" href="https://www.facebook.com/le.hai.ang.em/" target="_blank" rel="noopener"
          class="btn btn-sm fw-bold px-3"
          style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
         📢 LIÊN HỆ ĐẶT QUẢNG CÁO
@@ -2010,6 +1830,15 @@ footer.text-light .bi{ color:#fff; }
 <a id="zaloFab" class="zalo-fab" aria-label="Zalo" href="#" target="_blank" rel="noopener">💬</a>
 
 <div id="errbox" role="alert" aria-live="assertive"></div>
+<script>
+window.showError = function(msg){
+  const box = document.getElementById('errbox');
+  if (!box) return;
+  box.style.display = 'block';
+  box.textContent = '[ERROR] ' + msg;
+  console.error(msg);
+};
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -2180,26 +2009,6 @@ function iconUrl(u){
    
  // ===== CATEGORY CONFIG (mỗi ô = 1 cấu hình riêng) =====
 const CAT_CONFIG = [
-  { id:'huy-chuong-phoi-san', label:'Huy chương phôi sẵn',
-    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Huy chương phôi sẵn' } },
-
-  { id:'huy-chuong-chay-bo', label:'Huy chương sự kiện chạy bộ',
-    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Huy chương sự kiện chạy bộ' } },
-
-  { id:'moc-khoa-cao-su', label:'Móc khóa cao su',
-    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Móc khóa cao su' } },
-
-  { id:'moc-khoa-hop-kim', label:'Móc khóa hợp kim',
-    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Móc khóa hợp kim' } },
-
-  { id:'moc-khoa-tet-2025', label:'Móc khóa tết 2025',
-    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
-    filters:{ category:'Móc khóa tết 2025' } },
-
   { id:'moc-khoa-tet-2026', label:'Móc khóa tết 2026',
     icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
     filters:{ category:'Móc khóa tết 2026' } },
@@ -2219,28 +2028,29 @@ const CAT_CONFIG = [
   { id:'moc-khoa-tet-2032', label:'Móc khóa tết 2032',
     icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
     filters:{ category:'Móc khóa tết 2032' } },
-
+   
   { id:'moc-khoa-tet-2036', label:'Móc khóa tết 2036',
     icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
     filters:{ category:'Móc khóa tết 2036' } },
 ];
 
+
 function renderCategoriesFromConfig(){
   const wrap = document.getElementById('categoryScroll'); // dùng wrapper sẵn có
   if (!wrap) return;
 
-  wrap.innerHTML = CAT_CONFIG.map(c => `
-    <a class="category-item"
-       href="#"
-       data-action="select-category"
-       data-val="${c.filters?.category || ''}">
-      <div class="icon">
-        <img src="${c.icon}" alt="${c.label}" style="width:100%;height:100%;object-fit:contain">
-      </div>
-      <div class="label">${c.label}</div>
-    </a>
-  `).join('');
-}
+   wrap.innerHTML = CAT_CONFIG.map(c => `
+     <a class="category-item" href="#"
+        data-action="select-category"
+        data-val="${c.filters?.category || ''}">
+       <div class="icon">
+         <img src="${c.icon}" alt="${c.label}" style="width:100%;height:100%;object-fit:contain">
+       </div>
+       <div class="label category-label">${c.label}</div>
+     </a>
+   `).join('');
+    }
+
 
 
   
@@ -2256,19 +2066,19 @@ function buildCategoryFromFacets(facets){
   const catEl = document.getElementById('categoryScroll');
   if (catEl) catEl.classList.add('fade-out');
 
-  // 🔁 THAY DÒNG NÀY
-  // buildCategory(facets?.categories || []);
-  renderCategoriesFromConfig();   // <-- gọi renderer theo cấu hình icon
+  // ⬇️ dùng cấu hình icon cố định
+  renderCategoriesFromConfig();
 
-  // các box lọc khác giữ nguyên
-  buildFilterBox('groupBox',  groups || [], 'group');
-  buildFilterBox('typeBox',   facets?.types     || [], 'type');
-  buildFilterBox('loaiBox',   facets?.loais     || [], 'loai');
-  buildFilterBox('noteBox',   facets?.notes     || [], 'note');
-  buildFilterBox('brandBox',  facets?.categories|| [], 'category');
+  // các box lọc khác giữ nguyên (DÙNG facets, KHÔNG phải facets2)
+  buildFilterBox('groupBox', groups || [], 'group');
+  buildFilterBox('typeBox',  facets?.types || [], 'type');
+  buildFilterBox('loaiBox',  facets?.loais || [], 'loai');
+  buildFilterBox('noteBox',  facets?.notes || [], 'note');
+  buildFilterBox('brandBox', facets?.categories || [], 'category');
 
-  requestAnimationFrame(()=> catEl && catEl.classList.remove('fade-out'));
+  requestAnimationFrame(() => catEl && catEl.classList.remove('fade-out'));
 }
+
 
 
 /* STATE */
@@ -2974,43 +2784,46 @@ const BENEFIT_DETAIL = {
     card.style.cursor = 'pointer';
   });
 })();
-// === GROUP BAR: bắt click 1 lần trên container ===
-const groupBar = document.getElementById('groupBar');
+// === Unified event delegation: group-chip + category-item ===
+(() => {
+  const groupBar   = document.getElementById('groupBar');
+  const catScroll  = document.getElementById('categoryScroll');
 
-groupBar.addEventListener('click', (e) => {
-  const chip = e.target.closest('.group-chip');
-  if (!chip || !groupBar.contains(chip)) return;
+  document.addEventListener('click', (e) => {
+    // 1) GROUP
+    const chip = e.target.closest('.group-chip');
+    if (chip && groupBar && groupBar.contains(chip)) {
+      e.preventDefault();
+      const val = chip.dataset.val || '';
+      if (state.group !== val) {
+        state.group = val;
+        state.page  = 1;
+        fetchPage();
+      }
+      // toggle active
+      groupBar.querySelectorAll('.group-chip')
+        .forEach(c => c.classList.toggle('active', c === chip));
+      return;
+    }
 
-  const val = chip.dataset.val || '';
-  if (state.group === val) return;
-
-  state.group = val;
-  state.page = 1;
-  fetchPage();
-
-  groupBar.querySelectorAll('.group-chip')
-    .forEach(c => c.classList.toggle('active', c === chip));
-});
-
-// === CATEGORY: cũng bắt click trên container ===
-const catScroll = document.getElementById('categoryScroll');
-
-catScroll.addEventListener('click', (e) => {
-  const item = e.target.closest('.category-item');
-  if (!item || !catScroll.contains(item)) return;
-
-  const val = item.dataset.val || '';
-  selectCategory(val);
-});
-
-
-// Gắn click cho toàn bộ .category-item
-document.querySelectorAll('.category-item').forEach(el=>{
-  el.addEventListener('click', ()=>{
-    const val = el.dataset.val || '';
-    selectCategory(val);
+    // 2) CATEGORY
+    const item = e.target.closest('.category-item');
+    if (item && catScroll && catScroll.contains(item)) {
+      e.preventDefault();
+      const val = item.dataset.val || '';
+      selectCategory(val);
+      return;
+    }
   });
-});
+
+  // (optional) hỗ trợ bàn phím: Enter/Space kích hoạt chip/item đang focus
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const el = e.target.closest('.group-chip, .category-item');
+    if (!el) return;
+    el.click();
+  });
+})();
 
 function render(res = {}, fromCache){
   const items = res.items || [];
@@ -3082,61 +2895,65 @@ function hashFacets(facets){
 
 /* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
 /* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
+// Debounce wrapper (giữ nguyên)
+const FETCH_DEBOUNCE = 120;     // ms
+let _fetchTimer = null;
+
 function fetchPage(){
   clearTimeout(_fetchTimer);
   _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
 }
 
+// === SỬA HÀM NÀY ===
 async function _doFetch(){
-  // Huỷ request trước (nếu còn)
-  try{ _inflightCtl?.abort(); }catch(_){}
+  // Hủy request trước (nếu có)
+  try { _inflightCtl?.abort(); } catch(_) {}
   _inflightCtl = new AbortController();
 
   const params = new URLSearchParams({
     action:'list',
-    page:state.page, pageSize:state.pageSize,
-    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+    page: state.page,
+    pageSize: state.pageSize,
+    q: state.q,
+    group: state.group,
+    type: state.type,
+    loai: state.loai,
+    note: state.note,
+    category: state.category
   });
 
-  // ===== Cache key theo state hiện tại
   const key = cacheKeyFromState(state);
   const cached = cacheGet(key);
-  if (cached){
-    // ⚡ render ngay từ cache để UI phản hồi tức thì
-    render(cached, /*fromCache*/true);
+  if (cached) {
+    render(cached, true);
   }
 
-  try{
-    const url = API_URL + '?' + params.toString();
-fetch(url, { redirect: 'follow', mode: 'cors' })
-  .then(async (r) => {
-    const txt = await r.text();
-    console.log('[API RAW]', txt.slice(0, 400));  // xem thử server trả gì
-    // cố parse JSON: một số deployment có thể không set content-type JSON hoặc có tiền tố
-    try {
-      return JSON.parse(txt);
-    } catch (_) {
-      // loại các tiền tố XSSI / BOM nếu có rồi parse lại
-      const cleaned = txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim();
-      return JSON.parse(cleaned);
-    }
-  })
-  .then((json) => {
-    // kiểm schema tối thiểu
-    if (!json || json.ok === false || !Array.isArray(json.items)) {
-      throw new Error('Bad JSON schema or empty data');
-    }
-    render(json, true);
-  })
-  .catch((err) => {
-  console.error('[API ERR]', err);
-  const box = document.getElementById('errbox');
-  if (box) {
-    box.style.display = 'block';
-    box.textContent = '[ERROR] Không tải được dữ liệu.';
-  }
-});
+  try {
+    const url  = API_URL + '?' + params.toString();
+    const resp = await fetch(url, { signal:_inflightCtl.signal, redirect:'follow', mode:'cors' });
+    const txt  = await resp.text();
 
+    let json;
+    try { json = JSON.parse(txt); }
+    catch {
+      const cleaned = txt
+  .replace(/^\)\]\}'[^\n]*\n?/, '')  // bỏ XSSI prefix nếu có
+  .replace(/^\uFEFF/, '')            // bỏ BOM nếu có
+  .trim();
+
+      json = JSON.parse(cleaned);
+    }
+
+    if (!json || json.ok === false) throw new Error('Bad JSON schema');
+
+    cacheSet(key, json);
+    render(json, false);
+    setTimeout(fetchAds, 200);   // nạp ads trễ 1 nhịp
+  } catch (err) {
+    console.error('[API ERR]', err);
+    showError('Không tải được dữ liệu.');
+  }
+}
 
     const json = await resp.json();
 
