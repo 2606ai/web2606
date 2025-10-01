@@ -1705,7 +1705,28 @@ footer.text-light .bi{ color:#fff; }
 
 /* Tạm thời gỡ mọi rule cũ vô tình ẩn ads-box */
 .sidebar-box.ads-box[style*="display:none"]{ display:block !important; }
-   
+/* FIX: luôn hiện Xưởng đề xuất trên cả desktop và mobile */
+#adsBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
+.sidebar-box.ads-box{ display:block !important; }
+
+/* đảm bảo cột trái không che/ẩn nội dung */
+.col-lg-3, .col-md-4{ overflow:visible !important; }
+
+/* bố cục cột trái xếp dọc có khoảng cách */
+.col-lg-3 .sidebar-box{ margin-bottom:12px; }
+  /* Luôn hiện "Xưởng đề xuất" ở mọi cỡ màn hình */
+#adsBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
+
+/* Nếu có ancestor có class Bootstrap ẩn theo breakpoint → cũng ép hiện */
+@media (min-width: 992px){
+  .col-lg-3, .col-md-4{ display:block !important; overflow:visible !important; }
+  .d-lg-none #adsBox, #adsBox.d-lg-none, .col-lg-3 .d-lg-none{ display:block !important; }
+}
+
+/* Khoảng cách & style nhẹ cho box */
+#adsBox{ padding:12px; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm); margin-top:12px; }
+#adsBox .ads-item:hover{ background:var(--main-tint, #E8F5E9); }
+
 </style>
 </head>
 <body class="theme-bamboo">
