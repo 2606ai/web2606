@@ -266,6 +266,45 @@ img{max-width:100%;display:block}
 .small{font-size:.875rem}
 .col-lg-3,.col-md-4{ overflow:visible !important; }   /* tránh ẩn sidebar */
 .sidebar-box.ads-box{ display:block !important; }     /* luôn hiện xưởng */
+
+   /* === 1) Sửa style mũi tên danh mục (cat-arrow) === */
+.cat-arrow{
+  position:absolute; top:45%; transform:translateY(-50%);
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:28px;
+  background:#fff; color:#333;
+  border:0 !important;             /* bỏ viền ô vuông */
+  box-shadow:0 2px 6px rgba(0,0,0,.15);
+  z-index:5;
+}
+.cat-arrow.left{ left:-4px }
+.cat-arrow.right{ right:-4px }
+.cat-arrow.is-disabled, .cat-arrow:disabled{ opacity:.45; pointer-events:none }
+
+/* === 2) Chỉ hiển thị "group-dots" đúng chỗ dưới group-bar === */
+.group-dots{ display:none }                     /* tắt mặc định */
+.group-bar-wrapper + .group-dots{ display:flex }/* mở lại đúng vị trí theo DOM */
+.site-footer .group-dots,
+footer .group-dots{ display:none !important }   /* cấm hiện trong footer */
+
+/* === 3) Footer đang có class .text-light → ép lại cho dễ đọc === */
+footer.text-light{
+  background:#fff;
+  color:#45524a !important;
+}
+footer.text-light a,
+footer.text-light .bi{ color:inherit !important }
+footer.text-light h6{ color:var(--accent) }
+footer.text-light hr{ border-color:rgba(0,0,0,.12) }
+
+/* === 4) Đảm bảo "Xưởng đề xuất" không bị ẩn bởi class breakpoint === */
+#adsBox{ display:block !important; visibility:visible !important; opacity:1 !important }
+@media (min-width:992px){
+  .d-lg-none #adsBox, #adsBox.d-lg-none, .col-lg-3 .d-lg-none{ display:block !important }
+}
+
+   
 </style>
 
 </head>
