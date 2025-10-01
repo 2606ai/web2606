@@ -1660,6 +1660,8 @@ footer.text-light .bi{ color:#fff; }
   color: var(--main-700) !important; /* xanh lá đậm hơn khi active */
   font-weight: 700;
 }
+/* Đảm bảo box xưởng luôn hiện */
+.sidebar-box.ads-box{ display:block !important; visibility:visible !important; }
 
    
 </style>
@@ -1826,7 +1828,50 @@ footer.text-light .bi{ color:#fff; }
   </div>
 </div>
 
+// === Category horizontal scroller arrows ===
+const catWrap = document.getElementById('categoryScroll');   // element trượt
+const btnPrev = document.getElementById('catPrev');          // nút mũi tên trái
+const btnNext = document.getElementById('catNext');          // nút mũi tên phải
+if (catWrap && btnPrev && btnNext){
+  // Bước trượt mỗi lần (90% bề rộng viewport của list)
+  function step(){ return Math.max(240, Math.round(catWrap.clientWidth * 0.9)); }
 
+  // Cập nhật trạng thái nút (enable/disable) theo vị trí hiện tại
+  function updateCatArrows(){
+    const max = catWrap.scrollWidth - catWrap.clientWidth;
+    // dùng epsilon để tránh dính sai số → không quay lại được
+    const eps = 4;
+
+    const atStart = catWrap.scrollLeft <= eps;
+    const atEnd   = catWrap.scrollLeft >= (max - eps);
+
+    btnPrev.disabled = atStart;
+    btnNext.disabled = atEnd;
+
+    btnPrev.classList.toggle('is-disabled', atStart);
+    btnNext.classList.toggle('is-disabled', atEnd);
+  }
+
+  // Xử lý click
+  btnPrev.addEventListener('click', () => {
+    catWrap.scrollBy({ left: -step(), behavior: 'smooth' });
+  });
+  btnNext.addEventListener('click', () => {
+    catWrap.scrollBy({ left:  step(), behavior: 'smooth' });
+  });
+
+  // Khi cuộn / resize → cập nhật
+  catWrap.addEventListener('scroll', updateCatArrows, { passive: true });
+  window.addEventListener('resize', () => {
+    // sau resize có thể thay đổi max → delay 1 nhịp để DOM đo xong
+    requestAnimationFrame(updateCatArrows);
+  });
+
+  // Lần đầu
+  // Nếu nội dung render async (ảnh), gọi thêm 1 lần sau 300ms cho chắc
+  updateCatArrows();
+  setTimeout(updateCatArrows, 300);
+}
       <!-- Thống kê + Pagination -->
 <div class="stats-row row g-2 align-items-center">
   <!-- Bên trái -->
