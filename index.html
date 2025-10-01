@@ -1662,6 +1662,11 @@ footer.text-light .bi{ color:#fff; }
 }
 /* Đảm bảo box xưởng luôn hiện */
 .sidebar-box.ads-box{ display:block !important; visibility:visible !important; }
+   
+.category-wrapper{ position: relative; }
+.cat-arrow{ z-index: 5; } /* tránh bị che */
+.cat-arrow.is-disabled,
+.cat-arrow:disabled{ opacity:.45; pointer-events:none; }
 
    
 </style>
@@ -1820,60 +1825,56 @@ footer.text-light .bi{ color:#fff; }
 </div>
 
 
-  <!-- CATEGORY SCROLLER (2 hàng + mũi tên) -->
-  <div class="category-wrapper">
-    <button class="cat-arrow left"  type="button" aria-label="prev" onclick="scrollCats(-1)">‹</button>
-    <div id="categoryScroll" class="category-scroll"></div>
-    <button class="cat-arrow right" type="button" aria-label="next" onclick="scrollCats(1)">›</button>
-  </div>
+ <div class="category-wrapper">
+  <button id="catPrev" class="cat-arrow left"  type="button" aria-label="prev">‹</button>
+  <div id="categoryScroll" class="category-scroll"></div>
+  <button id="catNext" class="cat-arrow right" type="button" aria-label="next">›</button>
 </div>
 
+
 <script>
-// === Category horizontal scroller arrows ===
-const catWrap = document.getElementById('categoryScroll');   // element trượt
-const btnPrev = document.getElementById('catPrev');          // nút mũi tên trái
-const btnNext = document.getElementById('catNext');          // nút mũi tên phải
-if (catWrap && btnPrev && btnNext){
-  // Bước trượt mỗi lần (90% bề rộng viewport của list)
-  function step(){ return Math.max(240, Math.round(catWrap.clientWidth * 0.9)); }
+(function(){
+  const wrap = document.getElementById('categoryScroll');
+  const prev = document.getElementById('catPrev');
+  const next = document.getElementById('catNext');
+  if (!wrap || !prev || !next) return;
 
-  // Cập nhật trạng thái nút (enable/disable) theo vị trí hiện tại
-  function updateCatArrows(){
-    const max = catWrap.scrollWidth - catWrap.clientWidth;
-    // dùng epsilon để tránh dính sai số → không quay lại được
-    const eps = 4;
+  const eps  = 4; // chống sai số 1-2px
+  const getMax = () => Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+  const step   = () => Math.max(240, Math.round(wrap.clientWidth * 0.9));
+  const clamp  = (n, min, max) => Math.min(max, Math.max(min, n));
 
-    const atStart = catWrap.scrollLeft <= eps;
-    const atEnd   = catWrap.scrollLeft >= (max - eps);
-
-    btnPrev.disabled = atStart;
-    btnNext.disabled = atEnd;
-
-    btnPrev.classList.toggle('is-disabled', atStart);
-    btnNext.classList.toggle('is-disabled', atEnd);
+  function go(dir){
+    const max = getMax();
+    const target = clamp(wrap.scrollLeft + dir * step(), 0, max);
+    wrap.scrollTo({ left: target, behavior: 'smooth' });
+    // backup: đảm bảo cập nhật state kể cả khi event scroll không bắn
+    setTimeout(update, 350);
   }
 
-  // Xử lý click
-  btnPrev.addEventListener('click', () => {
-    catWrap.scrollBy({ left: -step(), behavior: 'smooth' });
-  });
-  btnNext.addEventListener('click', () => {
-    catWrap.scrollBy({ left:  step(), behavior: 'smooth' });
-  });
+  function update(){
+    const max = getMax();
+    const atStart = wrap.scrollLeft <= eps;
+    const atEnd   = wrap.scrollLeft >= (max - eps);
+    const noScroll = max <= eps;
 
-  // Khi cuộn / resize → cập nhật
-  catWrap.addEventListener('scroll', updateCatArrows, { passive: true });
-  window.addEventListener('resize', () => {
-    // sau resize có thể thay đổi max → delay 1 nhịp để DOM đo xong
-    requestAnimationFrame(updateCatArrows);
-  });
+    prev.disabled = atStart || noScroll;
+    next.disabled = atEnd   || noScroll;
 
-  // Lần đầu
-  // Nếu nội dung render async (ảnh), gọi thêm 1 lần sau 300ms cho chắc
-  updateCatArrows();
-  setTimeout(updateCatArrows, 300);
-}
+    prev.classList.toggle('is-disabled', prev.disabled);
+    next.classList.toggle('is-disabled', next.disabled);
+  }
+
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go( 1));
+  wrap.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', () => setTimeout(update, 50));
+
+  update();
+  setTimeout(update, 300); // khi ảnh/render xong
+})();
 </script>
+
 
       <!-- Thống kê + Pagination -->
 <div class="stats-row row g-2 align-items-center">
