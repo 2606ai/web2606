@@ -1715,16 +1715,8 @@ document.addEventListener('DOMContentLoaded', () => {
    window.API_KEY = "";
    window.AUTO_OPEN_ON_ADD = false;
 
-  // ✅ Đoạn thêm mới: di chuyển #groupDots ra ngoài .category-box
-  const catBox = document.querySelector('.category-box');
-  const dots   = document.getElementById('groupDots');
-  if (catBox && dots && catBox.contains(dots)) {
-    catBox.after(dots);
-  }
-
-
   // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
-const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
+const statsRow = document.querySelector('.stats-row') || document.querySelector('#statsBar');
 if (statsRow) {
   const lbl = statsRow.querySelector('.fw-semibold');
   if (lbl) lbl.textContent = 'Tìm thấy';
@@ -2804,69 +2796,6 @@ async function _doFetch(){
 }
 
        // === Fetch dữ liệu trang hiện tại ===
-async function fetchPage(){
-  try{
-    // build URL từ state
-    const params = new URLSearchParams(buildParamsFromState(state));
-    const url = API_URL + '?' + params.toString();
-
-    // gọi API
-    const resp = await fetch(url, { redirect: 'follow', mode: 'cors' });
-    const txt  = await resp.text();
-
-    // cố parse JSON (phòng BOM/XSSI)
-    let json;
-    try {
-      json = JSON.parse(txt);
-    } catch (_){
-      const cleaned = txt
-        .replace(/^\)\]\}'[^\n]*\n?/, '')  // strip XSSI prefix
-        .replace(/^\uFEFF/, '')            // strip BOM
-        .trim();
-      json = JSON.parse(cleaned);
-    }
-
-    // kiểm schema tối thiểu
-    if (!json || json.ok === false || !Array.isArray(json.items)) {
-      throw new Error('Bad JSON schema or empty data');
-    }
-
-    // cache + render
-    cacheSet(cacheKeyFromState(state), json);
-    render(json, /*fromCache*/ false);
-
-  } catch (err){
-    console.error('[API ERR]', err);
-    if (err && err.name === 'AbortError') return; // bị hủy do gọi mới → bỏ qua
-    showError('Không tải được dữ liệu.');
-    const grid = document.getElementById('productGrid');
-    if (grid) grid.innerHTML = '<div class="text-danger">Đang tải dữ liệu...</div>';
-  }
-
-  // trì hoãn ads 1 nhịp để nhường CPU cho grid
-  setTimeout(fetchAds, 200);
-
-  // (Optional) Preload trang kế tiếp nếu còn — fire-and-forget (KHÔNG await)
-  try {
-  const total = Number(state.total ?? Infinity);
-  const hasMore = (state.page * state.pagesize) < total;
-  if (hasMore){
-
-
-      if (!cacheGet(nextKey)){
-        const p2 = new URLSearchParams(buildParamsFromState(nextState));
-        fetch(API_URL + '?' + p2.toString())
-          .then(r => r.json())
-          .then(j => cacheSet(nextKey, j))
-          .catch(() => {}); // im lặng, không ảnh hưởng UI
-      }
-    }
-  } catch (e) {
-    // bỏ qua lỗi preload
-  }
-}
-}
-
 
 /* === Cập nhật UI cho GROUP BAR (+ ink-bar tab danh mục) === */
 function updateGroupUI(){
