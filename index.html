@@ -1722,31 +1722,19 @@ footer.text-light .bi{ color:#fff; }
   .col-lg-3, .col-md-4{ display:block !important; overflow:visible !important; }
   .d-lg-none #adsBox, #adsBox.d-lg-none, .col-lg-3 .d-lg-none{ display:block !important; }
 }
-
-/* Khoảng cách & style nhẹ cho box */
-#adsBox{ padding:12px; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm); margin-top:12px; }
-#adsBox .ads-item:hover{ background:var(--main-tint, #E8F5E9); }
-/* Xưởng đề xuất – style cơ bản cho desktop */
-.ads-dock.card{ margin-bottom:16px; border-radius:12px; }
-.ads-dock .link-preview{ background:#fff; border-color:var(--border, #e7ecf7); }
-.ads-dock img{ object-fit:cover; border:1px solid rgba(0,0,0,.06); }
-
-/* Nếu không tìm được sidebar → ghim widget nổi */
-.ads-dock-floating{
-  position:fixed; right:16px; bottom:96px; width:280px; z-index:1030;
-  border-radius:14px; overflow:hidden;
+/* Luôn hiển thị box "ĐỀ XUẤT XƯỞNG" hiện có trên desktop */
+#adsBox,
+.sidebar-box.ads-box,
+[data-ads-box],
+[data-widget="ads"]{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
 }
-@media (max-width: 991.98px){
-  .ads-dock-floating{ display:none; } /* mobile đã có box riêng */
-}
-
-/* Đảm bảo không có rule nào ẩn nó trên desktop */
-@media (min-width: 992px){
-  #adsDock{ display:block !important; visibility:visible !important; opacity:1 !important; }
-}
-
 
 </style>
+
+   
 </head>
 <body class="theme-bamboo">
 
@@ -1951,49 +1939,19 @@ footer.text-light .bi{ color:#fff; }
   setTimeout(update, 300); // khi ảnh/render xong
 })();
 
-
-   
+ 
 </script>
 <script>
-// ================= XƯỞNG ĐỀ XUẤT – DESKTOP WIDGET =================
+// ===== XƯỞNG ĐỀ XUẤT – DÙNG BOX HIỆN CÓ, KHÔNG TẠO BOX MỚI =====
 (function(){
-  // 1) Tạo dock ở cột trái (sidebar) nếu chưa có
-  function ensureDock(){
-    // ưu tiên chèn vào sidebar hiện có
-    const leftCol =
-      document.querySelector('.col-xxl-3, .col-xl-3, .col-lg-3, aside, .sidebar') ||
-      document.querySelector('#leftCol, #sideLeft') ||
-      document.querySelector('.container .row > [class*="col-"]:first-child') ||
-      document.body;
+  // Nếu còn widget tạm #adsDock thì xoá đi
+  document.addEventListener('DOMContentLoaded', () => {
+    const tmp = document.getElementById('adsDock'); if (tmp) tmp.remove();
+  });
 
-    let dock = document.getElementById('adsDock');
-    if (!dock){
-      dock = document.createElement('div');
-      dock.id = 'adsDock';
-      dock.className = 'ads-dock card border-0 shadow-sm';
-      dock.innerHTML = `
-        <div class="card-body p-3">
-          <div class="d-flex align-items-center justify-content-between mb-2">
-            <h6 class="m-0 fw-bold">Xưởng đề xuất</h6>
-            <span class="badge bg-success-subtle text-success fw-semibold">Đối tác</span>
-          </div>
-          <div id="adsDockList" class="d-flex flex-column gap-2"></div>
-          <div id="adsDockEmpty" class="text-muted small mt-1">Đang tải dữ liệu…</div>
-        </div>`;
-      // chèn lên đầu sidebar
-      if (leftCol === document.body){
-        // không tìm được sidebar → ghim góc phải như 1 widget nổi
-        dock.classList.add('ads-dock-floating');
-        document.body.appendChild(dock);
-      }else{
-        leftCol.prepend(dock);
-      }
-    }
-    return dock;
-  }
-
-  // 2) Chuẩn hoá ảnh Google Drive → thumbnail
+  // Fallback ảnh (phòng khi link drive hỏng)
   const FALLBACK = 'https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32';
+
   function toDriveThumb(u){
     if (!u) return FALLBACK;
     const m = String(u).match(/\/d\/([^/]+)\//);
@@ -2007,15 +1965,55 @@ footer.text-light .bi{ color:#fff; }
     return /^https?:\/\//i.test(url) ? url : FALLBACK;
   }
 
-  // 3) Render
-  function render(items){
-    ensureDock();
-    const list  = document.getElementById('adsDockList');
-    const empty = document.getElementById('adsDockEmpty');
+  // Tìm đúng box Đề xuất Xưởng đang có trong sidebar
+  function findAdsBox(){
+    // Ưu tiên các selector cũ của bạn
+    let box = document.querySelector('#adsBox, .sidebar-box.ads-box, [data-ads-box], [data-widget="ads"]');
+    if (box) return box;
+
+    // Dựa theo heading có chữ "Xưởng đề xuất"
+    const hs = Array.from(document.querySelectorAll('h6,h5,h4,.title,.fw-bold,.fs-6'))
+      .filter(h => /xưởng\s*đề\s*xuất/i.test(h.textContent||''));
+    if (hs.length){
+      box = hs[0].closest('.sidebar-box, .card, section, div');
+    }
+    return box || null;
+  }
+
+  // Đảm bảo có container list bên trong box
+  function ensureList(box){
+    let list = box.querySelector('#adsList, .ads-list, [data-ads-list]');
+    if (!list){
+      list = document.createElement('div');
+      list.id = 'adsList';
+      list.className = 'd-flex flex-column gap-2';
+      // chèn vào body của card/box nếu có
+      const body = box.querySelector('.card-body, .p-3, .p-2, .body') || box;
+      body.appendChild(list);
+    }
+    let empty = box.querySelector('#adsEmpty');
+    if (!empty){
+      empty = document.createElement('div');
+      empty.id = 'adsEmpty';
+      empty.className = 'text-muted small mt-1';
+      empty.textContent = 'Đang tải dữ liệu…';
+      list.after(empty);
+    }
+    // Bỏ các lớp ẩn nếu có
+    box.classList.remove('d-none', 'invisible');
+    box.style.display = 'block';
+    return {list, empty};
+  }
+
+  function renderIntoBox(items){
+    const box = findAdsBox();
+    if (!box) { console.warn('[ADS] Không tìm thấy box hiện có'); return; }
+    const {list, empty} = ensureList(box);
+
     const html = (items||[]).map(it=>{
       const href  = it.url || it.link || '#';
       const img   = safeImg(it.img || it.image || it.thumbnail || it.linkfull);
-      const title = it.title || it.name || 'Xưởng';
+      const title = it.title || it.name || 'Xưởng đề xuất';
       const desc  = it.desc  || it.details || '';
       const site  = it.site  || it.domain || '';
       return `
@@ -2025,49 +2023,47 @@ footer.text-light .bi{ color:#fff; }
                class="rounded-2 flex-shrink-0" alt="">
           <div class="small w-100">
             <div class="fw-semibold text-dark text-truncate">${title}</div>
-            ${desc ? `<div class="text-muted text-truncate">${desc}</div>`:''}
-            ${site ? `<div class="text-muted">${site}</div>`:''}
+            ${desc ? `<div class="text-muted text-truncate">${desc}</div>` : ''}
+            ${site ? `<div class="text-muted">${site}</div>` : ''}
           </div>
         </a>`;
     }).join('');
+
     list.innerHTML = html;
     empty.style.display = html ? 'none' : 'block';
+    if (!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
   }
 
-  // 4) Fetch API (đọc API_URL sẵn có; nếu không có thì bỏ qua)
-  async function load(){
+  async function fetchAds(){
     try{
-      ensureDock();
-      if (typeof API_URL === 'undefined'){ 
-        document.getElementById('adsDockEmpty').textContent = 'Không tìm thấy API_URL.'; 
-        return;
-      }
-      const r = await fetch(API_URL + '?action=ads', {redirect:'follow', mode:'cors'});
+      const r = await fetch(window.API_URL + '?action=ads', {redirect:'follow', mode:'cors'});
       const txt = await r.text();
       let json;
-      try{ json = JSON.parse(txt); }
-      catch{
-        json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim());
-      }
+      try { json = JSON.parse(txt); }
+      catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
       const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
-      render(items);
-    }catch(e){
-      console.error('[ADS DOCK] error', e);
-      render([]);
-      const empty = document.getElementById('adsDockEmpty');
-      if (empty) empty.textContent = 'Không tải được dữ liệu.';
+      renderIntoBox(items);
+    }catch(err){
+      console.error('[ADS] fetch error', err);
+      renderIntoBox([]);
     }
   }
 
-  // 5) Chạy khi DOM sẵn sàng
+  // Đợi API_URL rồi mới chạy (tránh lỗi "Không tìm thấy API_URL")
+  function waitAndLoad(tries=60){
+    if (window.API_URL){ fetchAds(); }
+    else if (tries>0){ setTimeout(()=>waitAndLoad(tries-1), 150); }
+    else { console.warn('[ADS] Hết thời gian chờ API_URL'); }
+  }
+
+  // Start
   if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', load);
+    document.addEventListener('DOMContentLoaded', waitAndLoad);
   }else{
-    load();
+    waitAndLoad();
   }
 })();
 </script>
-
 
       <!-- Thống kê + Pagination -->
 <div class="stats-row row g-2 align-items-center">
