@@ -1667,6 +1667,21 @@ footer.text-light .bi{ color:#fff; }
 .cat-arrow{ z-index: 5; } /* tránh bị che */
 .cat-arrow.is-disabled,
 .cat-arrow:disabled{ opacity:.45; pointer-events:none; }
+/* Tạo khoảng hở trên–dưới cho cả hàng bộ lọc/pager */
+.stats-row{
+  margin-block: 10px;   /* = margin-top + margin-bottom */
+}
+
+/* Nếu muốn riêng các nút/ô chọn cũng hở trên–dưới một chút */
+.stats-row .btn,
+.stats-row .form-select{
+  margin-block: 4px;    /* hở thêm phía trên và dưới của từng control */
+}
+
+/* Tuỳ chọn: tăng đệm bên trong nút cho cảm giác thoáng hơn */
+.stats-row .btn{
+  padding-block: .45rem;  /* không đổi trái–phải */
+}
 
    
 </style>
