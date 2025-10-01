@@ -1726,6 +1726,17 @@ footer.text-light .bi{ color:#fff; }
 /* Khoảng cách & style nhẹ cho box */
 #adsBox{ padding:12px; background:#fff; border:1px solid var(--border); border-radius:12px; box-shadow:var(--shadow-sm); margin-top:12px; }
 #adsBox .ads-item:hover{ background:var(--main-tint, #E8F5E9); }
+/* Xưởng đề xuất – luôn hiện trên desktop */
+#adsBox,
+.sidebar-box.ads-box{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+/* Phòng trường hợp sidebar set height:0/overflow ẩn */
+#adsBox .link-preview{ background:#fff; border-color:var(--border, #e7ecf7); }
+#adsBox img{ object-fit:cover; }
 
 </style>
 </head>
@@ -1931,6 +1942,109 @@ footer.text-light .bi{ color:#fff; }
   update();
   setTimeout(update, 300); // khi ảnh/render xong
 })();
+
+
+   
+</script>
+<script>
+// ======== XƯỞNG ĐỀ XUẤT – HOTFIX ========
+
+// Fallback ảnh đúng chuẩn (trước đây bạn vô tình tạo ra "64?text=..." nên mới lỗi)
+const ADS_FALLBACK_IMG = 'https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32';
+
+// Google Drive: chuyển link "file/d/<id>/view" -> "thumbnail?id=<id>&sz=w200"
+function toDriveThumb(u){
+  if (!u) return ADS_FALLBACK_IMG;
+  try{
+    const m = u.match(/\/d\/([^/]+)\//);
+    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
+    // nếu đã là thumbnail sẵn thì trả lại
+    if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
+  }catch(e){}
+  return u; // nếu không phải link Drive, để nguyên
+}
+
+// Chuẩn hoá ảnh: nếu URL lỗi -> fallback
+function safeImg(u){
+  if (!u || typeof u !== 'string') return ADS_FALLBACK_IMG;
+  const url = toDriveThumb(u.trim());
+  // chặn các URL sai kiểu "64?text=..."
+  if (!/^https?:\/\//i.test(url)) return ADS_FALLBACK_IMG;
+  return url;
+}
+
+// Render vào cả desktop (#adsList) và mobile (#adsListMobile nếu có)
+function renderAds(items){
+  const listDesktop = document.getElementById('adsList');
+  const listMobile  = document.getElementById('adsListMobile'); // nếu bạn có box riêng cho mobile
+  const emptyMsg    = document.getElementById('adsEmpty');
+
+  const html = (items || []).map(it => {
+    const href  = it.url || it.link || '#';
+    const img   = safeImg(it.img || it.image || it.thumbnail || it.linkfull);
+    const title = it.title || it.name || 'Xưởng đề xuất';
+    const desc  = it.desc  || it.details || '';
+    const site  = it.site  || it.domain || '';
+
+    return `
+      <a class="link-preview d-flex gap-2 align-items-start p-2 rounded-3 border text-decoration-none"
+         href="${href}" target="_blank" rel="noopener">
+        <img src="${img}" onerror="this.src='${ADS_FALLBACK_IMG}'"
+             width="48" height="48" class="rounded-2 flex-shrink-0" alt="">
+        <div class="small">
+          <div class="fw-semibold text-dark text-truncate">${title}</div>
+          ${desc ? `<div class="text-muted text-truncate">${desc}</div>` : ''}
+          ${site ? `<div class="text-muted">${site}</div>` : ''}
+        </div>
+      </a>`;
+  }).join('');
+
+  if (listDesktop){
+    listDesktop.innerHTML = html || '';
+    listDesktop.parentElement?.classList?.remove('d-none'); // đảm bảo không bị ẩn
+  }
+  if (listMobile){
+    listMobile.innerHTML = html || '';
+    listMobile.parentElement?.classList?.remove('d-none');
+  }
+  if (emptyMsg){
+    emptyMsg.style.display = (items && items.length) ? 'none' : 'block';
+    if (!items || !items.length){
+      emptyMsg.textContent = '(debug) Không có dữ liệu quảng cáo.';
+    }
+  }
+}
+
+// Gọi API và render (an toàn cho cả trường hợp API đã có ở nơi khác)
+async function fetchAds(){
+  try{
+    const url = (typeof API_URL !== 'undefined') ? API_URL + '?action=ads' : null;
+    if (!url) return; // không có API_URL thì bỏ qua
+
+    const r = await fetch(url, { redirect:'follow', mode:'cors' });
+    const txt = await r.text();
+
+    let json;
+    try { json = JSON.parse(txt); }
+    catch {
+      const cleaned = txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim();
+      json = JSON.parse(cleaned);
+    }
+
+    const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
+    renderAds(items);
+  }catch(err){
+    console.error('[ADS] fetch error:', err);
+    renderAds([]);
+  }
+}
+
+// Auto-run nếu box tồn tại
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.getElementById('adsBox') || document.getElementById('adsList')){
+    fetchAds();
+  }
+});
 </script>
 
 
