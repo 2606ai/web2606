@@ -1683,6 +1683,28 @@ footer.text-light .bi{ color:#fff; }
   padding-block: .45rem;  /* không đổi trái–phải */
 }
 
+/* Hiện chắc chắn box Xưởng đề xuất */
+#adsBox{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  padding:12px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  box-shadow:var(--shadow-sm);
+  margin-top:12px;
+  position:relative;
+  z-index:1;              /* tránh bị khối khác phủ */
+}
+#adsBox h6{ margin:0 0 8px; }
+#adsBox .ads-item:hover{ background:var(--main-tint, #E8F5E9); }
+
+/* Nếu cột trái có overflow hidden thì mở ra */
+.col-lg-3, .col-md-4{ overflow:visible !important; }
+
+/* Tạm thời gỡ mọi rule cũ vô tình ẩn ads-box */
+.sidebar-box.ads-box[style*="display:none"]{ display:block !important; }
    
 </style>
 </head>
@@ -1770,7 +1792,7 @@ footer.text-light .bi{ color:#fff; }
         </div>
       </div>
 
-  <div class="sidebar-box ads-box">
+ <div id="adsBox" class="sidebar-box ads-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
       <span class="d-inline-flex align-items-center gap-2">
         Xưởng đề xuất
@@ -3432,6 +3454,26 @@ document.addEventListener('keydown', (e) => {
         </div>
       </div>
     </div>
+<script>
+// Debug: nếu box mount mà chưa có dữ liệu, hiện thông báo để thấy khung
+(function(){
+  const box   = document.getElementById('adsBox');
+  const list  = document.getElementById('adsList');
+  const empty = document.getElementById('adsEmpty');
+  const count = document.getElementById('adsCount');
+  if(!box) return;
+
+  // Đặt viền debug để bạn dễ nhìn (xóa sau)
+  box.style.outline = '2px dashed #2e7d32';
+
+  // Nếu chưa render ads, ít nhất hiện dòng trống
+  if(empty){
+    empty.textContent = '(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.';
+    empty.style.display = 'block';
+  }
+  if(count){ count.style.display = 'none'; }
+})();
+</script>
 
     <hr class="border-light opacity-50">
 
