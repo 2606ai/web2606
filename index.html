@@ -2014,6 +2014,11 @@ footer.text-light .bi{ color:#fff; }
         </a>`;
     }).join('');
 
+    list.innerHTML = html;
+    empty.style.display = html ? 'none' : 'block';
+    if (!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
+  }
+
   async function fetchAds(){
     try{
       const r = await fetch(window.API_URL + '?action=ads', {redirect:'follow', mode:'cors'});
@@ -2703,57 +2708,30 @@ function fetchLinkPreview(url){
 
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
 let adsData = [];
-
-// Helpers ảnh (Drive → thumbnail + fallback)
-const FALLBACK = 'https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32';
-function toDriveThumb(u){
-  if (!u) return FALLBACK;
-  const m = String(u).match(/\/d\/([^/]+)\//);
-  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
-  if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
-  return u;
-}
-function safeImg(u){
-  if (!u) return FALLBACK;
-  const url = toDriveThumb(u);
-  return /^https?:\/\//i.test(url) ? url : FALLBACK;
-}
-
 function renderAds(items){
   adsData = items || [];
-  const list  = document.getElementById('adsList');
+  const list = document.getElementById('adsList');
   const empty = document.getElementById('adsEmpty');
   const badge = document.getElementById('adsCount');
+
   if(!list) return;
-
-  const html = adsData.map(it => {
-    const href  = it.url || it.link || '#';
-    const img   = safeImg(it.img || it.image || it.thumbnail || it.linkfull); // ← dùng helpers ở đây
-    const title = it.title || it.name || 'Xưởng đề xuất';
-    const desc  = it.desc  || it.details || '';
-    const site  = it.site  || it.domain || '';
+  list.innerHTML = adsData.map(it => {
+    const url = it.url || it.link || '';
+    const img = it.img || it.thumb || '';
+    const title = it.title || it.name || 'Đơn vị';
+    const desc = it.desc || it.description || '';
+    const site = url ? (new URL(url, location.href).hostname) : '';
     return `
-      <a class="link-preview d-flex gap-2 align-items-start p-2 rounded-3 border text-decoration-none"
-         href="${href}" target="_blank" rel="noopener">
-        <img src="${img}" onerror="this.src='${FALLBACK}'" width="48" height="48" class="rounded-2 flex-shrink-0" alt="">
-        <div class="small w-100">
-          <div class="fw-semibold text-dark text-truncate">${title}</div>
-          ${desc ? `<div class="text-muted text-truncate">${desc}</div>` : ''}
-          ${site ? `<div class="text-muted">${site}</div>` : ''}
+      <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
+        <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://via.placeholder.com/64?text=%20'">
+        <div class="flex-grow-1">
+          <div class="title">${esc(title)}</div>
+          ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
+          ${site ? `<div class="site">${esc(site)}</div>` : ``}
         </div>
-      </a>`;
+      </a>
+    `;
   }).join('');
-
- list.innerHTML = html;
-
-// replace 2 dòng dưới bằng 2 dòng này
-if (empty) empty.style.display = adsData.length ? 'none' : 'block';
-if (badge){
-  badge.textContent = adsData.length;
-  badge.style.display = adsData.length ? 'inline-block' : 'none';
-}
-
-
 
   if (badge){
     badge.textContent = adsData.length;
@@ -3299,71 +3277,99 @@ if (newHash !== _lastFacetsHash){
   // console.debug('[render]', fromCache ? 'CACHE' : 'NETWORK', state);
 }
 
+/* ===== Fetch tối ưu: debounce + abort + cache (LRU) ===== */
+const FETCH_DEBOUNCE = 160;                 // ms
+let _fetchTimer = 0;
+let _inflightCtl = null;
+
+// LRU cache: key -> {time, payload}
+const _cache = new Map();
+const CACHE_LIMIT = 30;
+function cacheKeyFromState(s){
+  // chỉ key các tham số ảnh hưởng tới dữ liệu
+  return [
+    'list', s.page, s.pageSize,
+    s.q||'', s.group||'', s.type||'', s.loai||'', s.note||'', s.category||''
+  ].join('|');
+}
+function cacheGet(key){
+  if(!_cache.has(key)) return null;
+  const v = _cache.get(key);
+  // làm mới thứ tự LRU
+  _cache.delete(key); _cache.set(key, v);
+  return v.payload;
+}
+function cacheSet(key, payload){
+  _cache.set(key, { time: Date.now(), payload });
+  if(_cache.size > CACHE_LIMIT){
+    const firstKey = _cache.keys().next().value;
+    _cache.delete(firstKey);
+  }
+}
+
+// so sánh facets để tránh rebuild UI không cần thiết
+let _lastFacetsHash = '';
+function hashFacets(facets){
+  try{ return JSON.stringify(facets||{}); }catch{ return ''; }
+}
+
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
+function fetchPage(){
+  clearTimeout(_fetchTimer);
+  _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
+}
+
 async function _doFetch(){
   // Huỷ request trước (nếu còn)
   try{ _inflightCtl?.abort(); }catch(_){}
   _inflightCtl = new AbortController();
 
-  // Build params theo state hiện tại
   const params = new URLSearchParams({
     action:'list',
     page:state.page, pageSize:state.pageSize,
-    q:state.q, group:state.group, type:state.type,
-    loai:state.loai, note:state.note, category:state.category
+    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
   });
 
-  // Cache: render tạm từ cache để UI phản hồi tức thì
+  // ===== Cache key theo state hiện tại
   const key = cacheKeyFromState(state);
   const cached = cacheGet(key);
   if (cached){
+    // ⚡ render ngay từ cache để UI phản hồi tức thì
     render(cached, /*fromCache*/true);
   }
 
   try{
     const url = API_URL + '?' + params.toString();
-    const resp = await fetch(url, {
-      redirect:'follow',
-      mode:'cors',
-      signal:_inflightCtl.signal
-    });
-    const txt = await resp.text();
-
-    // Parse JSON (kể cả khi có XSSI prefix/BOM)
-    let json;
-    try{
-      json = JSON.parse(txt);
-    }catch(_){
-      const cleaned = txt
-        .replace(/^\)\]\}'[^\n]*\n?/, '')  // strip XSSI prefix
-        .replace(/^\uFEFF/, '')            // strip BOM
-        .trim();
-      json = JSON.parse(cleaned);
+fetch(url, { redirect: 'follow', mode: 'cors' })
+  .then(async (r) => {
+    const txt = await r.text();
+    console.log('[API RAW]', txt.slice(0, 400));  // xem thử server trả gì
+    // cố parse JSON: một số deployment có thể không set content-type JSON hoặc có tiền tố
+    try {
+      return JSON.parse(txt);
+    } catch (_) {
+      // loại các tiền tố XSSI / BOM nếu có rồi parse lại
+      const cleaned = txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim();
+      return JSON.parse(cleaned);
     }
-
-    // Validate schema tối thiểu
-    if (!json || json.ok === false || !Array.isArray(json.items)){
+  })
+  .then((json) => {
+    // kiểm schema tối thiểu
+    if (!json || json.ok === false || !Array.isArray(json.items)) {
       throw new Error('Bad JSON schema or empty data');
     }
-
-    // Lưu cache + render “from network”
-    cacheSet(key, json);
-    render(json, /*fromCache*/false);
-
-    // (tùy chọn) gọi ads sau khi render xong grid để tránh “giật”
-    if (typeof window.fetchAds === 'function'){
-      setTimeout(()=>window.fetchAds(), 200);
-    }
-
-  }catch(err){
-    if (err?.name === 'AbortError') return; // người dùng đổi filter nhanh
-    console.error('[API ERR]', err);
-    const box = document.getElementById('errbox');
-    if (box){
-      box.style.display = 'block';
-      box.textContent = '[ERROR] Không tải được dữ liệu.';
-    }
+    render(json, true);
+  })
+  .catch((err) => {
+  console.error('[API ERR]', err);
+  const box = document.getElementById('errbox');
+  if (box) {
+    box.style.display = 'block';
+    box.textContent = '[ERROR] Không tải được dữ liệu.';
   }
-}
+});
+
 
     const json = await resp.json();
 
