@@ -304,6 +304,12 @@
     background:#ffefef;border:1px solid #e99;border-radius:8px;padding:8px;
     display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace
   }
+#adsBox{ display:block !important; visibility:visible !important; }
+#adsList .link-preview{ text-decoration:none; }
+
+
+
+    
   </style>
 </head>
 <body class="theme-bamboo">
@@ -719,6 +725,21 @@
     if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f";
     return "#555";
   }
+   // Drive "view" → "thumbnail", + fallback
+const ADS_FALLBACK = 'https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32';
+function toDriveThumb(u){
+  if (!u) return ADS_FALLBACK;
+  const m = String(u).match(/\/d\/([^/]+)\//);
+  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
+  if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
+  return /^https?:\/\//i.test(u) ? u : ADS_FALLBACK;
+}
+function safeImg(u){
+  if (!u) return ADS_FALLBACK;
+  const url = toDriveThumb(u);
+  return /^https?:\/\//i.test(url) ? url : ADS_FALLBACK;
+}
+ 
   function firstLink(s){
     if(!s) return '';
     const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean);
@@ -1052,21 +1073,26 @@
     return {list, empty};
   }
 
-  function renderAds(items){
-    const box = findAdsBox();
-    if (!box) return;
-    const {list, empty} = ensureAdsList(box);
-    const badge = document.getElementById('adsCount');
+/* ===== XƯỞNG ĐỀ XUẤT (ADS) – BẢO ĐẢM HIỂN THỊ ===== */
+(function AdsModule(){
+  const box = document.getElementById('adsBox');
+  if (!box) return;
 
+  // đảm bảo DOM con tồn tại
+  const list  = box.querySelector('#adsList')  || (()=>{ const d=document.createElement('div'); d.id='adsList'; d.className='d-flex flex-column gap-2'; box.insertBefore(d, box.firstElementChild.nextSibling); return d; })();
+  const empty = box.querySelector('#adsEmpty') || (()=>{ const d=document.createElement('div'); d.id='adsEmpty'; d.className='small text-muted'; d.textContent='Đang tải dữ liệu…'; list.after(d); return d; })();
+  const badge = document.getElementById('adsCount');
+
+  function render(items){
     const html = (items||[]).map(it=>{
-      const url = it.url || it.link || '#';
-      const img = it.img || it.thumb || 'https://placehold.co/64?text=%20';
+      const url   = it.url || it.link || '#';
+      const img   = safeImg(it.img || it.image || it.thumb || it.thumbnail || it.linkfull);
       const title = it.title || it.name || 'Đơn vị';
-      const desc = it.desc || it.description || '';
-      const site = url && /^https?:\/\//i.test(url) ? new URL(url).hostname : '';
+      const desc  = it.desc  || it.description || '';
+      const site  = url && /^https?:\/\//i.test(url) ? new URL(url).hostname : '';
       return `
         <a class="link-preview" href="${esc(url)}" target="_blank" rel="noopener">
-          <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://placehold.co/64?text=%20'">
+          <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='${ADS_FALLBACK}'">
           <div class="flex-grow-1 small">
             <div class="title text-truncate">${esc(title)}</div>
             ${desc ? `<div class="desc text-truncate">${esc(desc)}</div>` : ``}
@@ -1076,31 +1102,62 @@
     }).join('');
 
     list.innerHTML = html;
+    empty.style.display = html ? 'none' : 'block';
+    empty.textContent   = html ? '' : 'Chưa có dữ liệu quảng cáo.';
     if (badge){
-      badge.textContent = (items||[]).length;
-      badge.style.display = (items||[]).length ? 'inline-block' : 'none';
+      const n = (items||[]).length;
+      badge.textContent = n;
+      badge.style.display = n ? 'inline-block' : 'none';
     }
-    if (empty){
-      empty.style.display = html ? 'none' : 'block';
-      if(!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
+    box.classList.remove('d-none','invisible');
+    box.style.display = 'block';
+  }
+
+  async function tryFetch(actionName){
+    const qs = new URLSearchParams({ action: actionName });
+    const r  = await fetch(API_URL + '?' + qs.toString(), { redirect:'follow', mode:'cors' });
+    const txt = await r.text();
+    let json;
+    try { json = JSON.parse(txt); }
+    catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
+    if (!json || json.ok === false || !Array.isArray(json.items)) return [];
+    return json.items;
+  }
+
+  async function load(){
+    empty.style.display = 'block';
+    empty.textContent   = 'Đang tải dữ liệu…';
+    try{
+      // Thử nhiều action vì mỗi bản Apps Script có thể khác nhau
+      let items = await tryFetch('ads');
+      if (!items.length) items = await tryFetch('adsList');
+      if (!items.length) items = await tryFetch('sponsors');
+      if (!items.length) items = await tryFetch('partners');
+
+      // fallback demo để bạn thấy khối hiển thị (xóa nếu không cần)
+      if (!items.length){
+        items = [
+          { title:'Xưởng Kim Loại Minh Phát', url:'https://example.com/', img:'https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w200', desc:'Đúc – mạ – khắc laser' },
+          { title:'Xưởng UV Printing An Khang', url:'https://example.com/', img:'https://picsum.photos/80?1', desc:'In UV trên kim loại/nhựa' },
+          { title:'Gia công cao su đúc màu', url:'https://example.com/', img:'https://picsum.photos/80?2', desc:'2D/3D, khuôn nhanh' },
+        ];
+      }
+      render(items);
+    }catch(e){
+      console.warn('[ADS] load error', e);
+      render([]);
     }
   }
 
-  async function fetchAds(){
-    try{
-      const qs = new URLSearchParams({ action:'ads' });
-      const r  = await fetch(API_URL + '?' + qs.toString(), {redirect:'follow', mode:'cors'});
-      const txt = await r.text();
-      let json;
-      try { json = JSON.parse(txt); }
-      catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
-      const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
-      renderAds(items);
-    }catch(err){
-      console.warn('[ADS] fetch error', err);
-      renderAds([]);
-    }
-  }
+  // public (giữ tên cũ để code khác gọi được)
+  window.renderAds = render;
+  window.fetchAds  = load;
+
+  // auto load + refresh định kỳ (15 phút)
+  load();
+  setInterval(load, 15*60*1000);
+})();
+
 
   /* ==========================================================================
      SUPPLIERS
