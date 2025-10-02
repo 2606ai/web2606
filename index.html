@@ -1073,17 +1073,30 @@ function safeImg(u){
     return {list, empty};
   }
 
-/* ===== XƯỞNG ĐỀ XUẤT (ADS) – BẢO ĐẢM HIỂN THỊ ===== */
-(function AdsModule(){
-  const box = document.getElementById('adsBox');
-  if (!box) return;
+/* ===== HOTFIX: XƯỞNG ĐỀ XUẤT BẮT BUỘC HIỂN THỊ ===== */
+(function AdsHotfix(){
+  const ADS_FALLBACK = 'https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32';
 
-  // đảm bảo DOM con tồn tại
-  const list  = box.querySelector('#adsList')  || (()=>{ const d=document.createElement('div'); d.id='adsList'; d.className='d-flex flex-column gap-2'; box.insertBefore(d, box.firstElementChild.nextSibling); return d; })();
-  const empty = box.querySelector('#adsEmpty') || (()=>{ const d=document.createElement('div'); d.id='adsEmpty'; d.className='small text-muted'; d.textContent='Đang tải dữ liệu…'; list.after(d); return d; })();
+  function toDriveThumb(u){
+    if (!u) return ADS_FALLBACK;
+    const m = String(u).match(/\/d\/([^/]+)\//);
+    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
+    if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
+    return /^https?:\/\//i.test(u) ? u : ADS_FALLBACK;
+  }
+  function safeImg(u){
+    if (!u) return ADS_FALLBACK;
+    const url = toDriveThumb(u);
+    return /^https?:\/\//i.test(url) ? url : ADS_FALLBACK;
+  }
+
+  const box   = document.getElementById('adsBox');
+  const list  = box?.querySelector('#adsList');
+  const empty = box?.querySelector('#adsEmpty');
   const badge = document.getElementById('adsCount');
 
-  function render(items){
+  function _render(items){
+    if (!box || !list || !empty) return;
     const html = (items||[]).map(it=>{
       const url   = it.url || it.link || '#';
       const img   = safeImg(it.img || it.image || it.thumb || it.thumbnail || it.linkfull);
@@ -1100,7 +1113,6 @@ function safeImg(u){
           </div>
         </a>`;
     }).join('');
-
     list.innerHTML = html;
     empty.style.display = html ? 'none' : 'block';
     empty.textContent   = html ? '' : 'Chưa có dữ liệu quảng cáo.';
@@ -1109,54 +1121,54 @@ function safeImg(u){
       badge.textContent = n;
       badge.style.display = n ? 'inline-block' : 'none';
     }
-    box.classList.remove('d-none','invisible');
     box.style.display = 'block';
   }
 
-  async function tryFetch(actionName){
-    const qs = new URLSearchParams({ action: actionName });
-    const r  = await fetch(API_URL + '?' + qs.toString(), { redirect:'follow', mode:'cors' });
-    const txt = await r.text();
+  async function _try(action){
+    const qs = new URLSearchParams({action});
+    const r  = await fetch(API_URL + '?' + qs.toString(), {redirect:'follow', mode:'cors'});
+    const tx = await r.text();
     let json;
-    try { json = JSON.parse(txt); }
-    catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
-    if (!json || json.ok === false || !Array.isArray(json.items)) return [];
-    return json.items;
+    try{ json = JSON.parse(tx); }
+    catch{
+      json = JSON.parse(tx.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim());
+    }
+    return (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
   }
 
-  async function load(){
-    empty.style.display = 'block';
-    empty.textContent   = 'Đang tải dữ liệu…';
+  async function _load(){
+    if (!box || !list || !empty) return;
+    empty.style.display='block'; empty.textContent='Đang tải dữ liệu…';
     try{
-      // Thử nhiều action vì mỗi bản Apps Script có thể khác nhau
-      let items = await tryFetch('ads');
-      if (!items.length) items = await tryFetch('adsList');
-      if (!items.length) items = await tryFetch('sponsors');
-      if (!items.length) items = await tryFetch('partners');
+      // thử nhiều action khác nhau
+      let items = await _try('ads');
+      if (!items.length) items = await _try('adsList');
+      if (!items.length) items = await _try('sponsors');
+      if (!items.length) items = await _try('partners');
 
-      // fallback demo để bạn thấy khối hiển thị (xóa nếu không cần)
+      // Fallback demo để xác nhận UI hoạt động
       if (!items.length){
         items = [
-          { title:'Xưởng Kim Loại Minh Phát', url:'https://example.com/', img:'https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w200', desc:'Đúc – mạ – khắc laser' },
-          { title:'Xưởng UV Printing An Khang', url:'https://example.com/', img:'https://picsum.photos/80?1', desc:'In UV trên kim loại/nhựa' },
-          { title:'Gia công cao su đúc màu', url:'https://example.com/', img:'https://picsum.photos/80?2', desc:'2D/3D, khuôn nhanh' },
+          { title:'Xưởng Kim Loại Minh Phát', url:'#', img:'https://picsum.photos/80?1', desc:'Đúc – mạ – khắc laser' },
+          { title:'UV Printing An Khang',      url:'#', img:'https://picsum.photos/80?2', desc:'In UV trên kim loại/nhựa' },
+          { title:'Cao su đúc màu 2D/3D',      url:'#', img:'https://picsum.photos/80?3', desc:'Khuôn nhanh – giá tốt' },
         ];
       }
-      render(items);
+      _render(items);
     }catch(e){
-      console.warn('[ADS] load error', e);
-      render([]);
+      console.warn('[ADS] error', e);
+      _render([]);
     }
   }
 
-  // public (giữ tên cũ để code khác gọi được)
-  window.renderAds = render;
-  window.fetchAds  = load;
+  // Xoá định nghĩa cũ nếu có, gán public mới rồi nạp
+  window.renderAds = _render;
+  window.fetchAds  = _load;
 
-  // auto load + refresh định kỳ (15 phút)
-  load();
-  setInterval(load, 15*60*1000);
+  // Nếu init() đã gọi fetchAds() trước đó mà bị ghi đè, ta vẫn tự gọi lại sau 500ms
+  setTimeout(_load, 500);
 })();
+
 
 
   /* ==========================================================================
