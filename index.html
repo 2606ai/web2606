@@ -778,6 +778,110 @@
   window.API_URL = "https://script.google.com/macros/s/AKfycby2PjYOKiRRphQCOI9eSDo8ShAY-Bugp_gQD7JjgJPaYE7fmaoDjbP4kXGWLpOQxWOh/exec";
   window.API_KEY = "";
   window.AUTO_OPEN_ON_ADD = false;
+<script>
+/* ================== ADS GUARD (self-heal) ================== */
+(() => {
+  const SEL = {
+    box: '#adsBox',
+    list: '#adsList'
+  };
+
+  /* 1) CSS an toàn để item không bị xẹp */
+  const css = `
+  ${SEL.box}{
+    display:block !important; visibility:visible !important; opacity:1 !important;
+    height:auto !important; max-height:none !important;
+  }
+  ${SEL.list}{ display:flex; flex-direction:column; gap:10px; }
+  ${SEL.list} .link-preview{
+    display:flex !important; align-items:center; gap:10px;
+    padding:10px; background:#fff; border:1px solid #e3f2fd; border-radius:10px;
+    box-shadow:0 1px 2px rgba(0,0,0,.06); min-height:72px;
+    text-decoration:none; color:#111;
+  }
+  ${SEL.list} .thumb{
+    width:64px; height:64px; flex-shrink:0; border-radius:8px; object-fit:cover; background:#f1f4ff;
+  }
+  ${SEL.list} .title{ font-weight:600; }
+  ${SEL.list} .desc{ color:#6b7280; font-size:12px; }
+  `;
+  const s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+
+  /* DEMO dữ liệu (fallback) */
+  const DEMO = [
+    {url:'https://logohuyadeco.com/…', img:'https://picsum.photos/64?1',  title:'Xưởng DEMO 1', desc:'Đúc – mạ – laser'},
+    {url:'https://quatangviet.vn/…',      img:'https://picsum.photos/64?2',  title:'Xưởng DEMO 2', desc:'In UV / Nhựa / Hợp kim'},
+    {url:'https://igift.com.vn/…',        img:'https://picsum.photos/64?3',  title:'Xưởng DEMO 3', desc:'Khuôn nhanh – giá tốt'}
+  ];
+
+  const $ = (q)=>document.querySelector(q);
+
+  function forceShowBox() {
+    const box = $(SEL.box); if (!box) return;
+    box.style.removeProperty('display');
+    box.style.removeProperty('visibility');
+    box.classList.remove('d-none','invisible');
+    box.style.display   = 'block';
+    box.style.visibility= 'visible';
+    box.style.opacity   = '1';
+  }
+
+  function ensureMinHeight() {
+    const box  = $(SEL.box);
+    const list = $(SEL.list);
+    if (!box || !list) return;
+    // nếu có item nhưng height=0 thì set tạm để tránh xẹp
+    if (list.children.length && box.offsetHeight === 0) {
+      box.style.minHeight = '140px';
+    } else if (!list.children.length) {
+      box.style.minHeight = '';
+    }
+  }
+
+  function render(items) {
+    const list = $(SEL.list); if (!list) return;
+    list.innerHTML = items.map(it => `
+      <a class="link-preview" href="${it.url||'#'}" target="_blank" rel="noopener">
+        <img class="thumb" src="${it.img||'https://placehold.co/64'}" alt="">
+        <div class="flex-grow-1">
+          <div class="title text-truncate">${it.title||'Đơn vị'}</div>
+          ${it.desc?`<div class="desc text-truncate">${it.desc}</div>`:''}
+          ${it.site?`<div class="site">${it.site}</div>`:''}
+        </div>
+      </a>`).join('');
+    forceShowBox();
+    ensureMinHeight();
+  }
+
+  function ensureAds() {
+    const box  = $(SEL.box);
+    const list = $(SEL.list);
+    if (!box || !list) return;
+
+    const hasItems = list.querySelector('.link-preview');
+    if (!hasItems) {
+      // Nếu rỗng → render DEMO
+      render(DEMO);
+    } else {
+      forceShowBox();
+      ensureMinHeight();
+    }
+  }
+
+  // 2) Quan sát mọi thay đổi trong #adsList: có item → show, rỗng → demo
+  const listEl = $(SEL.list);
+  if (listEl) {
+    new MutationObserver(() => ensureAds())
+      .observe(listEl, { childList:true, subtree:false });
+  }
+
+  // 3) Cứ mỗi 1.5 giây kiểm tra 1 lần (phòng code khác clear DOM bất chợt)
+  setInterval(ensureAds, 1500);
+
+  // 4) chạy ngay lần đầu
+  ensureAds();
+})();
+</script>
 
   /* ==========================================================================
      ERROR GUARD
