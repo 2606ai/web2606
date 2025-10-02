@@ -1930,6 +1930,108 @@ function safeImg(u){
 
   document.addEventListener('DOMContentLoaded', init);
   </script>
+  <script>
+(function(){
+  const box = document.querySelector('#adsBox');
+  if (!box) return;
+
+  // Bảo đảm các phần tử con tồn tại
+  let list = box.querySelector('#adsList');
+  if (!list) {
+    list = document.createElement('div');
+    list.id = 'adsList';
+    list.className = 'd-flex flex-column gap-2';
+    box.appendChild(list);
+  }
+  let empty = box.querySelector('#adsEmpty');
+  if (!empty) {
+    empty = document.createElement('div');
+    empty.id = 'adsEmpty';
+    empty.className = 'small text-muted';
+    empty.textContent = '(debug) Box đã hiển thị – chờ dữ liệu quảng cáo.';
+    list.after(empty);
+  }
+  let badge = box.querySelector('#adsCount');
+  if (!badge) {
+    badge = document.createElement('span');
+    badge.id = 'adsCount';
+    badge.className = 'badge rounded-pill text-bg-primary';
+    badge.style.display = 'none';
+    badge.textContent = '0';
+    (box.querySelector('h6') || box).appendChild(badge);
+  }
+
+  // Ép hiển thị box
+  box.style.removeProperty('display');
+  box.style.removeProperty('visibility');
+  box.style.opacity = '1';
+
+  // Helper escape
+  const ESC = s => String(s ?? '').replace(/[&<>"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+
+  function render(items = []) {
+    list.innerHTML = items.map(it => `
+      <a class="link-preview d-flex gap-2 align-items-start" href="${ESC(it.url||'#')}" target="_blank" rel="noopener">
+        <img class="thumb" src="${ESC(it.img||'https://placehold.co/64x64?text=%20')}"
+             alt="${ESC(it.title||'')}"
+             onerror="this.src='https://placehold.co/64x64?text=%20'">
+        <div class="flex-grow-1 small">
+          <div class="title text-truncate">${ESC(it.title||'')}</div>
+          <div class="desc text-truncate">${ESC(it.desc||'')}</div>
+          <div class="site">${location.hostname}</div>
+        </div>
+      </a>
+    `).join('');
+
+    empty.style.display = items.length ? 'none' : '';
+    if (badge) {
+      badge.textContent = items.length;
+      badge.style.display = items.length ? 'inline-block' : 'none';
+    }
+  }
+
+  async function load(){
+    try {
+      const acts = ['adsList','sponsors','partners'];
+      for (const act of acts) {
+        const url = `?action=${encodeURIComponent(act)}`;
+        const res = await fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
+        if (res?.items?.length) {
+          render(res.items);
+          return;
+        }
+      }
+      // Fallback demo
+      render([
+        { title:'Xưởng DEMO 1', url:'#', img:'https://picsum.photos/80', desc:'Đúc – mạ – khắc laser' },
+        { title:'Xưởng DEMO 2', url:'#', img:'https://picsum.photos/81', desc:'In UV kim loại/nhựa' },
+        { title:'Xưởng DEMO 3', url:'#', img:'https://picsum.photos/82', desc:'Cao su đúc 2D/3D' }
+      ]);
+    } catch(e) {
+      console.warn('[ADS] load error', e);
+      render([]);
+    }
+  }
+
+  // Expose global cho nơi khác gọi
+  window.renderAds = render;
+  window.fetchAds  = load;
+
+  // Chặn việc bị script khác xóa nội dung
+  new MutationObserver(muts => {
+    if (Array.from(muts).some(m => m.type === 'childList' && !list.children.length)) {
+      console.warn('[ADS] #adsList bị clear, load lại…');
+      load();
+    }
+  }).observe(list, { childList:true });
+
+  // Gọi lần đầu
+  setTimeout(load, 500);
+})();
+</script>
+
 </body>
 </html>
 
