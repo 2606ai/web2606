@@ -10,6 +10,17 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
 
   <style>
+    /* FIX HIỂN THỊ XƯỞNG ĐỀ XUẤT */
+#adsBox{ display:block !important; visibility:visible !important; }
+#adsList{ display:flex !important; flex-direction:column; gap:8px; min-height:120px; }
+#adsList .link-preview{
+  display:flex !important; gap:10px;
+  background:#fff; border:1px solid #e3f2fd; border-radius:10px; padding:10px;
+  box-shadow:0 1px 2px rgba(0,0,0,.06); text-decoration:none;
+}
+#adsList .thumb{ width:64px; height:64px; border-radius:8px; object-fit:cover; background:#f1f4ff; }
+#adsBox .small.text-muted{ display:block; }
+
   /* ==========================================================================
      2606AI — CLEANED & FIXED BASE
      Ghi chú:
