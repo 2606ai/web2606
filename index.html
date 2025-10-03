@@ -2562,7 +2562,7 @@ function productCardHtml(it){
   return `<div class="col"><div class="cardx">
     <div class="thumb-wrap">
       <a href="${linkHref}" target="_blank" rel="noopener">
-        <img loading="lazy" class="thumb" src="${esc(thumbSrc)}" alt="Sản phẩm ${esc(it.id)}" onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        <img loading="lazy" class="thumb" src="${esc(thumbSrc)}" alt="Sản phẩm ${esc(it.id)}" onerror="this.src='https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32'">
       </a>
       ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
     </div>
@@ -2723,7 +2723,7 @@ function renderAds(items){
     const site = url ? (new URL(url, location.href).hostname) : '';
     return `
       <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://via.placeholder.com/64?text=%20'">
+        <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32'">
         <div class="flex-grow-1">
           <div class="title">${esc(title)}</div>
           ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
