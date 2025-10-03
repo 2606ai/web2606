@@ -88,11 +88,33 @@ img{max-width:100%;display:block}
 .btn-gift:hover{background:#fff0f6;color:var(--main-600)}
 .add-btn{border:none;background:var(--grad);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:800}
 
-/* Ads box */
-.ads-box .link-preview{display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;box-shadow:var(--shadow-sm);text-decoration:none}
-.ads-box .thumb{width:48px;height:48px;border-radius:8px;object-fit:cover;background:#f1f4ff}
-.ads-box .title{font-weight:700;color:var(--main)}
-.ads-box .desc{font-size:12px;color:var(--muted)}
+/* Xưởng box */
+.xuong-box .link-preview{
+  display:flex;
+  gap:10px;
+  background:#fff;
+  border:1px solid #e3f2fd;
+  border-radius:10px;
+  padding:10px;
+  box-shadow:var(--shadow-sm);
+  text-decoration:none
+}
+.xuong-box .thumb{
+  width:48px;
+  height:48px;
+  border-radius:8px;
+  object-fit:cover;
+  background:#f1f4ff
+}
+.xuong-box .title{
+  font-weight:700;
+  color:var(--main)
+}
+.xuong-box .desc{
+  font-size:12px;
+  color:var(--muted)
+}
+
 
 /* FABs */
 .fab{position:fixed;right:16px;width:54px;height:54px;border:none;border-radius:50%;color:#fff;font-size:22px;box-shadow:0 6px 16px rgba(0,0,0,.25);z-index:1055;display:flex;align-items:center;justify-content:center}
@@ -153,17 +175,24 @@ footer .accent{color:#d4af37}
         </div>
       </div>
 
-      <div id="adsBox" class="sidebar-box ads-box">
-        <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
-          <span>Xưởng đề xuất <span id="adsCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span></span>
-        </h6>
-        <div id="adsList" class="d-flex flex-column gap-2"></div>
-        <div id="adsEmpty" class="small text-muted">Đang tải dữ liệu…</div>
-        <div class="mt-2 text-center">
-          <a id="adsContactBtn" href="#" target="_blank" rel="noopener" class="btn btn-sm fw-bold px-3" style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">📢 LIÊN HỆ ĐẶT QUẢNG CÁO</a>
-        </div>
-      </div>
-    </aside>
+     <!-- XƯỞNG ĐỀ XUẤT -->
+<div id="xuongBox" class="sidebar-box xuong-box">
+  <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
+    <span>Xưởng đề xuất
+      <span id="xuongCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span>
+    </span>
+  </h6>
+  <div id="xuongList" class="d-flex flex-column gap-2"></div>
+  <div id="xuongEmpty" class="small text-muted">Đang tải dữ liệu…</div>
+  <div class="mt-2 text-center">
+    <a id="xuongContactBtn" href="#" target="_blank" rel="noopener"
+       class="btn btn-sm fw-bold px-3"
+       style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
+       📢 LIÊN HỆ ĐẶT QUẢNG CÁO
+    </a>
+  </div>
+</div>
+
 
     <main class="col-lg-9 col-md-8">
       <!-- Hero -->
