@@ -7,219 +7,111 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- 100007: CSS Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"> <!-- 100008: Bootstrap Icons -->
 <style> /* 100009: Bắt đầu CSS nội tuyến */
-/* =========================
-   2606AI – GREEN CSS (match current code)
-   ========================= */
+/* ===== 990001: PATCH – KHỚP GIAO DIỆN ẢNH ===== */
 
-/* ---- Theme tokens ---- */
-:root{
-  --main:#2e7d32;            /* xanh lá chủ đạo */
-  --main-600:#1b5e20;
-  --main-700:#145214;
-  --main-grad:linear-gradient(90deg,#66bb6a 0%,#2e7d32 100%);
-
-  --accent:#c6a969;
-  --bg:#f5f7f5;
-
-  --text:#1f2937;
-  --muted:#6b7280;
-
-  --card:#ffffff;
-  --border:#dfe7df;
-
-  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
-  --shadow-md:0 2px 8px rgba(0,0,0,.08);
-  --shadow-lg:0 6px 16px rgba(0,0,0,.16);
-
-  --main-tint:#e8f5e9;       /* hover dịu */
-  --main-shadow:rgba(46,125,50,.22);
+/* --- NHÓM LỚN (4 ô có icon tròn + chữ xanh) --- */
+.group-bar{                     /* 990010 */
+  display:grid !important;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px !important;
+  overflow:visible !important;
+}
+#groupBar .group-chip{          /* 990020 */
+  display:flex !important; flex-direction:column; align-items:center; justify-content:center;
+  min-height:120px; padding:16px 12px;
+  background:#fff !important; border:1px solid #e4efe4 !important; border-radius:16px !important;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  white-space:normal !important; text-align:center; gap:10px;
+  transition:transform .12s, box-shadow .12s, border-color .12s;
+}
+#groupBar .group-chip .chip-icon,     /* nếu có bọc icon */
+#groupBar .group-chip .icon,
+#groupBar .group-chip img{            /* 990030 */
+  width:56px; height:56px; border-radius:50%;
+  background:#edf7ed; display:flex; align-items:center; justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(76,175,80,.18);
+  object-fit:contain;
+}
+#groupBar .group-chip span,           /* nhãn */
+#groupBar .group-chip{ color:#1b5e20 !important; font-weight:800; }
+#groupBar .group-chip:hover{          /* 990040 */
+  transform:translateY(-2px);
+  box-shadow:0 8px 22px rgba(46,125,50,.12);
+  border-color:#cfe6cf !important;
+}
+#groupBar .group-chip.active{         /* 990050 */
+  background:#f0f7f0 !important;
+  border-color:#a5d6a7 !important;
+  color:#145214 !important;
 }
 
-/* ---- Base ---- */
-html,body{height:100%}
-body{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
-  font-size:14px;color:var(--text);background:var(--bg);
-  padding-top:70px;
-}
-img{max-width:100%;display:block}
-.container-fluid,.wrap{max-width:1400px;margin:0 auto}
+/* Responsive cột nhóm */
+@media (max-width:1200px){ .group-bar{grid-template-columns:repeat(3,1fr)} }   /* 990060 */
+@media (max-width:992px){  .group-bar{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:576px){  .group-bar{grid-template-columns:1fr} }
 
-/* ---- Header ---- */
-.site-header{
-  position:fixed; inset:0 0 auto 0; z-index:1055;
-  background:#fff; border-bottom:1px solid #e4efe4; box-shadow:var(--shadow-sm);
-  padding:10px 15px;
+/* --- DANH MỤC NHỎ (2 hàng icon hộp bo tròn + link xanh) --- */
+#categoryGrid.category-grid{           /* 990070 */
+  display:grid; grid-template-columns:repeat(6,1fr); gap:14px;
 }
-.site-header .wrap{display:flex;align-items:center;gap:12px}
-.site-header img.logo{width:84px;aspect-ratio:3/2;object-fit:contain;cursor:pointer}
-.header-search{flex:1}
-.header-search .form-control{font-size:13px;padding:6px 10px}
-@media (max-width:992px){.site-header img.logo{width:72px}}
-
-/* ---- Top banner ---- */
-.top-banner{
-  position:sticky; top:70px; z-index:1054;
-  height:32px; display:flex; align-items:center; justify-content:center;
-  background:var(--main-grad); color:#fff; font-weight:700; line-height:32px;
-  overflow:hidden
-}
-.top-banner .marquee{white-space:nowrap;display:inline-block;animation:marquee 60s linear infinite}
-@keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-
-/* ---- Sidebar generic block ---- */
-.sidebar-box{
-  background:var(--card); border:1px solid var(--border);
-  border-radius:12px; padding:12px; box-shadow:var(--shadow-sm); margin-bottom:15px
-}
-.sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
-
-/* ---- Benefits list (đúng markup hiện tại .benefits-v3) ---- */
-.benefits-v3 .grid{display:grid;grid-template-columns:1fr;gap:8px}
-.benefits-v3 .bcard{
-  background:#fff;border:1px solid #e0f2e9;border-radius:12px;padding:12px;
-  display:flex;gap:10px;align-items:center;min-height:60px;position:relative;box-shadow:var(--shadow-sm)
-}
-.benefits-v3 .ic{width:36px;height:36px;border-radius:8px;background:#e8f5e9;display:inline-flex;align-items:center;justify-content:center}
-.benefits-v3 .ttl{font-weight:600;font-size:12px;line-height:1.3}
-.benefits-v3 .sub{font-size:12px;color:var(--muted)}
-.benefit-note{position:absolute;top:6px;right:8px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;color:#fff}
-.benefit-free{background:#2e7d32}.benefit-paid{background:#d32f2f}
-
-/* ---- Xưởng đề xuất (ID đang dùng: #xuongBox, #xuongList) ---- */
-#xuongBox.sidebar-box{border-style:dashed;border-color:#a5d6a7}
-#xuongList{max-height:62vh;overflow:auto;padding-right:4px;scroll-behavior:smooth}
-#xuongList .link-preview{
-  display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;box-shadow:var(--shadow-sm);
-  text-decoration:none
-}
-#xuongList .thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#f1f4ff}
-#xuongList .title{font-weight:700;color:var(--main)}
-#xuongList .desc{font-size:12px;color:var(--muted)}
-#xuongList .site{font-size:12px;color:var(--main)}
-
-/* ---- Hero banners ---- */
-.hero{margin-bottom:15px}
-.hero .carousel{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
-.hero .mini img{height:145px;object-fit:cover;border-radius:12px}
-.hero .main img{height:300px;object-fit:cover;border-radius:12px}
-.hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
-
-/* ===================== GROUP BAR + CATEGORY (KHỚP HTML HIỆN TẠI) ===================== */
-.category-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;box-shadow:var(--shadow-sm)}
-/* Thanh group: container hiện dùng .group-bar + #groupBar */
-.group-bar{display:flex;gap:8px;overflow:auto;scrollbar-width:none;margin-bottom:8px}
-.group-bar::-webkit-scrollbar{display:none}
-#groupBar .group-chip{
-  display:flex;align-items:center;gap:8px;
-  padding:10px 14px;border:1px solid #d6e7d4;border-radius:12px;background:#f6fbf5;
-  color:var(--main-700);font-weight:700;white-space:nowrap;cursor:pointer;
-  transition:transform .12s, box-shadow .12s, background .12s, color .12s
-}
-#groupBar .group-chip:hover{background:#e8f5e9;box-shadow:0 3px 10px rgba(45,85,52,.08)}
-#groupBar .group-chip.active{
-  background:var(--main-grad);color:#fff;border-color:transparent;box-shadow:0 6px 16px var(--main-shadow)
-}
-
-/* Lưới danh mục: id hiện dùng #categoryGrid */
-#categoryGrid.category-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
 @media (max-width:1200px){#categoryGrid.category-grid{grid-template-columns:repeat(5,1fr)}}
-@media (max-width:992px){#categoryGrid.category-grid{grid-template-columns:repeat(4,1fr)}}
-@media (max-width:768px){#categoryGrid.category-grid{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:576px){#categoryGrid.category-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:992px){ #categoryGrid.category-grid{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:768px){ #categoryGrid.category-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:576px){ #categoryGrid.category-grid{grid-template-columns:repeat(2,1fr)}}
 
-#categoryGrid .category-item{
-  text-align:center;padding:10px;border-radius:10px;cursor:pointer;
-  border:1px solid transparent;transition:transform .12s, box-shadow .12s, background .12s, border-color .12s
+#categoryGrid .category-item{          /* 990080 */
+  background:#fff; border:1px solid #e8efe8; border-radius:14px;
+  padding:12px 10px; text-align:center; transition:.12s;
 }
-#categoryGrid .category-item .icon{
-  width:54px;height:54px;margin:0 auto 6px;border-radius:14px;background:#edf7ed;
-  display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(76,175,80,.2)
+#categoryGrid .category-item .icon{    /* hộp icon */
+  width:64px; height:64px; margin:0 auto 8px; border-radius:18px;
+  background:#edf7ed; display:flex; align-items:center; justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(76,175,80,.18);
 }
-#categoryGrid .category-item .icon img{width:32px;height:32px;object-fit:contain}
-#categoryGrid .category-item:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(45,85,52,.10)}
-#categoryGrid .category-item.active{background:#edf7ed;border-color:#a5d6a7}
-#categoryGrid .category-item span{font-size:13px;display:block}
+#categoryGrid .category-item .icon img{ width:38px; height:38px; object-fit:contain }
+#categoryGrid .category-item span{     /* nhãn */
+  font-size:12.5px; line-height:1.25; color:#1b5e20; display:block;
+}
+#categoryGrid .category-item:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(46,125,50,.10) }
+#categoryGrid .category-item.active{ border-color:#a5d6a7; background:#f3faf3 }
+#categoryGrid .category-item.active span{ color:#145214; font-weight:700 }
 
-/* ---- Stats & Pager (ID KHÔNG ĐỔI) ---- */
-.stats-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-#pagerTop,#pagerBottom{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-#pagerTop .btn,#pagerBottom .btn{min-width:40px;padding:.35rem .6rem;font-size:.875rem;border-radius:.5rem;border:1px solid #cfd8cc;background:#fff;color:#2f3e30}
-#pagerTop .btn:hover,#pagerBottom .btn:hover{background:#eff6ef}
-
-/* ===================== PRODUCT CARD (đúng markup .cardx hiện tại) ===================== */
-.cardx{
-  background:#fff;border:none;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);
-  transition:transform .15s, box-shadow .15s;height:100%;display:flex;flex-direction:column
+/* --- XƯỞNG ĐỀ XUẤT (khung nét đứt + pill vàng) --- */
+#xuongBox.sidebar-box{                 /* 990100 */
+  border:1px dashed #a5d6a7 !important; border-radius:14px; background:#fff;
 }
-.cardx:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
-.cardx .thumb{height:180px;object-fit:cover;width:100%}
-.cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;gap:6px}
-.cardx .id{font-weight:800;color:var(--main);font-size:13px}
-.cardx .details{
-  font-size:12px;color:#667;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
-}
-.cardx .type{display:inline-block;background:#e7f3e8;color:#1b5e20;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px}
-.cardx .price{font-weight:700;color:#c62828}
-.cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.cardx .btn-gift{
-  background:#fff;border:1.5px solid var(--main);color:var(--main);font-weight:700;
-  padding:6px 12px;border-radius:999px;font-size:12px;line-height:1;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
-  max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-}
-.cardx .btn-gift:hover{background:var(--main-grad);color:#fff;text-decoration:none}
-.add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:800}
-.add-btn:hover{background:var(--main-600)}
+#xuongBox .btn{ border-radius:999px; padding:6px 12px; font-weight:700 }
+#xuongList .link-preview{ transition:transform .12s, box-shadow .12s }
+#xuongList .link-preview:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(46,125,50,.08) }
 
-/* Badge chú ý nhỏ ở góc ảnh (it.note) */
-.cardx .note{
-  position:absolute;top:8px;right:8px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;background:#2e7d32
+/* --- CARD SẢN PHẨM (nút xanh, badge góc) --- */
+.cardx{ border-radius:14px; box-shadow:0 1px 2px rgba(0,0,0,.06) }            /* 990120 */
+.cardx .meta{ display:flex; flex-direction:column; gap:6px; flex:1 }
+.cardx .id{ color:#2e7d32; font-weight:800 }
+.cardx .type{ background:#e7f3e8; color:#1b5e20; font-weight:700; border-radius:12px; padding:2px 6px; display:inline-block }
+.cardx .details{ display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden }
+.cardx .price{ margin-top:auto; font-weight:700; color:#c62828 }
+.cardx .meta-actions{ margin-top:6px }
+
+.cardx .btn-gift{                                                           /* 990130 */
+  background:#fff; color:#2e7d32; border:1.5px solid #2e7d32; border-radius:999px;
+  padding:6px 14px; font-weight:700;
 }
+.cardx .btn-gift:hover{ background:#2e7d32; color:#fff }
+.add-btn{ background:#2e7d32; color:#fff; border:none } .add-btn:hover{ background:#1b5e20 }
 
-/* ---- Offcanvas: Cart / Filters / Suppliers (ID hiện tại) ---- */
-#cartCanvas .offcanvas-header{background:var(--main-grad);color:#fff;border:0;border-radius:12px 12px 0 0}
-#cartCanvas .offcanvas-body{font-size:13px;padding:16px}
-#cartCanvas input.form-control,#cartCanvas textarea.form-control,#cartCanvas select.form-select{border-radius:10px;font-size:13px;border:1px solid #dbe3ff}
-#cartCanvas input:focus,#cartCanvas textarea:focus,#cartCanvas select:focus{border-color:var(--main);box-shadow:0 0 0 .2rem rgba(46,125,50,.15)}
-#cartCanvas .btn{border-radius:999px;font-weight:600;font-size:13px}
-#cartCanvas #clearCartBtn{background:#fbe9e7;color:#d32f2f;border:1px solid #ffcdd2}
-#cartCanvas #clearCartBtn:hover{background:#ffcdd2}
-#cartCanvas #submitOrderBtn{background:var(--main);border:none}
-#cartCanvas #submitOrderBtn:hover{background:var(--main-600)}
-#cartCanvas .summary-box{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:8px 12px;margin-bottom:12px}
-#cartCanvas #cartTotal{font-weight:700;font-size:16px;color:#d32f2f}
+/* badge chân trang ảnh */
+.cardx .note{ position:absolute; top:8px; left:8px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700; color:#fff }
+.cardx .note.new{ background:#2e7d32 } .cardx .note.sale{ background:#ef6c00 } .cardx .note.hot{ background:#c62828 }
 
-/* ---- Filter panel ---- */
-#filterPanel h6{font-weight:700;font-size:14px;margin:16px 0 8px;color:var(--main);text-transform:uppercase;letter-spacing:.3px}
-#filterPanel .btn.btn-sm{border-radius:20px}
-.btn-outline-secondary{border-color:var(--main);color:var(--main)}
-.btn-outline-secondary:hover{background:var(--main-tint);color:var(--main-700)}
+/* --- PAGER + “Tìm thấy / Xóa bộ lọc” cùng 1 dòng --- */
+.stats-row{ align-items:center; gap:8px; flex-wrap:nowrap; overflow-x:auto }  /* 990140 */
+#pagerTop{ margin-left:auto; display:flex; align-items:center; gap:6px; white-space:nowrap }
+#pagerTop .btn,#pagerBottom .btn{ padding:.35rem .6rem; font-size:.875rem; min-width:40px; border-radius:.5rem }
 
-/* ---- Floating Action Buttons (ID hiện tại) ---- */
-#filterFab,#cartFab,#suppliersFab,#zaloFab{
-  position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:50%;
-  color:#fff; font-size:22px; box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:2500; display:flex; align-items:center; justify-content:center
-}
-#filterFab{background:#6c757d;bottom:212px}
-#cartFab{background:var(--main);bottom:148px}
-#suppliersFab{background:#0d6efd;bottom:84px}
-#zaloFab{background:#25D366;bottom:20px}
-#cartFab .badge,#filterFab .badge,#suppliersFab .badge,#zaloFab .badge{
-  position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;padding:2px 6px;font-size:12px;font-weight:700;display:none
-}
-
-/* ---- Footer ---- */
-footer{background:var(--main-grad);color:#fff}
-footer .accent{color:var(--accent)}
-footer hr{border-color:rgba(255,255,255,.4)}
-footer a,footer .bi{color:#fff}
-
-/* ---- Error toast ---- */
-#errbox{
-  position:fixed;left:8px;right:8px;bottom:8px;z-index:3000;
-  background:#ffefef;border:1px solid #e99;border-radius:8px;padding:8px;
-  display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace
-}
+/* --- HERO banner: bo tròn, bóng nhẹ --- */
+.hero .mini img,.hero .main img{ border-radius:14px }                         /* 990150 */
+.hero .carousel{ border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,.06) }
 
 </style> <!-- 100087: Kết thúc CSS -->
 </head> <!-- 100088: Kết thúc head -->
