@@ -348,6 +348,21 @@ const CAT_CONFIG = [
   {label:'Khác', category:'Khác'}
 ];
 
+const FALLBACK_ICON = 'https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32';
+function toDriveThumb(u){
+  if (!u) return FALLBACK_ICON;
+  const m = String(u).match(/\/d\/([^/]+)\//);
+  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
+  if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
+  return u;
+}
+function safeImg(u){
+  if (!u) return FALLBACK_ICON;
+  const url = toDriveThumb(u);
+  return /^https?:\/\//i.test(url) ? url : FALLBACK_ICON;
+}
+
+   
 // ==== Renderers ====
 function renderGroups(){
   const html = GROUPS.map(g=>`<button class="group-chip ${state.group===g?'active':''}" data-action="set-group" data-val="${esc(g)}">\n    <img src="${esc(GROUP_ICONS[g]||GROUP_ICONS['KHÁC'])}" alt=""/>\n    <span>${esc(g)}</span>\n  </button>`).join('');
@@ -375,18 +390,37 @@ function renderPagination(total){
 }
 
 function renderAds(items){
-  const list = $('#adsList'), badge = $('#adsCount'), empty = $('#adsEmpty');
-  list.innerHTML = (items||[]).map(it=>`
-    <a class='link-preview text-decoration-none' href='${esc(it.url||'#')}' target='_blank' rel='noopener'>
-      <img class='thumb' src='${esc(it.img||"https://placehold.co/64x64")}' alt=''>
-      <div class='flex-grow-1 small'>
-        <div class='title'>${esc(it.title||'Xưởng đề xuất')}</div>
-        ${it.desc?`<div class='desc'>${esc(it.desc)}</div>`:''}
+  const list   = document.getElementById('adsList');
+  const badge  = document.getElementById('adsCount');
+  const empty  = document.getElementById('adsEmpty');
+  const adsBox = document.getElementById('adsBox');
+
+  // Bảo đảm box luôn hiện
+  if (adsBox) adsBox.style.display = 'block';
+
+  // Fallback demo nếu rỗng
+  const data = (Array.isArray(items) && items.length)
+    ? items
+    : [
+        { title:'Xưởng A – UV Kim Loại', desc:'Nhận in UV badge/huy hiệu số lượng nhỏ', url:'#', img:'https://picsum.photos/96?1' },
+        { title:'Xưởng B – Đúc Hợp Kim', desc:'Huy chương 3D, mạ vàng/niken', url:'#', img:'https://picsum.photos/96?2' },
+      ];
+
+  list.innerHTML = data.map(it => `
+    <a class="link-preview text-decoration-none" href="${esc(it.url||'#')}" target="_blank" rel="noopener">
+      <img class="thumb" src="${esc(safeImg(it.img))}" alt="">
+      <div class="flex-grow-1 small">
+        <div class="title">${esc(it.title||'Xưởng đề xuất')}</div>
+        ${it.desc ? `<div class="desc">${esc(it.desc)}</div>` : ''}
       </div>
-    </a>`).join('');
-  const n = (items||[]).length; if(badge){ badge.textContent=n; badge.style.display=n?'inline-block':'none'; }
-  if(empty) empty.style.display = n? 'none':'block';
+    </a>
+  `).join('');
+
+  const n = data.length;
+  if (badge){ badge.textContent = n; badge.style.display = n ? 'inline-block' : 'none'; }
+  if (empty){ empty.style.display = n ? 'none' : 'block'; }
 }
+
 
 // ==== Data fetching ====
 let _timer = 0; const DEBOUNCE = 160;
