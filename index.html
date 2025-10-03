@@ -7,95 +7,223 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- 100007: CSS Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"> <!-- 100008: Bootstrap Icons -->
 <style> /* 100009: Bắt đầu CSS nội tuyến */
-:root{ /* 100010: Các token màu chủ đề xanh lá */
-  --main:#2e7d32; /* 100011: Xanh lá chủ đạo */
-  --main-600:#1b5e20; /* 100012: Xanh lá đậm */
-  --bg:#f4f9f4; /* 100013: Nền xanh rất nhạt */
-  --text:#1f2937; /* 100014: Màu chữ chính */
-  --muted:#6b7280; /* 100015: Màu chữ phụ */
-  --card:#fff; /* 100016: Màu nền thẻ */
-  --border:#c8e6c9; /* 100017: Màu viền nhạt xanh */
-  --grad:linear-gradient(90deg,#43a047 0%,#66bb6a 100%); /* 100018: Gradient xanh lá */
-  --shadow-sm:0 1px 2px rgba(0,0,0,.06); /* 100019: Đổ bóng nhẹ */
-  --shadow-md:0 2px 8px rgba(0,0,0,.1); /* 100020: Đổ bóng vừa */
+/* 200001: ===== TOKEN MÀU – CHỦ ĐỀ TRE/TRÚC ===== */
+:root{
+  --bamboo-1:#4CAF50;          /* 200002: xanh tre chủ đạo */
+  --bamboo-2:#81C784;          /* 200003: xanh non */
+  --bamboo-3:#1B5E20;          /* 200004: xanh rừng đậm (text nhấn) */
+  --bamboo-brown:#8D6E63;      /* 200005: nâu thân tre */
+  --bamboo-brown-2:#A1887F;    /* 200006: nâu nhạt viền */
+  --bamboo-ivory:#FAFAF5;      /* 200007: trắng ngà – gợi giấy dó */
+  --bamboo-bg:#F3F7F1;         /* 200008: nền xanh lá rất nhạt */
+  --bamboo-grad:linear-gradient(90deg,#43a047 0%,#66bb6a 100%); /* 200009: gradient xanh tre */
+  --bamboo-grad-alt:linear-gradient(90deg,#66bb6a 0%,#8d6e63 100%); /* 200010: xanh → nâu */
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);       /* 200011 */
+  --shadow-md:0 6px 18px rgba(45,85,52,.14);   /* 200012 */
 }
-html,body{height:100%} /* 100021: Toàn trang cao 100% */
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;font-size:14px;color:var(--text);background:var(--bg);padding-top:70px} /* 100022: Kiểu chữ + padding cho header fixed */
-img{max-width:100%;display:block} /* 100023: Ảnh co giãn và là block */
-.wrap{max-width:1250px;margin:0 auto} /* 100024: Khung rộng tối đa */
 
-/* ===== Header ===== */ /* 100025: Nhóm style header */
-.site-header{position:fixed;top:0;left:0;right:0;z-index:1055;background:#fff;border-bottom:1px solid #eee;box-shadow:var(--shadow-sm);padding:10px 15px} /* 100026: Header cố định */
-.site-header .wrap{display:flex;align-items:center;gap:12px} /* 100027: Căn dòng trong header */
-.site-header .logo{width:100px;object-fit:contain} /* 100028: Logo rộng 100px */
-.header-search .form-control{font-size:13px;padding:6px 10px} /* 100029: Input tìm kiếm */
-.header-search .btn{border:2px solid var(--main);color:var(--main);background:#fff;border-radius:999px;font-weight:700} /* 100030: Nút tìm màu xanh lá viền tròn */
-.header-search .btn:hover{background:#e8f5e9;color:var(--main-600)} /* 100031: Hover nút tìm */
+/* 200020: ===== NỀN & TYPO ===== */
+html,body{height:100%}
+body{
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+  font-size:14px; color:#1f2937;
+  background:
+    /* 200021: lớp họa tiết đốt tre mờ */
+    radial-gradient(1200px 1200px at -10% -10%, rgba(141,110,99,.08), transparent 40%),
+    radial-gradient(900px 900px at 110% 110%, rgba(76,175,80,.06), transparent 45%),
+    repeating-linear-gradient( to bottom, rgba(141,110,99,.065) 0 2px, rgba(141,110,99,.03) 2px 34px, transparent 34px 36px ),
+    var(--bamboo-bg);
+  padding-top:70px;
+}
+img{max-width:100%;display:block}
+.wrap{max-width:1250px;margin:0 auto}
 
-/* ===== Thanh thông báo ===== */ /* 100032: Banner trên cùng */
-.top-banner{position:sticky;top:70px;z-index:1020;height:32px;display:flex;align-items:center;justify-content:center;color:#fff;background:var(--grad);font-weight:700;overflow:hidden} /* 100033: Dải thông báo */
-.top-banner .marquee{white-space:nowrap;animation:marq 40s linear infinite} /* 100034: Chạy chữ ngang */
-@keyframes marq{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}} /* 100035: Keyframe chạy chữ */
+/* 200040: ===== HEADER ===== */
+.site-header{
+  position:fixed; inset:0 0 auto 0; z-index:1055;
+  background:var(--bamboo-ivory);
+  border-bottom:2px solid rgba(141,110,99,.25);
+  box-shadow:var(--shadow-sm);
+  padding:10px 15px;
+}
+.site-header .wrap{display:flex;align-items:center;gap:12px}
+.site-header .logo{width:100px;object-fit:contain}
+.header-search .form-control{font-size:13px;padding:6px 10px;border-radius:999px;border:1.5px solid #dfe7dd;background:#fff}
+.header-search .btn{
+  border:2px solid var(--bamboo-1); color:var(--bamboo-1);
+  background:#fff; border-radius:999px; font-weight:700; padding:6px 16px;
+}
+.header-search .btn:hover{background:#e8f5e9;color:var(--bamboo-3)}
 
-/* ===== Sidebar & khối dịch vụ ===== */ /* 100036: Nhóm style sidebar */
-.sidebar-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;box-shadow:var(--shadow-sm);margin-bottom:12px} /* 100037: Hộp sidebar */
-.sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px} /* 100038: Tiêu đề hộp sidebar */
-.benefits .item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:10px;display:flex;align-items:center;gap:8px} /* 100039: Thẻ dịch vụ */
-.benefits .item .ic{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:#e8f5e9} /* 100040: Ô icon dịch vụ */
-.benefits .item .ttl{font-size:13px;font-weight:600} /* 100041: Tiêu đề dịch vụ */
-.benefits .item .sub{font-size:12px;color:var(--muted)} /* 100042: Mô tả dịch vụ */
+/* 200060: ===== TOP BANNER CHẠY CHỮ ===== */
+.top-banner{
+  position:sticky; top:70px; z-index:1020; height:32px;
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; background:var(--bamboo-grad); font-weight:700; overflow:hidden;
+  border-bottom:1px solid rgba(141,110,99,.25);
+}
+.top-banner .marquee{white-space:nowrap; animation:marq 40s linear infinite}
+@keyframes marq{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
 
-/* ===== Group bar & Category ===== */ /* 100043: Nhóm style danh mục */
-.category-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;box-shadow:var(--shadow-sm)} /* 100044: Khung lớn nhóm + danh mục */
-.group-bar{display:flex;gap:8px;overflow:auto;scrollbar-width:none;margin-bottom:8px} /* 100045: Thanh group trượt ngang */
-.group-bar::-webkit-scrollbar{display:none} /* 100046: Ẩn scrollbar */
-.group-chip{display:flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--border);border-radius:12px;font-weight:600;background:#fff;cursor:pointer;white-space:nowrap;color:var(--main)} /* 100047: Nút chip nhóm */
-.group-chip.active{background:var(--grad);color:#fff;border-color:transparent} /* 100048: Chip đang chọn */
-.category-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px} /* 100049: Lưới category 6 cột desktop */
-.category-item{text-align:center;padding:8px;border-radius:10px;border:1px solid transparent;cursor:pointer} /* 100050: Ô danh mục */
-.category-item .icon{width:48px;height:48px;margin:0 auto 6px;background:#f1f8e9;border-radius:12px;display:flex;align-items:center;justify-content:center} /* 100051: Ô icon danh mục */
-.category-item.active{background:#e8f5e9;border-color:#a5d6a7} /* 100052: Danh mục đang chọn */
+/* 200080: ===== SIDEBAR ===== */
+.sidebar-box{
+  background:#fff; border:1.5px solid var(--bamboo-brown-2);
+  border-radius:14px; padding:12px; box-shadow:var(--shadow-sm);
+  margin-bottom:12px; backdrop-filter:saturate(120%);
+}
+.sidebar-box h6{font-weight:800; font-size:15px; margin-bottom:8px; color:var(--bamboo-3)}
 
-/* ===== Stats & pager ===== */ /* 100053: Số liệu và phân trang */
-.stats-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px} /* 100054: Hàng thống kê */
-.pager .btn{padding:.35rem .6rem;font-size:.875rem;border-radius:.25rem} /* 100055: Nút pager */
+/* 200090: Dịch vụ hỗ trợ – “lá tre” */
+.benefits .item{
+  background:linear-gradient(180deg,#ffffff 0%, #f7faf7 100%);
+  border:1px solid #e0e5df; border-radius:12px; padding:10px;
+  display:flex; align-items:center; gap:10px;
+  box-shadow:0 2px 8px rgba(52,82,61,.05);
+}
+.benefits .item .ic{
+  width:30px;height:30px;border-radius:10px;
+  background:
+    linear-gradient(145deg, #ecf7ee 0%, #e2f2e6 100%),
+    radial-gradient(16px 16px at 70% 30%, rgba(76,175,80,.18), transparent);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(76,175,80,.25);
+}
+.benefits .item .ttl{font-size:13px;font-weight:700;color:#2e3e2f}
+.benefits .item .sub{font-size:12px;color:#6b7280}
 
-/* ===== Card sản phẩm ===== */ /* 100056: Thẻ sản phẩm */
-.cardx{background:#fff;border:none;border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm);transition:.15s;height:100%;display:flex;flex-direction:column} /* 100057: Khung card */
-.cardx:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)} /* 100058: Hiệu ứng hover */
-.cardx .thumb{height:180px;object-fit:cover;width:100%} /* 100059: Ảnh sản phẩm */
-.cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;gap:4px} /* 100060: Phần nội dung card */
-.cardx .id{font-weight:700;color:var(--main)} /* 100061: Mã sản phẩm */
-.cardx .details{font-size:12px;color:var(--muted)} /* 100062: Mô tả ngắn */
-.cardx .price{font-weight:600;color:#c62828} /* 100063: Giá */
-.btn-gift{background:#fff;border:1.5px solid var(--main);color:var(--main);font-weight:600;padding:6px 12px;border-radius:999px;font-size:12px;line-height:1;text-decoration:none} /* 100064: Nút quà tặng */
-.btn-gift:hover{background:#e8f5e9;color:var(--main-600)} /* 100065: Hover quà tặng */
-.add-btn{border:none;background:var(--grad);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:800} /* 100066: Nút + giỏ hàng */
+/* 200110: ===== GROUP BAR + CATEGORY ===== */
+.category-box{
+  background:#fff; border:1.5px solid var(--bamboo-brown-2);
+  border-radius:14px; padding:12px; box-shadow:var(--shadow-sm);
+}
+.group-bar{display:flex;gap:8px;overflow:auto;scrollbar-width:none;margin-bottom:8px}
+.group-bar::-webkit-scrollbar{display:none}
+.group-chip{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px; border:1.5px solid #d6e7d4;
+  border-radius:12px; background:#f6fbf5; color:var(--bamboo-3);
+  font-weight:700; cursor:pointer; white-space:nowrap;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s;
+}
+.group-chip img{width:26px;height:26px;object-fit:contain}
+.group-chip:hover{background:#e8f5e9; box-shadow:0 3px 10px rgba(45,85,52,.08)}
+.group-chip.active{
+  background:var(--bamboo-grad-alt); color:#fff; border-color:transparent;
+  box-shadow:0 5px 16px rgba(141,110,99,.25);
+}
 
-/* ===== Xưởng đề xuất ===== */ /* 100067: Box xưởng */
-.xuong-box .link-preview{display:flex;gap:10px;background:#fff;border:1px solid #c8e6c9;border-radius:8px;padding:8px;text-decoration:none} /* 100068: Link xưởng */
-.xuong-box .thumb{width:40px;height:40px;border-radius:6px;object-fit:cover;background:#f1f1f1} /* 100069: Ảnh xưởng */
-.xuong-box .title{font-weight:600;color:var(--main);font-size:13px} /* 100070: Tiêu đề xưởng */
+.category-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.category-item{
+  text-align:center; padding:10px; border-radius:12px;
+  border:1.5px solid rgba(141,110,99,.25); background:#fff; cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .12s;
+}
+.category-item .icon{
+  width:54px;height:54px;margin:0 auto 6px;border-radius:14px;
+  background:
+    linear-gradient(180deg,#f0f7f0 0%,#e7f2e6 100%),
+    radial-gradient(18px 18px at 70% 30%, rgba(76,175,80,.16), transparent);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(76,175,80,.25);
+}
+.category-item .icon img{width:32px;height:32px;object-fit:contain}
+.category-item:hover{transform:translateY(-2px); box-shadow:0 5px 16px rgba(45,85,52,.10)}
+.category-item.active{
+  background:#f3fbf1; border-color:#a5d6a7;
+  box-shadow:0 6px 18px rgba(45,85,52,.12);
+}
 
-/* ===== FAB ===== */ /* 100071: Nút nổi góc phải */
-.fab{position:fixed;right:16px;width:54px;height:54px;border:none;border-radius:50%;color:#fff;font-size:22px;box-shadow:0 6px 16px rgba(0,0,0,.25);z-index:1055;display:flex;align-items:center;justify-content:center} /* 100072: Kiểu chung fab */
-#filterFab{background:#6c757d;bottom:212px} /* 100073: FAB bộ lọc */
-#cartFab{background:var(--grad);bottom:148px} /* 100074: FAB giỏ hàng */
-#suppliersFab{background:#0d6efd;bottom:84px} /* 100075: FAB xưởng */
-#zaloFab{background:#25D366;bottom:20px} /* 100076: FAB Zalo */
-.fab .badge{position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;padding:2px 6px;font-size:12px;font-weight:700;display:none} /* 100077: Huy hiệu số lượng */
+/* 200160: ===== STATS + PAGER ===== */
+.stats-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.pager .btn{padding:.35rem .6rem;font-size:.875rem;border-radius:.5rem;border:1px solid #cfd8cc;background:#fff;color:#2f3e30}
+.pager .btn:hover{background:#eff6ef}
 
-/* ===== Footer ===== */ /* 100078: Chân trang */
-footer{background:var(--grad);color:#fff} /* 100079: Nền footer gradient */
-footer .accent{color:#d4af37} /* 100080: Màu nhấn vàng */
+/* 200180: ===== CARD SẢN PHẨM – “đốt tre” ===== */
+.cardx{
+  background:#fff; border:none; border-radius:14px; overflow:hidden;
+  box-shadow:0 2px 10px rgba(45,85,52,.06);
+  transition:transform .15s ease, box-shadow .15s ease;
+  height:100%; display:flex; flex-direction:column;
+  outline:1.5px solid rgba(141,110,99,.15);
+}
+.cardx:hover{transform:translateY(-3px); box-shadow:var(--shadow-md)}
+.cardx .thumb{
+  height:180px; width:100%; object-fit:cover;
+  background:
+    repeating-linear-gradient( to bottom,
+      rgba(141,110,99,.08) 0 2px,
+      rgba(141,110,99,.04) 2px 36px,
+      transparent 36px 38px),
+    #fff;
+}
+.cardx .meta{padding:10px;flex:1;display:flex;flex-direction:column;gap:6px}
+.cardx .id{font-weight:800;color:var(--bamboo-3);font-size:13px}
+.cardx .details{font-size:12px;color:#667;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cardx .price{font-weight:700;color:#c62828}
+.btn-gift{
+  background:#fff;border:1.6px solid var(--bamboo-1);color:var(--bamboo-1);
+  font-weight:700;padding:7px 14px;border-radius:999px;font-size:12px;line-height:1;
+  text-decoration:none; transition:all .12s ease;
+}
+.btn-gift:hover{background:#e8f5e9;color:var(--bamboo-3)}
+.add-btn{
+  border:none;background:var(--bamboo-grad);color:#fff;border-radius:50%;
+  width:34px;height:34px;font-size:18px;font-weight:800;box-shadow:0 4px 12px rgba(76,175,80,.35)
+}
 
-/* ===== Lỗi/Toast ===== */ /* 100081: Hộp lỗi nổi */
-#errbox{position:fixed;left:8px;right:8px;bottom:8px;z-index:3000;background:#ffefef;border:1px solid #e99;border-radius:8px;padding:8px;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace} /* 100082: Hộp báo lỗi */
+/* 200220: ===== XƯỞNG ĐỀ XUẤT ===== */
+.xuong-box{
+  background:linear-gradient(180deg,#ffffff 0%, #f8fbf7 100%);
+  border:1.5px solid #cfd8cc; border-radius:14px; box-shadow:var(--shadow-sm);
+}
+.xuong-box .link-preview{
+  display:flex;gap:10px;background:#fff;border:1px solid #e1eadf;border-radius:10px;
+  padding:8px;text-decoration:none; transition:box-shadow .12s ease, transform .12s ease;
+}
+.xuong-box .link-preview:hover{box-shadow:0 6px 18px rgba(52,82,61,.10); transform:translateY(-2px)}
+.xuong-box .thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#f1f1f1}
+.xuong-box .title{font-weight:700;color:var(--bamboo-3);font-size:13px}
 
-@media (max-width:1200px){.category-grid{grid-template-columns:repeat(5,1fr)}} /* 100083: Responsive 5 cột */
-@media (max-width:992px){.category-grid{grid-template-columns:repeat(4,1fr)}} /* 100084: Responsive 4 cột */
-@media (max-width:768px){.category-grid{grid-template-columns:repeat(3,1fr)}} /* 100085: Responsive 3 cột */
-@media (max-width:576px){.category-grid{grid-template-columns:repeat(2,1fr)}} /* 100086: Responsive 2 cột */
+/* 200250: ===== FAB (NÚT NỔI) – icon trên nền lá tre ===== */
+.fab{
+  position:fixed;right:16px;width:54px;height:54px;border:none;border-radius:50%;
+  color:#fff;font-size:22px;box-shadow:0 8px 20px rgba(45,85,52,.28);z-index:1055;
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(22px 22px at 35% 30%, rgba(255,255,255,.18), transparent),
+    var(--bamboo-1);
+}
+#filterFab{background:#6c757d;bottom:212px}
+#cartFab{background:var(--bamboo-grad);bottom:148px}
+#suppliersFab{background:#0d6efd;bottom:84px}
+#zaloFab{background:#25D366;bottom:20px}
+.fab .badge{
+  position:absolute;top:-6px;right:-6px;background:#d32f2f;color:#fff;border-radius:999px;
+  padding:2px 6px;font-size:12px;font-weight:800;display:none;box-shadow:0 2px 8px rgba(211,47,47,.35)
+}
+
+/* 200280: ===== FOOTER – “gốc tre bám đất” ===== */
+footer{
+  background:linear-gradient(180deg, #4CAF50 0%, #3b7a3e 38%, #6f554c 100%);
+  color:#fff; border-top:2px solid rgba(141,110,99,.35);
+}
+footer .accent{color:#ffe082}
+footer a.link-light{text-decoration:none}
+footer a.link-light:hover{text-decoration:underline}
+
+/* 200300: ===== ERRBOX ===== */
+#errbox{
+  position:fixed;left:8px;right:8px;bottom:8px;z-index:3000;
+  background:#ffefef;border:1px solid #e99;border-radius:8px;padding:8px;
+  display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace
+}
+
+/* 200320: ===== RESPONSIVE ===== */
+@media (max-width:1200px){ .category-grid{grid-template-columns:repeat(5,1fr)} }
+@media (max-width:992px){  .category-grid{grid-template-columns:repeat(4,1fr)} }
+@media (max-width:768px){  .category-grid{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:576px){  .category-grid{grid-template-columns:repeat(2,1fr)} }
+
 </style> <!-- 100087: Kết thúc CSS -->
 </head> <!-- 100088: Kết thúc head -->
 <body> <!-- 100089: Bắt đầu body -->
