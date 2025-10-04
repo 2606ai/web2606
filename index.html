@@ -99,7 +99,7 @@ img{max-width:100%;display:block}
 .benefit-note{position:absolute;top:6px;right:8px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;color:#fff}
 .benefit-free{background:#4caf50}
 .benefit-paid{background:#d32f2f}
-/* Khung sidebar “Xưởng đề xuất” */ .ads-box{ background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%); border:1px solid #90caf9; border-radius:12px; padding:12px; }
+/* Khung sidebar “Xưởng đề xuất” */ .workshop-box{ background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%); border:1px solid #90caf9; border-radius:12px; padding:12px; }
 /* ---- Hero banners ---- */
 .hero{margin-bottom:15px}
 .hero .carousel{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
@@ -245,23 +245,23 @@ img{max-width:100%;display:block}
 }
 
 /* ---- Ads list (sidebar) ---- */
-.ads-box{
+.workshop-box{
   background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);
   border:1px solid #90caf9;border-radius:12px;padding:12px
 }
-#adsList{max-height:62vh;overflow:auto;padding-right:4px;scroll-behavior:smooth}
-#adsList .link-preview{
+#workshopList{max-height:62vh;overflow:auto;padding-right:4px;scroll-behavior:smooth}
+#workshopList .link-preview{
   display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;box-shadow:var(--shadow-sm)
 }
-#adsList .title{
+#workshopList .title{
   font-weight:700;
   color:var(--main);           /* xanh lá */
 }
-#adsList .desc{
+#workshopList .desc{
   font-size:12px;
   color:var(--muted);
 }
-#adsList .site{
+#workshopList .site{
   font-size:12px;
   color:var(--main);           /* xanh lá */
 }
@@ -672,7 +672,7 @@ img{max-width:100%;display:block}
 
 
 /* Danh sách link preview */
-#adsList{
+#workshopList{
   max-height:62vh;
   overflow:auto;
   padding-right:4px;
@@ -680,7 +680,7 @@ img{max-width:100%;display:block}
 }
 
 /* Card preview từng xưởng */
-#adsList .link-preview{
+#workshopList .link-preview{
   display:flex;
   gap:10px;
   background:#fff;
@@ -689,13 +689,13 @@ img{max-width:100%;display:block}
   padding:10px;
   box-shadow:0 1px 2px rgba(0,0,0,.06);
 }
-#adsList .link-preview .thumb{
+#workshopList .link-preview .thumb{
   width:64px; height:64px;
   border-radius:8px; object-fit:cover; background:#f1f4ff;
 }
-#adsList .link-preview .title{ font-weight:700; }
-#adsList .link-preview .desc{ font-size:12px; color:#6b7280; }
-#adsList .link-preview .site{ font-size:12px; color:#1565c0; }
+#workshopList .link-preview .title{ font-weight:700; }
+#workshopList .link-preview .desc{ font-size:12px; color:#6b7280; }
+#workshopList .link-preview .site{ font-size:12px; color:#1565c0; }
 
  /* ==== GROUP BAR kiểu Tiki ==== */
 .group-bar-wrapper{ background:#fff; border:0; padding:12px; }
@@ -1292,7 +1292,7 @@ footer.text-light .bi{ color:#fff; }
 .theme-bamboo .badge.text-bg-primary{
   background: var(--main);
 }
-.theme-bamboo .ads-box{
+.theme-bamboo .workshop-box{
   background: linear-gradient(180deg,#eaf7ea 0%, #d7eed9 100%);
   border-color: #bfe3c0;
 }
@@ -1661,7 +1661,7 @@ footer.text-light .bi{ color:#fff; }
   font-weight: 700;
 }
 /* Đảm bảo box xưởng luôn hiện */
-.sidebar-box.ads-box{ display:block !important; visibility:visible !important; }
+.sidebar-box.workshop-box{ display:block !important; visibility:visible !important; }
    
 .category-wrapper{ position: relative; }
 .cat-arrow{ z-index: 5; } /* tránh bị che */
@@ -1684,7 +1684,7 @@ footer.text-light .bi{ color:#fff; }
 }
 
 /* Hiện chắc chắn box Xưởng đề xuất */
-#adsBox{
+#workshopBox{
   display:block !important;
   visibility:visible !important;
   opacity:1 !important;
@@ -1697,17 +1697,17 @@ footer.text-light .bi{ color:#fff; }
   position:relative;
   z-index:1;              /* tránh bị khối khác phủ */
 }
-#adsBox h6{ margin:0 0 8px; }
-#adsBox .ads-item:hover{ background:var(--main-tint, #E8F5E9); }
+#workshopBox h6{ margin:0 0 8px; }
+#workshopBox .ads-item:hover{ background:var(--main-tint, #E8F5E9); }
 
 /* Nếu cột trái có overflow hidden thì mở ra */
 .col-lg-3, .col-md-4{ overflow:visible !important; }
 
 /* Tạm thời gỡ mọi rule cũ vô tình ẩn ads-box */
-.sidebar-box.ads-box[style*="display:none"]{ display:block !important; }
+.sidebar-box.workshop-box[style*="display:none"]{ display:block !important; }
 /* FIX: luôn hiện Xưởng đề xuất trên cả desktop và mobile */
-#adsBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
-.sidebar-box.ads-box{ display:block !important; }
+#workshopBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
+.sidebar-box.workshop-box{ display:block !important; }
 
 /* đảm bảo cột trái không che/ẩn nội dung */
 .col-lg-3, .col-md-4{ overflow:visible !important; }
@@ -1715,18 +1715,18 @@ footer.text-light .bi{ color:#fff; }
 /* bố cục cột trái xếp dọc có khoảng cách */
 .col-lg-3 .sidebar-box{ margin-bottom:12px; }
   /* Luôn hiện "Xưởng đề xuất" ở mọi cỡ màn hình */
-#adsBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
+#workshopBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
 
 /* Nếu có ancestor có class Bootstrap ẩn theo breakpoint → cũng ép hiện */
 @media (min-width: 992px){
   .col-lg-3, .col-md-4{ display:block !important; overflow:visible !important; }
-  .d-lg-none #adsBox, #adsBox.d-lg-none, .col-lg-3 .d-lg-none{ display:block !important; }
+  .d-lg-none #workshopBox, #workshopBox.d-lg-none, .col-lg-3 .d-lg-none{ display:block !important; }
 }
 /* Luôn hiển thị box "ĐỀ XUẤT XƯỞNG" hiện có trên desktop */
-#adsBox,
-.sidebar-box.ads-box,
-[data-ads-box],
-[data-widget="ads"]{
+#workshopBox,
+.sidebar-box.workshop-box,
+[data-workshop-box],
+[data-widget="workshop"]{
   display:block !important;
   visibility:visible !important;
   opacity:1 !important;
@@ -1819,19 +1819,19 @@ footer.text-light .bi{ color:#fff; }
   <!-- /Benefits -->
 
   <!-- ===== XƯỞNG ĐỀ XUẤT ===== -->
-  <div id="adsBox" class="sidebar-box ads-box">
+  <div id="workshopBox" class="sidebar-box ads-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
       <span class="d-inline-flex align-items-center gap-2">
         Xưởng đề xuất
-        <span id="adsCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span>
+        <span id="workshopCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span>
       </span>
     </h6>
 
-    <div id="adsList" class="d-flex flex-column gap-2"></div>
-    <div id="adsEmpty" class="small text-muted">(debug) Box đã hiển thị – chờ dữ liệu quảng cáo.</div>
+    <div id="workshopList" class="d-flex flex-column gap-2"></div>
+    <div id="workshopEmpty" class="small text-muted">(debug) Box đã hiển thị – chờ dữ liệu quảng cáo.</div>
 
     <div class="mt-2 text-center">
-      <a id="adsContactBtn2" href="#" target="_blank" rel="noopener"
+      <a id="workshopContactBtn2" href="#" target="_blank" rel="noopener"
          class="btn btn-sm fw-bold px-3"
          style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
         📢 LIÊN HỆ ĐẶT QUẢNG CÁO
@@ -1967,19 +1967,19 @@ footer.text-light .bi{ color:#fff; }
 
   // Đảm bảo có container list bên trong box
   function ensureList(box){
-    let list = box.querySelector('#adsList, .ads-list, [data-ads-list]');
+    let list = box.querySelector('#workshopList, .ads-list, [data-ads-list]');
     if (!list){
       list = document.createElement('div');
-      list.id = 'adsList';
+      list.id = 'workshopList';
       list.className = 'd-flex flex-column gap-2';
       // chèn vào body của card/box nếu có
       const body = box.querySelector('.card-body, .p-3, .p-2, .body') || box;
       body.appendChild(list);
     }
-    let empty = box.querySelector('#adsEmpty');
+    let empty = box.querySelector('#workshopEmpty');
     if (!empty){
       empty = document.createElement('div');
-      empty.id = 'adsEmpty';
+      empty.id = 'workshopEmpty';
       empty.className = 'text-muted small mt-1';
       empty.textContent = 'Đang tải dữ liệu…';
       list.after(empty);
@@ -1991,7 +1991,7 @@ footer.text-light .bi{ color:#fff; }
   }
 
   function renderIntoBox(items){
-    const box = findAdsBox();
+    const box = findworkshopBox();
     if (!box) { console.warn('[ADS] Không tìm thấy box hiện có'); return; }
     const {list, empty} = ensureList(box);
 
@@ -2019,9 +2019,9 @@ footer.text-light .bi{ color:#fff; }
     if (!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
   }
 
-  async function fetchAds(){
+  async function fetchWorkshops(){
     try{
-      const r = await fetch(window.API_URL + '?action=ads', {redirect:'follow', mode:'cors'});
+      const r = await fetch(window.API_URL + '?action=workshop', {redirect:'follow', mode:'cors'});
       const txt = await r.text();
       let json;
       try { json = JSON.parse(txt); }
@@ -2036,7 +2036,7 @@ footer.text-light .bi{ color:#fff; }
 
   // Đợi API_URL rồi mới chạy (tránh lỗi "Không tìm thấy API_URL")
   function waitAndLoad(tries=60){
-    if (window.API_URL){ fetchAds(); }
+    if (window.API_URL){ fetchWorkshops(); }
     else if (tries>0){ setTimeout(()=>waitAndLoad(tries-1), 150); }
     else { console.warn('[ADS] Hết thời gian chờ API_URL'); }
   }
@@ -2206,7 +2206,7 @@ footer.text-light .bi{ color:#fff; }
     <div id="suppliersList" class="supplier-list">Chưa có dữ liệu.</div>
 
     <div class="mt-3">
-      <a id="adsContactBtn" href="#" target="_blank" rel="noopener"
+      <a id="workshopContactBtn" href="#" target="_blank" rel="noopener"
          class="btn btn-primary w-100">LIÊN HỆ ĐẶT QUẢNG CÁO</a>
     </div>
   </div>
@@ -2247,7 +2247,7 @@ footer.text-light .bi{ color:#fff; }
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 window.ZALO_URL = "https://zalo.me/123456789";   // <-- thay link thật của bạn
-window.ADS_CONTACT_URL = "https://zalo.me/123456789"; // nếu muốn dùng chung
+window.WORKSHOP_CONTACT_URL = "https://zalo.me/123456789"; // nếu muốn dùng chung
   
 /* ===== ERROR ===== */
 (function(){
@@ -2708,11 +2708,11 @@ function fetchLinkPreview(url){
 
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
 let adsData = [];
-function renderAds(items){
+function renderWorkshops(items){
   adsData = items || [];
-  const list = document.getElementById('adsList');
-  const empty = document.getElementById('adsEmpty');
-  const badge = document.getElementById('adsCount');
+  const list = document.getElementById('workshopList');
+  const empty = document.getElementById('workshopEmpty');
+  const badge = document.getElementById('workshopCount');
 
   if(!list) return;
   list.innerHTML = adsData.map(it => {
@@ -2742,15 +2742,15 @@ function renderAds(items){
   }
 }
 
-function fetchAds(){
+function fetchWorkshops(){
   const qs = new URLSearchParams({
     action:'ads',
     q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
   });
   fetch(API_URL + '?' + qs.toString())
     .then(r=>r.json())
-    .then(r=>renderAds(r.items||[]))
-    .catch(()=>renderAds([]));
+    .then(r=>renderWorkshops(r.items||[]))
+    .catch(()=>renderWorkshops([]));
 }
 
 
@@ -3120,8 +3120,8 @@ document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas
 document.getElementById('filterFab').addEventListener('click', () => filterOffcanvas.toggle());
 document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
 document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
-document.getElementById('adsContactBtn').setAttribute('href', ADS_CONTACT_URL);
-document.getElementById('adsContactBtn2').setAttribute('href', ADS_CONTACT_URL);
+document.getElementById('workshopContactBtn').setAttribute('href', WORKSHOP_CONTACT_URL);
+document.getElementById('workshopContactBtn2').setAttribute('href', WORKSHOP_CONTACT_URL);
 
 function clearAllFilters(){
   Object.assign(state, { type:'', loai:'', note:'', category:'', group:'', q:'', page:1 });
@@ -3259,11 +3259,11 @@ const newHash = hashFacets(res?.facets || {});
 if (newHash !== _lastFacetsHash){
   _lastFacetsHash = newHash;
   buildCategoryFromFacets(res?.facets || {});
-  fetchAds();   // <-- thay cho renderSuppliers(...)
+  fetchWorkshops();   // <-- thay cho renderSuppliers(...)
 } else {
   // phòng trường hợp lần đầu chưa có gì trong supBox
-  if (!document.querySelector('#adsList')?.children?.length){
-    fetchAds(); // <-- thay cho renderSuppliers(...)
+  if (!document.querySelector('#workshopList')?.children?.length){
+    fetchWorkshops(); // <-- thay cho renderSuppliers(...)
   }
 }
 
@@ -3378,7 +3378,7 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     render(json, /*fromCache*/false);
 
     // Trì hoãn ads 1 nhịp để nhường CPU cho grid
-    setTimeout(fetchAds, 200);
+    setTimeout(fetchWorkshops, 200);
 
     // (Optional) Preload trang kế tiếp nếu còn
     if (json?.total && state.page * state.pageSize < json.total){
@@ -3594,10 +3594,10 @@ document.addEventListener('keydown', (e) => {
 <script>
 // Debug: nếu box mount mà chưa có dữ liệu, hiện thông báo để thấy khung
 (function(){
-  const box   = document.getElementById('adsBox');
-  const list  = document.getElementById('adsList');
-  const empty = document.getElementById('adsEmpty');
-  const count = document.getElementById('adsCount');
+  const box   = document.getElementById('workshopBox');
+  const list  = document.getElementById('workshopList');
+  const empty = document.getElementById('workshopEmpty');
+  const count = document.getElementById('workshopCount');
   if(!box) return;
 
   // Đặt viền debug để bạn dễ nhìn (xóa sau)
@@ -3621,7 +3621,7 @@ document.addEventListener('keydown', (e) => {
 </footer>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const ads  = document.getElementById('adsBox');
+  const ads  = document.getElementById('workshopBox');
 
   // 1) Tìm đúng cột trái (ưu tiên id nếu bạn gắn vào cột)
   // -> GỢI Ý: thêm id cho cột trái: <div id="leftCol" class="col-lg-3 col-md-4">
@@ -3631,7 +3631,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.row .col-xl-3, .row .left-col, [data-left-col]');
 
   if (ads && left && !left.contains(ads)) {
-    left.appendChild(ads);                 // kéo adsBox về đúng cột trái nếu lạc
+    left.appendChild(ads);                 // kéo workshopBox về đúng cột trái nếu lạc
   }
 
   // 2) Ép hiển thị trong mọi trường hợp (tránh bị media query/utility ẩn)
@@ -3644,7 +3644,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3) Debug viền để bạn nhìn thấy khung (xóa 2 dòng này khi OK)
   if (ads){
     ads.style.outline = '2px dashed #2e7d32';
-    if (!ads.querySelector('#adsList')){
+    if (!ads.querySelector('#workshopList')){
       ads.insertAdjacentHTML('beforeend',
         '<div class="small text-muted">(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.</div>');
     }
