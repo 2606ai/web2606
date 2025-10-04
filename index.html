@@ -360,6 +360,58 @@ footer.text-light a, footer.text-light .bi{ color:#fff }
 with open("/mnt/data/2606ai-bamboo.css","w", encoding="utf-8") as f:
     f.write(css)
 print("Saved to /mnt/data/2606ai-bamboo.css")
+/* ============= COMPACT PATCH — GROUP BAR NHỎ GIỐNG BẢN CŨ ============= */
+
+/* Khung mỏng hơn */
+.group-bar-wrapper{ padding:6px 8px; }
+
+/* Cuộn ngang gọn + ẩn thanh scrollbar */
+.group-bar-scroll{
+  display:flex !important;
+  gap:6px;
+  overflow-x:auto; overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:x mandatory;
+  padding:4px 2px;
+  scrollbar-width:none;             /* Firefox */
+}
+.group-bar-scroll::-webkit-scrollbar{ height:0; width:0; } /* Chrome/Safari */
+
+/* Chip nhỏ dạng “pill” – tối đa 2 dòng, không bẻ từng ký tự */
+.group-chip{
+  flex:0 0 auto;
+  min-width:150px;           /* cũ ~150–170 */
+  max-width:220px;
+  min-height:48px;
+  max-height:64px;           /* giữ chiều cao đều */
+  padding:8px 10px;
+  font-size:13px; line-height:1.25; text-align:center;
+  white-space:normal; word-break:keep-all; overflow-wrap:anywhere; overflow:hidden;
+
+  border-radius:9999px;      /* pill */
+  background:#edf7ed;
+  border:1px solid #cfe4cf;
+  color:var(--main-700);
+  display:flex !important; align-items:center; justify-content:center;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+  scroll-snap-align:center;
+}
+.group-chip:hover{ transform:translateY(-1px); background:#e7f5e8; }
+.group-chip.active{
+  background:var(--main-grad); color:#fff; border-color:transparent;
+  box-shadow:0 4px 12px rgba(46,125,50,.20);
+}
+
+/* Dots nhỏ hơn */
+.group-dots{ gap:6px; margin:4px 0 6px; }
+.group-dots .dot{ width:6px; height:6px; }
+
+/* ============= Tùy chọn: Thu icon category nhẹ để đồng bộ chiều cao ============= */
+.category-item .icon{ height:100px; }         /* trước 120px */
+.category-item span{ font-size:12.5px; }      /* chữ nhã hơn một chút */
+
+/* ============= Giữ card gọn, không thay layout hiện có ============= */
+.cardx img.thumb{ height:180px; object-fit:cover; }
 
 </style>
 
