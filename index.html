@@ -244,7 +244,7 @@ img{max-width:100%;display:block}
   width:32px;height:32px;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center
 }
 
-/* ---- Ads list (sidebar) ---- */
+/* ---- workshop list (sidebar) ---- */
 .workshop-box{
   background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);
   border:1px solid #90caf9;border-radius:12px;padding:12px
@@ -350,8 +350,8 @@ img{max-width:100%;display:block}
   display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace
 }
 
-/* ---- Footer hero ads ---- */
-.hero-ads img{height:180px;object-fit:cover;border-radius:12px}
+/* ---- Footer hero workshop ---- */
+.hero-workshop img{height:180px;object-fit:cover;border-radius:12px}
 
 /* Minor helpers */
 .small{font-size:.875rem}
@@ -1698,12 +1698,12 @@ footer.text-light .bi{ color:#fff; }
   z-index:1;              /* tránh bị khối khác phủ */
 }
 #workshopBox h6{ margin:0 0 8px; }
-#workshopBox .ads-item:hover{ background:var(--main-tint, #E8F5E9); }
+#workshopBox .workshop-item:hover{ background:var(--main-tint, #E8F5E9); }
 
 /* Nếu cột trái có overflow hidden thì mở ra */
 .col-lg-3, .col-md-4{ overflow:visible !important; }
 
-/* Tạm thời gỡ mọi rule cũ vô tình ẩn ads-box */
+/* Tạm thời gỡ mọi rule cũ vô tình ẩn workshop-box */
 .sidebar-box.workshop-box[style*="display:none"]{ display:block !important; }
 /* FIX: luôn hiện Xưởng đề xuất trên cả desktop và mobile */
 #workshopBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
@@ -1819,7 +1819,7 @@ footer.text-light .bi{ color:#fff; }
   <!-- /Benefits -->
 
   <!-- ===== XƯỞNG ĐỀ XUẤT ===== -->
-  <div id="workshopBox" class="sidebar-box ads-box">
+  <div id="workshopBox" class="sidebar-box workshop-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
       <span class="d-inline-flex align-items-center gap-2">
         Xưởng đề xuất
@@ -1944,9 +1944,9 @@ footer.text-light .bi{ color:#fff; }
 <script>
 // ===== XƯỞNG ĐỀ XUẤT – DÙNG BOX HIỆN CÓ, KHÔNG TẠO BOX MỚI =====
 (function(){
-  // Nếu còn widget tạm #adsDock thì xoá đi
+  // Nếu còn widget tạm #workshopDock thì xoá đi
   document.addEventListener('DOMContentLoaded', () => {
-    const tmp = document.getElementById('adsDock'); if (tmp) tmp.remove();
+    const tmp = document.getElementById('workshopDock'); if (tmp) tmp.remove();
   });
 
   // Fallback ảnh (phòng khi link drive hỏng)
@@ -1967,7 +1967,7 @@ footer.text-light .bi{ color:#fff; }
 
   // Đảm bảo có container list bên trong box
   function ensureList(box){
-    let list = box.querySelector('#workshopList, .ads-list, [data-ads-list]');
+    let list = box.querySelector('#workshopList, .workshop-list, [data-workshop-list]');
     if (!list){
       list = document.createElement('div');
       list.id = 'workshopList';
@@ -1992,7 +1992,7 @@ footer.text-light .bi{ color:#fff; }
 
   function renderIntoBox(items){
     const box = findworkshopBox();
-    if (!box) { console.warn('[ADS] Không tìm thấy box hiện có'); return; }
+    if (!box) { console.warn('[workshop] Không tìm thấy box hiện có'); return; }
     const {list, empty} = ensureList(box);
 
     const html = (items||[]).map(it=>{
@@ -2029,7 +2029,7 @@ footer.text-light .bi{ color:#fff; }
       const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
       renderIntoBox(items);
     }catch(err){
-      console.error('[ADS] fetch error', err);
+      console.error('[workshop] fetch error', err);
       renderIntoBox([]);
     }
   }
@@ -2038,7 +2038,7 @@ footer.text-light .bi{ color:#fff; }
   function waitAndLoad(tries=60){
     if (window.API_URL){ fetchWorkshops(); }
     else if (tries>0){ setTimeout(()=>waitAndLoad(tries-1), 150); }
-    else { console.warn('[ADS] Hết thời gian chờ API_URL'); }
+    else { console.warn('[workshop] Hết thời gian chờ API_URL'); }
   }
 
   // Start
@@ -2073,9 +2073,9 @@ footer.text-light .bi{ color:#fff; }
       <!-- Pagination Bottom -->
       <div id="pagerBottom" class="mt-3 pager-bar"></div>
 
-      <!-- ===== Hero quảng cáo đặt dưới bảng card (FOOTER ADS) ===== -->
-      <div class="hero-ads my-3">
-        <div id="footerAds" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+      <!-- ===== Hero quảng cáo đặt dưới bảng card (FOOTER workshop) ===== -->
+      <div class="hero-workshop my-3">
+        <div id="footerworkshop" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
           <div class="carousel-inner">
             <div class="carousel-item active">
               <img loading="lazy" src="https://picsum.photos/1200/200?random=91" class="d-block w-100" alt="Quảng cáo 1">
@@ -2087,10 +2087,10 @@ footer.text-light .bi{ color:#fff; }
               <img loading="lazy" src="https://picsum.photos/1200/200?random=93" class="d-block w-100" alt="Quảng cáo 3">
             </div>
           </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#footerAds" data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#footerworkshop" data-bs-slide="prev">
             <span class="carousel-control-prev-icon"></span>
           </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#footerAds" data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#footerworkshop" data-bs-slide="next">
             <span class="carousel-control-next-icon"></span>
           </button>
         </div>
@@ -2707,15 +2707,15 @@ function fetchLinkPreview(url){
 }
 
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
-let adsData = [];
+let workshopData = [];
 function renderWorkshops(items){
-  adsData = items || [];
+  workshopData = items || [];
   const list = document.getElementById('workshopList');
   const empty = document.getElementById('workshopEmpty');
   const badge = document.getElementById('workshopCount');
 
   if(!list) return;
-  list.innerHTML = adsData.map(it => {
+  list.innerHTML = workshopData.map(it => {
     const url = it.url || it.link || '';
     const img = it.img || it.thumb || '';
     const title = it.title || it.name || 'Đơn vị';
@@ -2734,17 +2734,17 @@ function renderWorkshops(items){
   }).join('');
 
   if (badge){
-    badge.textContent = adsData.length;
-    badge.style.display = adsData.length ? 'inline-block' : 'none';
+    badge.textContent = workshopData.length;
+    badge.style.display = workshopData.length ? 'inline-block' : 'none';
   }
   if (empty){
-    empty.style.display = adsData.length ? 'none' : 'block';
+    empty.style.display = workshopData.length ? 'none' : 'block';
   }
 }
 
 function fetchWorkshops(){
   const qs = new URLSearchParams({
-    action:'ads',
+    action:'workshop',
     q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
   });
   fetch(API_URL + '?' + qs.toString())
@@ -2880,9 +2880,9 @@ function renderSuppliersList(items){
 // URL Web App của Apps Script
 const API_BASE = API_URL;   // dùng chung API_URL
 
-(function initUploadSupplierDoc(){
+(function initUploworkshopupplierDoc(){
   const list = document.getElementById('suppliersList') || document; 
-  const fileInput = document.getElementById('uploadSupplierFile');
+  const fileInput = document.getElementById('uploworkshopupplierFile');
 
   if (!list || !fileInput) return;
 
@@ -2908,7 +2908,7 @@ const API_BASE = API_URL;   // dùng chung API_URL
 
     try{
       const fd = new FormData();
-      fd.append('action', 'uploadSupplierDoc');
+      fd.append('action', 'uploworkshopupplierDoc');
       fd.append('supplier', currentSupplier);
       fd.append('file', f, f.name);
 
@@ -2959,7 +2959,7 @@ function applySupFilters(){
   renderSuppliersList(out);
 }
 function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a),ms); }; }
-function loadSuppliers(){
+function loworkshopuppliers(){
   const box=document.getElementById('suppliersList');
   box.innerHTML='Đang tải…';
   fetch(API_URL+'?action=suppliers')
@@ -3087,7 +3087,7 @@ document.addEventListener('click', async (e) => {
 
   try {
     const fd = new FormData();
-    fd.append('action', 'uploadSupplierDoc');
+    fd.append('action', 'uploworkshopupplierDoc');
     fd.append('supplier', card.dataset.supplier || '');
     fd.append('file', file);
     if (API_KEY) fd.append('key', API_KEY);
@@ -3118,7 +3118,7 @@ document.addEventListener('click', async (e) => {
 /* FAB */
 document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
 document.getElementById('filterFab').addEventListener('click', () => filterOffcanvas.toggle());
-document.getElementById('suppliersFab').addEventListener('click', ()=>{ loadSuppliers(); suppliersOffcanvas.show(); });
+document.getElementById('suppliersFab').addEventListener('click', ()=>{ loworkshopuppliers(); suppliersOffcanvas.show(); });
 document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 document.getElementById('workshopContactBtn').setAttribute('href', WORKSHOP_CONTACT_URL);
 document.getElementById('workshopContactBtn2').setAttribute('href', WORKSHOP_CONTACT_URL);
@@ -3377,7 +3377,7 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     cacheSet(key, json);
     render(json, /*fromCache*/false);
 
-    // Trì hoãn ads 1 nhịp để nhường CPU cho grid
+    // Trì hoãn workshop 1 nhịp để nhường CPU cho grid
     setTimeout(fetchWorkshops, 200);
 
     // (Optional) Preload trang kế tiếp nếu còn
@@ -3603,7 +3603,7 @@ document.addEventListener('keydown', (e) => {
   // Đặt viền debug để bạn dễ nhìn (xóa sau)
   box.style.outline = '2px dashed #2e7d32';
 
-  // Nếu chưa render ads, ít nhất hiện dòng trống
+  // Nếu chưa render workshop, ít nhất hiện dòng trống
   if(empty){
     empty.textContent = '(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.';
     empty.style.display = 'block';
@@ -3621,7 +3621,7 @@ document.addEventListener('keydown', (e) => {
 </footer>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const ads  = document.getElementById('workshopBox');
+  const workshop  = document.getElementById('workshopBox');
 
   // 1) Tìm đúng cột trái (ưu tiên id nếu bạn gắn vào cột)
   // -> GỢI Ý: thêm id cho cột trái: <div id="leftCol" class="col-lg-3 col-md-4">
@@ -3630,28 +3630,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelector('.row .col-lg-3.col-md-4') ||
     document.querySelector('.row .col-xl-3, .row .left-col, [data-left-col]');
 
-  if (ads && left && !left.contains(ads)) {
-    left.appendChild(ads);                 // kéo workshopBox về đúng cột trái nếu lạc
+  if (workshop && left && !left.contains(workshop)) {
+    left.appendChild(workshop);                 // kéo workshopBox về đúng cột trái nếu lạc
   }
 
   // 2) Ép hiển thị trong mọi trường hợp (tránh bị media query/utility ẩn)
-  if (ads){
-    ads.style.display    = 'block';
-    ads.style.visibility = 'visible';
-    ads.style.opacity    = '1';
+  if (workshop){
+    workshop.style.display    = 'block';
+    workshop.style.visibility = 'visible';
+    workshop.style.opacity    = '1';
   }
 
   // 3) Debug viền để bạn nhìn thấy khung (xóa 2 dòng này khi OK)
-  if (ads){
-    ads.style.outline = '2px dashed #2e7d32';
-    if (!ads.querySelector('#workshopList')){
-      ads.insertAdjacentHTML('beforeend',
+  if (workshop){
+    workshop.style.outline = '2px dashed #2e7d32';
+    if (!workshop.querySelector('#workshopList')){
+      workshop.insertAdjacentHTML('beforeend',
         '<div class="small text-muted">(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.</div>');
     }
   }
 });
 </script>
 
-<input type="file" id="uploadSupplierFile" accept="application/pdf,image/*" style="display:none">
+<input type="file" id="uploworkshopupplierFile" accept="application/pdf,image/*" style="display:none">
 </body>
 </html>
