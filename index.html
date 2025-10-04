@@ -112,6 +112,76 @@
 /* --- HERO banner: bo tròn, bóng nhẹ --- */
 .hero .mini img,.hero .main img{ border-radius:14px }                         /* 990150 */
 .hero .carousel{ border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,.06) }
+/* =========================
+   PATCH – KHỚP GIAO DIỆN BẠN GỬI  (đặt ở CUỐI FILE)
+   ========================= */
+
+/* ===== Nhóm lớn (4 ô trắng, icon tròn xanh nhạt, tiêu đề xanh) ===== */
+/* 600101 */ .group-bar{display:grid !important;grid-template-columns:repeat(4,1fr);gap:14px !important;overflow:visible !important}
+/* 600102 */ #groupBar .group-chip{
+  display:flex !important;flex-direction:column;align-items:center;justify-content:center;
+  min-height:120px;padding:16px 12px;background:#fff !important;border:1px solid #e6efe6 !important;border-radius:14px !important;
+  box-shadow:none !important;white-space:normal !important;text-align:center;gap:12px;transition:transform .12s,box-shadow .12s,border-color .12s;
+}
+/* 600103 */ #groupBar .group-chip .chip-icon,#groupBar .group-chip .icon,#groupBar .group-chip img{
+  width:56px;height:56px;border-radius:50%;background:#edf7ed;display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 0 1px rgba(76,175,80,.18);object-fit:contain;
+}
+/* 600104 */ #groupBar .group-chip span,#groupBar .group-chip{color:#155b1a !important;font-weight:800 !important;text-transform:none !important}
+/* 600105 */ #groupBar .group-chip:hover{transform:translateY(-2px);border-color:#cfe2cf !important;box-shadow:0 8px 22px rgba(46,125,50,.10) !important}
+/* 600106 */ #groupBar .group-chip.active{background:#f3faf3 !important;border-color:#a5d6a7 !important;color:#0f4b14 !important}
+
+/* Responsive cột nhóm */
+/* 600111 */ @media (max-width:1200px){.group-bar{grid-template-columns:repeat(3,1fr)}} 
+/* 600112 */ @media (max-width:992px){ .group-bar{grid-template-columns:repeat(2,1fr)}}
+/* 600113 */ @media (max-width:576px){ .group-bar{grid-template-columns:1fr}}
+
+/* ===== Danh mục nhỏ (2 hàng, ô trắng viền mảnh, icon hộp bo tròn) ===== */
+/* 600121 */ #categoryGrid.category-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px !important}
+/* 600122 */ @media (max-width:1200px){#categoryGrid.category-grid{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:992px){#categoryGrid.category-grid{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:768px){#categoryGrid.category-grid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:576px){#categoryGrid.category-grid{grid-template-columns:repeat(2,1fr)}}
+/* 600123 */ #categoryGrid .category-item{background:#fff !important;border:1px solid #e8efe8 !important;border-radius:14px !important;padding:12px 10px !important;text-align:center;transition:.12s}
+/* 600124 */ #categoryGrid .category-item .icon{width:64px;height:64px;margin:0 auto 8px;border-radius:18px;background:#edf7ed;display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(76,175,80,.18)}
+/* 600125 */ #categoryGrid .category-item .icon img{width:38px;height:38px;object-fit:contain}
+/* 600126 */ #categoryGrid .category-item span{font-size:12.5px;line-height:1.25;color:#173b1b;display:block}
+/* 600127 */ #categoryGrid .category-item:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(46,125,50,.10)}
+/* 600128 */ #categoryGrid .category-item.active{border-color:#a5d6a7 !important;background:#f3faf3 !important}
+#categoryGrid .category-item.active span{color:#0f4b14 !important;font-weight:700 !important}
+
+/* ===== Xưởng đề xuất (khung nét đứt + pill vàng bên phải) ===== */
+/* 600131 */ #xuongBox.sidebar-box{border:1px dashed #a5d6a7 !important;border-radius:14px !important;background:#fff !important}
+/* 600132 */ #xuongList .link-preview{display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;transition:transform .12s, box-shadow .12s}
+#xuongList .link-preview:hover{transform:translateY(-1px);box-shadow:0 10px 20px rgba(46,125,50,.08)}
+#xuongList .thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;background:#f1f4ff}
+#xuongList .title{font-weight:700;color:#2e7d32}
+#xuongList .desc{font-size:12px;color:#6b7280}
+#xuongList .site{font-size:12px;color:#2e7d32}
+
+/* ===== Card sản phẩm (đều chân, nút xanh phẳng, badge góc) ===== */
+/* 600141 */ .cardx{border-radius:14px !important;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.cardx .meta{display:flex;flex-direction:column;gap:6px;flex:1}
+.cardx .id{color:#2e7d32;font-weight:800}
+.cardx .type{background:#e7f3e8;color:#1b5e20;border-radius:12px;padding:2px 6px;font-weight:700;display:inline-block}
+.cardx .details{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.cardx .price{margin-top:auto;font-weight:700;color:#c62828}
+.cardx .meta-actions{margin-top:6px}
+/* 600148 */ .cardx .btn-gift{background:#fff !important;color:#2e7d32 !important;border:1.5px solid #2e7d32 !important;border-radius:999px;padding:6px 14px;font-weight:700}
+.cardx .btn-gift:hover{background:#2e7d32 !important;color:#fff !important}
+.add-btn{background:#2e7d32 !important;color:#fff !important;border:none !important}
+.add-btn:hover{background:#1b5e20 !important}
+/* 600149 */ .cardx .note{position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;color:#fff}
+.cardx .note.new{background:#2e7d32}.cardx .note.sale{background:#ef6c00}.cardx .note.hot{background:#c62828}
+
+/* ===== Hàng thống kê + phân trang (1 dòng sát nhau) ===== */
+/* 600151 */ .stats-row{align-items:center;gap:8px;flex-wrap:nowrap;overflow-x:auto}
+#pagerTop{margin-left:auto;display:flex;align-items:center;gap:6px;white-space:nowrap}
+#pagerTop .btn,#pagerBottom .btn{padding:.35rem .6rem;font-size:.875rem;min-width:40px;border-radius:.5rem}
+
+/* ===== Hero banner (bo tròn như ảnh) ===== */
+/* 600161 */ .hero .mini img,.hero .main img{border-radius:14px}
+.hero .carousel{border-radius:14px;box-shadow:0 6px 18px rgba(0,0,0,.06)}
 
 </style> <!-- 100087: Kết thúc CSS -->
 </head> <!-- 100088: Kết thúc head -->
