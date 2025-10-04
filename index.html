@@ -10,6 +10,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
+# Create a CSS file with the full "Bamboo" theme (with group bar/category hotfixes)
+css = r"""
 /* =========================
    2606AI – CLEAN BASE CSS (Bamboo only)
    ĐÃ LOẠI BỎ TOÀN BỘ OVERRIDE MÀU HỒNG
@@ -103,21 +105,36 @@ img{max-width:100%;display:block}
 .hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
 
 /* =========================================================
-   GROUP BAR (BIG tiles, fill full row)
+   GROUP BAR (cuộn ngang + arrows JS)
    ========================================================= */
 .group-bar-wrapper{
   background:#fff;border:1px solid var(--border);border-radius:12px;
   padding:10px 12px; box-shadow:var(--shadow-sm); margin-bottom:6px; position:relative;
 }
+
+/* FLEX + horizontal scroll để tương thích JS */
 .group-bar-scroll{
-  display:grid !important;
-  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  display:flex !important;
   gap:10px;
-  overflow:visible;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  padding-bottom:6px;
 }
+
+/* tile */
 .group-chip{
+  flex:0 0 auto;              /* không co lại */
+  min-width: 220px;           /* có thể 240–260 nếu tiêu đề dài */
+  max-width: 320px;
+  white-space:normal;         /* cho phép xuống dòng */
+  word-break: keep-all;       /* không bẻ từng ký tự */
+  overflow-wrap:anywhere;     /* vẫn xuống dòng khi cần */
+  line-height:1.25;
+
   display:flex !important; align-items:center; justify-content:center;
-  min-height:auto; padding:12px 14px; text-align:center; white-space:normal; overflow-wrap:anywhere;
+  padding:12px 14px; text-align:center;
   font-size:14px; font-weight:700;
   color:var(--main-700);
   background:#f1f7f1;
@@ -125,6 +142,7 @@ img{max-width:100%;display:block}
   border-radius:10px;
   cursor:pointer; user-select:none;
   transition:transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+  scroll-snap-align:center;
 }
 .group-chip:hover{transform:translateY(-1px);box-shadow:var(--shadow-md); background:var(--main-tint); color:var(--main-700)}
 .group-chip.active{
@@ -152,18 +170,23 @@ img{max-width:100%;display:block}
   gap:12px; overflow:hidden
 }
 .category-item{
-  text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.15s; border:1px solid transparent
+  text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:background .15s, border-color .15s, transform .1s; border:1px solid transparent;
+  will-change: transform;
 }
 .category-item:hover{background:#f2f8f2}
 .category-item.active{background:#e6f3e6;border-color:#c3e0c3}
-.category-item .icon{ width:100%; height:100px; border-radius:12px; overflow:hidden; display:block; background:#edf7ed }
+.category-item .icon{ width:100%; height:120px; border-radius:12px; overflow:hidden; display:block; background:#edf7ed }
 .category-item .icon img{ width:100%; height:100%; object-fit:contain; display:block }
-.category-item span{font-size:13px;display:block;color:var(--text)}
+.category-item span{font-size:13px;display:block;color:var(--text);margin-top:6px;white-space:normal;word-break:keep-all;overflow-wrap:anywhere}
 .cat-arrow{
-  position:absolute; top:45%; transform:translateY(-50%);
-  background:transparent; border:none; font-size:22px; color:var(--main-700); cursor:pointer; z-index:2
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:#fff; border:1px solid #cfe4cf; border-radius:8px;
+  width:28px; height:28px; line-height:26px; text-align:center;
+  color:var(--main-700); cursor:pointer; z-index:2;
+  box-shadow:var(--shadow-sm);
 }
-.cat-arrow.left{left:-4px} .cat-arrow.right{right:-4px}
+.cat-arrow.left{left:6px} .cat-arrow.right{right:6px}
+.cat-arrow.is-disabled, .cat-arrow:disabled{ opacity:.45; pointer-events:none; }
 
 @media (max-width:1200px){ .category-scroll{grid-template-columns:repeat(5,1fr)} }
 @media (max-width:992px){  .category-scroll{grid-template-columns:repeat(4,1fr)} }
@@ -333,9 +356,10 @@ footer.text-light a, footer.text-light .bi{ color:#fff }
 /* ---- Ensure “ĐỀ XUẤT XƯỞNG” luôn hiển thị ---- */
 .sidebar-box.ads-box{ display:block !important; visibility:visible !important; }
 #adsBox{ display:block !important; visibility:visible !important; opacity:1 !important }
-
-/* ---- Cat arrows state ---- */
-.cat-arrow.is-disabled, .cat-arrow:disabled{ opacity:.45; pointer-events:none; }
+"""
+with open("/mnt/data/2606ai-bamboo.css","w", encoding="utf-8") as f:
+    f.write(css)
+print("Saved to /mnt/data/2606ai-bamboo.css")
 
 </style>
 
