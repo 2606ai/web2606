@@ -7,162 +7,290 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> <!-- 100007: CSS Bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet"> <!-- 100008: Bootstrap Icons -->
 <style> /* 100009: Bắt đầu CSS nội tuyến */
-/* ================================
-   2606AI – GREEN UI (clean build)
-   Bố cục khớp ảnh: nhóm 6 ô, danh mục 2 hàng, xưởng nét đứt, card lưới
-   ================================ */
+/* =========================================================
+   2606AI – CLEAN CSS v2 (layout theo ảnh bạn đưa)
+   ========================================================= */
 
-/* --- Token màu / kích thước --- */
-:root{                                                                                                  /* 711000 */
-  --main:#2e7d32;            /* xanh lá chủ đạo 711001 */
-  --main-600:#1b5e20;        /* xanh đậm 711002 */
-  --bg:#f6faf6;              /* nền xanh rất nhạt 711003 */
-  --text:#1f2937;            /* màu chữ 711004 */
-  --muted:#6b7280;           /* chữ phụ 711005 */
-  --card:#ffffff;            /* nền thẻ 711006 */
-  --border:#e6efe6;          /* viền mảnh 711007 */
-  --shadow-sm:0 1px 2px rgba(0,0,0,.06);                /* bóng nhỏ 711008 */
-  --shadow-md:0 6px 18px rgba(0,0,0,.08);               /* bóng vừa 711009 */
-  --tint:#edf7ed;            /* xanh nhạt cho icon nền 71100A */
+/* ---------- Theme tokens ---------- */
+:root{
+  --main:        #e91e63;          /* sẽ bị theme-bamboo ghi đè = xanh lá */
+  --main-600:    #d81b60;
+  --main-700:    #c2185b;
+  --main-grad:   linear-gradient(90deg,#ff5aa7 0%, #ff8bd1 100%);
+  --accent:      #d4af37;
+
+  --bg:          #f5f6fa;
+  --card:        #fff;
+  --text:        #1f2937;
+  --muted:       #6b7280;
+  --border:      #e8edf6;
+
+  --shadow-sm:   0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:   0 4px 14px rgba(0,0,0,.10);
+  --shadow-lg:   0 8px 24px rgba(0,0,0,.16);
 }
 
-/* --- Base / layout --- */
-html,body{height:100%}                                                                                /* 711010 */
+html,body{height:100%}
 body{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;   /* font 711011 */
-  font-size:14px; color:var(--text); background:var(--bg);               /* chữ + nền 711012 */
-  padding-top:70px;                                                      /* chừa header 711013 */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+  font-size:14px; color:var(--text);
+  background:var(--bg);
+  padding-top:70px;
 }
-img{max-width:100%;display:block}                                                                            /* 711014 */
-.container-fluid,.wrap{max-width:1400px;margin:0 auto}                                                        /* 711015 */
+img{max-width:100%; display:block}
 
-/* --- Header gọn, trắng, bóng nhẹ --- */
-.site-header{ position:fixed; inset:0 0 auto 0; z-index:1055; background:#fff; border-bottom:1px solid #e9f3e9; box-shadow:var(--shadow-sm); padding:10px 15px } /* 711020 */
-.site-header .wrap{ display:flex; align-items:center; gap:12px }                                                           /* 711021 */
-.site-header img.logo{ width:88px; aspect-ratio:3/2; object-fit:contain }                                                  /* 711022 */
-.header-search{ flex:1 }                                                                                                   /* 711023 */
-.header-search .form-control{ padding:6px 10px; font-size:13px }                                                           /* 711024 */
+/* container max-width khớp header/footer */
+.container-fluid,.wrap{max-width:1400px; margin:0 auto}
 
-/* --- Thanh thông báo chạy (tuỳ dùng) --- */
-.top-banner{ position:sticky; top:70px; height:32px; display:flex; align-items:center; justify-content:center; background:linear-gradient(90deg,#66bb6a,#2e7d32); color:#fff; font-weight:700 } /* 711030 */
-.top-banner .marquee{ white-space:nowrap; animation:marX 60s linear infinite }                                             /* 711031 */
-@keyframes marX{0%{transform:translateX(100%) }100%{transform:translateX(-100%)}}                                         /* 711032 */
-
-/* --- Khối Sidebar chung --- */
-.sidebar-box{ background:var(--card); border:1px solid var(--border); border-radius:12px; padding:12px; box-shadow:var(--shadow-sm); } /* 711040 */
-.sidebar-box h6{ font-weight:800; font-size:15px; margin-bottom:8px }                                                       /* 711041 */
-
-/* ======================================
-   HÀNG NHÓM LỚN (6 ô – icon tròn + tiêu đề xanh)
-   ====================================== */
-.group-bar{ display:grid !important; grid-template-columns:repeat(6,1fr); gap:14px !important; overflow:visible !important } /* 711100 */
-@media (max-width:1400px){ .group-bar{ grid-template-columns:repeat(5,1fr) } }                                              /* 711101 */
-@media (max-width:1200px){ .group-bar{ grid-template-columns:repeat(4,1fr) } }                                              /* 711102 */
-@media (max-width:992px){  .group-bar{ grid-template-columns:repeat(3,1fr) } }                                              /* 711103 */
-@media (max-width:768px){  .group-bar{ grid-template-columns:repeat(2,1fr) } }                                              /* 711104 */
-@media (max-width:576px){  .group-bar{ grid-template-columns:1fr } }                                                        /* 711105 */
-
-#groupBar .group-chip{                                                                                                      /* 711110 */
-  display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; gap:10px;
-  min-height:120px; padding:16px 12px;
-  background:#fff !important; border:1px solid var(--border) !important; border-radius:14px !important;
-  text-align:center; white-space:normal !important; box-shadow:none !important; transition:transform .12s, box-shadow .12s, border-color .12s;
+/* ---------- Header ---------- */
+.site-header{
+  position:fixed; inset:0 0 auto 0; z-index:1055;
+  background:#fff; border-bottom:1px solid #eee; box-shadow:var(--shadow-sm);
+  padding:10px 15px;
 }
-#groupBar .group-chip .icon,                                                                                                 /* 711111 */
-#groupBar .group-chip img,
-#groupBar .group-chip svg{
-  width:56px; height:56px; border-radius:50%; background:var(--tint);
-  display:flex; align-items:center; justify-content:center; object-fit:contain; box-shadow:inset 0 0 0 1px rgba(76,175,80,.18);
+.site-header .wrap{display:flex; align-items:center; gap:12px}
+.site-header img.logo{width:84px; aspect-ratio:3/2; object-fit:contain; cursor:pointer}
+.header-search{flex:1}
+.header-search .form-control{font-size:13px; padding:6px 10px}
+
+/* ---------- Top marquee ---------- */
+.top-banner{
+  position:sticky; top:70px; z-index:1054; height:32px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--main-grad); color:#fff; font-weight:700;
+  overflow:hidden;
 }
-#groupBar .group-chip span{ font-size:13.5px; line-height:1.3; font-weight:800; color:#155b1a !important }                 /* 711112 */
-#groupBar .group-chip:hover{ transform:translateY(-2px); border-color:#cfe2cf !important; box-shadow:var(--shadow-md) !important } /* 711113 */
-#groupBar .group-chip.active{ background:#f4fbf4 !important; border-color:#a5d6a7 !important; color:#0f4b14 !important }         /* 711114 */
+.top-banner .marquee{white-space:nowrap; animation:marquee 50s linear infinite}
+@keyframes marquee{from{transform:translateX(100%)} to{transform:translateX(-100%)}}
 
-/* ======================================
-   DANH MỤC NHỎ (2 hàng – ô trắng, icon hộp bo tròn)
-   ====================================== */
-#categoryGrid.category-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:14px !important }                       /* 711200 */
-@media (max-width:1400px){#categoryGrid.category-grid{grid-template-columns:repeat(5,1fr)}}                                  /* 711201 */
-@media (max-width:1200px){#categoryGrid.category-grid{grid-template-columns:repeat(4,1fr)}}                                  /* 711202 */
-@media (max-width:768px){ #categoryGrid.category-grid{grid-template-columns:repeat(3,1fr)} }                                 /* 711203 */
-@media (max-width:576px){ #categoryGrid.category-grid{grid-template-columns:repeat(2,1fr)} }                                 /* 711204 */
-
-#categoryGrid .category-item{ background:#fff !important; border:1px solid #e8efe8 !important; border-radius:14px !important; padding:12px 10px !important; text-align:center; transition:.12s } /* 711210 */
-#categoryGrid .category-item .icon{ width:64px; height:64px; margin:0 auto 8px; border-radius:18px; background:var(--tint); display:flex; align-items:center; justify-content:center; box-shadow:inset 0 0 0 1px rgba(76,175,80,.18) } /* 711211 */
-#categoryGrid .category-item .icon img{ width:38px; height:38px; object-fit:contain }                                                                               /* 711212 */
-#categoryGrid .category-item span{ font-size:12.5px; line-height:1.25; color:#173b1b; display:block }                                                               /* 711213 */
-#categoryGrid .category-item:hover{ transform:translateY(-2px); box-shadow:var(--shadow-md) }                                                                       /* 711214 */
-#categoryGrid .category-item.active{ border-color:#a5d6a7 !important; background:#f3faf3 !important }                                                                /* 711215 */
-#categoryGrid .category-item.active span{ color:#0f4b14 !important; font-weight:700 !important }                                                                     /* 711216 */
-
-/* ======================================
-   XƯỞNG ĐỀ XUẤT (khung nét đứt, item preview gọn)
-   ====================================== */
-#xuongBox.sidebar-box{ border:1px dashed #a5d6a7 !important; border-radius:14px !important; background:#fff !important }    /* 711300 */
-#xuongList{ max-height:62vh; overflow:auto; padding-right:4px }                                                             /* 711301 */
-#xuongList .link-preview{
-  display:flex; gap:10px; background:#fff; border:1px solid #e3f2fd; border-radius:10px; padding:10px;                      /* 711302 */
-  text-decoration:none; transition:transform .12s, box-shadow .12s;
+/* ---------- Sidebar: Benefits ---------- */
+.sidebar-box{
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:12px; box-shadow:var(--shadow-sm); margin-bottom:12px;
 }
-#xuongList .link-preview:hover{ transform:translateY(-1px); box-shadow:0 10px 22px rgba(46,125,50,.08) }                    /* 711303 */
-#xuongList .thumb{ width:44px; height:44px; border-radius:8px; object-fit:cover; background:#f1f4ff }                       /* 711304 */
-#xuongList .title{ font-weight:700; color:var(--main) }                                                                      /* 711305 */
-#xuongList .desc{ font-size:12px; color:var(--muted) }                                                                       /* 711306 */
-#xuongList .site{ font-size:12px; color:var(--main) }                                                                        /* 711307 */
-
-/* ======================================
-   HERO banners (bo tròn + bóng nhẹ)
-   ====================================== */
-.hero{ margin-bottom:14px }                                                                                                  /* 711400 */
-.hero .mini img,.hero .main img{ border-radius:14px }                                                                        /* 711401 */
-.hero .carousel{ border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,.06) }                                                 /* 711402 */
-
-/* ======================================
-   STATS + PAGER 1 dòng (trên & dưới)
-   ====================================== */
-.stats-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:nowrap; overflow-x:auto; margin-bottom:8px } /* 711500 */
-#pagerTop,#pagerBottom{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end }                                                    /* 711501 */
-#pagerTop .btn,#pagerBottom .btn{ padding:.35rem .6rem; font-size:.875rem; min-width:40px; border-radius:.5rem; border:1px solid #cad8c9; background:#fff; color:#2f3e30 } /* 711502 */
-#pagerTop .btn:hover,#pagerBottom .btn:hover{ background:#f1f6f1 }                                                                            /* 711503 */
-
-/* ======================================
-   CARD SẢN PHẨM (grid tile)
-   ====================================== */
-.cardx{ background:#fff; border:none; border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm); transition:transform .12s, box-shadow .12s; height:100%; display:flex; flex-direction:column } /* 711600 */
-.cardx:hover{ transform:translateY(-3px); box-shadow:0 10px 26px rgba(0,0,0,.12) }                                                                                   /* 711601 */
-.cardx .thumb{ height:180px; width:100%; object-fit:cover; background:#fff }                                                                                        /* 711602 */
-.cardx .meta{ padding:10px; display:flex; flex-direction:column; gap:6px; flex:1 }                                                                                 /* 711603 */
-.cardx .id{ font-weight:800; color:var(--main); font-size:13px }                                                                                                    /* 711604 */
-.cardx .details{ font-size:12px; color:#667; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden }                              /* 711605 */
-.cardx .type{ display:inline-block; background:#e7f3e8; color:#1b5e20; font-size:11px; font-weight:700; padding:2px 6px; border-radius:12px }                       /* 711606 */
-.cardx .price{ margin-top:auto; font-weight:700; color:#c62828 }                                                                                                    /* 711607 */
-.cardx .meta-actions{ display:flex; align-items:center; justify-content:space-between; gap:8px }                                                                    /* 711608 */
-.cardx .btn-gift{ background:#fff; border:1.5px solid var(--main); color:var(--main); font-weight:700; padding:6px 14px; border-radius:999px; font-size:12px; text-decoration:none } /* 711609 */
-.cardx .btn-gift:hover{ background:var(--main); color:#fff }                                                                                                        /* 71160A */
-.add-btn{ border:none; background:var(--main); color:#fff; border-radius:50%; width:32px; height:32px; font-size:18px; font-weight:800 }                            /* 71160B */
-.add-btn:hover{ background:var(--main-600) }                                                                                                                        /* 71160C */
-/* badge góc ảnh */
-.cardx .note{ position:absolute; top:8px; left:8px; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700; color:#fff; background:#2e7d32 }         /* 71160D */
-.cardx .note.sale{ background:#ef6c00 } .cardx .note.hot{ background:#c62828 }                                                                                       /* 71160E */
-
-/* ======================================
-   FABs nổi (lọc, giỏ, nhà cung cấp, zalo)
-   ====================================== */
-#filterFab,#cartFab,#suppliersFab,#zaloFab{
-  position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:50%; color:#fff; font-size:22px;
-  box-shadow:0 6px 16px rgba(0,0,0,.25); z-index:2500; display:flex; align-items:center; justify-content:center;               /* 711700 */
+.benefits-v3 .grid{display:grid; grid-template-columns:1fr; gap:8px}
+.benefits-v3 .bcard{
+  display:flex; gap:10px; align-items:center; min-height:60px;
+  background:#fff; border:1px solid #eef2ff; border-radius:12px;
+  padding:12px; position:relative; box-shadow:var(--shadow-sm)
 }
-#filterFab{ background:#6c757d; bottom:212px }                                                                                /* 711701 */
-#cartFab{ background:var(--main); bottom:148px }                                                                              /* 711702 */
-#suppliersFab{ background:#0d6efd; bottom:84px }                                                                              /* 711703 */
-#zaloFab{ background:#25D366; bottom:20px }                                                                                   /* 711704 */
+.benefits-v3 .ic{
+  width:36px; height:36px; border-radius:8px; background:#f1f4ff;
+  display:inline-flex; align-items:center; justify-content:center
+}
+.benefits-v3 .ttl{font-weight:700; font-size:12px; line-height:1.25}
+.benefits-v3 .sub{font-size:12px; color:var(--muted)}
+.benefit-note{position:absolute; top:6px; right:8px; font-size:11px; font-weight:700; border-radius:999px; padding:2px 6px; color:#fff}
+.benefit-free{background:#2e7d32}
+.benefit-paid{background:#d32f2f}
 
-/* ======================================
-   FOOTER (xanh lá chuyển sắc)
-   ====================================== */
-footer{ background:linear-gradient(90deg,#2e7d32,#1b5e20); color:#fff }                                                       /* 711800 */
-footer a{ color:inherit; text-decoration:none }                                                                               /* 711801 */
-footer a:hover{ text-decoration:underline }                                                                                   /* 711802 */
+/* ---------- Sidebar: Xưởng đề xuất ---------- */
+.ads-box{
+  background:linear-gradient(180deg,#eaf7ea 0%, #d7eed9 100%);
+  border:1px solid #bfe3c0; border-radius:12px; padding:12px
+}
+#adsList{max-height:62vh; overflow:auto; padding-right:4px}
+#adsList .link-preview{
+  background:#fff; border:1px solid #e3f2fd; border-radius:10px;
+  padding:10px; display:flex; gap:10px; box-shadow:var(--shadow-sm); text-decoration:none
+}
+#adsList .thumb{width:64px; height:64px; object-fit:cover; border-radius:8px; background:#f1f4ff}
+#adsList .title{font-weight:700; color:var(--main)}
+#adsList .desc{font-size:12px; color:var(--muted)}
+#adsList .site{font-size:12px; color:#1565c0}
+
+/* ---------- Hero ---------- */
+.hero{margin-bottom:12px}
+.hero .carousel{border-radius:12px; overflow:hidden; box-shadow:var(--shadow-sm)}
+.hero .main img{height:300px; object-fit:cover}
+.hero .mini img{height:145px; object-fit:cover; border-radius:12px}
+
+/* =========================================================
+   GROUP BAR (6 “ô to” đúng tỉ lệ + icon + hiệu ứng)
+   ========================================================= */
+.group-bar-wrapper{
+  background:#fff; border:1px solid var(--border); border-radius:12px;
+  padding:10px; box-shadow:var(--shadow-sm); margin-bottom:10px; position:relative;
+}
+.group-bar-scroll{
+  display:grid; grid-template-columns:repeat(6, 1fr);
+  gap:10px; overflow:visible;
+}
+@media (max-width:1200px){ .group-bar-scroll{grid-template-columns:repeat(5,1fr)} }
+@media (max-width:992px) { .group-bar-scroll{grid-template-columns:repeat(4,1fr)} }
+@media (max-width:768px) { .group-bar-scroll{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:576px){ .group-bar-scroll{grid-template-columns:repeat(2,1fr)} }
+
+.group-chip{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; min-height:116px; text-align:center;
+  background:#fff; color:#111827; font-weight:600; font-size:13px;
+  border:1px solid #eef2ff; border-radius:16px; box-shadow:0 1px 2px rgba(0,0,0,.04);
+  padding:12px 10px; user-select:none; cursor:pointer;
+  transition:transform .12s, box-shadow .12s, border-color .12s, background .12s, color .12s;
+}
+.group-chip:hover{transform:translateY(-1px); box-shadow:var(--shadow-md)}
+.group-chip.active{
+  border-color:#c7d2fe; background:#f8faff; box-shadow:0 6px 20px rgba(0,24,168,.10)
+}
+.group-chip .chip-icon{
+  width:56px; height:56px; border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(180deg,#f5f7ff 0%, #edf1ff 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7); overflow:hidden
+}
+.group-chip .chip-icon img{width:34px; height:34px; object-fit:contain}
+
+/* dots chỉ báo nhóm */
+.group-dots{display:flex; justify-content:center; gap:6px; margin:6px 0 10px}
+.group-dots .dot{width:6px; height:6px; border-radius:50%; background:#c9d6ff; transition:transform .15s, background .15s}
+.group-dots .dot.active{background:#0018a8; transform:scale(1.25)}
+
+/* mũi tên group (nếu dùng) */
+.group-arrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+  display:flex; align-items:center; justify-content:center;
+  width:44px; height:44px; border-radius:50%; border:0;
+  background:#fff; color:#333; box-shadow:0 2px 6px rgba(0,0,0,.15); cursor:pointer
+}
+.group-arrow.left{left:-12px} .group-arrow.right{right:-12px}
+.group-arrow:disabled{opacity:.45; pointer-events:none}
+
+/* =========================================================
+   CATEGORY PANNEL (2 hàng x 6 cột + mũi tên nhỏ)
+   ========================================================= */
+.category-box{background:transparent; border:0; padding:0; box-shadow:none}
+.category-wrapper{
+  position:relative; background:#fff; border:1px solid var(--border);
+  border-radius:12px; padding:14px; box-shadow:0 2px 10px rgba(0,0,0,.04)
+}
+.category-scroll{
+  display:grid; grid-template-columns:repeat(6,1fr); grid-template-rows:repeat(2,auto);
+  gap:14px; overflow:hidden;
+}
+@media (max-width:1200px){ .category-scroll{grid-template-columns:repeat(5,1fr)} }
+@media (max-width:992px) { .category-scroll{grid-template-columns:repeat(4,1fr)} }
+@media (max-width:768px) { .category-scroll{grid-template-columns:repeat(3,1fr)} }
+@media (max-width:576px) { .category-scroll{grid-template-columns:repeat(2,1fr)} }
+
+.category-item{
+  text-align:center; padding:8px 6px; border-radius:12px; cursor:pointer;
+  transition:transform .12s, background .12s; border:0; background:transparent
+}
+.category-item:hover{background:#f7f9ff; transform:translateY(-1px)}
+.category-item.active span{color:#0018a8; font-weight:700}
+
+.category-item .icon{
+  width:56px; height:56px; border-radius:16px; margin:0 auto 8px;
+  display:flex; align-items:center; justify-content:center;
+  background:#f2f6ff; box-shadow:0 4px 12px rgba(0,0,0,.06); overflow:hidden
+}
+.category-item .icon img{width:32px; height:32px; object-fit:contain}
+.category-item .label, .category-item span{
+  display:block; font-size:12px; line-height:1.3; color:#111; margin-top:6px
+}
+
+/* mũi tên category */
+.cat-arrow{
+  position:absolute; top:50%; transform:translateY(-50%); z-index:2;
+  width:36px; height:36px; border-radius:50%; border:0;
+  display:flex; align-items:center; justify-content:center;
+  background:#fff; color:#333; box-shadow:0 2px 6px rgba(0,0,0,.15); cursor:pointer
+}
+.cat-arrow.left{left:-10px} .cat-arrow.right{right:-10px}
+.cat-arrow.is-disabled, .cat-arrow:disabled{opacity:.45; pointer-events:none}
+
+/* =========================================================
+   STAT BAR + PAGINATION (1 hàng trên desktop, gọn mobile)
+   ========================================================= */
+.stats-row{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:8px; flex-wrap:nowrap; margin:10px 0
+}
+.found-count{display:inline-flex; align-items:center; gap:6px}
+#pagerTop{margin-left:auto; display:inline-flex; align-items:center; gap:4px; white-space:nowrap}
+#pagerTop .btn, #pagerBottom .btn{
+  height:32px; padding:4px 8px; font-size:13px; line-height:1.2; border-radius:6px; min-width:36px
+}
+#pagerTop .btn-group, #pagerBottom .btn-group{gap:4px}
+#pagerTop .form-select, #pagerBottom .form-select{min-width:110px}
+
+/* =========================================================
+   PRODUCT CARD GRID
+   ========================================================= */
+#productGrid{ --thumb-h: 180px }
+.cardx{
+  background:#fff; border:0; border-radius:12px; overflow:hidden;
+  display:flex; flex-direction:column; height:100%;
+  box-shadow:var(--shadow-sm); transition:transform .1s, box-shadow .1s
+}
+.cardx:hover{transform:translateY(-2px); box-shadow:var(--shadow-md)}
+.cardx .thumb-wrap{position:relative}
+.cardx img.thumb{width:100%; height:var(--thumb-h); object-fit:cover}
+.cardx .note-chip{
+  position:absolute; top:8px; right:8px; font-size:10px; font-weight:600; color:#fff;
+  padding:2px 6px; border-radius:999px; background:#555
+}
+.cardx .meta{padding:10px; display:flex; flex-direction:column; gap:6px; flex:1}
+.cardx .id{font-weight:700; font-size:13px; color:var(--main)}
+.cardx .details{
+  color:#666; min-height:2.4em; line-height:1.2;
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden
+}
+.cardx .type-badge{
+  align-self:flex-start; display:inline-block;
+  background:#e7f3e8; color:#1b5e20; border-radius:12px;
+  padding:2px 6px; font-size:11px; font-weight:700
+}
+.cardx .price{margin-top:auto; font-size:1rem; color:#d32f2f; font-weight:600}
+.cardx .meta-actions{display:flex; align-items:center; justify-content:space-between; gap:8px}
+.btn-gift{
+  background:#fff; color:var(--main); border:1.5px solid var(--main);
+  padding:6px 14px; border-radius:999px; font-weight:600;
+  display:inline-flex; align-items:center; justify-content:center; text-decoration:none
+}
+.btn-gift:hover{background:var(--main-tint, #e7f5e8); color:var(--main-700, #1b5e20)}
+.add-btn{
+  width:32px; height:32px; border-radius:50%; border:0;
+  background:var(--main); color:#fff; font-weight:800; font-size:18px
+}
+.add-btn:hover{filter:brightness(.95)}
+
+/* ---------- FABs ---------- */
+.cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
+  position:fixed; right:16px; width:54px; height:54px; border:0; border-radius:50%;
+  color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25);
+  z-index:2500; display:flex; align-items:center; justify-content:center; cursor:pointer
+}
+.filter-fab{background:#6c757d; bottom:212px}
+.cart-fab{background:var(--main); bottom:148px}
+.suppliers-fab{background:#0d6efd; bottom:84px}
+.zalo-fab{background:#25D366; bottom:20px}
+.fab-badge{position:absolute; top:-6px; right:-6px; background:#d32f2f; color:#fff; border-radius:999px; padding:2px 6px; font-size:12px; font-weight:700; display:none}
+
+/* ---------- Footer ---------- */
+footer.text-light{background:var(--main-grad); color:#fff}
+footer.text-light h6{color:var(--accent)}
+footer.text-light hr{border-color:rgba(255,255,255,.4)}
+footer.text-light a, footer.text-light .bi{color:#fff}
+
+/* =========================================================
+   THEME BAMBOO (xanh lá) – đang dùng trong <body class="theme-bamboo">
+   ========================================================= */
+.theme-bamboo{
+  --main:      #2e7d32;
+  --main-600:  #2c6e2f;
+  --main-700:  #1b5e20;
+  --main-grad: linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
+  --main-tint: #e7f5e8;
+  --bg:        #f7faf7;
+  --border:    #dfe7df;
+}
+.theme-bamboo .type-badge{background:#e7f3e8; color:#1b5e20}
+.theme-bamboo .btn-gift:hover{background:#e7f5e8; color:#1b5e20}
+
+/* ---------- Small helpers ---------- */
+.small{font-size:.875rem}
 
 </style> <!-- 100087: Kết thúc CSS -->
 </head> <!-- 100088: Kết thúc head -->
