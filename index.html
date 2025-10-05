@@ -1731,6 +1731,23 @@ footer.text-light .bi{ color:#fff; }
   visibility:visible !important;
   opacity:1 !important;
 }
+/* Badge số trên FAB bộ lọc */
+.fab-badge{
+  position: absolute;
+  top: -4px; right: -4px;
+  transform: translate(25%, -25%);
+  min-width: 20px; height: 20px; padding: 0 6px;
+  border-radius: 999px;
+  background: #22c55e; /* xanh lá 2606 */
+  color: #fff; font-weight: 700; font-size: 12px; line-height: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.20);
+  display: none; /* ẩn khi chưa có bộ lọc */
+}
+/* (Tuỳ chọn) nhấn mạnh FAB khi có lọc */
+[data-has-filters]{
+  outline: 2px solid rgba(34,197,94,.25);
+  outline-offset: 2px;
+}
 
 </style>
 
@@ -1941,6 +1958,79 @@ footer.text-light .bi{ color:#fff; }
 
  
 </script>
+<script>
+(function(){
+  // Tìm FAB bộ lọc theo 3 khả năng đặt tên phổ biến ở code của bạn
+  const FAB_SELECTORS = ['#fabFilters', '.fab-filter', '[data-fab="filters"]'];
+
+  function findFab(){
+    for (const s of FAB_SELECTORS){
+      const el = document.querySelector(s);
+      if (el) return el;
+    }
+    return null;
+  }
+
+  // Đếm số bộ lọc đang áp dụng
+  function countActiveFilters(){
+    // Ưu tiên đọc từ state.filters nếu có
+    if (window.state && state.filters){
+      const ignore = new Set(['page','limit','sort','q']);
+      return Object.entries(state.filters).reduce((n,[k,v])=>{
+        if (ignore.has(k) || v==null || v==='') return n;
+        if (Array.isArray(v)) return n + v.filter(Boolean).length;
+        if (typeof v==='object')  return n + Object.values(v).filter(Boolean).length;
+        return n + 1;
+      },0);
+    }
+    // Fallback: đếm chip/nhãn đang active trên giao diện
+    return document.querySelectorAll('.chip.active, .chip.is-active, .filter-tag.active').length;
+  }
+
+  // Tạo/cập nhật badge
+  function renderBadge(){
+    const fab = findFab();
+    if (!fab) return;
+
+    let badge = fab.querySelector('.fab-badge');
+    if (!badge){
+      badge = document.createElement('span');
+      badge.className = 'fab-badge';
+      fab.style.position = fab.style.position || 'relative'; // đảm bảo có position
+      fab.appendChild(badge);
+    }
+
+    const n = countActiveFilters();
+    if (n > 0){
+      badge.textContent = n > 99 ? '99+' : String(n);
+      badge.style.display = 'inline-block';
+      fab.setAttribute('data-has-filters', '1');
+      fab.setAttribute('aria-label', `Đang áp dụng ${n} bộ lọc`);
+    } else {
+      badge.style.display = 'none';
+      fab.removeAttribute('data-has-filters');
+      fab.setAttribute('aria-label', 'Không có bộ lọc');
+    }
+  }
+
+  // Gọi khi trang tải xong
+  document.addEventListener('DOMContentLoaded', renderBadge);
+
+  // Tự động cập nhật khi người dùng tương tác với khu vực lọc/nhanh/chips
+  ['click','change'].forEach(ev=>{
+    document.addEventListener(ev, (e)=>{
+      if (e.target.closest('.quick-filter, .chip, .filter-chip, [data-filter], #btnClearFilters, .btn-clear-filters')){
+        setTimeout(renderBadge, 0);
+      }
+    });
+  });
+
+  // Cho code hiện tại gọi chủ động sau khi thay state/render
+  window.updateFilterBadge = renderBadge;
+})();
+</script>
+
+   
 <script>
 // ===== XƯỞNG ĐỀ XUẤT – DÙNG BOX HIỆN CÓ, KHÔNG TẠO BOX MỚI =====
 (function(){
