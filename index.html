@@ -2545,7 +2545,8 @@ function buildCategoryFromFacets(facets){
 
   // 🔁 THAY DÒNG NÀY
   // buildCategory(facets?.categories || []);
-  renderCategoriesFromConfig();   // <-- gọi renderer theo cấu hình icon
+    buildCategory(facets?.categories || []);
+
 
   // các box lọc khác giữ nguyên
   buildFilterBox('groupBox',  groups || [], 'group');
