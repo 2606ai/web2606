@@ -1890,6 +1890,8 @@ footer.text-light .bi{ color:#fff; }
           </div>
         </div>
       </div>
+<!-- QUICK CATEGORY (ô lớn KHÁC, QUÀ TẶNG...) -->
+<div id="quickCatsTop" class="mt-3 mb-3"></div>
 
     <!-- Danh mục (Group chips + Category scroller) -->
 <div class="category-box mb-3">
@@ -2426,6 +2428,31 @@ function iconUrl(u){
   if (/^https?:\/\//i.test(u)) return u;          // đã là URL đầy đủ
   if (ICON_BASE) return new URL(u, ICON_BASE).href;
   return ICON_FALLBACK;
+}
+/* === Quick Category strip (ô lớn phía trên) – render từ CAT_CONFIG === */
+function buildQuickCatsTopHTML(){
+  return `
+  <div class="category-scroll" data-quick-cats>
+    ${CAT_CONFIG.map(cat => {
+      const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
+      const icon  = cat.icon || '';
+      return `
+        <a class="category-item" href="#"
+           data-action="select-category"
+           data-val="${label}">
+          ${icon ? `<img class="cat-icon" src="${icon}" alt="${label}">` : ''}
+          <div class="cat-title">${label}</div>
+        </a>
+      `;
+    }).join('')}
+  </div>`;
+}
+
+/* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
+function renderQuickCatsTop(){
+  const box = document.getElementById('quickCatsTop');
+  if (!box) return;           // chưa có container thì bỏ qua
+  box.innerHTML = buildQuickCatsTopHTML();
 }
    
  // ===== CATEGORY CONFIG (mỗi ô = 1 cấu hình riêng) =====
@@ -3184,16 +3211,19 @@ document.addEventListener('click', (e)=>{
 
 
 
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', () => {
   if (window.__initDone) return;
   window.__initDone = true;
 
   // reset state
   Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
 
+  renderQuickCatsTop(); // <-- THÊM DÒNG NÀY
+
   if (typeof updateFilterCount === 'function') updateFilterCount();
   fetchPage();
 });
+
 
 
 /* Gửi đơn hàng */
