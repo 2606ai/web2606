@@ -3515,59 +3515,67 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     }
   })
   .then((json) => {
-    // kiểm schema tối thiểu
-    if (!json || json.ok === false || !Array.isArray(json.items)) {
-      throw new Error('Bad JSON schema or empty data');
-    }
-    render(json, true);
-     updateFilterBadge();
-     syncQuickCatsActive();
-     refreshFacetStripsByData(json.items);
-
-  })
-// Chuẩn hoá chuỗi để so sánh (không dấu, lower, gộp khoảng trắng)
-function _norm(s){
-  return String(s||'').trim().replace(/\s+/g,' ')
-         .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-}
-
-// Tính facet từ dữ liệu items hiện có (json.items)
-function computeFacets(items){
-  const groupsNorm = new Set();   // cho dải A (ô lớn) -> normalized
-  const catsRaw    = new Set();   // cho dải B (tên giữ nguyên để hiển thị)
-
-  (items || []).forEach(it=>{
-    if (it.group)    groupsNorm.add(_norm(it.group));
-    if (it.category) catsRaw.add(it.category);
-  });
-
-  return { groupsNorm, catsRaw };
-}
-
-// Làm mới 2 dải theo dữ liệu vừa render
-function refreshFacetStripsByData(items){
-  const { groupsNorm, catsRaw } = computeFacets(items || []);
-
-  // A (ô lớn phía trên): chỉ hiển thị những ô có dữ liệu
-  if (typeof renderQuickCatsTop === 'function') {
-    renderQuickCatsTop(groupsNorm);
+  // Kiểm tra schema dữ liệu
+  if (!json || json.ok === false || !Array.isArray(json.items)) {
+    throw new Error('Bad JSON schema or empty data');
   }
 
-  // B (dải danh mục bên dưới): dựng lại theo danh mục còn dữ liệu
-  if (typeof buildCategory === 'function') {
-    buildCategory(Array.from(catsRaw));
-  }
+  // Render dữ liệu chính
+  render(json, true);
 
-  // Đồng bộ active + badge
+  // Cập nhật badge lọc
+  updateFilterBadge();
+
+  // Đồng bộ trạng thái giữa các cụm danh mục (A+B)
   if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
-  if (typeof updateFilterCount   === 'function') updateFilterCount();
-}
 
-// đảm bảo gọi được dù khác scope
-window.refreshFacetStripsByData = refreshFacetStripsByData;
+  // Làm mới 2 dải danh mục theo dữ liệu mới
+  if (typeof refreshFacetStripsByData === 'function') {
+    refreshFacetStripsByData(json.items);
+  } else {
+    // Nếu chưa có hàm thì tạo luôn tại đây
+    const _norm = (s) => String(s || '')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, ''); // bỏ dấu
 
-   
-  .catch((err) => {
+    const computeFacets = (items) => {
+      const groupsNorm = new Set();
+      const catsRaw = new Set();
+      (items || []).forEach(it => {
+        if (it.group) groupsNorm.add(_norm(it.group));
+        if (it.category) catsRaw.add(it.category);
+      });
+      return { groupsNorm, catsRaw };
+    };
+
+    const refreshFacetStripsByData = (items) => {
+      const { groupsNorm, catsRaw } = computeFacets(items || []);
+
+      // Cập nhật dải A (ô lớn phía trên)
+      if (typeof renderQuickCatsTop === 'function')
+        renderQuickCatsTop(groupsNorm);
+
+      // Cập nhật dải B (ô nhỏ phía dưới)
+      if (typeof buildCategory === 'function')
+        buildCategory(Array.from(catsRaw));
+
+      // Đồng bộ active + badge
+      if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+      if (typeof updateFilterCount === 'function') updateFilterCount();
+    };
+
+    // Gắn vào phạm vi global để có thể gọi lại
+    window.refreshFacetStripsByData = refreshFacetStripsByData;
+
+    // Gọi ngay lần đầu
+    refreshFacetStripsByData(json.items);
+  }
+
+})
+.catch((err) => {
   console.error('[API ERR]', err);
   const box = document.getElementById('errbox');
   if (box) {
@@ -3575,6 +3583,7 @@ window.refreshFacetStripsByData = refreshFacetStripsByData;
     box.textContent = '[ERROR] Không tải được dữ liệu.';
   }
 });
+
 
 // Chuẩn hoá chuỗi (so sánh không dấu/hoa-thường)
 function _norm(s){
