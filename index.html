@@ -3333,6 +3333,34 @@ catScroll.addEventListener('click', (e) => {
   const val = item.dataset.val || '';
   selectCategory(val);
 });
+// === QUICK CATS TOP: bắt click trên cụm ô lớn phía trên ===
+const quickTop = document.getElementById('quickCatsTop');
+if (quickTop){
+  quickTop.addEventListener('click', (e) => {
+    const item = e.target.closest('.category-item, [data-action="select-category"], [data-cat]');
+    if (!item || !quickTop.contains(item)) return;
+    e.preventDefault();
+
+    // Lấy giá trị danh mục
+    const val = item.dataset.val
+             || item.dataset.cat
+             || item.getAttribute('data-category')
+             || (item.textContent || '').trim();
+
+    // Toggle: bấm lại cùng danh mục => bỏ lọc
+    const cur  = state.category || '';
+    const next = (cur === val) ? '' : val;
+
+    // Cập nhật state + nạp dữ liệu
+    state.category = next;
+    state.page = 1;
+    fetchPage();
+
+    // Đồng bộ 2 dải + cập nhật badge
+    if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+    if (typeof updateFilterCount   === 'function') updateFilterCount();
+  });
+}
 
 
 // Gắn click cho toàn bộ .category-item
