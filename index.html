@@ -1969,7 +1969,7 @@ footer.text-light .bi{ color:#fff; }
   });
 
   // Fallback ảnh (phòng khi link drive hỏng)
-  const FALLBACK = 'https://placehold.co/64x64?text=%20&bg=E8F5E9&fc=2E7D32';
+  const FALLBACK = 'https://placehold.co/64x64?text=%20';
 
   function toDriveThumb(u){
     if (!u) return FALLBACK;
@@ -2430,30 +2430,49 @@ function iconUrl(u){
   return ICON_FALLBACK;
 }
 /* === Quick Category strip (ô lớn phía trên) – render từ CAT_CONFIG === */
-function buildQuickCatsTopHTML(allowedGroups=null){
+function buildQuickCatsTopHTML(allowedGroups = null){
   return `
   <div class="category-scroll" data-quick-cats>
-    ${CAT_CONFIG
-      // lọc theo allowedGroups nếu có
-      .filter(cat=>{
-        if (!allowedGroups) return true;
-        const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
-        return allowedGroups.has(_norm(label));
-      })
-      .map(cat => {
-        const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
-        const icon  = cat.icon || '';
-        return `
-          <a class="category-item" href="#"
-             data-action="select-category"
-             data-val="${label}">
-            ${icon ? `<img class="cat-icon" src="${icon}" alt="${label}">` : ''}
-            <div class="cat-title">${label}</div>
-          </a>
-        `;
-      }).join('')}
+    ${
+      CAT_CONFIG
+        // Lọc theo allowedGroups (nếu có)
+        .filter(cat => {
+          if (!allowedGroups) return true;
+          const label = (cat.filters && cat.filters.category)
+            ? cat.filters.category
+            : cat.label;
+          return allowedGroups.has(_norm(label));
+        })
+        .map(cat => {
+          const label = (cat.filters && cat.filters.category)
+            ? cat.filters.category
+            : cat.label;
+          const icon = cat.icon || '';
+          return `
+            <a class="category-item" href="#"
+              data-action="select-category"
+              data-val="${label}">
+              ${
+                icon
+                  ? `<img class="cat-icon" src="${icon}" alt="${label}">`
+                  : ''
+              }
+              <div class="cat-title">${label}</div>
+            </a>
+          `;
+        })
+        .join('')
+    }
   </div>`;
 }
+
+/* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
+function renderQuickCatsTop(allowedGroups){
+  const box = document.getElementById('quickCatsTop');
+  if (!box) return; // chưa có container thì bỏ qua
+  box.innerHTML = buildQuickCatsTopHTML(allowedGroups);
+}
+
 
 
 /* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
@@ -3505,8 +3524,49 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
      syncQuickCatsActive();
      refreshFacetStripsByData(json.items);
 
-
   })
+// Chuẩn hoá chuỗi để so sánh (không dấu, lower, gộp khoảng trắng)
+function _norm(s){
+  return String(s||'').trim().replace(/\s+/g,' ')
+         .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+// Tính facet từ dữ liệu items hiện có (json.items)
+function computeFacets(items){
+  const groupsNorm = new Set();   // cho dải A (ô lớn) -> normalized
+  const catsRaw    = new Set();   // cho dải B (tên giữ nguyên để hiển thị)
+
+  (items || []).forEach(it=>{
+    if (it.group)    groupsNorm.add(_norm(it.group));
+    if (it.category) catsRaw.add(it.category);
+  });
+
+  return { groupsNorm, catsRaw };
+}
+
+// Làm mới 2 dải theo dữ liệu vừa render
+function refreshFacetStripsByData(items){
+  const { groupsNorm, catsRaw } = computeFacets(items || []);
+
+  // A (ô lớn phía trên): chỉ hiển thị những ô có dữ liệu
+  if (typeof renderQuickCatsTop === 'function') {
+    renderQuickCatsTop(groupsNorm);
+  }
+
+  // B (dải danh mục bên dưới): dựng lại theo danh mục còn dữ liệu
+  if (typeof buildCategory === 'function') {
+    buildCategory(Array.from(catsRaw));
+  }
+
+  // Đồng bộ active + badge
+  if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+  if (typeof updateFilterCount   === 'function') updateFilterCount();
+}
+
+// đảm bảo gọi được dù khác scope
+window.refreshFacetStripsByData = refreshFacetStripsByData;
+
+   
   .catch((err) => {
   console.error('[API ERR]', err);
   const box = document.getElementById('errbox');
