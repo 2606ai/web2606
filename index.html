@@ -2252,15 +2252,118 @@ footer.text-light .bi{ color:#fff; }
   </div>
 </div>
 
-<!-- FABs -->
-<button id="filterFab" class="filter-fab" aria-label="Mở bộ lọc">
-  ⚙️ <span id="filterFabCount" class="fab-badge">0</span>
-</button>
-<button id="cartFab" class="cart-fab" aria-label="Mở giỏ hàng">
-  🛒 <span id="cartFabCount" class="fab-badge">0</span>
-</button>
-<button id="suppliersFab" class="suppliers-fab" aria-label="Danh sách xưởng">🏭</button>
-<a id="zaloFab" class="zalo-fab" aria-label="Zalo" href="#" target="_blank" rel="noopener">💬</a>
+<!-- === FABs – CỤM NÚT NỔI ĐỒNG NHẤT === -->
+<div id="fabs" class="fabs">
+
+  <!-- Nút mở bộ lọc -->
+  <button id="filterFab" class="fab" aria-label="Mở bộ lọc">
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="22 3 2 3 10 12 10 19 14 21 14 12 22 3"></polygon>
+    </svg>
+    <span id="filterFabCount" class="fab-badge">0</span>
+  </button>
+
+  <!-- Nút giỏ hàng -->
+  <button id="cartFab" class="fab" aria-label="Mở giỏ hàng">
+    🛒
+    <span id="cartFabCount" class="fab-badge">0</span>
+  </button>
+
+  <!-- Nút danh sách xưởng -->
+  <button id="suppliersFab" class="fab" aria-label="Danh sách xưởng">
+    🏭
+  </button>
+
+  <!-- Nút chat Zalo -->
+  <a id="zaloFab" class="fab" aria-label="Liên hệ Zalo" href="https://zalo.me/123456789"
+     target="_blank" rel="noopener">
+    💬
+  </a>
+
+</div>
+
+<!-- ======= CSS: FABs – đồng nhất giữa mọi thiết bị ======= -->
+<style>
+:root{
+  --fab-size: 56px;
+  --fab-gap: 12px;
+  --fab-right: 16px;
+  --fab-bottom: 16px;
+  --fab-bg: #ffffff;
+  --fab-color: #2E7D32; /* xanh bamboo */
+}
+
+/* Wrapper FAB */
+.fabs{
+  position: fixed;
+  right: var(--fab-right);
+  bottom: var(--fab-bottom);
+  z-index: 9999;
+  display: grid;
+  gap: var(--fab-gap);
+  padding-right: max(0px, env(safe-area-inset-right));
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+/* Mỗi nút */
+.fab{
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: 50%;
+  background: var(--fab-bg);
+  color: var(--fab-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.25);
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* Badge nhỏ góc phải */
+.fab-badge{
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 1px 5px;
+  line-height: 1.2;
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+/* Hover / Active */
+.fab:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+.fab:active{
+  transform: scale(.95);
+}
+
+/* Icon SVG bên trong */
+.fab svg{
+  width: 24px;
+  height: 24px;
+  color: var(--fab-color);
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px){
+  :root{
+    --fab-size: 56px;
+    --fab-gap: 10px;
+    --fab-right: 14px;
+    --fab-bottom: 14px;
+  }
+}
+</style>
 
 <div id="errbox" role="alert" aria-live="assertive"></div>
 
