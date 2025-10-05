@@ -2430,23 +2430,31 @@ function iconUrl(u){
   return ICON_FALLBACK;
 }
 /* === Quick Category strip (ô lớn phía trên) – render từ CAT_CONFIG === */
-function buildQuickCatsTopHTML(){
+function buildQuickCatsTopHTML(allowedGroups=null){
   return `
   <div class="category-scroll" data-quick-cats>
-    ${CAT_CONFIG.map(cat => {
-      const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
-      const icon  = cat.icon || '';
-      return `
-        <a class="category-item" href="#"
-           data-action="select-category"
-           data-val="${label}">
-          ${icon ? `<img class="cat-icon" src="${icon}" alt="${label}">` : ''}
-          <div class="cat-title">${label}</div>
-        </a>
-      `;
-    }).join('')}
+    ${CAT_CONFIG
+      // lọc theo allowedGroups nếu có
+      .filter(cat=>{
+        if (!allowedGroups) return true;
+        const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
+        return allowedGroups.has(_norm(label));
+      })
+      .map(cat => {
+        const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
+        const icon  = cat.icon || '';
+        return `
+          <a class="category-item" href="#"
+             data-action="select-category"
+             data-val="${label}">
+            ${icon ? `<img class="cat-icon" src="${icon}" alt="${label}">` : ''}
+            <div class="cat-title">${label}</div>
+          </a>
+        `;
+      }).join('')}
   </div>`;
 }
+
 
 /* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
 function renderQuickCatsTop(){
@@ -2717,11 +2725,18 @@ function scrollCats(dir){
   if(catIndex >= total) catIndex = Math.max(0, total - catsPerView);
   renderCategoryPager(allCategories);
 }
-function buildCategory(items){
-  allCategories = items || [];
+function buildCategory(allowedCats = null){
+  // Nếu có danh sách được phép thì chỉ lấy các danh mục khớp
+  if (allowedCats) {
+    allCategories = allowedCats;
+  } else {
+    allCategories = items || [];
+  }
+
   catIndex = 0;
   renderCategoryPager(allCategories);
 }
+
 function selectCategory(val){
   state.category = val;
   state.page = 1;
@@ -3488,6 +3503,8 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     render(json, true);
      updateFilterBadge();
      syncQuickCatsActive();
+     refreshFacetStripsByData(json.items);
+
 
   })
   .catch((err) => {
@@ -3499,6 +3516,22 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
   }
 });
 
+// Chuẩn hoá chuỗi (so sánh không dấu/hoa-thường)
+function _norm(s){
+  return String(s||'').trim().replace(/\s+/g,' ')
+    .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+// Tính facet từ danh sách items đã render (json.items)
+function computeFacets(items){
+  const groups = new Set();     // facet cho A (ô lớn)
+  const cats   = new Set();     // facet cho B (dải dưới)
+  (items||[]).forEach(it=>{
+    if (it.group)    groups.add(_norm(it.group));
+    if (it.category) cats.add(_norm(it.category));
+  });
+  return { groups, cats };
+}
 
     const json = await resp.json();
 
@@ -3507,6 +3540,8 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     render(json, /*fromCache*/false);
      updateFilterBadge();
      syncQuickCatsActive();
+     refreshFacetStripsByData(json.items);
+
 
 
     // Trì hoãn workshop 1 nhịp để nhường CPU cho grid
