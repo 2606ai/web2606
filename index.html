@@ -2723,9 +2723,22 @@ function buildCategory(items){
   renderCategoryPager(allCategories);
 }
 function selectCategory(val){
-  state.category=val; state.page=1; fetchPage();
-  document.querySelectorAll('#categoryScroll .category-item').forEach(el=>el.classList.toggle('active', el.dataset.val===val));
+  state.category = val;
+  state.page = 1;
+  fetchPage();
+
+  // Cập nhật active cho danh mục đang click
+  document.querySelectorAll('#categoryScroll .category-item')
+    .forEach(el => el.classList.toggle('active', el.dataset.val === val));
+
+  // 🔄 Đồng bộ 2 dải danh mục (trên + dưới)
+  if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+
+  // 🔢 Cập nhật lại badge bộ lọc
+  if (typeof updateFilterCount === 'function') updateFilterCount();
 }
+
+
 /* Highlight UI khi chọn group */
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
@@ -2754,6 +2767,32 @@ function updateFilterCount(){
     fb.textContent = c > 99 ? '99+' : String(c);
     fb.style.display = c > 0 ? 'inline-block' : 'none';
   }
+}
+/* Đồng bộ trạng thái active cho CẢ 2 dải danh mục (trên + dưới) */
+function syncQuickCatsActive(){
+  const norm = (s) => String(s||'')
+    .trim()
+    .replace(/\s+/g,' ')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,''); // bỏ dấu
+
+  const cur = norm((window.state && state.category) || '');
+
+  const getVal = (el) =>
+    el.dataset?.val ||
+    el.dataset?.cat ||
+    el.getAttribute?.('data-category') ||
+    el.textContent || '';
+
+  document.querySelectorAll(
+    '[data-quick-cats] [data-action="select-category"],' +
+    '[data-quick-cats] [data-cat],' +
+    '[data-quick-cats] .category-item,' +
+    '[data-quick-cats] .chip'
+  ).forEach(el => {
+    const same = cur && norm(getVal(el)) === cur;
+    el.classList.toggle('active', same);
+  });
 }
 
 /* Link preview API */
@@ -3420,6 +3459,7 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     }
     render(json, true);
      updateFilterBadge();
+     syncQuickCatsActive();
 
   })
   .catch((err) => {
@@ -3438,6 +3478,7 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
     cacheSet(key, json);
     render(json, /*fromCache*/false);
      updateFilterBadge();
+     syncQuickCatsActive();
 
 
     // Trì hoãn workshop 1 nhịp để nhường CPU cho grid
