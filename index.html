@@ -2430,41 +2430,24 @@ function iconUrl(u){
   return ICON_FALLBACK;
 }
 /* === Quick Category strip (ô lớn phía trên) – render từ CAT_CONFIG === */
-function buildQuickCatsTopHTML(allowedGroups = null){
+function buildQuickCatsTopHTML(){
   return `
   <div class="category-scroll" data-quick-cats>
-    ${
-      CAT_CONFIG
-        // Lọc theo allowedGroups (nếu có)
-        .filter(cat => {
-          if (!allowedGroups) return true;
-          const label = (cat.filters && cat.filters.category)
-            ? cat.filters.category
-            : cat.label;
-          return allowedGroups.has(_norm(label));
-        })
-        .map(cat => {
-          const label = (cat.filters && cat.filters.category)
-            ? cat.filters.category
-            : cat.label;
-          const icon = cat.icon || '';
-          return `
-            <a class="category-item" href="#"
-              data-action="select-category"
-              data-val="${label}">
-              ${
-                icon
-                  ? `<img class="cat-icon" src="${icon}" alt="${label}">`
-                  : ''
-              }
-              <div class="cat-title">${label}</div>
-            </a>
-          `;
-        })
-        .join('')
-    }
+    ${CAT_CONFIG.map(cat => {
+      const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
+      const icon = cat.icon || '';
+      return `
+      <a class="category-item" href="#"
+         data-action="select-category"
+         data-val="${label}">
+         ${icon ? `<img class="cat-icon" src="${icon}" alt="${label}">` : ''}
+         <div class="cat-title">${label}</div>
+      </a>
+      `;
+    }).join('')}
   </div>`;
 }
+
 
 /* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
 function renderQuickCatsTop(allowedGroups){
@@ -2744,17 +2727,12 @@ function scrollCats(dir){
   if(catIndex >= total) catIndex = Math.max(0, total - catsPerView);
   renderCategoryPager(allCategories);
 }
-function buildCategory(allowedCats = null){
-  // Nếu có danh sách được phép thì chỉ lấy các danh mục khớp
-  if (allowedCats) {
-    allCategories = allowedCats;
-  } else {
-    allCategories = items || [];
-  }
-
+function buildCategory(items){
+  allCategories = items || [];
   catIndex = 0;
   renderCategoryPager(allCategories);
 }
+
 
 function selectCategory(val){
   state.category = val;
@@ -3610,7 +3588,47 @@ function computeFacets(items){
      updateFilterBadge();
      syncQuickCatsActive();
      refreshFacetStripsByData(json.items);
+     applyFacetVisibility(json.items);  // <-- THÊM DÒNG NÀY
 
+// Chuẩn hoá chuỗi để so sánh
+function _norm(s){
+  return String(s||'').trim().replace(/\s+/g,' ')
+    .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+// Lấy facet (nhóm A và danh mục B) từ items
+function computeFacets(items){
+  const groups = new Set();
+  const cats   = new Set();
+  (items||[]).forEach(it=>{
+    if (it.group)    groups.add(_norm(it.group));
+    if (it.category) cats.add(_norm(it.category));
+  });
+  return { groups, cats };
+}
+
+// Ẩn/hiện item theo facet (KHÔNG vẽ lại DOM)
+function applyFacetVisibility(items){
+  const { groups, cats } = computeFacets(items||[]);
+
+  // A (ô lớn phía trên)
+  document.querySelectorAll('#quickCatsTop [data-action="select-category"], #quickCatsTop .category-item')
+    .forEach(el=>{
+      const val = el.dataset.val || el.dataset.cat || el.getAttribute('data-category') || el.textContent || '';
+      const show = groups.has(_norm(val));
+      el.style.display = show ? '' : 'none';
+      el.classList.toggle('is-disabled', !show);
+    });
+
+  // B (dải danh mục phía dưới)
+  document.querySelectorAll('#categoryScroll .category-item')
+    .forEach(el=>{
+      const val = el.dataset.val || el.textContent || '';
+      const show = cats.has(_norm(val));
+      el.style.display = show ? '' : 'none';
+      el.classList.toggle('is-disabled', !show);
+    });
+}
 
 
     // Trì hoãn workshop 1 nhịp để nhường CPU cho grid
