@@ -2903,7 +2903,6 @@ function upgradeThumbQuality(u){
 /* Logo reload */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>location.reload(),150); });
 
-/* Product card */
 function productCardHtml(it){
   products[it.id]=it;
   const giftUrl   = firstLink(it.imageClick);
@@ -2914,38 +2913,32 @@ function productCardHtml(it){
   const linkHref = esc(it.linkFull || it.img || '#');
 
   return `<div class="col">
-  <div class="cardx product-card" data-id="${esc(it.id)}">
-    <div class="thumb-wrap">
-      <a href="${linkHref}" target="_blank" rel="noopener">
-        <img loading="lazy" class="thumb" src="${esc(thumbSrc)}" alt="Sản phẩm ${esc(it.id)}"
-             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-      </a>
-      ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
-    </div>
+    <div class="cardx product-card" data-id="${esc(it.id)}">
+      <div class="thumb-wrap">
+        <a href="${linkHref}" target="_blank" rel="noopener">
+          <img loading="lazy" class="thumb" src="${esc(thumbSrc)}"
+               alt="Sản phẩm ${esc(it.id)}"
+               onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        </a>
+        ${it.note ? `<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>` : ``}
+      </div>
 
-  <!-- BOX CHI TIẾT SẢN PHẨM -->
-<div id="detailModal" class="dtl-backdrop" hidden>
-  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
-    <button class="dtl-close" type="button" data-close="detailModal" aria-label="Đóng">×</button>
+      <!-- VÙNG TRẮNG – click ở đây sẽ mở box chi tiết -->
+      <div class="meta">
+        <div class="id">${esc(it.id)}</div>
+        <div class="details">${esc(it.details || '')}</div>
+        ${it.type ? `<div class="type-badge">${esc(it.type)}</div>` : ``}
+        <div class="price">${fmtVND(it.price)}</div>
 
-    <div class="dtl-head">
-      <img id="dtlImg" src="" alt="">
-      <div>
-        <h4 id="dtlTitle">Chi tiết</h4>
-        <div id="dtlSub" class="dtl-sub"></div>
-        <div id="dtlBadges" class="dtl-badges"></div>
+        <div class="meta-actions">
+          ${showGift ? `<a class="btn-gift" href="${esc(giftUrl)}" target="_blank" rel="noopener" title="${esc(giftLabel)}"><span>${esc(giftLabel)}</span></a>` : `<span></span>`}
+          <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}" aria-label="Thêm ${esc(it.id)} vào giỏ">+</button>
+        </div>
       </div>
     </div>
+  </div>`;
+}
 
-    <!-- Các hàng thông tin đầy đủ (kể cả mô tả dài) sẽ render ở đây -->
-    <div id="dtlRows" class="dtl-rows"></div>
-
-    <div class="dtl-actions">
-      <a id="dtlOpenImg" class="btn-ghost" href="#" target="_blank" rel="noopener">Mở ảnh gốc</a>
-      <button type="button" class="btn-main" data-close="detailModal">Đóng</button>
-    </div>
-  </div>
-</div>
 
 
 
@@ -4318,5 +4311,29 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
+<!-- BOX CHI TIẾT SẢN PHẨM -->
+<div id="detailModal" class="dtl-backdrop" hidden>
+  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
+    <button class="dtl-close" type="button" data-close="detailModal" aria-label="Đóng">×</button>
+
+    <div class="dtl-head">
+      <img id="dtlImg" src="" alt="">
+      <div>
+        <h4 id="dtlTitle">Chi tiết</h4>
+        <div id="dtlSub" class="dtl-sub"></div>
+        <div id="dtlBadges" class="dtl-badges"></div>
+      </div>
+    </div>
+
+    <div id="dtlRows" class="dtl-rows"></div>
+
+    <div class="dtl-actions">
+      <a id="dtlOpenImg" class="btn-ghost" href="#" target="_blank" rel="noopener">Mở ảnh gốc</a>
+      <button type="button" class="btn-main" data-close="detailModal">Đóng</button>
+    </div>
+  </div>
+</div>
+
+   
 </body>
 </html>
