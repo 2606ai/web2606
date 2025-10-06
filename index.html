@@ -2431,6 +2431,49 @@ const GROUP_ICONS = {
 function iconForGroup(name){
   return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"];
 }
+function iconForGroup(name){
+  return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"];
+}
+
+// === SẮP XẾP NHÓM THEO THỨ TỰ CỐ ĐỊNH ===
+const GROUP_ORDER = [
+  "QUÀ TẶNG 247 EXPRESS (Đối tác)",
+  "QUÀ TẶNG KỶ NIỆM EVENT THƯƠNG HIỆU",
+  "QUÀ TẶNG PHỤ KIỆN THƯƠNG HIỆU",
+  "QUÀ TẶNG SẢN PHẨM THƯƠNG HIỆU",
+  "QUÀ TẶNG ẤN PHẨM THƯƠNG HIỆU",
+  "KHÁC"
+];
+
+function _normalizeVN(s){
+  return String(s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '') // bỏ dấu tiếng Việt
+    .trim();
+}
+
+window.orderGroups = function(groups){
+  const arr = (groups || []).slice();
+  arr.sort((a, b) => {
+    const aName = _normalizeVN(a.label);
+    const bName = _normalizeVN(b.label);
+    const aIdx = GROUP_ORDER.findIndex(n => _normalizeVN(n) === aName);
+    const bIdx = GROUP_ORDER.findIndex(n => _normalizeVN(n) === bName);
+    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
+    if (aIdx !== -1) return -1;
+    if (bIdx !== -1) return 1;
+    return String(a.label || '').localeCompare(String(b.label || ''), 'vi');
+  });
+  return arr;
+};
+
+function renderGroups(groups){
+  const bar = document.getElementById('groupBar');
+  const dotsBox = document.getElementById('groupDots');
+  if (!bar || !dotsBox) return;
+  ...
+}
 
 function renderGroups(groups){
   const bar  = document.getElementById('groupBar');
