@@ -1749,6 +1749,40 @@ footer.text-light .bi{ color:#fff; }
 }
 #quickCatsTop { display:none !important; }
 
+   :root{
+  --main:#2E7D32; --main-600:#1f6c23;
+}
+.dtl-backdrop[hidden]{ display:none !important; }
+.dtl-backdrop{
+  position: fixed; inset:0; background: rgba(0,0,0,.38);
+  display:grid; place-items:center; z-index: 99999;
+  padding: 16px;
+}
+.dtl-dialog{
+  width: min(920px, 100%); max-height: 92vh; overflow:auto;
+  background:#fff; border-radius:16px; box-shadow:0 18px 60px rgba(0,0,0,.35);
+  padding: 18px; position: relative; border:1px solid #e6efe9;
+}
+.dtl-close{
+  position:absolute; top:8px; right:10px; width:36px; height:36px;
+  border-radius:10px; border:0; background:#f3f7f4; cursor:pointer; font-size:22px;
+}
+.dtl-head{ display:flex; gap:14px; align-items:center; margin-bottom:10px;}
+.dtl-head img{ width:96px; height:96px; border-radius:12px; object-fit:cover; background:#f3f6f4; }
+#dtlTitle{ margin:0 0 4px 0; color:#102a17; }
+.dtl-sub{ color:#5f6f65; font-size:14px; }
+.dtl-badges{ display:flex; gap:8px; flex-wrap:wrap; margin: 4px 0 10px; }
+.dtl-badges .tag{ background:#e8f5e9; color:#1f6c23; padding:4px 8px; border-radius:999px; font-size:12px; }
+.dtl-rows{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+.dtl-row{ border:1px solid #eef3ef; border-radius:12px; padding:10px; background:#fafdfb; }
+.dtl-row .k{ font-size:12px; color:#6b7b70; text-transform:uppercase; letter-spacing:.06em; }
+.dtl-row .v{ margin-top:4px; color:#14391c; white-space:pre-wrap; word-break:break-word; }
+.dtl-actions{ margin-top:14px; display:flex; gap:10px; justify-content:flex-end; }
+.btn-main{ background:var(--main); color:#fff; padding:10px 14px; border-radius:12px; border:0; cursor:pointer; }
+.btn-main:hover{ background:var(--main-600); }
+.btn-ghost{ background:#f3f7f4; color:#123; padding:10px 14px; border-radius:12px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
+@media (max-width: 720px){ .dtl-rows{ grid-template-columns: 1fr; } }
+
 </style>
 
    
@@ -2068,6 +2102,110 @@ footer.text-light .bi{ color:#fff; }
     waitAndLoad();
   }
 })();
+// ====== TIỆN ÍCH ẢNH DRIVE
+function toDriveThumb(u, sz=600){
+  if(!u) return '';
+  const s = String(u);
+  // /file/d/{id}/view
+  const m = s.match(/\/d\/([^/]+)\//);
+  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
+  // đã là thumbnail
+  if (/drive\.google\.com\/thumbnail\?id=/.test(s)) return s.replace(/sz=w\d+/,'sz=w'+sz);
+  return s;
+}
+function safeImg(u){ return toDriveThumb(u) || 'https://via.placeholder.com/600x400?text=No+Image'; }
+
+// ====== MAP NHÃN TRƯỜNG (tùy sheet của bạn)
+const FIELD_LABELS = {
+  id:'ID', code:'Mã', sku:'SKU', title:'Tiêu đề', name:'Tên',
+  group:'Nhóm', category:'Danh mục', price:'Giá', type:'Loại',
+  details:'Mô tả', desc:'Mô tả', quangcao:'Quảng cáo',
+  image:'Ảnh', img:'Ảnh', thumbnail:'Ảnh', linkfull:'Link ảnh gốc',
+  supplier:'Xưởng', material:'Vật liệu', size:'Kích thước', color:'Màu',
+  weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
+  lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật'
+};
+
+// ====== TÌM ITEM THEO ID (dựa vào items đã render lần cuối)
+function getItemById(id){
+  const arr = window._lastItems || [];             // mảng item bạn đang hiển thị
+  return arr.find(x => String(x.id)===String(id) || String(x.code)===String(id));
+}
+
+// ====== RENDER BOX CHI TIẾT
+function openDetailBox(item){
+  if(!item) return;
+  const modal = document.getElementById('detailModal');
+  const img = safeImg(item.img || item.image || item.thumbnail || item.linkfull);
+  document.getElementById('dtlImg').src = img;
+  document.getElementById('dtlTitle').textContent = item.title || item.name || item.code || item.id || 'Chi tiết';
+  document.getElementById('dtlSub').textContent = [item.group, item.category].filter(Boolean).join(' • ');
+  document.getElementById('dtlOpenImg').href = (item.linkfull || img);
+
+  // badges (giá, loại…)
+  const badges = [];
+  if (item.price) badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
+  if (item.type)  badges.push(`<span class="tag">${item.type}</span>`);
+  if (item.supplier) badges.push(`<span class="tag">Xưởng: ${item.supplier}</span>`);
+  document.getElementById('dtlBadges').innerHTML = badges.join('');
+
+  // tạo các dòng dữ liệu đầy đủ
+  const rows = [];
+  const seen = new Set(['img','image','thumbnail','linkfull']); // ảnh để riêng
+  Object.keys(item).forEach(k=>{
+    if (seen.has(k)) return;
+    const v = item[k];
+    if (v===undefined || v===null || v==='') return;
+    const label = FIELD_LABELS[k] || k;
+    rows.push(`
+      <div class="dtl-row">
+        <div class="k">${label}</div>
+        <div class="v">${String(v)}</div>
+      </div>
+    `);
+  });
+  // nếu có mô tả dài riêng
+  if (item.details && !('details' in item)) {
+    rows.push(`
+      <div class="dtl-row">
+        <div class="k">Mô tả</div>
+        <div class="v">${String(item.details)}</div>
+      </div>
+    `);
+  }
+  document.getElementById('dtlRows').innerHTML = rows.join('');
+
+  modal.hidden = false;
+}
+function closeDetailBox(){ document.getElementById('detailModal').hidden = true; }
+
+// ====== BẮT SỰ KIỆN CLICK TỪ THẺ SẢN PHẨM
+// 1) Nếu thẻ sản phẩm có data-id: <div class="product-card" data-id="...">
+document.addEventListener('click', (ev)=>{
+  const closeBtn = ev.target.closest('[data-close="detailModal"]');
+  if (closeBtn){ closeDetailBox(); return; }
+
+  // ưu tiên các nút “Chi tiết”
+  const btn = ev.target.closest('[data-action="open-detail"]');
+  if (btn){
+    const id = btn.getAttribute('data-id') || btn.closest('[data-id]')?.getAttribute('data-id');
+    const item = getItemById(id);
+    openDetailBox(item);
+    ev.preventDefault();
+    return;
+  }
+
+  // click toàn card
+  const card = ev.target.closest('.product-card,[data-id]');
+  if (card && !ev.target.closest('button,a,[role="button"]')){ // tránh click vào các nút con
+    const id = card.getAttribute('data-id') || card.dataset.id;
+    const item = getItemById(id);
+    openDetailBox(item);
+  }
+});
+
+
+   
 </script>
 
       <!-- Thống kê + Pagination -->
@@ -4137,6 +4275,29 @@ document.addEventListener('DOMContentLoaded', () => {
   window.updateFilterBadge = renderBadge;
 })();
 </script>
+<!-- DETAIL BOX -->
+<div id="detailModal" class="dtl-backdrop" hidden>
+  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
+    <button class="dtl-close" data-close="detailModal" aria-label="Đóng">×</button>
+
+    <div class="dtl-head">
+      <img id="dtlImg" alt="" />
+      <div>
+        <h3 id="dtlTitle">Tiêu đề</h3>
+        <div id="dtlSub" class="dtl-sub"></div>
+      </div>
+    </div>
+
+    <div id="dtlBadges" class="dtl-badges"></div>
+
+    <div id="dtlRows" class="dtl-rows"><!-- rows auto render --></div>
+
+    <div class="dtl-actions">
+      <a id="dtlOpenImg" class="btn-ghost" target="_blank" rel="noopener">Mở ảnh</a>
+      <button class="btn-main" data-close="detailModal">Đóng</button>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
