@@ -2432,8 +2432,8 @@ function iconForGroup(name){
   return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"];
 }
 
-// === SẮP XẾP NHÓM THEO THỨ TỰ CỐ ĐỊNH ===
-const GROUP_ORDER = [
+// === THỨ TỰ HIỂN THỊ NHÓM (TRÁI → PHẢI) ===
+const GROUP_ORDER_RAW = [
   "QUÀ TẶNG 247 EXPRESS (Đối tác)",
   "QUÀ TẶNG KỶ NIỆM EVENT THƯƠNG HIỆU",
   "QUÀ TẶNG PHỤ KIỆN THƯƠNG HIỆU",
@@ -2442,28 +2442,46 @@ const GROUP_ORDER = [
   "KHÁC"
 ];
 
+// chuẩn hoá (bỏ dấu, lower, trim)
 function _normalizeVN(s){
   return String(s || '')
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '') // bỏ dấu tiếng Việt
+    .replace(/[\u0300-\u036f]/g, '')
     .trim();
 }
 
+// lấy tên nhóm dù là string hay object
+function _nameOf(g){
+  if (typeof g === 'string') return g;
+  return g?.label || g?.name || g?.id || '';
+}
+
+// cache mảng chuẩn hoá để so nhanh
+const GROUP_ORDER_NORM = GROUP_ORDER_RAW.map(_normalizeVN);
+
+// Sắp xếp theo thứ tự định nghĩa
 window.orderGroups = function(groups){
   const arr = (groups || []).slice();
+
   arr.sort((a, b) => {
-    const aName = _normalizeVN(a.label);
-    const bName = _normalizeVN(b.label);
-    const aIdx = GROUP_ORDER.findIndex(n => _normalizeVN(n) === aName);
-    const bIdx = GROUP_ORDER.findIndex(n => _normalizeVN(n) === bName);
-    if (aIdx !== -1 && bIdx !== -1) return aIdx - bIdx;
-    if (aIdx !== -1) return -1;
-    if (bIdx !== -1) return 1;
-    return String(a.label || '').localeCompare(String(b.label || ''), 'vi');
+    const na = _normalizeVN(_nameOf(a));
+    const nb = _normalizeVN(_nameOf(b));
+
+    const ai = GROUP_ORDER_NORM.indexOf(na);
+    const bi = GROUP_ORDER_NORM.indexOf(nb);
+
+    if (ai !== -1 && bi !== -1) return ai - bi; // cả 2 đều có trong bảng
+    if (ai !== -1) return -1;                   // a có ưu tiên → lên trước
+    if (bi !== -1) return 1;                    // b có ưu tiên → lên trước
+
+    // còn lại: alpha nhẹ theo tên đã chuẩn hoá
+    return na.localeCompare(nb, 'vi');
   });
+
   return arr;
 };
+
 
 
 function renderGroups(groups){
