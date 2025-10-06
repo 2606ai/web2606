@@ -3,145 +3,166 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Về chúng tôi – 2606AI</title>
+<title>Về 2606AI — Hệ sinh thái B2B • Glassmorphism</title>
+<meta name="color-scheme" content="light" />
 
-<!-- =========================
-     DESIGN TOKENS – XANH BAMBOO
-     ========================= -->
 <style>
-  :root{
-    --main:#2E7D32;         /* bamboo */
-    --main-600:#1f6c23;
-    --main-700:#18561c;
-    --accent:#d4af37;       /* vàng nhấn */
-    --bg:#f6faf7;           /* nền dịu */
-    --card:#ffffff;
-    --text:#1f2937;
-    --muted:#6b7280;
-    --border:#e6ece7;
+/* =============================
+   2606AI • GLASSMORPHISM THEME
+   ============================= */
+:root{
+  /* Brand */
+  --bamboo-50:#f0f8f2;
+  --bamboo-100:#e5f4e8;
+  --bamboo-300:#bfe5c7;
+  --bamboo-500:#2e7d32;
+  --bamboo-600:#226528;
+  --bamboo-700:#1a5320;
+  --gold:#d4af37;
+  --ink:#16341d;
+  --muted:#5b6b61;
 
-    --shadow-sm:0 1px 2px rgba(0,0,0,.06);
-    --shadow-md:0 8px 24px rgba(0,0,0,.12);
-    --radius:16px;
+  /* Glass tokens */
+  --glass-bg: rgba(255,255,255,.5);
+  --glass-bd: rgba(255,255,255,.35);
+  --glass-shadow: 0 18px 50px rgba(26,83,32,.18);
+  --blur: blur(12px) saturate(120%);
 
-    --w:1140px;             /* max container width */
-  }
+  /* UI */
+  --radius-xl: 22px;
+  --radius-lg: 18px;
+  --radius-sm: 12px;
+  --container: 1160px;
+}
 
-  /* ===== Reset nhẹ ===== */
-  *,*::before,*::after{ box-sizing:border-box }
-  html,body{ margin:0; padding:0 }
-  body{
-    font-family: system-ui,-apple-system,"Be Vietnam Pro",Roboto,Arial,sans-serif;
-    color:var(--text); background:var(--bg); line-height:1.6;
-  }
-  img{ max-width:100%; display:block }
-  a{ color:var(--main-700); text-decoration:none }
-  a:hover{ text-decoration:underline }
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family: Inter, system-ui, -apple-system, "Be Vietnam Pro", Roboto, Arial, sans-serif;
+  color:var(--ink); line-height:1.65;
+  /* Nền gradient + vệt sáng */
+  background:
+    radial-gradient(1200px 520px at 70% -10%, rgba(46,125,50,.28), transparent 60%),
+    radial-gradient(900px 420px at -10% 20%, rgba(212,175,55,.18), transparent 60%),
+    linear-gradient(180deg, #e9f6ec 0%, #f6fbf7 40%, #eef8f1 100%);
+}
 
-  .container{ width:min(100% - 32px, var(--w)); margin-inline:auto }
+/* Generic */
+.container{width:min(100% - 32px, var(--container)); margin-inline:auto}
+a{color:var(--bamboo-700); text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3{line-height:1.25}
+h1{font-size:clamp(28px,4.4vw,42px); margin:0 0 10px; color:var(--bamboo-700)}
+h2{font-size:clamp(22px,3vw,30px); margin:0 0 12px; color:var(--bamboo-700)}
+h3{font-size:clamp(17px,2.2vw,20px); margin:0 0 6px; color:var(--bamboo-700)}
+p{margin:0 0 10px}
 
-  /* ===== Header gọn ===== */
-  header{
-    background:var(--card); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:30
-  }
-  .nav{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 }
-  .brand{ display:flex; align-items:center; gap:10px; font-weight:800; color:var(--main-700) }
-  .brand-badge{
-    width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#fff;
-    background:linear-gradient(135deg,var(--main),#3aa84a); box-shadow:var(--shadow-sm); font-weight:900
-  }
-  .nav-cta{ display:flex; gap:10px }
-  .btn{
-    display:inline-flex; align-items:center; gap:8px; font-weight:700;
-    padding:10px 14px; border-radius:12px; border:2px solid transparent; box-shadow:var(--shadow-sm)
-  }
-  .btn-main{ background:var(--main); color:#fff }
-  .btn-main:hover{ background:var(--main-600) }
-  .btn-ghost{ background:#fff; color:var(--main-700); border-color:var(--main-600) }
-  .btn-ghost:hover{ background:#f0f8f1 }
+.badge{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:6px 10px; border-radius:999px;
+  background:var(--glass-bg); border:1px solid var(--glass-bd);
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  color:var(--bamboo-700); font-weight:800; letter-spacing:.02em;
+}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; font-weight:800;
+  padding:12px 16px; border-radius:14px; border:2px solid transparent;
+  box-shadow:0 8px 18px rgba(0,0,0,.05);
+}
+.btn-main{ background:var(--bamboo-500); color:#fff }
+.btn-main:hover{ background:var(--bamboo-600) }
+.btn-ghost{ background:var(--glass-bg); color:var(--bamboo-700); border-color:var(--bamboo-600);
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+}
+.btn-ghost:hover{ background:rgba(255,255,255,.7) }
 
-  /* ===== Hero / Tagline đối tác ===== */
-  .hero{
-    background:
-      radial-gradient(1200px 320px at 50% -60%, rgba(46,125,50,.2), transparent 60%),
-      linear-gradient(0deg,#eaf6ed,#f6faf7);
-    border-bottom:1px solid var(--border);
-    padding:56px 0 40px;
-  }
-  .hero-wrap{
-    display:grid; grid-template-columns:1.15fr 1fr; gap:28px; align-items:center
-  }
-  .hero h1{ margin:0 0 10px; font-size:clamp(28px,4vw,40px); color:var(--main-700); line-height:1.2 }
-  .lead{ margin:0 0 16px; color:#334155; font-size:clamp(16px,2.2vw,18px) }
-  .badge{
-    display:inline-flex; gap:8px; align-items:center; font-weight:800; letter-spacing:.02em;
-    background:#fff; border:1px solid var(--border); padding:6px 10px; border-radius:999px; color:var(--main-700)
-  }
+/* Glass card */
+.card{
+  background:var(--glass-bg); border:1px solid var(--glass-bd);
+  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+  border-radius:var(--radius-xl); box-shadow:var(--glass-shadow);
+}
 
-  .hero-card{
-    background:#fff; border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:var(--shadow-md)
-  }
-  .hero-quote{
-    font-size:18px; color:#1f3b24; margin:0 0 10px; line-height:1.5
-  }
-  .hero-note{ color:#4b5c50; font-size:14px; margin:0 }
+/* ===== Header glass ===== */
+header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(246,251,247,.6);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(120%);
+  border-bottom:1px solid rgba(255,255,255,.4);
+}
+.nav{
+  display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0
+}
+.brand{ display:flex; align-items:center; gap:12px; font-weight:900; color:var(--bamboo-700) }
+.brand-badge{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--bamboo-500),#3aa84a)
+}
 
-  /* ===== Section base ===== */
-  section{ padding:40px 0 }
-  .eyebrow{
-    font-weight:900; color:var(--accent); text-transform:uppercase; letter-spacing:.14em; font-size:12px
-  }
-  h2{ margin:6px 0 10px; font-size:clamp(22px,3vw,28px); color:var(--main-700) }
+/* ===== Hero ===== */
+section.hero{ padding:62px 0 36px }
+.hero-wrap{
+  display:grid; grid-template-columns:1.15fr 1fr; gap:28px; align-items:center;
+}
+.lead{ font-size:clamp(16px,2.2vw,18px); color:#31473a }
+.hero-quote{ font-size:18px; color:#1e3a26 }
+.hero-card{ padding:18px }
 
-  /* ===== “Tôi làm được gì hơn…” (6 dịch vụ) ===== */
-  .svc-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px }
-  .svc{
-    background:#fff; border:1px solid var(--border); border-radius:14px; padding:14px;
-    display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:flex-start; box-shadow:var(--shadow-sm)
-  }
-  .svc .ico{
-    width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
-    background:#e8f5e9;color:var(--main-700);font-size:20px
-  }
-  .svc h3{ margin:0 0 4px; font-size:16px; color:var(--main-700) }
-  .svc p{ margin:0; font-size:14px; color:#46565a }
+/* ===== Sections ===== */
+section.section{ padding:40px 0 }
+.eyebrow{
+  font-weight:900; color:var(--gold); text-transform:uppercase; letter-spacing:.14em; font-size:12px
+}
 
-  /* ===== Giá trị cốt lõi (chips) ===== */
-  .chips{ display:flex; flex-wrap:wrap; gap:10px }
-  .chip{
-    background:#fff; border:1px solid var(--border); border-radius:999px; padding:8px 12px;
-    display:inline-flex; gap:8px; align-items:center; font-weight:700; color:#1f3b24
-  }
+/* ===== Intro cards (Mission / Vision) ===== */
+.intro-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
+.intro-card{ padding:18px }
+.intro-card .ico{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;margin-bottom:8px;
+  background:#e8f5e9; color:var(--bamboo-700); font-size:22px;
+}
 
-  /* ===== Hệ sinh thái & liên hệ ===== */
-  .eco{
-    background:#fff; border:1px solid var(--border); border-radius:var(--radius);
-    padding:18px; box-shadow:var(--shadow-sm)
-  }
-  .eco-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:16px }
-  .contact{
-    background:linear-gradient(135deg,var(--main),#43a047); color:#fff; border-radius:18px; padding:18px;
-    display:flex; flex-direction:column; gap:10px; box-shadow:var(--shadow-md)
-  }
-  .contact a{ color:#fff; text-decoration:underline }
-  .contact .row{ display:flex; gap:10px; flex-wrap:wrap }
-  .contact .row .btn{ background:#fff; color:var(--main-700) }
-  .list{ margin:0; padding:0 0 0 18px }
-  .list li{ margin:4px 0 }
+/* ===== Services grid ===== */
+.svc-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px }
+.svc{ padding:14px; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:flex-start }
+.svc .ico{
+  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+  background:#e8f5e9;color:var(--bamboo-700); font-size:22px
+}
+.svc p{ color:#425659; font-size:14px }
 
-  /* ===== Footer ngắn ===== */
-  footer{ padding:28px 0 40px; background:var(--main-700); color:#cfe3d2 }
-  .mini{ color:#a7d3ad; font-size:14px }
+/* ===== Values chips ===== */
+.chips{ display:flex; flex-wrap:wrap; gap:10px }
+.chip{
+  display:inline-flex; gap:8px; align-items:center; font-weight:800; color:#1f3b24;
+  padding:9px 12px; border-radius:999px; border:1px dashed var(--bamboo-300);
+  background:rgba(255,255,255,.7); -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
+}
 
-  /* ===== Responsive ===== */
-  @media (max-width:992px){
-    .hero-wrap{ grid-template-columns:1fr }
-    .svc-grid{ grid-template-columns:repeat(2,1fr) }
-    .eco-grid{ grid-template-columns:1fr }
-  }
-  @media (max-width:640px){
-    .svc-grid{ grid-template-columns:1fr }
-  }
+/* ===== Ecosystem + Contact ===== */
+.eco-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:16px }
+.eco{ padding:18px }
+.list{ margin:0; padding:0; list-style:none }
+.list li{ padding:8px 0; border-bottom:1px dashed rgba(46,125,50,.18) }
+.contact{ padding:18px; color:#fff; background:linear-gradient(135deg,var(--bamboo-500),#43a047) }
+.contact .btn{ background:#fff; color:var(--bamboo-700) }
+.contact .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px }
+
+/* ===== Footer ===== */
+footer{ padding:28px 0 40px; color:#cfe3d2; background:var(--bamboo-700) }
+.mini{ color:#a7d3ad; font-size:14px }
+
+/* ===== Responsive ===== */
+@media (max-width:992px){
+  .hero-wrap{ grid-template-columns:1fr }
+  .intro-grid{ grid-template-columns:1fr }
+  .svc-grid{ grid-template-columns:repeat(2,1fr) }
+  .eco-grid{ grid-template-columns:1fr }
+}
+@media (max-width:640px){
+  .svc-grid{ grid-template-columns:1fr }
+}
 </style>
 </head>
 <body>
@@ -150,48 +171,66 @@
 <header>
   <div class="container nav">
     <div class="brand">
-      <div class="brand-badge">AI</div>
-      <div>2606AI</div>
+      <div class="brand-badge">AI</div><div>2606AI</div>
     </div>
-    <div class="nav-cta">
+    <nav class="nav-cta">
       <a class="btn btn-ghost" href="/">Trang chủ</a>
       <a class="btn btn-main" href="#lien-he">Liên hệ</a>
-    </div>
+    </nav>
   </div>
 </header>
 
-<!-- =================== HERO / TAGLINE =================== -->
+<!-- =================== HERO =================== -->
 <section class="hero">
   <div class="container hero-wrap">
     <div>
       <span class="badge">Hệ sinh thái dịch vụ B2B</span>
       <h1>Về 2606AI</h1>
       <p class="lead">
-        <b>2606AI</b> là đối tác kết nối <b>thiết kế</b> &amp; <b>sản xuất quà tặng thương hiệu</b>:
-        tạo mẫu nhanh bằng AI, kiểm định khả thi sản xuất bởi chuyên gia, triển khai tại mạng lưới xưởng toàn quốc.
+        <b>2606AI</b> kết nối <b>thiết kế</b> &amp; <b>sản xuất quà tặng thương hiệu</b> bằng AI —
+        tạo mẫu nhanh, kiểm định khả thi bởi chuyên gia, triển khai tại mạng lưới xưởng toàn quốc.
       </p>
-      <div class="nav-cta">
+      <div class="nav-cta" style="display:flex; gap:10px; margin-top:8px">
         <a class="btn btn-main" href="#dich-vu">Khám phá năng lực</a>
         <a class="btn btn-ghost" href="#he-sinh-thai">Xem hệ sinh thái</a>
       </div>
     </div>
 
-    <aside class="hero-card">
-      <p class="hero-quote">🏆 <strong>“Tôi là Partnership hoàn hảo cho Doanh nghiệp của bạn, hãy liên hệ tôi để xây dựng sự kết nối giá trị.”</strong> 🤝</p>
-      <p class="hero-note">Tin cậy – Minh bạch – Tốc độ.</p>
+    <aside class="card hero-card">
+      <p class="hero-quote">🏆 <strong>“Tôi là Partnership hoàn hảo cho Doanh nghiệp của bạn — hãy liên hệ tôi để xây dựng sự kết nối giá trị.”</strong> 🤝</p>
+      <p style="margin:6px 0 0; color:#3b5445">Tin cậy • Minh bạch • Tốc độ.</p>
     </aside>
   </div>
 </section>
 
-<!-- =================== DỊCH VỤ: Tôi làm được gì hơn... =================== -->
-<section id="dich-vu">
+<!-- =================== INTRO (Mission / Vision) =================== -->
+<section class="section">
   <div class="container">
-    <div class="eyebrow">Năng lực dịch vụ</div>
+    <div class="intro-grid">
+      <article class="card intro-card">
+        <div class="ico">🎯</div>
+        <h2>Sứ mệnh</h2>
+        <p>Giúp doanh nghiệp <b>biến ý tưởng thành sản phẩm thực tế</b> nhanh – đúng – tối ưu chi phí: từ thiết kế, xác minh khả thi sản xuất, đến vận chuyển giao nhận.</p>
+      </article>
+
+      <article class="card intro-card">
+        <div class="ico">🚀</div>
+        <h2>Tầm nhìn</h2>
+        <p>Trở thành <b>nền tảng B2B sáng tạo</b> hàng đầu Việt Nam cho quà tặng thương hiệu, kết nối <b>10.000+ mẫu</b>, <b>500+ xưởng</b> và hệ sinh thái dịch vụ tin cậy.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- =================== SERVICES =================== -->
+<section id="dich-vu" class="section">
+  <div class="container">
+    <div class="eyebrow">Năng lực cốt lõi</div>
     <h2>Tôi làm được gì hơn cho bạn</h2>
 
     <div class="svc-grid">
       <!-- 1 -->
-      <article class="svc">
+      <article class="card svc">
         <div class="ico">📈</div>
         <div>
           <h3>Quảng cáo B2B</h3>
@@ -199,7 +238,7 @@
         </div>
       </article>
       <!-- 2 -->
-      <article class="svc">
+      <article class="card svc">
         <div class="ico">🚚</div>
         <div>
           <h3>Vận chuyển 247 Express</h3>
@@ -207,15 +246,15 @@
         </div>
       </article>
       <!-- 3 -->
-      <article class="svc">
+      <article class="card svc">
         <div class="ico">🎨</div>
         <div>
           <h3>Thiết kế ấn phẩm thương hiệu</h3>
-          <p>Phục vụ sản xuất & in ấn: mockup, file in chuẩn, tối ưu vật liệu.</p>
+          <p>Mockup, file in chuẩn; tối ưu vật liệu & quy trình cho sản xuất.</p>
         </div>
       </article>
       <!-- 4 -->
-      <article class="svc">
+      <article class="card svc">
         <div class="ico">🧭</div>
         <div>
           <h3>Tìm nguồn hàng & xưởng</h3>
@@ -223,7 +262,7 @@
         </div>
       </article>
       <!-- 5 -->
-      <article class="svc">
+      <article class="card svc">
         <div class="ico">🧠</div>
         <div>
           <h3>Marketing & Website</h3>
@@ -231,7 +270,7 @@
         </div>
       </article>
       <!-- 6 -->
-      <article class="svc">
+      <article class="card svc">
         <div class="ico">🤖</div>
         <div>
           <h3>AI / ChatGPT</h3>
@@ -242,8 +281,8 @@
   </div>
 </section>
 
-<!-- =================== GIÁ TRỊ CỐT LÕI =================== -->
-<section>
+<!-- =================== VALUES =================== -->
+<section class="section">
   <div class="container">
     <div class="eyebrow">Giá trị</div>
     <h2>Chúng tôi cam kết</h2>
@@ -255,50 +294,45 @@
   </div>
 </section>
 
-<!-- =================== HỆ SINH THÁI & LIÊN HỆ =================== -->
-<section id="he-sinh-thai">
-  <div class="container eco">
-    <div class="eyebrow">Hệ sinh thái dịch vụ B2B</div>
-    <h2>Kết nối đa dịch vụ – Một điểm chạm</h2>
-
-    <div class="eco-grid">
-      <!-- Thông tin hệ sinh thái -->
-      <div>
-        <ul class="list">
-          <li>🎁 Website: <b>2606ai.vn</b></li>
-          <li>✈️ Vận chuyển: <b>247express.vn</b></li>
-          <li>📬 Email: <b>info2606ai.vn@gmail.com</b></li>
-          <li>⏰ Thời gian: <b>08:00 – 17:00</b> (trừ CN)</li>
-        </ul>
-        <br />
-        <div class="eyebrow">Văn phòng</div>
-        <ul class="list">
-          <li>🏢 Địa chỉ 1: Tầng 08, Tòa nhà Samco, 326 Võ Văn Kiệt, P. Cầu Ông Lãnh, TP.HCM</li>
-          <li>🏢 Địa chỉ 2: Tầng 12, Tòa nhà Vinacomin, 3 Dương Đình Nghệ, P. Yên Hòa, Hà Nội</li>
-        </ul>
-      </div>
-
-      <!-- Card liên hệ nhanh -->
-      <aside id="lien-he" class="contact">
-        <div>
-          <h3 style="margin:0 0 6px">Liên hệ ngay</h3>
-          <p style="margin:0">☎️ Hotline: <b>0775 238 306</b> – Mr. Đăng</p>
-        </div>
-        <div class="row">
-          <a class="btn" href="tel:0775238306">Gọi điện</a>
-          <a class="btn" href="mailto:info2606ai.vn@gmail.com">Gửi email</a>
-          <a class="btn" href="https://zalo.me/" target="_blank" rel="noopener">Chat Zalo</a>
-        </div>
-        <small>Phản hồi trong giờ làm việc.</small>
-      </aside>
+<!-- =================== ECOSYSTEM + CONTACT =================== -->
+<section id="he-sinh-thai" class="section">
+  <div class="container eco-grid">
+    <div class="card eco">
+      <div class="eyebrow">Hệ sinh thái dịch vụ B2B</div>
+      <h2>Kết nối đa dịch vụ – Một điểm chạm</h2>
+      <ul class="list">
+        <li>🎁 Website: <b>2606ai.vn</b></li>
+        <li>✈️ Vận chuyển: <b>247express.vn</b></li>
+        <li>📬 Email: <b>info2606ai.vn@gmail.com</b></li>
+        <li>⏰ Thời gian: <b>08:00 – 17:00</b> (trừ CN)</li>
+      </ul>
+      <div style="height:10px"></div>
+      <div class="eyebrow">Văn phòng</div>
+      <ul class="list">
+        <li>🏢 Địa chỉ 1: Tầng 08, Tòa nhà Samco, 326 Võ Văn Kiệt, P. Cầu Ông Lãnh, TP.HCM</li>
+        <li>🏢 Địa chỉ 2: Tầng 12, Tòa nhà Vinacomin, 3 Dương Đình Nghệ, P. Yên Hòa, Hà Nội</li>
+      </ul>
     </div>
+
+    <aside id="lien-he" class="card contact">
+      <div>
+        <h2 style="margin:0 0 8px; color:#fff">Liên hệ ngay</h2>
+        <p style="margin:0">☎️ Hotline: <b>0775 238 306</b> — Mr. Đăng</p>
+        <p style="margin:6px 0 0; opacity:.9">Phản hồi trong giờ làm việc.</p>
+      </div>
+      <div class="row">
+        <a class="btn" href="tel:0775238306">Gọi điện</a>
+        <a class="btn" href="mailto:info2606ai.vn@gmail.com">Gửi email</a>
+        <a class="btn" href="https://zalo.me/" target="_blank" rel="noopener">Chat Zalo</a>
+      </div>
+    </aside>
   </div>
 </section>
 
 <!-- =================== FOOTER =================== -->
 <footer>
   <div class="container">
-    <div class="mini">© 2606AI – Nền tảng thiết kế &amp; sản xuất quà tặng thương hiệu. Tốc độ • Minh bạch • Tin cậy.</div>
+    <div class="mini">© 2606AI — Nền tảng thiết kế & sản xuất quà tặng thương hiệu. Tốc độ • Minh bạch • Tin cậy.</div>
   </div>
 </footer>
 
