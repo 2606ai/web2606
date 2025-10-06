@@ -2431,6 +2431,9 @@ const GROUP_ICONS = {
 function iconForGroup(name){
   return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"];
 }
+function iconForGroup(name){
+  return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"];
+}
 
 function renderGroups(groups){
   const bar  = document.getElementById('groupBar');
@@ -2639,9 +2642,11 @@ function renderCategoriesFromConfig(){
 function buildCategoryFromFacets(facets){
   const groups = facets?.groups_all || facets?.groups || [];
 
-  // lưu tạm cho resize & vẽ group chips
-  window._lastGroups = groups;
-  renderGroups(groups);
+ // SẮP XẾP THỨ TỰ NHÓM TRƯỚC KHI VẼ
+const orderedGroups = orderGroups(groups);
+window._lastGroups = orderedGroups;
+renderGroups(orderedGroups);
+
 
   // hiệu ứng mờ nhẹ khi cập nhật
   const catEl = document.getElementById('categoryScroll');
