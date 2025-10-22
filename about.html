@@ -1,338 +1,146 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Về 2606AI — Hệ sinh thái B2B • Glassmorphism</title>
-<meta name="color-scheme" content="light" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2606AI – Tham khảo & đặt sản xuất</title>
 
-<style>
-/* =============================
-   2606AI • GLASSMORPHISM THEME
-   ============================= */
-:root{
-  /* Brand */
-  --bamboo-50:#f0f8f2;
-  --bamboo-100:#e5f4e8;
-  --bamboo-300:#bfe5c7;
-  --bamboo-500:#2e7d32;
-  --bamboo-600:#226528;
-  --bamboo-700:#1a5320;
-  --gold:#d4af37;
-  --ink:#16341d;
-  --muted:#5b6b61;
-
-  /* Glass tokens */
-  --glass-bg: rgba(255,255,255,.5);
-  --glass-bd: rgba(255,255,255,.35);
-  --glass-shadow: 0 18px 50px rgba(26,83,32,.18);
-  --blur: blur(12px) saturate(120%);
-
-  /* UI */
-  --radius-xl: 22px;
-  --radius-lg: 18px;
-  --radius-sm: 12px;
-  --container: 1160px;
-}
-
-*{box-sizing:border-box}
-html,body{margin:0}
-body{
-  font-family: Inter, system-ui, -apple-system, "Be Vietnam Pro", Roboto, Arial, sans-serif;
-  color:var(--ink); line-height:1.65;
-  /* Nền gradient + vệt sáng */
-  background:
-    radial-gradient(1200px 520px at 70% -10%, rgba(46,125,50,.28), transparent 60%),
-    radial-gradient(900px 420px at -10% 20%, rgba(212,175,55,.18), transparent 60%),
-    linear-gradient(180deg, #e9f6ec 0%, #f6fbf7 40%, #eef8f1 100%);
-}
-
-/* Generic */
-.container{width:min(100% - 32px, var(--container)); margin-inline:auto}
-a{color:var(--bamboo-700); text-decoration:none}
-a:hover{text-decoration:underline}
-h1,h2,h3{line-height:1.25}
-h1{font-size:clamp(28px,4.4vw,42px); margin:0 0 10px; color:var(--bamboo-700)}
-h2{font-size:clamp(22px,3vw,30px); margin:0 0 12px; color:var(--bamboo-700)}
-h3{font-size:clamp(17px,2.2vw,20px); margin:0 0 6px; color:var(--bamboo-700)}
-p{margin:0 0 10px}
-
-.badge{
-  display:inline-flex; align-items:center; gap:8px;
-  padding:6px 10px; border-radius:999px;
-  background:var(--glass-bg); border:1px solid var(--glass-bd);
-  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
-  color:var(--bamboo-700); font-weight:800; letter-spacing:.02em;
-}
-.btn{
-  display:inline-flex; align-items:center; gap:8px; font-weight:800;
-  padding:12px 16px; border-radius:14px; border:2px solid transparent;
-  box-shadow:0 8px 18px rgba(0,0,0,.05);
-}
-.btn-main{ background:var(--bamboo-500); color:#fff }
-.btn-main:hover{ background:var(--bamboo-600) }
-.btn-ghost{ background:var(--glass-bg); color:var(--bamboo-700); border-color:var(--bamboo-600);
-  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
-}
-.btn-ghost:hover{ background:rgba(255,255,255,.7) }
-
-/* Glass card */
-.card{
-  background:var(--glass-bg); border:1px solid var(--glass-bd);
-  -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
-  border-radius:var(--radius-xl); box-shadow:var(--glass-shadow);
-}
-
-/* ===== Header glass ===== */
-header{
-  position:sticky; top:0; z-index:50;
-  background:rgba(246,251,247,.6);
-  -webkit-backdrop-filter: blur(12px) saturate(120%);
-  backdrop-filter: blur(12px) saturate(120%);
-  border-bottom:1px solid rgba(255,255,255,.4);
-}
-.nav{
-  display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0
-}
-.brand{ display:flex; align-items:center; gap:12px; font-weight:900; color:var(--bamboo-700) }
-.brand-badge{
-  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;
-  background:linear-gradient(135deg,var(--bamboo-500),#3aa84a)
-}
-
-/* ===== Hero ===== */
-section.hero{ padding:62px 0 36px }
-.hero-wrap{
-  display:grid; grid-template-columns:1.15fr 1fr; gap:28px; align-items:center;
-}
-.lead{ font-size:clamp(16px,2.2vw,18px); color:#31473a }
-.hero-quote{ font-size:18px; color:#1e3a26 }
-.hero-card{ padding:18px }
-
-/* ===== Sections ===== */
-section.section{ padding:40px 0 }
-.eyebrow{
-  font-weight:900; color:var(--gold); text-transform:uppercase; letter-spacing:.14em; font-size:12px
-}
-
-/* ===== Intro cards (Mission / Vision) ===== */
-.intro-grid{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
-.intro-card{ padding:18px }
-.intro-card .ico{
-  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;margin-bottom:8px;
-  background:#e8f5e9; color:var(--bamboo-700); font-size:22px;
-}
-
-/* ===== Services grid ===== */
-.svc-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px }
-.svc{ padding:14px; display:grid; grid-template-columns:auto 1fr; gap:12px; align-items:flex-start }
-.svc .ico{
-  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
-  background:#e8f5e9;color:var(--bamboo-700); font-size:22px
-}
-.svc p{ color:#425659; font-size:14px }
-
-/* ===== Values chips ===== */
-.chips{ display:flex; flex-wrap:wrap; gap:10px }
-.chip{
-  display:inline-flex; gap:8px; align-items:center; font-weight:800; color:#1f3b24;
-  padding:9px 12px; border-radius:999px; border:1px dashed var(--bamboo-300);
-  background:rgba(255,255,255,.7); -webkit-backdrop-filter:var(--blur); backdrop-filter:var(--blur);
-}
-
-/* ===== Ecosystem + Contact ===== */
-.eco-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:16px }
-.eco{ padding:18px }
-.list{ margin:0; padding:0; list-style:none }
-.list li{ padding:8px 0; border-bottom:1px dashed rgba(46,125,50,.18) }
-.contact{ padding:18px; color:#fff; background:linear-gradient(135deg,var(--bamboo-500),#43a047) }
-.contact .btn{ background:#fff; color:var(--bamboo-700) }
-.contact .row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px }
-
-/* ===== Footer ===== */
-footer{ padding:28px 0 40px; color:#cfe3d2; background:var(--bamboo-700) }
-.mini{ color:#a7d3ad; font-size:14px }
-
-/* ===== Responsive ===== */
-@media (max-width:992px){
-  .hero-wrap{ grid-template-columns:1fr }
-  .intro-grid{ grid-template-columns:1fr }
-  .svc-grid{ grid-template-columns:repeat(2,1fr) }
-  .eco-grid{ grid-template-columns:1fr }
-}
-@media (max-width:640px){
-  .svc-grid{ grid-template-columns:1fr }
-}
-</style>
+  <!-- BƯỚC 3 sẽ gắn CSS riêng vào đây: <link rel="stylesheet" href="assets/css/main.css"> -->
+  <style>/* chỉ để nhìn rõ khung khi chưa có CSS */
+    body{font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:0}
+    [data-box]{outline:1px dashed #ddd; padding:8px; margin:6px 0}
+  </style>
 </head>
 <body>
 
-<!-- =================== HEADER =================== -->
-<header>
-  <div class="container nav">
-    <div class="brand">
-      <div class="brand-badge">AI</div><div>2606AI</div>
+  <!-- ===== HEADER ===== -->
+  <header id="siteHeader" role="banner" data-box>
+    <div id="brand" data-box>LOGO 2606AI</div>
+    <div id="searchBar" data-box>
+      <input id="q" placeholder="Tìm sản phẩm… (ID, mô tả)" />
+      <button id="btnSearch" type="button">Tìm</button>
     </div>
-    <nav class="nav-cta">
-      <a class="btn btn-ghost" href="/">Trang chủ</a>
-      <a class="btn btn-main" href="#lien-he">Liên hệ</a>
-    </nav>
+  </header>
+
+  <!-- ===== THÔNG ĐIỆP CHẠY (marquee) ===== -->
+  <div id="topNotice" aria-live="polite" data-box>
+    <span>Để đảm bảo quyền lợi, hãy thông báo với 2606AI.VN khi chốt đơn hàng</span>
   </div>
-</header>
 
-<!-- =================== HERO =================== -->
-<section class="hero">
-  <div class="container hero-wrap">
-    <div>
-      <span class="badge">Hệ sinh thái dịch vụ B2B</span>
-      <h1>Về 2606AI</h1>
-      <p class="lead">
-        <b>2606AI</b> kết nối <b>thiết kế</b> &amp; <b>sản xuất quà tặng thương hiệu</b> bằng AI —
-        tạo mẫu nhanh, kiểm định khả thi bởi chuyên gia, triển khai tại mạng lưới xưởng toàn quốc.
-      </p>
-      <div class="nav-cta" style="display:flex; gap:10px; margin-top:8px">
-        <a class="btn btn-main" href="#dich-vu">Khám phá năng lực</a>
-        <a class="btn btn-ghost" href="#he-sinh-thai">Xem hệ sinh thái</a>
-      </div>
-    </div>
+  <!-- ===== LAYOUT CHÍNH: aside trái + nội dung phải ===== -->
+  <main id="layout" role="main" data-box>
 
-    <aside class="card hero-card">
-      <p class="hero-quote">🏆 <strong>“Tôi là Partnership hoàn hảo cho Doanh nghiệp của bạn — hãy liên hệ tôi để xây dựng sự kết nối giá trị.”</strong> 🤝</p>
-      <p style="margin:6px 0 0; color:#3b5445">Tin cậy • Minh bạch • Tốc độ.</p>
+    <!-- = LEFT: phúc lợi + xưởng đề xuất = -->
+    <aside id="leftCol" aria-label="Cột trái" data-box>
+
+      <!-- Chúng tôi có gì cho bạn -->
+      <section id="benefits" aria-labelledby="benefitsTitle" data-box>
+        <h2 id="benefitsTitle">Chúng tôi có gì cho bạn…</h2>
+        <ol id="benefitsList">
+          <!-- Bước 3 sẽ style; Bước 5 có thể render động nếu muốn -->
+          <li>Tham khảo 10,000+ mẫu sản phẩm</li>
+          <li>500+ nhà cung cấp & xưởng sản xuất</li>
+          <li>Hỗ trợ tư vấn sản xuất</li>
+          <li>Hỗ trợ thiết kế 2D/3D</li>
+          <li>Hậu cần vận chuyển & đóng gói</li>
+          <li>Hỗ trợ giải quyết tranh chấp</li>
+        </ol>
+      </section>
+
+      <!-- Xưởng đề xuất -->
+      <section id="suppliersBox" aria-labelledby="suppliersTitle" data-box>
+        <h2 id="suppliersTitle">Xưởng đề xuất <span id="supCount">(0)</span></h2>
+        <div id="supList" role="list">
+          <!-- Bước 5: render từ /suppliers -->
+        </div>
+      </section>
+
     </aside>
-  </div>
-</section>
 
-<!-- =================== INTRO (Mission / Vision) =================== -->
-<section class="section">
-  <div class="container">
-    <div class="intro-grid">
-      <article class="card intro-card">
-        <div class="ico">🎯</div>
-        <h2>Sứ mệnh</h2>
-        <p>Giúp doanh nghiệp <b>biến ý tưởng thành sản phẩm thực tế</b> nhanh – đúng – tối ưu chi phí: từ thiết kế, xác minh khả thi sản xuất, đến vận chuyển giao nhận.</p>
-      </article>
+    <!-- = RIGHT: phần nội dung chính = -->
+    <section id="content" aria-label="Nội dung chính" data-box>
 
-      <article class="card intro-card">
-        <div class="ico">🚀</div>
-        <h2>Tầm nhìn</h2>
-        <p>Trở thành <b>nền tảng B2B sáng tạo</b> hàng đầu Việt Nam cho quà tặng thương hiệu, kết nối <b>10.000+ mẫu</b>, <b>500+ xưởng</b> và hệ sinh thái dịch vụ tin cậy.</p>
-      </article>
-    </div>
-  </div>
-</section>
+      <!-- Hero 3 khung -->
+      <section id="hero" aria-label="Hero banners" data-box>
+        <div id="heroBig" data-box>HERO BIG</div>
+        <div id="heroSmall" data-box>
+          <div class="heroItem" data-box>HERO SMALL 1</div>
+          <div class="heroItem" data-box>HERO SMALL 2</div>
+        </div>
+      </section>
 
-<!-- =================== SERVICES =================== -->
-<section id="dich-vu" class="section">
-  <div class="container">
-    <div class="eyebrow">Năng lực cốt lõi</div>
-    <h2>Tôi làm được gì hơn cho bạn</h2>
+      <!-- Nhóm lớn (4 ô) -->
+      <nav id="groups" aria-label="Nhóm lớn" data-box>
+        <!-- Bước 5: lấy từ facets.groups_all -->
+        <!-- <button data-act="set-group" data-val="QUÀ TẶNG 247 EXPRESS (Đối tác)">...</button> -->
+      </nav>
 
-    <div class="svc-grid">
-      <!-- 1 -->
-      <article class="card svc">
-        <div class="ico">📈</div>
-        <div>
-          <h3>Quảng cáo B2B</h3>
-          <p>Tiếp cận ~1.000 khách hàng mục tiêu trên website chuyên B2B.</p>
-        </div>
-      </article>
-      <!-- 2 -->
-      <article class="card svc">
-        <div class="ico">🚚</div>
-        <div>
-          <h3>Vận chuyển 247 Express</h3>
-          <p>Đối tác chiến lược – giao hàng bảo đảm, theo dõi trạng thái.</p>
-        </div>
-      </article>
-      <!-- 3 -->
-      <article class="card svc">
-        <div class="ico">🎨</div>
-        <div>
-          <h3>Thiết kế ấn phẩm thương hiệu</h3>
-          <p>Mockup, file in chuẩn; tối ưu vật liệu & quy trình cho sản xuất.</p>
-        </div>
-      </article>
-      <!-- 4 -->
-      <article class="card svc">
-        <div class="ico">🧭</div>
-        <div>
-          <h3>Tìm nguồn hàng & xưởng</h3>
-          <p>Giá gốc tại xưởng; kết nối đối tác trong & ngoài nước.</p>
-        </div>
-      </article>
-      <!-- 5 -->
-      <article class="card svc">
-        <div class="ico">🧠</div>
-        <div>
-          <h3>Marketing & Website</h3>
-          <p>Tư vấn chiến lược, lập trình & triển khai website chuyên nghiệp.</p>
-        </div>
-      </article>
-      <!-- 6 -->
-      <article class="card svc">
-        <div class="ico">🤖</div>
-        <div>
-          <h3>AI / ChatGPT</h3>
-          <p>Khai thác dữ liệu lớn, tự động hóa quy trình – tăng năng suất.</p>
-        </div>
-      </article>
-    </div>
-  </div>
-</section>
+      <!-- Danh mục con (grid nút tròn) -->
+      <section id="subcats" aria-label="Danh mục con" data-box>
+        <!-- Bước 5: có thể map từ categories/loais/notes tùy chiến lược -->
+      </section>
 
-<!-- =================== VALUES =================== -->
-<section class="section">
-  <div class="container">
-    <div class="eyebrow">Giá trị</div>
-    <h2>Chúng tôi cam kết</h2>
-    <div class="chips">
-      <span class="chip">🌺 Chuyên nghiệp</span>
-      <span class="chip">🌺 Chân thành</span>
-      <span class="chip">🌺 Trách nhiệm</span>
-    </div>
-  </div>
-</section>
+      <!-- Thanh công cụ lọc + phân trang -->
+      <section id="toolbar" aria-label="Bộ lọc" data-box>
+        <span>Tìm thấy <strong id="total">0</strong> mục</span>
+        <button id="btnClear" type="button">Xóa bộ lọc</button>
 
-<!-- =================== ECOSYSTEM + CONTACT =================== -->
-<section id="he-sinh-thai" class="section">
-  <div class="container eco-grid">
-    <div class="card eco">
-      <div class="eyebrow">Hệ sinh thái dịch vụ B2B</div>
-      <h2>Kết nối đa dịch vụ – Một điểm chạm</h2>
-      <ul class="list">
-        <li>🎁 Website: <b>2606ai.vn</b></li>
-        <li>✈️ Vận chuyển: <b>247express.vn</b></li>
-        <li>📬 Email: <b>info2606ai.vn@gmail.com</b></li>
-        <li>⏰ Thời gian: <b>08:00 – 17:00</b> (trừ CN)</li>
+        <label for="pageSel">Trang</label>
+        <select id="pageSel"></select>
+      </section>
+
+      <!-- Lưới thẻ sản phẩm -->
+      <section id="cards" aria-label="Danh sách sản phẩm" data-box>
+        <!-- Bước 5: render từ /list -->
+      </section>
+
+      <!-- Phân trang dưới -->
+      <nav id="pagination" aria-label="Phân trang" data-box>
+        <button id="prev" type="button" aria-label="Trang trước">◀</button>
+        <select id="pageSel2"></select>
+        <button id="next" type="button" aria-label="Trang sau">▶</button>
+      </nav>
+
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer id="siteFooter" role="contentinfo" data-box>
+    <section aria-label="Giới thiệu" data-box>
+      <h3>2606AI logo</h3>
+      <p>Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm…</p>
+    </section>
+
+    <section aria-label="Liên kết nhanh" data-box>
+      <h3>LIÊN KẾT NHANH</h3>
+      <ul>
+        <li><a href="#">Về chúng tôi</a></li>
+        <li><a href="#">Danh mục sản phẩm</a></li>
+        <li><a href="#">Báo giá nhanh</a></li>
+        <li><a href="#">Câu hỏi thường gặp</a></li>
       </ul>
-      <div style="height:10px"></div>
-      <div class="eyebrow">Văn phòng</div>
-      <ul class="list">
-        <li>🏢 Địa chỉ: 103/16 Đ. Nguyễn Thị Thập, Tân Phú, Quận 7, Thành phố Hồ Chí Minh 76000, Việt Nam </li>
-    </div>
+    </section>
 
-    <aside id="lien-he" class="card contact">
-      <div>
-        <h2 style="margin:0 0 8px; color:#fff">Liên hệ ngay</h2>
-        <p style="margin:0">☎️ Hotline: <b>0775 238 306</b> — Mr. Đăng</p>
-        <p style="margin:6px 0 0; opacity:.9">Phản hồi trong giờ làm việc.</p>
-      </div>
-      <div class="row">
-        <a class="btn" href="tel:0775238306">Gọi điện</a>
-        <a class="btn" href="mailto:info2606ai.vn@gmail.com">Gửi email</a>
-        <a class="btn" href="https://zalo.me/" target="_blank" rel="noopener">Chat Zalo</a>
-      </div>
-    </aside>
-  </div>
-</section>
+    <section aria-label="Chính sách" data-box>
+      <h3>CHÍNH SÁCH</h3>
+      <ul>
+        <li><a href="#">Chính sách vận chuyển</a></li>
+        <li><a href="#">Chính sách đổi trả</a></li>
+        <li><a href="#">Hướng dẫn đặt hàng</a></li>
+        <li><a href="#">Chính sách bảo mật</a></li>
+      </ul>
+    </section>
 
-<!-- =================== FOOTER =================== -->
-<footer>
-  <div class="container">
-    <div class="mini">© 2606AI — Nền tảng thiết kế & sản xuất quà tặng thương hiệu. Tốc độ • Minh bạch • Tin cậy.</div>
-  </div>
-</footer>
+    <section aria-label="Liên hệ" data-box>
+      <h3>LIÊN HỆ</h3>
+      <p>Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM</p>
+      <p>Hotline: 0909 123 456</p>
+      <p>Email: info@2606ai.vn</p>
+    </section>
 
+    <div id="copyright" data-box>© 2025 2606AI. Website được phát triển bởi 2606AI.</div>
+  </footer>
+
+  <!-- BƯỚC 5 sẽ gắn JS riêng vào đây: <script src="assets/js/app.js"></script> -->
 </body>
 </html>
