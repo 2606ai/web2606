@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>2606AI - Tham khảo & Báo giá</title>
 <link rel="icon" href="/favicon.ico" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 /* ================= TOKENS ================= */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
 :root{
   --brand:#2d7a38; --brand-2:#165829;
   --bg:#f7f9f8; --ink:#102a1c; --muted:#6b7280;
@@ -16,6 +16,7 @@
   --sh1:0 2px 8px rgba(0,0,0,.05);
   --sh2:0 10px 24px rgba(16,24,24,.08);
   --sh3:0 18px 44px rgba(16,24,24,.12);
+  --gold:#C8A96B; --ink-deep:#0F3C19; --off:#F8FAF8;
 }
 *{box-sizing:border-box} html,body{height:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
@@ -36,11 +37,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
 @media(max-width:1024px){.grid{grid-template-columns:1fr}}
 
 /* ================ SIDEBAR ================ */
-/* Card nhỏ gọn + đường nét nhẹ nhàng */
 .side-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;box-shadow:var(--sh1)}
 .side-card h3{margin:0 0 8px;font-size:15px}
-
-/* “Chúng tôi có gì…” — phiên bản nhỏ gọn */
 .benefits{display:flex;flex-direction:column;gap:6px}
 .bnf{
   display:grid;grid-template-columns:26px 1fr auto;gap:8px;align-items:center;
@@ -56,7 +54,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
 .chip--ok{background:#eaf7ee;color:#156f3a;border-color:#cfe9d6}
 .chip--warn{background:#fff4f4;color:#b61f2e;border-color:#ffd6d6}
 
-/* Xưởng đề xuất (compact) */
+/* Xưởng đề xuất */
 .sup-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
 .sup-count{background:#0f3c19;color:#fff;border-radius:10px;padding:2px 8px;font-size:11px;font-weight:800}
 .sup-list{display:flex;flex-direction:column;gap:8px;max-height:360px;overflow:auto}
@@ -73,26 +71,39 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
 /* ================ CONTENT ================ */
 .content{display:flex;flex-direction:column;gap:16px}
 
-/* HERO: 1 lớn + 2 nhỏ (bố cục y website cũ) */
+/* HERO: 1 lớn + 2 nhỏ */
 .hero{display:grid;grid-template-columns:2fr 1fr;gap:12px}
 .hero__big, .hero__small{width:100%;display:block;border-radius:12px;box-shadow:var(--sh1);object-fit:cover}
-.hero__big{aspect-ratio:16/9}
+.hero__big{aspect-ratio:16/9; animation: kenburns 16s ease-in-out infinite alternate}
 .hero__right{display:grid;grid-template-rows:1fr 1fr;gap:12px}
 .hero__small{aspect-ratio:16/9}
+@keyframes kenburns{ from{transform:scale(1)} to{transform:scale(1.03)} }
 @media(max-width:900px){.hero{grid-template-columns:1fr}}
 
-/* GROUP + SUBCATS giống cũ */
+/* GROUP + SUBCATS */
 .groups,.subcats{display:flex;flex-wrap:wrap;gap:10px}
 .group,.subcat{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 12px;font-weight:800;box-shadow:var(--sh1);cursor:pointer}
 .group:hover,.subcat:hover{background:#e9f5ee}
-.group.active{color:#fff;border-color:transparent;background:linear-gradient(90deg,var(--brand),var(--brand-2))}
+.group.active,.subcat.active{color:#fff;border-color:transparent;background:linear-gradient(90deg,#0F3C19,#2D7A38)}
 
-/* TOOLBAR */
+/* TOOLBAR + BUTTON PREMIUM */
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0}
 .toolbar .muted{color:var(--muted)}
-.btn{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:700;cursor:pointer}
+.btn{position:relative; display:inline-flex; align-items:center; gap:8px;
+  padding:9px 12px; border-radius:12px; border:1px solid var(--line);
+  background:#fff; color:var(--ink); font-weight:800; cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s, color .15s}
+.btn:hover{transform:translateY(-1px); box-shadow:0 10px 20px rgba(16,24,24,.10)}
+.btn:active{transform:translateY(0)}
+.btn[disabled], .btn.is-disabled{opacity:.45; cursor:not-allowed; transform:none; box-shadow:none}
+.btn--ghost{background:rgba(255,255,255,.7); backdrop-filter: blur(8px)}
+.btn--gold{ border-color:#e9e1d1; background:linear-gradient(180deg,#fff,#fffef9);
+  color:#7a6435; box-shadow:0 8px 18px rgba(200,169,107,.15)}
+.btn--gold:hover{ box-shadow:0 12px 28px rgba(200,169,107,.20) }
+.toolbar .btn-clear{ padding:9px 12px; border-radius:999px }
+.toolbar .btn-clear .cnt{ background:#e30613; color:#fff; padding:2px 6px; border-radius:999px; font-size:11px; font-weight:800 }
 
-/* CARDS GRID (giữ đúng style cũ) */
+/* CARDS GRID */
 #cards{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 @media(max-width:1200px){#cards{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:960px){#cards{grid-template-columns:repeat(3,1fr)}}
@@ -103,12 +114,13 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
   display:flex;flex-direction:column;box-shadow:var(--sh2);transition:transform .15s ease, box-shadow .15s ease
 }
 .card:hover{transform:translateY(-4px);box-shadow:var(--sh3)}
-.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#f3f5f3}
+.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#f3f5f3; position:relative}
+.card .thumb::after{content:""; position:absolute; inset:0; border:1px solid rgba(0,0,0,.05); border-radius:8px;}
 .card .body{padding:12px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
-.card .title{margin:0;font-weight:800;font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .title{margin:0;font-weight:800;font-size:15px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis; font-family:'Fraunces', Inter, system-ui, sans-serif; letter-spacing:.1px}
 .card .desc{color:var(--muted);font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .card .meta{display:flex;justify-content:space-between;align-items:center}
-.card .price{color:var(--danger);font-weight:800}
+.card .price{color:var(--gold);font-weight:800}
 .tags{display:flex;gap:6px;flex-wrap:wrap}
 .tag{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#374151}
 .tag--green{background:#eaf7ee;border-color:#cfe9d6;color:#166a35}
@@ -116,15 +128,43 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
 .actions{display:flex;gap:8px;margin-top:6px}
 .btn.primary{background:linear-gradient(90deg,var(--brand),var(--brand-2));color:#fff;border-color:transparent}
 
-/* ribbon nhỏ */
+/* ribbon */
 .card{position:relative}
-.ribbon{position:absolute;top:8px;left:-6px;background:linear-gradient(90deg,#ff7a00,#ffb300);color:#fff;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:800;box-shadow:0 10px 20px rgba(255,122,0,.25)}
+.ribbon{position:absolute;top:8px;left:-6px;background:linear-gradient(90deg,#ff7a00,#ffb300);color:#fff;padding:3px 8px;border-radius:6px;font-size:11px;font-weight:800;box-shadow:0 10px 24px rgba(255,122,0,.20), 0 1px 0 rgba(255,255,255,.25) inset}
 .ribbon--green{background:linear-gradient(90deg,#12b886,#28a745)}
 .ribbon--red{background:linear-gradient(90deg,#ff4757,#ff6b81)}
 
-/* PAGER */
-.pager{display:flex;gap:8px;justify-content:flex-end;align-items:center;margin-top:10px}
-.pager select,.pager button{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#fff;font-weight:700}
+/* SKELETON */
+.skeleton{ background: linear-gradient(90deg, #f2f5f4 25%, #e9eeec 37%, #f2f5f4 63%); background-size: 400% 100%; animation: shimmer 1.2s ease-in-out infinite; }
+@keyframes shimmer{ 0%{background-position:100% 0} 100%{background-position:-100% 0} }
+.card.sk .thumb{ background:#f1f4f3 }
+.card.sk .body > *{ height:12px; border-radius:8px }
+.card.sk .body .title{ height:14px; width:60% }
+.card.sk .body .desc{ height:12px; width:90% }
+.card.sk .meta{ height:18px }
+.card.sk .actions{ height:32px }
+
+/* PAGER Premium */
+.pager{display:flex; gap:10px; justify-content:flex-end; align-items:center; margin-top:14px}
+.pager__wrap{
+  display:flex; align-items:center; gap:8px; padding:8px; border:1px solid var(--line);
+  background:rgba(255,255,255,.8); backdrop-filter: blur(8px);
+  border-radius:14px; box-shadow:0 12px 26px rgba(16,24,24,.10)
+}
+.pager .edge{
+  width:40px;height:40px; border-radius:12px; border:1px solid var(--line);
+  display:grid; place-items:center; background:#fff; cursor:pointer; font-size:16px; font-weight:900;
+  transition:transform .15s ease, box-shadow .15s ease
+}
+.pager .edge:hover{ transform:translateY(-1px); box-shadow:0 10px 20px rgba(16,24,24,.10) }
+.pager .edge.is-disabled{ opacity:.35; cursor:not-allowed; transform:none; box-shadow:none }
+.pager select{
+  appearance:none; -webkit-appearance:none; -moz-appearance:none;
+  padding:10px 34px 10px 12px; border-radius:12px; border:1px solid var(--line);
+  font-weight:800; background:#fff url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%236b7280"><path d="M4 6l4 4 4-4"/></svg>') no-repeat right 10px center / 16px;
+  cursor:pointer; box-shadow:0 2px 6px rgba(16,24,24,.06)
+}
+.pager select:hover{ box-shadow:0 6px 14px rgba(16,24,24,.10) }
 
 /* FOOTER */
 .footer{margin-top:22px;background:linear-gradient(180deg,var(--brand),var(--brand-2));color:#fff;border-radius:16px 16px 0 0;padding:40px 20px}
@@ -134,17 +174,59 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
 .footer a:hover{text-decoration:underline}
 .copy{ text-align:center;color:#8ed19a;font-size:13px;padding:10px 0 18px }
 
-/* FAB */
-.fab{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:12px;z-index:50}
-.fab__btn{width:52px;height:52px;border:none;border-radius:14px;color:#fff;cursor:pointer;font-size:18px;background:linear-gradient(180deg,var(--brand),var(--brand-2));box-shadow:0 14px 28px rgba(0,0,0,.16);display:grid;place-items:center}
-.fab__btn--zalo{background:linear-gradient(180deg,#0084ff,#006ad1)}
-.badge-count{position:absolute;top:6px;right:6px;font-size:11px;line-height:1;color:#fff;background:#e30613;border-radius:999px;padding:2px 6px}
-@media(max-width:560px){.fab{right:50%;transform:translateX(50%);flex-direction:row;bottom:14px}}
+/* FAB Premium */
+:root{
+  --fab-bg: rgba(255,255,255,.22);
+  --fab-blur: 12px;
+  --fab-ring: rgba(255,255,255,.45);
+  --fab-ink: #ffffff;
+  --fab-grad: linear-gradient(180deg,#2d7a38,#165829);
+  --fab-grad-alt: linear-gradient(180deg,#0084ff,#006ad1);
+  --fab-shadow: 0 14px 28px rgba(0,0,0,.16), 0 2px 6px rgba(0,0,0,.12);
+  --fab-shadow-hover: 0 18px 44px rgba(0,0,0,.22), 0 4px 12px rgba(0,0,0,.16);
+}
+.fab{ position:fixed; right:20px; bottom:22px; display:flex; flex-direction:column; gap:14px; z-index:60 }
+.fab__btn{
+  position:relative; width:56px; height:56px; border:none; border-radius:16px;
+  color:var(--fab-ink); cursor:pointer; font-size:20px;
+  background:var(--fab-grad); box-shadow:var(--fab-shadow);
+  backdrop-filter: blur(var(--fab-blur)); -webkit-backdrop-filter: blur(var(--fab-blur));
+  transition: transform .15s ease, box-shadow .15s ease, filter .2s ease;
+  display:grid; place-items:center; outline:none;
+}
+.fab__btn::before{ content:""; position:absolute; inset:0; border-radius:16px; box-shadow: inset 0 0 0 1px var(--fab-ring) }
+.fab__btn:hover{ transform: translateY(-2px); box-shadow:var(--fab-shadow-hover) }
+.fab__btn:active{ transform: translateY(0) scale(.98) }
+.fab__btn--zalo{ background:var(--fab-grad-alt) }
+.badge-count{
+  position:absolute; top:-2px; right:-2px; min-width:20px; height:20px;
+  padding:0 6px; border-radius:999px; background:#e30613; color:#fff; font-weight:800; font-size:11px; line-height:20px;
+  border:2px solid rgba(255,255,255,.75); box-shadow:0 4px 10px rgba(227,6,19,.3);
+}
+.fab__label{
+  position:absolute; right:64px; top:50%; transform: translateY(-50%) translateX(8px);
+  padding:6px 10px; border-radius:10px; font-weight:700; font-size:12.5px;
+  color:#0f3c19; background:rgba(255,255,255,.9); border:1px solid #e7ece9;
+  box-shadow: 0 8px 18px rgba(16,24,24,.12);
+  pointer-events:none; opacity:0; transition: .18s ease; white-space:nowrap; backdrop-filter: blur(6px);
+}
+.fab__btn:hover .fab__label, .fab__btn.fab--show .fab__label{ opacity:1; transform: translateY(-50%) translateX(0) }
+.fab__btn::after{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.35), transparent 40%);
+  transform: scale(0); opacity:.0; transition: transform .35s ease, opacity .55s ease;
+}
+.fab__btn.fab--rippling::after{ transform: scale(1); opacity:.7 }
+@media (max-width:560px){
+  .fab{ left:50%; right:auto; bottom:12px; transform:translateX(-50%); flex-direction:row; gap:10px; background:rgba(255,255,255,.7);
+    border:1px solid #e8efe9; padding:8px; border-radius:16px; backdrop-filter: blur(10px); box-shadow: var(--fab-shadow) }
+  .fab__btn{ width:52px; height:52px; border-radius:14px }
+  .fab__label{ display:none }
+}
 </style>
 </head>
 <body>
 
-<!-- ============== HEADER ============== -->
 <header class="header">
   <div class="container header__bar">
     <img class="header__logo" src="https://2606ai.vn/logo.png" alt="2606AI" />
@@ -158,63 +240,20 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
   </div>
 </header>
 
-<!-- ============== MAIN ============== -->
 <main class="main container">
   <div class="grid">
     <!-- ===== LEFT ===== -->
     <aside>
-      <!-- Chúng tôi có gì cho bạn (COMPACT) -->
+      <!-- Chúng tôi có gì cho bạn -->
       <section class="side-card">
         <h3>Chúng tôi có gì cho bạn…</h3>
         <div class="benefits">
-          <div class="bnf">
-            <div class="n">1</div>
-            <div>
-              <div class="tt">Tham khảo 10,000+ mẫu sản phẩm</div>
-              <div class="sb">Không tưởng</div>
-            </div>
-            <span class="chip chip--ok">Miễn phí</span>
-          </div>
-          <div class="bnf">
-            <div class="n">2</div>
-            <div>
-              <div class="tt">Hơn 500+ nhà cung cấp và xưởng sản xuất</div>
-              <div class="sb">Báo giá nhanh, dễ so sánh</div>
-            </div>
-            <span class="chip chip--ok">Miễn phí</span>
-          </div>
-          <div class="bnf">
-            <div class="n">3</div>
-            <div>
-              <div class="tt">Hỗ trợ tư vấn sản xuất</div>
-              <div class="sb">Phản hồi nhanh</div>
-            </div>
-            <span class="chip chip--ok">Miễn phí</span>
-          </div>
-          <div class="bnf">
-            <div class="n">4</div>
-            <div>
-              <div class="tt">Hỗ trợ thiết kế 2D, 3D sản xuất</div>
-              <div class="sb">Mockup miễn phí</div>
-            </div>
-            <span class="chip chip--ok">Miễn phí</span>
-          </div>
-          <div class="bnf">
-            <div class="n">5</div>
-            <div>
-              <div class="tt">Hậu cần vận chuyển & đóng gói</div>
-              <div class="sb">Chuyên nghiệp</div>
-            </div>
-            <span class="chip chip--warn">Có phí</span>
-          </div>
-          <div class="bnf">
-            <div class="n">6</div>
-            <div>
-              <div class="tt">Hỗ trợ giải quyết tranh chấp</div>
-              <div class="sb">Bảo vệ quyền lợi</div>
-            </div>
-            <span class="chip chip--warn">Có phí</span>
-          </div>
+          <div class="bnf"><div class="n">1</div><div><div class="tt">Tham khảo 10,000+ mẫu sản phẩm</div><div class="sb">Không tưởng</div></div><span class="chip chip--ok">Miễn phí</span></div>
+          <div class="bnf"><div class="n">2</div><div><div class="tt">Hơn 500+ nhà cung cấp và xưởng sản xuất</div><div class="sb">Báo giá nhanh, dễ so sánh</div></div><span class="chip chip--ok">Miễn phí</span></div>
+          <div class="bnf"><div class="n">3</div><div><div class="tt">Hỗ trợ tư vấn sản xuất</div><div class="sb">Phản hồi nhanh</div></div><span class="chip chip--ok">Miễn phí</span></div>
+          <div class="bnf"><div class="n">4</div><div><div class="tt">Hỗ trợ thiết kế 2D, 3D sản xuất</div><div class="sb">Mockup miễn phí</div></div><span class="chip chip--ok">Miễn phí</span></div>
+          <div class="bnf"><div class="n">5</div><div><div class="tt">Hậu cần vận chuyển & đóng gói</div><div class="sb">Chuyên nghiệp</div></div><span class="chip chip--warn">Có phí</span></div>
+          <div class="bnf"><div class="n">6</div><div><div class="tt">Hỗ trợ giải quyết tranh chấp</div><div class="sb">Bảo vệ quyền lợi</div></div><span class="chip chip--warn">Có phí</span></div>
         </div>
       </section>
 
@@ -230,10 +269,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
             <div>
               <div class="name"><a href="#" target="_blank" rel="noopener">ABC Gift</a></div>
               <div class="line">TPHCM — Móc khóa, huy hiệu</div>
-              <div class="chips">
-                <span class="chip chip--ok">Có website</span>
-                <span class="chip">Tải tệp</span>
-              </div>
+              <div class="chips"><span class="chip chip--ok">Có website</span><span class="chip">Tải tệp</span></div>
             </div>
           </div>
           <div class="sup">
@@ -241,13 +277,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
             <div>
               <div class="name"><a href="#" target="_blank" rel="noopener">CỐ NÊ</a></div>
               <div class="line">Tân Bình — Quà tặng DN</div>
-              <div class="chips">
-                <span class="chip chip--ok">Có website</span>
-                <span class="chip">Tải tệp</span>
-              </div>
+              <div class="chips"><span class="chip chip--ok">Có website</span><span class="chip">Tải tệp</span></div>
             </div>
           </div>
-          <!-- thêm sup khác… -->
         </div>
       </section>
     </aside>
@@ -270,21 +302,18 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
       </div>
 
       <!-- GROUPS -->
-      <div class="groups" id="groups">
-        <!-- render từ facets -->
-      </div>
-
+      <div class="groups" id="groups"></div>
       <!-- SUBCATS -->
-      <div class="subcats" id="subcats">
-        <!-- render từ facets -->
-      </div>
+      <div class="subcats" id="subcats"></div>
 
       <!-- TOOLBAR -->
       <div class="toolbar">
         <span class="muted">Tìm thấy <b id="total">0</b> sản phẩm</span>
         <div style="display:flex;gap:8px;align-items:center">
-          <button id="btnClear" class="btn">Xóa bộ lọc</button>
-          <select id="pageSel" class="btn"><option>Trang 1/1</option></select>
+          <button id="btnClear" class="btn btn--gold btn--ghost btn-clear">
+            🧹 Xóa bộ lọc
+          </button>
+          <select id="pageSel" class="btn"></select>
         </div>
       </div>
 
@@ -293,15 +322,16 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
 
       <!-- PAGER -->
       <div class="pager">
-        <button id="prev" class="btn">‹</button>
-        <select id="pageSel2" class="btn"><option>Trang 1/1</option></select>
-        <button id="next" class="btn">›</button>
+        <div class="pager__wrap">
+          <button id="prev" class="edge">‹</button>
+          <select id="pageSel2"></select>
+          <button id="next" class="edge">›</button>
+        </div>
       </div>
     </section>
   </div>
 </main>
 
-<!-- ============== FOOTER ============== -->
 <footer class="footer">
   <div class="container footer__grid">
     <div>
@@ -330,35 +360,82 @@ body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-
 </footer>
 <div class="container copy">© 2025 2606AI. Website được phát triển bởi 2606AI.</div>
 
-<!-- ============== FAB ============== -->
+<!-- FAB -->
 <div class="fab">
-  <button class="fab__btn" title="Bộ lọc">⚙️<span id="filterCount" class="badge-count" style="display:none">0</span></button>
-  <button class="fab__btn" title="Giỏ hàng">🛒</button>
-  <button class="fab__btn" title="Danh sách xưởng">🏭</button>
-  <a class="fab__btn fab__btn--zalo" href="#" title="Zalo">💬</a>
+  <button class="fab__btn" title="Bộ lọc">
+    ⚙️
+    <span id="filterCount" class="badge-count" style="display:none">0</span>
+    <span class="fab__label">Bộ lọc</span>
+  </button>
+  <button class="fab__btn" title="Giỏ hàng">
+    🛒
+    <span class="fab__label">Giỏ hàng</span>
+  </button>
+  <button class="fab__btn" title="Xưởng">
+    🏭
+    <span class="fab__label">Xưởng</span>
+  </button>
+  <a class="fab__btn fab__btn--zalo" href="#" title="Zalo">
+    💬
+    <span class="fab__label">Zalo</span>
+  </a>
 </div>
 
-<!-- ============== JS: DATA RENDER ============== -->
+<!-- ================= JS ================= -->
 <script>
-/* ==== CONFIG ==== */
-const API_BASE = 'https://script.google.com/macros/s/REPLACE_WITH_YOUR_SCRIPT_ID/exec'; // TODO: thay bằng URL Apps Script (action=list)
+/* ===== CONFIG: thay API_BASE bằng Web App (Apps Script) ===== */
+const API_BASE = 'https://script.google.com/macros/s/AKfycbwFvoS6TSdj4ADked9RyTvG-A1fFfrkvqIJpeyNXy2bUqFpF07DEnHRx6O0TKlmZXkp/exec'; // <-- THAY Ở ĐÂY
 const PAGE_SIZE = 36;
 
-/* ==== STATE ==== */
+/* ===== STATE ===== */
 const state = {
   page: 1, pageSize: PAGE_SIZE, q: '',
   filters: { group:'', type:'', loai:'', note:'', category:'' },
   total: 0
 };
 
-/* ==== HELPERS ==== */
+/* ===== HELPERS ===== */
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
 const fmtVND = n => (Number(n||0)).toLocaleString('vi-VN') + ' đ';
 function escapeHTML(s){ return String(s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
 const has = (s, kw) => (s||'').toLowerCase().includes((kw||'').toLowerCase());
 
-/* ribbon từ note */
+/* ===== Skeleton ===== */
+function showSkeleton(n=12){
+  const sk = [];
+  for(let i=0;i<n;i++){
+    sk.push(`
+      <article class="card sk">
+        <div class="thumb skeleton" style="aspect-ratio:4/3"></div>
+        <div class="body">
+          <div class="title skeleton"></div>
+          <div class="desc skeleton"></div>
+          <div class="meta skeleton"></div>
+          <div class="actions skeleton"></div>
+        </div>
+      </article>
+    `);
+  }
+  $('#cards').innerHTML = sk.join('');
+}
+
+/* ===== Lazyload ===== */
+function enableLazy(){
+  const imgs = document.querySelectorAll('img[loading=lazy]');
+  if('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries, obs)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ const img = e.target; img.src = img.dataset.src || img.src; obs.unobserve(img); }
+      });
+    },{rootMargin:'200px'});
+    imgs.forEach(i=> io.observe(i));
+  }else{
+    imgs.forEach(i=> i.src = i.dataset.src || i.src);
+  }
+}
+
+/* ===== Card template ===== */
 function pickRibbon(it){
   const t = (it.note||'').toLowerCase();
   if(!t) return null;
@@ -367,23 +444,20 @@ function pickRibbon(it){
   if(t.includes('gấp') || t.includes('còn')) return {text: it.note, cls:''};
   return {text: it.note, cls:''};
 }
-/* tags nhỏ */
 function buildTags(it){
   const tags = [];
   if(it.type) tags.push({text:it.type, cls:'tag--green'});
   if(it.loai) tags.push({text:it.loai, cls:'tag'});
   const s = (it.search||'')+' '+(it.note||'');
-  if(has(s,'giá tham khảo')) tags.push({text:'Giá tham khảo', cls:'tag--green'});
-  if(has(s,'ảnh tham khảo')) tags.push({text:'Ảnh tham khảo', cls:'tag'});
+  if(/giá tham khảo/i.test(s)) tags.push({text:'Giá tham khảo', cls:'tag--green'});
+  if(/ảnh tham khảo/i.test(s)) tags.push({text:'Ảnh tham khảo', cls:'tag'});
   return tags.slice(0,2);
 }
-
-/* card template */
 function cardTemplate(it){
   const ribbon = pickRibbon(it);
   const tags = buildTags(it);
   const price = Number(it.price||0);
-  const priceStr = price>0 ? fmtVND(price) : '1 đ'; // theo hình UI cũ
+  const priceStr = price>0 ? fmtVND(price) : '1 đ';
   const img = it.img || it.image || '';
   const title = it.id || '';
   const desc = it.details || it.search || '';
@@ -391,7 +465,7 @@ function cardTemplate(it){
   return `
   <article class="card">
     ${ribbon ? `<div class="ribbon ${ribbon.cls}">${escapeHTML(ribbon.text)}</div>` : ''}
-    <img class="thumb" src="${escapeHTML(img)}" alt="">
+    <img class="thumb" loading="lazy" data-src="${escapeHTML(img)}" alt="">
     <div class="body">
       <h3 class="title">${escapeHTML(title)}</h3>
       <p class="desc">${escapeHTML(desc)}</p>
@@ -406,35 +480,20 @@ function cardTemplate(it){
     </div>
   </article>`;
 }
-
-/* renderers */
-function renderCards(items){ $('#cards').innerHTML = items.map(cardTemplate).join(''); }
+function renderCards(items){ $('#cards').innerHTML = items.map(cardTemplate).join(''); enableLazy(); }
 function renderTotals(total){ const el=$('#total'); if(el) el.textContent = (total||0).toLocaleString('vi-VN'); }
-function renderPager(total){
-  state.total = total;
-  const pages = Math.max(1, Math.ceil(total/state.pageSize));
-  ['#pageSel','#pageSel2'].forEach(selId=>{
-    const sel = $(selId); if(!sel) return;
-    sel.innerHTML = Array.from({length:pages}).map((_,i)=>`<option value="${i+1}">Trang ${i+1}/${pages}</option>`).join('');
-    sel.value = String(state.page);
-    sel.onchange = ()=>{ state.page = Number(sel.value||1); load(); };
-  });
-  const prev = $('#prev'), next = $('#next');
-  if(prev) prev.onclick = ()=>{ if(state.page>1){ state.page--; load(); } };
-  if(next) next.onclick = ()=>{ const pgs=Math.ceil(state.total/state.pageSize)||1; if(state.page<pgs){ state.page++; load(); } };
-}
+
+/* ===== Facets & chips ===== */
 function renderFacets(facets){
-  // groups
   const gwrap = $('#groups');
   if(gwrap && facets?.groups_all){
     gwrap.innerHTML = facets.groups_all.map(g=>`
       <button class="group ${state.filters.group===g?'active':''}" data-group="${escapeHTML(g)}">${escapeHTML(g||'')}</button>
     `).join('');
     $$('#groups .group').forEach(btn=>{
-      btn.onclick = ()=>{ state.filters.group = (btn.dataset.group===state.filters.group) ? '' : btn.dataset.group; state.page=1; updateFilterBadge(); load(); };
+      btn.onclick = ()=>{ state.filters.group = (btn.dataset.group===state.filters.group) ? '' : btn.dataset.group; state.page=1; updateFilterBadge(); loadPremium(); };
     });
   }
-  // subcats = types + loais (tối đa 12)
   const swrap = $('#subcats');
   const chips = [
     ...(facets?.types||[]).map(x=>({k:'type',v:x})),
@@ -445,7 +504,7 @@ function renderFacets(facets){
       <button class="subcat ${state.filters[c.k]===c.v?'active':''}" data-key="${c.k}" data-val="${escapeHTML(c.v)}">${escapeHTML(c.v)}</button>
     `).join('');
     $$('#subcats .subcat').forEach(btn=>{
-      btn.onclick = ()=>{ const k=btn.dataset.key, v=btn.dataset.val; state.filters[k] = (state.filters[k]===v)?'':v; state.page=1; updateFilterBadge(); load(); };
+      btn.onclick = ()=>{ const k=btn.dataset.key, v=btn.dataset.val; state.filters[k] = (state.filters[k]===v)?'':v; state.page=1; updateFilterBadge(); loadPremium(); };
     });
   }
 }
@@ -455,32 +514,98 @@ function updateFilterBadge(){
   b.textContent = active; b.style.display = active? 'inline-block':'none';
 }
 
-/* load data */
-async function load(){
+/* ===== Pager ===== */
+function renderPager(total){
+  state.total = total;
+  const pages = Math.max(1, Math.ceil(total/state.pageSize));
+  ['#pageSel','#pageSel2'].forEach(selId=>{
+    const sel = $(selId); if(!sel) return;
+    sel.innerHTML = Array.from({length:pages}).map((_,i)=>`<option value="${i+1}">Trang ${i+1}/${pages}</option>`).join('');
+    sel.value = String(state.page);
+    sel.onchange = ()=>{ state.page = Number(sel.value||1); loadPremium(); };
+  });
+  __updatePagerUI();
+}
+function __updatePagerUI(){
+  const total = state.total || 0;
+  const per = state.pageSize || 36;
+  const page = state.page || 1;
+  const pages = Math.max(1, Math.ceil(total/per));
+  const prev = $('#prev'), next = $('#next');
+  const disablePrev = page<=1, disableNext = page>=pages;
+  if(prev){ prev.classList.toggle('is-disabled', disablePrev); prev.disabled = disablePrev; }
+  if(next){ next.classList.toggle('is-disabled', disableNext); next.disabled = disableNext; }
+  const sel1=$('#pageSel'), sel2=$('#pageSel2');
+  if(sel1 && sel1.value !== String(page)) sel1.value = String(page);
+  if(sel2 && sel2.value !== String(page)) sel2.value = String(page);
+}
+
+/* ===== Load data ===== */
+async function loadPremium(){
+  showSkeleton(12);
   const params = new URLSearchParams({ action:'list', page:String(state.page), pageSize:String(state.pageSize), q:state.q||'' });
   Object.entries(state.filters).forEach(([k,v])=>{ if(v) params.append(k,v); });
-  const url = `${API_BASE}?${params.toString()}`;
   try{
-    const res = await fetch(url, {cache:'no-store'});
-    const data = await res.json(); // {ok, items, total, facets:{...}}
-    if(!data || !data.ok) throw new Error('API error');
+    const res = await fetch(`${API_BASE}?${params.toString()}`, {cache:'no-store'});
+    const data = await res.json(); // {ok, items, total, facets}
+    if(!data?.ok){ throw new Error('API not ok'); }
     renderCards(data.items||[]);
     renderTotals(data.total||0);
     renderPager(data.total||0);
     renderFacets(data.facets||{});
+    __refreshClearCount();
   }catch(e){
     console.error(e);
-    $('#cards').innerHTML = `<div style="grid-column:1/-1;background:#fff;border:1px solid #e7ece9;border-radius:10px;padding:20px">Không tải được dữ liệu.</div>`;
+    $('#cards').innerHTML = `<div style="grid-column:1/-1;background:#fff;border:1px solid #e7ece9;border-radius:10px;padding:18px">Không tải được dữ liệu.</div>`;
   }
 }
 
-/* init */
+/* ===== Toolbar / FAB interactions ===== */
 document.addEventListener('DOMContentLoaded', ()=>{
   const q=$('#q'), btnSearch=$('#btnSearch');
-  if(btnSearch) btnSearch.onclick = ()=>{ state.q = (q?.value||'').trim(); state.page=1; load(); };
-  const clear=$('#btnClear'); if(clear) clear.onclick = ()=>{ state.filters={group:'',type:'',loai:'',note:'',category:''}; state.page=1; updateFilterBadge(); load(); };
-  load();
+  if(btnSearch) btnSearch.onclick = ()=>{ state.q = (q?.value||'').trim(); state.page=1; loadPremium(); };
+  const clear=$('#btnClear'); if(clear) clear.onclick = ()=>{ state.filters={group:'',type:'',loai:'',note:'',category:''}; state.page=1; updateFilterBadge(); loadPremium(); };
+
+  const prev=$('#prev'), next=$('#next');
+  if(prev) prev.onclick = ()=>{ if(state.page>1){ state.page--; loadPremium(); } };
+  if(next) next.onclick = ()=>{ const pgs=Math.ceil(state.total/state.pageSize)||1; if(state.page<pgs){ state.page++; loadPremium(); } };
+
+  document.addEventListener('keydown', e=>{
+    if(['INPUT','TEXTAREA','SELECT'].includes((e.target||{}).tagName)) return;
+    if(e.key==='ArrowLeft' && prev && !prev.disabled) prev.click();
+    if(e.key==='ArrowRight' && next && !next.disabled) next.click();
+  });
+
+  // FAB ripple + mobile label
+  document.addEventListener('click', e=>{
+    const btn = e.target.closest('.fab__btn, .btn, .edge');
+    if(!btn || btn.classList.contains('is-disabled') || btn.disabled) return;
+    const r = btn.getBoundingClientRect();
+    btn.style.setProperty('--x', (e.clientX - r.left) + 'px');
+    btn.style.setProperty('--y', (e.clientY - r.top) + 'px');
+    btn.classList.add('fab--rippling');
+    setTimeout(()=> btn.classList.remove('fab--rippling'), 350);
+    if (window.matchMedia('(max-width:560px)').matches && btn.classList.contains('fab__btn')){
+      btn.classList.add('fab--show');
+      setTimeout(()=> btn.classList.remove('fab--show'), 1200);
+    }
+  }, {passive:true});
+
+  loadPremium();
 });
+
+/* ===== Clear count badge on button ===== */
+function __refreshClearCount(){
+  const clearBtn = $('#btnClear'); if(!clearBtn) return;
+  clearBtn.querySelector('.cnt')?.remove();
+  const active = Object.values(state.filters).filter(Boolean).length;
+  if(active>0){
+    const cnt = document.createElement('span');
+    cnt.className = 'cnt';
+    cnt.textContent = active;
+    clearBtn.appendChild(cnt);
+  }
+}
 </script>
 </body>
 </html>
