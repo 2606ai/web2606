@@ -1,146 +1,403 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>2606AI – Tham khảo & đặt sản xuất</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Về chúng tôi – 2606AI</title>
 
-  <!-- BƯỚC 3 sẽ gắn CSS riêng vào đây: <link rel="stylesheet" href="assets/css/main.css"> -->
-  <style>/* chỉ để nhìn rõ khung khi chưa có CSS */
-    body{font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;margin:0}
-    [data-box]{outline:1px dashed #ddd; padding:8px; margin:6px 0}
+  <!-- ============ DESIGN TOKENS – GIỮ MÀU CHỦ ĐẠO XANH BAMBOO ============ -->
+  <style>
+    :root{
+      /* Chủ đạo: xanh bamboo */
+      --main: #2E7D32;
+      --main-600:#1f6c23;
+      --main-700:#18561c;
+
+      /* Vàng nhấn */
+      --accent:#d4af37;
+
+      /* Màu nền/chữ */
+      --bg:#f7faf8;
+      --card:#ffffff;
+      --border:#e7ecf0;
+      --text:#1f2937;
+      --muted:#6b7280;
+
+      /* Bóng & bo góc */
+      --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+      --shadow-md:0 6px 16px rgba(0,0,0,.12);
+      --radius:16px;
+
+      /* Container */
+      --w: 1120px;
+      --g: 20px;
+    }
+
+    /* ============ RESET NHẸ ============ */
+    *{ box-sizing: border-box; }
+    html,body{ margin:0; padding:0; }
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Be Vietnam Pro", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+    img{ max-width:100%; display:block; }
+    a{ color: var(--main-600); text-decoration: none; }
+    a:hover{ text-decoration: underline; }
+
+    .container{
+      width: min(100% - 32px, var(--w));
+      margin-inline: auto;
+    }
+
+    /* ============ HEADER ĐƠN GIẢN ============ */
+    header{
+      background: var(--card);
+      position: sticky; top:0; z-index: 50;
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .nav{
+      display:flex; align-items:center; justify-content: space-between;
+      padding: 12px 0;
+      gap: 12px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px; font-weight:800;
+      color: var(--main-700);
+    }
+    .brand-badge{
+      width:36px; height:36px; border-radius: 10px;
+      display:grid; place-items:center; color:#fff;
+      background: linear-gradient(135deg, var(--main), #3aa84a);
+      box-shadow: var(--shadow-sm);
+      font-weight:900;
+    }
+    .nav a.btn{
+      padding:10px 14px; border-radius:10px; font-weight:600;
+      background: var(--main); color:#fff; text-decoration:none;
+      box-shadow: var(--shadow-sm);
+    }
+    .nav a.btn:hover{ background: var(--main-600); }
+
+    /* ============ HERO ============ */
+    .hero{
+      background:
+        radial-gradient(1200px 300px at 50% -50%, rgba(46,125,50,.25), transparent 60%),
+        linear-gradient(0deg, #e8f5e9, #f7faf8);
+      padding: 56px 0 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-wrap{
+      display:grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items:center;
+    }
+    .hero h1{
+      font-size: clamp(28px, 4vw, 40px);
+      line-height: 1.2;
+      margin: 0 0 10px 0;
+      color: var(--main-700);
+    }
+    .hero p.lead{
+      font-size: clamp(16px, 2.1vw, 18px); color:#334155; margin:0 0 18px 0;
+    }
+    .hero .cta{ display:flex; gap:12px; flex-wrap: wrap; }
+    .btn-main, .btn-ghost{
+      padding:12px 16px; border-radius: 12px; font-weight:700; border: 2px solid transparent;
+      text-decoration:none; display:inline-flex; align-items:center; gap:10px;
+    }
+    .btn-main{ background: var(--main); color:#fff; }
+    .btn-main:hover{ background: var(--main-600); }
+    .btn-ghost{ background: #fff; color: var(--main-700); border-color: var(--main-600); }
+    .btn-ghost:hover{ background:#f1f8f2; }
+
+    .hero-card{
+      background: #fff; border:1px solid var(--border); border-radius: 18px; padding: 18px;
+      box-shadow: var(--shadow-md);
+    }
+    .hero-grid{
+      display:grid; grid-template-columns: repeat(2,1fr); gap:12px;
+    }
+    .hero-item{
+      border:1px dashed #cae7cc; border-radius:14px; padding:14px; background:#fbfefb;
+    }
+    .hero-item h3{ margin:0 0 6px 0; font-size: 16px; color: var(--main-700); }
+    .hero-item p{ margin:0; font-size: 14px; color:#475569; }
+
+    /* ============ SECTION CHUNG ============ */
+    section{ padding: 40px 0; }
+    .sec-head{ margin-bottom: 16px; }
+    .eyebrow{
+      font-weight:800; font-size:12px; letter-spacing:.12em; color: var(--accent);
+      text-transform: uppercase;
+    }
+    h2{ margin:6px 0 0; font-size: clamp(22px, 3vw, 28px); color: var(--main-700); }
+
+    /* ============ SỨ MỆNH ============ */
+    .mission{
+      background: #fff; border:1px solid var(--border); border-radius: var(--radius);
+      padding: 22px; box-shadow: var(--shadow-sm);
+    }
+    .mission p{ margin: 8px 0; color:#334155; }
+
+    /* ============ QUY TRÌNH ============ */
+    .steps{
+      display:grid; grid-template-columns: repeat(5,1fr); gap:12px;
+    }
+    .step{
+      background:#fff; border:1px solid var(--border); border-radius: 14px; padding:14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .step .num{
+      width:28px; height:28px; border-radius:8px; background:var(--main); color:#fff;
+      display:grid; place-items:center; font-weight:800; margin-bottom:8px; font-size:14px;
+      box-shadow: var(--shadow-sm);
+    }
+    .step h3{ margin:4px 0 6px; font-size:16px; color: var(--main-700); }
+    .step p{ margin:0; font-size:14px; color:#475569; }
+
+    /* ============ LÝ DO CHỌN ============ */
+    .reasons{
+      display:grid; grid-template-columns: repeat(4,1fr); gap:12px;
+    }
+    .reason{
+      background:#fff; border:1px solid var(--border); border-radius: 14px; padding:16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .reason h3{ margin:0 0 6px 0; color: var(--main-700); font-size:16px; }
+    .reason p{ margin:0; color:#475569; font-size:14px; }
+    .icon{
+      width:36px; height:36px; border-radius: 10px; display:grid; place-items:center;
+      background: #e8f5e9; color: var(--main-700); margin-bottom:8px; font-size:18px;
+    }
+
+    /* ============ ĐỐI TÁC / LOGO ============ */
+    .partners{
+      background: #fff; border:1px solid var(--border); border-radius: var(--radius);
+      padding: 14px 18px; box-shadow: var(--shadow-sm);
+    }
+    .logo-row{
+      display:grid; grid-template-columns: repeat(6,1fr); gap:10px; align-items:center;
+    }
+    .logo{
+      height:40px; background:#f3f6f4; border:1px dashed #dfe7e3; border-radius:10px;
+      display:grid; place-items:center; color:#8aa191; font-weight:700;
+    }
+
+    /* ============ CTA CUỐI TRANG ============ */
+    .cta-box{
+      background: linear-gradient(135deg, var(--main), #43a047);
+      color:#fff; border-radius: 18px; padding: 26px; box-shadow: var(--shadow-md);
+      display:flex; flex-wrap:wrap; align-items:center; justify-content: space-between; gap:16px;
+    }
+    .cta-box p{ margin:0; opacity:.95; }
+    .cta-box a.btn{
+      background:#fff; color: var(--main-700); padding:12px 16px; border-radius: 12px; font-weight:800;
+      text-decoration:none;
+    }
+    .cta-box a.btn:hover{ background:#e8f5e9; }
+
+    /* ============ FOOTER NGẮN ============ */
+    footer{ padding:24px 0 40px; color:#cfe3d2; background: var(--main-700); }
+    footer .mini{ color:#a7d3ad; font-size:14px; }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 992px){
+      .hero-wrap{ grid-template-columns: 1fr; }
+      .steps{ grid-template-columns: repeat(3,1fr); }
+      .reasons{ grid-template-columns: repeat(2,1fr); }
+      .logo-row{ grid-template-columns: repeat(4,1fr); }
+    }
+    @media (max-width: 640px){
+      .steps{ grid-template-columns: repeat(2,1fr); }
+      .reasons{ grid-template-columns: 1fr; }
+      .logo-row{ grid-template-columns: repeat(3,1fr); }
+    }
   </style>
 </head>
 <body>
 
-  <!-- ===== HEADER ===== -->
-  <header id="siteHeader" role="banner" data-box>
-    <div id="brand" data-box>LOGO 2606AI</div>
-    <div id="searchBar" data-box>
-      <input id="q" placeholder="Tìm sản phẩm… (ID, mô tả)" />
-      <button id="btnSearch" type="button">Tìm</button>
+  <!-- =================== HEADER =================== -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-badge">AI</div>
+        <div>2606AI</div>
+      </div>
+      <!-- Link về trang chủ + liên hệ (có thể thay bằng menu thật của bạn) -->
+      <div style="display:flex; gap:10px;">
+        <a class="btn" href="index.html">Trang chủ</a>
+        <a class="btn" href="contact.html">Liên hệ</a>
+      </div>
     </div>
   </header>
 
-  <!-- ===== THÔNG ĐIỆP CHẠY (marquee) ===== -->
-  <div id="topNotice" aria-live="polite" data-box>
-    <span>Để đảm bảo quyền lợi, hãy thông báo với 2606AI.VN khi chốt đơn hàng</span>
-  </div>
-
-  <!-- ===== LAYOUT CHÍNH: aside trái + nội dung phải ===== -->
-  <main id="layout" role="main" data-box>
-
-    <!-- = LEFT: phúc lợi + xưởng đề xuất = -->
-    <aside id="leftCol" aria-label="Cột trái" data-box>
-
-      <!-- Chúng tôi có gì cho bạn -->
-      <section id="benefits" aria-labelledby="benefitsTitle" data-box>
-        <h2 id="benefitsTitle">Chúng tôi có gì cho bạn…</h2>
-        <ol id="benefitsList">
-          <!-- Bước 3 sẽ style; Bước 5 có thể render động nếu muốn -->
-          <li>Tham khảo 10,000+ mẫu sản phẩm</li>
-          <li>500+ nhà cung cấp & xưởng sản xuất</li>
-          <li>Hỗ trợ tư vấn sản xuất</li>
-          <li>Hỗ trợ thiết kế 2D/3D</li>
-          <li>Hậu cần vận chuyển & đóng gói</li>
-          <li>Hỗ trợ giải quyết tranh chấp</li>
-        </ol>
-      </section>
-
-      <!-- Xưởng đề xuất -->
-      <section id="suppliersBox" aria-labelledby="suppliersTitle" data-box>
-        <h2 id="suppliersTitle">Xưởng đề xuất <span id="supCount">(0)</span></h2>
-        <div id="supList" role="list">
-          <!-- Bước 5: render từ /suppliers -->
+  <!-- =================== HERO =================== -->
+  <section class="hero">
+    <div class="container hero-wrap">
+      <div>
+        <h1>Về chúng tôi</h1>
+        <p class="lead">
+          2606AI là nền tảng kết nối <b>thiết kế</b> và <b>sản xuất quà tặng thương hiệu</b>,
+          giúp doanh nghiệp tạo mẫu nhanh bằng AI, xác minh khả thi sản xuất bởi chuyên gia và triển khai tại
+          hàng trăm xưởng đối tác trên khắp Việt Nam.
+        </p>
+        <div class="cta">
+          <a class="btn-main" href="contact.html">Bắt đầu dự án</a>
+          <a class="btn-ghost" href="policy.html">Xem quy trình & chính sách</a>
         </div>
-      </section>
+      </div>
 
-    </aside>
-
-    <!-- = RIGHT: phần nội dung chính = -->
-    <section id="content" aria-label="Nội dung chính" data-box>
-
-      <!-- Hero 3 khung -->
-      <section id="hero" aria-label="Hero banners" data-box>
-        <div id="heroBig" data-box>HERO BIG</div>
-        <div id="heroSmall" data-box>
-          <div class="heroItem" data-box>HERO SMALL 1</div>
-          <div class="heroItem" data-box>HERO SMALL 2</div>
+      <!-- Thẻ mô tả năng lực nhanh -->
+      <aside class="hero-card">
+        <div class="hero-grid">
+          <div class="hero-item">
+            <h3>AI Mockup • 5 phút</h3>
+            <p>Dựng mẫu & phối màu ngay trên web, phù hợp in ấn / đúc / UV.</p>
+          </div>
+          <div class="hero-item">
+            <h3>500+ Xưởng đối tác</h3>
+            <p>Chọn xưởng phù hợp giá, vật liệu & thời gian giao.</p>
+          </div>
+          <div class="hero-item">
+            <h3>Báo giá minh bạch</h3>
+            <p>Chi tiết vật liệu, bề mặt mạ, kỹ thuật hoàn thiện.</p>
+          </div>
+          <div class="hero-item">
+            <h3>Giao hàng toàn quốc</h3>
+            <p>Đóng gói chuẩn, theo dõi tiến độ theo đơn.</p>
+          </div>
         </div>
-      </section>
+      </aside>
+    </div>
+  </section>
 
-      <!-- Nhóm lớn (4 ô) -->
-      <nav id="groups" aria-label="Nhóm lớn" data-box>
-        <!-- Bước 5: lấy từ facets.groups_all -->
-        <!-- <button data-act="set-group" data-val="QUÀ TẶNG 247 EXPRESS (Đối tác)">...</button> -->
-      </nav>
+  <!-- =================== SỨ MỆNH =================== -->
+  <section>
+    <div class="container">
+      <div class="sec-head">
+        <div class="eyebrow">Sứ mệnh</div>
+        <h2>Kết nối trí tuệ thiết kế và năng lực sản xuất Việt</h2>
+      </div>
+      <div class="mission">
+        <p><b>Chúng tôi</b> giúp doanh nghiệp biến ý tưởng thành sản phẩm thực tế nhanh – chuẩn – tối ưu chi phí,
+          thông qua AI hỗ trợ thiết kế và mạng lưới xưởng uy tín.</p>
+        <p><b>Tầm nhìn</b>: trở thành nền tảng số hàng đầu cho quà tặng &amp; POSM, đưa sản phẩm Việt đến gần hơn với mọi thương hiệu.</p>
+      </div>
+    </div>
+  </section>
 
-      <!-- Danh mục con (grid nút tròn) -->
-      <section id="subcats" aria-label="Danh mục con" data-box>
-        <!-- Bước 5: có thể map từ categories/loais/notes tùy chiến lược -->
-      </section>
+  <!-- =================== QUY TRÌNH =================== -->
+  <section>
+    <div class="container">
+      <div class="sec-head">
+        <div class="eyebrow">Quy trình 5 bước</div>
+        <h2>Từ ý tưởng đến thành phẩm</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Gửi ý tưởng</h3>
+          <p>Tải mẫu tham khảo / brief ngắn về mục đích & số lượng.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>AI dựng mẫu</h3>
+          <p>Phối màu, chọn kỹ thuật (đúc, UV, khắc, phủ mạ…).</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Chuyên gia duyệt</h3>
+          <p>Kiểm tính khả thi, tối ưu kết cấu & báo giá nhanh.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h3>Sản xuất</h3>
+          <p>Chọn xưởng phù hợp, theo dõi tiến độ theo đơn hàng.</p>
+        </div>
+        <div class="step">
+          <div class="num">5</div>
+          <h3>Giao & bảo hành</h3>
+          <p>Đóng gói, vận chuyển toàn quốc, hỗ trợ sau bán.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <!-- Thanh công cụ lọc + phân trang -->
-      <section id="toolbar" aria-label="Bộ lọc" data-box>
-        <span>Tìm thấy <strong id="total">0</strong> mục</span>
-        <button id="btnClear" type="button">Xóa bộ lọc</button>
+  <!-- =================== LÝ DO CHỌN =================== -->
+  <section>
+    <div class="container">
+      <div class="sec-head">
+        <div class="eyebrow">Giá trị khác biệt</div>
+        <h2>Tại sao chọn 2606AI</h2>
+      </div>
+      <div class="reasons">
+        <div class="reason">
+          <div class="icon">🤖</div>
+          <h3>Thiết kế nhanh bằng AI</h3>
+          <p>Tạo mockup trong vài phút, rút ngắn thời gian duyệt mẫu.</p>
+        </div>
+        <div class="reason">
+          <div class="icon">🏭</div>
+          <h3>Hệ sinh thái xưởng</h3>
+          <p>Liên kết đa vật liệu: hợp kim, cao su, gỗ, da, mica, in UV…</p>
+        </div>
+        <div class="reason">
+          <div class="icon">🧾</div>
+          <h3>Minh bạch & tối ưu</h3>
+          <p>Bảng giá rõ ràng theo kỹ thuật, tối ưu theo ngân sách.</p>
+        </div>
+        <div class="reason">
+          <div class="icon">🚚</div>
+          <h3>Giao hàng toàn quốc</h3>
+          <p>Đối tác vận chuyển tin cậy, cập nhật trạng thái đơn.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <label for="pageSel">Trang</label>
-        <select id="pageSel"></select>
-      </section>
+  <!-- =================== ĐỐI TÁC =================== -->
+  <section>
+    <div class="container">
+      <div class="sec-head">
+        <div class="eyebrow">Đối tác</div>
+        <h2>Khách hàng & xưởng tiêu biểu</h2>
+      </div>
+      <div class="partners">
+        <div class="logo-row">
+          <div class="logo">LOGO</div>
+          <div class="logo">LOGO</div>
+          <div class="logo">LOGO</div>
+          <div class="logo">LOGO</div>
+          <div class="logo">LOGO</div>
+          <div class="logo">LOGO</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <!-- Lưới thẻ sản phẩm -->
-      <section id="cards" aria-label="Danh sách sản phẩm" data-box>
-        <!-- Bước 5: render từ /list -->
-      </section>
+  <!-- =================== CTA CUỐI TRANG =================== -->
+  <section>
+    <div class="container">
+      <div class="cta-box">
+        <div>
+          <h3 style="margin:0 0 6px 0;">Cần báo giá nhanh cho dự án của bạn?</h3>
+          <p>Gửi brief trong 1 phút – chúng tôi phản hồi trong giờ làm việc.</p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn" href="contact.html">Gửi yêu cầu</a>
+          <a class="btn" href="https://zalo.me/" target="_blank" rel="noopener">Chat Zalo</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-      <!-- Phân trang dưới -->
-      <nav id="pagination" aria-label="Phân trang" data-box>
-        <button id="prev" type="button" aria-label="Trang trước">◀</button>
-        <select id="pageSel2"></select>
-        <button id="next" type="button" aria-label="Trang sau">▶</button>
-      </nav>
-
-    </section>
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer id="siteFooter" role="contentinfo" data-box>
-    <section aria-label="Giới thiệu" data-box>
-      <h3>2606AI logo</h3>
-      <p>Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm…</p>
-    </section>
-
-    <section aria-label="Liên kết nhanh" data-box>
-      <h3>LIÊN KẾT NHANH</h3>
-      <ul>
-        <li><a href="#">Về chúng tôi</a></li>
-        <li><a href="#">Danh mục sản phẩm</a></li>
-        <li><a href="#">Báo giá nhanh</a></li>
-        <li><a href="#">Câu hỏi thường gặp</a></li>
-      </ul>
-    </section>
-
-    <section aria-label="Chính sách" data-box>
-      <h3>CHÍNH SÁCH</h3>
-      <ul>
-        <li><a href="#">Chính sách vận chuyển</a></li>
-        <li><a href="#">Chính sách đổi trả</a></li>
-        <li><a href="#">Hướng dẫn đặt hàng</a></li>
-        <li><a href="#">Chính sách bảo mật</a></li>
-      </ul>
-    </section>
-
-    <section aria-label="Liên hệ" data-box>
-      <h3>LIÊN HỆ</h3>
-      <p>Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM</p>
-      <p>Hotline: 0909 123 456</p>
-      <p>Email: info@2606ai.vn</p>
-    </section>
-
-    <div id="copyright" data-box>© 2025 2606AI. Website được phát triển bởi 2606AI.</div>
+  <!-- =================== FOOTER NHANH =================== -->
+  <footer>
+    <div class="container">
+      <div class="mini">© 2606AI – Nền tảng thiết kế & sản xuất quà tặng thương hiệu.</div>
+    </div>
   </footer>
 
-  <!-- BƯỚC 5 sẽ gắn JS riêng vào đây: <script src="assets/js/app.js"></script> -->
 </body>
 </html>
