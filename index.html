@@ -1,352 +1,323 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2606AI - Tham khảo & Báo giá sản phẩm</title>
-  <base href="/">
-  <link rel="icon" href="/favicon.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>2606AI - Tham khảo & Báo giá sản phẩm</title>
+<link rel="icon" href="/favicon.ico">
 <style>
-/* =============== RESET & WRAPPER =============== */
 :root{
-  --green:#2d7a38; --green-700:#1c5325; --bg:#f6f8f6; --card:#ffffff;
-  --border:#e6e9ed; --text:#1f2937; --muted:#6b7280; --shadow:0 6px 24px rgba(0,0,0,.06);
-  --r:18px;
+  --green:#2d7a38;
+  --border:#e6e9ed;
+  --shadow:0 1px 3px rgba(0,0,0,.05);
+  --shadow-lg:0 10px 24px rgba(16,24,24,.06);
+  --text:#1f2937;
 }
 *{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+body{font-family:"Segoe UI",Arial,sans-serif;margin:0;background:#f7f8f9;color:var(--text);}
 
-/* Tự căn giữa các khối lớn mà không cần thêm wrapper */
-:is(header,#topNotice,main,footer,#copyright){max-width:1200px;margin:0 auto;padding:0 16px}
+/* ==== HEADER ==== */
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+header img{height:40px}
+header input{width:60%;padding:8px 12px;border:1px solid #ccc;border-radius:6px;}
+header button{background:var(--green);color:#fff;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600;}
 
-/* tiện ích */
+/* ==== MARQUEE ==== */
+#topNotice{background:var(--green);color:#fff;font-size:13px;text-align:center;padding:4px 0}
+
+/* ==== LAYOUT ==== */
+main{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px;}
+@media(max-width:768px){main{grid-template-columns:1fr}aside#leftColumn{order:2}}
+aside{background:#fff;border-radius:12px;padding:12px;box-shadow:var(--shadow);}
+
+/* ==== LEFT COLUMN ==== */
+#leftColumn{display:flex;flex-direction:column;gap:14px}
+.panel{
+  background:#fff;border:1px solid var(--border);border-radius:18px;
+  box-shadow:var(--shadow);padding:14px
+}
+.benefit-list{list-style:none;margin:8px 0 0;padding:0}
+.benefit-list li{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:10px;padding:10px 8px;border-top:1px dashed #e7ece9}
+.benefit-list li:first-child{border-top:0}
+.benefit-list .n{width:28px;height:28px;border-radius:10px;background:#e8f5ec;color:#2a6c3b;display:grid;place-items:center;font-weight:800}
+.benefit-list .txt .title{font-weight:700}
+.benefit-list .txt .sub{color:#6b7280;font-size:12px;margin-top:2px}
+.tag{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid #e6e9ed;font-weight:700}
+.tag--free{background:#eaf7ee;color:#166a35;border-color:#cfe9d6}
+.tag--paid{background:#ffefef;color:#b11818;border-color:#ffd7d7}
+.suppliers .sup-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.suppliers .sup-header h4{margin:0}
+.suppliers .count{background:#0f3c19;color:#fff;border-radius:10px;padding:2px 8px;font-size:12px;font-weight:800}
+.sup-list{display:flex;flex-direction:column;gap:10px;max-height:420px;overflow:auto;padding-right:4px}
+.sup{display:grid;grid-template-columns:48px 1fr;gap:10px;align-items:center;padding:8px;border:1px dashed #cfe2d4;border-radius:12px;background:#fbfdfa}
+.sup .avt{width:48px;height:48px;border-radius:12px;background:#eef5f0}
+.sup .info .name{font-weight:700;color:#124b28}
+.sup .info .line{color:#6b7280;font-size:12px;margin-top:2px}
+.sup .chips{display:flex;gap:6px;margin-top:6px}
+.sup .chip{font-size:11px;padding:2px 6px;border-radius:999px;border:1px solid #e6e9ed;background:#fff}
+.sup a{color:#1c6b39;text-decoration:none}
+.sup a:hover{text-decoration:underline}
+
+/* ==== MAIN CONTENT ==== */
+#contentArea{display:flex;flex-direction:column;gap:16px;}
+#hero{display:grid;grid-template-columns:2fr 1fr;gap:8px;}
+#hero img{width:100%;border-radius:10px;}
+#groups,#subcats{display:flex;flex-wrap:wrap;gap:8px;}
+#groups button,#subcats button{padding:10px 16px;border:1px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-weight:600}
+#groups button:hover,#subcats button:hover{background:#e8f5ec}
+
+/* ==== CARDS ==== */
+#cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;
+box-shadow:var(--shadow-lg);display:flex;flex-direction:column;transition:transform .14s ease,box-shadow .14s ease;}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(16,24,24,.09);}
+.card .thumb{width:100%;aspect-ratio:4/3;background:#f2f4f2 center/cover no-repeat;display:block;}
+.card .content{padding:12px 12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card .title{font-size:14px;font-weight:700;color:#1b3a2a;margin:0 0 6px;line-height:1.2}
+.card .desc{font-size:13px;color:#6b7280;flex:1;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.card .meta{display:flex;align-items:center;gap:8px;margin-top:6px}
+.card .price{color:#b71e2d;font-weight:800;font-size:15px}
+.card .badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge-small{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid #e6e9ed;background:#fff}
+.badge-green{background:#eaf7ee;color:#166a35;border-color:#cfe9d6}
+.card .actions{display:flex;gap:8px;align-items:center;margin-top:10px}
+.btn-mini{padding:8px 10px;border-radius:10px;border:1px solid #e6e9ed;background:#fff;cursor:pointer;font-weight:700}
+.btn-mini.primary{background:var(--green);color:#fff;border-color:transparent}
+
+/* ==== TOOLBAR & PAGINATION ==== */
+#toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#pagination{display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 0}
+
+/* ==== FOOTER ==== */
+footer{background:#0b6420;color:#fff;padding:40px 20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+footer h4{margin-top:0;color:#f0f0f0}
+footer a{color:#fff;text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+#copyright{text-align:center;padding:12px;color:#b5e2b0;font-size:13px}
+
+/* ==== FAB ==== */
+#fab{position:fixed;bottom:20px;right:20px;display:flex;flex-direction:column;gap:10px;z-index:900;}
+.fab-btn{position:relative;width:48px;height:48px;border-radius:50%;background:var(--green);color:#fff;border:none;cursor:pointer;font-size:20px;}
+.badge{position:absolute;top:4px;right:4px;background:#e30613;color:#fff;border-radius:999px;font-size:11px;padding:2px 6px;line-height:1;}
 .hidden{display:none}
-
-/* =============== HEADER + SEARCH =============== */
-header{
-  display:flex;align-items:center;gap:14px;
-  padding:14px 0;background:#fff;border-radius:0 0 16px 16px;box-shadow:0 1px 8px rgba(0,0,0,.05)
-}
-header img{height:40px;object-fit:contain}
-header input{
-  flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:28px;outline:0
-}
-header button{
-  background:var(--green);color:#fff;border:0;padding:10px 18px;border-radius:22px;cursor:pointer;font-weight:700
-}
-
-/* =============== MARQUEE STRIP =============== */
-#topNotice{
-  margin-top:6px;background:var(--green);color:#fff;font-weight:600;font-size:13px;
-  padding:8px 12px;border-radius:10px
-}
-
-/* =============== MAIN GRID =============== */
-main{
-  display:grid;grid-template-columns:280px 1fr;gap:16px;margin:16px 0 10px
-}
-@media (max-width: 980px){ main{ grid-template-columns:1fr } }
-
-/* LEFT column */
-aside{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:14px
-}
-aside h3{margin:0 0 10px 0}
-aside ol{margin:8px 0 14px 16px;padding:0}
-.badge-tag{display:inline-block;margin-left:6px;background:#eaf7ee;color:#1f6c33;border-radius:8px;padding:2px 8px;font-weight:700;font-size:12px}
-#supList{display:flex;flex-direction:column;gap:10px;max-height:360px;overflow:auto}
-
-/* =============== HERO =============== */
-#contentArea{display:flex;flex-direction:column;gap:14px}
-#hero{display:grid;grid-template-columns:2fr 1fr;gap:12px}
-#hero img{width:100%;height:180px;object-fit:cover;border-radius:var(--r);display:block}
-#hero>div img:first-child{margin-bottom:12px}
-@media (max-width: 980px){ #hero{grid-template-columns:1fr} }
-
-/* =============== GROUPS (4 ô) =============== */
-#groups{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-#groups button{
-  background:#f7fbf8;border:1px solid var(--border);border-radius:16px;padding:14px;font-weight:700;
-  color:#1f4f2a;cursor:pointer
-}
-@media (max-width: 980px){ #groups{grid-template-columns:repeat(2,1fr)} }
-
-/* =============== SUBCATS (chips) =============== */
-#subcats{
-  background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);
-  padding:12px;display:grid;grid-template-columns:repeat(8,1fr);gap:10px
-}
-#subcats button{
-  border:1px solid var(--border);background:#fbfffc;border-radius:999px;padding:10px 12px;font-weight:700;cursor:pointer
-}
-@media (max-width:1100px){ #subcats{ grid-template-columns:repeat(4,1fr) } }
-@media (max-width:720px){  #subcats{ grid-template-columns:repeat(3,1fr) } }
-
-/* =============== TOOLBAR =============== */
-#toolbar{display:flex;align-items:center;gap:10px;margin:4px 0 6px}
-#toolbar .count{background:#0f3c19;color:#fff;border-radius:8px;padding:2px 6px;font-size:12px;font-weight:700}
-#toolbar button{border:1px solid var(--border);background:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
-
-/* =============== CARDS GRID (sẵn sàng đổ dữ liệu bước 5) =============== */
-#cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-@media (max-width:1200px){ #cards{grid-template-columns:repeat(4,1fr)} }
-@media (max-width:960px){  #cards{grid-template-columns:repeat(3,1fr)} }
-@media (max-width:680px){  #cards{grid-template-columns:repeat(2,1fr)} }
-
-.card{
-  background:#fff;border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column
-}
-.card .img{aspect-ratio:4/3;background:#eef2ef center/cover no-repeat}
-.card .pad{padding:12px}
-.card h3{font-size:15px;margin:0 0 6px 0}
-.tagline{display:flex;gap:6px;flex-wrap:wrap;margin:-6px 0 8px}
-.tag{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--border);background:#fff;font-weight:700}
-.tag.green{background:#eaf7ee;border-color:#cfe9d6;color:#165a2c}
-.tag.orange{background:#fff4e6;border-color:#ffe0bb;color:#8a5400}
-.tag.red{background:#ffe9e9;border-color:#ffcece;color:#b11818}
-.price{color:#b11818;font-weight:800;margin-top:4px}
-.card .actions{display:flex;gap:8px}
-.btn-mini{border:1px solid var(--border);background:#fff;padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:700}
-.btn-mini.fill{background:var(--green);color:#fff;border-color:transparent}
-
-/* =============== PAGINATION =============== */
-#pagination{display:flex;gap:8px;justify-content:flex-end;align-items:center}
-#pagination select,#pagination button{padding:8px 10px;border-radius:10px;border:1px solid var(--border);background:#fff}
-
-/* =============== FOOTER =============== */
-footer{
-  margin-top:18px;background:linear-gradient(180deg,var(--green) 0%,var(--green-700) 100%);
-  color:#fff;border-radius:16px 16px 0 0
-}
-footer h4{margin:0 0 10px}
-footer a{color:#e6ffe8;text-decoration:none}
-footer a:hover{text-decoration:underline}
-#copyright{color:#8ed19a;font-size:13px;text-align:center;padding:10px 0 18px}
-
-/* =============== PANELS & MODAL =============== */
-.sidepanel,.modal{
-  position:fixed;top:0;right:0;background:#fff;border:1px solid var(--border);box-shadow:0 24px 60px rgba(0,0,0,.25);
-  z-index:1000;transition:transform .25s ease,opacity .25s ease
-}
-.sidepanel{width:380px;height:100%;transform:translateX(100%);overflow:auto;border-radius:16px 0 0 16px}
-.sidepanel.active{transform:translateX(0)}
-.modal{top:50%;left:50%;right:auto;width:420px;max-width:90%;border-radius:14px;padding:0;transform:translate(-50%,-50%) scale(.85);opacity:0}
-.modal.active{transform:translate(-50%,-50%) scale(1);opacity:1}
-.modal header,.sidepanel header{
-  display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);font-weight:700
-}
-.panel-body{padding:16px}
-.btn-primary{background:var(--green);color:#fff;border:0;padding:8px 16px;border-radius:8px;cursor:pointer}
-.btn-secondary{background:#e6e9ed;color:#0f3c19;border:0;padding:8px 16px;border-radius:8px;cursor:pointer}
-
-/* =============== FAB (floating buttons) =============== */
-#fab{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:10px;z-index:900}
-.fab-btn{position:relative;width:48px;height:48px;border-radius:50%;background:var(--green);color:#fff;border:0;cursor:pointer;font-size:20px}
-.badge{position:absolute;top:4px;right:4px;background:#e30613;color:#fff;border-radius:999px;font-size:11px;padding:2px 6px;line-height:1}
 </style>
-
-
 </head>
 
 <body>
-  <!-- ===== HEADER ===== -->
-  <header>
-    <img src="https://2606ai.vn/logo.png" alt="2606AI logo" height="40">
-    <input id="q" type="text" placeholder="Tìm sản phẩm... (ID, mô tả)">
-    <button id="btnSearch">Tìm</button>
-  </header>
+<header>
+  <img src="https://2606ai.vn/logo.png" alt="2606AI logo">
+  <input id="q" type="text" placeholder="Tìm sản phẩm... (ID, mô tả)">
+  <button id="btnSearch">Tìm</button>
+</header>
 
-  <!-- ===== MARQUEE ===== -->
-  <div id="topNotice">
-    Để đảm bảo quyền lợi, hãy thông báo với 2606AI.VN khi chốt đơn hàng • Nguồn thu của 2606AI.VN đến từ quảng cáo
-  </div>
+<div id="topNotice">Để đảm bảo quyền lợi, hãy thông báo với 2606AI.VN khi chốt đơn hàng • Nguồn thu của 2606AI.VN đến từ quảng cáo</div>
 
-  <!-- ===== MAIN LAYOUT ===== -->
-  <main id="mainArea">
-    <!-- LEFT SIDEBAR -->
-    <aside id="leftColumn">
-      <h3>Chúng tôi có gì cho bạn...</h3>
-      <ol>
-        <li>Tham khảo 10,000+ mẫu sản phẩm <span class="badge">Miễn phí</span></li>
-        <li>Hơn 500+ nhà cung cấp và xưởng sản xuất <span class="badge">Miễn phí</span></li>
-        <li>Hỗ trợ tư vấn sản xuất <span class="badge">Miễn phí</span></li>
-        <li>Hỗ trợ thiết kế 2D, 3D sản xuất <span class="badge">Miễn phí</span></li>
-        <li>Hậu cần vận chuyển và đóng gói hàng <span class="badge">Có phí</span></li>
-        <li>Hỗ trợ giải quyết tranh chấp <span class="badge">Có phí</span></li>
-      </ol>
+<main>
+  <!-- LEFT -->
+  <aside id="leftColumn">
+    <div class="panel benefits">
+      <h3>Chúng tôi có gì cho bạn…</h3>
+      <ul class="benefit-list">
+        <li><div class="n">1</div><div class="txt"><div class="title">Tham khảo 10,000+ mẫu sản phẩm</div><div class="sub">Không tưởng</div></div><span class="tag tag--free">Miễn phí</span></li>
+        <li><div class="n">2</div><div class="txt"><div class="title">Hơn 500+ nhà cung cấp và xưởng sản xuất</div><div class="sub">Báo giá nhanh, dễ dàng so sánh</div></div><span class="tag tag--free">Miễn phí</span></li>
+        <li><div class="n">3</div><div class="txt"><div class="title">Hỗ trợ tư vấn sản xuất</div><div class="sub">Phản hồi nhanh, nhiều nhu cầu</div></div><span class="tag tag--free">Miễn phí</span></li>
+        <li><div class="n">4</div><div class="txt"><div class="title">Hỗ trợ thiết kế 2D, 3D sản xuất</div><div class="sub">Mockup miễn phí các đơn hàng chốt</div></div><span class="tag tag--free">Miễn phí</span></li>
+        <li><div class="n">5</div><div class="txt"><div class="title">Hậu cần vận chuyển và đóng gói hàng</div><div class="sub">Dịch vụ vận chuyển chuyên nghiệp</div></div><span class="tag tag--paid">Có phí</span></li>
+        <li><div class="n">6</div><div class="txt"><div class="title">Hỗ trợ giải quyết tranh chấp</div><div class="sub">Bảo vệ quyền lợi khách hàng</div></div><span class="tag tag--paid">Có phí</span></li>
+      </ul>
+    </div>
 
-      <h4>Xưởng đề xuất <span id="supCount" class="badge">0</span></h4>
-      <div id="supList">Đang tải...</div>
-    </aside>
-
-    <!-- RIGHT MAIN CONTENT -->
-    <section id="contentArea">
-      <section id="hero">
-        <img src="https://placehold.co/800x300?text=HERO+1" alt="Hero 1">
-        <div>
-          <img src="https://placehold.co/400x145?text=HERO+2" alt="Hero 2" style="margin-bottom:8px;">
-          <img src="https://placehold.co/400x145?text=HERO+3" alt="Hero 3">
-        </div>
-      </section>
-
-      <section id="groups">
-        <button>QUÀ TẶNG 247 EXPRESS</button>
-        <button>MAY MẶC THỜI TRANG</button>
-        <button>ĐỒ DA CAO CẤP</button>
-        <button>QUÀ TẶNG DOANH NGHIỆP</button>
-      </section>
-
-      <section id="subcats">
-        <button>TÚI VẢI</button>
-        <button>DÂY NỊT</button>
-        <button>CHÌ MAY</button>
-        <button>VÍ DA</button>
-      </section>
-
-      <div id="toolbar">
-        <span>Tìm thấy <b id="total">0</b> sản phẩm</span>
-        <button id="btnClear" class="btn-secondary">Xóa bộ lọc</button>
-        <select id="pageSel"></select>
+    <div class="panel suppliers">
+      <div class="sup-header"><h4>Xưởng đề xuất</h4><span class="count" id="supCount">10</span></div>
+      <div id="supList" class="sup-list">
+        <div class="sup"><div class="avt"></div><div class="info"><div class="name"><a href="#">ABC Gift</a></div><div class="line">TPHCM — Móc khóa, huy hiệu</div><div class="chips"><span class="chip">Có website</span><span class="chip">Tải tệp</span></div></div></div>
+        <div class="sup"><div class="avt"></div><div class="info"><div class="name"><a href="#">CÔ NÊ</a></div><div class="line">Tân Bình — Quà tặng doanh nghiệp</div><div class="chips"><span class="chip">Có website</span><span class="chip">Tải tệp</span></div></div></div>
       </div>
+    </div>
+  </aside>
 
-      <div id="cards">
-        <!-- Cards sản phẩm render tại đây -->
-      </div>
-
-      <div id="pagination">
-        <button id="prev">‹</button>
-        <select id="pageSel2"></select>
-        <button id="next">›</button>
+  <!-- RIGHT -->
+  <section id="contentArea">
+    <section id="hero">
+      <img src="https://placehold.co/800x300?text=HERO+1" alt="Hero 1">
+      <div>
+        <img src="https://placehold.co/400x145?text=HERO+2" alt="Hero 2" style="margin-bottom:8px;">
+        <img src="https://placehold.co/400x145?text=HERO+3" alt="Hero 3">
       </div>
     </section>
-  </main>
 
-  <!-- ===== FOOTER ===== -->
-  <footer id="footer">
-    <div>
-      <img src="https://2606ai.vn/logo.png" alt="2606AI logo" height="40">
-      <p>Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm.<br>Tham khảo mẫu - Tư vấn - Thiết kế - Báo giá - Đặt hàng - Vận chuyển.</p>
-    </div>
-    <div>
-      <h4>LIÊN KẾT NHANH</h4>
-      <a href="#">Về chúng tôi</a><br>
-      <a href="#">Danh mục sản phẩm</a><br>
-      <a href="#">Báo giá nhanh</a><br>
-      <a href="#">Câu hỏi thường gặp</a>
-    </div>
-    <div>
-      <h4>CHÍNH SÁCH</h4>
-      <a href="#">Chính sách vận chuyển</a><br>
-      <a href="#">Chính sách đổi trả</a><br>
-      <a href="#">Hướng dẫn đặt hàng</a><br>
-      <a href="#">Chính sách bảo mật</a>
-    </div>
-    <div>
-      <h4>LIÊN HỆ</h4>
-      <p>Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM<br>Hotline: 0909 123 456<br>Email: info@2606ai.vn</p>
-    </div>
-  </footer>
-  <div id="copyright">© 2025 2606AI. Website được phát triển bởi 2606AI.</div>
+    <section id="groups">
+      <button>QUÀ TẶNG 247 EXPRESS</button>
+      <button>MAY MẶC THỜI TRANG</button>
+      <button>ĐỒ DA CAO CẤP</button>
+      <button>QUÀ TẶNG DOANH NGHIỆP</button>
+    </section>
 
-  <!-- ===== MODALS / PANELS ===== -->
+    <section id="subcats">
+      <button>TÚI VẢI</button><button>DÂY NỊT</button><button>CHỈ MAY</button><button>VÍ DA</button>
+    </section>
 
-  <!-- Popup giới thiệu -->
-  <div id="introModal" class="modal hidden">
-    <header>
-      <span>Tham khảo 10,000+ mẫu sản phẩm</span>
-      <button data-close>×</button>
-    </header>
-    <div class="panel-body">
-      <p>Kho ý tưởng lớn, cập nhật thường xuyên.</p>
-      <ul>
-        <li>Tìm nhanh theo ID, từ khóa, loại sản phẩm</li>
-        <li>Ảnh/Link nguồn tham khảo rõ ràng</li>
-        <li>Lưu mẫu yêu thích vào giỏ để xin báo giá</li>
-      </ul>
-      <button class="btn-primary" data-close>Đã hiểu</button>
+    <div id="toolbar">
+      <span>Tìm thấy <b id="total">0</b> sản phẩm</span>
+      <button id="btnClear" class="btn-mini">Xóa bộ lọc</button>
+      <select id="pageSel"></select>
     </div>
+
+    <div id="cards"></div>
+
+    <div id="pagination">
+      <button id="prev">‹</button>
+      <select id="pageSel2"></select>
+      <button id="next">›</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div>
+    <img src="https://2606ai.vn/logo.png" alt="2606AI logo" height="40">
+    <p>Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm.<br>Tham khảo mẫu - Tư vấn - Thiết kế - Báo giá - Đặt hàng - Vận chuyển.</p>
   </div>
-
-  <!-- Bộ lọc nâng cao -->
-  <aside id="filterPanel" class="sidepanel hidden">
-    <header><h3>Bộ lọc nâng cao</h3><button data-close>×</button></header>
-    <div class="panel-body">
-      <div id="filter-category"></div>
-      <div id="filter-type"></div>
-      <div id="filter-loai"></div>
-      <div id="filter-note"></div>
-      <div id="filter-group"></div>
-    </div>
-    <footer style="padding:10px 16px;">
-      <button id="btnClearFilter" class="btn-secondary">Xóa bộ lọc</button>
-    </footer>
-  </aside>
-
-  <!-- Giỏ hàng -->
-  <aside id="cartPanel" class="sidepanel hidden">
-    <header><h3>Giỏ hàng</h3><button data-close>×</button></header>
-    <div class="panel-body">
-      <div class="cart-summary">
-        <span>Tổng cộng:</span>
-        <strong id="cartTotal">0 đ</strong>
-      </div>
-      <form id="orderForm">
-        <input type="text" placeholder="Họ và tên">
-        <input type="email" placeholder="Email">
-        <input type="tel" placeholder="Số điện thoại">
-        <input type="text" placeholder="Địa chỉ nhận hàng">
-        <textarea placeholder="Ghi chú"></textarea>
-        <input type="file">
-        <button class="btn-primary" type="submit">Gửi đơn hàng</button>
-      </form>
-    </div>
-  </aside>
-
-  <!-- Danh sách xưởng -->
-  <aside id="suppliersPanel" class="sidepanel hidden">
-    <header><h3>Danh sách xưởng</h3><button data-close>×</button></header>
-    <div class="panel-body">
-      <input id="searchSup" type="text" placeholder="Tìm theo tên, địa chỉ...">
-      <label><input type="checkbox" id="onlyWeb"> Chỉ xưởng có website</label>
-      <div id="supListFull">Đang tải...</div>
-      <button class="btn-primary" style="width:100%;margin-top:16px;">Liên hệ đặt quảng cáo</button>
-    </div>
-  </aside>
-
-  <!-- FAB Buttons -->
-  <div id="fab">
-    <button id="btnCart" data-open="cartPanel" class="fab-btn">🛒</button>
-    <button id="btnSup" data-open="suppliersPanel" class="fab-btn">🏭</button>
-    <button id="btnFilter" data-open="filterPanel" class="fab-btn">
-      ⚙️
-      <span id="filterCount" class="badge hidden">0</span>
-    </button>
+  <div>
+    <h4>LIÊN KẾT NHANH</h4>
+    <a href="#">Về chúng tôi</a><br><a href="#">Danh mục sản phẩm</a><br><a href="#">Báo giá nhanh</a><br><a href="#">Câu hỏi thường gặp</a>
   </div>
+  <div>
+    <h4>CHÍNH SÁCH</h4>
+    <a href="#">Chính sách vận chuyển</a><br><a href="#">Chính sách đổi trả</a><br><a href="#">Hướng dẫn đặt hàng</a><br><a href="#">Chính sách bảo mật</a>
+  </div>
+  <div>
+    <h4>LIÊN HỆ</h4>
+    <p>Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM<br>Hotline: 0909 123 456<br>Email: info@2606ai.vn</p>
+  </div>
+</footer>
+<div id="copyright">© 2025 2606AI. Website được phát triển bởi 2606AI.</div>
 
-  <script>
-    // Gắn toggle panel đơn giản
-    document.querySelectorAll('[data-open]').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        const id=btn.getAttribute('data-open');
-        document.getElementById(id).classList.add('active');
-      });
-    });
-    document.querySelectorAll('[data-close]').forEach(btn=>{
-      btn.addEventListener('click',()=>{
-        btn.closest('.sidepanel,.modal').classList.remove('active');
-      });
-    });
+<!-- FAB -->
+<div id="fab">
+  <button id="btnCart" class="fab-btn">🛒<span id="cartCount" class="badge hidden">0</span></button>
+  <button id="btnSup" class="fab-btn">🏭</button>
+  <button id="btnFilter" class="fab-btn">⚙️<span id="filterCount" class="badge hidden">0</span></button>
+</div>
 
-    // Hiển thị số bộ lọc
-    const state={filters:{group:'',type:'',loai:'',note:'',category:''}};
-    function updateFilterCount(){
-      const active=Object.values(state.filters).filter(v=>v&&v.trim()!=='');
-      const count=active.length;
-      const badge=document.getElementById('filterCount');
-      if(count>0){badge.textContent=count;badge.classList.remove('hidden');}
-      else{badge.classList.add('hidden');}
-    }
-  </script>
+<script>
+/* === JS === */
+function fmtVND(n){try{return Number(n||0).toLocaleString('vi-VN')+' đ'}catch(e){return n}}
+function mk(tag,attrs={},children=[]){const el=document.createElement(tag);for(const k in attrs){if(k==='class')el.className=attrs[k];else if(k.startsWith('data-'))el.setAttribute(k,attrs[k]);else if(k==='html')el.innerHTML=attrs[k];else el[k]=attrs[k];}(Array.isArray(children)?children:[children]).forEach(c=>{if(!c)return;if(typeof c==='string')el.appendChild(document.createTextNode(c));else el.appendChild(c)});return el}
+
+const API_BASE='https://script.google.com/macros/s/AKfycbwFvoS6TSdj4ADked9RyTvG-A1fFfrkvqIJpeyNXy2bUqFpF07DEnHRx6O0TKlmZXkp/exec'  // đổi nếu cần endpoint ngoài
+const state={q:'',page:1,pageSize:36,total:0,filters:{group:'',type:'',loai:'',note:'',category:''}}
+
+async function apiList({q='',page=1,pageSize=36,filters={}}={}){
+  const params=new URLSearchParams();params.set('action','list');params.set('page',page);params.set('pageSize',pageSize);if(q)params.set('q',q);
+  for(const k in filters)if(filters[k])params.set(k,filters[k]);
+  const url=API_BASE+'?'+params.toString();const cacheKey='list:'+btoa(url);
+  try{const c=sessionStorage.getItem(cacheKey);if(c)return JSON.parse(c)}catch(e){}
+  const r=await fetch(url);if(!r.ok)throw new Error('Network');const d=await r.json();try{sessionStorage.setItem(cacheKey,JSON.stringify(d))}catch(e){}
+  return d;
+}
+
+function createCard(it){
+  const img=it.img||'https://placehold.co/400x300?text=IMG';
+  const title=it.id||'Sản phẩm';
+  const desc=it.details||it.search||'Mô tả sản phẩm';
+  const price=it.price?fmtVND(it.price):'Liên hệ';
+  const card=mk('article',{class:'card'},[
+        mk('img',{class:'thumb',src:img,alt:title,loading:'lazy'}),
+    mk('div',{class:'content'},[
+      mk('h3',{class:'title'},title),
+      mk('div',{class:'desc'},desc),
+      mk('div',{class:'meta'},[
+        mk('div',{class:'price'},price),
+        mk('div',{class:'badges'},[
+          it.note ? mk('span',{class:'badge-small badge-green'},it.note) : '',
+          it.type ? mk('span',{class:'badge-small'},it.type) : ''
+        ])
+      ]),
+      mk('div',{class:'actions'},[
+        mk('button',{class:'btn-mini',onclick:()=>addToCart(it)},'＋'),
+        mk('a',{class:'btn-mini primary',href:it.linkFull||'#',target:'_blank'},'Chi tiết')
+      ])
+    ])
+  ]);
+  return card;
+}
+
+/* === renderCards === */
+async function renderCards(){
+  const wrap=document.getElementById('cards');
+  wrap.innerHTML='';
+  for(let i=0;i<8;i++){
+    const s=mk('div',{class:'card'},'<div class="thumb" style="background:#f3f5f3"></div><div class="content"><div style="height:10px;background:#eee;margin-bottom:8px;border-radius:6px"></div></div>');
+    wrap.appendChild(s);
+  }
+  try{
+    const resp=await apiList({q:state.q,page:state.page,pageSize:state.pageSize,filters:state.filters});
+    const items=resp.items||[];
+    state.total=resp.total||items.length;
+    wrap.innerHTML='';
+    if(!items.length){wrap.innerHTML='<div style="padding:20px;color:#666">Không tìm thấy sản phẩm.</div>';return;}
+    items.forEach(it=>wrap.appendChild(createCard(it)));
+    document.getElementById('total').textContent=state.total;
+    renderPagination();
+  }catch(e){wrap.innerHTML='<div style="padding:20px;color:red">Lỗi khi tải dữ liệu.</div>';console.error(e);}
+}
+
+/* === Pagination === */
+function renderPagination(){
+  const sel=document.getElementById('pageSel2')||document.getElementById('pageSel');
+  const pages=Math.max(1,Math.ceil(state.total/state.pageSize));
+  sel.innerHTML='';
+  for(let p=1;p<=pages;p++){
+    const o=document.createElement('option');
+    o.value=p;o.textContent=`Trang ${p}/${pages}`;if(p===state.page)o.selected=true;sel.appendChild(o);
+  }
+  document.getElementById('prev').disabled=state.page<=1;
+  document.getElementById('next').disabled=state.page>=pages;
+}
+
+/* === Filter count === */
+function updateFilterCount(){
+  const n=Object.values(state.filters).filter(v=>v&&v.trim()!=='').length;
+  const b=document.getElementById('filterCount');
+  if(!b)return;
+  if(n>0){b.textContent=n;b.classList.remove('hidden');}
+  else b.classList.add('hidden');
+}
+
+/* === Cart local === */
+function loadCart(){try{return JSON.parse(localStorage.getItem('cart')||'[]')}catch(e){return[]}}
+function saveCart(c){localStorage.setItem('cart',JSON.stringify(c))}
+function addToCart(it){
+  const c=loadCart();c.push({id:it.id,title:it.details||it.id,price:it.price||0,img:it.img});
+  saveCart(c);
+  const el=document.getElementById('cartCount');
+  if(el){el.textContent=c.length;el.classList.remove('hidden');}
+  alert('Đã thêm vào giỏ hàng');
+}
+
+/* === INIT === */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderCards();updateFilterCount();
+  const q=document.getElementById('q');
+  let t;
+  q?.addEventListener('input',e=>{
+    clearTimeout(t);t=setTimeout(()=>{
+      state.q=e.target.value.trim();state.page=1;
+      try{sessionStorage.clear()}catch(_){}
+      renderCards();
+    },400);
+  });
+  document.getElementById('btnClear')?.addEventListener('click',()=>{
+    state.filters={group:'',type:'',loai:'',note:'',category:''};
+    updateFilterCount();state.page=1;renderCards();
+  });
+  document.getElementById('prev')?.addEventListener('click',()=>{if(state.page>1){state.page--;renderCards();}});
+  document.getElementById('next')?.addEventListener('click',()=>{state.page++;renderCards();});
+  document.getElementById('pageSel2')?.addEventListener('change',e=>{state.page=+e.target.value;renderCards();});
+  document.getElementById('pageSel')?.addEventListener('change',e=>{state.page=+e.target.value;renderCards();});
+  const c=loadCart();const cc=document.getElementById('cartCount');if(cc&&c.length){cc.textContent=c.length;cc.classList.remove('hidden');}
+});
+</script>
 </body>
 </html>
