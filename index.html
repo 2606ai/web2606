@@ -493,218 +493,6 @@ footer.text-light a:hover{text-decoration:underline}
  
 </script>
 
-<script>
-// ===== XƯỞNG ĐỀ XUẤT – DÙNG BOX HIỆN CÓ, KHÔNG TẠO BOX MỚI =====
-(function(){
-  // Nếu còn widget tạm #workshopDock thì xoá đi
-  document.addEventListener('DOMContentLoaded', () => {
-    const tmp = document.getElementById('workshopDock'); if (tmp) tmp.remove();
-  });
-
-  // Fallback ảnh (phòng khi link drive hỏng)
-  const FALLBACK = 'https://placehold.co/64x64?text=%20';
-
-  function toDriveThumb(u){
-    if (!u) return FALLBACK;
-    const m = String(u).match(/\/d\/([^/]+)\//);
-    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
-    if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
-    return u;
-  }
-  function safeImg(u){
-    if (!u) return FALLBACK;
-    const url = toDriveThumb(u);
-    return /^https?:\/\//i.test(url) ? url : FALLBACK;
-  }
-
-  // Đảm bảo có container list bên trong box
-  function ensureList(box){
-    let list = box.querySelector('#workshopList, .workshop-list, [data-workshop-list]');
-    if (!list){
-      list = document.createElement('div');
-      list.id = 'workshopList';
-      list.className = 'd-flex flex-column gap-2';
-      // chèn vào body của card/box nếu có
-      const body = box.querySelector('.card-body, .p-3, .p-2, .body') || box;
-      body.appendChild(list);
-    }
-    let empty = box.querySelector('#workshopEmpty');
-    if (!empty){
-      empty = document.createElement('div');
-      empty.id = 'workshopEmpty';
-      empty.className = 'text-muted small mt-1';
-      empty.textContent = 'Đang tải dữ liệu…';
-      list.after(empty);
-    }
-    // Bỏ các lớp ẩn nếu có
-    box.classList.remove('d-none', 'invisible');
-    box.style.display = 'block';
-    return {list, empty};
-  }
-
-  function renderIntoBox(items){
-    const box = findworkshopBox();
-    if (!box) { console.warn('[workshop] Không tìm thấy box hiện có'); return; }
-    const {list, empty} = ensureList(box);
-
-    const html = (items||[]).map(it=>{
-      const href  = it.url || it.link || '#';
-      const img   = safeImg(it.img || it.image || it.thumbnail || it.linkfull);
-      const title = it.title || it.name || 'Xưởng đề xuất';
-      const desc  = it.desc  || it.details || '';
-      const site  = it.site  || it.domain || '';
-      return `
-        <a class="link-preview d-flex gap-2 align-items-start p-2 rounded-3 border text-decoration-none"
-           href="${href}" target="_blank" rel="noopener">
-          <img src="${img}" onerror="this.src='${FALLBACK}'" width="48" height="48"
-               class="rounded-2 flex-shrink-0" alt="">
-          <div class="small w-100">
-            <div class="fw-semibold text-dark text-truncate">${title}</div>
-            ${desc ? `<div class="text-muted text-truncate">${desc}</div>` : ''}
-            ${site ? `<div class="text-muted">${site}</div>` : ''}
-          </div>
-        </a>`;
-    }).join('');
-
-    list.innerHTML = html;
-    empty.style.display = html ? 'none' : 'block';
-    if (!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
-  }
-
-  async function fetchWorkshops(){
-    try{
-      const r = await fetch(window.API_URL + '?action=workshop', {redirect:'follow', mode:'cors'});
-      const txt = await r.text();
-      let json;
-      try { json = JSON.parse(txt); }
-      catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
-      const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
-      renderIntoBox(items);
-    }catch(err){
-      console.error('[workshop] fetch error', err);
-      renderIntoBox([]);
-    }
-  }
-
-  // Đợi API_URL rồi mới chạy (tránh lỗi "Không tìm thấy API_URL")
-  function waitAndLoad(tries=60){
-    if (window.API_URL){ fetchWorkshops(); }
-    else if (tries>0){ setTimeout(()=>waitAndLoad(tries-1), 150); }
-    else { console.warn('[workshop] Hết thời gian chờ API_URL'); }
-  }
-
-  // Start
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', waitAndLoad);
-  }else{
-    waitAndLoad();
-  }
-})();
-// ====== TIỆN ÍCH ẢNH DRIVE
-function toDriveThumb(u, sz=600){
-  if(!u) return '';
-  const s = String(u);
-  // /file/d/{id}/view
-  const m = s.match(/\/d\/([^/]+)\//);
-  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
-  // đã là thumbnail
-  if (/drive\.google\.com\/thumbnail\?id=/.test(s)) return s.replace(/sz=w\d+/,'sz=w'+sz);
-  return s;
-}
-function safeImg(u){ return toDriveThumb(u) || 'https://via.placeholder.com/600x400?text=No+Image'; }
-
-// ====== MAP NHÃN TRƯỜNG (tùy sheet của bạn)
-const FIELD_LABELS = {
-  id:'ID', code:'Mã', sku:'SKU', title:'Tiêu đề', name:'Tên',
-  group:'Nhóm', category:'Danh mục', price:'Giá', type:'Loại',
-  details:'Mô tả', desc:'Mô tả', quangcao:'Quảng cáo',
-  image:'Ảnh', img:'Ảnh', thumbnail:'Ảnh', linkfull:'Link ảnh gốc',
-  supplier:'Xưởng', material:'Vật liệu', size:'Kích thước', color:'Màu',
-  weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
-  lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật'
-};
-
-// ====== TÌM ITEM THEO ID (dựa vào items đã render lần cuối)
-function getItemById(id){
-  const arr = window._lastItems || [];             // mảng item bạn đang hiển thị
-  return arr.find(x => String(x.id)===String(id) || String(x.code)===String(id));
-}
-
-// ====== RENDER BOX CHI TIẾT
-function openDetailBox(item){
-  if(!item) return;
-  const modal = document.getElementById('detailModal');
-  const img = safeImg(item.img || item.image || item.thumbnail || item.linkfull);
-  document.getElementById('dtlImg').src = img;
-  document.getElementById('dtlTitle').textContent = item.title || item.name || item.code || item.id || 'Chi tiết';
-  document.getElementById('dtlSub').textContent = [item.group, item.category].filter(Boolean).join(' • ');
-  document.getElementById('dtlOpenImg').href = (item.linkfull || img);
-
-  // badges (giá, loại…)
-  const badges = [];
-  if (item.price) badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
-  if (item.type)  badges.push(`<span class="tag">${item.type}</span>`);
-  if (item.supplier) badges.push(`<span class="tag">Xưởng: ${item.supplier}</span>`);
-  document.getElementById('dtlBadges').innerHTML = badges.join('');
-
-  // tạo các dòng dữ liệu đầy đủ
-  const rows = [];
-  const seen = new Set(['img','image','thumbnail','linkfull']); // ảnh để riêng
-  Object.keys(item).forEach(k=>{
-    if (seen.has(k)) return;
-    const v = item[k];
-    if (v===undefined || v===null || v==='') return;
-    const label = FIELD_LABELS[k] || k;
-    rows.push(`
-      <div class="dtl-row">
-        <div class="k">${label}</div>
-        <div class="v">${String(v)}</div>
-      </div>
-    `);
-  });
-  // nếu có mô tả dài riêng
-  if (item.details && !('details' in item)) {
-    rows.push(`
-      <div class="dtl-row">
-        <div class="k">Mô tả</div>
-        <div class="v">${String(item.details)}</div>
-      </div>
-    `);
-  }
-  document.getElementById('dtlRows').innerHTML = rows.join('');
-
-  modal.hidden = false;
-}
-function closeDetailBox(){ document.getElementById('detailModal').hidden = true; }
-
-// ====== BẮT SỰ KIỆN CLICK TỪ THẺ SẢN PHẨM
-// 1) Nếu thẻ sản phẩm có data-id: <div class="product-card" data-id="...">
-document.addEventListener('click', (ev)=>{
-  const closeBtn = ev.target.closest('[data-close="detailModal"]');
-  if (closeBtn){ closeDetailBox(); return; }
-
-  // ưu tiên các nút “Chi tiết”
-  const btn = ev.target.closest('[data-action="open-detail"]');
-  if (btn){
-    const id = btn.getAttribute('data-id') || btn.closest('[data-id]')?.getAttribute('data-id');
-    const item = getItemById(id);
-    openDetailBox(item);
-    ev.preventDefault();
-    return;
-  }
-
-  // click toàn card
-  const card = ev.target.closest('.product-card,[data-id]');
-  if (card && !ev.target.closest('button,a,[role="button"]')){ // tránh click vào các nút con
-    const id = card.getAttribute('data-id') || card.dataset.id;
-    const item = getItemById(id);
-    openDetailBox(item);
-  }
-});
-
-
-   
-</script>
 
       <!-- Thống kê + Pagination -->
 <div class="stats-row row g-2 align-items-center">
@@ -2511,6 +2299,7 @@ document.addEventListener('keydown', (e) => {
 });
 </script>
 
+
 <!-- ===== FOOTER ===== -->
 <footer class="text-light w-100">
   <div class="container-fluid px-5">
@@ -2576,71 +2365,35 @@ document.addEventListener('keydown', (e) => {
         </div>
       </div>
     </div>
+<!-- ===========================
+   🌿 SCRIPT CUỐI TRANG 2606AI
+   =========================== -->
 <script>
-// Debug: nếu box mount mà chưa có dữ liệu, hiện thông báo để thấy khung
-(function(){
-  const box   = document.getElementById('workshopBox');
-  const list  = document.getElementById('workshopList');
-  const empty = document.getElementById('workshopEmpty');
-  const count = document.getElementById('workshopCount');
-  if(!box) return;
-
-  // Đặt viền debug để bạn dễ nhìn (xóa sau)
-  box.style.outline = '2px dashed #2e7d32';
-
-  // Nếu chưa render workshop, ít nhất hiện dòng trống
-  if(empty){
-    empty.textContent = '(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.';
-    empty.style.display = 'block';
-  }
-  if(count){ count.style.display = 'none'; }
-})();
-</script>
-
-    <hr class="border-light opacity-50">
-
-    <div class="text-center small pb-3">
-      © 2025 <span style="color:#d4af37;">2606AI</span>. Website được phát triển bởi 2606AI.
-    </div>
-  </div>
-</footer>
-<script>
+/* ===== ĐẢM BẢO WORKSHOP BOX Ở ĐÚNG VỊ TRÍ ===== */
 document.addEventListener('DOMContentLoaded', () => {
   const workshop  = document.getElementById('workshopBox');
-
-  // 1) Tìm đúng cột trái (ưu tiên id nếu bạn gắn vào cột)
-  // -> GỢI Ý: thêm id cho cột trái: <div id="leftCol" class="col-lg-3 col-md-4">
-  let left =
+  const left =
     document.getElementById('leftCol') ||
     document.querySelector('.row .col-lg-3.col-md-4') ||
     document.querySelector('.row .col-xl-3, .row .left-col, [data-left-col]');
 
+  // Di chuyển box “Xưởng đề xuất” về đúng cột trái
   if (workshop && left && !left.contains(workshop)) {
-    left.appendChild(workshop);                 // kéo workshopBox về đúng cột trái nếu lạc
+    left.appendChild(workshop);
   }
 
-  // 2) Ép hiển thị trong mọi trường hợp (tránh bị media query/utility ẩn)
+  // Ép hiển thị nếu bị ẩn do CSS responsive
   if (workshop){
     workshop.style.display    = 'block';
     workshop.style.visibility = 'visible';
     workshop.style.opacity    = '1';
   }
-
-  // 3) Debug viền để bạn nhìn thấy khung (xóa 2 dòng này khi OK)
-  if (workshop){
-    workshop.style.outline = '2px dashed #2e7d32';
-    if (!workshop.querySelector('#workshopList')){
-      workshop.insertAdjacentHTML('beforeend',
-        '<div class="small text-muted">(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.</div>');
-    }
-  }
 });
 </script>
 
-<input type="file" id="uploworkshopupplierFile" accept="application/pdf,image/*" style="display:none">
-   <script>
+<script>
+/* ===== CẬP NHẬT BADGE SỐ BỘ LỌC TRÊN NÚT FAB ===== */
 (function(){
-  // Tìm FAB bộ lọc theo 3 khả năng đặt tên phổ biến ở code của bạn
   const FAB_SELECTORS = ['#fabFilters', '.fab-filter', '[data-fab="filters"]'];
 
   function findFab(){
@@ -2651,23 +2404,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   }
 
-  // Đếm số bộ lọc đang áp dụng
+  // Đếm số bộ lọc đang áp dụng (ưu tiên state.filters nếu có)
   function countActiveFilters(){
-    // Ưu tiên đọc từ state.filters nếu có
     if (window.state && state.filters){
       const ignore = new Set(['page','limit','sort','q']);
       return Object.entries(state.filters).reduce((n,[k,v])=>{
         if (ignore.has(k) || v==null || v==='') return n;
         if (Array.isArray(v)) return n + v.filter(Boolean).length;
-        if (typeof v==='object')  return n + Object.values(v).filter(Boolean).length;
+        if (typeof v==='object') return n + Object.values(v).filter(Boolean).length;
         return n + 1;
       },0);
     }
-    // Fallback: đếm chip/nhãn đang active trên giao diện
     return document.querySelectorAll('.chip.active, .chip.is-active, .filter-tag.active').length;
   }
 
-  // Tạo/cập nhật badge
+  // Render badge
   function renderBadge(){
     const fab = findFab();
     if (!fab) return;
@@ -2676,7 +2427,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!badge){
       badge = document.createElement('span');
       badge.className = 'fab-badge';
-      fab.style.position = fab.style.position || 'relative'; // đảm bảo có position
+      fab.style.position = fab.style.position || 'relative';
       fab.appendChild(badge);
     }
 
@@ -2696,7 +2447,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Gọi khi trang tải xong
   document.addEventListener('DOMContentLoaded', renderBadge);
 
-  // Tự động cập nhật khi người dùng tương tác với khu vực lọc/nhanh/chips
+  // Tự động cập nhật khi người dùng tương tác với filter
   ['click','change'].forEach(ev=>{
     document.addEventListener(ev, (e)=>{
       if (e.target.closest('.quick-filter, .chip, .filter-chip, [data-filter], #btnClearFilters, .btn-clear-filters')){
@@ -2705,11 +2456,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Cho code hiện tại gọi chủ động sau khi thay state/render
+  // Cho phép code khác gọi thủ công
   window.updateFilterBadge = renderBadge;
 })();
 </script>
-<!-- DETAIL BOX -->
+
+<!-- ===== MODAL CHI TIẾT SẢN PHẨM ===== -->
 <div id="detailModal" class="dtl-backdrop" hidden>
   <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
     <button class="dtl-close" data-close="detailModal" aria-label="Đóng">×</button>
@@ -2723,7 +2475,6 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div id="dtlBadges" class="dtl-badges"></div>
-
     <div id="dtlRows" class="dtl-rows"><!-- rows auto render --></div>
 
     <div class="dtl-actions">
@@ -2732,6 +2483,9 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 </div>
+<!-- ===========================
+   🌿 KẾT THÚC SCRIPT 2606AI
+   =========================== -->
 
 </body>
 </html>
