@@ -1,330 +1,346 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2606AI Marketplace – Kết nối sản xuất thông minh</title>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* =========================
-       🎨 BIẾN MÀU VÀ CƠ BẢN
-    ========================== */
-    :root {
-      --green: #1e7b45;
-      --green-dark: #0d4d2b;
-      --bg: #f6f8f7;
-      --white: #ffffff;
-      --shadow: 0 4px 12px rgba(0,0,0,0.06);
-      --radius: 10px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "Be Vietnam Pro", sans-serif; }
-    body { background: var(--bg); color: #0b2e1d; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>2606AI – Kết nối sản xuất thông minh</title>
 
-    /* =========================
-       🧭 HEADER (VÙNG 1, 2, 3)
-    ========================== */
-    header {
-      background: var(--white);
-      box-shadow: var(--shadow);
-      padding: 10px 6%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    /* --- Logo + Search --- */
-    .header-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      cursor: pointer;
-    }
-    .logo img { height: 48px; }
-    .logo span { font-weight: 700; font-size: 22px; color: var(--green); }
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    .search-bar {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-    }
-    .search-bar input {
-      width: 70%;
-      padding: 10px 16px;
-      border: 1px solid var(--green);
-      border-radius: 50px 0 0 50px;
-      outline: none;
-      font-size: 15px;
-    }
-    .search-bar button {
-      background: var(--green);
-      color: #fff;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 0 50px 50px 0;
-      font-weight: 600;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .search-bar button:hover { background: var(--green-dark); }
+<style>
+/* =====================================================
+   🎨 BIẾN MÀU CHỦ ĐẠO
+===================================================== */
+:root {
+  --green: #1e7b45;
+  --green-dark: #0d4d2b;
+  --white: #ffffff;
+  --bg: #f6f8f7;
+  --shadow: 0 4px 10px rgba(0,0,0,0.08);
+  --radius: 10px;
+}
 
-    /* --- Thanh chạy (vùng 3) --- */
-    .brand-banner {
-      background: var(--green);
-      color: #fff;
-      padding: 6px 0;
-      font-size: 14px;
-      font-weight: 500;
-      overflow: hidden;
-      position: relative;
-    }
-    .brand-banner p {
-      white-space: nowrap;
-      display: inline-block;
-      animation: scrollBanner 25s linear infinite;
-    }
-    @keyframes scrollBanner {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
-    }
+/* =====================================================
+   🧱 TOÀN TRANG
+===================================================== */
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Be Vietnam Pro',sans-serif;}
+body{background:var(--bg);color:#0b2e1d;}
 
-    /* =========================
-       🧩 BỐ CỤC CHÍNH
-    ========================== */
-    main {
-      display: grid;
-      grid-template-columns: 22% 1fr;
-      gap: 20px;
-      padding: 20px 6%;
-    }
+/* =====================================================
+   [V1–V3] HEADER: LOGO + THANH TÌM KIẾM + THÔNG BÁO
+===================================================== */
+header{
+  background:var(--white);
+  box-shadow:var(--shadow);
+  padding:10px 6%;
+  position:sticky;top:0;z-index:100;
+  display:flex;flex-direction:column;gap:8px;
+}
+.logo img{height:50px;cursor:pointer;}
+.search-bar{display:flex;justify-content:center;align-items:center;}
+.search-bar input{
+  width:70%;padding:10px 16px;border:1px solid var(--green);
+  border-radius:50px 0 0 50px;outline:none;font-size:15px;
+}
+.search-bar button{
+  background:var(--green);color:#fff;padding:10px 20px;
+  border:none;border-radius:0 50px 50px 0;font-weight:600;cursor:pointer;
+}
+.search-bar button:hover{background:var(--green-dark);}
+.brand-banner{
+  background:var(--green);color:#fff;padding:6px 0;font-size:14px;font-weight:500;
+  overflow:hidden;white-space:nowrap;
+}
+.brand-banner p{
+  display:inline-block;
+  animation:scrollBanner 25s linear infinite;
+}
+@keyframes scrollBanner{
+  from{transform:translateX(100%);}
+  to{transform:translateX(-100%);}
+}
 
-    /* --- Vùng 4: Giới thiệu lợi ích --- */
-    #intro-benefits {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px;
-    }
-    #intro-benefits h2 {
-      color: var(--green);
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-    #intro-benefits ul {
-      list-style: none;
-      line-height: 1.6;
-      font-size: 15px;
-    }
-    #intro-benefits li::before {
-      content: "✅ ";
-      color: var(--green);
-    }
+/* =====================================================
+   [V4–V5] CỘT TRÁI: GIỚI THIỆU & XƯỞNG ĐỀ XUẤT
+===================================================== */
+main{
+  display:grid;
+  grid-template-columns:22% 1fr;
+  gap:20px;
+  padding:20px 6%;
+}
+#intro-benefits,#featured-workshops{
+  background:var(--white);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:18px;
+  margin-bottom:20px;
+}
+#intro-benefits h2{color:var(--green);font-size:18px;margin-bottom:8px;}
+#intro-benefits ul{list-style:none;line-height:1.7;font-size:15px;}
+#intro-benefits li::before{content:"✅ ";color:var(--green);}
+#featured-workshops h2{text-align:center;color:var(--green);font-size:15px;margin-bottom:10px;}
+.workshop-carousel{display:flex;flex-direction:column;gap:10px;height:500px;overflow:hidden;animation:scrollWorkshop 20s linear infinite;}
+.workshop-item{background:#f7f9f8;border:1px solid #e3e8e4;padding:10px;border-radius:8px;transition:.3s;}
+.workshop-item:hover{background:#e3f1e8;border-color:var(--green);transform:scale(1.02);}
+.workshop-item h3{font-size:14px;font-weight:600;color:#222;margin-bottom:4px;}
+.workshop-item a{font-size:13px;color:var(--green);text-decoration:none;}
+.workshop-item a:hover{text-decoration:underline;}
+@keyframes scrollWorkshop{0%{transform:translateY(0);}100%{transform:translateY(-50%);}}
 
-    /* --- Vùng 5: Xưởng đề xuất --- */
-    #featured-workshops {
-      margin-top: 20px;
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 10px 12px;
-      height: 500px;
-      overflow: hidden;
-    }
-    #featured-workshops h2 {
-      font-size: 15px;
-      color: var(--green);
-      font-weight: 600;
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .workshop-carousel {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      animation: scrollWorkshop 20s linear infinite;
-    }
-    .workshop-item {
-      display: flex;
-      flex-direction: column;
-      background: #f7f9f8;
-      border-radius: 8px;
-      padding: 10px;
-      border: 1px solid #e3e8e4;
-      transition: 0.3s;
-    }
-    .workshop-item:hover {
-      background: #e3f1e8;
-      border-color: var(--green);
-      transform: scale(1.02);
-    }
-    .workshop-item h3 {
-      font-size: 14px;
-      font-weight: 600;
-      color: #222;
-      margin-bottom: 4px;
-    }
-    .workshop-item a {
-      font-size: 13px;
-      color: var(--green);
-      text-decoration: none;
-      margin-right: 6px;
-    }
-    .workshop-item a:hover { text-decoration: underline; }
+/* =====================================================
+   [V6–V8] HERO SLIDES
+===================================================== */
+.hero-slide{
+  position:relative;width:100%;height:420px;
+  border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);
+}
+.hero-slide img{
+  position:absolute;width:100%;height:100%;object-fit:cover;opacity:0;
+  transition:opacity 1s ease-in-out;
+}
+.hero-slide img.active{opacity:1;}
 
-    @keyframes scrollWorkshop {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-50%); }
-    }
+/* =====================================================
+   [V9] (TẠM CHỪA TRỐNG)
+===================================================== */
+#filter-area{
+  margin:30px 6%;
+  height:60px;
+  background:#e3e8e4;
+  border-radius:var(--radius);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#5f6b62;
+  font-style:italic;
+}
 
-    /* --- HERO ZONE (6–8) --- */
-    .hero-zone {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      grid-template-rows: auto auto;
-      gap: 16px;
-    }
-    .hero-zone img {
-      width: 100%;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-    .hero-main { grid-row: span 2; }
+/* =====================================================
+   [V10] DANH SÁCH SẢN PHẨM
+===================================================== */
+#product-section{margin:20px 6%;}
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:20px;
+}
+.card-product{
+  background:var(--white);
+  border-radius:14px;
+  box-shadow:0 3px 8px rgba(0,0,0,0.08);
+  overflow:hidden;
+  transition:.3s;
+}
+.card-product:hover{transform:translateY(-4px);}
+.card-img{width:100%;height:220px;object-fit:cover;}
+.card-info{padding:12px;}
+.card-title{color:var(--green);font-weight:700;font-size:15px;line-height:1.4;margin-bottom:4px;}
+.card-note{color:#5f6b62;font-size:13px;height:38px;overflow:hidden;margin-bottom:6px;}
+.card-price{color:#d84d3f;font-weight:600;margin-bottom:8px;}
+.card-actions{display:flex;justify-content:space-between;align-items:center;}
+.card-actions button{
+  border:1px solid var(--green);
+  color:var(--green);
+  background:transparent;
+  border-radius:30px;
+  padding:5px 12px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:500;
+}
+.card-actions button:hover{background:var(--green);color:#fff;}
+.add-icon{
+  width:26px;height:26px;border-radius:50%;background:var(--green);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;
+}
 
-    /* --- Hero cuối (11) --- */
-    #bottom-hero {
-      margin-top: 30px;
-    }
-    #bottom-hero img {
-      width: 100%;
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
+/* =====================================================
+   [V11] HERO SLIDE CUỐI
+===================================================== */
+#bottom-hero img{
+  width:100%;
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  margin:30px 0;
+}
 
-    footer {
-      background: var(--white);
-      text-align: center;
-      padding: 20px;
-      margin-top: 40px;
-      color: #555;
-      box-shadow: var(--shadow);
-    }
-  </style>
+/* =====================================================
+   [V12] FOOTER
+===================================================== */
+footer{
+  background:var(--green-dark);
+  color:#fff;
+  padding:40px 6%;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:30px;
+  font-size:14px;
+}
+footer h3{margin-bottom:10px;font-size:16px;}
+footer a{color:#fff;text-decoration:none;display:block;margin-bottom:6px;opacity:.9;}
+footer a:hover{text-decoration:underline;opacity:1;}
+.footer-bottom{text-align:center;background:var(--green);padding:10px;font-size:13px;}
+</style>
 </head>
-
 <body>
-  <!-- ========================= HEADER ========================= -->
-  <header>
-    <!-- Vùng 1: Logo -->
-    <div class="header-top">
-      <div class="logo" onclick="window.location.href='/'">
-        <img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" alt="2606AI Logo">
-        <span>2606AI</span>
-      </div>
 
-      <!-- Vùng 2: Thanh tìm kiếm -->
-      <div class="search-bar">
-        <input type="text" placeholder="Kết nối sản phẩm, nhà xưởng, dịch vụ...">
-        <button>Tìm</button>
-      </div>
-    </div>
+<!-- =====================================================
+     [V1–V3] HEADER
+===================================================== -->
+<header>
+  <div class="logo"><img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" alt="Logo"></div>
+  <div class="search-bar">
+    <input type="text" placeholder="Kết nối sản phẩm, nhà xưởng, dịch vụ...">
+    <button>Tìm</button>
+  </div>
+  <div class="brand-banner">
+    <p>Để đảm bảo quyền lợi hãy thông báo với 2606ai.com khi bạn đã chốt đơn hàng • Nguồn thu của 2606AI.VN đến từ quảng cáo • Có sự hỗ trợ của 2606ai.com tự tin sản xuất mọi sản phẩm</p>
+  </div>
+</header>
 
-    <!-- Vùng 3: Thanh chạy thông báo -->
-    <div class="brand-banner">
-      <p>Để đảm bảo quyền lợi hãy thông báo với 2606ai.com khi bạn đã chốt đơn hàng • Nguồn thu của 2606AI.VN đến từ quảng cáo • Có sự hỗ trợ của 2606ai.com tự tin sản xuất mọi sản phẩm</p>
-    </div>
-  </header>
-
-  <!-- ========================= MAIN ========================= -->
-  <main>
-    <!-- Cột trái: Vùng 4 + 5 -->
-    <aside>
-      <!-- Vùng 4 -->
-      <section id="intro-benefits">
-        <h2>Vì sao chọn 2606AI?</h2>
-        <ul>
-          <li>Hơn 500+ nhà cung cấp uy tín toàn quốc</li>
-          <li>Tư vấn – Thiết kế – Sản xuất – Hậu cần trọn gói</li>
-          <li>Đảm bảo chất lượng & hỗ trợ xử lý tranh chấp</li>
-          <li>Giúp doanh nghiệp tiết kiệm 30–50% chi phí</li>
-        </ul>
-      </section>
-
-      <!-- Vùng 5 -->
-      <section id="featured-workshops">
-        <h2>🏭 Xưởng đề xuất / Đối tác ưu tiên</h2>
-        <div class="workshop-carousel" id="workshopCarousel">
-          <p>⏳ Đang tải dữ liệu...</p>
-        </div>
-      </section>
-    </aside>
-
-    <!-- Cột phải: Hero (6–8, 11) -->
-    <section>
-      <div class="hero-zone">
-        <!-- 6: Hero chính -->
-        <div class="hero-main">
-          <img src="https://via.placeholder.com/800x400?text=2606AI+Hero+Slide+1" alt="Hero Slide 1">
-        </div>
-        <!-- 7–8: Hero phụ -->
-        <img src="https://via.placeholder.com/400x190?text=Hero+Slide+2" alt="Hero Slide 2">
-        <img src="https://via.placeholder.com/400x190?text=Hero+Slide+3" alt="Hero Slide 3">
-      </div>
-
-      <!-- 11: Hero slide cuối -->
-      <div id="bottom-hero">
-        <img src="https://via.placeholder.com/1200x200?text=2606AI+Hero+Slide+4" alt="Hero Slide 4">
+<!-- =====================================================
+     [V4–V5] GIỚI THIỆU & XƯỞNG ĐỀ XUẤT
+===================================================== -->
+<main>
+  <aside>
+    <section id="intro-benefits">
+      <h2>Vì sao chọn 2606AI?</h2>
+      <ul>
+        <li>500+ nhà cung cấp uy tín toàn quốc</li>
+        <li>Tư vấn – Thiết kế – Sản xuất – Hậu cần trọn gói</li>
+        <li>Đảm bảo chất lượng & xử lý tranh chấp nhanh chóng</li>
+        <li>Giúp doanh nghiệp tiết kiệm 30–50% chi phí</li>
+      </ul>
+    </section>
+    <section id="featured-workshops">
+      <h2>🏭 Xưởng đề xuất / Đối tác ưu tiên</h2>
+      <div class="workshop-carousel" id="workshopCarousel">
+        <p>⏳ Đang tải dữ liệu...</p>
       </div>
     </section>
-  </main>
+  </aside>
 
-  <!-- ========================= FOOTER ========================= -->
-  <footer>
-    <p>© 2025 2606AI.vn – Kết nối & Hỗ trợ sản xuất thông minh</p>
-  </footer>
+  <section>
+    <!-- [V6–V8] HERO SLIDE -->
+    <div class="hero-slide" id="heroSlide">
+      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" class="active">
+      <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5">
+      <img src="https://images.unsplash.com/photo-1527430253228-e93688616381">
+      <img src="https://images.unsplash.com/photo-1581090464420-7f06a3bba3ee">
+      <img src="https://images.unsplash.com/photo-1581092334472-4a17f0cc02a2">
+    </div>
+  </section>
+</main>
 
-  <!-- ========================= JS: Lấy dữ liệu XƯỞNG ========================= -->
-  <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwFvoS6TSdj4ADked9RyTvG-A1fFfrkvqIJpeyNXy2bUqFpF07DEnHRx6O0TKlmZXkp/exec?action=suppliers";
+<!-- =====================================================
+     [V9] CHỪA TRỐNG – NHÓM LỌC NHANH
+===================================================== -->
+<section id="filter-area">
+  <p>Vùng 9: Nhóm lọc nhanh (sẽ thêm sau)</p>
+</section>
 
-    async function loadWorkshops() {
-      try {
-        const res = await fetch(API_URL);
-        const json = await res.json();
-        renderWorkshops(json.data || []);
-      } catch (e) {
-        document.getElementById("workshopCarousel").innerHTML = "<p>⚠️ Không tải được dữ liệu xưởng.</p>";
-      }
-    }
+<!-- =====================================================
+     [V10] DANH SÁCH SẢN PHẨM
+===================================================== -->
+<section id="product-section">
+  <h2 style="color:var(--green);margin-bottom:10px;">Danh sách sản phẩm nổi bật</h2>
+  <div class="product-grid" id="productGrid">
+    <p>⏳ Đang tải sản phẩm...</p>
+  </div>
+</section>
 
-    function renderWorkshops(data) {
-      const box = document.getElementById("workshopCarousel");
-      if (!data.length) {
-        box.innerHTML = "<p>Không có dữ liệu.</p>";
-        return;
-      }
+<!-- =====================================================
+     [V11] HERO SLIDE CUỐI
+===================================================== -->
+<div id="bottom-hero">
+  <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5" alt="Banner cuối">
+</div>
 
-      box.innerHTML = data.map(r => `
-        <div class="workshop-item">
-          <h3><a href="${r.linksup || '#'}" target="_blank">${r.suplier || 'Xưởng chưa có tên'}</a></h3>
-          ${r.giay_chung_nhan1 ? `<a href="${r.giay_chung_nhan1}" target="_blank">📎 Hồ sơ năng lực</a>` : ""}
-          ${r.Catalog_xuong ? `<a href="${r.Catalog_xuong}" target="_blank">📂 Catalog</a>` : ""}
+<!-- =====================================================
+     [V12] FOOTER
+===================================================== -->
+<footer>
+  <div>
+    <h3>Về chúng tôi</h3>
+    <p>2606AI.vn là nền tảng kết nối sản xuất thông minh giữa doanh nghiệp và xưởng.  
+       Chúng tôi giúp bạn tìm đúng đối tác, đúng giá và đúng tiêu chuẩn.</p>
+  </div>
+  <div>
+    <h3>Liên hệ</h3>
+    <a href="#">📍 TP. Hồ Chí Minh</a>
+    <a href="#">📞 0909 260 606</a>
+    <a href="#">✉️ support@2606ai.vn</a>
+  </div>
+  <div>
+    <h3>Hỗ trợ</h3>
+    <a href="#">Điều khoản sử dụng</a>
+    <a href="#">Chính sách bảo mật</a>
+    <a href="#">Trung tâm trợ giúp</a>
+  </div>
+</footer>
+<div class="footer-bottom">© 2025 2606AI.vn – Kết nối & Hỗ trợ sản xuất thông minh</div>
+
+<!-- =====================================================
+     📜 JAVASCRIPT
+===================================================== -->
+<script>
+const API_BASE = "https://script.google.com/macros/s/AKfycbwFvoS6TSdj4ADked9RyTvG-A1fFfrkvqIJpeyNXy2bUqFpF07DEnHRx6O0TKlmZXkp/exec";
+
+/* === [V6–V8] HERO SLIDE AUTO === */
+let slideIndex = 0;
+const slides = document.querySelectorAll("#heroSlide img");
+setInterval(()=>{
+  slides[slideIndex].classList.remove("active");
+  slideIndex = (slideIndex+1)%slides.length;
+  slides[slideIndex].classList.add("active");
+},4000);
+
+/* === [V5] XƯỞNG ĐỀ XUẤT === */
+async function loadWorkshops(){
+  try{
+    const r = await fetch(API_BASE+"?action=suppliers");
+    const j = await r.json();
+    const box = document.getElementById("workshopCarousel");
+    if(!j.items || !j.items.length){ box.innerHTML="<p>Không có dữ liệu</p>"; return;}
+    box.innerHTML = j.items.slice(0,6).map(x=>`
+      <div class="workshop-item">
+        <h3><a href="${x.url||'#'}" target="_blank">${x.name}</a></h3>
+        ${x.cert ? `<a href="${x.cert}" target="_blank">📎 Hồ sơ năng lực</a>` : ""}
+        ${x.Catalog_xuong ? `<a href="${x.Catalog_xuong}" target="_blank">📂 Catalog</a>` : ""}
+      </div>`).join("");
+  }catch(e){
+    document.getElementById("workshopCarousel").innerHTML="<p>⚠️ Không tải được dữ liệu</p>";
+  }
+}
+loadWorkshops();
+
+/* === [V10] DANH SÁCH SẢN PHẨM === */
+async function loadProducts(){
+  try{
+    const r = await fetch(API_BASE+"?action=list&pageSize=12");
+    const j = await r.json();
+    const box = document.getElementById("productGrid");
+    if(!j.items || !j.items.length){ box.innerHTML="<p>Không có sản phẩm</p>"; return;}
+    box.innerHTML = j.items.map(p=>`
+      <div class="card-product">
+        <img src="${p.img}" class="card-img" alt="${p.details}">
+        <div class="card-info">
+          <div class="card-title">${p.details}</div>
+          <div class="card-note">${p.note||''}</div>
+          <div class="card-price">${p.price ? p.price.toLocaleString('vi-VN')+' đ':''}</div>
+          <div class="card-actions">
+            <button>${p.group && p.group.includes('Thiết kế') ? 'Tư vấn thiết kế':'Nhận quà'}</button>
+            <span class="add-icon">+</span>
+          </div>
         </div>
-      `).join("");
-    }
-
-    // Dừng auto-scroll khi hover
-    const carousel = document.getElementById("workshopCarousel");
-    carousel?.addEventListener("mouseenter", () => carousel.style.animationPlayState = "paused");
-    carousel?.addEventListener("mouseleave", () => carousel.style.animationPlayState = "running");
-
-    loadWorkshops();
-  </script>
+      </div>`).join("");
+  }catch(e){
+    document.getElementById("productGrid").innerHTML="<p>⚠️ Không tải được dữ liệu</p>";
+  }
+}
+loadProducts();
+</script>
 </body>
 </html>
