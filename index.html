@@ -10,18 +10,16 @@
 :root{
   --green:#1e7b45;
   --green-dark:#0d4d2b;
-  --white:#fff;
   --bg:#f6f8f7;
-  --line:#e6ede9;
-  --shadow:0 4px 12px rgba(0,0,0,.08);
+  --white:#fff;
+  --shadow:0 4px 12px rgba(0,0,0,0.06);
   --radius:10px;
 }
-
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Be Vietnam Pro',sans-serif;}
-body{background:var(--bg);color:#0b2e1d;}
+body{background:var(--bg);color:#0b2e1d;line-height:1.5;}
 
 /* =====================================================
-   [1–3] HEADER: LOGO + TÌM KIẾM + MARQUEE
+   HEADER (1–3)
 ===================================================== */
 header{
   background:var(--white);
@@ -30,24 +28,25 @@ header{
 }
 .header-top{
   display:flex;align-items:center;justify-content:space-between;
-  padding:10px 6%;gap:20px;
+  padding:8px 5%;gap:16px;
 }
 .logo img{height:60px;cursor:pointer;}
-.search-bar{display:flex;flex:1;}
+.search-bar{display:flex;flex:1;max-width:600px;}
 .search-bar input{
-  flex:1;border:1px solid var(--green);border-right:none;
-  padding:10px 16px;border-radius:30px 0 0 30px;outline:none;
-  font-size:15px;
+  flex:1;padding:10px 16px;font-size:15px;
+  border:1px solid var(--green);border-right:none;
+  border-radius:30px 0 0 30px;outline:none;
 }
 .search-bar button{
-  background:var(--green);color:#fff;border:none;
-  border-radius:0 30px 30px 0;padding:10px 24px;cursor:pointer;font-weight:600;
+  padding:10px 20px;background:var(--green);color:#fff;
+  border:none;border-radius:0 30px 30px 0;font-weight:600;
+  cursor:pointer;
 }
-.search-bar button:hover{background:var(--green-dark);}
 .brand-banner{
-  background:var(--green);color:#fff;
-  font-size:14px;font-weight:500;overflow:hidden;
-  white-space:nowrap;padding:6px 0;
+  background:var(--green);
+  color:#fff;font-size:14px;
+  overflow:hidden;white-space:nowrap;
+  padding:5px 0;text-align:center;
 }
 .brand-banner p{
   display:inline-block;
@@ -58,184 +57,165 @@ header{
 }
 
 /* =====================================================
-   [4–8] MAIN GRID (CỘT TRÁI + HERO SLIDES)
+   MAIN GRID (4–8)
 ===================================================== */
 main{
   display:grid;
-  grid-template-columns:24% 1fr;
-  gap:20px;
-  padding:20px 6%;
+  grid-template-columns:23% 1fr;
+  gap:18px;
+  padding:18px 5%;
 }
 
-/* --- Cột trái (4–5) --- */
-.left-col{
-  display:flex;flex-direction:column;gap:20px;
-}
-#intro-benefits,#featured-workshops{
+/* --- Left column (4–5) --- */
+.left-col{display:flex;flex-direction:column;gap:18px;}
+.box{
   background:var(--white);
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  padding:18px;
+  padding:16px;
 }
 #intro-benefits h2{color:var(--green);font-size:18px;margin-bottom:8px;}
-#intro-benefits ul{list-style:none;line-height:1.7;font-size:15px;}
+#intro-benefits ul{list-style:none;}
 #intro-benefits li::before{content:"✅ ";color:var(--green);}
-#featured-workshops h2{text-align:center;color:var(--green);font-size:15px;margin-bottom:10px;}
-.workshop-list{
-  max-height:380px;overflow:auto;display:flex;flex-direction:column;gap:10px;
-}
-.workshop-item{
-  background:#f7f9f8;border:1px solid #e3e8e4;
-  border-radius:8px;padding:10px;transition:.3s;
-}
-.workshop-item:hover{background:#e3f1e8;border-color:var(--green);}
-.workshop-item h3{font-size:14px;font-weight:600;margin-bottom:4px;}
-.workshop-item a{font-size:13px;color:var(--green);text-decoration:none;}
+#featured-workshops h2{color:var(--green);font-size:15px;margin-bottom:8px;text-align:center;}
+.workshop-list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow:auto;}
+.workshop-item{background:#f7f9f8;border-radius:6px;padding:8px;font-size:13px;}
+.workshop-item:hover{background:#e9f5ee;}
+.workshop-item a{color:var(--green);text-decoration:none;}
 .workshop-item a:hover{text-decoration:underline;}
 
 /* --- Hero slides (6–8) --- */
 .hero-grid{
   display:grid;
   grid-template-columns:2fr 1fr;
-  gap:16px;
+  gap:14px;
 }
 .hero-large{
-  border-radius:var(--radius);
-  overflow:hidden;
-  height:420px;
-  box-shadow:var(--shadow);
-  position:relative;
+  position:relative;height:340px;border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow);
 }
 .hero-large img{
-  position:absolute;width:100%;height:100%;
-  object-fit:cover;opacity:0;transition:opacity 1s ease-in-out;
+  position:absolute;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1s ease-in-out;
 }
 .hero-large img.active{opacity:1;}
-
-.hero-right{
-  display:grid;
-  grid-template-rows:1fr 1fr;
-  gap:16px;
-}
+.hero-right{display:grid;grid-template-rows:1fr 1fr;gap:14px;}
 .hero-right img{
-  width:100%;height:200px;object-fit:cover;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
+  width:100%;height:163px;border-radius:var(--radius);
+  object-fit:cover;box-shadow:var(--shadow);
 }
 
 /* =====================================================
-   [9] THANH NHÓM LỌC NHANH
+   FILTER AREA (9)
 ===================================================== */
 #filter-area{
-  margin:30px 6%;
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
-  padding-bottom:6px;
+  margin:24px 5%;
+  display:flex;flex-direction:column;gap:12px;
 }
-.filter-chip{
-  background:#e3e8e4;color:var(--green-dark);
-  padding:8px 18px;border-radius:30px;
-  font-weight:500;white-space:nowrap;
-  cursor:pointer;transition:.3s;
+.filter-row{
+  display:flex;flex-wrap:wrap;gap:10px;
 }
-.filter-chip.active,
-.filter-chip:hover{background:var(--green);color:#fff;}
+.filter-item{
+  width:110px;text-align:center;background:var(--white);
+  border-radius:10px;box-shadow:var(--shadow);
+  cursor:pointer;padding:8px;transition:.3s;
+}
+.filter-item:hover{transform:translateY(-3px);}
+.filter-item.active{background:#eaf6f0;border:1px solid var(--green);}
+.filter-item img{
+  width:60px;height:60px;border-radius:8px;object-fit:cover;margin-bottom:4px;
+}
+.filter-item span{font-size:13px;font-weight:500;}
+.filter-sub{
+  background:#e3e8e4;border-radius:20px;padding:8px 14px;
+  font-size:13px;font-weight:500;cursor:pointer;transition:.3s;
+}
+.filter-sub:hover,
+.filter-sub.active{background:var(--green);color:#fff;}
 
 /* =====================================================
-   [10] DANH SÁCH SẢN PHẨM
+   PRODUCT SECTION (10)
 ===================================================== */
-#product-section{margin:20px 6%;}
+#product-section{margin:10px 5% 40px;}
 .product-grid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(6,1fr);
+  gap:16px;
 }
 .card-product{
   background:var(--white);
-  border-radius:14px;
-  box-shadow:0 3px 8px rgba(0,0,0,0.08);
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,0.08);
   overflow:hidden;
   transition:.3s;
 }
-.card-product:hover{transform:translateY(-4px);}
-.card-img{width:100%;height:220px;object-fit:cover;}
-.card-info{padding:12px;}
-.card-title{color:var(--green);font-weight:700;font-size:15px;margin-bottom:4px;}
-.card-note{color:#5f6b62;font-size:13px;height:38px;overflow:hidden;margin-bottom:6px;}
-.card-price{color:#d84d3f;font-weight:600;margin-bottom:8px;}
+.card-product:hover{transform:translateY(-3px);}
+.card-img{width:100%;height:160px;object-fit:cover;}
+.card-info{padding:10px;}
+.card-title{color:var(--green);font-size:14px;font-weight:600;min-height:38px;}
+.card-note{color:#5f6b62;font-size:12px;height:32px;overflow:hidden;margin-bottom:4px;}
+.card-price{color:#d84d3f;font-weight:600;margin-bottom:6px;}
 .card-actions{display:flex;justify-content:space-between;align-items:center;}
 .card-actions button{
   border:1px solid var(--green);
   color:var(--green);
   background:transparent;
-  border-radius:30px;
-  padding:5px 12px;
+  border-radius:20px;
+  padding:4px 10px;
+  font-size:12px;
   cursor:pointer;
-  font-size:13px;
-  font-weight:500;
 }
 .card-actions button:hover{background:var(--green);color:#fff;}
 .add-icon{
-  width:26px;height:26px;border-radius:50%;background:var(--green);
-  color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;
+  width:22px;height:22px;border-radius:50%;background:var(--green);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;
 }
 
 /* =====================================================
-   [11] HERO SLIDE CUỐI
+   HERO CUỐI (11) + FOOTER (12)
 ===================================================== */
 #bottom-hero img{
-  width:100%;
+  width:100%;height:200px;object-fit:cover;
   border-radius:var(--radius);
   box-shadow:var(--shadow);
-  margin:40px 0;
+  margin:20px 0;
 }
-
-/* =====================================================
-   [12] FOOTER
-===================================================== */
 footer{
   background:var(--green-dark);
-  color:#fff;
-  padding:40px 6%;
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:30px;
-  font-size:14px;
+  color:#fff;padding:30px 5%;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;font-size:14px;
 }
-footer h3{margin-bottom:10px;font-size:16px;}
-footer a{color:#fff;text-decoration:none;display:block;margin-bottom:6px;opacity:.9;}
-footer a:hover{text-decoration:underline;opacity:1;}
-.footer-bottom{text-align:center;background:var(--green);padding:10px;font-size:13px;}
+footer h3{margin-bottom:8px;}
+footer a{color:#fff;opacity:.9;text-decoration:none;display:block;margin-bottom:4px;}
+footer a:hover{opacity:1;text-decoration:underline;}
+.footer-bottom{text-align:center;background:var(--green);color:#fff;padding:10px;font-size:13px;}
 </style>
 </head>
 <body>
 
 <!-- =====================================================
-     [1–3] HEADER
+   HEADER
 ===================================================== -->
 <header>
   <div class="header-top">
-    <div class="logo" onclick="location.href='/'">
-      <img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" alt="2606AI Logo">
-    </div>
+    <div class="logo"><img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" alt="2606AI Logo"></div>
     <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Kết nối sản phẩm, nhà xưởng, dịch vụ...">
+      <input type="text" placeholder="Kết nối sản phẩm, nhà xưởng, dịch vụ...">
       <button>Tìm</button>
     </div>
   </div>
   <div class="brand-banner">
-    <p>Để đảm bảo quyền lợi hãy thông báo với 2606ai.com khi bạn đã chốt đơn hàng • 2606AI.VN tự tin hỗ trợ sản xuất mọi sản phẩm • Hệ sinh thái kết nối sản xuất thông minh toàn quốc</p>
+    <p>2606AI.VN – Hệ sinh thái kết nối sản xuất thông minh • Giúp doanh nghiệp tìm đúng xưởng, đúng giá, đúng chất lượng</p>
   </div>
 </header>
 
 <!-- =====================================================
-     [4–8] MAIN GRID
+   MAIN (4–8)
 ===================================================== -->
 <main>
   <!-- CỘT TRÁI -->
   <div class="left-col">
-    <section id="intro-benefits">
+    <div class="box" id="intro-benefits">
       <h2>Vì sao chọn 2606AI?</h2>
       <ul>
         <li>500+ nhà cung cấp uy tín toàn quốc</li>
@@ -243,64 +223,56 @@ footer a:hover{text-decoration:underline;opacity:1;}
         <li>Đảm bảo chất lượng & xử lý tranh chấp nhanh chóng</li>
         <li>Giúp doanh nghiệp tiết kiệm 30–50% chi phí</li>
       </ul>
-    </section>
-
-    <section id="featured-workshops">
+    </div>
+    <div class="box" id="featured-workshops">
       <h2>🏭 Xưởng đề xuất / Đối tác ưu tiên</h2>
       <div class="workshop-list" id="workshopList"><p>⏳ Đang tải...</p></div>
-    </section>
+    </div>
   </div>
 
-  <!-- HERO GRID (6–8) -->
+  <!-- HERO SLIDE -->
   <div class="hero-grid">
     <div class="hero-large" id="heroLarge">
       <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" class="active">
       <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5">
       <img src="https://images.unsplash.com/photo-1527430253228-e93688616381">
-      <img src="https://images.unsplash.com/photo-1581090464420-7f06a3bba3ee">
     </div>
     <div class="hero-right">
-      <img src="https://images.unsplash.com/photo-1581092334472-4a17f0cc02a2" alt="">
-      <img src="https://images.unsplash.com/photo-1581291519195-ef11498d1cf5" alt="">
+      <img src="https://images.unsplash.com/photo-1581092334472-4a17f0cc02a2">
+      <img src="https://images.unsplash.com/photo-1581291519195-ef11498d1cf5">
     </div>
   </div>
 </main>
 
 <!-- =====================================================
-     [9] FILTER CHIPS
+   FILTER AREA (9)
 ===================================================== -->
 <section id="filter-area">
-  <div class="filter-chip active">🎁 Quà tặng</div>
-  <div class="filter-chip">👕 May mặc</div>
-  <div class="filter-chip">🏷️ In ấn</div>
-  <div class="filter-chip">📦 Bao bì</div>
-  <div class="filter-chip">🧷 Phụ kiện</div>
-  <div class="filter-chip">💡 Thiết kế</div>
+  <div id="filterGroups" class="filter-row"></div>
+  <div id="filterCategories" class="filter-row"></div>
 </section>
 
 <!-- =====================================================
-     [10] DANH SÁCH SẢN PHẨM
+   PRODUCT SECTION (10)
 ===================================================== -->
 <section id="product-section">
-  <h2 style="color:var(--green);margin-bottom:10px;">Danh sách sản phẩm nổi bật</h2>
   <div class="product-grid" id="productGrid"><p>⏳ Đang tải sản phẩm...</p></div>
 </section>
 
 <!-- =====================================================
-     [11] HERO SLIDE CUỐI
+   HERO BANNER CUỐI (11)
 ===================================================== -->
 <div id="bottom-hero">
-  <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5" alt="Banner cuối">
+  <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5" alt="">
 </div>
 
 <!-- =====================================================
-     [12] FOOTER
+   FOOTER (12)
 ===================================================== -->
 <footer>
   <div>
     <h3>Về chúng tôi</h3>
-    <p>2606AI.vn là nền tảng kết nối sản xuất thông minh giữa doanh nghiệp và xưởng.  
-       Chúng tôi giúp bạn tìm đúng đối tác, đúng giá và đúng tiêu chuẩn.</p>
+    <p>2606AI.vn là nền tảng kết nối sản xuất thông minh giúp doanh nghiệp Việt tìm đúng đối tác, đúng giá và đúng tiêu chuẩn.</p>
   </div>
   <div>
     <h3>Liên hệ</h3>
@@ -318,60 +290,99 @@ footer a:hover{text-decoration:underline;opacity:1;}
 <div class="footer-bottom">© 2025 2606AI.vn – Kết nối & Hỗ trợ sản xuất thông minh</div>
 
 <!-- =====================================================
-     📜 JAVASCRIPT
+   JAVASCRIPT
 ===================================================== -->
 <script>
 const API_BASE = "https://script.google.com/macros/s/AKfycbwFvoS6TSdj4ADked9RyTvG-A1fFfrkvqIJpeyNXy2bUqFpF07DEnHRx6O0TKlmZXkp/exec";
 
-/* === Hero Large Auto Slide === */
-let slideIndex = 0;
-const slides = document.querySelectorAll("#heroLarge img");
-setInterval(()=>{
-  slides[slideIndex].classList.remove("active");
-  slideIndex = (slideIndex+1)%slides.length;
+/* --- Hero auto slide --- */
+let slideIndex=0;
+const slides=document.querySelectorAll("#heroLarge img");
+setInterval(()=>{slides[slideIndex].classList.remove("active");
+  slideIndex=(slideIndex+1)%slides.length;
   slides[slideIndex].classList.add("active");
 },4000);
 
-/* === Load Xưởng đề xuất === */
+/* --- Load workshops --- */
 async function loadWorkshops(){
+  const box=document.getElementById("workshopList");
   try{
-    const res = await fetch(API_BASE+"?action=suppliers");
-    const j = await res.json();
-    const box = document.getElementById("workshopList");
+    const r=await fetch(API_BASE+"?action=suppliers");
+    const j=await r.json();
     if(!j.items){box.innerHTML="<p>Không có dữ liệu</p>";return;}
-    box.innerHTML = j.items.slice(0,6).map(x=>`
+    box.innerHTML=j.items.slice(0,5).map(x=>`
       <div class="workshop-item">
-        <h3>${x.name}</h3>
-        ${x.cert?`<a href="${x.cert}" target="_blank">📎 Hồ sơ năng lực</a>`:""}
+        <b>${x.name}</b><br>
+        ${x.cert?`<a href="${x.cert}" target="_blank">📎 Hồ sơ</a>`:""}
         ${x.Catalog_xuong?`<a href="${x.Catalog_xuong}" target="_blank">📂 Catalog</a>`:""}
-      </div>`).join("");
-  }catch(e){document.getElementById("workshopList").innerHTML="<p>⚠️ Lỗi tải dữ liệu</p>";}
+      </div>`).join('');
+  }catch{box.innerHTML="<p>⚠️ Lỗi tải</p>";}
 }
 loadWorkshops();
 
-/* === Load Sản phẩm === */
-async function loadProducts(){
-  try{
-    const res = await fetch(API_BASE+"?action=list&pageSize=12");
-    const j = await res.json();
-    const box = document.getElementById("productGrid");
-    if(!j.items){box.innerHTML="<p>Không có sản phẩm</p>";return;}
-    box.innerHTML = j.items.map(p=>`
-      <div class="card-product">
-        <img src="${p.img}" class="card-img" alt="${p.details}">
-        <div class="card-info">
-          <div class="card-title">${p.details}</div>
-          <div class="card-note">${p.note||''}</div>
-          <div class="card-price">${p.price?p.price.toLocaleString('vi-VN')+' đ':''}</div>
-          <div class="card-actions">
-            <button>${p.group&&p.group.includes('Thiết kế')?'Tư vấn thiết kế':'Nhận quà'}</button>
-            <span class="add-icon">+</span>
-          </div>
-        </div>
-      </div>`).join("");
-  }catch(e){document.getElementById("productGrid").innerHTML="<p>⚠️ Lỗi tải dữ liệu</p>";}
+/* --- 2 tầng lọc group + category --- */
+let allProducts=[],currentGroup=null;
+async function initFilters(){
+  const res=await fetch(API_BASE+"?action=list&pageSize=300");
+  const j=await res.json();
+  allProducts=j.items||[];
+  const groups=[...new Set(allProducts.map(p=>p.group).filter(Boolean))];
+  const groupBox=document.getElementById("filterGroups");
+
+  groupBox.innerHTML=groups.map(g=>{
+    const first=allProducts.find(p=>p.group===g);
+    const img=first?.img||'https://via.placeholder.com/60';
+    return `<div class="filter-item" data-group="${g}">
+              <img src="${img}" alt="${g}">
+              <span>${g}</span></div>`;
+  }).join('');
+
+  groupBox.querySelectorAll(".filter-item").forEach((el,i)=>{
+    el.addEventListener("click",()=>{
+      groupBox.querySelectorAll(".filter-item").forEach(x=>x.classList.remove("active"));
+      el.classList.add("active");
+      currentGroup=el.dataset.group;
+      renderCategories(currentGroup);
+      renderProducts(filterByGroup(currentGroup));
+    });
+    if(i===0){el.classList.add("active");currentGroup=el.dataset.group;}
+  });
+  renderCategories(currentGroup);
+  renderProducts(filterByGroup(currentGroup));
 }
-loadProducts();
+
+function renderCategories(group){
+  const box=document.getElementById("filterCategories");
+  const cats=[...new Set(allProducts.filter(p=>p.group===group).map(p=>p.category).filter(Boolean))];
+  box.innerHTML=cats.map((c,i)=>`<div class="filter-sub" data-cat="${c}">${c}</div>`).join('');
+  box.querySelectorAll(".filter-sub").forEach((el,i)=>{
+    el.addEventListener("click",()=>{
+      box.querySelectorAll(".filter-sub").forEach(x=>x.classList.remove("active"));
+      el.classList.add("active");
+      renderProducts(filterByGroup(group).filter(p=>p.category===el.dataset.cat));
+    });
+    if(i===0){el.classList.add("active");}
+  });
+}
+function filterByGroup(g){return allProducts.filter(p=>p.group===g);}
+function renderProducts(items){
+  const box=document.getElementById("productGrid");
+  if(!items.length){box.innerHTML="<p>Không có sản phẩm</p>";return;}
+  box.innerHTML=items.map(p=>`
+    <div class="card-product">
+      <img src="${p.img}" class="card-img">
+      <div class="card-info">
+        <div class="card-title">${p.details}</div>
+        <div class="card-note">${p.note||''}</div>
+        <div class="card-price">${p.price?p.price.toLocaleString('vi-VN')+' đ':''}</div>
+        <div class="card-actions">
+          <button>${p.group.includes('Thiết kế')?'Tư vấn':'Nhận quà'}</button>
+          <span class="add-icon">+</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+initFilters();
 </script>
 </body>
 </html>
