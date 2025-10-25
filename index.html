@@ -264,6 +264,82 @@ footer.text-light a:hover{text-decoration:underline}
   .category-scroll{grid-template-columns:repeat(auto-fill,minmax(100px,1fr))}
   .cardx img.thumb{height:150px}
 }
+ /* === FIX LAYOUT & POLISH for 2606AI (v6.6) === */
+.container-fluid {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.row.g-3 { align-items: start; }
+
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.hero .main img { border-radius: 12px; height: 300px; object-fit: cover; }
+.hero .mini img { border-radius: 12px; height: 145px; object-fit: cover; }
+
+.category-box, .group-bar-wrapper, .stats-row, .hero-workshop {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  padding: 10px 14px;
+}
+
+.group-arrow, .cat-arrow {
+  border: none;
+  background: #fff;
+  color: var(--main);
+  font-size: 22px;
+  line-height: 1;
+  border-radius: 50%;
+  width: 34px; height: 34px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+}
+.group-arrow:hover, .cat-arrow:hover {
+  background: var(--main-grad);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.group-arrow.is-disabled, .cat-arrow.is-disabled {
+  opacity: 0.4; pointer-events: none;
+}
+
+#productGrid {
+  margin-top: 12px;
+}
+.cardx { height: 100%; border-radius: 10px; }
+.cardx img.thumb { height: 200px; border-bottom: 1px solid var(--border); }
+
+.fabs { right: 20px; bottom: 20px; }
+.fab {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  font-size: 24px;
+  background: #fff;
+  color: var(--main);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-md);
+}
+.fab:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  background: var(--main-grad);
+  color: #fff;
+}
+
+footer.text-light {
+  margin-top: 50px;
+  border-top: 4px solid var(--main-dark);
+  padding-top: 40px;
+}
+  
 </style>
 
    
