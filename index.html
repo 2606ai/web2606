@@ -1,388 +1,2774 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>2606AI – Kết nối sản xuất thông minh</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>2606AI</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
+/* =========================
+   2606AI – BAMBOO THEME CLEAN BASE
+   ========================= */
+
+/* ---- Theme Tokens (Xanh tre gradient) ---- */
 :root{
-  --green:#1e7b45;
-  --green-dark:#0d4d2b;
-  --bg:#f6f8f7;
-  --white:#fff;
-  --shadow:0 4px 12px rgba(0,0,0,0.06);
-  --radius:10px;
+  --main:        #2e7d32; /* Xanh tre chủ đạo */
+  --main-600:    #2c6e2f;
+  --main-700:    #1b5e20;
+  --main-grad:   linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
+  --accent:      #c6a969; /* vàng tre khô */
+  --bg:          #f7faf7;
+  --text:        #1e2a1e;
+  --muted:       #647b64;
+  --card:        #ffffff;
+  --border:      #dfe7df;
+  --shadow-sm:   0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:   0 2px 8px rgba(0,0,0,.08);
+  --main-tint:   #e7f5e8;
+  --main-shadow: rgba(46,125,50,.22);
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:'Be Vietnam Pro',sans-serif;}
-body{background:var(--bg);color:#0b2e1d;line-height:1.5;}
 
-/* =====================================================
-   HEADER (1–3)
-===================================================== */
-header{
-  background:var(--white);
-  box-shadow:var(--shadow);
-  position:sticky;top:0;z-index:100;
+/* ---- Base ---- */
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Be Vietnam Pro',system-ui,sans-serif;font-size:14px;padding-top:70px}
+img{max-width:100%;display:block}
+.container-fluid,.wrap{max-width:1400px;margin:0 auto}
+
+/* ---- Header ---- */
+.site-header{
+  position:fixed;inset:0 0 auto 0;z-index:1055;
+  background:#fff;border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow-sm);padding:10px 15px;
 }
-.header-top{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:8px 5%;gap:16px;
+.site-header .wrap{display:flex;align-items:center;gap:12px}
+.site-header img.logo{width:84px;aspect-ratio:3/2;object-fit:contain;cursor:pointer}
+.header-search{flex:1}
+.header-search .form-control{font-size:13px;padding:6px 10px}
+
+/* ---- Top banner ---- */
+.top-banner{
+  position:sticky;top:70px;z-index:1054;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--main-grad);color:#fff;font-weight:700;
+  overflow:hidden;line-height:32px
 }
-.logo img{height:60px;cursor:pointer;}
-.search-bar{display:flex;flex:1;max-width:600px;}
-.search-bar input{
-  flex:1;padding:10px 16px;font-size:15px;
-  border:1px solid var(--green);border-right:none;
-  border-radius:30px 0 0 30px;outline:none;
+.top-banner .marquee{white-space:nowrap;display:inline-block;animation:marquee 60s linear infinite}
+@keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
+/* ---- Sidebar ---- */
+.sidebar-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:12px;padding:12px;box-shadow:var(--shadow-sm);margin-bottom:15px
 }
-.search-bar button{
-  padding:10px 20px;background:var(--green);color:#fff;
-  border:none;border-radius:0 30px 30px 0;font-weight:600;
+.sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
+
+/* ---- Hero ---- */
+.hero{margin-bottom:15px}
+.hero .carousel{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.hero .mini img{height:145px;object-fit:cover;border-radius:12px}
+.hero .main img{height:300px;object-fit:cover;border-radius:12px}
+.hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
+
+/* ---- Group Bar ---- */
+.group-bar-wrapper{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:10px 12px;
+  box-shadow:var(--shadow-sm);margin-bottom:8px;
+}
+#groupBar{
+  display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;
+}
+#groupBar::-webkit-scrollbar{display:none}
+.group-chip{
+  flex:1 1 auto;
+  text-align:center;
+  padding:10px 14px;
+  border:1px solid var(--border);
+  border-radius:10px;
+  color:var(--main);
+  background:#fff;
+  font-weight:600;
   cursor:pointer;
+  transition:all .2s ease;
 }
-.brand-banner{
-  background:var(--green);
-  color:#fff;font-size:14px;
-  overflow:hidden;white-space:nowrap;
-  padding:5px 0;text-align:center;
+.group-chip:hover{background:var(--main-tint)}
+.group-chip.active{
+  background:var(--main-grad);
+  color:#fff;
+  border-color:var(--main);
+  box-shadow:0 6px 16px var(--main-shadow);
 }
-.brand-banner p{
-  display:inline-block;
-  animation:scrollBanner 25s linear infinite;
-}
-@keyframes scrollBanner{
-  from{transform:translateX(100%);}to{transform:translateX(-100%);}
-}
+.group-dots{display:flex;justify-content:center;gap:6px;margin:8px 0}
+.group-dots .dot{width:6px;height:6px;border-radius:50%;background:#c9d6ff}
+.group-dots .dot.active{background:var(--main);transform:scale(1.2)}
 
-/* =====================================================
-   MAIN GRID (4–8)
-===================================================== */
-main{
-  display:grid;
-  grid-template-columns:23% 1fr;
-  gap:18px;
-  padding:18px 5%;
+/* ---- Category Grid ---- */
+.category-box{
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:12px;box-shadow:var(--shadow-sm)
 }
-
-/* --- Left column (4–5) --- */
-.left-col{display:flex;flex-direction:column;gap:18px;}
-.box{
-  background:var(--white);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  padding:16px;
-}
-#intro-benefits h2{color:var(--green);font-size:18px;margin-bottom:8px;}
-#intro-benefits ul{list-style:none;}
-#intro-benefits li::before{content:"✅ ";color:var(--green);}
-#featured-workshops h2{color:var(--green);font-size:15px;margin-bottom:8px;text-align:center;}
-.workshop-list{display:flex;flex-direction:column;gap:8px;max-height:380px;overflow:auto;}
-.workshop-item{background:#f7f9f8;border-radius:6px;padding:8px;font-size:13px;}
-.workshop-item:hover{background:#e9f5ee;}
-.workshop-item a{color:var(--green);text-decoration:none;}
-.workshop-item a:hover{text-decoration:underline;}
-
-/* --- Hero slides (6–8) --- */
-.hero-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr;
+.category-scroll{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));
   gap:14px;
 }
-.hero-large{
-  position:relative;height:340px;border-radius:var(--radius);
-  overflow:hidden;box-shadow:var(--shadow);
+.category-item{text-align:center;cursor:pointer;padding:8px;border-radius:12px;transition:.2s}
+.category-item:hover{background:var(--main-tint)}
+.category-item .icon{
+  width:64px;height:64px;margin:0 auto 8px;
+  border-radius:16px;background:#f2f6ff;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.08)
 }
-.hero-large img{
-  position:absolute;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity 1s ease-in-out;
+.category-item .icon img{width:36px;height:36px;object-fit:contain}
+.category-item span{font-size:12px;color:var(--text);display:block}
+.category-item.active span{color:var(--main-700);font-weight:700}
+
+/* ---- Stats & Pager ---- */
+#statsBar{
+  background:#fff;border:1px solid var(--border);
+  border-radius:10px;padding:8px 12px;
+  box-shadow:var(--shadow-sm)
 }
-.hero-large img.active{opacity:1;}
-.hero-right{display:grid;grid-template-rows:1fr 1fr;gap:14px;}
-.hero-right img{
-  width:100%;height:163px;border-radius:var(--radius);
-  object-fit:cover;box-shadow:var(--shadow);
+.stats-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0}
+.found-count{display:flex;align-items:center;gap:6px;font-weight:500}
+#pagerTop,#pagerBottom{display:flex;align-items:center;gap:4px;white-space:nowrap}
+#pagerTop .btn,#pagerBottom .btn{
+  padding:.35rem .6rem;font-size:.875rem;border-radius:.25rem;
+  min-width:40px;height:32px;line-height:1.2
 }
 
-/* =====================================================
-   FILTER AREA (9)
-===================================================== */
-#filter-area{
-  margin:24px 5%;
-  display:flex;flex-direction:column;gap:12px;
+/* ---- Product Cards ---- */
+.cardx{
+  border:none;border-radius:12px;background:#fff;
+  overflow:hidden;box-shadow:var(--shadow-sm);
+  transition:transform .1s,box-shadow .1s;
+  height:100%;display:flex;flex-direction:column;
 }
-.filter-row{
-  display:flex;flex-wrap:wrap;gap:10px;
+.cardx:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.cardx img.thumb{width:100%;height:180px;object-fit:cover}
+.cardx .meta{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1;cursor:pointer}
+.cardx .id{font-weight:700;color:var(--main);font-size:13px}
+.cardx .details{
+  font-size:12px;color:var(--muted);
+  display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;
 }
-.filter-item{
-  width:110px;text-align:center;background:var(--white);
-  border-radius:10px;box-shadow:var(--shadow);
-  cursor:pointer;padding:8px;transition:.3s;
+.cardx .type-badge{background:#e7f3e8;color:#1b5e20;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px;align-self:flex-start}
+.cardx .price{font-weight:600;color:#d32f2f;margin-top:auto}
+.cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.btn-gift{
+  background:#fff;border:1.5px solid var(--main);color:var(--main);
+  font-weight:600;padding:6px 14px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  transition:all .2s ease;text-decoration:none;
 }
-.filter-item:hover{transform:translateY(-3px);}
-.filter-item.active{background:#eaf6f0;border:1px solid var(--green);}
-.filter-item img{
-  width:60px;height:60px;border-radius:8px;object-fit:cover;margin-bottom:4px;
-}
-.filter-item span{font-size:13px;font-weight:500;}
-.filter-sub{
-  background:#e3e8e4;border-radius:20px;padding:8px 14px;
-  font-size:13px;font-weight:500;cursor:pointer;transition:.3s;
-}
-.filter-sub:hover,
-.filter-sub.active{background:var(--green);color:#fff;}
-
-/* =====================================================
-   PRODUCT SECTION (10)
-===================================================== */
-#product-section{margin:10px 5% 40px;}
-.product-grid{
-  display:grid;
-  grid-template-columns:repeat(6,1fr);
-  gap:16px;
-}
-.card-product{
-  background:var(--white);
-  border-radius:10px;
-  box-shadow:0 2px 6px rgba(0,0,0,0.08);
-  overflow:hidden;
-  transition:.3s;
-}
-.card-product:hover{transform:translateY(-3px);}
-.card-img{width:100%;height:160px;object-fit:cover;}
-.card-info{padding:10px;}
-.card-title{color:var(--green);font-size:14px;font-weight:600;min-height:38px;}
-.card-note{color:#5f6b62;font-size:12px;height:32px;overflow:hidden;margin-bottom:4px;}
-.card-price{color:#d84d3f;font-weight:600;margin-bottom:6px;}
-.card-actions{display:flex;justify-content:space-between;align-items:center;}
-.card-actions button{
-  border:1px solid var(--green);
-  color:var(--green);
-  background:transparent;
-  border-radius:20px;
-  padding:4px 10px;
-  font-size:12px;
-  cursor:pointer;
-}
-.card-actions button:hover{background:var(--green);color:#fff;}
-.add-icon{
-  width:22px;height:22px;border-radius:50%;background:var(--green);
-  color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;
+.btn-gift:hover{background:var(--main-tint);color:var(--main-700)}
+.add-btn{
+  border:none;background:var(--main-grad);color:#fff;
+  border-radius:50%;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;font-weight:800
 }
 
-/* =====================================================
-   HERO CUỐI (11) + FOOTER (12)
-===================================================== */
-#bottom-hero img{
-  width:100%;height:200px;object-fit:cover;
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-  margin:20px 0;
+/* ---- Workshop Sidebar ---- */
+.workshop-box{
+  background:linear-gradient(180deg,#eaf7ea 0%,#d7eed9 100%);
+  border:1px solid #bfe3c0;border-radius:12px;padding:12px
 }
-footer{
-  background:var(--green-dark);
-  color:#fff;padding:30px 5%;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:20px;font-size:14px;
+#workshopList{max-height:62vh;overflow:auto;padding-right:4px;scroll-behavior:smooth}
+#workshopList .link-preview{
+  display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;
+  border-radius:10px;padding:10px;box-shadow:var(--shadow-sm)
 }
-footer h3{margin-bottom:8px;}
-footer a{color:#fff;opacity:.9;text-decoration:none;display:block;margin-bottom:4px;}
-footer a:hover{opacity:1;text-decoration:underline;}
-.footer-bottom{text-align:center;background:var(--green);color:#fff;padding:10px;font-size:13px;}
+#workshopList .title{font-weight:700;color:var(--main)}
+#workshopList .desc{font-size:12px;color:var(--muted)}
+#workshopList .site{font-size:12px;color:var(--main-600)}
+
+/* ---- Offcanvas (Cart / Supplier) ---- */
+.offcanvas{z-index:4000}
+.offcanvas-backdrop{z-index:3990}
+
+/* ---- Floating Action Buttons ---- */
+.cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
+  position:fixed;right:16px;width:54px;height:54px;
+  border:none;border-radius:50%;color:#fff;font-size:22px;
+  line-height:54px;box-shadow:0 6px 16px rgba(0,0,0,.25);
+  z-index:2500;cursor:pointer;display:flex;align-items:center;justify-content:center
+}
+.filter-fab{background:#6c757d;bottom:212px}
+.cart-fab{background:var(--main-grad);bottom:148px}
+.suppliers-fab{background:#0d6efd;bottom:84px}
+.zalo-fab{background:#25D366;bottom:20px}
+
+/* ---- Footer ---- */
+footer.text-light{
+  background:linear-gradient(180deg,#2e7d32 0%,#1b5e20 100%);
+  color:#fff;padding:20px 0;margin-top:20px;
+}
+footer.text-light h6{color:var(--accent)}
+footer.text-light hr{border-color:rgba(255,255,255,.25)}
+footer.text-light a,footer.text-light .bi{color:#fff;text-decoration:none}
+footer.text-light a:hover{text-decoration:underline}
+
+/* ---- Dialog chi tiết sản phẩm ---- */
+.dtl-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);display:grid;place-items:center;z-index:99999;padding:16px}
+.dtl-dialog{
+  width:min(920px,100%);max-height:92vh;overflow:auto;
+  background:#fff;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.35);
+  padding:18px;position:relative;border:1px solid #e6efe9;
+}
+.dtl-close{
+  position:absolute;top:8px;right:10px;width:36px;height:36px;
+  border-radius:10px;border:0;background:#f3f7f4;cursor:pointer;font-size:22px;
+}
+.dtl-head{display:flex;gap:14px;align-items:center;margin-bottom:10px}
+.dtl-head img{width:96px;height:96px;border-radius:12px;object-fit:cover;background:#f3f6f4}
+.dtl-badges{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 10px}
+.dtl-badges .tag{background:#e8f5e9;color:#1f6c23;padding:4px 8px;border-radius:999px;font-size:12px}
+.dtl-rows{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dtl-row{border:1px solid #eef3ef;border-radius:12px;padding:10px;background:#fafdfb}
+.dtl-row .k{font-size:12px;color:#6b7b70;text-transform:uppercase;letter-spacing:.06em}
+.dtl-row .v{margin-top:4px;color:#14391c;white-space:pre-wrap;word-break:break-word}
+.dtl-actions{margin-top:14px;display:flex;gap:10px;justify-content:flex-end}
+.btn-main{background:var(--main);color:#fff;padding:10px 14px;border-radius:12px;border:0;cursor:pointer}
+.btn-main:hover{background:var(--main-600)}
+.btn-ghost{background:#f3f7f4;color:#123;padding:10px 14px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+@media(max-width:720px){.dtl-rows{grid-template-columns:1fr}}
 </style>
-</head>
-<body>
 
-<!-- =====================================================
-   HEADER
-===================================================== -->
-<header>
-  <div class="header-top">
-    <div class="logo"><img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" alt="2606AI Logo"></div>
-    <div class="search-bar">
-      <input type="text" placeholder="Kết nối sản phẩm, nhà xưởng, dịch vụ...">
-      <button>Tìm</button>
-    </div>
-  </div>
-  <div class="brand-banner">
-    <p>2606AI.VN – Hệ sinh thái kết nối sản xuất thông minh • Giúp doanh nghiệp tìm đúng xưởng, đúng giá, đúng chất lượng</p>
+
+   
+</head>
+<body class="theme-bamboo">
+
+<header class="site-header">
+  <div class="wrap">
+    <a id="logoLink" href="#" class="d-flex align-items-center text-decoration-none">
+      <img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w160" class="logo" alt="2606AI logo">
+    </a>
+    <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
+      <div class="input-group w-100">
+        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)" aria-label="Tìm sản phẩm">
+        <button id="searchBtn" class="btn btn-primary" type="button">Tìm</button>
+      </div>
+    </form>
   </div>
 </header>
 
-<!-- =====================================================
-   MAIN (4–8)
-===================================================== -->
-<main>
-  <!-- CỘT TRÁI -->
-  <div class="left-col">
-    <div class="box" id="intro-benefits">
-      <h2>Vì sao chọn 2606AI?</h2>
-      <ul>
-        <li>500+ nhà cung cấp uy tín toàn quốc</li>
-        <li>Tư vấn – Thiết kế – Sản xuất – Hậu cần trọn gói</li>
-        <li>Đảm bảo chất lượng & xử lý tranh chấp nhanh chóng</li>
-        <li>Giúp doanh nghiệp tiết kiệm 30–50% chi phí</li>
-      </ul>
-    </div>
-    <div class="box" id="featured-workshops">
-      <h2>🏭 Xưởng đề xuất / Đối tác ưu tiên</h2>
-      <div class="workshop-list" id="workshopList"><p>⏳ Đang tải...</p></div>
+<div class="top-banner" role="region" aria-label="Thông báo">
+  <div class="wrap">
+    <div class="marquee">
+      Để đảm bảo quyền lợi hãy thông báo với 2606AI.VN khi bạn đã chốt đơn hàng &nbsp; • &nbsp;
+      Nguồn thu của 2606AI.VN đến từ quảng cáo &nbsp; • &nbsp;
+      Có sự hỗ trợ của 2606AI.VN tự tin sản xuất mọi sản phẩm
     </div>
   </div>
-
-  <!-- HERO SLIDE -->
-  <div class="hero-grid">
-    <div class="hero-large" id="heroLarge">
-      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" class="active">
-      <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5">
-      <img src="https://images.unsplash.com/photo-1527430253228-e93688616381">
-    </div>
-    <div class="hero-right">
-      <img src="https://images.unsplash.com/photo-1581092334472-4a17f0cc02a2">
-      <img src="https://images.unsplash.com/photo-1581291519195-ef11498d1cf5">
-    </div>
-  </div>
-</main>
-
-<!-- =====================================================
-   FILTER AREA (9)
-===================================================== -->
-<section id="filter-area">
-  <div id="filterGroups" class="filter-row"></div>
-  <div id="filterCategories" class="filter-row"></div>
-</section>
-
-<!-- =====================================================
-   PRODUCT SECTION (10)
-===================================================== -->
-<section id="product-section">
-  <div class="product-grid" id="productGrid"><p>⏳ Đang tải sản phẩm...</p></div>
-</section>
-
-<!-- =====================================================
-   HERO BANNER CUỐI (11)
-===================================================== -->
-<div id="bottom-hero">
-  <img src="https://images.unsplash.com/photo-1605902711622-cfb43c4437b5" alt="">
 </div>
 
-<!-- =====================================================
-   FOOTER (12)
-===================================================== -->
-<footer>
-  <div>
-    <h3>Về chúng tôi</h3>
-    <p>2606AI.vn là nền tảng kết nối sản xuất thông minh giúp doanh nghiệp Việt tìm đúng đối tác, đúng giá và đúng tiêu chuẩn.</p>
+<div class="container-fluid my-3">
+  <div class="row g-3">
+    <!-- Sidebar -->
+<div id="leftCol" class="col-lg-3 col-md-4">
+
+  <!-- ===== Benefits ===== -->
+  <div class="sidebar-box benefits-v3">
+    <h6 class="mb-2">Chúng tôi có gì cho bạn...</h6>
+    <div class="grid">
+
+      <div class="bcard" data-benefit="b1" role="button" tabindex="0" aria-label="Tham khảo 10,000+ mẫu sản phẩm">
+        <span class="benefit-note benefit-free">Miễn phí</span>
+        <div class="ic">🧩</div>
+        <div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div>
+        <div class="sub">Không lo thiếu ý tưởng</div>
+      </div>
+
+      <div class="bcard" data-benefit="b2" role="button" tabindex="0" aria-label="500+ nhà cung cấp và xưởng sản xuất">
+        <span class="benefit-note benefit-free">Miễn phí</span>
+        <div class="ic">🏭</div>
+        <div class="ttl">2. Hơn 500+ nhà cung cấp và xưởng sản xuất</div>
+        <div class="sub">Báo giá nhanh, đa dạng, dễ dàng so sánh giá</div>
+      </div>
+
+      <div class="bcard" data-benefit="b3" role="button" tabindex="0" aria-label="Hỗ trợ tư vấn sản xuất">
+        <span class="benefit-note benefit-free">Miễn phí</span>
+        <div class="ic">💬</div>
+        <div class="ttl">3. Hỗ trợ tư vấn sản xuất</div>
+        <div class="sub">Phản hồi nhanh, đáp ứng nhiều nhu cầu</div>
+      </div>
+
+      <div class="bcard" data-benefit="b4" role="button" tabindex="0" aria-label="Hỗ trợ thiết kế 2D, 3D sản xuất">
+        <span class="benefit-note benefit-free">Miễn phí</span>
+        <div class="ic">🎨</div>
+        <div class="ttl">4. Hỗ trợ thiết kế 2D, 3D sản xuất</div>
+        <div class="sub">Mockup miễn phí cho các đơn hàng chốt</div>
+      </div>
+
+      <div class="bcard" data-benefit="b5" role="button" tabindex="0" aria-label="Hậu cần vận chuyển và đóng gói hàng">
+        <span class="benefit-note benefit-paid">Có phí</span>
+        <div class="ic">📦</div>
+        <div class="ttl">5. Hậu cần vận chuyển và đóng gói hàng</div>
+        <div class="sub">Dịch vụ nhanh chuyên nghiệp</div>
+      </div>
+
+      <div class="bcard" data-benefit="b6" role="button" tabindex="0" aria-label="Hỗ trợ giải quyết tranh chấp">
+        <span class="benefit-note benefit-paid">Có phí</span>
+        <div class="ic">🛡️</div>
+        <div class="ttl">6. Hỗ trợ giải quyết tranh chấp</div>
+        <div class="sub">Bảo vệ quyền lợi khách hàng</div>
+      </div>
+
+    </div>
   </div>
-  <div>
-    <h3>Liên hệ</h3>
-    <a href="#">📍 TP. Hồ Chí Minh</a>
-    <a href="#">📞 0909 260 606</a>
-    <a href="#">✉️ support@2606ai.vn</a>
+  <!-- /Benefits -->
+
+  <!-- ===== XƯỞNG ĐỀ XUẤT ===== -->
+  <div id="workshopBox" class="sidebar-box workshop-box">
+    <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
+      <span class="d-inline-flex align-items-center gap-2">
+        Xưởng đề xuất
+        <span id="workshopCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span>
+      </span>
+    </h6>
+
+    <div id="workshopList" class="d-flex flex-column gap-2"></div>
+    <div id="workshopEmpty" class="small text-muted">(debug) Box đã hiển thị – chờ dữ liệu quảng cáo.</div>
+
+    <div class="mt-2 text-center">
+      <a id="workshopContactBtn2" href="#" target="_blank" rel="noopener"
+         class="btn btn-sm fw-bold px-3"
+         style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
+        📢 LIÊN HỆ ĐẶT QUẢNG CÁO
+      </a>
+    </div>
   </div>
-  <div>
-    <h3>Hỗ trợ</h3>
-    <a href="#">Điều khoản sử dụng</a>
-    <a href="#">Chính sách bảo mật</a>
-    <a href="#">Trung tâm trợ giúp</a>
-  </div>
-</footer>
-<div class="footer-bottom">© 2025 2606AI.vn – Kết nối & Hỗ trợ sản xuất thông minh</div>
+  <!-- /XƯỞNG ĐỀ XUẤT -->
 
-<!-- =====================================================
-   JAVASCRIPT
-===================================================== -->
-<script>
-const API_BASE = "https://script.google.com/macros/s/AKfycbwFvoS6TSdj4ADked9RyTvG-A1fFfrkvqIJpeyNXy2bUqFpF07DEnHRx6O0TKlmZXkp/exec";
+</div>
 
-/* --- Hero auto slide --- */
-let slideIndex=0;
-const slides=document.querySelectorAll("#heroLarge img");
-setInterval(()=>{slides[slideIndex].classList.remove("active");
-  slideIndex=(slideIndex+1)%slides.length;
-  slides[slideIndex].classList.add("active");
-},4000);
 
-/* --- Load workshops --- */
-async function loadWorkshops(){
-  const box=document.getElementById("workshopList");
-  try{
-    const r=await fetch(API_BASE+"?action=suppliers");
-    const j=await r.json();
-    if(!j.items){box.innerHTML="<p>Không có dữ liệu</p>";return;}
-    box.innerHTML=j.items.slice(0,5).map(x=>`
-      <div class="workshop-item">
-        <b>${x.name}</b><br>
-        ${x.cert?`<a href="${x.cert}" target="_blank">📎 Hồ sơ</a>`:""}
-        ${x.Catalog_xuong?`<a href="${x.Catalog_xuong}" target="_blank">📂 Catalog</a>`:""}
-      </div>`).join('');
-  }catch{box.innerHTML="<p>⚠️ Lỗi tải</p>";}
-}
-loadWorkshops();
+    <!-- Content -->
+    <div class="col-lg-9 col-md-8">
+      <!-- HERO -->
+      <div class="hero row g-2">
+        <div class="col-md-8 main">
+          <div id="heroMain" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
 
-/* --- 2 tầng lọc group + category --- */
-let allProducts=[],currentGroup=null;
-async function initFilters(){
-  const res=await fetch(API_BASE+"?action=list&pageSize=300");
-  const j=await res.json();
-  allProducts=j.items||[];
-  const groups=[...new Set(allProducts.map(p=>p.group).filter(Boolean))];
-  const groupBox=document.getElementById("filterGroups");
-
-  groupBox.innerHTML=groups.map(g=>{
-    const first=allProducts.find(p=>p.group===g);
-    const img=first?.img||'https://via.placeholder.com/60';
-    return `<div class="filter-item" data-group="${g}">
-              <img src="${img}" alt="${g}">
-              <span>${g}</span></div>`;
-  }).join('');
-
-  groupBox.querySelectorAll(".filter-item").forEach((el,i)=>{
-    el.addEventListener("click",()=>{
-      groupBox.querySelectorAll(".filter-item").forEach(x=>x.classList.remove("active"));
-      el.classList.add("active");
-      currentGroup=el.dataset.group;
-      renderCategories(currentGroup);
-      renderProducts(filterByGroup(currentGroup));
-    });
-    if(i===0){el.classList.add("active");currentGroup=el.dataset.group;}
-  });
-  renderCategories(currentGroup);
-  renderProducts(filterByGroup(currentGroup));
-}
-
-function renderCategories(group){
-  const box=document.getElementById("filterCategories");
-  const cats=[...new Set(allProducts.filter(p=>p.group===group).map(p=>p.category).filter(Boolean))];
-  box.innerHTML=cats.map((c,i)=>`<div class="filter-sub" data-cat="${c}">${c}</div>`).join('');
-  box.querySelectorAll(".filter-sub").forEach((el,i)=>{
-    el.addEventListener("click",()=>{
-      box.querySelectorAll(".filter-sub").forEach(x=>x.classList.remove("active"));
-      el.classList.add("active");
-      renderProducts(filterByGroup(group).filter(p=>p.category===el.dataset.cat));
-    });
-    if(i===0){el.classList.add("active");}
-  });
-}
-function filterByGroup(g){return allProducts.filter(p=>p.group===g);}
-function renderProducts(items){
-  const box=document.getElementById("productGrid");
-  if(!items.length){box.innerHTML="<p>Không có sản phẩm</p>";return;}
-  box.innerHTML=items.map(p=>`
-    <div class="card-product">
-      <img src="${p.img}" class="card-img">
-      <div class="card-info">
-        <div class="card-title">${p.details}</div>
-        <div class="card-note">${p.note||''}</div>
-        <div class="card-price">${p.price?p.price.toLocaleString('vi-VN')+' đ':''}</div>
-        <div class="card-actions">
-          <button>${p.group.includes('Thiết kế')?'Tư vấn':'Nhận quà'}</button>
-          <span class="add-icon">+</span>
+            <div class="carousel-inner">
+              <div class="carousel-item active"><img loading="lazy" class="d-block w-100" src="https://picsum.photos/1200/300?random=11" alt="Banner 1"></div>
+              <div class="carousel-item"><img loading="lazy" class="d-block w-100" src="https://picsum.photos/1200/300?random=12" alt="Banner 2"></div>
+              <div class="carousel-item"><img loading="lazy" class="d-block w-100" src="https://picsum.photos/1200/300?random=13" alt="Banner 3"></div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroMain" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroMain" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex flex-column gap-2 mini">
+          <div id="heroRight1" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+            <div class="carousel-inner">
+              <div class="carousel-item active"><img loading="lazy" src="https://picsum.photos/600/145?random=21" class="d-block w-100" alt="Promo 1"></div>
+              <div class="carousel-item"><img loading="lazy" src="https://picsum.photos/600/145?random=22" class="d-block w-100" alt="Promo 2"></div>
+            </div>
+          </div>
+          <div id="heroRight2" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4200">
+            <div class="carousel-inner">
+              <div class="carousel-item active"><img loading="lazy" src="https://picsum.photos/600/145?random=23" class="d-block w-100" alt="Promo 3"></div>
+              <div class="carousel-item"><img loading="lazy" src="https://picsum.photos/600/145?random=24" class="d-block w-100" alt="Promo 4"></div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>`).join('');
-}
-initFilters();
+<!-- QUICK CATEGORY (ô lớn KHÁC, QUÀ TẶNG...) -->
+<div id="quickCatsTop" class="mt-3 mb-3"></div>
+
+    <!-- Danh mục (Group chips + Category scroller) -->
+<div class="category-box mb-3">
+  <!-- Dots indicator -->
+<div id="groupDots" class="group-dots" aria-label="Vị trí trang nhóm"></div>
+
+  <!-- GROUP BAR -->
+  <div class="group-bar-wrapper">
+  <button class="group-arrow left" id="groupPrev">‹</button>
+  <div class="group-bar-scroll" id="groupBar">
+    <!-- JS render chip group vào đây -->
+  </div>
+  <button class="group-arrow right" id="groupNext">›</button>
+</div>
+
+
+ <div class="category-wrapper">
+  <button id="catPrev" class="cat-arrow left"  type="button" aria-label="prev">‹</button>
+  <div id="categoryScroll" class="category-scroll"></div>
+  <button id="catNext" class="cat-arrow right" type="button" aria-label="next">›</button>
+</div>
+
+
+<script>
+(function(){
+  const wrap = document.getElementById('categoryScroll');
+  const prev = document.getElementById('catPrev');
+  const next = document.getElementById('catNext');
+  if (!wrap || !prev || !next) return;
+
+  const eps  = 4; // chống sai số 1-2px
+  const getMax = () => Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+  const step   = () => Math.max(240, Math.round(wrap.clientWidth * 0.9));
+  const clamp  = (n, min, max) => Math.min(max, Math.max(min, n));
+
+  function go(dir){
+    const max = getMax();
+    const target = clamp(wrap.scrollLeft + dir * step(), 0, max);
+    wrap.scrollTo({ left: target, behavior: 'smooth' });
+    // backup: đảm bảo cập nhật state kể cả khi event scroll không bắn
+    setTimeout(update, 350);
+  }
+
+  function update(){
+    const max = getMax();
+    const atStart = wrap.scrollLeft <= eps;
+    const atEnd   = wrap.scrollLeft >= (max - eps);
+    const noScroll = max <= eps;
+
+    prev.disabled = atStart || noScroll;
+    next.disabled = atEnd   || noScroll;
+
+    prev.classList.toggle('is-disabled', prev.disabled);
+    next.classList.toggle('is-disabled', next.disabled);
+  }
+
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go( 1));
+  wrap.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', () => setTimeout(update, 50));
+
+  update();
+  setTimeout(update, 300); // khi ảnh/render xong
+})();
+
+ 
 </script>
+
+<script>
+// ===== XƯỞNG ĐỀ XUẤT – DÙNG BOX HIỆN CÓ, KHÔNG TẠO BOX MỚI =====
+(function(){
+  // Nếu còn widget tạm #workshopDock thì xoá đi
+  document.addEventListener('DOMContentLoaded', () => {
+    const tmp = document.getElementById('workshopDock'); if (tmp) tmp.remove();
+  });
+
+  // Fallback ảnh (phòng khi link drive hỏng)
+  const FALLBACK = 'https://placehold.co/64x64?text=%20';
+
+  function toDriveThumb(u){
+    if (!u) return FALLBACK;
+    const m = String(u).match(/\/d\/([^/]+)\//);
+    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
+    if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
+    return u;
+  }
+  function safeImg(u){
+    if (!u) return FALLBACK;
+    const url = toDriveThumb(u);
+    return /^https?:\/\//i.test(url) ? url : FALLBACK;
+  }
+
+  // Đảm bảo có container list bên trong box
+  function ensureList(box){
+    let list = box.querySelector('#workshopList, .workshop-list, [data-workshop-list]');
+    if (!list){
+      list = document.createElement('div');
+      list.id = 'workshopList';
+      list.className = 'd-flex flex-column gap-2';
+      // chèn vào body của card/box nếu có
+      const body = box.querySelector('.card-body, .p-3, .p-2, .body') || box;
+      body.appendChild(list);
+    }
+    let empty = box.querySelector('#workshopEmpty');
+    if (!empty){
+      empty = document.createElement('div');
+      empty.id = 'workshopEmpty';
+      empty.className = 'text-muted small mt-1';
+      empty.textContent = 'Đang tải dữ liệu…';
+      list.after(empty);
+    }
+    // Bỏ các lớp ẩn nếu có
+    box.classList.remove('d-none', 'invisible');
+    box.style.display = 'block';
+    return {list, empty};
+  }
+
+  function renderIntoBox(items){
+    const box = findworkshopBox();
+    if (!box) { console.warn('[workshop] Không tìm thấy box hiện có'); return; }
+    const {list, empty} = ensureList(box);
+
+    const html = (items||[]).map(it=>{
+      const href  = it.url || it.link || '#';
+      const img   = safeImg(it.img || it.image || it.thumbnail || it.linkfull);
+      const title = it.title || it.name || 'Xưởng đề xuất';
+      const desc  = it.desc  || it.details || '';
+      const site  = it.site  || it.domain || '';
+      return `
+        <a class="link-preview d-flex gap-2 align-items-start p-2 rounded-3 border text-decoration-none"
+           href="${href}" target="_blank" rel="noopener">
+          <img src="${img}" onerror="this.src='${FALLBACK}'" width="48" height="48"
+               class="rounded-2 flex-shrink-0" alt="">
+          <div class="small w-100">
+            <div class="fw-semibold text-dark text-truncate">${title}</div>
+            ${desc ? `<div class="text-muted text-truncate">${desc}</div>` : ''}
+            ${site ? `<div class="text-muted">${site}</div>` : ''}
+          </div>
+        </a>`;
+    }).join('');
+
+    list.innerHTML = html;
+    empty.style.display = html ? 'none' : 'block';
+    if (!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
+  }
+
+  async function fetchWorkshops(){
+    try{
+      const r = await fetch(window.API_URL + '?action=workshop', {redirect:'follow', mode:'cors'});
+      const txt = await r.text();
+      let json;
+      try { json = JSON.parse(txt); }
+      catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
+      const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
+      renderIntoBox(items);
+    }catch(err){
+      console.error('[workshop] fetch error', err);
+      renderIntoBox([]);
+    }
+  }
+
+  // Đợi API_URL rồi mới chạy (tránh lỗi "Không tìm thấy API_URL")
+  function waitAndLoad(tries=60){
+    if (window.API_URL){ fetchWorkshops(); }
+    else if (tries>0){ setTimeout(()=>waitAndLoad(tries-1), 150); }
+    else { console.warn('[workshop] Hết thời gian chờ API_URL'); }
+  }
+
+  // Start
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', waitAndLoad);
+  }else{
+    waitAndLoad();
+  }
+})();
+// ====== TIỆN ÍCH ẢNH DRIVE
+function toDriveThumb(u, sz=600){
+  if(!u) return '';
+  const s = String(u);
+  // /file/d/{id}/view
+  const m = s.match(/\/d\/([^/]+)\//);
+  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
+  // đã là thumbnail
+  if (/drive\.google\.com\/thumbnail\?id=/.test(s)) return s.replace(/sz=w\d+/,'sz=w'+sz);
+  return s;
+}
+function safeImg(u){ return toDriveThumb(u) || 'https://via.placeholder.com/600x400?text=No+Image'; }
+
+// ====== MAP NHÃN TRƯỜNG (tùy sheet của bạn)
+const FIELD_LABELS = {
+  id:'ID', code:'Mã', sku:'SKU', title:'Tiêu đề', name:'Tên',
+  group:'Nhóm', category:'Danh mục', price:'Giá', type:'Loại',
+  details:'Mô tả', desc:'Mô tả', quangcao:'Quảng cáo',
+  image:'Ảnh', img:'Ảnh', thumbnail:'Ảnh', linkfull:'Link ảnh gốc',
+  supplier:'Xưởng', material:'Vật liệu', size:'Kích thước', color:'Màu',
+  weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
+  lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật'
+};
+
+// ====== TÌM ITEM THEO ID (dựa vào items đã render lần cuối)
+function getItemById(id){
+  const arr = window._lastItems || [];             // mảng item bạn đang hiển thị
+  return arr.find(x => String(x.id)===String(id) || String(x.code)===String(id));
+}
+
+// ====== RENDER BOX CHI TIẾT
+function openDetailBox(item){
+  if(!item) return;
+  const modal = document.getElementById('detailModal');
+  const img = safeImg(item.img || item.image || item.thumbnail || item.linkfull);
+  document.getElementById('dtlImg').src = img;
+  document.getElementById('dtlTitle').textContent = item.title || item.name || item.code || item.id || 'Chi tiết';
+  document.getElementById('dtlSub').textContent = [item.group, item.category].filter(Boolean).join(' • ');
+  document.getElementById('dtlOpenImg').href = (item.linkfull || img);
+
+  // badges (giá, loại…)
+  const badges = [];
+  if (item.price) badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
+  if (item.type)  badges.push(`<span class="tag">${item.type}</span>`);
+  if (item.supplier) badges.push(`<span class="tag">Xưởng: ${item.supplier}</span>`);
+  document.getElementById('dtlBadges').innerHTML = badges.join('');
+
+  // tạo các dòng dữ liệu đầy đủ
+  const rows = [];
+  const seen = new Set(['img','image','thumbnail','linkfull']); // ảnh để riêng
+  Object.keys(item).forEach(k=>{
+    if (seen.has(k)) return;
+    const v = item[k];
+    if (v===undefined || v===null || v==='') return;
+    const label = FIELD_LABELS[k] || k;
+    rows.push(`
+      <div class="dtl-row">
+        <div class="k">${label}</div>
+        <div class="v">${String(v)}</div>
+      </div>
+    `);
+  });
+  // nếu có mô tả dài riêng
+  if (item.details && !('details' in item)) {
+    rows.push(`
+      <div class="dtl-row">
+        <div class="k">Mô tả</div>
+        <div class="v">${String(item.details)}</div>
+      </div>
+    `);
+  }
+  document.getElementById('dtlRows').innerHTML = rows.join('');
+
+  modal.hidden = false;
+}
+function closeDetailBox(){ document.getElementById('detailModal').hidden = true; }
+
+// ====== BẮT SỰ KIỆN CLICK TỪ THẺ SẢN PHẨM
+// 1) Nếu thẻ sản phẩm có data-id: <div class="product-card" data-id="...">
+document.addEventListener('click', (ev)=>{
+  const closeBtn = ev.target.closest('[data-close="detailModal"]');
+  if (closeBtn){ closeDetailBox(); return; }
+
+  // ưu tiên các nút “Chi tiết”
+  const btn = ev.target.closest('[data-action="open-detail"]');
+  if (btn){
+    const id = btn.getAttribute('data-id') || btn.closest('[data-id]')?.getAttribute('data-id');
+    const item = getItemById(id);
+    openDetailBox(item);
+    ev.preventDefault();
+    return;
+  }
+
+  // click toàn card
+  const card = ev.target.closest('.product-card,[data-id]');
+  if (card && !ev.target.closest('button,a,[role="button"]')){ // tránh click vào các nút con
+    const id = card.getAttribute('data-id') || card.dataset.id;
+    const item = getItemById(id);
+    openDetailBox(item);
+  }
+});
+
+
+   
+</script>
+
+      <!-- Thống kê + Pagination -->
+<div class="stats-row row g-2 align-items-center">
+  <!-- Bên trái -->
+  <div class="col-auto d-flex align-items-center found-count">
+    <span class="lbl">Tìm thấy</span>
+    <span id="totalCount" class="badge text-bg-primary">0</span>
+    <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger ms-2">Xóa bộ lọc</button>
+  </div>
+
+  <!-- Bên phải -->
+  <div class="col text-end">
+    <div id="pagerTop" class="d-inline-flex"></div>
+  </div>
+</div>
+
+
+
+      <!-- Grid -->
+      <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2" aria-live="polite"></div>
+
+      <!-- Pagination Bottom -->
+      <div id="pagerBottom" class="mt-3 pager-bar"></div>
+
+      <!-- ===== Hero quảng cáo đặt dưới bảng card (FOOTER workshop) ===== -->
+      <div class="hero-workshop my-3">
+        <div id="footerworkshop" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img loading="lazy" src="https://picsum.photos/1200/200?random=91" class="d-block w-100" alt="Quảng cáo 1">
+            </div>
+            <div class="carousel-item">
+              <img loading="lazy" src="https://picsum.photos/1200/200?random=92" class="d-block w-100" alt="Quảng cáo 2">
+            </div>
+            <div class="carousel-item">
+              <img loading="lazy" src="https://picsum.photos/1200/200?random=93" class="d-block w-100" alt="Quảng cáo 3">
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#footerworkshop" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#footerworkshop" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+      <!-- ===== /Hero quảng cáo ===== -->
+
+    </div>
+  </div>
+</div>
+
+<!-- Offcanvas: Giỏ hàng -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="cartCanvas" aria-labelledby="cartCanvasLabel">
+  <div class="offcanvas-header">
+    <h5 id="cartCanvasLabel" class="mb-0">Giỏ hàng</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div id="cartList"></div>
+
+    <div class="summary-box d-flex justify-content-between align-items-center">
+      <span>Tổng cộng</span><span id="cartTotal">0 đ</span>
+    </div>
+
+    <button class="btn btn-danger w-100 mb-2" id="clearCartBtn">Xóa toàn bộ</button>
+
+    <input id="buyerName" class="form-control mb-2" placeholder="Họ và tên" aria-label="Họ và tên">
+    <input id="buyerEmail" class="form-control mb-2" placeholder="Email" aria-label="Email">
+    <input id="buyerPhone" class="form-control mb-2" placeholder="Số điện thoại" aria-label="Số điện thoại">
+    <input id="buyerAddress" class="form-control mb-2" placeholder="Địa chỉ nhận hàng" aria-label="Địa chỉ nhận hàng">
+    <textarea id="buyerNote" class="form-control mb-2" placeholder="Ghi chú" aria-label="Ghi chú"></textarea>
+
+    <label class="form-label mt-2">Tải tệp yêu cầu / thiết kế (tùy chọn)</label>
+    <input id="buyerFile" type="file" class="form-control mb-2" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg,.zip">
+
+    <div class="row g-2">
+      <div class="col-12">
+        <label class="form-label">Dịch vụ LẤY BÁO GIÁ HỘ (tùy chọn)</label>
+        <select id="servicePlan" class="form-select">
+          <option value="">— Không chọn —</option>
+          <option value="100000-3">100.000 đ / 3 báo giá</option>
+          <option value="500000-10">500.000 đ / 10 báo giá</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <div class="form-check mt-2">
+          <input class="form-check-input" type="checkbox" id="fileQuote">
+          <label class="form-check-label" for="fileQuote">Báo giá theo tệp tải lên</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-secondary mt-3 mb-2" style="font-size:12px">
+      <div><strong>Hướng dẫn:</strong></div>
+      <div>1) Bạn cần làm giống mẫu nào hoặc mua sản phẩm gì bấm gửi, chúng tôi sẽ sớm liên hệ lại sau.</div>
+      <div>2) Ghi rõ yêu cầu sẽ giúp chúng tôi tư vấn cho bạn dễ dàng hơn.</div>
+      <div>3) CSKH của 2606ai.vn sẽ trực tiếp liên hệ bạn trong vòng 24h (nếu quá thời gian này, vui lòng liên hệ lại).</div>
+    </div>
+
+    <button class="btn btn-success w-100" id="submitOrderBtn">Gửi đơn hàng</button>
+  </div>
+</div>
+
+<!-- Offcanvas: Bộ lọc -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="filterPanel" aria-labelledby="filterPanelLabel">
+  <div class="offcanvas-header">
+    <h5 id="filterPanelLabel" class="mb-0">Bộ lọc nâng cao</h5>
+    <div class="d-flex gap-2">
+      <button type="button" class="btn btn-outline-danger btn-sm" id="clearFiltersBtn">Xóa bộ lọc</button>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+    </div>
+  </div>
+  <div class="offcanvas-body">
+    <h6>ẤN PHẨM THƯƠNG HIỆU</h6><div id="brandBox" class="mb-3"></div>
+    <h6>TYPE</h6><div id="typeBox" class="mb-3"></div>
+    <h6>LOẠI SẢN PHẨM</h6><div id="loaiBox" class="mb-3"></div>
+    <h6>CHÚ Ý</h6><div id="noteBox" class="mb-3"></div>
+     <h6>GROUP (NHÓM)</h6><div id="groupBox" class="mb-3"></div>
+
+  </div>
+</div>
+
+<!-- Offcanvas: Danh sách xưởng -->
+<div class="offcanvas offcanvas-end" tabindex="-1" id="suppliersCanvas" aria-labelledby="suppliersLabel">
+  <div class="offcanvas-header">
+    <h5 id="suppliersLabel" class="mb-0">Danh sách xưởng</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="sup-toolbar">
+      <div class="row g-2 align-items-center">
+        <div class="col-12">
+          <input id="supSearch" class="form-control" placeholder="Tìm theo tên, địa chỉ, chứng nhận…">
+        </div>
+        <div class="col-7 d-flex align-items-center gap-2">
+          <select id="supSort" class="form-select form-select-sm" style="max-width:210px">
+            <option value="name">Sắp xếp A→Z (Tên)</option>
+            <option value="addr">Theo địa chỉ</option>
+          </select>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="supHasSite">
+            <label class="form-check-label small" for="supHasSite">Chỉ xưởng có website</label>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="counter justify-content-end">
+            <span class="pill" id="suppliersCount">0</span>
+            <span class="small">xưởng phù hợp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="suppliersList" class="supplier-list">Chưa có dữ liệu.</div>
+
+    <div class="mt-3">
+      <a id="workshopContactBtn" href="#" target="_blank" rel="noopener"
+         class="btn btn-primary w-100">LIÊN HỆ ĐẶT QUẢNG CÁO</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Modal chi tiết Lợi ích ===== -->
+<div class="modal fade" id="benefitModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px">
+      <div class="modal-header" style="background:var(--main-grad);color:#fff;border:0">
+        <h5 class="modal-title" id="benefitTitle">Chi tiết</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" style="filter:invert(1)"></button>
+      </div>
+      <div class="modal-body">
+        <div id="benefitLead" class="text-muted mb-2"></div>
+        <ul id="benefitList" class="mb-2"></ul>
+        <div id="benefitNote" class="small text-muted"></div>
+      </div>
+      <div class="modal-footer" style="border:0">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Đã hiểu</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- === FABs – CỤM NÚT NỔI ĐỒNG NHẤT === -->
+<div id="fabs" class="fabs">
+
+  <!-- Nút mở bộ lọc -->
+  <button id="filterFab" class="fab" aria-label="Mở bộ lọc">
+    <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"
+         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="22 3 2 3 10 12 10 19 14 21 14 12 22 3"></polygon>
+    </svg>
+    <span id="filterFabCount" class="fab-badge">0</span>
+  </button>
+
+  <!-- Nút giỏ hàng -->
+  <button id="cartFab" class="fab" aria-label="Mở giỏ hàng">
+    🛒
+    <span id="cartFabCount" class="fab-badge">0</span>
+  </button>
+
+  <!-- Nút danh sách xưởng -->
+  <button id="suppliersFab" class="fab" aria-label="Danh sách xưởng">
+    🏭
+  </button>
+
+  <!-- Nút chat Zalo -->
+  <a id="zaloFab" class="fab" aria-label="Liên hệ Zalo" href="https://zalo.me/123456789"
+     target="_blank" rel="noopener">
+    💬
+  </a>
+
+</div>
+
+<!-- ======= CSS: FABs – đồng nhất giữa mọi thiết bị ======= -->
+<style>
+:root{
+  --fab-size: 56px;
+  --fab-gap: 12px;
+  --fab-right: 16px;
+  --fab-bottom: 16px;
+  --fab-bg: #ffffff;
+  --fab-color: #2E7D32; /* xanh bamboo */
+}
+
+/* Wrapper FAB */
+.fabs{
+  position: fixed;
+  right: var(--fab-right);
+  bottom: var(--fab-bottom);
+  z-index: 9999;
+  display: grid;
+  gap: var(--fab-gap);
+  padding-right: max(0px, env(safe-area-inset-right));
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+/* Mỗi nút */
+.fab{
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: 50%;
+  background: var(--fab-bg);
+  color: var(--fab-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.25);
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* Badge nhỏ góc phải */
+.fab-badge{
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 1px 5px;
+  line-height: 1.2;
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+/* Hover / Active */
+.fab:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+.fab:active{
+  transform: scale(.95);
+}
+
+/* Icon SVG bên trong */
+.fab svg{
+  width: 24px;
+  height: 24px;
+  color: var(--fab-color);
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px){
+  :root{
+    --fab-size: 56px;
+    --fab-gap: 10px;
+    --fab-right: 14px;
+    --fab-bottom: 14px;
+  }
+}
+</style>
+
+<div id="errbox" role="alert" aria-live="assertive"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.ZALO_URL = "https://zalo.me/123456789";   // <-- thay link thật của bạn
+window.WORKSHOP_CONTACT_URL = "https://zalo.me/123456789"; // nếu muốn dùng chung
+  
+/* ===== ERROR ===== */
+(function(){
+  const box=document.getElementById('errbox');
+  function show(msg){ box.style.display='block'; box.textContent='[ERROR] '+msg; console.error(msg); }
+  window.addEventListener('error', e=>show(e.message+(e.filename?(' @ '+e.filename+':'+e.lineno):'')));
+  window.addEventListener('unhandledrejection', e=>show('Promise rejected: '+((e.reason&&e.reason.message)||e.reason)));
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  /* ==== CONFIG ===== */
+   window.API_URL = "https://script.google.com/macros/s/AKfycbyxfUzFNrigam0HIIaXL64zurecFH2faXKH99IN18SdcdVBIGB8exkvb3x7aRgOzc1K/exec";
+   window.API_KEY = "";
+   window.AUTO_OPEN_ON_ADD = false;
+
+  // ✅ Đoạn thêm mới: di chuyển #groupDots ra ngoài .category-box
+  const catBox = document.querySelector('.category-box');
+  const dots   = document.getElementById('groupDots');
+  if (catBox && dots && catBox.contains(dots)) {
+    catBox.after(dots);
+  }
+
+
+  // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
+const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
+if (statsRow) {
+  const lbl = statsRow.querySelector('.fw-semibold');
+  if (lbl) lbl.textContent = 'Tìm thấy';
+
+  // cho 2 bên đứng cùng hàng (trái: nhãn + badge + xóa; phải: pager)
+  statsRow.classList.add('justify-content-between','flex-wrap','w-100');
+
+  const pagerTop = document.getElementById('pagerTop');
+  if (pagerTop) {
+    pagerTop.classList.remove('mb-2');     // bỏ margin thừa
+    statsRow.appendChild(pagerTop);        // đưa pagerTop lên cùng hàng
+  }
+}
+/* === Helper: chia mảng thành các trang theo số cột/ trang === */
+function chunk(arr, size){ const out=[]; for(let i=0;i<arr.length;i+=size) out.push(arr.slice(i,i+size)); return out; }
+/* số cột/ trang hiện tại (theo CSS var --cols) */
+function getCols(){
+  const el = document.querySelector('.group-bar-scroll') || document.getElementById('groupBar');
+  const n = getComputedStyle(el).getPropertyValue('--cols');
+  return Math.max(1, parseInt(n,10) || 4);
+}
+
+// Map tên nhóm -> icon (URL) hoặc emoji
+const GROUP_ICONS = {
+  "QUÀ TẶNG 247 EXPRESS (Đối tác)":"https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w1000",
+  "QUÀ TẶNG ẤN PHẨM THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/advertising.png",
+  "QUÀ TẶNG SẢN PHẨM THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/product.png",
+  "QUÀ TẶNG TỔ CHỨC SỰ KIỆN":"https://img.icons8.com/fluency/96/conference-foreground-selected.png",
+  "QUÀ TẶNG PHỤ KIỆN THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/electronics.png",
+  "KHÁC":"https://img.icons8.com/fluency/96/more.png"
+};
+
+function iconForGroup(name){
+  return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"];
+}
+
+// === THỨ TỰ HIỂN THỊ NHÓM (TRÁI → PHẢI) ===
+const GROUP_ORDER_RAW = [
+  "QUÀ TẶNG 247 EXPRESS (Đối tác)",
+  "QUÀ TẶNG TỔ CHỨC SỰ KIỆN",
+  "QUÀ TẶNG PHỤ KIỆN THƯƠNG HIỆU",
+  "QUÀ TẶNG SẢN PHẨM THƯƠNG HIỆU",
+  "QUÀ TẶNG ẤN PHẨM THƯƠNG HIỆU",
+  "KHÁC"
+];
+
+// chuẩn hoá (bỏ dấu, lower, trim)
+function _normalizeVN(s){
+  return String(s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+}
+
+// lấy tên nhóm dù là string hay object
+function _nameOf(g){
+  if (typeof g === 'string') return g;
+  return g?.label || g?.name || g?.id || '';
+}
+
+// cache mảng chuẩn hoá để so nhanh
+const GROUP_ORDER_NORM = GROUP_ORDER_RAW.map(_normalizeVN);
+
+// Sắp xếp theo thứ tự định nghĩa
+window.orderGroups = function(groups){
+  const arr = (groups || []).slice();
+
+  arr.sort((a, b) => {
+    const na = _normalizeVN(_nameOf(a));
+    const nb = _normalizeVN(_nameOf(b));
+
+    const ai = GROUP_ORDER_NORM.indexOf(na);
+    const bi = GROUP_ORDER_NORM.indexOf(nb);
+
+    if (ai !== -1 && bi !== -1) return ai - bi; // cả 2 đều có trong bảng
+    if (ai !== -1) return -1;                   // a có ưu tiên → lên trước
+    if (bi !== -1) return 1;                    // b có ưu tiên → lên trước
+
+    // còn lại: alpha nhẹ theo tên đã chuẩn hoá
+    return na.localeCompare(nb, 'vi');
+  });
+
+  return arr;
+};
+
+
+
+function renderGroups(groups){
+  const bar  = document.getElementById('groupBar');
+  const dotsBox = document.getElementById('groupDots');
+  if(!bar || !dotsBox) return;
+
+  const list = groups || [];
+
+  bar.innerHTML = list.map(g => `
+    <div class="group-chip ${state.group===g?'active':''}"
+         data-action="select-group" data-val="${esc(g)}">
+      <span class="chip-icon">
+        <img src="${esc(iconForGroup(g))}" alt="">
+      </span>
+      <span class="chip-text">${esc(g)}</span>
+    </div>
+  `).join('');
+
+  // Dots (nếu vẫn muốn giữ)
+  dotsBox.innerHTML = list.map((_,i)=>
+    `<span class="dot ${state.group===list[i]?'active':''}" data-idx="${i}"></span>`
+  ).join('');
+
+  window._lastGroups = list;
+}
+
+/* === Mũi tên & Dots === */
+const groupBarEl = document.getElementById('groupBar');
+const dotBox     = document.getElementById('groupDots');
+const btnPrev    = document.getElementById('groupPrev');
+const btnNext    = document.getElementById('groupNext');
+
+function currentPage(){
+  if(!groupBarEl) return 0;
+  const w = groupBarEl.clientWidth || 1;
+  return Math.round(groupBarEl.scrollLeft / w);
+}
+function pagesCount(){
+  return groupBarEl ? Math.ceil(groupBarEl.scrollWidth / (groupBarEl.clientWidth||1)) : 1;
+}
+function scrollToPage(p){
+  const w = groupBarEl.clientWidth;
+  groupBarEl.scrollTo({ left: p*w, behavior: 'smooth' });
+}
+
+function updateGroupArrows(){
+  if(!groupBarEl || !btnPrev || !btnNext) return;
+  const p = currentPage(), pc = pagesCount();
+  btnPrev.disabled = (p <= 0);
+  btnNext.disabled = (p >= pc-1);
+}
+function updateGroupDots(){
+  const dots = document.querySelectorAll('#groupDots .dot');
+  const chips = document.querySelectorAll('#groupBar .group-chip');
+  let activeIdx = -1;
+  chips.forEach((c,i)=>{ if(c.dataset.val === (state.group||'')) activeIdx = i; });
+  dots.forEach((d,i)=> d.classList.toggle('active', i===activeIdx));
+}
+
+btnPrev?.addEventListener('click', ()=> scrollToPage(Math.max(0, currentPage()-1)));
+btnNext?.addEventListener('click', ()=> scrollToPage(Math.min(pagesCount()-1, currentPage()+1)));
+groupBarEl?.addEventListener('scroll', ()=>{
+  // debounce nhẹ cho mượt
+  clearTimeout(groupBarEl._t); groupBarEl._t = setTimeout(()=>{
+    updateGroupArrows(); updateGroupDots();
+  }, 60);
+});
+dotBox?.addEventListener('click', (e)=>{
+  const dot = e.target.closest('.dot'); if(!dot) return;
+  const idx = Number(dot.dataset.idx)||0;
+  const chips = document.querySelectorAll('#groupBar .group-chip');
+  const chip = chips[idx];
+  if(chip){
+    state.group = chip.dataset.val || '';
+    state.page = 1;
+    updateGroupUI();       // đổi active chip + ink-bar
+    updateGroupDots();     // chấm đổi màu
+    fetchPage();           // nạp dữ liệu theo group
+    // Scroll chip đó ra giữa (nếu cần; với layout grid sẽ không cuộn, nhưng để phòng)
+    chip.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+  }
+});
+
+window.addEventListener('resize', ()=>{
+  // Re-render khi đổi breakpoint để số cột/ trang cập nhật
+  if(window._repaint_t){ clearTimeout(window._repaint_t); }
+  window._repaint_t = setTimeout(()=> renderGroups((window._lastGroups)||[]), 120);
+});
+
+// Base & ảnh dự phòng (dùng link tuyệt đối)
+const ICON_FALLBACK = 'https://placehold.co/44x44?text=%20&bg=E8F5E9&fc=2E7D32';
+
+// Nếu bạn có thư mục icon riêng, có thể dùng thêm base:
+const ICON_BASE = ''; // vd: 'https://2606ai.github.io/web2606/assets/cat/'
+
+// Helper: nhận tên file hoặc URL tuyệt đối → trả URL hợp lệ
+function iconUrl(u){
+  if (!u) return ICON_FALLBACK;
+  if (/^https?:\/\//i.test(u)) return u;          // đã là URL đầy đủ
+  if (ICON_BASE) return new URL(u, ICON_BASE).href;
+  return ICON_FALLBACK;
+}
+/* === Quick Category strip (ô lớn phía trên) – render từ CAT_CONFIG === */
+function buildQuickCatsTopHTML(){
+  return `
+  <div class="category-scroll" data-quick-cats>
+    ${CAT_CONFIG.map(cat => {
+      const label = (cat.filters && cat.filters.category) ? cat.filters.category : cat.label;
+      const icon = cat.icon || '';
+      return `
+      <a class="category-item" href="#"
+         data-action="select-category"
+         data-val="${label}">
+         ${icon ? `<img class="cat-icon" src="${icon}" alt="${label}">` : ''}
+         <div class="cat-title">${label}</div>
+      </a>
+      `;
+    }).join('')}
+  </div>`;
+}
+
+
+/* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
+function renderQuickCatsTop(allowedGroups){
+  const box = document.getElementById('quickCatsTop');
+  if (!box) return; // chưa có container thì bỏ qua
+  box.innerHTML = buildQuickCatsTopHTML(allowedGroups);
+}
+
+
+
+/* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
+function renderQuickCatsTop(){
+  const box = document.getElementById('quickCatsTop');
+  if (!box) return;           // chưa có container thì bỏ qua
+  box.innerHTML = buildQuickCatsTopHTML();
+}
+   
+ // ===== CATEGORY CONFIG (mỗi ô = 1 cấu hình riêng) =====
+const CAT_CONFIG = [
+  { id:'huy-chuong-phoi-san', label:'Huy chương phôi sẵn',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Huy chương phôi sẵn' } },
+
+  { id:'huy-chuong-chay-bo', label:'Huy chương sự kiện chạy bộ',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Huy chương sự kiện chạy bộ' } },
+
+  { id:'moc-khoa-cao-su', label:'Móc khóa cao su',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa cao su' } },
+
+  { id:'moc-khoa-hop-kim', label:'Móc khóa hợp kim',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa hợp kim' } },
+
+  { id:'moc-khoa-tet-2025', label:'Móc khóa tết 2025',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2025' } },
+
+  { id:'moc-khoa-tet-2026', label:'Móc khóa tết 2026',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2026' } },
+
+  { id:'moc-khoa-tet-2027', label:'Móc khóa tết 2027',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2027' } },
+
+  { id:'moc-khoa-tet-2030', label:'Móc khóa tết 2030',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2030' } },
+
+  { id:'moc-khoa-tet-2031', label:'Móc khóa tết 2031',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2031' } },
+
+  { id:'moc-khoa-tet-2032', label:'Móc khóa tết 2032',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2032' } },
+
+  { id:'moc-khoa-tet-2036', label:'Móc khóa tết 2036',
+    icon:'https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w200', link:'#',
+    filters:{ category:'Móc khóa tết 2036' } },
+];
+
+function renderCategoriesFromConfig(){
+  const wrap = document.getElementById('categoryScroll'); // dùng wrapper sẵn có
+  if (!wrap) return;
+
+  wrap.innerHTML = CAT_CONFIG.map(c => `
+    <a class="category-item"
+       href="#"
+       data-action="select-category"
+       data-val="${c.filters?.category || ''}">
+      <div class="icon">
+        <img src="${c.icon}" alt="${c.label}" style="width:100%;height:100%;object-fit:contain">
+      </div>
+      <div class="label">${c.label}</div>
+    </a>
+  `).join('');
+}
+
+
+  
+/* === GHI ĐÈ buildCategoryFromFacets → gọi renderGroups mới === */
+function buildCategoryFromFacets(facets){
+  const groups = facets?.groups_all || facets?.groups || [];
+
+ // SẮP XẾP THỨ TỰ NHÓM TRƯỚC KHI VẼ
+const orderedGroups = orderGroups(groups);
+window._lastGroups = orderedGroups;
+renderGroups(orderedGroups);
+
+
+  // hiệu ứng mờ nhẹ khi cập nhật
+  const catEl = document.getElementById('categoryScroll');
+  if (catEl) catEl.classList.add('fade-out');
+
+  // 🔁 THAY DÒNG NÀY
+  // buildCategory(facets?.categories || []);
+    buildCategory(facets?.categories || []);
+
+
+  // các box lọc khác giữ nguyên
+  buildFilterBox('groupBox',  groups || [], 'group');
+  buildFilterBox('typeBox',   facets?.types     || [], 'type');
+  buildFilterBox('loaiBox',   facets?.loais     || [], 'loai');
+  buildFilterBox('noteBox',   facets?.notes     || [], 'note');
+  buildFilterBox('brandBox',  facets?.categories|| [], 'category');
+
+  requestAnimationFrame(()=> catEl && catEl.classList.remove('fade-out'));
+}
+
+
+/* STATE */
+/* STATE (global, safe) */
+window.state = window.state || {
+  page: 1,
+  pageSize: 36,
+  q: '',
+  group: '',
+  type: '',
+  loai: '',
+  note: '',
+  category: '',
+  totalPages: 1
+};
+const state = window.state;   // alias để phần code dưới vẫn dùng `state`
+// Thêm 2 biến toàn cục còn thiếu
+window.cart = window.cart || [];
+window.products = window.products || {};
+
+
+/* UTILS */
+const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
+const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
+function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
+function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
+
+/* Nâng chất lượng thumbnail Google Drive/Gusercontent */
+function upgradeThumbQuality(u){
+  try{
+    if(!u) return u;
+    const url = new URL(u, location.href);
+    if (url.hostname.includes('googleusercontent') || url.hostname.includes('google.com')) {
+      if (url.searchParams.has('sz')) url.searchParams.set('sz','w800');
+      else url.searchParams.append('sz','w800');
+      return url.toString();
+    }
+  }catch(_){
+    return String(u).replace(/([?&])sz=w\d+/,'$1sz=w800');
+  }
+  return u;
+}
+
+/* Logo reload */
+document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>location.reload(),150); });
+
+/* Product card */
+function productCardHtml(it){
+  products[it.id]=it;
+  const giftUrl   = firstLink(it.imageClick);
+  const showGift  = !!giftUrl;
+  const giftLabel = (it.loai || 'Nhận quà').toString().trim();
+
+  const thumbSrc = upgradeThumbQuality(it.img);
+  const linkHref = esc(it.linkFull || it.img || '#');
+
+  return `<div class="col">
+  <div class="cardx product-card" data-id="${esc(it.id)}">
+    <div class="thumb-wrap">
+      <a href="${linkHref}" target="_blank" rel="noopener">
+        <img loading="lazy" class="thumb" src="${esc(thumbSrc)}" alt="Sản phẩm ${esc(it.id)}"
+             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+      </a>
+      ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
+    </div>
+
+  <!-- BOX CHI TIẾT SẢN PHẨM -->
+<div id="detailModal" class="dtl-backdrop" hidden>
+  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
+    <button class="dtl-close" type="button" data-close="detailModal" aria-label="Đóng">×</button>
+
+    <div class="dtl-head">
+      <img id="dtlImg" src="" alt="">
+      <div>
+        <h4 id="dtlTitle">Chi tiết</h4>
+        <div id="dtlSub" class="dtl-sub"></div>
+        <div id="dtlBadges" class="dtl-badges"></div>
+      </div>
+    </div>
+
+    <!-- Các hàng thông tin đầy đủ (kể cả mô tả dài) sẽ render ở đây -->
+    <div id="dtlRows" class="dtl-rows"></div>
+
+    <div class="dtl-actions">
+      <a id="dtlOpenImg" class="btn-ghost" href="#" target="_blank" rel="noopener">Mở ảnh gốc</a>
+      <button type="button" class="btn-main" data-close="detailModal">Đóng</button>
+    </div>
+  </div>
+</div>
+
+
+
+/* ========= PAGER (mũi tên + dropdown) ========= */
+/* ========= PAGER (mũi tên + dropdown) ========= */
+function renderPagination(totalItems, pageSize, currentPage){
+  const totalPages = Math.max(1, Math.ceil((totalItems || 0) / (pageSize || 1)));
+  state.totalPages = totalPages;
+
+  const block = (where) => `
+    <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-prev" ${currentPage<=1?'disabled':''}>&lsaquo;</button>
+      <select class="form-select form-select-sm page-select" style="width:auto">
+        ${Array.from({length: totalPages}, (_, i) => {
+          const p = i + 1;
+          return `<option value="${p}" ${p===currentPage?'selected':''}>Trang ${p}/${totalPages}</option>`;
+        }).join('')}
+      </select>
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-next" ${currentPage>=totalPages?'disabled':''}>&rsaquo;</button>
+    </div>
+  `;
+
+  // Render lên 2 vị trí có sẵn
+  const top = document.getElementById('pagerTop');
+  const bot = document.getElementById('pagerBottom');
+  if (top) top.innerHTML = block('top');
+  if (bot) bot.innerHTML = block('bottom');
+
+  // Sự kiện đổi trang bằng select
+  document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select')
+    .forEach(sel => {
+      sel.onchange = (e) => {
+        state.page = parseInt(e.target.value, 10) || 1;
+        fetchPage();
+      };
+    });
+
+  // Đưa pagerTop sát nút "Xóa bộ lọc"
+  const leftBlock = document.querySelector('.found-count'); // khối "Tìm thấy + Xóa bộ lọc"
+  if (leftBlock && top) {
+    leftBlock.appendChild(top);      // nhét pager vào ngay sau nút Xóa bộ lọc
+    top.classList.add('ms-2');       // cách nhẹ 1 xíu
+  }
+}
+
+/* ========= ICON cho từng Category (dùng thumbnail Google Drive) ========= */
+/* Map tên → ảnh. Điền FILE_ID theo icon bạn muốn cho từng mục. */
+const CATEGORY_ICONS = {
+  "QUA TANG 247 EXPRESS (DOI TAC)": "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w200",
+  "QUA TANG AN PHAM THUONG HIEU":   "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
+  "QUA TANG SAN PHAM THUONG HIEU":  "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
+  "QUA TANG KY NIEM EVENT THUONG HIEU":"https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
+  "QUA TANG PHU KIEN THUONG HIEU":  "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
+  "KHAC":                           "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
+  "__DEFAULT__":                    "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48" // fallback
+};
+
+/* Chuẩn hoá tên: bỏ dấu, bỏ số thứ tự "1. ", viết hoa để map 1-1 ổn định */
+function normKey(s){
+  return String(s||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // bỏ dấu
+    .replace(/^\s*\d+\.\s*/,'')                      // bỏ tiền tố "1. "
+    .replace(/\s+/g,' ').trim()
+    .toUpperCase();
+}
+function iconForCat(name){
+  const k = normKey(name);
+  return CATEGORY_ICONS[k] || CATEGORY_ICONS["__DEFAULT__"];
+}
+
+/* Render thanh category (pager) – icon lấy từ map theo tên, lọc vẫn dùng data-val từ Sheet */
+function renderCategoryPager(items){
+  const box = document.getElementById('categoryScroll');
+  const slice = items.slice(catIndex, catIndex + catsPerView);
+
+  box.innerHTML = slice.map(val => `
+    <div class="category-item ${state.category===val ? 'active' : ''}"
+         data-action="select-category" data-val="${esc(val)}">
+      <div class="icon">
+        <img src="${esc(iconForCat(val))}" alt="${esc(val)}"
+             onerror="this.src='${esc(CATEGORY_ICONS['__DEFAULT__'])}'">
+      </div>
+      <span>${esc(val || 'Khác')}</span>
+    </div>
+  `).join('');
+}
+let catIndex = 0;
+const catsPerView = 12;   // hiển thị 12 danh mục mỗi trang (6 cột x 2 hàng)
+let allCategories = [];
+
+function scrollCats(dir){
+  const total = allCategories.length;
+  catIndex += dir * catsPerView;
+  if(catIndex < 0) catIndex = 0;
+  if(catIndex >= total) catIndex = Math.max(0, total - catsPerView);
+  renderCategoryPager(allCategories);
+}
+function buildCategory(items){
+  allCategories = items || [];
+  catIndex = 0;
+  renderCategoryPager(allCategories);
+}
+
+
+function selectCategory(val){
+  state.category = val;
+  state.page = 1;
+  fetchPage();
+
+  // Cập nhật active cho danh mục đang click
+  document.querySelectorAll('#categoryScroll .category-item')
+    .forEach(el => el.classList.toggle('active', el.dataset.val === val));
+
+  // 🔄 Đồng bộ 2 dải danh mục (trên + dưới)
+  if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+
+  // 🔢 Cập nhật lại badge bộ lọc
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+}
+
+
+/* Highlight UI khi chọn group */
+function buildFilterBox(boxId, items, field){
+  const box=document.getElementById(boxId);
+  if(!box) return;
+  box.classList.add("filter-box-group");
+  box.innerHTML=(items||[]).map(val=>`
+    <div class="filter-tag ${state[field]===val?'active':''}"
+      data-action="set-filter" data-field="${field}" data-val="${esc(val)}" role="button" tabindex="0">
+      ${esc(val||'Tất cả')}
+    </div>
+  `).join('');
+}
+function updateFilterCount(){
+  // Đếm tổng số bộ lọc đang được áp dụng
+  let c = 0;
+  if (state.group)    c++;
+  if (state.type)     c++;
+  if (state.loai)     c++;
+  if (state.note)     c++;
+  if (state.category) c++;
+  // Nếu muốn tính cả ô tìm kiếm:
+  // if (state.q)        c++;
+
+  const fb = document.getElementById('filterFabCount');
+  if (fb){
+    fb.textContent = c > 99 ? '99+' : String(c);
+    fb.style.display = c > 0 ? 'inline-block' : 'none';
+  }
+}
+/* Đồng bộ trạng thái active cho CẢ 2 dải danh mục (trên + dưới) */
+function syncQuickCatsActive(){
+  const norm = (s) => String(s||'')
+    .trim()
+    .replace(/\s+/g,' ')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,''); // bỏ dấu
+
+  const cur = norm((window.state && state.category) || '');
+
+  const getVal = (el) =>
+    el.dataset?.val ||
+    el.dataset?.cat ||
+    el.getAttribute?.('data-category') ||
+    el.textContent || '';
+
+  document.querySelectorAll(
+    '[data-quick-cats] [data-action="select-category"],' +
+    '[data-quick-cats] [data-cat],' +
+    '[data-quick-cats] .category-item,' +
+    '[data-quick-cats] .chip'
+  ).forEach(el => {
+    const same = cur && norm(getVal(el)) === cur;
+    el.classList.toggle('active', same);
+  });
+}
+
+/* Link preview API */
+function fetchLinkPreview(url){
+  const qs = new URLSearchParams({ action:'preview', url });
+  return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
+}
+
+/* ===== XƯỞNG ĐỀ XUẤT ===== */
+let workshopData = [];
+function renderWorkshops(items){
+  workshopData = items || [];
+  const list = document.getElementById('workshopList');
+  const empty = document.getElementById('workshopEmpty');
+  const badge = document.getElementById('workshopCount');
+
+  if(!list) return;
+  list.innerHTML = workshopData.map(it => {
+    const url = it.url || it.link || '';
+    const img = it.img || it.thumb || '';
+    const title = it.title || it.name || 'Đơn vị';
+    const desc = it.desc || it.description || '';
+    const site = url ? (new URL(url, location.href).hostname) : '';
+    return `
+      <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
+        <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://via.placeholder.com/64?text=%20'">
+        <div class="flex-grow-1">
+          <div class="title">${esc(title)}</div>
+          ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
+          ${site ? `<div class="site">${esc(site)}</div>` : ``}
+        </div>
+      </a>
+    `;
+  }).join('');
+
+  if (badge){
+    badge.textContent = workshopData.length;
+    badge.style.display = workshopData.length ? 'inline-block' : 'none';
+  }
+  if (empty){
+    empty.style.display = workshopData.length ? 'none' : 'block';
+  }
+}
+
+function fetchWorkshops(){
+  const qs = new URLSearchParams({
+    action:'workshop',
+    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+  });
+  fetch(API_URL + '?' + qs.toString())
+    .then(r=>r.json())
+    .then(r=>renderWorkshops(r.items||[]))
+    .catch(()=>renderWorkshops([]));
+}
+
+
+/* Cart */
+function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
+function changeQty(id,delta){ const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=delta; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart(); }
+function removeItem(id){ const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart(); }
+function clearCart(){ if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length=0; updateCart(); } }
+function updateCart(){
+  const count = cart.reduce((a,b)=>a+b.qty,0);
+  const fabCount = document.getElementById('cartFabCount');
+  if(fabCount){ fabCount.textContent=count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
+  const list=document.getElementById('cartList'); let total=0;
+  list.innerHTML=cart.map(it=>{
+    const sub=it.qty*(Number(it.price)||0); total+=sub;
+    return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
+      <img src="${esc(it.img)}" alt="Ảnh ${esc(it.id)}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
+      <div class="flex-grow-1">
+        <div class="fw-semibold small">${esc(it.details||it.id)}</div>
+        <div class="text-muted small">${fmtVND(it.price)}</div>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
+        <span>${it.qty}</span>
+        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
+      </div>
+      <div style="min-width:90px;text-align:right" class="small">${fmtVND(sub)}</div>
+      <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}" aria-label="Xóa ${esc(it.id)}">&times;</button>
+    </div>`;
+  }).join('');
+  document.getElementById('cartTotal').innerText=fmtVND(total);
+}
+
+/* GỬI ĐƠN – hỗ trợ file */
+async function submitOrder(){
+  if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
+  const name=document.getElementById("buyerName").value.trim();
+  const email=document.getElementById("buyerEmail").value.trim();
+  const phone=document.getElementById("buyerPhone").value.trim();
+  const address=document.getElementById("buyerAddress").value.trim();
+  const note=document.getElementById("buyerNote").value.trim();
+  const file=document.getElementById("buyerFile").files[0]||null;
+  const servicePlan=document.getElementById("servicePlan").value;
+  const fileQuote=document.getElementById("fileQuote").checked;
+
+  if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+
+  const order={
+    customer:{name,email,phone,address,note, servicePlan, fileQuote},
+    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
+    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+  };
+
+  try{
+    let resp;
+    if(file){
+      const fd=new FormData();
+      fd.append('action','order');
+      fd.append('data', JSON.stringify(order));
+      if(API_KEY) fd.append('key', API_KEY);
+      fd.append('file', file);
+      resp = await fetch(API_URL, { method:'POST', body:fd });
+    }else{
+      resp = await fetch(API_URL, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({action:"order", data:order, key:API_KEY||""})
+      });
+    }
+    const res = await resp.json();
+    if(res && (res.ok||res.success)){
+      const mailState = res.mail || 'ok';
+      alert(mailState==='ok' ? "Đã gửi đơn hàng thành công!" : "Đã lưu đơn hàng. Gửi email bị lỗi — chúng tôi sẽ kiểm tra lại.");
+      cart.length=0; updateCart();
+    }else{
+      alert("Gửi đơn hàng thất bại.");
+    }
+  }catch(_){
+    alert("Không thể gửi đơn hàng. Kiểm tra API_URL.");
+  }
+}
+
+/* Suppliers (offcanvas) */
+let suppliersAll = [];
+function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
+function supplierCardHTML(s){
+ const hasSite = !!s.url;
+const hasDoc = s.cert && /^https?:\/\//i.test(s.cert);
+
+return `
+  <div class="supplier-card mb-2">
+    <div class="title">${(s.name||'').trim()}</div>
+
+    ${hasSite
+      ? `<a href="${esc(s.url)}" target="_blank" rel="noopener" class="small text-truncate d-inline-block" style="max-width:100%">${esc(s.url)}</a>`
+      : `<div class="small text-muted">(Không có website cụ thể)</div>`}
+
+    ${s.address ? `<div class="meta mt-1">📍 ${esc(s.address)}</div>` : ''}
+
+    <div class="chips">
+      <span class="chip ${hasSite?'ok':''}">${hasSite?'Có website':'Chưa có website'}</span>
+
+      <!-- Trạng thái tệp/giấy tờ -->
+      ${
+        hasDoc
+          ? `<span class="chip">
+              <a href="${esc(s.cert)}" target="_blank" rel="noopener">Xem tệp</a>
+             </span>`
+          : `<span class="chip muted" data-doc-status="empty">Chưa có tệp</span>
+             <button class="chip btn-upload-doc" data-supplier="${esc(s.name)}" title="Tải tệp giấy tờ">
+               Tải tệp
+             </button>`
+      }
+
+      ${s.contact ? `<span class="chip">Liên hệ: ${esc(s.contact)}</span>` : ''}
+    </div>
+  </div>
+`;
+}
+
+function renderSuppliersList(items){
+  const box = document.getElementById('suppliersList');
+  const counter = document.getElementById('suppliersCount');
+  counter.textContent = `${items.length}/${suppliersAll.length}`;
+  box.innerHTML = items.length ? items.map(supplierCardHTML).join('') : '<div class="text-muted">Không tìm thấy xưởng phù hợp.</div>';
+}
+// URL Web App của Apps Script
+const API_BASE = API_URL;   // dùng chung API_URL
+
+(function initUploworkshopupplierDoc(){
+  const list = document.getElementById('suppliersList') || document; 
+  const fileInput = document.getElementById('uploworkshopupplierFile');
+
+  if (!list || !fileInput) return;
+
+  let currentSupplier = '';
+
+  list.addEventListener('click', (ev) => {
+    const btn = ev.target.closest('.btn-upload-doc');
+    if (!btn) return;
+    currentSupplier = btn.getAttribute('data-supplier') || '';
+    fileInput.value = '';
+    fileInput.click();
+  });
+
+  fileInput.addEventListener('change', async () => {
+    if (!fileInput.files || !fileInput.files[0]) return;
+    const f = fileInput.files[0];
+
+    const btn = document.querySelector(`.btn-upload-doc[data-supplier="${CSS.escape(currentSupplier)}"]`);
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Đang tải...';
+    }
+
+    try{
+      const fd = new FormData();
+      fd.append('action', 'uploworkshopupplierDoc');
+      fd.append('supplier', currentSupplier);
+      fd.append('file', f, f.name);
+
+      const res = await fetch(API_BASE, { method:'POST', body: fd });
+      const json = await res.json();
+
+      if (json && json.ok && json.url){
+        const card = btn && btn.closest('.supplier-card');
+        if (card){
+          const status = card.querySelector('[data-doc-status="empty"]');
+          if (status){
+            status.outerHTML = `<span class="chip"><a href="${json.url}" target="_blank" rel="noopener">Xem tệp</a></span>`;
+          }
+          btn.remove();
+        }
+        alert('Đã tải tệp thành công.');
+      }else{
+        alert('Tải tệp thất bại.');
+      }
+    }catch(err){
+      alert('Có lỗi khi tải tệp.');
+    }finally{
+      if (btn){
+        btn.disabled = false;
+        btn.textContent = 'Tải tệp';
+      }
+    }
+  });
+})();
+
+function applySupFilters(){
+  const q = normalize(document.getElementById('supSearch').value);
+  const hasSite = document.getElementById('supHasSite').checked;
+  const sortBy  = document.getElementById('supSort').value;
+
+  let out = suppliersAll.filter(s=>{
+    if(hasSite && !s.url) return false;
+    if(!q) return true;
+    const hay = normalize([s.name, s.address, s.cert, s.url].join(' '));
+    return hay.includes(q);
+  });
+
+  if(sortBy === 'addr'){
+    out.sort((a,b)=> normalize(a.address).localeCompare(normalize(b.address)));
+  } else {
+    out.sort((a,b)=> normalize(a.name).localeCompare(normalize(b.name)));
+  }
+  renderSuppliersList(out);
+}
+function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn.apply(this,a),ms); }; }
+function loworkshopuppliers(){
+  const box=document.getElementById('suppliersList');
+  box.innerHTML='Đang tải…';
+  fetch(API_URL+'?action=suppliers')
+    .then(r=>r.json())
+    .then(res=>{
+      if(!res||!res.ok||!res.items){ suppliersAll=[]; applySupFilters(); return; }
+      suppliersAll = res.items.map(s=>({
+        name: s.name || '', url:  s.url  || '', address: s.address || '', cert: s.cert || '', contact: s.contact || ''
+      }));
+      applySupFilters();
+    })
+    .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
+}
+
+/* GẮN SỰ KIỆN CHO BỘ LỌC XƯỞNG (bản vá) */
+(function bindSuppliersFilterEvents(){
+  const $q  = document.getElementById('supSearch');
+  const $ok = document.getElementById('supHasSite');
+  const $so = document.getElementById('supSort');
+  if($q)  $q.addEventListener('input', debounce(applySupFilters, 250));
+  if($ok) $ok.addEventListener('change', applySupFilters);
+  if($so) $so.addEventListener('change', applySupFilters);
+})();
+
+/* Offcanvas instances */
+const cartOffcanvas   = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('cartCanvas'));
+const filterOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('filterPanel'));
+const suppliersOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('suppliersCanvas'));
+
+/* Events */
+/* ==== EVENT DELEGATION (click chung) ==== */
+document.addEventListener('click', (ev) => {
+  const el = ev.target;
+
+  // chặn link #
+  if (el.matches('[data-action="goto-page"], [data-action="page-prev"], [data-action="page-next"]')) {
+    ev.preventDefault();
+  }
+
+  /* === TÌM KIẾM === */
+  if (el.matches('#searchBtn')) {
+    state.q = document.getElementById('searchBox').value.trim();
+    state.page = 1;
+    fetchPage();
+    return;
+  }
+
+  /* === PHÂN TRANG === */
+  if (el.matches('[data-action="page-prev"]'))  { if (state.page > 1) { state.page--; fetchPage(); } return; }
+  if (el.matches('[data-action="page-next"]'))  { if (state.page < state.totalPages) { state.page++; fetchPage(); } return; }
+  if (el.matches('[data-action="goto-page"]'))  {
+    const p = Number(el.dataset.page) || 0;
+    if (p && p !== state.page) { state.page = p; fetchPage(); }
+    return;
+  }
+
+  /* === CATEGORY === */
+  const catEl = el.closest('[data-action="select-category"]');
+  if (catEl) { selectCategory(catEl.dataset.val || ''); return; }
+
+  /* === GROUP === */
+  if (el.matches('[data-action="select-group"]')) {
+    state.group = el.dataset.val || '';
+    state.page  = 1;
+    updateGroupUI();
+    updateGroupDots?.();
+    fetchPage();
+    updateFilterCount();
+    return;
+  }
+
+  /* === FILTER TAGS === */
+  if (el.matches('[data-action="set-filter"]')) {
+    const field = el.dataset.field;
+    state[field] = el.dataset.val || '';
+    state.page = 1;
+    fetchPage();
+    updateFilterCount();
+    return;
+  }
+
+  /* === GIỎ HÀNG === */
+  if (el.matches('[data-action="add-to-cart"]')) { addToCartById(el.dataset.id); return; }
+  if (el.matches('[data-action="remove"]'))     { removeItem(el.dataset.id);    return; }
+  if (el.matches('[data-action="qty"]'))        { changeQty(el.dataset.id, Number(el.dataset.delta)||0); return; }
+  if (el.matches('#clearCartBtn'))              { clearCart(); return; }
+});
+
+
+/* Enter để tìm kiếm */
+document.getElementById('searchBox')
+  .addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      document.getElementById('searchBtn').click();
+    }
+  });
+
+/* ==== Hiển thị tên tệp khi chọn (TÁCH RA NGOÀI) ==== */
+document.addEventListener('change', (e) => {
+  const input = e.target.closest('.doc-input');
+  if (!input) return;
+  const card = input.closest('.supplier-card');
+  const preview = card.querySelector('.doc-preview');
+  const f = input.files && input.files[0];
+  preview.textContent = f
+    ? `Đã chọn: ${f.name} (${Math.round(f.size / 1024)} KB)`
+    : 'Chưa chọn tệp';
+});
+
+/* ==== Upload tệp lên Apps Script (TÁCH RA NGOÀI) ==== */
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('.doc-upload');
+  if (!btn) return;
+
+  const card    = btn.closest('.supplier-card');
+  const input   = card.querySelector('.doc-input');
+  const preview = card.querySelector('.doc-preview');
+  const file    = input.files && input.files[0];
+
+  if (!file) {
+    alert('Vui lòng chọn tệp trước!');
+    return;
+  }
+
+  try {
+    const fd = new FormData();
+    fd.append('action', 'uploworkshopupplierDoc');
+    fd.append('supplier', card.dataset.supplier || '');
+    fd.append('file', file);
+    if (API_KEY) fd.append('key', API_KEY);
+
+    btn.disabled = true;
+    btn.textContent = 'Đang tải...';
+
+    // dùng chung webapp
+    const resp = await fetch(API_URL, { method: 'POST', body: fd });
+    const json = await resp.json();
+
+    if (json && json.ok) {
+      const url = json.url || '#';
+      preview.innerHTML = `Đã tải lên: <a href="${esc(url)}" target="_blank" rel="noopener">Xem tệp</a>`;
+      input.value = '';
+    } else {
+      alert('Tải lên thất bại. Vui lòng thử lại.');
+    }
+  } catch (err) {
+    alert('Không thể tải tệp. Kiểm tra kết nối/API_URL.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Tải lên';
+  }
+});
+
+
+/* FAB */
+document.getElementById('cartFab').addEventListener('click', () => cartOffcanvas.toggle());
+document.getElementById('filterFab').addEventListener('click', () => filterOffcanvas.toggle());
+document.getElementById('suppliersFab').addEventListener('click', ()=>{ loworkshopuppliers(); suppliersOffcanvas.show(); });
+document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
+document.getElementById('workshopContactBtn').setAttribute('href', WORKSHOP_CONTACT_URL);
+document.getElementById('workshopContactBtn2').setAttribute('href', WORKSHOP_CONTACT_URL);
+
+function clearAllFilters(){
+  Object.assign(state, { type:'', loai:'', note:'', category:'', group:'', q:'', page:1 });
+  const sb = document.getElementById('searchBox'); if (sb) sb.value = '';
+  document.querySelectorAll('.group-chip.active, .category-item.active, .filter-tag.active')
+    .forEach(el => el.classList.remove('active'));
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+  fetchPage();
+}
+
+// Gắn sự kiện an toàn (nếu thiếu nút sẽ không lỗi)
+document.getElementById('clearFiltersBtn')?.addEventListener('click', clearAllFilters);
+document.getElementById('clearFiltersBtn2')?.addEventListener('click', clearAllFilters);
+
+/* Helper setFilter + delegate click (chống “lọc cứng”) */
+function setFilter(key, val){
+  state[key] = (val == null ? '' : String(val));
+  state.page = 1;
+  fetchPage();
+}
+document.addEventListener('click', (e)=>{
+  const catEl = e.target.closest('[data-action="select-category"]');
+  if (catEl) {
+    e.preventDefault();  // tránh nhảy lên đầu trang
+    setFilter('category', catEl.dataset.val || '');
+  }
+
+  const grpEl = e.target.closest('[data-action="select-group"]');
+  if (grpEl) setFilter('group', grpEl.dataset.val || '');
+});
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.__initDone) return;
+  window.__initDone = true;
+
+  // reset state
+  Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
+
+  renderQuickCatsTop(); // <-- THÊM DÒNG NÀY
+
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+  fetchPage();
+});
+
+
+
+/* Gửi đơn hàng */
+document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
+
+/* ===== Modal Chi tiết Lợi ích ===== */
+const BENEFIT_DETAIL = {
+  b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho ý tưởng lớn, cập nhật thường xuyên.', bullets:[
+      'Tìm nhanh theo ID, từ khóa, loại sản phẩm','Ảnh/Link nguồn tham khảo rõ ràng','Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
+  b2:{ title:'500+ nhà cung cấp & xưởng sản xuất', lead:'Kết nối nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
+      'Lọc theo loại hình/xuất xứ/ghi chú','Gợi ý xưởng ngay trong “Xưởng đề xuất”','Có thể gửi cùng lúc cho nhiều đơn vị' ] },
+  b3:{ title:'Hỗ trợ tư vấn sản xuất (Miễn phí)', lead:'Đội ngũ CSKH phản hồi nhanh và cụ thể.', bullets:[
+      'Tư vấn vật liệu, quy cách, định mức','Ước tính chi phí sơ bộ','Định hướng phương án tối ưu theo ngân sách' ] },
+  b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất', lead:'Phục vụ trực tiếp cho đơn hàng đã chốt.', bullets:[
+      'Dựng mockup/khung kỹ thuật cơ bản','Xuất file .SVG, .PDF theo yêu cầu xưởng','Miễn phí cho đơn đã xác nhận đặt hàng' ] },
+  b5:{ title:'Hậu cần vận chuyển & đóng gói (Có phí)', lead:'Đảm bảo giao nhận đúng hẹn – an toàn.', bullets:[
+      'Nhận đóng gói – dán tem – chia kiện','Theo dõi tracking – xử lý phát sinh','Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
+  b6:{ title:'Hỗ trợ giải quyết tranh chấp (Có phí)', lead:'Tăng cường bảo vệ quyền lợi khách hàng khi phát sinh sự cố.', bullets:[
+      'Thu thập chứng cứ – làm việc với xưởng','Đề xuất phương án khắc phục/hoàn tiền','Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng đã thông báo cho 2606AI.' }
+};
+(function attachBenefitModal(){
+  const modalEl = document.getElementById('benefitModal');
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+  const $title = document.getElementById('benefitTitle');
+  const $lead  = document.getElementById('benefitLead');
+  const $list  = document.getElementById('benefitList');
+  const $note  = document.getElementById('benefitNote');
+  function openDetail(key){
+    const d = BENEFIT_DETAIL[key]; if(!d) return;
+    $title.textContent = d.title || 'Chi tiết';
+    $lead.textContent  = d.lead  || '';
+    $list.innerHTML    = (d.bullets||[]).map(li=>`<li>${li}</li>`).join('');
+    $note.textContent  = d.note || '';
+    modal.show();
+  }
+  document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
+    const key = card.getAttribute('data-benefit');
+    card.addEventListener('click', ()=>openDetail(key));
+    card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openDetail(key); }});
+    card.style.cursor = 'pointer';
+  });
+})();
+// === GROUP BAR: bắt click 1 lần trên container ===
+const groupBar = document.getElementById('groupBar');
+
+groupBar.addEventListener('click', (e) => {
+  const chip = e.target.closest('.group-chip');
+  if (!chip || !groupBar.contains(chip)) return;
+
+  const val = chip.dataset.val || '';
+  if (state.group === val) return;
+
+  state.group = val;
+  state.page = 1;
+  fetchPage();
+
+  groupBar.querySelectorAll('.group-chip')
+    .forEach(c => c.classList.toggle('active', c === chip));
+});
+
+// === CATEGORY: cũng bắt click trên container ===
+const catScroll = document.getElementById('categoryScroll');
+
+catScroll.addEventListener('click', (e) => {
+  const item = e.target.closest('.category-item');
+  if (!item || !catScroll.contains(item)) return;
+
+  const val = item.dataset.val || '';
+  selectCategory(val);
+});
+// === QUICK CATS TOP: bắt click trên cụm ô lớn phía trên ===
+const quickTop = document.getElementById('quickCatsTop');
+if (quickTop){
+  quickTop.addEventListener('click', (e) => {
+    const item = e.target.closest('.category-item, [data-action="select-category"], [data-cat]');
+    if (!item || !quickTop.contains(item)) return;
+    e.preventDefault();
+
+    // Lấy giá trị danh mục
+    const val = item.dataset.val
+             || item.dataset.cat
+             || item.getAttribute('data-category')
+             || (item.textContent || '').trim();
+
+    // Toggle: bấm lại cùng danh mục => bỏ lọc
+    const cur  = state.category || '';
+    const next = (cur === val) ? '' : val;
+
+    // Cập nhật state + nạp dữ liệu
+    state.category = next;
+    state.page = 1;
+    fetchPage();
+
+    // Đồng bộ 2 dải + cập nhật badge
+    if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+    if (typeof updateFilterCount   === 'function') updateFilterCount();
+  });
+}
+
+
+// Gắn click cho toàn bộ .category-item
+document.querySelectorAll('.category-item').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const val = el.dataset.val || '';
+    selectCategory(val);
+  });
+});
+
+function render(res = {}, fromCache){
+  const items = res.items || [];
+  const grid  = document.getElementById('productGrid');
+
+  // Grid: giữ nguyên
+  grid.innerHTML = items.length
+    ? items.map(productCardHtml).join('')
+    : '<div class="text-muted">Đang tải dữ liệu...</div>';
+
+  // 🔁 Rebuild facets khi đổi
+const newHash = hashFacets(res?.facets || {});
+if (newHash !== _lastFacetsHash){
+  _lastFacetsHash = newHash;
+  buildCategoryFromFacets(res?.facets || {});
+  fetchWorkshops();   // <-- thay cho renderSuppliers(...)
+} else {
+  // phòng trường hợp lần đầu chưa có gì trong supBox
+  if (!document.querySelector('#workshopList')?.children?.length){
+    fetchWorkshops(); // <-- thay cho renderSuppliers(...)
+  }
+}
+
+
+  document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
+  renderPagination(res?.total||0, state.pageSize, state.page);
+  updateGroupUI();
+  updateGroupDots?.();
+
+  // (Tuỳ chọn) log nguồn dữ liệu
+  // console.debug('[render]', fromCache ? 'CACHE' : 'NETWORK', state);
+}
+
+/* ===== Fetch tối ưu: debounce + abort + cache (LRU) ===== */
+const FETCH_DEBOUNCE = 160;                 // ms
+let _fetchTimer = 0;
+let _inflightCtl = null;
+
+// LRU cache: key -> {time, payload}
+const _cache = new Map();
+const CACHE_LIMIT = 30;
+function cacheKeyFromState(s){
+  // chỉ key các tham số ảnh hưởng tới dữ liệu
+  return [
+    'list', s.page, s.pageSize,
+    s.q||'', s.group||'', s.type||'', s.loai||'', s.note||'', s.category||''
+  ].join('|');
+}
+function cacheGet(key){
+  if(!_cache.has(key)) return null;
+  const v = _cache.get(key);
+  // làm mới thứ tự LRU
+  _cache.delete(key); _cache.set(key, v);
+  return v.payload;
+}
+function cacheSet(key, payload){
+  _cache.set(key, { time: Date.now(), payload });
+  if(_cache.size > CACHE_LIMIT){
+    const firstKey = _cache.keys().next().value;
+    _cache.delete(firstKey);
+  }
+}
+
+// so sánh facets để tránh rebuild UI không cần thiết
+let _lastFacetsHash = '';
+function hashFacets(facets){
+  try{ return JSON.stringify(facets||{}); }catch{ return ''; }
+}
+
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
+/* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
+function fetchPage(){
+  clearTimeout(_fetchTimer);
+  _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
+}
+
+async function _doFetch(){
+  // Huỷ request trước (nếu còn)
+  try{ _inflightCtl?.abort(); }catch(_){}
+  _inflightCtl = new AbortController();
+
+  const params = new URLSearchParams({
+    action:'list',
+    page:state.page, pageSize:state.pageSize,
+    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+  });
+
+  // ===== Cache key theo state hiện tại
+  const key = cacheKeyFromState(state);
+  const cached = cacheGet(key);
+  if (cached){
+    // ⚡ render ngay từ cache để UI phản hồi tức thì
+    render(cached, /*fromCache*/true);
+  }
+
+  try{
+    const url = API_URL + '?' + params.toString();
+fetch(url, { redirect: 'follow', mode: 'cors' })
+  .then(async (r) => {
+    const txt = await r.text();
+    console.log('[API RAW]', txt.slice(0, 400));  // xem thử server trả gì
+    // cố parse JSON: một số deployment có thể không set content-type JSON hoặc có tiền tố
+    try {
+      return JSON.parse(txt);
+    } catch (_) {
+      // loại các tiền tố XSSI / BOM nếu có rồi parse lại
+      const cleaned = txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim();
+      return JSON.parse(cleaned);
+    }
+  })
+  .then((json) => {
+  // Kiểm tra schema dữ liệu
+  if (!json || json.ok === false || !Array.isArray(json.items)) {
+    throw new Error('Bad JSON schema or empty data');
+  }
+
+  // Render dữ liệu chính
+  render(json, true);
+
+  // Cập nhật badge lọc
+  updateFilterBadge();
+
+  // Đồng bộ trạng thái giữa các cụm danh mục (A+B)
+  if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+
+  // Làm mới 2 dải danh mục theo dữ liệu mới
+  if (typeof refreshFacetStripsByData === 'function') {
+    refreshFacetStripsByData(json.items);
+  } else {
+    // Nếu chưa có hàm thì tạo luôn tại đây
+    const _norm = (s) => String(s || '')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, ''); // bỏ dấu
+
+    const computeFacets = (items) => {
+      const groupsNorm = new Set();
+      const catsRaw = new Set();
+      (items || []).forEach(it => {
+        if (it.group) groupsNorm.add(_norm(it.group));
+        if (it.category) catsRaw.add(it.category);
+      });
+      return { groupsNorm, catsRaw };
+    };
+
+    const refreshFacetStripsByData = (items) => {
+      const { groupsNorm, catsRaw } = computeFacets(items || []);
+
+      // Cập nhật dải A (ô lớn phía trên)
+      if (typeof renderQuickCatsTop === 'function')
+        renderQuickCatsTop(groupsNorm);
+
+      // Cập nhật dải B (ô nhỏ phía dưới)
+      if (typeof buildCategory === 'function')
+        buildCategory(Array.from(catsRaw));
+
+      // Đồng bộ active + badge
+      if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+      if (typeof updateFilterCount === 'function') updateFilterCount();
+    };
+
+    // Gắn vào phạm vi global để có thể gọi lại
+    window.refreshFacetStripsByData = refreshFacetStripsByData;
+
+    // Gọi ngay lần đầu
+    refreshFacetStripsByData(json.items);
+  }
+
+})
+.catch((err) => {
+  console.error('[API ERR]', err);
+  const box = document.getElementById('errbox');
+  if (box) {
+    box.style.display = 'block';
+    box.textContent = '[ERROR] Không tải được dữ liệu.';
+  }
+});
+
+
+// Chuẩn hoá chuỗi (so sánh không dấu/hoa-thường)
+function _norm(s){
+  return String(s||'').trim().replace(/\s+/g,' ')
+    .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+// Tính facet từ danh sách items đã render (json.items)
+function computeFacets(items){
+  const groups = new Set();     // facet cho A (ô lớn)
+  const cats   = new Set();     // facet cho B (dải dưới)
+  (items||[]).forEach(it=>{
+    if (it.group)    groups.add(_norm(it.group));
+    if (it.category) cats.add(_norm(it.category));
+  });
+  return { groups, cats };
+}
+
+    const json = await resp.json();
+
+    // Lưu cache và render
+    cacheSet(key, json);
+    render(json, /*fromCache*/false);
+     updateFilterBadge();
+     syncQuickCatsActive();
+     refreshFacetStripsByData(json.items);
+     applyFacetVisibility(json.items);  // <-- THÊM DÒNG NÀY
+
+// Chuẩn hoá chuỗi để so sánh
+function _norm(s){
+  return String(s||'').trim().replace(/\s+/g,' ')
+    .toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+}
+
+// Lấy facet (nhóm A và danh mục B) từ items
+function computeFacets(items){
+  const groups = new Set();
+  const cats   = new Set();
+  (items||[]).forEach(it=>{
+    if (it.group)    groups.add(_norm(it.group));
+    if (it.category) cats.add(_norm(it.category));
+  });
+  return { groups, cats };
+}
+
+// Ẩn/hiện item theo facet (KHÔNG vẽ lại DOM)
+function applyFacetVisibility(items){
+  const { groups, cats } = computeFacets(items||[]);
+
+  // A (ô lớn phía trên)
+  document.querySelectorAll('#quickCatsTop [data-action="select-category"], #quickCatsTop .category-item')
+    .forEach(el=>{
+      const val = el.dataset.val || el.dataset.cat || el.getAttribute('data-category') || el.textContent || '';
+      const show = groups.has(_norm(val));
+      el.style.display = show ? '' : 'none';
+      el.classList.toggle('is-disabled', !show);
+    });
+
+  // B (dải danh mục phía dưới)
+  document.querySelectorAll('#categoryScroll .category-item')
+    .forEach(el=>{
+      const val = el.dataset.val || el.textContent || '';
+      const show = cats.has(_norm(val));
+      el.style.display = show ? '' : 'none';
+      el.classList.toggle('is-disabled', !show);
+    });
+}
+
+
+    // Trì hoãn workshop 1 nhịp để nhường CPU cho grid
+    setTimeout(fetchWorkshops, 200);
+
+    // (Optional) Preload trang kế tiếp nếu còn
+    if (json?.total && state.page * state.pageSize < json.total){
+      const nextState = { ...state, page: state.page + 1 };
+      const nextKey   = cacheKeyFromState(nextState);
+      if (!cacheGet(nextKey)){
+        const p2 = new URLSearchParams({
+          action:'list',
+          page:nextState.page, pageSize:nextState.pageSize,
+          q:nextState.q, group:nextState.group, type:nextState.type,
+          loai:nextState.loai, note:nextState.note, category:nextState.category
+        });
+        // fire-and-forget
+        fetch(API_URL + '?' + p2.toString())
+          .then(r=>r.json()).then(j=>cacheSet(nextKey, j)).catch(()=>{});
+      }
+    }
+  }catch(err){
+    if (err?.name === 'AbortError') return; // bị huỷ bởi lần gọi mới → bỏ qua
+    document.getElementById('productGrid').innerHTML =
+      '<div class="text-danger">Đang tải dữ liệu...</div>';
+  }
+}
+
+
+/* === Cập nhật UI cho GROUP BAR (+ ink-bar tab danh mục) === */
+function updateGroupUI(){
+  // Toggle active trên chip group
+  const chips = document.querySelectorAll('#groupBar .group-chip');
+  let activeEl = null;
+  chips.forEach(chip=>{
+    const on = chip.dataset.val === (state.group||'');
+    chip.classList.toggle('active', on);
+    if(on) activeEl = chip;
+  });
+
+  // Bọc khu danh mục khi có group
+  const catBox = document.querySelector('.category-box');
+  if(catBox){
+    const has = !!state.group;
+    catBox.classList.toggle('group-active', has);
+    catBox.classList.toggle('group-highlight', has);
+    catBox.classList.toggle('tab-mode', has);
+  }
+
+  // Ink-bar: căn theo vị trí chip active để "nối màu" với khu danh mục
+  if(activeEl && catBox){
+    const wrap = document.querySelector('.group-bar-wrapper');
+    const r1 = wrap.getBoundingClientRect();
+    const r2 = activeEl.getBoundingClientRect();
+    const left = Math.max(0, r2.left - r1.left);
+    const width = r2.width;
+    catBox.style.setProperty('--ink-left', left + 'px');
+    catBox.style.setProperty('--ink-width', width + 'px');
+  }else if(catBox){
+    catBox.style.removeProperty('--ink-left');
+    catBox.style.removeProperty('--ink-width');
+  }
+}
+
+/* === expose global for inline handlers === */
+Object.assign(window, {
+  fetchPage,
+  scrollCats,
+  selectCategory,
+  clearAllFilters
+});
+/* Swipe-to-close cho tất cả Bootstrap Offcanvas trên mobile */
+(function () {
+  const MIN_SWIPE_X = 60;  // kéo ngang tối thiểu 60px
+  const MAX_SWIPE_Y = 40;  // lệch dọc tối đa 40px
+
+  function enableSwipeClose(el) {
+    if (!el) return;
+    let startX = 0, startY = 0, tracking = false;
+
+    const onStart = (e) => {
+      if (window.innerWidth > 768) return; // chỉ áp dụng mobile
+      const t = e.touches ? e.touches[0] : e;
+      startX = t.clientX;
+      startY = t.clientY;
+      tracking = true;
+    };
+
+    const onMove = (e) => {
+      if (!tracking) return;
+      const t = e.touches ? e.touches[0] : e;
+      const dx = t.clientX - startX;
+      const dy = Math.abs(t.clientY - startY);
+
+      // Vuốt sang phải đủ xa và không lệch dọc nhiều
+      if (dx > MIN_SWIPE_X && dy < MAX_SWIPE_Y) {
+        tracking = false;
+        const inst = bootstrap.Offcanvas.getOrCreateInstance(el);
+        inst.hide();
+      }
+    };
+
+    const onEnd = () => (tracking = false);
+
+    // Gắn sự kiện lên panel
+    el.addEventListener('touchstart', onStart, { passive: true });
+    el.addEventListener('touchmove', onMove, { passive: true });
+    el.addEventListener('touchend', onEnd, { passive: true });
+
+    // Gắn thêm lên backdrop khi panel mở
+    document.addEventListener('shown.bs.offcanvas', (ev) => {
+      if (ev.target !== el) return;
+      const backdrop = document.querySelector('.offcanvas-backdrop');
+      if (backdrop) {
+        backdrop.addEventListener('touchstart', onStart, { passive: true });
+        backdrop.addEventListener('touchmove', onMove, { passive: true });
+        backdrop.addEventListener('touchend', onEnd, { passive: true });
+      }
+    });
+  }
+
+// Chỉ cho click card khi bấm vào ảnh icon .thumb
+document.addEventListener('click', function(e){
+  const a = e.target.closest('a.link-preview');
+  if (!a) return;
+  const onThumb = e.target.closest('.thumb');
+  if (!onThumb) {
+    e.preventDefault(); // bấm chỗ khác không đi link
+  }
+});
+
+   
+  // Quét toàn bộ offcanvas hiện có trên trang
+  document.querySelectorAll('.offcanvas').forEach(el => enableSwipeClose(el));
+})();
+
+
+/* === INIT === */
+fetchPage();
+updateFilterCount();
+
+/* Phím tắt nhanh mở search */
+document.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && String(e.key || '').toLowerCase() === 'k') {
+    e.preventDefault();
+    document.getElementById('searchBox')?.focus();
+  }
+});
+});
+</script>
+
+<!-- ===== FOOTER ===== -->
+<footer class="text-light w-100">
+  <div class="container-fluid px-5">
+    <div class="row pt-5 pb-3">
+      <!-- Cột 1: Logo + mô tả -->
+      <div class="col-md-3 mb-4 text-center">
+        <img 
+          src="https://drive.google.com/uc?export=view&id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" 
+          alt="2606AI logo" 
+          class="mb-3 d-block mx-auto" 
+          style="max-width:160px;height:auto">
+        <p class="small mb-0 opacity-90">
+          Dịch vụ hỗ trợ sản xuất ấn phẩm thương hiệu từ thiết kế đến thành phẩm.  
+          <br>Tham khảo mẫu - Tư vấn - Thiết kế - Lấy báo giá - Đặt hàng - Đóng gói - Vận chuyển. 
+        </p>
+      </div>
+
+      <!-- Cột 2: Liên kết nhanh -->
+      <div class="col-md-3 mb-4">
+        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên kết nhanh</h6>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2"><a class="link-light text-decoration-none" href="about.html">Về chúng tôi</a></li>
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Danh mục sản phẩm</a></li>
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Báo giá nhanh</a></li>
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Câu hỏi thường gặp</a></li>
+        </ul>
+      </div>
+
+      <!-- Cột 3: Chính sách -->
+      <div class="col-md-3 mb-4">
+        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Chính sách</h6>
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách vận chuyển</a></li>
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách đổi trả</a></li>
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Hướng dẫn đặt hàng</a></li>
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#">Chính sách bảo mật</a></li>
+        </ul>
+      </div>
+
+      <!-- Cột 4: Liên hệ -->
+      <div class="col-md-3 mb-4">
+        <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên hệ</h6>
+        <ul class="list-unstyled small mb-3">
+          <li class="mb-2"><i class="bi bi-geo-alt me-2"></i>Địa chỉ: 123 Đường ABC, Quận 1, TP.HCM</li>
+          <li class="mb-2"><i class="bi bi-telephone me-2"></i>Hotline:
+            <a class="link-light text-decoration-none" href="tel:0909123456">0909 123 456</a></li>
+          <li class="mb-2"><i class="bi bi-envelope me-2"></i>Email:
+            <a class="link-light text-decoration-none" href="mailto:info@2606ai.vn">info@2606ai.vn</a></li>
+        </ul>
+
+        <div class="small opacity-90 mt-3">
+          <div class="fw-bold text-uppercase mb-1">HỘ KINH DOANH DỊCH VỤ MARKETING VINA GASE</div>
+          Mã số thuế: <strong>12333211232</strong><br>
+          Liên hệ: <strong>012345678</strong><br>
+          Email: <a class="text-light text-decoration-none" href="mailto:lienhengay@gmail.com">lienhengay@gmail.com</a>
+        </div>
+
+        <div class="d-flex align-items-center gap-3 mt-3">
+          <a href="#" class="link-light" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="link-light" aria-label="Messenger"><i class="bi bi-messenger"></i></a>
+          <a href="#" class="link-light" aria-label="Telegram"><i class="bi bi-telegram"></i></a>
+          <a href="#" class="link-light" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+<script>
+// Debug: nếu box mount mà chưa có dữ liệu, hiện thông báo để thấy khung
+(function(){
+  const box   = document.getElementById('workshopBox');
+  const list  = document.getElementById('workshopList');
+  const empty = document.getElementById('workshopEmpty');
+  const count = document.getElementById('workshopCount');
+  if(!box) return;
+
+  // Đặt viền debug để bạn dễ nhìn (xóa sau)
+  box.style.outline = '2px dashed #2e7d32';
+
+  // Nếu chưa render workshop, ít nhất hiện dòng trống
+  if(empty){
+    empty.textContent = '(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.';
+    empty.style.display = 'block';
+  }
+  if(count){ count.style.display = 'none'; }
+})();
+</script>
+
+    <hr class="border-light opacity-50">
+
+    <div class="text-center small pb-3">
+      © 2025 <span style="color:#d4af37;">2606AI</span>. Website được phát triển bởi 2606AI.
+    </div>
+  </div>
+</footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const workshop  = document.getElementById('workshopBox');
+
+  // 1) Tìm đúng cột trái (ưu tiên id nếu bạn gắn vào cột)
+  // -> GỢI Ý: thêm id cho cột trái: <div id="leftCol" class="col-lg-3 col-md-4">
+  let left =
+    document.getElementById('leftCol') ||
+    document.querySelector('.row .col-lg-3.col-md-4') ||
+    document.querySelector('.row .col-xl-3, .row .left-col, [data-left-col]');
+
+  if (workshop && left && !left.contains(workshop)) {
+    left.appendChild(workshop);                 // kéo workshopBox về đúng cột trái nếu lạc
+  }
+
+  // 2) Ép hiển thị trong mọi trường hợp (tránh bị media query/utility ẩn)
+  if (workshop){
+    workshop.style.display    = 'block';
+    workshop.style.visibility = 'visible';
+    workshop.style.opacity    = '1';
+  }
+
+  // 3) Debug viền để bạn nhìn thấy khung (xóa 2 dòng này khi OK)
+  if (workshop){
+    workshop.style.outline = '2px dashed #2e7d32';
+    if (!workshop.querySelector('#workshopList')){
+      workshop.insertAdjacentHTML('beforeend',
+        '<div class="small text-muted">(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.</div>');
+    }
+  }
+});
+</script>
+
+<input type="file" id="uploworkshopupplierFile" accept="application/pdf,image/*" style="display:none">
+   <script>
+(function(){
+  // Tìm FAB bộ lọc theo 3 khả năng đặt tên phổ biến ở code của bạn
+  const FAB_SELECTORS = ['#fabFilters', '.fab-filter', '[data-fab="filters"]'];
+
+  function findFab(){
+    for (const s of FAB_SELECTORS){
+      const el = document.querySelector(s);
+      if (el) return el;
+    }
+    return null;
+  }
+
+  // Đếm số bộ lọc đang áp dụng
+  function countActiveFilters(){
+    // Ưu tiên đọc từ state.filters nếu có
+    if (window.state && state.filters){
+      const ignore = new Set(['page','limit','sort','q']);
+      return Object.entries(state.filters).reduce((n,[k,v])=>{
+        if (ignore.has(k) || v==null || v==='') return n;
+        if (Array.isArray(v)) return n + v.filter(Boolean).length;
+        if (typeof v==='object')  return n + Object.values(v).filter(Boolean).length;
+        return n + 1;
+      },0);
+    }
+    // Fallback: đếm chip/nhãn đang active trên giao diện
+    return document.querySelectorAll('.chip.active, .chip.is-active, .filter-tag.active').length;
+  }
+
+  // Tạo/cập nhật badge
+  function renderBadge(){
+    const fab = findFab();
+    if (!fab) return;
+
+    let badge = fab.querySelector('.fab-badge');
+    if (!badge){
+      badge = document.createElement('span');
+      badge.className = 'fab-badge';
+      fab.style.position = fab.style.position || 'relative'; // đảm bảo có position
+      fab.appendChild(badge);
+    }
+
+    const n = countActiveFilters();
+    if (n > 0){
+      badge.textContent = n > 99 ? '99+' : String(n);
+      badge.style.display = 'inline-block';
+      fab.setAttribute('data-has-filters', '1');
+      fab.setAttribute('aria-label', `Đang áp dụng ${n} bộ lọc`);
+    } else {
+      badge.style.display = 'none';
+      fab.removeAttribute('data-has-filters');
+      fab.setAttribute('aria-label', 'Không có bộ lọc');
+    }
+  }
+
+  // Gọi khi trang tải xong
+  document.addEventListener('DOMContentLoaded', renderBadge);
+
+  // Tự động cập nhật khi người dùng tương tác với khu vực lọc/nhanh/chips
+  ['click','change'].forEach(ev=>{
+    document.addEventListener(ev, (e)=>{
+      if (e.target.closest('.quick-filter, .chip, .filter-chip, [data-filter], #btnClearFilters, .btn-clear-filters')){
+        setTimeout(renderBadge, 0);
+      }
+    });
+  });
+
+  // Cho code hiện tại gọi chủ động sau khi thay state/render
+  window.updateFilterBadge = renderBadge;
+})();
+</script>
+<!-- DETAIL BOX -->
+<div id="detailModal" class="dtl-backdrop" hidden>
+  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
+    <button class="dtl-close" data-close="detailModal" aria-label="Đóng">×</button>
+
+    <div class="dtl-head">
+      <img id="dtlImg" alt="" />
+      <div>
+        <h3 id="dtlTitle">Tiêu đề</h3>
+        <div id="dtlSub" class="dtl-sub"></div>
+      </div>
+    </div>
+
+    <div id="dtlBadges" class="dtl-badges"></div>
+
+    <div id="dtlRows" class="dtl-rows"><!-- rows auto render --></div>
+
+    <div class="dtl-actions">
+      <a id="dtlOpenImg" class="btn-ghost" target="_blank" rel="noopener">Mở ảnh</a>
+      <button class="btn-main" data-close="detailModal">Đóng</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
