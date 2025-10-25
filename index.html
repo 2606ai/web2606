@@ -1,148 +1,67 @@
-<!-- ========================= HEADER 2606AI ========================= -->
+<!-- ========================================================= -->
+<!-- 🌿 PHẦN HEADER CHÍNH CỦA WEBSITE 2606AI -->
+<!-- Bao gồm: Logo + Thanh tìm kiếm + Dải thông báo chạy -->
+<!-- ========================================================= -->
+
 <header class="header">
-  <!-- 1️⃣ Logo & Thương hiệu -->
+  <!-- ===================== 1️⃣ KHU VỰC LOGO VÀ THANH TÌM KIẾM ===================== -->
   <div class="header-top">
+    <!-- 🧩 LOGO THƯƠNG HIỆU 2606AI -->
     <div class="logo" onclick="window.location.href='/'">
-      <!-- ✅ Logo dùng thumbnail từ Google Drive -->
+      <!-- ✅ Sử dụng ảnh thumbnail từ Google Drive (đảm bảo load nhanh) -->
       <img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" alt="2606AI Logo">
       <span class="brand-name">2606AI</span>
     </div>
 
-    <!-- 2️⃣ Thanh tìm kiếm trung tâm -->
+    <!-- 🔍 THANH TÌM KIẾM TRUNG TÂM -->
     <div class="search-bar">
       <input type="text" placeholder="Kết nối" id="searchInput">
       <button class="search-btn">Tìm</button>
     </div>
   </div>
 
-  <!-- 3️⃣ Thanh thông báo & cam kết thương hiệu -->
+  <!-- ===================== 2️⃣ DẢI THÔNG BÁO CHẠY VÔ HẠN ===================== -->
   <div class="brand-banner">
-    <p>
-      Để đảm bảo quyền lợi hãy thông báo với <strong>2606ai.com</strong> khi bạn đã chốt đơn hàng • 
-      Nguồn thu của <strong>2606AI.VN</strong> đến từ quảng cáo • 
-      Có sự hỗ trợ của <strong>2606ai.com</strong> tự tin sản xuất mọi sản phẩm
-    </p>
+    <div class="scroll-text">
+      <p>
+        Để đảm bảo quyền lợi hãy thông báo với <strong>2606ai.com</strong> khi bạn đã chốt đơn hàng • 
+        Nguồn thu của <strong>2606AI.VN</strong> đến từ quảng cáo • 
+        Có sự hỗ trợ của <strong>2606ai.com</strong> tự tin sản xuất mọi sản phẩm • 
+        Để đảm bảo quyền lợi hãy thông báo với <strong>2606ai.com</strong> khi bạn đã chốt đơn hàng • 
+        Nguồn thu của <strong>2606AI.VN</strong> đến từ quảng cáo • 
+        Có sự hỗ trợ của <strong>2606ai.com</strong> tự tin sản xuất mọi sản phẩm
+      </p>
+    </div>
   </div>
 </header>
 
-<!-- ========================= CSS CHO HEADER ========================= -->
+<!-- ========================================================= -->
+<!-- 💅 PHẦN CSS ĐỊNH DẠNG GIAO DIỆN HEADER -->
+<!-- ========================================================= -->
 <style>
+/* -------------------- 🎨 MÀU SẮC CHỦ ĐẠO -------------------- */
 :root {
-  --green-brand: #1e7b45;    /* Màu xanh tre đặc trưng 2606AI */
-  --blue-logo: #0077cc;      /* Màu xanh lam logo */
-  --white: #fff;
-  --gray-line: #e6ede9;
-  --text-dark: #0b2e1d;
+  --green-brand: #1e7b45;    /* Xanh tre đặc trưng thương hiệu 2606AI */
+  --blue-logo: #0077cc;      /* Màu xanh lam của logo */
+  --white: #fff;             /* Màu trắng cơ bản */
+  --gray-line: #e6ede9;      /* Màu viền nhạt */
+  --text-dark: #0b2e1d;      /* Màu chữ tối */
 }
 
-/* Tổng thể header */
+/* -------------------- 🧱 KHUNG TỔNG THỂ CỦA HEADER -------------------- */
 .header {
   width: 100%;
   background: var(--white);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06); /* Bóng nhẹ dưới header */
   display: flex;
   flex-direction: column;
-  position: sticky;
+  position: sticky; /* Giữ header cố định khi cuộn trang */
   top: 0;
   z-index: 1000;
   font-family: "Be Vietnam Pro", sans-serif;
 }
 
-/* ======== Phần trên: logo + search ======== */
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 5%;
-  background: var(--white);
-}
-
-/* Logo thương hiệu */
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-}
-.logo img {
-  width: 42px;
-  height: 42px;
-  object-fit: contain;
-}
-.logo .brand-name {
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--blue-logo);
-  letter-spacing: 0.5px;
-}
-
-/* Thanh tìm kiếm trung tâm */
-.search-bar {
-  flex: 1;
-  max-width: 600px;
-  display: flex;
-  align-items: center;
-  background: var(--white);
-  border: 2px solid var(--green-brand);
-  border-radius: 50px;
-  overflow: hidden;
-  margin-left: 40px;
-}
-.search-bar input {
-  flex: 1;
-  border: none;
-  outline: none;
-  padding: 10px 16px;
-  font-size: 16px;
-}
-.search-bar .search-btn {
-  background: var(--green-brand);
-  color: var(--white);
-  border: none;
-  padding: 10px 24px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: 600;
-  transition: background 0.3s;
-}
-.search-bar .search-btn:hover {
-  background: #155e33;
-}
-
-/* ======== Thanh thông báo & cam kết ======== */
-.brand-banner {
-  background: var(--green-brand);
-  color: var(--white);
-  text-align: center;
-  padding: 8px 5%;
-  font-size: 14px;
-  line-height: 1.5;
-}
-.brand-banner strong {
-  color: #fff;
-  font-weight: 700;
-}
-
-/* Responsive (mobile) */
-@media (max-width: 768px) {
-  .header-top {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-  }
-  .search-bar {
-    margin-left: 0;
-    max-width: 100%;
-  }
-  .brand-banner {
-    font-size: 13px;
-    padding: 10px;
-  }
-}
-
-  /* ======== Tinh chỉnh Header (bản 1.1) ======== */
-
-/* Căn lại logo và search cùng trục giữa */
+/* -------------------- 🟩 KHU VỰC TRÊN: LOGO + THANH TÌM KIẾM -------------------- */
 .header-top {
   display: flex;
   align-items: center;
@@ -151,12 +70,17 @@
   background: var(--white);
 }
 
-/* Logo tinh chỉnh */
+/* -------- LOGO 2606AI -------- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer; /* Bấm vào logo để quay lại trang chủ */
+}
 .logo img {
   width: 44px;
   height: 44px;
   object-fit: contain;
-  margin-top: 1px;
 }
 .logo .brand-name {
   font-size: 23px;
@@ -164,15 +88,15 @@
   color: var(--blue-logo);
 }
 
-/* Thanh tìm kiếm – bo tròn mềm và sang hơn */
+/* -------- THANH TÌM KIẾM -------- */
 .search-bar {
   flex: 1;
-  max-width: 620px;
+  max-width: 620px; /* Giới hạn chiều rộng tối đa */
   display: flex;
   align-items: center;
   background: var(--white);
   border: 2px solid var(--green-brand);
-  border-radius: 60px;
+  border-radius: 60px; /* Bo tròn mềm mại */
   overflow: hidden;
   margin-left: 50px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.06);
@@ -200,16 +124,52 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 
-/* Thanh cam kết – thu gọn chiều cao + font mảnh hơn */
+/* -------------------- 💚 DẢI THÔNG BÁO CHẠY LIÊN TỤC -------------------- */
 .brand-banner {
   background: var(--green-brand);
   color: var(--white);
-  text-align: center;
-  padding: 6px 4%;
-  font-size: 13.5px;
-  line-height: 1.4;
-  font-weight: 500;
-  letter-spacing: 0.2px;
+  overflow: hidden; /* Ẩn phần chữ thừa khi tràn ra ngoài khung */
+  height: 36px; /* Chiều cao dải banner */
+  position: relative;
 }
 
+/* Hiệu ứng chạy ngang */
+.scroll-text {
+  display: inline-block;
+  white-space: nowrap;
+  position: absolute;
+  animation: marquee 25s linear infinite; /* Tốc độ chạy 25s, lặp vô hạn */
+}
+.scroll-text p {
+  font-size: 14px;
+  line-height: 36px;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.scroll-text strong {
+  font-weight: 700;
+  color: #fff;
+}
+
+/* 🔄 Hiệu ứng chạy ngang từ phải sang trái */
+@keyframes marquee {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+/* -------------------- 📱 GIAO DIỆN CHO MOBILE -------------------- */
+@media (max-width: 768px) {
+  .header-top {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .search-bar {
+    margin-left: 0;
+    max-width: 100%;
+  }
+  .scroll-text p {
+    font-size: 13px;
+  }
+}
 </style>
