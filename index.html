@@ -1230,30 +1230,69 @@ function productCardHtml(it){
 
 
 
-// Tạo HTML cho pager (an toàn, không hở dấu `)
-const block = (where) => /*html*/ `
-  <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
-    <button type="button"
-            class="btn btn-sm btn-outline-secondary"
-            data-action="page-prev"
-            ${currentPage <= 1 ? 'disabled' : ''}>&lsaquo;</button>
+/* ======== PAGER ========= */
+function renderPagination(totalItems, pageSize, currentPage) {
+  const totalPages = Math.max(1, Math.ceil((totalItems || 0) / (pageSize || 1)));
+  state.totalPages = totalPages;
 
-    <select class="form-select form-select-sm page-select" style="width:auto">
-      ${Array.from({ length: totalPages }, (_, i) => {
-        const p = i + 1;
-        return '<option value="' + p + '" ' +
-               (p === currentPage ? 'selected' : '') +
-               '>Trang ' + p + '/' + totalPages + '</option>';
-      }).join('')}
-    </select>
+  // Xây options bằng for (tránh Array.from + arrow trong template)
+  function buildOptions() {
+    var html = '';
+    for (var p = 1; p <= totalPages; p++) {
+      html += '<option value="' + p + '"' + (p === currentPage ? ' selected' : '') +
+              '>Trang ' + p + '/' + totalPages + '</option>';
+    }
+    return html;
+  }
 
-    <button type="button"
-            class="btn btn-sm btn-outline-secondary"
-            data-action="page-next"
-            ${currentPage >= totalPages ? 'disabled' : ''}>&rsaquo;</button>
-  </div>
-`;
+  // Khối HTML pager (dùng chuỗi nối, không backtick)
+  function block(where) {
+    return ''
+      + '<div class="d-inline-flex align-items-center gap-1" data-where="' + where + '">'
+      +   '<button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-prev" '
+      +      (currentPage <= 1 ? 'disabled' : '') + '>&lsaquo;</button>'
+      +   '<select class="form-select form-select-sm page-select" style="width:auto">'
+      +     buildOptions()
+      +   '</select>'
+      +   '<button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-next" '
+      +      (currentPage >= totalPages ? 'disabled' : '') + '>&rsaquo;</button>'
+      + '</div>';
+  }
 
+  // Render vào 2 vị trí có sẵn
+  var top = document.getElementById('pagerTop');
+  var bot = document.getElementById('pagerBottom');
+  if (top) top.innerHTML = block('top');
+  if (bot) bot.innerHTML = block('bottom');
+
+  // Sự kiện đổi trang bằng select
+  var selects = document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select');
+  selects.forEach(function(sel){
+    sel.onchange = function(e){
+      state.page = parseInt(e.target.value, 10) || 1;
+      fetchPage();
+    };
+  });
+
+  // Sự kiện prev/next
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-action="page-prev"],[data-action="page-next"]');
+    if (!btn) return;
+    var act = btn.getAttribute('data-action');
+    state.page = Math.min(
+      Math.max(1, state.page + (act === 'page-next' ? 1 : -1)),
+      state.totalPages
+    );
+    fetchPage();
+  });
+
+  // Đưa pagerTop sát nút "Xóa bộ lọc"
+  var leftBlock = document.querySelector('.found-count');
+  if (leftBlock && top) {
+    leftBlock.appendChild(top);
+    top.classList.add('ms-2');
+  }
+}
 
   // Render vào 2 vị trí
   const top = document.getElementById('pagerTop');
