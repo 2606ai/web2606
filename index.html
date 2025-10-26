@@ -2086,7 +2086,15 @@ footer.text-light .bi{ color:#fff; }
     const url = toDriveThumb(u);
     return /^https?:\/\//i.test(url) ? url : FALLBACK;
   }
-
+<script>
+function findWorkshopBox(){
+  return (
+    document.getElementById('workshopBox') ||
+    document.querySelector('[data-workshop-box], .workshop-box, #workshopList') ||
+    document.querySelector('#leftCol .sidebar-box') || // fallback
+    null
+  );
+}
   // Đảm bảo có container list bên trong box
   function ensureList(box){
     let list = box.querySelector('#workshopList, .workshop-list, [data-workshop-list]');
@@ -2171,7 +2179,7 @@ function renderSuppliersListNew(list){
 }
 
   function renderIntoBox(items){
-    const box = findworkshopBox();
+    const box = findWorkshopBox();
     if (!box) { console.warn('[workshop] Không tìm thấy box hiện có'); return; }
     const {list, empty} = ensureList(box);
 
@@ -4566,6 +4574,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.head.appendChild(l);
 })();
 </script>
+<input id="uploworkshopupplierFile" type="file" hidden
+       accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx,.zip" />
    
 </body>
 </html>
