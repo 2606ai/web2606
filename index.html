@@ -365,7 +365,71 @@ footer.text-light a,footer.text-light .bi{color:#fff}
 .theme-bamboo footer.text-light{background:linear-gradient(180deg,#2e7d32 0%,#1b5e20 100%);color:#fff}
 .theme-bamboo footer.text-light h6{color:var(--accent)}
 .theme-bamboo footer.text-light hr{border-color:rgba(255,255,255,.25)}
-  
+
+   /* =========================
+   PATCH AN TOÀN – KHÔI PHỤC HIỂN THỊ
+   (đặt cuối file CSS)
+   ========================= */
+
+/* 1) BỎ các rule ẩn/ép hiện có nguy cơ “mất dữ liệu” */
+#quickCatsTop { display: initial !important; }         /* khôi phục nếu bị ẩn */
+#workshopBox { display: initial !important; }          /* bỏ ép display:block/none trước đó */
+.sidebar-box.workshop-box { display: initial !important; }
+.category-box { background: initial !important; }      /* tránh transparent bắt buộc */
+.category-box .group-bar-wrapper { margin: initial !important; padding: initial !important; border: initial !important; border-radius: initial !important; box-shadow: initial !important; }
+
+/* 2) KHỐI “CHÚNG TÔI CÓ GÌ CHO BẠN…” – bọc trong .benefits-v3
+      Chỉ style cho phần này, không ảnh hưởng block khác */
+.benefits-v3 .grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.benefits-v3 .bcard{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:12px;
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  box-shadow: var(--shadow-sm);
+}
+.benefits-v3 .ic{
+  width:36px;height:36px;
+  flex:0 0 36px;
+  border-radius:8px;
+  background:#f1f4ff;
+  display:flex;align-items:center;justify-content:center;
+}
+.benefits-v3 .text{ flex:1; min-width:0; }
+.benefits-v3 .ttl{
+  font-weight:700;
+  font-size:13px;
+  line-height:1.35;
+  margin:0 0 4px 0;
+  color:var(--text);
+}
+.benefits-v3 .sub{
+  font-size:12px;
+  color:var(--muted);
+  margin:0;
+}
+
+/* chip Miễn phí/Có phí góc phải mỗi item */
+.benefits-v3 .bcard{
+  position:relative;
+}
+.benefits-v3 .benefit-note{
+  position:absolute; top:8px; right:8px;
+  font-size:11px; font-weight:700;
+  padding:2px 8px; border-radius:999px; color:#fff;
+}
+.benefits-v3 .benefit-free{ background:#4caf50; }
+.benefits-v3 .benefit-paid{ background:#d32f2f; }
+
+/* 3) Giữ an toàn: KHÔNG đè layout chung (category, group bar, footer…) */
+
 </style>
 
    
