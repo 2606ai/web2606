@@ -1230,25 +1230,56 @@ function productCardHtml(it){
 
 
 
-/* ========= PAGER (mũi tên + dropdown) ========= */
-/* ========= PAGER (mũi tên + dropdown) ========= */
+/* ========= PAGER ========= */
 function renderPagination(totalItems, pageSize, currentPage){
   const totalPages = Math.max(1, Math.ceil((totalItems || 0) / (pageSize || 1)));
   state.totalPages = totalPages;
 
-  const block = (where) => `
+  // TẠO KHỐI PAGER (chuỗi HTML)
+  const block = (where) => /*html*/ `
     <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
-      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-prev" ${currentPage<=1?'disabled':''}>&lsaquo;</button>
+      <button type="button"
+              class="btn btn-sm btn-outline-secondary"
+              data-action="page-prev"
+              ${currentPage <= 1 ? 'disabled' : ''}>&lsaquo;</button>
+
       <select class="form-select form-select-sm page-select" style="width:auto">
-        ${Array.from({length: totalPages}, (_, i) => {
-          const p = i + 1;
-          return `<option value="${p}" ${p===currentPage?'selected':''}>Trang ${p}/${totalPages}</option>`;
+        ${Array.from({ length: totalPages }, (_, i) => {
+            const p = i + 1;
+            return `<option value="${p}" ${p === currentPage ? 'selected' : ''}>Trang ${p}/${totalPages}</option>`;
         }).join('')}
       </select>
-      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-next" ${currentPage>=totalPages?'disabled':''}>&rsaquo;</button>
+
+      <button type="button"
+              class="btn btn-sm btn-outline-secondary"
+              data-action="page-next"
+              ${currentPage >= totalPages ? 'disabled' : ''}>&rsaquo;</button>
     </div>
   `;
+
+  // Render vào 2 vị trí
+  const top = document.getElementById('pagerTop');
+  const bot = document.getElementById('pagerBottom');
+  if (top) top.innerHTML = block('top');
+  if (bot) bot.innerHTML = block('bottom');
+
+  // Lắng nghe thay đổi trang (giữ nguyên các đoạn còn lại của bạn)
+  document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select')
+    .forEach(sel => {
+      sel.onchange = (e) => {
+        const p = +e.target.value || 1;
+        // TODO: gọi hàm đổi trang của bạn ở đây
+      };
+    });
+
+  document.addEventListener('click', (ev) => {
+    const btn = ev.target.closest('[data-action^="page-"]');
+    if (!btn) return;
+    const action = btn.getAttribute('data-action');
+    // TODO: xử lý prev/next theo action
+  }, { once:false });
 }
+
   // Render lên 2 vị trí có sẵn
   const top = document.getElementById('pagerTop');
   const bot = document.getElementById('pagerBottom');
