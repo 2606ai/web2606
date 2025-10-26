@@ -70,15 +70,22 @@ img{max-width:100%;display:block}
 /* ---- Top banner (marquee) ---- */
 .top-banner{
   position:sticky; top:70px; z-index:1054;
-  height:32px; display:flex; align-items:center; justify-content:center;
-  background:var(--main-grad); color:#fff; font-weight:700; line-height:32px;
-  overflow:hidden
+  height:32px;
+  display:flex; align-items:center; justify-content:center;
+  background:var(--main-grad); color:#fff; font-weight:700;
+  line-height: normal;            /* ⬅ bỏ 32px để tránh lệch baseline */
+  overflow:hidden;
 }
+
 .top-banner .marquee{
-  white-space:nowrap; display:inline-block;
-  animation:marquee 60s linear infinite
+  white-space:nowrap;
+  display:block;                  /* ⬅ từ inline-block → block */
+  line-height:1;                  /* ⬅ chữ đứng giữa dọc đẹp hơn */
+  animation:marquee 60s linear infinite;
 }
+
 @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+
 
 /* ---- Sidebar generic block ---- */
 .sidebar-box{
@@ -1481,7 +1488,6 @@ footer.text-light .bi{ color:#fff; }
 .theme-bamboo .btn,
 .theme-bamboo .btn-primary,
 .theme-bamboo .btn-success,
-.theme-bamboo .fab,             /* nút tròn nổi */
 .theme-bamboo .btn-gift,        /* nút Nhận quà */
 .theme-bamboo .search-btn {     /* nút Tìm */
   background: var(--main) !important;   /* xanh lá phẳng */
@@ -1492,7 +1498,6 @@ footer.text-light .bi{ color:#fff; }
 }
 
 .theme-bamboo .btn:hover,
-.theme-bamboo .fab:hover,
 .theme-bamboo .btn-gift:hover,
 .theme-bamboo .search-btn:hover {
   background: var(--main-600) !important; /* đậm hơn khi hover */
@@ -1732,16 +1737,19 @@ footer.text-light .bi{ color:#fff; }
 }
 /* Badge số trên FAB bộ lọc */
 .fab-badge{
-  position: absolute;
-  top: -4px; right: -4px;
+  position:absolute; top:-4px; right:-4px;
   transform: translate(25%, -25%);
-  min-width: 20px; height: 20px; padding: 0 6px;
-  border-radius: 999px;
-  background: #22c55e; /* xanh lá 2606 */
-  color: #fff; font-weight: 700; font-size: 12px; line-height: 20px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.20);
-  display: none; /* ẩn khi chưa có bộ lọc */
+  min-width:18px; height:18px; padding:0 6px;
+  border-radius:999px;
+
+  background: linear-gradient(180deg, #22c55e, #16a34a);
+  border: 1px solid rgba(0,0,0,.06);
+
+  color:#fff; font-weight:800; font-size:11px; line-height:18px;
+  box-shadow: 0 4px 10px rgba(22,163,74,.25), 0 0 0 1px rgba(255,255,255,.8) inset;
+  display:none; /* giữ nguyên logic hiện/ẩn bằng JS */
 }
+
 /* (Tuỳ chọn) nhấn mạnh FAB khi có lọc */
 [data-has-filters]{
   outline: 2px solid rgba(34,197,94,.25);
@@ -2465,6 +2473,72 @@ document.addEventListener('click', (ev)=>{
   position: relative;
 }
 
+/* ===== Premium FAB (skin) ===== */
+.fab{
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: 50%;
+
+  /* Glassy + green tint */
+  background:
+    radial-gradient(120% 120% at 50% 0%,
+      rgba(255,255,255,.85) 0%, rgba(255,255,255,.72) 45%,
+      rgba(255,255,255,.60) 100%),
+    linear-gradient(180deg, rgba(46,125,50,.15), rgba(31,108,35,.08));
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border: 1px solid rgba(46,125,50,.25);
+  color: var(--fab-color);
+  display:flex; align-items:center; justify-content:center;
+  font-size: 24px;
+
+  box-shadow:
+    0 12px 24px rgba(31,108,35,.18),
+    0 2px 6px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.5);
+
+  cursor:pointer;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease, filter .18s ease;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* Highlight ánh sáng */
+.fab::before{
+  content:"";
+  position:absolute; inset:0; border-radius:50%;
+  background: radial-gradient(120% 70% at 50% -10%, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 60%);
+  pointer-events:none;
+}
+
+/* Hover */
+.fab:hover{
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 28px rgba(31,108,35,.22),
+    0 4px 10px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.55);
+}
+
+/* Active (ấn giữ) */
+.fab:active{
+  transform: translateY(0) scale(.98);
+  filter: brightness(.96);
+  box-shadow:
+    0 10px 18px rgba(31,108,35,.18),
+    0 2px 8px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.5);
+}
+
+/* Icon trong FAB */
+.fab svg, .fab .bi{
+  width: 22px; height: 22px;    /* gọn hơn 24px → cân đối */
+  filter: drop-shadow(0 1px 0 rgba(255,255,255,.4));
+  color: var(--fab-color);
+}
+
+   
 /* Badge nhỏ góc phải */
 .fab-badge{
   position: absolute;
