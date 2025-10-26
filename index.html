@@ -16,10 +16,12 @@
 
 /* ---- Theme tokens ---- */
 :root{
-  --main:#e91e63;
+  /* Chủ đạo hồng + gradient */
+  --main: #e91e63; /* hồng phẳng để dùng cho text/border */
   --main-600:#d81b60;
   --main-700:#c2185b;
-  --main-grad:linear-gradient(90deg,#ff5aa7 0%,#ff8bd1 100%);
+
+  --main-grad: linear-gradient(90deg, #ff5aa7 0%, #ff8bd1 100%);
 
   --accent:#d4af37;
   --bg:#f5f6fa;
@@ -33,73 +35,71 @@
   --shadow-sm:0 1px 2px rgba(0,0,0,.06);
   --shadow-md:0 2px 8px rgba(0,0,0,.08);
   --shadow-lg:0 6px 16px rgba(0,0,0,.16);
-
-  --main-tint:#ffe3f0;             /* hover cùng tông */
-  --main-shadow:rgba(233,30,99,.22);
 }
+
 
 /* ---- Base ---- */
 html,body{height:100%}
 body{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji";
-  font-size:14px;color:var(--text);background:var(--bg);padding-top:70px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  font-size:14px;
+  color:var(--text);
+  background:var(--bg);
+  padding-top:70px;
 }
 img{max-width:100%;display:block}
+
+/* Container width to match header/footer */
 .container-fluid,.wrap{max-width:1400px;margin:0 auto}
 
 /* ---- Header ---- */
 .site-header{
-  position:fixed;inset:0 0 auto 0;z-index:1055;background:#fff;border-bottom:1px solid #eee;
-  box-shadow:var(--shadow-sm);padding:10px 15px;
+  position:fixed; inset:0 0 auto 0; z-index:1055;
+  background:#fff; border-bottom:1px solid #eee;
+  box-shadow:var(--shadow-sm);
+  padding:10px 15px;
 }
 .site-header .wrap{display:flex;align-items:center;gap:12px}
 .site-header img.logo{width:84px;aspect-ratio:3/2;object-fit:contain;cursor:pointer}
 .header-search{flex:1}
 .header-search .form-control{font-size:13px;padding:6px 10px}
-@media (max-width:992px){.site-header img.logo{width:72px}}
+@media (max-width:992px){
+  .site-header img.logo{width:72px}
+}
 
 /* ---- Top banner (marquee) ---- */
 .top-banner{
-  position:sticky;top:70px;z-index:1054;height:32px;display:flex;align-items:center;justify-content:center;
-  background:var(--main-grad);color:#fff;font-weight:700;line-height:32px;overflow:hidden;
+  position:sticky; top:70px; z-index:1054;
+  height:32px; display:flex; align-items:center; justify-content:center;
+  background:var(--main-grad); color:#fff; font-weight:700; line-height:32px;
+  overflow:hidden
 }
-.top-banner .marquee{white-space:nowrap;display:inline-block;animation:marquee 60s linear infinite}
+.top-banner .marquee{
+  white-space:nowrap; display:inline-block;
+  animation:marquee 60s linear infinite
+}
 @keyframes marquee{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
 
 /* ---- Sidebar generic block ---- */
 .sidebar-box{
-  background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;
-  box-shadow:var(--shadow-sm);margin-bottom:15px;
+  background:var(--card); border:1px solid var(--border);
+  border-radius:12px; padding:12px; box-shadow:var(--shadow-sm); margin-bottom:15px
 }
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
-/* ---- Benefits (Chúng tôi có gì cho bạn…) ---- */
+/* ---- Benefits (6 items) ---- */
 .benefits-v3 .grid{display:grid;grid-template-columns:1fr;gap:8px}
 .benefits-v3 .bcard{
-  background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;
-  min-height:60px;position:relative;box-shadow:var(--shadow-sm);
+  background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:12px;
+  display:flex;gap:10px;align-items:center;min-height:60px;position:relative;box-shadow:var(--shadow-sm)
 }
-.benefits-v3 .ic{
-  width:36px;height:36px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center
-}
+.benefits-v3 .ic{width:36px;height:36px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center}
 .benefits-v3 .ttl{font-weight:600;font-size:12px;line-height:1.3}
 .benefits-v3 .sub{font-size:12px;color:var(--muted)}
-.benefit-note{
-  position:absolute;top:6px;right:8px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;color:#fff
-}
-.benefit-free{background:#4caf50}.benefit-paid{background:#d32f2f}
-
-/* ---- Workshop box ---- */
-.workshop-box{background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);border:1px solid #90caf9;border-radius:12px;padding:12px}
-#workshopList{max-height:62vh;overflow:auto;padding-right:4px;scroll-behavior:smooth}
-#workshopList .link-preview{
-  display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;box-shadow:var(--shadow-sm)
-}
-#workshopList .link-preview .thumb{width:64px;height:64px;border-radius:8px;object-fit:cover;background:#f1f4ff}
-#workshopList .title{font-weight:700;color:var(--main)}
-#workshopList .desc{font-size:12px;color:var(--muted)}
-#workshopList .site{font-size:12px;color:var(--main)}
-
+.benefit-note{position:absolute;top:6px;right:8px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;color:#fff}
+.benefit-free{background:#4caf50}
+.benefit-paid{background:#d32f2f}
+/* Khung sidebar “Xưởng đề xuất” */ .workshop-box{ background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%); border:1px solid #90caf9; border-radius:12px; padding:12px; }
 /* ---- Hero banners ---- */
 .hero{margin-bottom:15px}
 .hero .carousel{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
@@ -108,141 +108,196 @@ img{max-width:100%;display:block}
 .hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
 
 /* =========================================================
-   GROUP BAR – kiểu Tiki/Pill
+   GROUP BAR (BIG tiles, fill full row) + DOTS = groups count
    ========================================================= */
-.group-bar-wrapper{background:#fff;border:0;padding:12px}
-#groupBar{
-  display:flex;gap:14px;overflow-x:auto;scrollbar-width:none;align-items:center;
-}
-#groupBar::-webkit-scrollbar{display:none}
-#groupBar .group-chip{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-width:120px;padding:12px 10px;
-  background:#fff;border:1px solid #eef2ff;border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.04);
-  color:#111827;font-weight:600;font-size:13px;text-align:center;white-space:normal;line-height:1.25;cursor:pointer;
-  transition:transform .12s,box-shadow .12s,background .12s,border-color .12s,color .12s;
-}
-#groupBar .group-chip:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.10)}
-#groupBar .chip-icon{
-  width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;
-  background:linear-gradient(180deg,#f5f7ff 0%,#edf1ff 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.7);overflow:hidden;
-}
-#groupBar .chip-icon img{width:34px;height:34px;object-fit:contain}
-#groupBar .group-chip.active{
-  border-color:#c7d2fe;background:#f8faff;box-shadow:0 6px 20px rgba(0,24,168,.10);
-}
-#groupBar .group-chip.active .chip-icon{
-  background:linear-gradient(180deg,#e7ecff 0%,#dbe5ff 100%);outline:3px solid rgba(0,24,168,.12);outline-offset:0;
+
+/* wrapper */
+.group-bar-wrapper{
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  padding:10px 12px; box-shadow:var(--shadow-sm); margin-bottom:6px;
+  position:relative;
 }
 
-/* Dots (đếm nhóm) */
-#groupDots{margin:6px 0 12px;display:flex;justify-content:center;gap:6px}
-#groupDots .dot{width:6px;height:6px;border-radius:50%;background:#c9d6ff;transition:background .2s,transform .2s}
-#groupDots .dot.active{background:var(--main);transform:scale(1.2)}
+/* grid that auto-fits columns so tiles are big and flush */
+.group-bar-scroll{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:10px;
+  overflow:visible;     /* no horizontal scroll */
+}
+
+/* tile */
+.group-chip{
+  display:flex !important; align-items:center; justify-content:center;
+  min-height: auto !important;     /* bỏ cố định chiều cao */
+  padding: 12px 14px !important;   /* thu padding lại */
+  text-align:center; white-space:normal !important; overflow-wrap:anywhere;
+  font-size:14px !important; font-weight:700 !important;
+  color:#0a33cc !important;
+  background:#f8faff !important;
+  border:1.5px solid #dce3f5 !important;
+  border-radius: 10px !important;  /* bo góc nhẹ */
+  cursor:pointer; user-select:none;
+  transition:transform .12s ease, box-shadow .12s ease, background .12s ease, color .12s ease, border-color .12s ease;
+}
+.group-chip:hover{transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.group-chip.active{
+  background:var(--main-grad) !important; color:#fff !important; border-color:var(--main) !important;
+  box-shadow:0 6px 16px rgba(0,24,168,.18)
+}
+
+/* dots (equal to group count) */
+.group-dots{display:flex;justify-content:center;gap:8px;margin:6px 0 10px}
+.group-dots .dot{
+  width:8px;height:8px;border-radius:50%;background:#c9d6ff;transition:transform .15s, background .15s
+}
+.group-dots .dot.active{background:var(--main-grad);transform:scale(1.25)}
 
 /* =========================================================
-   CATEGORY SCROLLER – panel trắng, 2 hàng
+   CATEGORY SCROLLER (two rows grid + small arrows)
    ========================================================= */
-.category-box{background:transparent;border:0;padding:0;box-shadow:none}
-.category-box .category-wrapper{
-  border:0;border-radius:12px;padding:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.04);
-}
+.category-box{background:#fff;border-radius:12px;padding:10px;box-shadow:var(--shadow-sm);border:1px solid var(--border)}
 .category-wrapper{position:relative}
 .category-scroll{
-  display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(2,auto);
-  gap:16px;overflow:hidden;
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  grid-template-rows:repeat(2,auto);
+  gap:12px; overflow:hidden
 }
 .category-item{
-  text-align:center;padding:8px 6px;border-radius:12px;cursor:pointer;transition:transform .12s,background .12s;border:0;background:transparent;
+  text-align:center;padding:10px;border-radius:10px;cursor:pointer;transition:.15s; border:1px solid transparent
 }
-.category-item:hover{background:#f7f9ff;transform:translateY(-1px)}
-.category-item .icon{
-  width:56px;height:56px;border-radius:16px;background:#f2f6ff;display:inline-flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 12px rgba(0,0,0,.06);margin-bottom:8px;
+.category-item:hover{background:#f8f9ff}
+.category-item.active{background:#e8f1ff;border-color:#a7c4ff}
+.category-item .icon {
+  width: 100%;
+  height: 100px;           /* chỉnh cao bằng chiều cao của khối shadow */
+  border-radius: 12px;
+  background: none;        /* bỏ nền mặc định */
+  overflow: hidden;
+  display: block;
 }
-.category-item .icon img{width:32px;height:32px;object-fit:contain}
-.category-item span{font-size:12px;line-height:1.25;color:#111;display:block}
-.category-item.active span{color:#0018a8;font-weight:700}
+
+.category-item .icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;     /* giữ nguyên tỉ lệ logo */
+  display: block;
+}
+
+
+.category-item span{font-size:13px;display:block}
+
 .cat-arrow{
-  position:absolute;top:45%;transform:translateY(-50%);background:#fff;border:none;font-size:22px;color:var(--main);
-  cursor:pointer;z-index:5;box-shadow:0 2px 6px rgba(0,0,0,.15);width:44px;height:44px;border-radius:50%;
+  position:absolute; top:45%; transform:translateY(-50%);
+  background:transparent; border:none; font-size:22px; color:var(--main); cursor:pointer; z-index:2
 }
-.cat-arrow.left{left:-4px}.cat-arrow.right{right:-4px}
-.cat-arrow.is-disabled,.cat-arrow:disabled{opacity:.45;pointer-events:none}
-@media (max-width:1200px){.category-scroll{grid-template-columns:repeat(5,1fr)}}
-@media (max-width:992px){.category-scroll{grid-template-columns:repeat(4,1fr)}}
-@media (max-width:768px){.category-scroll{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:576px){.category-scroll{grid-template-columns:repeat(2,1fr)}}
+.cat-arrow.left{left:-4px} .cat-arrow.right{right:-4px}
+
+@media (max-width:1200px){
+  .category-scroll{grid-template-columns:repeat(5,1fr)}
+}
+@media (max-width:992px){
+  .category-scroll{grid-template-columns:repeat(4,1fr)}
+}
+@media (max-width:768px){
+  .category-scroll{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:576px){
+  .category-scroll{grid-template-columns:repeat(2,1fr)}
+}
 
 /* ---- Stats/Pager ---- */
-.stats-row{
-  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap;overflow-x:auto;margin:10px 0;
+#statsBar{
+  background:#fff;border:1px solid var(--border);border-radius:10px;
+  padding:8px 12px; box-shadow:var(--shadow-sm)
 }
-#pagerTop{margin-left:auto;white-space:nowrap;display:flex;align-items:center;gap:4px}
-#pagerTop .btn,#pagerBottom .btn{
-  height:32px;padding:4px 8px;font-size:13px;line-height:1.2;border-radius:6px;min-width:36px;
-}
-#pagerTop .btn-group,#pagerBottom .btn-group{gap:4px}
-#pagerTop .form-select,#pagerBottom .form-select{min-width:110px}
-.found-count{display:inline-flex;align-items:center;gap:6px;font-weight:500}
+.pager-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.pager-bar .btn{min-width:40px}
 
 /* =========================================================
    PRODUCT CARD GRID
    ========================================================= */
 .cardx{
-  border:none;border-radius:12px;background:#fff;overflow:hidden;box-shadow:var(--shadow-sm);
-  transition:transform .1s,box-shadow .1s;height:100%;display:flex;flex-direction:column;
+  border:none;border-radius:12px;background:#fff;overflow:hidden;
+  box-shadow:var(--shadow-sm);transition:transform .1s ease, box-shadow .1s ease;height:100%;display:flex;flex-direction:column
 }
 .cardx:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
 .cardx .thumb-wrap{position:relative;background:#fff}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover}
 .cardx .note-chip{
-  position:absolute;top:8px;right:8px;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:400;color:#fff;background:#555;
+  position:absolute;top:8px;right:8px;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:400;color:#fff;background:#555
 }
-.cardx .meta{padding:10px;display:flex;flex-direction:column;gap:4px;flex:1;cursor:pointer}
-.cardx .id{font-weight:700;color:var(--main);font-size:13px;line-height:1.2;min-height:1.2em}
-.cardx .details{
-  font-size:12px;color:#666;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;min-height:2.4em;
-}
-.cardx .type-badge{
-  display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px;
-  align-self:flex-start;max-width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;margin-bottom:2px;
-}
-.cardx .price{font-weight:600;color:#d32f2f;font-size:1rem;margin:0;line-height:1.2;margin-top:auto}
-.cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:6px}
+.cardx .meta{padding:10px;display:flex;flex-direction:column;gap:6px}
+.cardx .id{font-weight:700;color:var(--main);font-size:13px}
+.cardx .details{font-size:12px;color:#666;min-height:2.2em;line-height:1.2}
+.cardx .type-badge{display:inline-block;background:#e0f0ff;color:#0056b3;font-size:11px;font-weight:700;padding:2px 6px;border-radius:12px}
+.cardx .price{font-weight:500;color:#d32f2f;font-size:1rem;margin-top:2px}
+.cardx .meta-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .cardx .btn-gift{
-  background:#fff;border:1.5px solid var(--main);color:var(--main);font-weight:600;padding:6px 14px;border-radius:999px;
-  display:inline-flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;max-width:72%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background:#fff;border:1px solid var(--main);color:var(--main);font-weight:700;
+  padding:6px 10px;border-radius:999px;font-size:12px;line-height:1;display:inline-flex;align-items:center;gap:6px;text-decoration:none;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
-.cardx .btn-gift:hover{background:var(--main-tint);color:var(--main-700);border-color:var(--main)}
-.add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center}
-.add-btn:hover{background:var(--main-600)}
+.cardx .btn-gift:hover{background:var(--main-grad);color:#fff;text-decoration:none}
+.add-btn{
+  border:none;background:var(--main-grad);color:#fff;border-radius:50%;
+  width:32px;height:32px;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center
+}
+
+/* ---- workshop list (sidebar) ---- */
+.workshop-box{
+  background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);
+  border:1px solid #90caf9;border-radius:12px;padding:12px
+}
+#workshopList{max-height:62vh;overflow:auto;padding-right:4px;scroll-behavior:smooth}
+#workshopList .link-preview{
+  display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;box-shadow:var(--shadow-sm)
+}
+#workshopList .title{
+  font-weight:700;
+  color:var(--main);           /* xanh lá */
+}
+#workshopList .desc{
+  font-size:12px;
+  color:var(--muted);
+}
+#workshopList .site{
+  font-size:12px;
+  color:var(--main);           /* xanh lá */
+}
+
 
 /* ---- Suppliers Offcanvas ---- */
-.offcanvas{z-index:4000}.offcanvas-backdrop{z-index:3990}
+.offcanvas{z-index:4000}
+.offcanvas-backdrop{z-index:3990}
+
 .sup-toolbar{
-  position:sticky;top:0;z-index:2;background:#fff;margin:-12px -12px 12px;padding:12px;border-bottom:1px solid var(--border);border-radius:12px 12px 0 0;
+  position:sticky; top:0; z-index:2; background:#fff; margin:-12px -12px 12px; padding:12px;
+  border-bottom:1px solid var(--border); border-radius:12px 12px 0 0
 }
 .sup-toolbar .counter{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px}
 .sup-toolbar .pill{background:#eef3ff;color:var(--main);border:1px solid #dbe3ff;padding:2px 8px;border-radius:999px;font-weight:700;font-size:12px}
 .supplier-list{max-height:62vh;overflow:auto;padding-right:4px}
-.supplier-card{border:1px solid var(--border);border-radius:12px;padding:10px;background:#fff;box-shadow:var(--shadow-sm)}
+.supplier-card{
+  border:1px solid var(--border);border-radius:12px;padding:10px;background:#fff;
+  box-shadow:var(--shadow-sm)
+}
 .supplier-card .title{font-weight:700;font-size:14px}
 .supplier-card .meta{font-size:12px;color:var(--muted)}
 .supplier-card .chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .supplier-card .chip{font-size:11px;padding:2px 8px;border-radius:999px;background:#f6f7fb;border:1px solid #e5e9ff;color:#475569}
 .supplier-card .chip.ok{background:#e8f7ee;border-color:#c7ead5;color:#256c3b}
-.supplier-card .supplier-doc{margin-top:8px;font-size:12px}
-.supplier-card .doc-input{max-width:260px}
-.supplier-card .doc-preview{font-size:11px;color:#666;font-style:italic}
 
 /* ---- Cart Offcanvas ---- */
-#cartCanvas .offcanvas-header{background:var(--main-grad);color:#fff;border:0;border-radius:12px 12px 0 0}
+#cartCanvas .offcanvas-header{
+  background:var(--main-grad); color:#fff; border:0; border-radius:12px 12px 0 0
+}
 #cartCanvas .offcanvas-body{font-size:13px;padding:16px}
 #cartCanvas input.form-control,#cartCanvas textarea.form-control,#cartCanvas select.form-select{
   border-radius:10px;font-size:13px;border:1px solid #dbe3ff
 }
 #cartCanvas input:focus,#cartCanvas textarea:focus,#cartCanvas select:focus{
-  border-color:var(--main);box-shadow:0 0 0 .2rem rgba(0,24,168,.15)
+  border-color:var(--main); box-shadow:0 0 0 0.2rem rgba(0,24,168,0.15)
 }
 #cartCanvas .btn{border-radius:999px;font-weight:600;font-size:13px}
 #cartCanvas #clearCartBtn{background:#fbe9e7;color:#d32f2f;border:1px solid #ffcdd2}
@@ -254,32 +309,27 @@ img{max-width:100%;display:block}
 #cartCanvas #cartTotal{font-weight:700;font-size:16px;color:#d32f2f}
 
 /* ---- Filter panel ---- */
-#filterPanel h6{
-  font-weight:700;font-size:14px;margin:16px 0 8px;color:var(--main);text-transform:uppercase;letter-spacing:.3px;
-}
+#filterPanel h6{font-weight:700;font-size:14px;margin:16px 0 8px;color:var(--main);text-transform:uppercase;letter-spacing:.3px}
 .filter-box-group{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
 .filter-tag{
-  border:1px solid var(--main);background:#fff;border-radius:999px;padding:6px 12px;
-  font-size:13px;font-weight:600;color:var(--main-700);cursor:pointer;transition:.15s;
+  border:1px solid #dbe3ff;background:#f9faff;border-radius:20px;padding:6px 12px;
+  font-size:13px;font-weight:500;color:#333;cursor:pointer;transition:.15s
 }
-.filter-tag:hover{background:var(--main-tint)}
-.filter-tag.active{background:var(--main-tint);border-color:var(--main);color:var(--main-700)}
+.filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
+.filter-tag.active{background:var(--main-grad);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
+
+
 
 /* ---- Floating Action Buttons ---- */
 .cart-fab,.filter-fab,.suppliers-fab,.zalo-fab{
-  position:fixed;right:16px;width:54px;height:54px;border:none;border-radius:50%;
-  color:#fff;font-size:22px;line-height:54px;box-shadow:0 6px 16px rgba(0,0,0,.25);z-index:2500;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
+  position:fixed; right:16px; width:54px; height:54px; border:none; border-radius:50%;
+  color:#fff; font-size:22px; line-height:54px; box-shadow:0 6px 16px rgba(0,0,0,.25);
+  z-index:2500; cursor:pointer; display:flex; align-items:center; justify-content:center
 }
 .filter-fab{background:#6c757d;bottom:212px}
 .cart-fab{background:var(--main-grad);bottom:148px}
 .suppliers-fab{background:#0d6efd;bottom:84px}
 .zalo-fab{background:#25D366;bottom:20px}
-.fab-badge{
-  position:absolute;top:-4px;right:-4px;transform:translate(25%,-25%);
-  min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#22c55e;color:#fff;font-weight:700;font-size:12px;line-height:20px;
-  box-shadow:0 2px 6px rgba(0,0,0,.20);display:none;
-}
 
 /* ---- Footer ---- */
 .site-footer{background:#fff;border-top:1px solid #eee;padding:16px 0;margin-top:20px;font-size:13px;color:#555}
@@ -292,73 +342,1450 @@ img{max-width:100%;display:block}
 .footer-social .social-fb{background:#1877F2}
 @media (max-width:576px){.footer-social{justify-content:flex-start;margin-top:8px}}
 
-/* Footer theme hồng */
-footer.text-light{background:var(--main-grad);color:#fff}
-footer.text-light h6{color:var(--accent)}
-footer.text-light hr{border-color:rgba(255,255,255,.4)}
-footer.text-light a,footer.text-light .bi{color:#fff}
-
-/* ---- Misc ---- */
+/* ---- Error toast ---- */
 #errbox{
-  position:fixed;left:8px;right:8px;bottom:8px;z-index:3000;background:#ffefef;border:1px solid #e99;border-radius:8px;
-  padding:8px;display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace;
+  position:fixed;left:8px;right:8px;bottom:8px;z-index:3000;
+  background:#ffefef;border:1px solid #e99;border-radius:8px;padding:8px;
+  display:none;white-space:pre-wrap;font-family:ui-monospace,Consolas,monospace
 }
+
+/* ---- Footer hero workshop ---- */
 .hero-workshop img{height:180px;object-fit:cover;border-radius:12px}
+
+/* Minor helpers */
 .small{font-size:.875rem}
+/* ===== GROUP BAR: sát mép, không bo góc, dính liền nhau, bỏ mũi tên ===== */
 
-/* ---- Category page link styles (an toàn cho label) ---- */
-#categoryScroll .category-item{display:block;color:var(--text);text-decoration:none}
-#categoryScroll .category-item:hover{text-decoration:none}
-#categoryScroll .category-item .label{
-  display:block;margin-top:6px;font-weight:700;font-size:13px;line-height:1.35;color:var(--text);text-align:center;
+/* Đưa group-bar “ăn” sát mép của .category-box (trên & hai bên), dưới không chừa khoảng */
+.category-box .group-bar-wrapper{
+  margin: -10px -10px 0 -10px;   /* sát mép trên & 2 bên của .category-box (đang padding 10px) */
+  padding: 0;                    /* sát trên/dưới */
+  border: 0;                     /* sạch viền ngoài */
+  border-radius: 0;              /* không bo góc */
+  box-shadow: none;
+  background: #fff;
 }
-#categoryScroll .category-item:hover .label{color:var(--main-600)}
-#categoryScroll .category-item .icon img{display:block;width:100%;height:100%;object-fit:contain}
 
-/* ---- Detail Dialog ---- */
-.dtl-backdrop[hidden]{display:none !important}
-.dtl-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.38);display:grid;place-items:center;z-index:99999;padding:16px}
-.dtl-dialog{
-  width:min(920px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:0 18px 60px rgba(0,0,0,.35);
-  padding:18px;position:relative;border:1px solid #e6efe9;
+/* Ẩn hẳn 2 mũi tên qua lại */
+.category-box .group-bar-wrapper > .group-arrow{ display:none !important; }
+
+/* Hàng chip: không khoảng cách để các nút dính liền nhau */
+#groupBar.group-bar-scroll{
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0;                /* dính liền nhau */
+  overflow-x: auto;
+  scrollbar-width: none;
 }
-.dtl-close{position:absolute;top:8px;right:10px;width:36px;height:36px;border-radius:10px;border:0;background:#f3f7f4;cursor:pointer;font-size:22px}
-.dtl-head{display:flex;gap:14px;align-items:center;margin-bottom:10px}
-.dtl-head img{width:96px;height:96px;border-radius:12px;object-fit:cover;background:#f3f6f4}
-#dtlTitle{margin:0 0 4px 0;color:#102a17}
-.dtl-sub{color:#5f6f65;font-size:14px}
-.dtl-badges{display:flex;gap:8px;flex-wrap:wrap;margin:4px 0 10px}
-.dtl-badges .tag{background:#e8f5e9;color:#1f6c23;padding:4px 8px;border-radius:999px;font-size:12px}
-.dtl-rows{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.dtl-row{border:1px solid #eef3ef;border-radius:12px;padding:10px;background:#fafdfb}
-.dtl-row .k{font-size:12px;color:#6b7b70;text-transform:uppercase;letter-spacing:.06em}
-.dtl-row .v{margin-top:4px;color:#14391c;white-space:pre-wrap;word-break:break-word}
-.dtl-actions{margin-top:14px;display:flex;gap:10px;justify-content:flex-end}
-.btn-main{background:var(--main);color:#fff;padding:10px 14px;border-radius:12px;border:0;cursor:pointer}
-.btn-main:hover{background:var(--main-600)}
-.btn-ghost{background:#f3f7f4;color:#123;padding:10px 14px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-@media (max-width:720px){.dtl-rows{grid-template-columns:1fr}}
+#groupBar.group-bar-scroll::-webkit-scrollbar{ display:none; }
 
-/* =========================================================
-   THEME: BAMBOO / NATURE (kích hoạt bằng body.theme-bamboo)
-   ========================================================= */
+/* Nút (chip) hình chữ nhật, không bo góc, cao gọn – dính nhau bằng 1 viền chung */
+#groupBar .group-chip{
+  border-radius: 0;                 /* không bo góc */
+  padding: 10px 14px;               /* sát trên–dưới */
+  line-height: 1;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0a33cc;
+  background: #f8faff;
+  border: 1px solid #dce3f5;        /* viền ngoài */
+  border-right: 0;                  /* bỏ viền phải để nối liền nhau */
+  white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
+  transition: background .12s, color .12s, box-shadow .12s;
+}
+
+/* Trả lại viền phải cho phần tử cuối để đóng khung hàng tab */
+#groupBar .group-chip:last-child{ border-right: 1px solid #dce3f5; }
+
+#groupBar .group-chip.active {
+  background: #fff !important;         /* bỏ gradient, giữ trắng */
+  color: var(--main) !important;       /* chữ xanh lá */
+  border-color: var(--main) !important;/* viền xanh lá */
+  box-shadow: 0 1px 2px rgba(0,0,0,.06);/* bóng nhẹ (tuỳ chọn) */
+}
+
+
+/* Dots có thể giữ lại (đang = số nhóm). Gọn hơn một chút */
+.group-dots{ display:flex; justify-content:center; gap:6px; margin:8px 0 6px; }
+.group-dots .dot{ width:6px; height:6px; border-radius:50%; background:#c9d6ff; }
+.group-dots .dot.active{ background:#0018a8; }
+
+/* (Tuỳ chọn) Nhích phần danh mục dưới lên sát group-bar */
+.category-box .category-wrapper{ margin-top: 0; }
+/* === FIX Group Bar === */
+#groupBar .group-chip{
+  border-radius: 0 !important;     /* bỏ bo góc */
+  font-weight: 400 !important;     /* chữ thường, không in đậm */
+  text-transform: none !important; /* không ép uppercase */
+}
+
+/* Chừa khoảng dưới để không che dots */
+.group-bar-wrapper{
+  margin-bottom: 24px !important;  /* nhích xuống 1 chút */
+}
+
+/* Căn dots rõ ràng hơn */
+.group-dots{
+  position: relative;
+  margin-top: 4px !important;
+  margin-bottom: 0 !important;
+  z-index: 1;
+}
+/* Thanh group bar */
+.group-bar-wrapper{
+  margin: 0 -10px 0 -10px;          /* ăn sát mép trái/phải box */
+  border: 1px solid #dce3f5;
+  border-bottom: none;              /* dính liền với phần dưới */
+  border-radius: 12px 12px 0 0;     /* bo 2 góc trên */
+  background: #fff;
+  overflow: visible !important;
+  padding: 0;
+  box-shadow: none;
+}
+
+/* Tab items */
+#groupBar.group-bar-scroll{
+  display: flex;
+  gap: 0;
+}
+#groupBar .group-chip{
+  border-radius: 0 !important;           /* phẳng */
+  border-right: 1px solid #dce3f5;
+  border-bottom: 1px solid #dce3f5;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0a33cc;
+  background: #f8faff;
+  cursor: pointer;
+  transition: .15s;
+}
+#groupBar .group-chip:last-child{ border-right: none; }
+#groupBar .group-chip.active{
+  background: #0018a8;
+  color: #fff;
+  border-color: #0018a8;
+}
+
+/* Dots nằm ngoài, không bị che */
+.group-dots{
+  margin-top: 6px !important;
+  margin-bottom: 0 !important;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.group-dots .dot{
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #c9d6ff;
+  transition: background .2s, transform .2s;
+}
+.group-dots .dot.active{
+  background: #0018a8;
+  transform: scale(1.25);
+}
+/* ===== Khung danh mục ===== */
+.category-box{
+  border:1px solid #dce3f5;
+  border-radius:12px;
+  background:#fff;
+  padding:10px;
+}
+
+/* ===== Thanh tab: sát mép trên + bo 2 góc trên ===== */
+.category-box .group-bar-wrapper{
+  margin:-10px -10px 0 -10px !important;   /* ăn sát mép trên/trái/phải của .category-box */
+  padding:0 !important;
+  background:#fff !important;
+  border:1px solid #dce3f5 !important;
+  border-bottom:none !important;           /* dính liền phần dưới */
+  border-radius:12px 12px 0 0 !important;  /* bo 2 góc trên */
+  box-shadow:none !important;
+  position:relative;
+  z-index:1;                               /* thấp hơn dots */
+}
+
+/* Ẩn mũi tên trái/phải */
+.category-box .group-arrow{ display:none !important; }
+
+/* ===== Tabs (chips) – dính liền, không bo góc, chữ thường không đậm ===== */
+#groupBar{
+  display:flex;
+  gap:0;
+  overflow:visible;
+}
+#groupBar .group-chip{
+  padding:10px 16px !important;
+  font-size:14px !important;
+  font-weight:400 !important;              /* không in đậm */
+  text-transform:none !important;          /* chữ thường */
+  color:#0a33cc !important;
+  background:#f8faff !important;
+
+  border:none !important;
+  border-right:1px solid #dce3f5 !important;
+  border-bottom:1px solid #dce3f5 !important;
+  border-radius:0 !important;              /* phẳng, dính nhau */
+  cursor:pointer;
+}
+#groupBar .group-chip:last-child{ border-right:none !important; }
+#groupBar .group-chip:hover{ background:#eef3ff !important; }
+#groupBar .group-chip.active{
+  background:#0018a8 !important;
+  color:#fff !important;
+  border-color:#0018a8 !important;
+}
+
+
+/* Phần danh mục bên dưới – giữ khoảng cách nhỏ */
+.category-box .category-wrapper{ margin-top:8px; }
+/* Đảm bảo thanh tab và box bo khớp nhau */
+.category-box .group-bar-wrapper{
+  margin:-10px -10px 0 -10px !important;
+  border:1px solid #dce3f5 !important;
+  border-bottom:none !important;
+  border-radius:12px 12px 0 0 !important;
+  background:#fff;
+  overflow:visible !important;
+}
+
+/* Tabs */
+#groupBar{ display:flex; gap:0; }
+#groupBar .group-chip{
+  border-radius:0 !important;
+  border-right:1px solid #dce3f5 !important;
+  border-bottom:1px solid #dce3f5 !important;
+  font-weight:400 !important;
+  text-transform:none !important;
+}
+#groupBar .group-chip:last-child{ border-right:none !important; }
+
+/* Dots: ép nó ra ngoài, bên dưới category-box */
+#groupDots{
+  position:relative;
+  top:10px;                        /* đẩy xuống dưới khung */
+  margin-bottom:10px;
+  display:flex; justify-content:center; gap:6px;
+  z-index:2;
+}
+#groupDots .dot{
+  width:6px;height:6px;border-radius:50%;
+  background:#c9d6ff;
+}
+#groupDots .dot.active{
+  background:#0018a8;
+  transform:scale(1.25);
+}
+/* ===== GROUP TABS – sát mép, vuông, liền nhau ===== */
+.category-box{ --cat-radius:12px; }
+
+/* Thanh tab ăn sát padding của .category-box */
+.category-box .group-bar-wrapper{
+  margin:-10px -10px 0 -10px;        /* ăn sát 4 cạnh phía trên */
+  padding:0;
+  border:0;
+  border-radius:var(--cat-radius) var(--cat-radius) 0 0;  /* bo 2 góc trên khớp khung */
+  background:#fff;
+  overflow:visible;
+}
+
+/* Hàng tab: các khối chạm nhau, không bo góc */
+#groupBar{
+  display:flex;
+  width:100%;
+  gap:0;
+}
+
+#groupBar .group-chip{
+  flex:1 1 0;                         /* chia đều bề rộng */
+  padding:12px 10px;
+  text-align:center;
+  color:#0a33cc;
+  background:#fff;
+  border:1px solid #dce3f5;
+  border-bottom:0;                    /* để liền với phần dưới */
+  border-left:0;
+  border-radius:0 !important;         /* vuông góc */
+  font-weight:400;                    /* không in đậm */
+  text-transform:none;                /* chữ thường */
+  line-height:1.2;
+  white-space:normal;
+}
+#groupBar .group-chip:first-child{ border-left:1px solid #dce3f5; }
+#groupBar .group-chip.active{
+  background:#f2f6ff;
+  color:#0018a8;
+  border-color:#bcd0ff;
+}
+
+/* Phần danh mục (bên dưới tabs) – bo 2 góc dưới để khớp khung */
+.category-box .category-wrapper{
+  border:1px solid #dce3f5;
+  border-top:0;
+  border-radius:0 0 var(--cat-radius) var(--cat-radius);
+  padding:12px;
+  background:#fff;
+}
+.group-chip {
+  border-radius: 10px;    /* bo góc nhẹ, thay vì 50% hay 999px */
+  padding: 16px 12px;     /* có thể chỉnh padding để cân lại */
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  margin: 6px;                     /* khoảng cách giữa các chip */
+}
+
+.group-bar-scroll {
+  row-gap: 8px;  /* nếu có nhiều hàng */
+}
+
+/* Dots chỉ báo trang/nhóm – luôn nhìn thấy, không bị che */
+#groupDots{
+  position:relative;
+  margin:8px 0 10px;
+  display:flex;
+  justify-content:center;
+  gap:6px;
+  z-index:1;
+}
+#groupDots .dot{
+  width:6px; height:6px; border-radius:50%;
+  background:#c9d6ff; transition:transform .15s, background .15s;
+}
+#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
+
+/* Tắt mọi overlay mép trái/phải từng dùng trước đây (tránh đè lên sidebar/xưởng) */
+.group-bar-wrapper::before,
+.group-bar-wrapper::after{ display:none !important; }
+
+.found-count{
+  display:inline-flex;
+  align-items:center;
+  gap:6px; /* số và chữ sát nhau */
+  font-weight:500;
+}
+.found-count .lbl{ margin-right:2px; }
+
+
+/* Danh sách link preview */
+#workshopList{
+  max-height:62vh;
+  overflow:auto;
+  padding-right:4px;
+  scroll-behavior:smooth;
+}
+
+/* Card preview từng xưởng */
+#workshopList .link-preview{
+  display:flex;
+  gap:10px;
+  background:#fff;
+  border:1px solid #e3f2fd;
+  border-radius:10px;
+  padding:10px;
+  box-shadow:0 1px 2px rgba(0,0,0,.06);
+}
+#workshopList .link-preview .thumb{
+  width:64px; height:64px;
+  border-radius:8px; object-fit:cover; background:#f1f4ff;
+}
+#workshopList .link-preview .title{ font-weight:700; }
+#workshopList .link-preview .desc{ font-size:12px; color:#6b7280; }
+#workshopList .link-preview .site{ font-size:12px; color:#1565c0; }
+
+ /* ==== GROUP BAR kiểu Tiki ==== */
+.group-bar-wrapper{ background:#fff; border:0; padding:12px; }
+#groupBar{
+  display:flex !important; gap:14px; overflow-x:auto; scrollbar-width:none;
+  align-items:center;
+}
+#groupBar::-webkit-scrollbar{ display:none; }
+
+#groupBar .group-chip{
+  display:flex !important; flex-direction:column; align-items:center; justify-content:center;
+  gap:8px; min-width:120px; padding:12px 10px;
+  background:#fff; border:1px solid #eef2ff; border-radius:16px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);
+  color:#111827 !important; font-weight:600 !important; font-size:13px !important;
+  text-align:center; white-space:normal; line-height:1.25; cursor:pointer;
+  transition:transform .12s, box-shadow .12s, background .12s, border-color .12s;
+}
+#groupBar .group-chip:hover{
+  transform:translateY(-1px); box-shadow:0 4px 14px rgba(0,0,0,.10);
+}
+
+/* icon “viên thuốc” mờ mờ */
+#groupBar .chip-icon{
+  width:56px; height:56px; border-radius:16px;
+  display:flex; align-items:center; justify-content:center;
+  background:linear-gradient(180deg,#f5f7ff 0%, #edf1ff 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+  overflow:hidden;
+}
+#groupBar .chip-icon img{ width:34px; height:34px; object-fit:contain; }
+
+/* trạng thái chọn */
+#groupBar .group-chip.active{
+  border-color:#c7d2fe; background:#f8faff;
+  box-shadow:0 6px 20px rgba(0,24,168,.10);
+}
+#groupBar .group-chip.active .chip-icon{
+  background:linear-gradient(180deg,#e7ecff 0%, #dbe5ff 100%);
+  outline:3px solid rgba(0,24,168,.12);
+  outline-offset:0;
+}
+/* === Tách 2 phần & bỏ kiểu khung vuông – style giống Tiki === */
+
+/* Bỏ khung .category-box để tabs và danh mục nhìn rời nhau */
+.category-box{
+  background: transparent !important;
+  border: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Tabs (group bar) thành 1 dải độc lập, không viền */
+.category-box .group-bar-wrapper{
+  margin: 0 0 10px 0 !important;   /* tạo khoảng cách với phần dưới */
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Tabs kiểu Tiki: pill bo tròn, không khung ô vuông */
+#groupBar{
+  display: flex;
+  gap: 10px !important;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#groupBar::-webkit-scrollbar{ display:none; }
+
+#groupBar .group-chip{
+  border: 0 !important;
+  background: transparent !important;
+  color: #0a33cc !important;
+  border-radius: 999px !important;
+  padding: 10px 16px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  line-height: 1.1;
+  white-space: nowrap;
+  transition: background .12s ease, color .12s ease;
+}
+#groupBar .group-chip:hover{
+  background: rgba(0,24,168,.08) !important;
+}
+#groupBar .group-chip.active{
+  background: #0018a8 !important;
+  color: #fff !important;
+}
+
+/* Dots giữ lại nhưng gọn hơn */
+#groupDots{ margin: 6px 0 12px !important; gap: 6px; }
+#groupDots .dot{ width:6px; height:6px; border-radius:50%; background:#c9d6ff; }
+#groupDots .dot.active{ background:#0018a8; transform:scale(1.2); }
+
+/* Phần danh mục icon: panel trắng bo tròn nhẹ (không viền) */
+.category-box .category-wrapper{
+  border: 0 !important;
+  border-radius: 12px !important;
+  padding: 14px !important;
+  background: #fff !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.04) !important; /* nhẹ như Tiki */
+}
+
+/* Grid danh mục vẫn 2 hàng nhưng bỏ khung ô vuông từng item */
+.category-scroll{
+  gap: 16px !important;
+}
+.category-item{
+  border: 0 !important;
+  background: transparent !important;
+  padding: 8px 6px !important;
+  border-radius: 12px !important;
+  transition: transform .12s ease, background .12s ease;
+}
+.category-item:hover{
+  background: #f7f9ff !important;
+  transform: translateY(-1px);
+}
+/* Icon tròn nền dịu + shadow nhẹ */
+.category-item .icon{
+  width: 56px !important; height: 56px !important;
+  border-radius: 16px !important;
+  background: #f2f6ff !important;
+  display: inline-flex; align-items:center; justify-content:center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.06);
+  margin-bottom: 8px !important;
+}
+.category-item .icon img{
+  width: 32px !important; height: 32px !important; object-fit: contain;
+}
+/* Text nhỏ, 2 dòng tối đa */
+.category-item span{
+  font-size: 12px !important;
+  line-height: 1.25;
+  color: #111;
+  display: block;
+}
+.category-item.active span{
+  color: #0018a8;
+  font-weight: 700;
+}
+
+/* Đảm bảo phần "Tìm thấy + Xóa bộ lọc" và "Pagination" nằm cùng dòng */
+#pagerTop{
+  margin-left: auto;   /* đẩy pagination sang bên phải */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+/* Giữ "Tìm thấy …" và pagerTop cùng 1 dòng trên mobile */
+.stats-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:nowrap;        /* không cho rớt dòng */
+}
+
+#pagerTop{
+  margin-left:auto;        /* đẩy pager sang phải */
+  display:flex;
+  align-items:center;
+  gap:4px;
+  flex-shrink:0;           /* không bị co nhỏ quá */
+}
+
+/* Tối ưu khi màn hình rất hẹp */
+@media (max-width:576px){
+  .stats-row{gap:6px}
+  .found-count{flex:1 1 auto; min-width:0}
+}
+
+.found-count{
+  flex-wrap:nowrap;
+  gap:6px;
+}
+
+#pagerTop{
+  white-space:nowrap;
+}
+
+/* Khi màn hình nhỏ: cho 2 hàng tách nhau */
+@media (max-width:576px){
+  .stats-row .col-auto,
+  .stats-row .col{
+    flex: 0 0 100%;
+    max-width: 100%;
+    text-align:center;
+  }
+  #pagerTop{ margin-top:6px; }
+}
+/* ===== PAGER: cao = btn-sm + gọn chiều ngang ===== */
+#pagerTop .btn,
+#pagerBottom .btn{
+  padding: .25rem .5rem;
+  font-size: .875rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  min-width: 40px;
+}
+
+#pagerTop .btn-group,
+#pagerBottom .btn-group{ gap: 4px; }
+
+/* Hàng thống kê phía trên (Tìm thấy + Xóa bộ lọc + Pager) */
+.stats-row,
+.d-flex.align-items-center.justify-content-between.flex-wrap{ 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+#pagerTop{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 576px){
+  .found-count{ flex: 1 1 auto; }
+  #pagerTop   { flex: 0 1 auto; }
+}
+/* ==== FIX Stats row + Pagination ==== */
+.stats-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  flex-wrap:nowrap;      /* ❌ không cho xuống hàng */
+  overflow-x:auto;       /* ✔ nếu chật thì tràn ngang */
+  margin-bottom:8px;
+}
+
+#pagerTop .btn,
+#pagerBottom .btn{
+  height:32px;            /* bằng nút "Xóa bộ lọc" */
+  padding:4px 8px;
+  font-size:13px;
+  line-height:1.2;
+  border-radius:6px;
+  min-width:36px;         /* gọn chiều ngang */
+}
+
+#pagerTop .btn-group,
+#pagerBottom .btn-group{
+  gap:4px;
+}
+
+@media (max-width:576px){
+  .found-count{ flex:0 1 auto; }
+  #pagerTop   { flex:0 1 auto; }
+}
+/* Pager gọn và cùng chiều cao với btn-sm */
+#pagerTop .btn, #pagerBottom .btn{
+  padding:.35rem .6rem;
+  font-size:.875rem;
+  line-height:1.2;
+  border-radius:.25rem;
+  min-width:40px;
+}
+#pagerTop .form-select, #pagerBottom .form-select{
+  min-width:110px;   /* thu gọn ngang một chút cho vừa 1 dòng mobile */
+}
+.stats-row{ gap:8px; }
+#pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
+/* Pager gọn và cùng chiều cao với btn-sm */
+#pagerTop .btn, #pagerBottom .btn{
+  padding:.35rem .6rem;
+  font-size:.875rem;
+  line-height:1.2;
+  border-radius:.25rem;
+  min-width:40px;
+}
+#pagerTop .form-select, #pagerBottom .form-select{
+  min-width:110px;   /* thu gọn ngang một chút cho vừa 1 dòng mobile */
+}
+.stats-row{ gap:8px; }
+#pagerTop{ margin-left:auto; white-space:nowrap; display:flex; align-items:center; gap:4px; }
+/* Pager nằm sát nút "Xóa bộ lọc" */
+#pagerTop{ margin-left:0 !important; white-space:nowrap; display:inline-flex; align-items:center; gap:4px; }
+#cartFab, #filterFab, #suppliersFab, #zaloFab {
+  position: fixed;
+  left: auto;
+  right: 16px;
+  z-index: 1055;
+}
+
+#cartFab       { bottom: 148px; }
+#filterFab     { bottom: 212px; }
+#suppliersFab  { bottom: 84px; }
+#zaloFab       { bottom: 20px; }
+.group-arrow {
+  display: flex !important;   /* đảm bảo hiện lại */
+  align-items: center;
+  justify-content: center;
+
+  font-size: 28px;     /* to hơn */
+  width: 44px;         /* vùng bấm rộng */
+  height: 44px;
+  border-radius: 50%;  /* tròn nút */
+  background: #fff;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  cursor: pointer;
+}
+/* === Force group chip to be a rounded rectangle === */
+#groupBar .group-chip{
+  border-radius: 12px !important;   /* bo góc nhẹ */
+  padding: 12px 14px !important;    /* thu gọn padding để bớt “viên thuốc” */
+  min-height: auto !important;      /* bỏ cố định chiều cao nếu có */
+}
+
+/* nếu vẫn còn bị lớp nào khác thắng, tăng thêm độ ưu tiên */
+.category-box #groupBar .group-chip{
+  border-radius: 12px !important;
+}
+.supplier-card .supplier-doc { margin-top: 8px; font-size: 12px; }
+.supplier-card .doc-input   { max-width: 260px; }
+.supplier-card .doc-preview { font-size: 11px; color: #666; font-style: italic; }
+.chip.muted { color:#6b7280; background:#f3f4f6; }
+.chip.btn-upload-doc { cursor:pointer; }
+
+/* ===== THEME OVERRIDES: ép về hồng + gradient ===== */
+
+/* Hover dịu cùng tông (thay cho rgba xanh) */
+:root{
+  --main-tint: #ffe3f0;          /* nền hover nhạt */
+  --main-shadow: rgba(233,30,99,.22);
+}
+
+/* Group tabs (mọi biến thể) */
+#groupBar .group-chip.active,
+.group-chip.active{
+  background: var(--main-grad) !important;
+  color: #fff !important;
+  border-color: var(--main) !important;
+  box-shadow: 0 6px 16px var(--main-shadow) !important;
+}
+
+/* Hover của group-chip (đồng tông) */
+#groupBar .group-chip:hover,
+.group-chip:hover{
+  background: var(--main-tint) !important;
+  color: var(--main-700) !important;
+}
+
+/* Dots active: dùng hồng phẳng (không gradient cho chấm) */
+.group-dots .dot.active,
+#groupDots .dot.active{
+  background: var(--main) !important;
+  transform: scale(1.25);
+}
+
+/* Các chỗ còn đang blue đậm → đổi về biến main */
+#groupBar .group-chip,
+.category-item.active span,
+.cat-arrow{
+  color: var(--main-700) !important; /* thay #0a33cc */
+}
+/* Footer dùng theme hồng */
+footer.text-light{
+  background: var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
+  color: #fff;
+}
+
+/* Tiêu đề nổi bật */
+footer.text-light h6{
+  color: var(--accent); /* vàng accent */
+}
+
+/* Đường kẻ trong footer */
+footer.text-light hr{
+  border-color: rgba(255,255,255,.4);
+}
+
+/* Link và icon giữ trắng */
+footer.text-light a,
+footer.text-light .bi{
+  color:#fff;
+}
+/* ===== SHAPE THEME HỒNG ===== */
+
+/* Mặc định: ô hồng, chữ trắng */
+.group-chip,
+.category-item span {
+  background: var(--main-grad);
+  color: #fff;
+  border: 1px solid var(--main);
+  border-radius: 16px;  /* giữ bo tròn nếu cần */
+  transition: all .2s ease;
+}
+
+/* Hover: hồng nhạt + chữ hồng đậm */
+.group-chip:hover,
+.category-item span:hover {
+  background: var(--main-tint);  /* màu nhạt bạn đã set ở :root */
+  color: var(--main-700);
+}
+
+/* Active: ô trắng, chữ hồng */
+.group-chip.active,
+.category-item.active span {
+  background: #fff !important;
+  color: var(--main) !important;
+  border-color: var(--main) !important;
+}
+.group-chip,
+.category-item span {
+  background:#fff;
+  color:var(--main);
+  border:1px solid var(--main);
+  border-radius:16px;
+  transition:all .2s ease;
+}
+.group-chip:hover,
+.category-item span:hover {
+  background:var(--main-tint);
+  color:var(--main-700);
+}
+.group-chip.active,
+.category-item.active span {
+  background:var(--main-grad)!important;
+  color:#fff!important;
+  border-color:var(--main)!important;
+}
+.group-chip,
+.category-item span {
+  background:#fff;
+  color:var(--main);
+  border:1px solid var(--main);
+  border-radius:16px;
+  transition:all .2s ease;
+}
+.group-chip:hover,
+.category-item span:hover {
+  background:var(--main-tint);
+  color:var(--main-700);
+}
+.group-chip.active,
+.category-item.active span {
+  background:var(--main-grad)!important;
+  color:#fff!important;
+  border-color:var(--main)!important;
+}
+/* ===== FOOTER THEME HỒNG ===== */
+footer.text-light{
+  background:var(--main-grad); /* hoặc var(--main) nếu muốn hồng phẳng */
+  color:#fff;
+}
+footer.text-light h6{ color:var(--accent); }
+footer.text-light hr{ border-color:rgba(255,255,255,.4); }
+footer.text-light a,
+footer.text-light .bi{ color:#fff; }
+ /* ===== Dots dưới group-bar ===== */
+#groupDots{
+  margin-top:10px;              /* nằm ngay dưới group-bar */
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  position:relative;
+  z-index:2;
+}
+
+#groupDots .dot{
+  width:10px; height:10px;
+  border-radius:50%;
+  background:#cbd5e1;           /* xám nhạt */
+  transition:all .2s ease;
+}
+
+#groupDots .dot.active{
+  background:var(--main);       /* hồng chủ đạo */
+  transform:scale(1.25);
+}
+ /* =========================
+   BAMBOO / NATURE THEME
+   Bật bằng: <body class="theme-bamboo">
+   ========================= */
+
 .theme-bamboo{
-  --main:#2e7d32; --main-600:#2c6e2f; --main-700:#1b5e20;
-  --main-grad:linear-gradient(90deg,#66bb6a 0%,#2e7d32 100%);
-  --accent:#c6a969; --bg:#f7faf7; --text:#1e2a1e; --muted:#647b64; --card:#ffffff; --border:#dfe7df;
-  --main-tint:#e7f5e8; --main-shadow:rgba(46,125,50,.22);
-}
-.theme-bamboo .type-badge{background:#e7f3e8;color:#1b5e20}
-.theme-bamboo .category-item .icon{background:#edf7ed;box-shadow:0 4px 10px rgba(46,125,50,.12)}
-.theme-bamboo .btn,.theme-bamboo .btn-primary,.theme-bamboo .btn-success,.theme-bamboo .fab,.theme-bamboo .btn-gift,.theme-bamboo .search-btn{
-  background:var(--main);background-image:none;color:#fff;border:none;box-shadow:var(--shadow-sm)
-}
-.theme-bamboo .btn:hover,.theme-bamboo .fab:hover,.theme-bamboo .btn-gift:hover,.theme-bamboo .search-btn:hover{background:var(--main-600)}
-.theme-bamboo .cardx .id{color:var(--main)}
-.theme-bamboo footer.text-light{background:linear-gradient(180deg,#2e7d32 0%,#1b5e20 100%);color:#fff}
-.theme-bamboo footer.text-light h6{color:var(--accent)}
-.theme-bamboo footer.text-light hr{border-color:rgba(255,255,255,.25)}
+  /* Palette */
+  --main:        #2e7d32;                 /* Xanh tre đậm */
+  --main-600:    #2c6e2f;
+  --main-700:    #1b5e20;
+  --main-grad:   linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
 
+  --accent:      #c6a969;                 /* vàng tre khô / ánh nắng */
+  --bg:          #f7faf7;                 /* nền ngà xanh rất nhẹ */
+  --text:        #1e2a1e;                 /* xanh đen */
+  --muted:       #647b64;
+
+  --card:        #ffffff;
+  --border:      #dfe7df;
+
+  --main-tint:   #e7f5e8;                 /* hover dịu */
+  --main-shadow: rgba(46,125,50,.22);
+}
+
+/* Texture nền rất nhẹ (SVG pattern) – có thể tắt nếu muốn phẳng */
+.theme-bamboo body{
+  background:
+    radial-gradient(1200px 200px at 50% -40px, rgba(102,187,106,.12), transparent 60%),
+    url("data:image/svg+xml;utf8,\
+    <svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'>\
+      <g fill='none' stroke='%23e6efe6' stroke-width='1'>\
+        <path d='M10 0 v180'/> <path d='M60 0 v180'/> <path d='M110 0 v180'/> <path d='M160 0 v180'/>\
+        <path d='M0 20 h180'/> <path d='M0 70 h180'/> <path d='M0 120 h180'/> <path d='M0 170 h180'/>\
+      </g></svg>") repeat;
+  background-size: auto, 180px 180px;
+}
+
+/* Header / Top banner */
+.theme-bamboo .site-header{
+  border-bottom-color: #e4efe4;
+}
+.theme-bamboo .top-banner{
+  background: var(--main-grad);
+}
+
+/* Chip/Tab/Filter – dùng cùng token sẵn có của bạn */
+.theme-bamboo .group-chip,
+.theme-bamboo .filter-tag{
+  background:#fff !important;
+  color:var(--main) !important;
+  border:1px solid var(--main) !important;
+}
+.theme-bamboo .group-chip:hover,
+.theme-bamboo .filter-tag:hover{
+  background:var(--main-tint) !important;
+  color:var(--main-700) !important;
+}
+.theme-bamboo .group-chip.active,
+.theme-bamboo .filter-tag.active{
+  background:var(--main-grad) !important;
+  color:#fff !important;
+  border-color:var(--main) !important;
+  box-shadow:0 6px 16px var(--main-shadow) !important;
+}
+
+/* Category item icon nền xanh nhẹ */
+.theme-bamboo .category-item .icon{
+  background: #edf7ed !important;
+  box-shadow: 0 4px 10px rgba(46,125,50,.12);
+}
+
+/* Button/CTA */
+.theme-bamboo .btn-primary{
+  background: var(--main-grad);
+  border: none;
+}
+.theme-bamboo .btn-primary:hover{
+  filter: brightness(.95);
+}
+.theme-bamboo .btn-outline-secondary{
+  border-color: var(--main);
+  color: var(--main);
+}
+.theme-bamboo .btn-outline-secondary:hover{
+  background: var(--main-tint);
+  color: var(--main-700);
+}
+
+/* Card sản phẩm */
+.theme-bamboo .cardx{
+  box-shadow: 0 2px 10px rgba(0,0,0,.06);
+  border: 1px solid var(--border);
+}
+.theme-bamboo .cardx .id{ color: var(--main); }
+.theme-bamboo .type-badge{
+  background:#e7f3e8; color:#1b5e20;
+}
+
+/* Dots */
+.theme-bamboo #groupDots .dot.active,
+.theme-bamboo .group-dots .dot.active{
+  background: var(--main);
+  transform: scale(1.25);
+}
+
+/* Footer “tre/nắng” */
+.theme-bamboo footer.text-light{
+  background: linear-gradient(180deg, #2e7d32 0%, #1b5e20 100%);
+  color:#fff;
+}
+.theme-bamboo footer.text-light h6{ color: var(--accent); }
+.theme-bamboo footer.text-light hr{ border-color: rgba(255,255,255,.25); }
+
+/* Accent nhỏ: kẻ ngăn, badge */
+.theme-bamboo .badge.text-bg-primary{
+  background: var(--main);
+}
+.theme-bamboo .workshop-box{
+  background: linear-gradient(180deg,#eaf7ea 0%, #d7eed9 100%);
+  border-color: #bfe3c0;
+}
+/* ----- CARD: canh đều đáy ----- */
+.cardx{ display:flex; flex-direction:column; }
+.cardx .meta{
+  display:flex; flex-direction:column; gap:6px;
+  flex:1;                /* cho phần meta chiếm hết chiều cao còn lại */
+}
+
+/* ID 1 dòng cố định chiều cao */
+.cardx .id{
+  line-height:1.2;
+  min-height:1.2em;      /* chống nhảy khi id ngắn/dài */
+}
+
+/* Mô tả: cắt bớt, không tràn */
+.cardx .details{
+  display:-webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2; /* đổi 2->3 nếu muốn 3 dòng */
+  overflow:hidden;
+  min-height:2.4em;      /* 2 dòng x 1.2em để giữ chiều cao cố định */
+}
+
+/* Badge “Giá tham khảo” luôn gọn, không làm vỡ layout */
+.cardx .type-badge{
+  align-self:flex-start;
+  max-width:100%;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+/* Đưa giá xuống đáy cột meta -> các card thẳng hàng */
+.cardx .price{
+  margin-top:auto;       /* đẩy giá xuống sát đáy meta */
+}
+
+/* Khoảng cách nhỏ giữa giá và cụm nút */
+.cardx .meta-actions{ margin-top:6px; }
+
+/* Nút Nhận quà gọn & đều */
+.cardx .btn-gift{
+  max-width:72%;         /* đã có ellipsis, giữ đều chiều ngang */
+}
+
+/* Nếu có card thiếu badge, vẫn giữ khoảng trống như nhau (tùy chọn) */
+.cardx .type-badge:empty{ display:none; }
+/* ===== Category/Group Box Theme ===== */
+.theme-bamboo .category-item span,
+.theme-bamboo .group-chip {
+  background: var(--main-grad) !important; /* nền xanh lá gradient */
+  color: #fff !important;
+  border: none !important;
+  transition: all .2s ease;
+}
+
+/* Hover: sáng hơn một chút */
+.theme-bamboo .category-item span:hover,
+.theme-bamboo .group-chip:hover {
+  filter: brightness(1.05);
+}
+
+/* Active: đảo ngược → nền trắng, chữ xanh lá */
+.theme-bamboo .category-item.active span,
+.theme-bamboo .group-chip.active {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1px solid var(--main) !important;
+}
+/* Bỏ viền bo trong các ô category/group */
+.theme-bamboo .category-item span,
+.theme-bamboo .group-chip {
+  border: none !important;
+  border-radius: 12px; /* giữ bo góc mềm, nếu muốn bỏ bo thì set 0 */
+}
+/* ===== FIX: Group chips xanh lá mặc định – click mới chuyển trắng ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: var(--main) !important;   /* xanh lá mặc định */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+}
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-600) !important; /* hơi đậm khi hover */
+  color: #fff !important;
+}
+.theme-bamboo #groupBar .group-chip.active{
+  background: #fff !important;           /* khi bấm -> trắng */
+  color: var(--main) !important;
+  border: none !important;               /* không viền */
+}
+
+/* Category chip nhỏ phía dưới: cũng xanh mặc định – bấm mới chuyển */
+.theme-bamboo .category-item span{
+  background: var(--main) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 999px !important;
+}
+.theme-bamboo .category-item:hover span{
+  background: var(--main-600) !important;
+}
+.theme-bamboo .category-item.active span{
+  background: #fff !important;
+  color: var(--main) !important;
+}
+/* ===== FIX: Group chips xanh lá mặc định – click mới chuyển trắng ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: var(--main) !important;   /* xanh lá mặc định */
+  color: #fff !important;
+  border: none !important;
+  border-radius: 12px !important;
+}
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-600) !important; /* hơi đậm khi hover */
+  color: #fff !important;
+}
+.theme-bamboo #groupBar .group-chip.active{
+  background: #fff !important;           /* khi bấm -> trắng */
+  color: var(--main) !important;
+  border: none !important;               /* không viền */
+}
+
+/* Category chip nhỏ phía dưới: cũng xanh mặc định – bấm mới chuyển */
+.theme-bamboo .category-item span{
+  background: var(--main) !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 999px !important;
+}
+.theme-bamboo .category-item:hover span{
+  background: var(--main-600) !important;
+}
+.theme-bamboo .category-item.active span{
+  background: #fff !important;
+  color: var(--main) !important;
+}
+/* ===== Reset group card về giao diện cũ ===== */
+.theme-bamboo #groupBar .group-chip{
+  background: #fff !important;     /* nền trắng mặc định */
+  color: var(--main) !important;   /* chữ xanh */
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-sm);
+  transition: all .2s ease;
+}
+
+.theme-bamboo #groupBar .group-chip:hover{
+  background: var(--main-tint) !important; /* nền xanh nhạt khi hover */
+  color: var(--main-700) !important;
+}
+
+.theme-bamboo #groupBar .group-chip.active{
+  background: var(--main-grad) !important; /* khi chọn: nền xanh gradient */
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--shadow-md);
+}
+/* Bỏ viền xanh nhạt quanh category/group card */
+.theme-bamboo .category-item,
+.theme-bamboo #groupBar .group-chip {
+  border: none !important;
+  box-shadow: var(--shadow-sm); /* giữ bóng nhẹ để phân biệt với nền */
+}
+/* Category chip: chỉ chữ xanh, bỏ nền + viền */
+.theme-bamboo .category-item span {
+  background: transparent !important;
+  border: none !important;
+  color: var(--main) !important;
+  box-shadow: none !important;
+}
+
+/* Hover: chữ xanh đậm hơn, vẫn không nền */
+.theme-bamboo .category-item span:hover {
+  background: transparent !important;
+  color: var(--main-700) !important;
+}
+
+/* Active: chữ đậm hơn để phân biệt */
+.theme-bamboo .category-item.active span {
+  background: transparent !important;
+  color: var(--main-700) !important;
+}
+/* ===== Nút xanh lá phẳng, bỏ gradient ===== */
+.theme-bamboo .btn,
+.theme-bamboo .btn-primary,
+.theme-bamboo .btn-success,
+.theme-bamboo .fab,             /* nút tròn nổi */
+.theme-bamboo .btn-gift,        /* nút Nhận quà */
+.theme-bamboo .search-btn {     /* nút Tìm */
+  background: var(--main) !important;   /* xanh lá phẳng */
+  background-image: none !important;    /* bỏ gradient */
+  color: #fff !important;
+  border: none !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.theme-bamboo .btn:hover,
+.theme-bamboo .fab:hover,
+.theme-bamboo .btn-gift:hover,
+.theme-bamboo .search-btn:hover {
+  background: var(--main-600) !important; /* đậm hơn khi hover */
+}
+/* Dấu + màu phẳng (không gradient) */
+.add-btn{
+  background: var(--main) !important;        /* xanh lá phẳng */
+  background-image: none !important;         /* bỏ gradient */
+  color:#fff !important;
+  border: none !important;
+}
+
+.add-btn:hover{
+  background: var(--main-600) !important;    /* đậm hơn khi hover */
+}
+/* Nút bên trái: trắng + viền xanh, text giữa */
+.btn-gift{
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;   /* chữ ở giữa */
+  gap: 6px;                              /* giữ khoảng icon-text nếu có */
+  text-decoration: none !important;
+}
+
+.btn-gift:hover{
+  background: var(--main-tint) !important;     /* hồng/ xanh nhạt khi hover tùy theme */
+  color: var(--main-700) !important;
+}
+/* Nút Nhận quà: nền trắng, viền xanh, chữ xanh */
+.btn-gift,
+.theme-bamboo .btn-gift,
+.btn.btn-success, 
+.btn.btn-primary {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  box-shadow: none !important;
+  font-weight: 600; 
+  border-radius: 999px; /* giữ kiểu viên thuốc */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+}
+
+/* Hover: đổi nền xanh nhạt, chữ xanh đậm */
+.btn-gift:hover,
+.btn.btn-success:hover, 
+.btn.btn-primary:hover {
+  background: var(--main-tint) !important;
+  color: var(--main-700) !important;
+}
+/* Gom badge, giá, và nút lại gần nhau */
+.cardx .meta{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;   /* khoảng cách dọc giữa các phần tử, mặc định có thể 10-12px */
+}
+
+.cardx .type-badge{
+  margin-bottom: 2px !important;
+}
+
+.cardx .price{
+  font-weight: 600;        /* chỉnh độ dày chữ giá */
+  margin: 0 !important;
+  line-height: 1.2;        /* giảm chiều cao dòng */
+}
+
+.cardx .btn-gift{
+  margin-top: 2px !important;
+}
+/* Tăng khoảng cách giữa mô tả và badge "Giá tham khảo" */
+.cardx .details {
+  margin-bottom: 12px !important;  /* nếu đang là 6px thì x2 thành 12px */
+}
+#filterPanel .filter-tag{
+  border:1px solid var(--main);
+  background:#fff;
+  color:var(--main-700);
+  border-radius:999px;
+  padding:6px 12px;
+  font-weight:600;
+}
+#filterPanel .filter-tag.active{
+  background:var(--main-tint);
+  border-color:var(--main);
+  color:var(--main-700);
+}
+.btn-gift {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-gift:hover {
+  background: var(--main) !important;   /* nền xanh khi hover */
+  color: #fff !important;              /* chữ trắng khi hover */
+  border-color: var(--main) !important;
+}
+.btn-gift {
+  background: #fff !important;
+  color: var(--main) !important;
+  border: 1.5px solid var(--main) !important;
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-gift:hover {
+  background: var(--main) !important;   /* nền xanh khi hover */
+  color: #fff !important;              /* chữ trắng khi hover */
+  border-color: var(--main) !important;
+}
+/* Category icons & labels */
+#categoryScroll .category-item{
+  display:block;
+  color:var(--text);
+  text-decoration:none;
+}
+#categoryScroll .category-item:hover{
+  text-decoration:none;
+}
+#categoryScroll .category-item .label{
+  display:block;
+  margin-top:6px;
+  font-weight:700;
+  font-size:13px;
+  line-height:1.35;
+  color:var(--text);
+  text-decoration:none;
+  text-align:center;
+  /* tùy chọn: cắt bớt nếu quá dài */
+  /* white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
+}
+#categoryScroll .category-item:hover .label{
+  color:var(--main-600);
+  text-decoration:none;
+}
+#categoryScroll .category-item .icon img{
+  display:block;
+  width:100%; height:100%;
+  object-fit:contain;
+}
+/* Đổi màu chữ danh mục sang xanh lá */
+.theme-bamboo #categoryScroll .category-item .label {
+  color: var(--main) !important;     /* xanh lá chủ đạo */
+  font-weight: 600;
+}
+
+.theme-bamboo #categoryScroll .category-item.active .label {
+  color: var(--main-700) !important; /* xanh lá đậm hơn khi active */
+  font-weight: 700;
+}
+/* Đảm bảo box xưởng luôn hiện */
+.sidebar-box.workshop-box{ display:block !important; visibility:visible !important; }
+   
+.category-wrapper{ position: relative; }
+.cat-arrow{ z-index: 5; } /* tránh bị che */
+.cat-arrow.is-disabled,
+.cat-arrow:disabled{ opacity:.45; pointer-events:none; }
+/* Tạo khoảng hở trên–dưới cho cả hàng bộ lọc/pager */
+.stats-row{
+  margin-block: 10px;   /* = margin-top + margin-bottom */
+}
+
+/* Nếu muốn riêng các nút/ô chọn cũng hở trên–dưới một chút */
+.stats-row .btn,
+.stats-row .form-select{
+  margin-block: 4px;    /* hở thêm phía trên và dưới của từng control */
+}
+
+/* Tuỳ chọn: tăng đệm bên trong nút cho cảm giác thoáng hơn */
+.stats-row .btn{
+  padding-block: .45rem;  /* không đổi trái–phải */
+}
+
+/* Hiện chắc chắn box Xưởng đề xuất */
+#workshopBox{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  padding:12px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  box-shadow:var(--shadow-sm);
+  margin-top:12px;
+  position:relative;
+  z-index:1;              /* tránh bị khối khác phủ */
+}
+#workshopBox h6{ margin:0 0 8px; }
+#workshopBox .workshop-item:hover{ background:var(--main-tint, #E8F5E9); }
+
+/* Nếu cột trái có overflow hidden thì mở ra */
+.col-lg-3, .col-md-4{ overflow:visible !important; }
+
+/* Tạm thời gỡ mọi rule cũ vô tình ẩn workshop-box */
+.sidebar-box.workshop-box[style*="display:none"]{ display:block !important; }
+/* FIX: luôn hiện Xưởng đề xuất trên cả desktop và mobile */
+#workshopBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
+.sidebar-box.workshop-box{ display:block !important; }
+
+/* đảm bảo cột trái không che/ẩn nội dung */
+.col-lg-3, .col-md-4{ overflow:visible !important; }
+
+/* bố cục cột trái xếp dọc có khoảng cách */
+.col-lg-3 .sidebar-box{ margin-bottom:12px; }
+  /* Luôn hiện "Xưởng đề xuất" ở mọi cỡ màn hình */
+#workshopBox{ display:block !important; visibility:visible !important; opacity:1 !important; }
+
+/* Nếu có ancestor có class Bootstrap ẩn theo breakpoint → cũng ép hiện */
+@media (min-width: 992px){
+  .col-lg-3, .col-md-4{ display:block !important; overflow:visible !important; }
+  .d-lg-none #workshopBox, #workshopBox.d-lg-none, .col-lg-3 .d-lg-none{ display:block !important; }
+}
+/* Luôn hiển thị box "ĐỀ XUẤT XƯỞNG" hiện có trên desktop */
+#workshopBox,
+.sidebar-box.workshop-box,
+[data-workshop-box],
+[data-widget="workshop"]{
+  display:block !important;
+  visibility:visible !important;
+  opacity:1 !important;
+}
+/* Badge số trên FAB bộ lọc */
+.fab-badge{
+  position: absolute;
+  top: -4px; right: -4px;
+  transform: translate(25%, -25%);
+  min-width: 20px; height: 20px; padding: 0 6px;
+  border-radius: 999px;
+  background: #22c55e; /* xanh lá 2606 */
+  color: #fff; font-weight: 700; font-size: 12px; line-height: 20px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.20);
+  display: none; /* ẩn khi chưa có bộ lọc */
+}
+/* (Tuỳ chọn) nhấn mạnh FAB khi có lọc */
+[data-has-filters]{
+  outline: 2px solid rgba(34,197,94,.25);
+  outline-offset: 2px;
+}
+#quickCatsTop { display:none !important; }
+
+   :root{
+  --main:#2E7D32; --main-600:#1f6c23;
+}
+.dtl-backdrop[hidden]{ display:none !important; }
+.dtl-backdrop{
+  position: fixed; inset:0; background: rgba(0,0,0,.38);
+  display:grid; place-items:center; z-index: 99999;
+  padding: 16px;
+}
+.dtl-dialog{
+  width: min(920px, 100%); max-height: 92vh; overflow:auto;
+  background:#fff; border-radius:16px; box-shadow:0 18px 60px rgba(0,0,0,.35);
+  padding: 18px; position: relative; border:1px solid #e6efe9;
+}
+.dtl-close{
+  position:absolute; top:8px; right:10px; width:36px; height:36px;
+  border-radius:10px; border:0; background:#f3f7f4; cursor:pointer; font-size:22px;
+}
+.dtl-head{ display:flex; gap:14px; align-items:center; margin-bottom:10px;}
+.dtl-head img{ width:96px; height:96px; border-radius:12px; object-fit:cover; background:#f3f6f4; }
+#dtlTitle{ margin:0 0 4px 0; color:#102a17; }
+.dtl-sub{ color:#5f6f65; font-size:14px; }
+.dtl-badges{ display:flex; gap:8px; flex-wrap:wrap; margin: 4px 0 10px; }
+.dtl-badges .tag{ background:#e8f5e9; color:#1f6c23; padding:4px 8px; border-radius:999px; font-size:12px; }
+.dtl-rows{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+.dtl-row{ border:1px solid #eef3ef; border-radius:12px; padding:10px; background:#fafdfb; }
+.dtl-row .k{ font-size:12px; color:#6b7b70; text-transform:uppercase; letter-spacing:.06em; }
+.dtl-row .v{ margin-top:4px; color:#14391c; white-space:pre-wrap; word-break:break-word; }
+.dtl-actions{ margin-top:14px; display:flex; gap:10px; justify-content:flex-end; }
+.btn-main{ background:var(--main); color:#fff; padding:10px 14px; border-radius:12px; border:0; cursor:pointer; }
+.btn-main:hover{ background:var(--main-600); }
+.btn-ghost{ background:#f3f7f4; color:#123; padding:10px 14px; border-radius:12px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
+@media (max-width: 720px){ .dtl-rows{ grid-template-columns: 1fr; } }
+
+.cardx .meta{ cursor:pointer; }
+
+   
 </style>
 
    
@@ -571,6 +1998,218 @@ footer.text-light a,footer.text-light .bi{color:#fff}
  
 </script>
 
+<script>
+// ===== XƯỞNG ĐỀ XUẤT – DÙNG BOX HIỆN CÓ, KHÔNG TẠO BOX MỚI =====
+(function(){
+  // Nếu còn widget tạm #workshopDock thì xoá đi
+  document.addEventListener('DOMContentLoaded', () => {
+    const tmp = document.getElementById('workshopDock'); if (tmp) tmp.remove();
+  });
+
+  // Fallback ảnh (phòng khi link drive hỏng)
+  const FALLBACK = 'https://placehold.co/64x64?text=%20';
+
+  function toDriveThumb(u){
+    if (!u) return FALLBACK;
+    const m = String(u).match(/\/d\/([^/]+)\//);
+    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
+    if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
+    return u;
+  }
+  function safeImg(u){
+    if (!u) return FALLBACK;
+    const url = toDriveThumb(u);
+    return /^https?:\/\//i.test(url) ? url : FALLBACK;
+  }
+
+  // Đảm bảo có container list bên trong box
+  function ensureList(box){
+    let list = box.querySelector('#workshopList, .workshop-list, [data-workshop-list]');
+    if (!list){
+      list = document.createElement('div');
+      list.id = 'workshopList';
+      list.className = 'd-flex flex-column gap-2';
+      // chèn vào body của card/box nếu có
+      const body = box.querySelector('.card-body, .p-3, .p-2, .body') || box;
+      body.appendChild(list);
+    }
+    let empty = box.querySelector('#workshopEmpty');
+    if (!empty){
+      empty = document.createElement('div');
+      empty.id = 'workshopEmpty';
+      empty.className = 'text-muted small mt-1';
+      empty.textContent = 'Đang tải dữ liệu…';
+      list.after(empty);
+    }
+    // Bỏ các lớp ẩn nếu có
+    box.classList.remove('d-none', 'invisible');
+    box.style.display = 'block';
+    return {list, empty};
+  }
+
+  function renderIntoBox(items){
+    const box = findworkshopBox();
+    if (!box) { console.warn('[workshop] Không tìm thấy box hiện có'); return; }
+    const {list, empty} = ensureList(box);
+
+    const html = (items||[]).map(it=>{
+      const href  = it.url || it.link || '#';
+      const img   = safeImg(it.img || it.image || it.thumbnail || it.linkfull);
+      const title = it.title || it.name || 'Xưởng đề xuất';
+      const desc  = it.desc  || it.details || '';
+      const site  = it.site  || it.domain || '';
+      return `
+        <a class="link-preview d-flex gap-2 align-items-start p-2 rounded-3 border text-decoration-none"
+           href="${href}" target="_blank" rel="noopener">
+          <img src="${img}" onerror="this.src='${FALLBACK}'" width="48" height="48"
+               class="rounded-2 flex-shrink-0" alt="">
+          <div class="small w-100">
+            <div class="fw-semibold text-dark text-truncate">${title}</div>
+            ${desc ? `<div class="text-muted text-truncate">${desc}</div>` : ''}
+            ${site ? `<div class="text-muted">${site}</div>` : ''}
+          </div>
+        </a>`;
+    }).join('');
+
+    list.innerHTML = html;
+    empty.style.display = html ? 'none' : 'block';
+    if (!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
+  }
+
+  async function fetchWorkshops(){
+    try{
+      const r = await fetch(window.API_URL + '?action=workshop', {redirect:'follow', mode:'cors'});
+      const txt = await r.text();
+      let json;
+      try { json = JSON.parse(txt); }
+      catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
+      const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
+      renderIntoBox(items);
+    }catch(err){
+      console.error('[workshop] fetch error', err);
+      renderIntoBox([]);
+    }
+  }
+
+  // Đợi API_URL rồi mới chạy (tránh lỗi "Không tìm thấy API_URL")
+  function waitAndLoad(tries=60){
+    if (window.API_URL){ fetchWorkshops(); }
+    else if (tries>0){ setTimeout(()=>waitAndLoad(tries-1), 150); }
+    else { console.warn('[workshop] Hết thời gian chờ API_URL'); }
+  }
+
+  // Start
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', waitAndLoad);
+  }else{
+    waitAndLoad();
+  }
+})();
+// ====== TIỆN ÍCH ẢNH DRIVE
+function toDriveThumb(u, sz=600){
+  if(!u) return '';
+  const s = String(u);
+  // /file/d/{id}/view
+  const m = s.match(/\/d\/([^/]+)\//);
+  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
+  // đã là thumbnail
+  if (/drive\.google\.com\/thumbnail\?id=/.test(s)) return s.replace(/sz=w\d+/,'sz=w'+sz);
+  return s;
+}
+function safeImg(u){ return toDriveThumb(u) || 'https://via.placeholder.com/600x400?text=No+Image'; }
+
+// ====== MAP NHÃN TRƯỜNG (tùy sheet của bạn)
+const FIELD_LABELS = {
+  id:'ID', code:'Mã', sku:'SKU', title:'Tiêu đề', name:'Tên',
+  group:'Nhóm', category:'Danh mục', price:'Giá', type:'Loại',
+  details:'Mô tả', desc:'Mô tả', quangcao:'Quảng cáo',
+  image:'Ảnh', img:'Ảnh', thumbnail:'Ảnh', linkfull:'Link ảnh gốc',
+  supplier:'Xưởng', material:'Vật liệu', size:'Kích thước', color:'Màu',
+  weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
+  lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật'
+};
+
+// ====== TÌM ITEM THEO ID (dựa vào items đã render lần cuối)
+function getItemById(id){
+  const arr = window._lastItems || [];             // mảng item bạn đang hiển thị
+  return arr.find(x => String(x.id)===String(id) || String(x.code)===String(id));
+}
+
+// ====== RENDER BOX CHI TIẾT
+function openDetailBox(item){
+  if(!item) return;
+  const modal = document.getElementById('detailModal');
+  const img = safeImg(item.img || item.image || item.thumbnail || item.linkfull);
+  document.getElementById('dtlImg').src = img;
+  document.getElementById('dtlTitle').textContent = item.title || item.name || item.code || item.id || 'Chi tiết';
+  document.getElementById('dtlSub').textContent = [item.group, item.category].filter(Boolean).join(' • ');
+  document.getElementById('dtlOpenImg').href = (item.linkfull || img);
+
+  // badges (giá, loại…)
+  const badges = [];
+  if (item.price) badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
+  if (item.type)  badges.push(`<span class="tag">${item.type}</span>`);
+  if (item.supplier) badges.push(`<span class="tag">Xưởng: ${item.supplier}</span>`);
+  document.getElementById('dtlBadges').innerHTML = badges.join('');
+
+  // tạo các dòng dữ liệu đầy đủ
+  const rows = [];
+  const seen = new Set(['img','image','thumbnail','linkfull']); // ảnh để riêng
+  Object.keys(item).forEach(k=>{
+    if (seen.has(k)) return;
+    const v = item[k];
+    if (v===undefined || v===null || v==='') return;
+    const label = FIELD_LABELS[k] || k;
+    rows.push(`
+      <div class="dtl-row">
+        <div class="k">${label}</div>
+        <div class="v">${String(v)}</div>
+      </div>
+    `);
+  });
+  // nếu có mô tả dài riêng
+  if (item.details && !('details' in item)) {
+    rows.push(`
+      <div class="dtl-row">
+        <div class="k">Mô tả</div>
+        <div class="v">${String(item.details)}</div>
+      </div>
+    `);
+  }
+  document.getElementById('dtlRows').innerHTML = rows.join('');
+
+  modal.hidden = false;
+}
+function closeDetailBox(){ document.getElementById('detailModal').hidden = true; }
+
+// ====== BẮT SỰ KIỆN CLICK TỪ THẺ SẢN PHẨM
+// 1) Nếu thẻ sản phẩm có data-id: <div class="product-card" data-id="...">
+document.addEventListener('click', (ev)=>{
+  const closeBtn = ev.target.closest('[data-close="detailModal"]');
+  if (closeBtn){ closeDetailBox(); return; }
+
+  // ưu tiên các nút “Chi tiết”
+  const btn = ev.target.closest('[data-action="open-detail"]');
+  if (btn){
+    const id = btn.getAttribute('data-id') || btn.closest('[data-id]')?.getAttribute('data-id');
+    const item = getItemById(id);
+    openDetailBox(item);
+    ev.preventDefault();
+    return;
+  }
+
+  // click toàn card
+  const card = ev.target.closest('.product-card,[data-id]');
+  if (card && !ev.target.closest('button,a,[role="button"]')){ // tránh click vào các nút con
+    const id = card.getAttribute('data-id') || card.dataset.id;
+    const item = getItemById(id);
+    openDetailBox(item);
+  }
+});
+
+
+   
+</script>
 
       <!-- Thống kê + Pagination -->
 <div class="stats-row row g-2 align-items-center">
@@ -786,6 +2425,86 @@ footer.text-light a,footer.text-light .bi{color:#fff}
 </div>
 
 <!-- ======= CSS: FABs – đồng nhất giữa mọi thiết bị ======= -->
+<style>
+:root{
+  --fab-size: 56px;
+  --fab-gap: 12px;
+  --fab-right: 16px;
+  --fab-bottom: 16px;
+  --fab-bg: #ffffff;
+  --fab-color: #2E7D32; /* xanh bamboo */
+}
+
+/* Wrapper FAB */
+.fabs{
+  position: fixed;
+  right: var(--fab-right);
+  bottom: var(--fab-bottom);
+  z-index: 9999;
+  display: grid;
+  gap: var(--fab-gap);
+  padding-right: max(0px, env(safe-area-inset-right));
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+/* Mỗi nút */
+.fab{
+  width: var(--fab-size);
+  height: var(--fab-size);
+  border-radius: 50%;
+  background: var(--fab-bg);
+  color: var(--fab-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.25);
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+}
+
+/* Badge nhỏ góc phải */
+.fab-badge{
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: #e53935;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 1px 5px;
+  line-height: 1.2;
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+/* Hover / Active */
+.fab:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+.fab:active{
+  transform: scale(.95);
+}
+
+/* Icon SVG bên trong */
+.fab svg{
+  width: 24px;
+  height: 24px;
+  color: var(--fab-color);
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px){
+  :root{
+    --fab-size: 56px;
+    --fab-gap: 10px;
+    --fab-right: 14px;
+    --fab-bottom: 14px;
+  }
+}
+</style>
 
 <div id="errbox" role="alert" aria-live="assertive"></div>
 
@@ -804,7 +2523,7 @@ window.WORKSHOP_CONTACT_URL = "https://zalo.me/123456789"; // nếu muốn dùng
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ==== CONFIG ===== */
-   window.API_URL = "https://script.google.com/macros/s/AKfycbzq7L4h05H8JJEPsStlsixbrNJ1bFbe7M8A8Qsn5AoodHw35DMNfIBPUOcgQwmKoBFC/exec";
+   window.API_URL = "https://script.google.com/macros/s/AKfycbyxfUzFNrigam0HIIaXL64zurecFH2faXKH99IN18SdcdVBIGB8exkvb3x7aRgOzc1K/exec";
    window.API_KEY = "";
    window.AUTO_OPEN_ON_ADD = false;
 
@@ -1184,7 +2903,6 @@ function upgradeThumbQuality(u){
 /* Logo reload */
 document.getElementById('logoLink').addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>location.reload(),150); });
 
-/* Product card */
 function productCardHtml(it){
   products[it.id]=it;
   const giftUrl   = firstLink(it.imageClick);
@@ -1195,127 +2913,53 @@ function productCardHtml(it){
   const linkHref = esc(it.linkFull || it.img || '#');
 
   return `<div class="col">
-  <div class="cardx product-card" data-id="${esc(it.id)}">
-    <div class="thumb-wrap">
-      <a href="${linkHref}" target="_blank" rel="noopener">
-        <img loading="lazy" class="thumb" src="${esc(thumbSrc)}" alt="Sản phẩm ${esc(it.id)}"
-             onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
-      </a>
-      ${it.note?`<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>`:''}
-    </div>
+    <div class="cardx product-card" data-id="${esc(it.id)}">
+      <div class="thumb-wrap">
+        <a href="${linkHref}" target="_blank" rel="noopener">
+          <img loading="lazy" class="thumb" src="${esc(thumbSrc)}"
+               alt="Sản phẩm ${esc(it.id)}"
+               onerror="this.src='https://via.placeholder.com/300x300?text=No+Image'">
+        </a>
+        ${it.note ? `<span class="note-chip" style="background:${badgeColor(it.note)}">${esc(it.note)}</span>` : ``}
+      </div>
 
-  <!-- BOX CHI TIẾT SẢN PHẨM -->
-<div id="detailModal" class="dtl-backdrop" hidden>
-  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
-    <button class="dtl-close" type="button" data-close="detailModal" aria-label="Đóng">×</button>
+      <!-- VÙNG TRẮNG – click ở đây sẽ mở box chi tiết -->
+      <div class="meta">
+        <div class="id">${esc(it.id)}</div>
+        <div class="details">${esc(it.details || '')}</div>
+        ${it.type ? `<div class="type-badge">${esc(it.type)}</div>` : ``}
+        <div class="price">${fmtVND(it.price)}</div>
 
-    <div class="dtl-head">
-      <img id="dtlImg" src="" alt="">
-      <div>
-        <h4 id="dtlTitle">Chi tiết</h4>
-        <div id="dtlSub" class="dtl-sub"></div>
-        <div id="dtlBadges" class="dtl-badges"></div>
+        <div class="meta-actions">
+          ${showGift ? `<a class="btn-gift" href="${esc(giftUrl)}" target="_blank" rel="noopener" title="${esc(giftLabel)}"><span>${esc(giftLabel)}</span></a>` : `<span></span>`}
+          <button class="add-btn" data-action="add-to-cart" data-id="${esc(it.id)}" aria-label="Thêm ${esc(it.id)} vào giỏ">+</button>
+        </div>
       </div>
     </div>
-
-    <!-- Các hàng thông tin đầy đủ (kể cả mô tả dài) sẽ render ở đây -->
-    <div id="dtlRows" class="dtl-rows"></div>
-
-    <div class="dtl-actions">
-      <a id="dtlOpenImg" class="btn-ghost" href="#" target="_blank" rel="noopener">Mở ảnh gốc</a>
-      <button type="button" class="btn-main" data-close="detailModal">Đóng</button>
-    </div>
-  </div>
-</div>
+  </div>`;
+}
 
 
 
-/* ======== PAGER ========= */
-function renderPagination(totalItems, pageSize, currentPage) {
+
+/* ========= PAGER (mũi tên + dropdown) ========= */
+/* ========= PAGER (mũi tên + dropdown) ========= */
+function renderPagination(totalItems, pageSize, currentPage){
   const totalPages = Math.max(1, Math.ceil((totalItems || 0) / (pageSize || 1)));
   state.totalPages = totalPages;
 
-  // Xây options bằng for (tránh Array.from + arrow trong template)
-  function buildOptions() {
-    var html = '';
-    for (var p = 1; p <= totalPages; p++) {
-      html += '<option value="' + p + '"' + (p === currentPage ? ' selected' : '') +
-              '>Trang ' + p + '/' + totalPages + '</option>';
-    }
-    return html;
-  }
-
-  // Khối HTML pager (dùng chuỗi nối, không backtick)
-  function block(where) {
-    return ''
-      + '<div class="d-inline-flex align-items-center gap-1" data-where="' + where + '">'
-      +   '<button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-prev" '
-      +      (currentPage <= 1 ? 'disabled' : '') + '>&lsaquo;</button>'
-      +   '<select class="form-select form-select-sm page-select" style="width:auto">'
-      +     buildOptions()
-      +   '</select>'
-      +   '<button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-next" '
-      +      (currentPage >= totalPages ? 'disabled' : '') + '>&rsaquo;</button>'
-      + '</div>';
-  }
-
-  // Render vào 2 vị trí có sẵn
-  var top = document.getElementById('pagerTop');
-  var bot = document.getElementById('pagerBottom');
-  if (top) top.innerHTML = block('top');
-  if (bot) bot.innerHTML = block('bottom');
-
-  // Sự kiện đổi trang bằng select
-  var selects = document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select');
-  selects.forEach(function(sel){
-    sel.onchange = function(e){
-      state.page = parseInt(e.target.value, 10) || 1;
-      fetchPage();
-    };
-  });
-
-  // Sự kiện prev/next
-  document.addEventListener('click', function(e){
-    var btn = e.target.closest('[data-action="page-prev"],[data-action="page-next"]');
-    if (!btn) return;
-    var act = btn.getAttribute('data-action');
-    state.page = Math.min(
-      Math.max(1, state.page + (act === 'page-next' ? 1 : -1)),
-      state.totalPages
-    );
-    fetchPage();
-  });
-
-  // Đưa pagerTop sát nút "Xóa bộ lọc"
-  var leftBlock = document.querySelector('.found-count');
-  if (leftBlock && top) {
-    leftBlock.appendChild(top);
-    top.classList.add('ms-2');
-  }
-}
-
-  // Render vào 2 vị trí
-  const top = document.getElementById('pagerTop');
-  const bot = document.getElementById('pagerBottom');
-  if (top) top.innerHTML = block('top');
-  if (bot) bot.innerHTML = block('bottom');
-
-  // Lắng nghe thay đổi trang (giữ nguyên các đoạn còn lại của bạn)
-  document.querySelectorAll('#pagerTop .page-select, #pagerBottom .page-select')
-    .forEach(sel => {
-      sel.onchange = (e) => {
-        const p = +e.target.value || 1;
-        // TODO: gọi hàm đổi trang của bạn ở đây
-      };
-    });
-
-  document.addEventListener('click', (ev) => {
-    const btn = ev.target.closest('[data-action^="page-"]');
-    if (!btn) return;
-    const action = btn.getAttribute('data-action');
-    // TODO: xử lý prev/next theo action
-  }, { once:false });
-}
+  const block = (where) => `
+    <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-prev" ${currentPage<=1?'disabled':''}>&lsaquo;</button>
+      <select class="form-select form-select-sm page-select" style="width:auto">
+        ${Array.from({length: totalPages}, (_, i) => {
+          const p = i + 1;
+          return `<option value="${p}" ${p===currentPage?'selected':''}>Trang ${p}/${totalPages}</option>`;
+        }).join('')}
+      </select>
+      <button type="button" class="btn btn-sm btn-outline-secondary" data-action="page-next" ${currentPage>=totalPages?'disabled':''}>&rsaquo;</button>
+    </div>
+  `;
 
   // Render lên 2 vị trí có sẵn
   const top = document.getElementById('pagerTop');
@@ -2445,7 +4089,6 @@ document.addEventListener('keydown', (e) => {
 });
 </script>
 
-
 <!-- ===== FOOTER ===== -->
 <footer class="text-light w-100">
   <div class="container-fluid px-5">
@@ -2511,35 +4154,71 @@ document.addEventListener('keydown', (e) => {
         </div>
       </div>
     </div>
-<!-- ===========================
-   🌿 SCRIPT CUỐI TRANG 2606AI
-   =========================== -->
 <script>
-/* ===== ĐẢM BẢO WORKSHOP BOX Ở ĐÚNG VỊ TRÍ ===== */
+// Debug: nếu box mount mà chưa có dữ liệu, hiện thông báo để thấy khung
+(function(){
+  const box   = document.getElementById('workshopBox');
+  const list  = document.getElementById('workshopList');
+  const empty = document.getElementById('workshopEmpty');
+  const count = document.getElementById('workshopCount');
+  if(!box) return;
+
+  // Đặt viền debug để bạn dễ nhìn (xóa sau)
+  box.style.outline = '2px dashed #2e7d32';
+
+  // Nếu chưa render workshop, ít nhất hiện dòng trống
+  if(empty){
+    empty.textContent = '(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.';
+    empty.style.display = 'block';
+  }
+  if(count){ count.style.display = 'none'; }
+})();
+</script>
+
+    <hr class="border-light opacity-50">
+
+    <div class="text-center small pb-3">
+      © 2025 <span style="color:#d4af37;">2606AI</span>. Website được phát triển bởi 2606AI.
+    </div>
+  </div>
+</footer>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
   const workshop  = document.getElementById('workshopBox');
-  const left =
+
+  // 1) Tìm đúng cột trái (ưu tiên id nếu bạn gắn vào cột)
+  // -> GỢI Ý: thêm id cho cột trái: <div id="leftCol" class="col-lg-3 col-md-4">
+  let left =
     document.getElementById('leftCol') ||
     document.querySelector('.row .col-lg-3.col-md-4') ||
     document.querySelector('.row .col-xl-3, .row .left-col, [data-left-col]');
 
-  // Di chuyển box “Xưởng đề xuất” về đúng cột trái
   if (workshop && left && !left.contains(workshop)) {
-    left.appendChild(workshop);
+    left.appendChild(workshop);                 // kéo workshopBox về đúng cột trái nếu lạc
   }
 
-  // Ép hiển thị nếu bị ẩn do CSS responsive
+  // 2) Ép hiển thị trong mọi trường hợp (tránh bị media query/utility ẩn)
   if (workshop){
     workshop.style.display    = 'block';
     workshop.style.visibility = 'visible';
     workshop.style.opacity    = '1';
   }
+
+  // 3) Debug viền để bạn nhìn thấy khung (xóa 2 dòng này khi OK)
+  if (workshop){
+    workshop.style.outline = '2px dashed #2e7d32';
+    if (!workshop.querySelector('#workshopList')){
+      workshop.insertAdjacentHTML('beforeend',
+        '<div class="small text-muted">(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.</div>');
+    }
+  }
 });
 </script>
 
-<script>
-/* ===== CẬP NHẬT BADGE SỐ BỘ LỌC TRÊN NÚT FAB ===== */
+<input type="file" id="uploworkshopupplierFile" accept="application/pdf,image/*" style="display:none">
+   <script>
 (function(){
+  // Tìm FAB bộ lọc theo 3 khả năng đặt tên phổ biến ở code của bạn
   const FAB_SELECTORS = ['#fabFilters', '.fab-filter', '[data-fab="filters"]'];
 
   function findFab(){
@@ -2550,21 +4229,23 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   }
 
-  // Đếm số bộ lọc đang áp dụng (ưu tiên state.filters nếu có)
+  // Đếm số bộ lọc đang áp dụng
   function countActiveFilters(){
+    // Ưu tiên đọc từ state.filters nếu có
     if (window.state && state.filters){
       const ignore = new Set(['page','limit','sort','q']);
       return Object.entries(state.filters).reduce((n,[k,v])=>{
         if (ignore.has(k) || v==null || v==='') return n;
         if (Array.isArray(v)) return n + v.filter(Boolean).length;
-        if (typeof v==='object') return n + Object.values(v).filter(Boolean).length;
+        if (typeof v==='object')  return n + Object.values(v).filter(Boolean).length;
         return n + 1;
       },0);
     }
+    // Fallback: đếm chip/nhãn đang active trên giao diện
     return document.querySelectorAll('.chip.active, .chip.is-active, .filter-tag.active').length;
   }
 
-  // Render badge
+  // Tạo/cập nhật badge
   function renderBadge(){
     const fab = findFab();
     if (!fab) return;
@@ -2573,7 +4254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!badge){
       badge = document.createElement('span');
       badge.className = 'fab-badge';
-      fab.style.position = fab.style.position || 'relative';
+      fab.style.position = fab.style.position || 'relative'; // đảm bảo có position
       fab.appendChild(badge);
     }
 
@@ -2593,7 +4274,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Gọi khi trang tải xong
   document.addEventListener('DOMContentLoaded', renderBadge);
 
-  // Tự động cập nhật khi người dùng tương tác với filter
+  // Tự động cập nhật khi người dùng tương tác với khu vực lọc/nhanh/chips
   ['click','change'].forEach(ev=>{
     document.addEventListener(ev, (e)=>{
       if (e.target.closest('.quick-filter, .chip, .filter-chip, [data-filter], #btnClearFilters, .btn-clear-filters')){
@@ -2602,12 +4283,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Cho phép code khác gọi thủ công
+  // Cho code hiện tại gọi chủ động sau khi thay state/render
   window.updateFilterBadge = renderBadge;
 })();
 </script>
-
-<!-- ===== MODAL CHI TIẾT SẢN PHẨM ===== -->
+<!-- DETAIL BOX -->
 <div id="detailModal" class="dtl-backdrop" hidden>
   <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
     <button class="dtl-close" data-close="detailModal" aria-label="Đóng">×</button>
@@ -2621,6 +4301,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div id="dtlBadges" class="dtl-badges"></div>
+
     <div id="dtlRows" class="dtl-rows"><!-- rows auto render --></div>
 
     <div class="dtl-actions">
@@ -2629,9 +4310,30 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 </div>
-<!-- ===========================
-   🌿 KẾT THÚC SCRIPT 2606AI
-   =========================== -->
 
+<!-- BOX CHI TIẾT SẢN PHẨM -->
+<div id="detailModal" class="dtl-backdrop" hidden>
+  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
+    <button class="dtl-close" type="button" data-close="detailModal" aria-label="Đóng">×</button>
+
+    <div class="dtl-head">
+      <img id="dtlImg" src="" alt="">
+      <div>
+        <h4 id="dtlTitle">Chi tiết</h4>
+        <div id="dtlSub" class="dtl-sub"></div>
+        <div id="dtlBadges" class="dtl-badges"></div>
+      </div>
+    </div>
+
+    <div id="dtlRows" class="dtl-rows"></div>
+
+    <div class="dtl-actions">
+      <a id="dtlOpenImg" class="btn-ghost" href="#" target="_blank" rel="noopener">Mở ảnh gốc</a>
+      <button type="button" class="btn-main" data-close="detailModal">Đóng</button>
+    </div>
+  </div>
+</div>
+
+   
 </body>
 </html>
