@@ -16,7 +16,6 @@
 
 /* ---- Theme tokens ---- */
 :root{
-  /* Chủ đạo hồng + gradient (base) */
   --main:#e91e63;
   --main-600:#d81b60;
   --main-700:#c2185b;
@@ -35,8 +34,7 @@
   --shadow-md:0 2px 8px rgba(0,0,0,.08);
   --shadow-lg:0 6px 16px rgba(0,0,0,.16);
 
-  /* Hover/Shadow cùng tông */
-  --main-tint:#ffe3f0;
+  --main-tint:#ffe3f0;             /* hover cùng tông */
   --main-shadow:rgba(233,30,99,.22);
 }
 
@@ -75,19 +73,23 @@ img{max-width:100%;display:block}
 }
 .sidebar-box h6{font-weight:700;font-size:15px;margin-bottom:8px}
 
-/* ---- Benefits (6 items) ---- */
+/* ---- Benefits (Chúng tôi có gì cho bạn…) ---- */
 .benefits-v3 .grid{display:grid;grid-template-columns:1fr;gap:8px}
 .benefits-v3 .bcard{
   background:#fff;border:1px solid #eef2ff;border-radius:12px;padding:12px;display:flex;gap:10px;align-items:center;
   min-height:60px;position:relative;box-shadow:var(--shadow-sm);
 }
-.benefits-v3 .ic{width:36px;height:36px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center}
+.benefits-v3 .ic{
+  width:36px;height:36px;border-radius:8px;background:#f1f4ff;display:inline-flex;align-items:center;justify-content:center
+}
 .benefits-v3 .ttl{font-weight:600;font-size:12px;line-height:1.3}
 .benefits-v3 .sub{font-size:12px;color:var(--muted)}
-.benefit-note{position:absolute;top:6px;right:8px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;color:#fff}
+.benefit-note{
+  position:absolute;top:6px;right:8px;font-size:11px;font-weight:700;padding:2px 6px;border-radius:999px;color:#fff
+}
 .benefit-free{background:#4caf50}.benefit-paid{background:#d32f2f}
 
-/* ---- Workshop box (sidebar) ---- */
+/* ---- Workshop box ---- */
 .workshop-box{background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%);border:1px solid #90caf9;border-radius:12px;padding:12px}
 #workshopList{max-height:62vh;overflow:auto;padding-right:4px;scroll-behavior:smooth}
 #workshopList .link-preview{
@@ -132,7 +134,7 @@ img{max-width:100%;display:block}
   background:linear-gradient(180deg,#e7ecff 0%,#dbe5ff 100%);outline:3px solid rgba(0,24,168,.12);outline-offset:0;
 }
 
-/* Dots (số nhóm) */
+/* Dots (đếm nhóm) */
 #groupDots{margin:6px 0 12px;display:flex;justify-content:center;gap:6px}
 #groupDots .dot{width:6px;height:6px;border-radius:50%;background:#c9d6ff;transition:background .2s,transform .2s}
 #groupDots .dot.active{background:var(--main);transform:scale(1.2)}
@@ -215,7 +217,7 @@ img{max-width:100%;display:block}
 .add-btn{border:none;background:var(--main);color:#fff;border-radius:50%;width:32px;height:32px;font-size:18px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .add-btn:hover{background:var(--main-600)}
 
-/* ---- Offcanvas: Suppliers ---- */
+/* ---- Suppliers Offcanvas ---- */
 .offcanvas{z-index:4000}.offcanvas-backdrop{z-index:3990}
 .sup-toolbar{
   position:sticky;top:0;z-index:2;background:#fff;margin:-12px -12px 12px;padding:12px;border-bottom:1px solid var(--border);border-radius:12px 12px 0 0;
@@ -233,7 +235,7 @@ img{max-width:100%;display:block}
 .supplier-card .doc-input{max-width:260px}
 .supplier-card .doc-preview{font-size:11px;color:#666;font-style:italic}
 
-/* ---- Offcanvas: Cart ---- */
+/* ---- Cart Offcanvas ---- */
 #cartCanvas .offcanvas-header{background:var(--main-grad);color:#fff;border:0;border-radius:12px 12px 0 0}
 #cartCanvas .offcanvas-body{font-size:13px;padding:16px}
 #cartCanvas input.form-control,#cartCanvas textarea.form-control,#cartCanvas select.form-select{
@@ -278,7 +280,6 @@ img{max-width:100%;display:block}
   min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#22c55e;color:#fff;font-weight:700;font-size:12px;line-height:20px;
   box-shadow:0 2px 6px rgba(0,0,0,.20);display:none;
 }
-[data-has-filters]{outline:2px solid rgba(34,197,94,.25);outline-offset:2px}
 
 /* ---- Footer ---- */
 .site-footer{background:#fff;border-top:1px solid #eee;padding:16px 0;margin-top:20px;font-size:13px;color:#555}
@@ -304,7 +305,6 @@ footer.text-light a,footer.text-light .bi{color:#fff}
 }
 .hero-workshop img{height:180px;object-fit:cover;border-radius:12px}
 .small{font-size:.875rem}
-#quickCatsTop{display:none !important}
 
 /* ---- Category page link styles (an toàn cho label) ---- */
 #categoryScroll .category-item{display:block;color:var(--text);text-decoration:none}
@@ -348,13 +348,6 @@ footer.text-light a,footer.text-light .bi{color:#fff}
   --accent:#c6a969; --bg:#f7faf7; --text:#1e2a1e; --muted:#647b64; --card:#ffffff; --border:#dfe7df;
   --main-tint:#e7f5e8; --main-shadow:rgba(46,125,50,.22);
 }
-.theme-bamboo body{
-  background:
-    radial-gradient(1200px 200px at 50% -40px, rgba(102,187,106,.12), transparent 60%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><g fill='none' stroke='%23e6efe6' stroke-width='1'><path d='M10 0 v180'/><path d='M60 0 v180'/><path d='M110 0 v180'/><path d='M160 0 v180'/><path d='M0 20 h180'/><path d='M0 70 h180'/><path d='M0 120 h180'/><path d='M0 170 h180'/></g></svg>") repeat;
-  background-size:auto,180px 180px;
-}
-/* Một số nhấn nhẹ theo theme */
 .theme-bamboo .type-badge{background:#e7f3e8;color:#1b5e20}
 .theme-bamboo .category-item .icon{background:#edf7ed;box-shadow:0 4px 10px rgba(46,125,50,.12)}
 .theme-bamboo .btn,.theme-bamboo .btn-primary,.theme-bamboo .btn-success,.theme-bamboo .fab,.theme-bamboo .btn-gift,.theme-bamboo .search-btn{
@@ -365,70 +358,6 @@ footer.text-light a,footer.text-light .bi{color:#fff}
 .theme-bamboo footer.text-light{background:linear-gradient(180deg,#2e7d32 0%,#1b5e20 100%);color:#fff}
 .theme-bamboo footer.text-light h6{color:var(--accent)}
 .theme-bamboo footer.text-light hr{border-color:rgba(255,255,255,.25)}
-
-   /* =========================
-   PATCH AN TOÀN – KHÔI PHỤC HIỂN THỊ
-   (đặt cuối file CSS)
-   ========================= */
-
-/* 1) BỎ các rule ẩn/ép hiện có nguy cơ “mất dữ liệu” */
-#quickCatsTop { display: initial !important; }         /* khôi phục nếu bị ẩn */
-#workshopBox { display: initial !important; }          /* bỏ ép display:block/none trước đó */
-.sidebar-box.workshop-box { display: initial !important; }
-.category-box { background: initial !important; }      /* tránh transparent bắt buộc */
-.category-box .group-bar-wrapper { margin: initial !important; padding: initial !important; border: initial !important; border-radius: initial !important; box-shadow: initial !important; }
-
-/* 2) KHỐI “CHÚNG TÔI CÓ GÌ CHO BẠN…” – bọc trong .benefits-v3
-      Chỉ style cho phần này, không ảnh hưởng block khác */
-.benefits-v3 .grid{
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-}
-.benefits-v3 .bcard{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:12px;
-  display:flex;
-  align-items:flex-start;
-  gap:10px;
-  box-shadow: var(--shadow-sm);
-}
-.benefits-v3 .ic{
-  width:36px;height:36px;
-  flex:0 0 36px;
-  border-radius:8px;
-  background:#f1f4ff;
-  display:flex;align-items:center;justify-content:center;
-}
-.benefits-v3 .text{ flex:1; min-width:0; }
-.benefits-v3 .ttl{
-  font-weight:700;
-  font-size:13px;
-  line-height:1.35;
-  margin:0 0 4px 0;
-  color:var(--text);
-}
-.benefits-v3 .sub{
-  font-size:12px;
-  color:var(--muted);
-  margin:0;
-}
-
-/* chip Miễn phí/Có phí góc phải mỗi item */
-.benefits-v3 .bcard{
-  position:relative;
-}
-.benefits-v3 .benefit-note{
-  position:absolute; top:8px; right:8px;
-  font-size:11px; font-weight:700;
-  padding:2px 8px; border-radius:999px; color:#fff;
-}
-.benefits-v3 .benefit-free{ background:#4caf50; }
-.benefits-v3 .benefit-paid{ background:#d32f2f; }
-
-/* 3) Giữ an toàn: KHÔNG đè layout chung (category, group bar, footer…) */
 
 </style>
 
