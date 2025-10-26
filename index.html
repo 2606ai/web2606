@@ -1230,32 +1230,30 @@ function productCardHtml(it){
 
 
 
-/* ========= PAGER ========= */
-function renderPagination(totalItems, pageSize, currentPage){
-  const totalPages = Math.max(1, Math.ceil((totalItems || 0) / (pageSize || 1)));
-  state.totalPages = totalPages;
+// Tạo HTML cho pager (an toàn, không hở dấu `)
+const block = (where) => /*html*/ `
+  <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
+    <button type="button"
+            class="btn btn-sm btn-outline-secondary"
+            data-action="page-prev"
+            ${currentPage <= 1 ? 'disabled' : ''}>&lsaquo;</button>
 
-  // TẠO KHỐI PAGER (chuỗi HTML)
-  const block = (where) => /*html*/ `
-    <div class="d-inline-flex align-items-center gap-1" data-where="${where}">
-      <button type="button"
-              class="btn btn-sm btn-outline-secondary"
-              data-action="page-prev"
-              ${currentPage <= 1 ? 'disabled' : ''}>&lsaquo;</button>
+    <select class="form-select form-select-sm page-select" style="width:auto">
+      ${Array.from({ length: totalPages }, (_, i) => {
+        const p = i + 1;
+        return '<option value="' + p + '" ' +
+               (p === currentPage ? 'selected' : '') +
+               '>Trang ' + p + '/' + totalPages + '</option>';
+      }).join('')}
+    </select>
 
-      <select class="form-select form-select-sm page-select" style="width:auto">
-        ${Array.from({ length: totalPages }, (_, i) => {
-            const p = i + 1;
-            return `<option value="${p}" ${p === currentPage ? 'selected' : ''}>Trang ${p}/${totalPages}</option>`;
-        }).join('')}
-      </select>
+    <button type="button"
+            class="btn btn-sm btn-outline-secondary"
+            data-action="page-next"
+            ${currentPage >= totalPages ? 'disabled' : ''}>&rsaquo;</button>
+  </div>
+`;
 
-      <button type="button"
-              class="btn btn-sm btn-outline-secondary"
-              data-action="page-next"
-              ${currentPage >= totalPages ? 'disabled' : ''}>&rsaquo;</button>
-    </div>
-  `;
 
   // Render vào 2 vị trí
   const top = document.getElementById('pagerTop');
