@@ -3340,23 +3340,33 @@ return `
 
     ${s.address ? `<div class="meta mt-1">📍 ${esc(s.address)}</div>` : ''}
 
-    <div class="chips">
-      <span class="chip ${hasSite?'ok':''}">${hasSite?'Có website':'Chưa có website'}</span>
+   <div class="chips">
+  <!-- Tình trạng website -->
+  <span class="chip ${hasSite ? 'ok' : ''}">
+    ${hasSite ? 'Có website' : 'Chưa có website'}
+  </span>
 
-      <!-- Trạng thái tệp/giấy tờ -->
-      ${
-        hasDoc
-          ? `<span class="chip">
-              <a href="${esc(s.cert)}" target="_blank" rel="noopener">Xem tệp</a>
-             </span>`
-          : `<span class="chip muted" data-doc-status="empty">Chưa có tệp</span>
-             <button class="chip btn-upload-doc" data-supplier="${esc(s.name)}" title="Tải tệp giấy tờ">
-               Tải tệp
-             </button>`
-      }
+  <!-- Chứng nhận DN (từ cột chungnhanDN) -->
+  ${
+    (s.chungnhanDN && s.chungnhanDN.trim())
+      ? `<span class="chip ok" title="Chứng nhận doanh nghiệp">${esc(s.chungnhanDN)}</span>`
+      : `<span class="chip muted" data-cert="none" title="Chưa có chứng nhận DN">Chưa chứng nhận DN</span>`
+  }
 
-      ${s.contact ? `<span class="chip">Liên hệ: ${esc(s.contact)}</span>` : ''}
-    </div>
+  <!-- Trạng thái tệp/giấy tờ -->
+  ${
+    hasDoc
+      ? `<span class="chip">
+           <a href="${esc(s.cert)}" target="_blank" rel="noopener">Xem tệp</a>
+         </span>`
+      : `<span class="chip muted" data-doc-status="empty">Chưa có tệp</span>
+         <button class="chip btn-upload-doc" data-supplier="${esc(s.name)}" title="Tải tệp giấy tờ">Tải tệp</button>`
+  }
+
+  <!-- Liên hệ -->
+  ${ s.contact ? `<span class="chip">Liên hệ: ${esc(s.contact)}</span>` : '' }
+</div>
+
   </div>
 `;
 }
@@ -3437,7 +3447,7 @@ function applySupFilters(){
   let out = suppliersAll.filter(s=>{
     if(hasSite && !s.url) return false;
     if(!q) return true;
-    const hay = normalize([s.name, s.address, s.cert, s.url].join(' '));
+    const hay = normalize([s.name, s.address, s.cert, s.url, s.chungnhanDN].join(' '));
     return hay.includes(q);
   });
 
@@ -3456,9 +3466,15 @@ function loworkshopuppliers(){
     .then(r=>r.json())
     .then(res=>{
       if(!res||!res.ok||!res.items){ suppliersAll=[]; applySupFilters(); return; }
-      suppliersAll = res.items.map(s=>({
-        name: s.name || '', url:  s.url  || '', address: s.address || '', cert: s.cert || '', contact: s.contact || ''
-      }));
+    suppliersAll = res.items.map(s => ({
+  name: s.name || '',
+  url: s.url || '',
+  address: s.address || '',
+  cert: s.cert || '',
+  contact: s.contact || '',
+  chungnhanDN: s.chungnhanDN || ''   // ✅ bên trong object literal
+}));
+
       applySupFilters();
     })
     .catch(()=>{ box.innerHTML='<div class="text-danger">Không tải được danh sách.</div>'; });
