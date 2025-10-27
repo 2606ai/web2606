@@ -3674,31 +3674,35 @@ function startWorkshopShuffle(){
 function fetchWorkshops(){
   const qs = new URLSearchParams({
     action: 'workshop',
-    q: state.q, group: state.group, type: state.type, loai: state.loai,
+    q : state.q, group: state.group, type: state.type, loai: state.loai,
     note: state.note, category: state.category
   });
 
   fetch(API_URL + '?' + qs.toString())
-  .then(r => r.json())
-  .then(r => {
-    // 1) Lưu dữ liệu nguồn cho shuffle
-    const items = (r && Array.isArray(r.items)) ? r.items : [];
-    workshopData = items;
+    .then(r => r.json())
+    .then(r => {
+      // 1) Lưu nguồn & chuẩn hóa mảng
+      const items = (r && Array.isArray(r.items)) ? r.items : [];
+      workshopData = items;
 
-    // 2) Render lần đầu
-    renderWorkshops(items);
+      // 2) Render lần đầu
+      renderWorkshops(items);
 
-    // 2.1) Bỏ ẩn box khi đã có dữ liệu (rất quan trọng)
-    const box = document.getElementById('workshopBox');
-    if (box) box.classList.remove('d-none');
+      // 3) Bỏ ẩn khối đề xuất (chỉ khi đã có data hoặc ít nhất có phản hồi)
+      const box = document.getElementById('workshopBox');
+      if (box) box.classList.remove('d-none');
 
-    // 3) Bật auto shuffle mỗi 20s
-    startWorkshopShuffle();
-  })
-  .catch(_ => {
-    workshopData = [];
-    renderWorkshops([]); // không gọi shuffle khi không có data
-  });
+      // 4) Bật auto shuffle mỗi 20s
+      startWorkshopShuffle();
+    })
+    .catch(err => {
+      console.error('[workshop] fetch error:', err);
+      workshopData = [];
+      renderWorkshops([]); // giữ logic badge/empty
+      // Nếu muốn vẫn hiện khối (để thấy “(debug) Chưa có dữ liệu...”):
+      const box = document.getElementById('workshopBox');
+      if (box) box.classList.remove('d-none');
+    });
 }
 
 
