@@ -3721,7 +3721,7 @@ function updateCart(){
 
 /* GỬI ĐƠN – hỗ trợ file */
 async function submitOrder(){
-  if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
+  if (cart.length===0){ alert("Giỏ hàng trống!"); return; }
 
   const name   = document.getElementById("buyerName").value.trim();
   const email  = document.getElementById("buyerEmail").value.trim();
@@ -3746,19 +3746,14 @@ async function submitOrder(){
   const phoneNorm = normalizeVNPhone(phone);
   if(!phoneNorm || !isValidVNMobile(phoneNorm)){
     alert("Vui lòng nhập SỐ ĐIỆN THOẠI VN hợp lệ (03/05/07/08/09 + 8 số).");
-    document.getElementById("buyerPhone").focus();
-    return;
+    document.getElementById("buyerPhone").focus(); return;
   }
   if(email && !isValidEmail(email)){
     alert("Email chưa đúng định dạng.");
-    document.getElementById("buyerEmail").focus();
-    return;
+    document.getElementById("buyerEmail").focus(); return;
   }
-
-  // BẮT BUỘC: tên + SĐT + địa chỉ (email không bắt buộc)
   if(!name || !phoneNorm || !address){
-    alert("Vui lòng nhập đầy đủ thông tin bắt buộc (Họ tên, SĐT, Địa chỉ)!");
-    return;
+    alert("Vui lòng nhập đầy đủ thông tin bắt buộc (Họ tên, SĐT, Địa chỉ)!"); return;
   }
 
   const order = {
@@ -3769,31 +3764,30 @@ async function submitOrder(){
     total: cart.reduce((a,b)=>a + +b.qty*(Number(b.price)||0), 0)
   };
 
-  // ... phần fetch gửi đơn giữ nguyên bên dưới
-}
-
   try{
     let resp;
-    if(file){
-      const fd=new FormData();
+    if (file){
+      const fd = new FormData();
       fd.append('action','order');
       fd.append('data', JSON.stringify(order));
-      if(API_KEY) fd.append('key', API_KEY);
+      if (API_KEY) fd.append('key', API_KEY);
       fd.append('file', file);
-      resp = await fetch(API_URL, { method:'POST', body:fd });
+      resp = await fetch(API_URL, { method:'POST', body: fd });
     }else{
       resp = await fetch(API_URL, {
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({action:"order", data:order, key:API_KEY||""})
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ action:'order', data: order, key: API_KEY||'' })
       });
     }
     const res = await resp.json();
-    if(res && (res.ok||res.success)){
+    if (res && (res.ok||res.success)){
       const mailState = res.mail || 'ok';
-      alert(mailState==='ok' ? "Đã gửi đơn hàng thành công!" : "Đã lưu đơn hàng. Gửi email bị lỗi — chúng tôi sẽ kiểm tra lại.");
-      cart.length=0; updateCart();
-    }else{
+      alert(mailState==='ok'
+        ? "Đã gửi đơn hàng thành công!"
+        : "Đã lưu đơn hàng. Gửi email bị lỗi — chúng tôi sẽ kiểm tra lại.");
+      cart.length = 0; updateCart();
+    } else {
       alert("Gửi đơn hàng thất bại.");
     }
   }catch(_){
