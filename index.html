@@ -1897,6 +1897,42 @@ footer.text-light .bi{ color:#fff; }
     display:block;
     image-rendering:-webkit-optimize-contrast;
   }
+/* 1) Căn giữa toàn bộ card danh mục */
+.category-item{
+  display:flex;                   /* ép card dùng flex */
+  flex-direction:column;
+  align-items:center;             /* ← hết lệch trái */
+  justify-content:flex-start;
+  text-align:center;
+  padding:8px 6px;                /* padding đều 2 bên */
+}
+
+/* 2) Icon luôn nằm giữa, không trôi */
+.category-item .icon{
+  width:56px; height:56px;        /* tuỳ khung bạn */
+  margin:0 auto 8px;              /* ← căn giữa theo ngang */
+  display:flex; align-items:center; justify-content:center;
+  border-radius:16px;
+  background:#f2f6ff;
+  overflow:hidden;
+}
+
+/* 3) Ảnh bên trong icon: đầy khung (hoặc đổi contain nếu sợ cắt) */
+.category-item .icon > img{
+  width:100%; height:100%;
+  object-fit:cover;               /* đổi 'contain' nếu muốn giữ đủ hình */
+  display:block;
+}
+
+/* 4) Dải chứa danh mục: căn lưới & căn giữa các item */
+.category-scroll{
+  display:grid;                   /* tránh float/inline gây lệch */
+  grid-template-columns:repeat(6, 1fr);  /* tuỳ số cột */
+  gap:16px;
+  justify-items:center;           /* ← item đứng giữa cột */
+}
+
+  
 </style>
 
    
