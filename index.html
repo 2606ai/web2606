@@ -3575,16 +3575,19 @@ function renderWorkshops(items){
   const pickUrls = (s) => (String(s||'').match(/https?:\/\/[^\s,;]+/g) || []);
 
   list.innerHTML = data.map(it => {
-    const urlRaw   = it.url || it.link || '';
-    const goUrl    = it.linkBox || it.quick || it.preview || urlRaw || '#';
+    const urlRaw = it.url || it.link || it.linkFull || '';
+    const goUrl  = it.linkBox || it.quick || it.preview || urlRaw || '#';
     
-    // ✅ Ưu tiên cột mới logocongty
-    const imgRaw   = it.logocongty || it.logoBox || it.logo || it.ximg || it.img || it.thumb || it.thumbnail || '';
-    const img      = driveThumb(imgRaw);  // tự chuyển sang thumbnail nếu là link Drive
+    // ưu tiên logo công ty
+    const imgRaw = it.logocongty || it.logoBox || it.logo || it.ximg || it.img || it.thumb || it.thumbnail || '';
+    const img    = driveThumb(imgRaw);
     
-    const title    = it.title || it.name || 'Đơn vị';
-    const desc     = it.desc || it.description || '';
-    const site     = (function(u){ try{ return new URL(u, location.href).hostname; }catch(e){ return ''; } })(urlRaw);
+    // ưu tiên tên công ty (hoặc title do API đã set)
+    const company = it.tencongty || it['ten_cty'] || it.company || it.brand || it.site_name || '';
+    const title   = company || it.title || it.name || 'Đơn vị';
+    
+    const site = (()=>{ try{ return new URL(urlRaw, location.href).hostname; }catch(_){ return ''; }})();
+
 
 
     
@@ -3598,25 +3601,19 @@ function renderWorkshops(items){
       : (dnRaw ? esc(dnRaw) : '');
 
     return `
-  <div class="workshop-card"
-       data-href="${esc(goUrl)}"
-       role="link"
-       aria-label="${esc(title)}"
-       tabindex="0">
-
+  <div class="workshop-card" data-href="${esc(goUrl)}" role="link" aria-label="${esc(title)}" tabindex="0">
     <img class="thumb"
-         src="${esc( img || ('https://via.placeholder.com/64?text=' + encodeURIComponent((title||site||'NA').slice(0,2).toUpperCase())) )}"
+         src="${esc(img || ('https://via.placeholder.com/64?text=' + encodeURIComponent((title||site||'NA').slice(0,2).toUpperCase())))}"
          alt="${esc(title || site)}"
          onerror="this.onerror=null;this.src='https://via.placeholder.com/64?text='+encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase());">
-
     <div class="flex-grow-1">
       <div class="title">${esc(title)}</div>
-      ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
       ${site ? `<div class="site">${esc(site)}</div>` : ``}
       ${dnHtml ? `<div class="sup-docs">${dnHtml}</div>` : ``}
     </div>
   </div>
 `;
+
 
 
   }).join('');
