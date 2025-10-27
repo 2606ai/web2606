@@ -1952,23 +1952,38 @@ footer.text-light .bi{ color:#fff; }
 #workshopList .desc { color:#3f6745 !important; }
 #workshopList .site { color:#2e7d32 !important; }
 
-/* Dòng hiển thị tài liệu DN */
-#workshopList .dn{
-  margin-top: 4px;
+/* ▼ Hiển thị tài liệu DN (chip link) */
+#workshopList .sup-docs{
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#workshopList .sup-docs a{
+  display: inline-block;
+  padding: 4px 8px;
   font-size: 12px;
-  color:#245c2a;
-}
-#workshopList .dn a{
+  line-height: 1;
+  border-radius: 999px;
   text-decoration: none;
-  font-weight: 700;
-  color:#1b5e20;
+  background: #e6f4ea;
+  border: 1px solid #cde8d3;
+  color: #2e7d32;
 }
-#workshopList .dn a:hover{ text-decoration: underline; }
+#workshopList .sup-docs a:hover{
+  text-decoration: underline;
+}
 
-/* Nếu có chỗ nào từng set "dashed", ép về solid */
-#workshopBox, .workshop-box{
-  border-style: solid !important;
+/* (giữ) Item trong danh sách: nền xanh lá nhạt + bỏ viền */
+#workshopList .link-preview{
+  background: linear-gradient(180deg,#d4f6db 0%, #e9f7ee 100%) !important;
+  border: none !important;
+  border-radius: 12px !important;
 }
+
+/* Nếu còn rule nào set dashed, ép về solid/none */
+#workshopBox, .workshop-box{ border-style: solid !important; }
+
 
   
 </style>
@@ -3478,17 +3493,20 @@ function renderWorkshops(items){
       : (dnRaw ? esc(dnRaw) : '');
 
     return `
-      <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(img)}" alt="${esc(title)}"
-             onerror="this.src='https://via.placeholder.com/64?text=%20'">
-        <div class="flex-grow-1">
-          <div class="title">${esc(title)}</div>
-          ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
-          ${site ? `<div class="site">${esc(site)}</div>` : ``}
-          ${dnHtml ? `<div class="dn">📄 ${dnHtml}</div>` : ``}
-        </div>
-      </a>
-    `;
+  <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
+    <img class="thumb" src="${esc(img)}" alt="${esc(title)}"
+         onerror="this.src='https://via.placeholder.com/64?text=' + encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase())">
+    <div class="flex-grow-1">
+      <div class="title">${esc(title)}</div>
+      ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
+      ${site ? `<div class="site">${esc(site)}</div>` : ``}
+
+      <!-- Tài liệu DN -->
+      ${dnHtml ? `<div class="sup-docs">${dnHtml}</div>` : ``}
+    </div>
+  </a>
+`;
+
   }).join('');
 
   if (badge){
