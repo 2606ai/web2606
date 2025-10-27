@@ -3578,8 +3578,7 @@ function driveThumb(u){
 
 
   
-<!-- ===== XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== -->
-<script>
+<!-- ===== XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== --> 
 /* ============= Helper chung ============= */
 function esc(s){ return String(s??'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
 function norm(s){ return String(s||'').trim().toLowerCase(); }
@@ -3697,7 +3696,6 @@ function fetchWorkshops(){
     console.warn('[workshop] Hết thời gian chờ API_URL');
   }
 })();
-</script>
 <!-- ===== /XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== -->
 
 
@@ -4929,4 +4927,4 @@ document.addEventListener('DOMContentLoaded', () => {
        accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx,.zip" />
    
 </body>
-</html>
+</html> 
