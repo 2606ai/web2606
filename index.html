@@ -3580,17 +3580,8 @@ function driveThumb(u){
   
 <!-- ===== XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== --> 
 /* ============= Helper chung ============= */
-function esc(s){ return String(s??'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
-function norm(s){ return String(s||'').trim().toLowerCase(); }
-function pickUrls(str){ return (String(str||'').match(/https?:\/\/[^\s,;]+/g) || []); }
-function hostOf(u){
-  try{
-    u = String(u||'').trim();
-    if(!u) return '';
-    const hasProto = /^https?:\/\//i.test(u);
-    return new URL(hasProto?u:`https://${u}`, location.href).hostname;
-  }catch(_){ return ''; }
-}
+/* Ở trên file đã có esc(), norm(), pickUrls(), hostOf().
+   Ở block này CHỈ render + fetch để tránh trùng tên → không còn SyntaxError. */
 
 /* ============= Render list ============= */
 function renderWorkshops(items){
@@ -3600,7 +3591,6 @@ function renderWorkshops(items){
   const empty = document.getElementById('workshopEmpty');
   const badge = document.getElementById('workshopCount');
 
-  // Ẩn/hiện khối + badge
   if (box)   box.classList.toggle('d-none', !(data.length));
   if (empty) empty.style.display = data.length ? 'none' : 'block';
   if (badge){ badge.textContent = data.length; badge.style.display = data.length ? 'inline-block' : 'none'; }
@@ -3614,7 +3604,6 @@ function renderWorkshops(items){
     const title  = company || it.title || it.name || 'Đơn vị';
     const site   = hostOf(urlRaw || goUrl);
 
-    // đọc cột chứng nhận DN (có thể khác tên một chút)
     const dnRaw   = it.chungnhanDN || it.chungnhan || it.cert || '';
     const dnUrls  = pickUrls(dnRaw);
     const dnHtml  = dnUrls.length
@@ -3636,7 +3625,7 @@ function renderWorkshops(items){
   }).join('');
 }
 
-/* ============= Shuffle auto ============= */
+/* ============= Auto shuffle (tuỳ chọn) ============= */
 let workshopData = [];
 let workshopShuffleTimer = null;
 let workshopPaused = false;
@@ -3654,8 +3643,7 @@ function startWorkshopShuffle(){
   if (!workshopData.length) return;
   workshopShuffleTimer = setInterval(()=>{
     if (workshopPaused) return;
-    const shuffled = shuffleCopy(workshopData);
-    renderWorkshops(shuffled);
+    renderWorkshops(shuffleCopy(workshopData));
   }, 8000);
 }
 function stopWorkshopShuffle(){
