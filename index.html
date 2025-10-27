@@ -2931,26 +2931,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Gắn handler CHỈ MỘT LẦN cho danh sách xưởng (event delegation)
   const list = document.getElementById('workshopList');
-  if (list) {
-    list.addEventListener('click', (e) => {
-      const card = e.target.closest('.workshop-card');
-      if (!card || !list.contains(card)) return;
-      if (e.target.closest('.sup-docs a')) return; // giữ link con chạy riêng
+  if (!list) return;
+
+  // 1) Mở link khi bấm vào card (trừ vùng .sup-docs)
+  list.addEventListener('click', (e) => {
+    const card = e.target.closest('.workshop-card');
+    if (!card || !list.contains(card)) return;
+
+    // Nếu click vào link trong phần tài liệu thì để mặc định
+    if (e.target.closest('.sup-docs a')) return;
+
+    const href = card.dataset.href;
+    if (href) window.open(href, '_blank', 'noopener');
+  });
+
+  // 2) Hỗ trợ bàn phím: Enter/Space để mở link
+  list.addEventListener('keydown', (e) => {
+    const card = e.target.closest('.workshop-card');
+    if (!card || !list.contains(card)) return;
+
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
       const href = card.dataset.href;
       if (href) window.open(href, '_blank', 'noopener');
-    });
+    }
+  });
 
-    list.addEventListener('keydown', (e) => {
-      const card = e.target.closest('.workshop-card');
-      if (!card || !list.contains(card)) return;
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        const href = card.dataset.href;
-        if (href) window.open(href, '_blank', 'noopener');
-      }
-    });
-  }
+  // 3) Tạm dừng / tiếp tục auto-shuffle khi hover (desktop)
+  //    (yêu cầu biến toàn cục: let workshopPaused = false; đã khai báo ở trên)
+  list.addEventListener('mouseenter', () => { window.workshopPaused = true;  });
+  list.addEventListener('mouseleave', () => { window.workshopPaused = false; });
+
+  // 4) Hỗ trợ cảm ứng (mobile)
+  list.addEventListener('touchstart', () => { window.workshopPaused = true;  }, { passive: true });
+  list.addEventListener('touchend',   () => { window.workshopPaused = false; }, { passive: true });
 });
+
 
   // === StatsBar: đổi nhãn & đưa pagerTop lên cùng hàng ===
 const statsRow = document.querySelector('#statsBar .d-flex.align-items-center');
@@ -3588,11 +3604,6 @@ function renderWorkshops(items){
     
     const site = (()=>{ try{ return new URL(urlRaw, location.href).hostname; }catch(_){ return ''; }})();
 
-
-
-    
-
-
     // === NEW: đọc cột chungnhanDN ===
     const dnRaw   = it.chungnhanDN || it.chungnhan || it.cert || '';   // chấp nhận vài tên cột gần giống
     const dnUrls  = pickUrls(dnRaw);
@@ -3614,6 +3625,30 @@ function renderWorkshops(items){
   </div>
 `;
 
+// dữ liệu + timer + cờ tạm dừng (chỉ khai báo 1 lần)
+let workshopData = [];
+let workshopShuffleTimer = null;
+let workshopPaused = false;
+
+// Fisher–Yates shuffle
+function shuffleCopy(arr){
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--){
+    const j = (Math.random() * (i + 1)) | 0;
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// chạy auto-shuffle mỗi 20s
+function startWorkshopShuffle(){
+  if (workshopShuffleTimer) clearInterval(workshopShuffleTimer);
+  workshopShuffleTimer = setInterval(() => {
+    if (workshopPaused || !workshopData.length) return;
+    const shuffled = shuffleCopy(workshopData);
+    renderWorkshops(shuffled);     // gọi lại hàm render bạn đã có
+  }, 20000);
+}
 
 
   }).join('');
@@ -3629,14 +3664,29 @@ function renderWorkshops(items){
 
 function fetchWorkshops(){
   const qs = new URLSearchParams({
-    action:'workshop',
-    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+    action: 'workshop',
+    q: state.q, group: state.group, type: state.type, loai: state.loai,
+    note: state.note, category: state.category
   });
+
   fetch(API_URL + '?' + qs.toString())
-    .then(r=>r.json())
-    .then(r=>renderWorkshops(r.items||[]))
-    .catch(()=>renderWorkshops([]));
+    .then(r => r.json())
+    .then(r => {
+      // 1) lưu dữ liệu nguồn cho bộ shuffle
+      workshopData = Array.isArray(r.items) ? r.items : [];
+
+      // 2) render lần đầu
+      renderWorkshops(workshopData);
+
+      // 3) bật auto shuffle mỗi 20s
+      startWorkshopShuffle();
+    })
+    .catch(_ => {
+      workshopData = [];
+      renderWorkshops([]);   // có thể không gọi shuffle khi không có data
+    });
 }
+
 
 
 /* Cart */
