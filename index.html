@@ -1872,6 +1872,32 @@ footer.text-light .bi{ color:#fff; }
 
   
 </style>
+<style id="icon-zoom-fix">
+  /* zoom mặc định – có thể đổi 1.2 – 1.6 tuỳ ý */
+  :root{ --icon-zoom: 1.4; }
+
+  /* khung icon: nếu bạn đang dùng .icon-box thì giữ; 
+     nếu đang dùng .category-item .icon thì vẫn áp dụng được */
+  .icon-box, .category-item .icon, .group-icon{
+    width:120px; height:120px;
+    border-radius:24px;
+    background:#f3f6ff;
+    overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+
+  /* PHÓNG TO ảnh để lấp khung, cắt phần rìa trắng bên trong file */
+  .icon-box > img,
+  .category-item .icon > img,
+  .group-icon > img{
+    width:100%; height:100%;
+    object-fit:contain;
+    transform: scale(var(--icon-zoom));
+    transform-origin: center;
+    display:block;
+    image-rendering:-webkit-optimize-contrast;
+  }
+</style>
 
    
 </head>
