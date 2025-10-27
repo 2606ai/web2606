@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-
-<script>
-  window.API_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
-</script>
-
-  
+ 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -2863,7 +2858,7 @@ window.WORKSHOP_CONTACT_URL = "https://zalo.me/123456789"; // nếu muốn dùng
 
 document.addEventListener('DOMContentLoaded', () => {
   /* ==== CONFIG ===== */
-   window.API_URL = "https://script.google.com/macros/s/AKfycbyxfUzFNrigam0HIIaXL64zurecFH2faXKH99IN18SdcdVBIGB8exkvb3x7aRgOzc1K/exec";
+   window.API_URL = "https://script.google.com/macros/s/AKfycbxCdegWVrPP7YgjuXWQIwxPcwuTu_uPcCA1qpem01QJqj3nSnukRwuungNcg38QkiGJ/exec";
    window.API_KEY = "";
    window.AUTO_OPEN_ON_ADD = false;
 
@@ -3521,7 +3516,6 @@ function renderWorkshops(items){
       : (dnRaw ? esc(dnRaw) : '');
 
     return `
-  return `
   <a class="link-preview text-decoration-none" href="${esc(goUrl)}" target="_blank" rel="noopener">
     <img class="thumb" src="${esc(img || ('https://via.placeholder.com/64?text=' + encodeURIComponent((title||site||'NA').slice(0,2).toUpperCase())))}"
          alt="${esc(title || site)}"
