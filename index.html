@@ -3722,22 +3722,55 @@ function updateCart(){
 /* GỬI ĐƠN – hỗ trợ file */
 async function submitOrder(){
   if(cart.length===0){ alert("Giỏ hàng trống!"); return; }
-  const name=document.getElementById("buyerName").value.trim();
-  const email=document.getElementById("buyerEmail").value.trim();
-  const phone=document.getElementById("buyerPhone").value.trim();
-  const address=document.getElementById("buyerAddress").value.trim();
-  const note=document.getElementById("buyerNote").value.trim();
-  const file=document.getElementById("buyerFile").files[0]||null;
-  const servicePlan=document.getElementById("servicePlan").value;
-  const fileQuote=document.getElementById("fileQuote").checked;
 
-  if(!name||!email||!phone||!address){ alert("Vui lòng nhập đầy đủ thông tin!"); return; }
+  const name   = document.getElementById("buyerName").value.trim();
+  const email  = document.getElementById("buyerEmail").value.trim();
+  const phone  = document.getElementById("buyerPhone").value.trim();
+  const address= document.getElementById("buyerAddress").value.trim();
+  const note   = document.getElementById("buyerNote").value.trim();
+  const file   = document.getElementById("buyerFile").files[0]||null;
+  const servicePlan = document.getElementById("servicePlan").value;
+  const fileQuote   = document.getElementById("fileQuote").checked;
 
-  const order={
-    customer:{name,email,phone,address,note, servicePlan, fileQuote},
-    items:cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note})=>({id,details,type,price,qty,img,linkFull,group,loai,category,note})),
-    total:cart.reduce((a,b)=>a+b.qty*(Number(b.price)||0),0)
+  // ---- Chuẩn hoá & validate SĐT/Email ----
+  const normalizeVNPhone = (raw)=>{
+    if(!raw) return "";
+    let s = String(raw).trim().replace(/[^\d+]/g,"");
+    if(s.startsWith("+84")) s = "0" + s.slice(3);
+    s = s.replace(/[^\d]/g,"");
+    return s;
   };
+  const isValidVNMobile = (s)=> /^0(3|5|7|8|9)\d{8}$/.test(s);
+  const isValidEmail    = (s)=> /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+
+  const phoneNorm = normalizeVNPhone(phone);
+  if(!phoneNorm || !isValidVNMobile(phoneNorm)){
+    alert("Vui lòng nhập SỐ ĐIỆN THOẠI VN hợp lệ (03/05/07/08/09 + 8 số).");
+    document.getElementById("buyerPhone").focus();
+    return;
+  }
+  if(email && !isValidEmail(email)){
+    alert("Email chưa đúng định dạng.");
+    document.getElementById("buyerEmail").focus();
+    return;
+  }
+
+  // BẮT BUỘC: tên + SĐT + địa chỉ (email không bắt buộc)
+  if(!name || !phoneNorm || !address){
+    alert("Vui lòng nhập đầy đủ thông tin bắt buộc (Họ tên, SĐT, Địa chỉ)!");
+    return;
+  }
+
+  const order = {
+    customer: { name, email, phone: phoneNorm, address, note, servicePlan, fileQuote },
+    items: cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note}) =>
+      ({id,details,type,price,qty,img,linkFull,group,loai,category,note})
+    ),
+    total: cart.reduce((a,b)=>a + +b.qty*(Number(b.price)||0), 0)
+  };
+
+  // ... phần fetch gửi đơn giữ nguyên bên dưới
+}
 
   try{
     let resp;
