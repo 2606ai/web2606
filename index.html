@@ -2134,7 +2134,7 @@ footer.text-light .bi{ color:#fff; }
     </h6>
 
     <div id="workshopList" class="d-flex flex-column gap-2"></div>
-    <div id="workshopEmpty" class="small text-muted">(debug) Box đã hiển thị – chờ dữ liệu quảng cáo.</div>
+    <div id="workshopEmpty" class="small text-muted">(debug) Đang tải danh sách...</div>
 
     <div class="mt-2 text-center">
       <a id="workshopContactBtn2" href="#" target="_blank" rel="noopener"
@@ -3581,11 +3581,20 @@ function driveThumb(u){
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
 let workshopData = [];
 function renderWorkshops(items){
-  const data = Array.isArray(items) ? items : [];
+  const data  = Array.isArray(items) ? items : [];
   const list  = document.getElementById('workshopList');
+  const box   = document.getElementById('workshopBox');
   const empty = document.getElementById('workshopEmpty');
   const badge = document.getElementById('workshopCount');
-  if(!list) return;
+
+  // ✅ Ẩn/hiện khối theo số lượng item
+  if (box)   box.classList.toggle('d-none', !(data && data.length));
+  if (empty) empty.style.display = (data && data.length) ? 'none' : 'block';
+  if (badge){
+    badge.textContent = data.length;
+    badge.style.display = data.length ? 'inline-block' : 'none';
+  }
+
 
   // helper nhỏ: trả về mảng URL trong chuỗi
   const pickUrls = (s) => (String(s||'').match(/https?:\/\/[^\s,;]+/g) || []);
