@@ -3474,6 +3474,14 @@ function hostOf(u){
   }catch(e){ return ''; }
 }
 
+// Lấy ID từ link Google Drive và trả về thumbnail nhanh
+function driveThumb(u){
+  u = String(u||'').trim();
+  if(!u) return '';
+  // dạng: .../file/d/<id>/view...,  open?id=<id>,  uc?id=<id>
+  const m = u.match(/(?:\/d\/|id=)([A-Za-z0-9_-]{10,})/);
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}` : u;
+}
 
 
   
@@ -3490,18 +3498,17 @@ function renderWorkshops(items){
   const pickUrls = (s) => (String(s||'').match(/https?:\/\/[^\s,;]+/g) || []);
 
   list.innerHTML = data.map(it => {
-    const url      = it.url || it.link || '';
-    const siteHost = hostOf(url);
+    const urlRaw   = it.url || it.link || '';
+    const goUrl    = it.linkBox || it.quick || it.preview || urlRaw || '#';
     
-    // ✅ bọc bằng backtick + đủ protocol
-    const favicon1 = siteHost ? `https://icons.duckduckgo.com/ip3/${siteHost}.ico` : '';
-    const favicon2 = siteHost ? `https://www.google.com/s2/favicons?domain=${siteHost}&sz=64` : '';
+    // ✅ Ưu tiên cột mới logocongty
+    const imgRaw   = it.logocongty || it.logoBox || it.logo || it.ximg || it.img || it.thumb || it.thumbnail || '';
+    const img      = driveThumb(imgRaw);  // tự chuyển sang thumbnail nếu là link Drive
     
-    const img  = it.img || it.thumb || it.thumbnail || it.linkfull || favicon1;
-    
-    const title = it.title || it.name || 'Đơn vị';
-    const desc  = it.desc || it.description || '';
-    const site  = siteHost;
+    const title    = it.title || it.name || 'Đơn vị';
+    const desc     = it.desc || it.description || '';
+    const site     = (function(u){ try{ return new URL(u, location.href).hostname; }catch(e){ return ''; } })(urlRaw);
+
 
     
 
@@ -3514,28 +3521,20 @@ function renderWorkshops(items){
       : (dnRaw ? esc(dnRaw) : '');
 
     return `
-  <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
-    <img class="thumb" src="${esc(img)}" alt="${esc(title || site)}"
-     data-fallback="${esc(favicon2)}"
-     onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;this.dataset.fallback='';}else{this.src='https://via.placeholder.com/64?text='+encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase());}">
-       if(this.dataset.fallback){
-         this.src=this.dataset.fallback;
-         this.dataset.fallback='';
-       }else{
-         this.src='https://via.placeholder.com/64?text=' + encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase());
-       }
-     ">
-
+  return `
+  <a class="link-preview text-decoration-none" href="${esc(goUrl)}" target="_blank" rel="noopener">
+    <img class="thumb" src="${esc(img || ('https://via.placeholder.com/64?text=' + encodeURIComponent((title||site||'NA').slice(0,2).toUpperCase())))}"
+         alt="${esc(title || site)}"
+         onerror="this.onerror=null;this.src='https://via.placeholder.com/64?text='+encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase());">
     <div class="flex-grow-1">
       <div class="title">${esc(title)}</div>
       ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
       ${site ? `<div class="site">${esc(site)}</div>` : ``}
-
-      <!-- Tài liệu DN -->
       ${dnHtml ? `<div class="sup-docs">${dnHtml}</div>` : ``}
     </div>
   </a>
 `;
+
 
   }).join('');
 
