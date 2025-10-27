@@ -2758,12 +2758,9 @@ function getCols(){
 
 // Map tên nhóm -> icon (URL) hoặc emoji
 const GROUP_ICONS = {
+  "THIẾT BỊ Y TẾ":"https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w1000",
+  "ẤN PHẨM THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/conference-foreground-selected.png",
   "QUÀ TẶNG 247 EXPRESS (Đối tác)":"https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w1000",
-  "QUÀ TẶNG ẤN PHẨM THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/advertising.png",
-  "QUÀ TẶNG SẢN PHẨM THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/product.png",
-  "QUÀ TẶNG TỔ CHỨC SỰ KIỆN":"https://img.icons8.com/fluency/96/conference-foreground-selected.png",
-  "QUÀ TẶNG PHỤ KIỆN THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/electronics.png",
-  "KHÁC":"https://img.icons8.com/fluency/96/more.png"
 };
 
 function iconForGroup(name){
@@ -2772,12 +2769,10 @@ function iconForGroup(name){
 
 // === THỨ TỰ HIỂN THỊ NHÓM (TRÁI → PHẢI) ===
 const GROUP_ORDER_RAW = [
-  "QUÀ TẶNG 247 EXPRESS (Đối tác)",
+  "THIẾT BỊ Y TẾ",
   "QUÀ TẶNG TỔ CHỨC SỰ KIỆN",
-  "QUÀ TẶNG PHỤ KIỆN THƯƠNG HIỆU",
-  "QUÀ TẶNG SẢN PHẨM THƯƠNG HIỆU",
-  "QUÀ TẶNG ẤN PHẨM THƯƠNG HIỆU",
-  "KHÁC"
+  "ẤN PHẨM THƯƠNG HIỆU",
+  "QUÀ TẶNG 247 EXPRESS (Đối tác)",
 ];
 
 // chuẩn hoá (bỏ dấu, lower, trim)
