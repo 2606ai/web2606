@@ -2097,7 +2097,7 @@ footer.text-light .bi{ color:#fff; }
   function toDriveThumb(u){
     if (!u) return FALLBACK;
     const m = String(u).match(/\/d\/([^/]+)\//);
-    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w200`;
+    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w800`;
     if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
     return u;
   }
@@ -2106,7 +2106,7 @@ footer.text-light .bi{ color:#fff; }
     const url = toDriveThumb(u);
     return /^https?:\/\//i.test(url) ? url : FALLBACK;
   }
-<script>
+
 function findWorkshopBox(){
   return (
     document.getElementById('workshopBox') ||
@@ -2778,10 +2778,13 @@ function getCols(){
 
 // Map tên nhóm -> icon (URL) hoặc emoji
 const GROUP_ICONS = {
-  "THIẾT BỊ Y TẾ":"https://drive.google.com/thumbnail?id=1KCHoDFyskqziMWw-x2051EMJg-ocJn_n&sz=w1600" alt="thumb",
-  "ẤN PHẨM THƯƠNG HIỆU":"https://img.icons8.com/fluency/96/conference-foreground-selected.png",
-  "QUÀ TẶNG 247 EXPRESS (Đối tác)":"https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w1000",
+  "THIẾT BỊ Y TẾ": "https://drive.google.com/thumbnail?id=1KCHoDFyskqziMWw-x2051EMJg-ocJn_n&sz=w1600",
+  "ẤN PHẨM THƯƠNG HIỆU": "https://img.icons8.com/fluency/96/conference-foreground-selected.png",
+  "QUÀ TẶNG 247 EXPRESS (Đối tác)": "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w1000",
+  "KHÁC": "https://placehold.co/120x120?text=%20" // (khuyến nghị) fallback
 };
+
+
 
 function iconForGroup(name){
   return GROUP_ICONS[name] || GROUP_ICONS["KHÁC"];
