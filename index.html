@@ -3464,6 +3464,17 @@ function fetchLinkPreview(url){
 function pickUrls(str){
   return (String(str||'').match(/https?:\/\/[^\s,;]+/g) || []);
 }
+function hostOf(u){
+  try{
+    u = String(u || '').trim();
+    if(!u) return '';
+    const hasProto = /^https?:\/\//i.test(u);
+    const url = new URL(hasProto ? u : `https://${u}`, location.href);
+    return url.hostname;
+  }catch(e){ return ''; }
+}
+
+
 
   
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
@@ -3479,11 +3490,21 @@ function renderWorkshops(items){
   const pickUrls = (s) => (String(s||'').match(/https?:\/\/[^\s,;]+/g) || []);
 
   list.innerHTML = data.map(it => {
-    const url   = it.url || it.link || '';
-    const img   = it.img || it.thumb || it.thumbnail || it.linkfull || '';
+    const url      = it.url || it.link || '';
+    const siteHost = hostOf(url);
+    
+    // ✅ bọc bằng backtick + đủ protocol
+    const favicon1 = siteHost ? `https://icons.duckduckgo.com/ip3/${siteHost}.ico` : '';
+    const favicon2 = siteHost ? `https://www.google.com/s2/favicons?domain=${siteHost}&sz=64` : '';
+    
+    const img  = it.img || it.thumb || it.thumbnail || it.linkfull || favicon1;
+    
     const title = it.title || it.name || 'Đơn vị';
-    const desc  = it.desc  || it.description || '';
-    const site  = url ? (new URL(url, location.href).hostname) : '';
+    const desc  = it.desc || it.description || '';
+    const site  = siteHost;
+
+    
+
 
     // === NEW: đọc cột chungnhanDN ===
     const dnRaw   = it.chungnhanDN || it.chungnhan || it.cert || '';   // chấp nhận vài tên cột gần giống
@@ -3494,8 +3515,17 @@ function renderWorkshops(items){
 
     return `
   <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
-    <img class="thumb" src="${esc(img)}" alt="${esc(title)}"
-         onerror="this.src='https://via.placeholder.com/64?text=' + encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase())">
+    <img class="thumb" src="${esc(img)}" alt="${esc(title || site)}"
+     data-fallback="${esc(favicon2)}"
+     onerror="if(this.dataset.fallback){this.src=this.dataset.fallback;this.dataset.fallback='';}else{this.src='https://via.placeholder.com/64?text='+encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase());}">
+       if(this.dataset.fallback){
+         this.src=this.dataset.fallback;
+         this.dataset.fallback='';
+       }else{
+         this.src='https://via.placeholder.com/64?text=' + encodeURIComponent((this.alt||'NA').slice(0,2).toUpperCase());
+       }
+     ">
+
     <div class="flex-grow-1">
       <div class="title">${esc(title)}</div>
       ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
