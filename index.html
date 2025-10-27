@@ -2,11 +2,6 @@
 <html lang="vi">
 <head>
 
-<script>
-  window.API_URL = 'https://script.google.com/macros/s/AKfycb.../exec';
-</script>
-
-  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -4620,6 +4615,59 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <input id="uploworkshopupplierFile" type="file" hidden
        accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx,.zip" />
-   
+
+<style>
+/* ----- Category icon: canh giữa & giữ tỉ lệ ----- */
+.category-item{ text-align:center; }
+.category-item .icon{
+  width: 100%;
+  height: 100px;              /* khung cố định */
+  border-radius: 12px;
+  background: none;
+  overflow: hidden;
+  display: flex;              /* canh giữa ảnh */
+  align-items: center;
+  justify-content: center;
+}
+.category-item .icon img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;        /* logo không méo, không bị lệch */
+  display: block;
+}
+
+/* ----- Nhóm (group-chip) – icon và chữ cân giữa, không lệch ----- */
+#groupBar .group-chip{
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  border: 1px solid #eef2ff !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  color: var(--main-700) !important;
+  font-weight: 600 !important;
+}
+#groupBar .chip-icon{
+  width: 56px; height: 56px; border-radius: 16px;
+  display:flex; align-items:center; justify-content:center;
+  background: linear-gradient(180deg,#f5f7ff 0%, #edf1ff 100%);
+  overflow:hidden;
+}
+#groupBar .chip-icon img{ width:34px; height:34px; object-fit:contain; }
+
+/* ----- Mũi tên & dots không che nhau ----- */
+.group-bar-wrapper{ margin-bottom: 8px !important; }
+.group-dots{ margin: 6px 0 12px !important; gap:6px; }
+.group-dots .dot{ width:6px; height:6px; border-radius:50%; background:#c9d6ff; }
+.group-dots .dot.active{ background: var(--main); transform: scale(1.2); }
+
+/* ----- Nút mũi tên danh mục: trạng thái disabled rõ ràng ----- */
+.cat-arrow.is-disabled,
+.cat-arrow:disabled{ opacity:.45; pointer-events:none; }
+</style>
+
+  
 </body>
 </html>
