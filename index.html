@@ -3580,20 +3580,20 @@ function driveThumb(u){
   
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
 let workshopData = [];
-function renderWorkshops(items){
-  const data  = Array.isArray(items) ? items : [];
-  const list  = document.getElementById('workshopList');
-  const box   = document.getElementById('workshopBox');
-  const empty = document.getElementById('workshopEmpty');
-  const badge = document.getElementById('workshopCount');
+const data  = Array.isArray(items) ? items : [];
+const list  = document.getElementById('workshopList');
+const box   = document.getElementById('workshopBox');
+const empty = document.getElementById('workshopEmpty');
+const badge = document.getElementById('workshopCount');
 
-  // ✅ Ẩn/hiện khối theo số lượng item
-  if (box)   box.classList.toggle('d-none', !(data && data.length));
-  if (empty) empty.style.display = (data && data.length) ? 'none' : 'block';
-  if (badge){
-    badge.textContent = data.length;
-    badge.style.display = data.length ? 'inline-block' : 'none';
-  }
+// Ẩn/hiện khối theo số lượng item
+if (box)   box.classList.toggle('d-none', !(data && data.length));
+if (empty) empty.style.display = (data && data.length) ? 'none' : 'block';
+if (badge){
+  badge.textContent = data.length;
+  badge.style.display = data.length ? 'inline-block' : 'none';
+}
+
 
 
   // helper nhỏ: trả về mảng URL trong chuỗi
@@ -3679,21 +3679,26 @@ function fetchWorkshops(){
   });
 
   fetch(API_URL + '?' + qs.toString())
-    .then(r => r.json())
-    .then(r => {
-      // 1) lưu dữ liệu nguồn cho bộ shuffle
-      workshopData = Array.isArray(r.items) ? r.items : [];
+  .then(r => r.json())
+  .then(r => {
+    // 1) Lưu dữ liệu nguồn cho shuffle
+    const items = (r && Array.isArray(r.items)) ? r.items : [];
+    workshopData = items;
 
-      // 2) render lần đầu
-      renderWorkshops(workshopData);
+    // 2) Render lần đầu
+    renderWorkshops(items);
 
-      // 3) bật auto shuffle mỗi 20s
-      startWorkshopShuffle();
-    })
-    .catch(_ => {
-      workshopData = [];
-      renderWorkshops([]);   // có thể không gọi shuffle khi không có data
-    });
+    // 2.1) Bỏ ẩn box khi đã có dữ liệu (rất quan trọng)
+    const box = document.getElementById('workshopBox');
+    if (box) box.classList.remove('d-none');
+
+    // 3) Bật auto shuffle mỗi 20s
+    startWorkshopShuffle();
+  })
+  .catch(_ => {
+    workshopData = [];
+    renderWorkshops([]); // không gọi shuffle khi không có data
+  });
 }
 
 
@@ -4752,7 +4757,7 @@ document.addEventListener('keydown', (e) => {
 
   // Nếu chưa render workshop, ít nhất hiện dòng trống
   if(empty){
-    empty.textContent = '(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.';
+    empty.textContent = 'Đang tải danh sách.';
     empty.style.display = 'block';
   }
   if(count){ count.style.display = 'none'; }
