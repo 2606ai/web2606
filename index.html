@@ -1932,6 +1932,44 @@ footer.text-light .bi{ color:#fff; }
   justify-items:center;           /* ← item đứng giữa cột */
 }
 
+/* ===== XƯỞNG ĐỀ XUẤT – nền xanh lá gradient + bỏ viền gạch đứt ===== */
+.sidebar-box.workshop-box{
+  background: linear-gradient(180deg,#e7f5e8 0%, #c8ead1 100%) !important;
+  border: 1px solid #bfe3c0 !important;       /* bỏ dashed -> về solid */
+  border-radius: 12px !important;
+  box-shadow: 0 4px 14px rgba(46,125,50,.12);
+}
+
+/* Item trong danh sách: nền xanh rất nhạt + bỏ viền */
+#workshopList .link-preview{
+  background: linear-gradient(180deg,#f4fbf6 0%, #e9f7ee 100%) !important;
+  border: none !important;                    /* không viền */
+  border-radius: 12px !important;
+}
+
+/* Tông màu chữ cho box này */
+#workshopList .title{ color:#1b5e20 !important; font-weight:800; }
+#workshopList .desc { color:#3f6745 !important; }
+#workshopList .site { color:#2e7d32 !important; }
+
+/* Dòng hiển thị tài liệu DN */
+#workshopList .dn{
+  margin-top: 4px;
+  font-size: 12px;
+  color:#245c2a;
+}
+#workshopList .dn a{
+  text-decoration: none;
+  font-weight: 700;
+  color:#1b5e20;
+}
+#workshopList .dn a:hover{ text-decoration: underline; }
+
+/* Nếu có chỗ nào từng set "dashed", ép về solid */
+#workshopBox, .workshop-box{
+  border-style: solid !important;
+}
+
   
 </style>
 
@@ -2205,9 +2243,13 @@ function findWorkshopBox(){
 function supplierSidebarHTML(s){
   const hasSite = !!(s.url && s.url.trim());
   const hasCertFile = !!(s.cert && s.cert.trim());
-  const hasDN = !!(s.chungnhanDN && s.chungnhanDN.trim());
 
-  // nếu có cột ảnh logo thì đặt vào s.img; nếu không cứ để trống
+  // ✅ lấy link từ cột chungnhanDN
+  const dnUrls = pickUrls(s.chungnhanDN);
+  const dnHTML = dnUrls.length
+    ? dnUrls.map(u => `<a class="sup-chip link" href="${esc(u)}" target="_blank" rel="noopener">Tài liệu DN</a>`).join(' ')
+    : (s.chungnhanDN ? `<span class="sup-chip muted">${esc(s.chungnhanDN)}</span>` : ``);
+
   const avatar = s.img || '';
   const imgTag = avatar
     ? `<img src="${esc(avatar)}" alt="${esc(s.name)}" onerror="this.style.display='none'">`
@@ -2222,14 +2264,17 @@ function supplierSidebarHTML(s){
     <div class="sup-meta">
       <div class="sup-name">
         <span>Đơn vị</span>
-        ${hasDN ? `<span class="sup-badge ok" title="Chứng nhận DN">${esc(s.chungnhanDN)}</span>` : ``}
       </div>
+
       <div class="sup-url">${hasSite ? esc(s.url) : 'Chưa có website'}</div>
 
       <div class="sup-badges">
         ${hasSite ? `<span class="sup-badge blue">Website</span>` : ``}
         ${hasCertFile ? `<span class="sup-badge">Có tệp chứng nhận</span>` : `<span class="sup-badge warn">Chưa có tệp</span>`}
       </div>
+
+      <!-- ✅ khu hiển thị tài liệu DN -->
+      ${dnHTML ? `<div class="sup-docs">${dnHTML}</div>` : ``}
 
       <div class="sup-actions">
         ${hasSite ? `<a class="sup-btn" href="${esc(s.url)}" target="_blank" rel="noopener">Mở trang</a>` : ``}
@@ -2239,6 +2284,7 @@ function supplierSidebarHTML(s){
     </div>
   </div>`;
 }
+
 
 /* Dùng container sẵn có (#workshoplist | .workshop-list | [data-workshop-list]) */
 /* Dùng container sẵn có (#workshoplist | .workshop-list | [data-workshop-list]) */
@@ -3399,39 +3445,58 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
+  // --- helper: lấy tất cả URL trong 1 chuỗi ---
+function pickUrls(str){
+  return (String(str||'').match(/https?:\/\/[^\s,;]+/g) || []);
+}
+
+  
 /* ===== XƯỞNG ĐỀ XUẤT ===== */
 let workshopData = [];
 function renderWorkshops(items){
-  workshopData = items || [];
-  const list = document.getElementById('workshopList');
+  const data = Array.isArray(items) ? items : [];
+  const list  = document.getElementById('workshopList');
   const empty = document.getElementById('workshopEmpty');
   const badge = document.getElementById('workshopCount');
-
   if(!list) return;
-  list.innerHTML = workshopData.map(it => {
-    const url = it.url || it.link || '';
-    const img = it.img || it.thumb || '';
+
+  // helper nhỏ: trả về mảng URL trong chuỗi
+  const pickUrls = (s) => (String(s||'').match(/https?:\/\/[^\s,;]+/g) || []);
+
+  list.innerHTML = data.map(it => {
+    const url   = it.url || it.link || '';
+    const img   = it.img || it.thumb || it.thumbnail || it.linkfull || '';
     const title = it.title || it.name || 'Đơn vị';
-    const desc = it.desc || it.description || '';
-    const site = url ? (new URL(url, location.href).hostname) : '';
+    const desc  = it.desc  || it.description || '';
+    const site  = url ? (new URL(url, location.href).hostname) : '';
+
+    // === NEW: đọc cột chungnhanDN ===
+    const dnRaw   = it.chungnhanDN || it.chungnhan || it.cert || '';   // chấp nhận vài tên cột gần giống
+    const dnUrls  = pickUrls(dnRaw);
+    const dnHtml  = dnUrls.length
+      ? dnUrls.map(u => `<a href="${esc(u)}" target="_blank" rel="noopener">Tài liệu DN</a>`).join(' • ')
+      : (dnRaw ? esc(dnRaw) : '');
+
     return `
       <a class="link-preview text-decoration-none" href="${esc(url||'#')}" target="_blank" rel="noopener">
-        <img class="thumb" src="${esc(img)}" alt="${esc(title)}" onerror="this.src='https://via.placeholder.com/64?text=%20'">
+        <img class="thumb" src="${esc(img)}" alt="${esc(title)}"
+             onerror="this.src='https://via.placeholder.com/64?text=%20'">
         <div class="flex-grow-1">
           <div class="title">${esc(title)}</div>
           ${desc ? `<div class="desc">${esc(desc)}</div>` : ``}
           ${site ? `<div class="site">${esc(site)}</div>` : ``}
+          ${dnHtml ? `<div class="dn">📄 ${dnHtml}</div>` : ``}
         </div>
       </a>
     `;
   }).join('');
 
   if (badge){
-    badge.textContent = workshopData.length;
-    badge.style.display = workshopData.length ? 'inline-block' : 'none';
+    badge.textContent = data.length;
+    badge.style.display = data.length ? 'inline-block' : 'none';
   }
   if (empty){
-    empty.style.display = workshopData.length ? 'none' : 'block';
+    empty.style.display = data.length ? 'none' : 'block';
   }
 }
 
@@ -4472,9 +4537,6 @@ document.addEventListener('keydown', (e) => {
   const count = document.getElementById('workshopCount');
   if(!box) return;
 
-  // Đặt viền debug để bạn dễ nhìn (xóa sau)
-  box.style.outline = '2px dashed #2e7d32';
-
   // Nếu chưa render workshop, ít nhất hiện dòng trống
   if(empty){
     empty.textContent = '(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.';
@@ -4514,13 +4576,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // 3) Debug viền để bạn nhìn thấy khung (xóa 2 dòng này khi OK)
-  if (workshop){
-    workshop.style.outline = '2px dashed #2e7d32';
-    if (!workshop.querySelector('#workshopList')){
-      workshop.insertAdjacentHTML('beforeend',
-        '<div class="small text-muted">(debug) Box đã hiển thị – chưa có dữ liệu quảng cáo.</div>');
-    }
-  }
 });
 </script>
 
