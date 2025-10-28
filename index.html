@@ -73,7 +73,9 @@ body{
 img{max-width:100%;display:block}
 
 /* Container width to match header/footer */
-.container-fluid,.wrap{max-width:1400px;margin:0 auto}
+/* Container width to match header/footer */
+.container-fluid, .wrap { max-width: 1400px; margin: 0 auto; }
+
 
 /* ---- Header ---- */
 .site-header{
@@ -2053,9 +2055,16 @@ footer.text-light .bi{ color:#fff; }
 
 <header class="site-header">
   <div class="wrap">
-    <a id="logoLink" href="#" class="d-flex align-items-center text-decoration-none">
-      <img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w160" class="logo" alt="2606AI logo">
-    </a>
+    <a id="logoLink" href="/" class="d-flex align-items-center text-decoration-none">
+  <img
+    src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w160"
+    class="logo"
+    alt="2606AI logo"
+    width="84" height="56"
+    referrerpolicy="no-referrer"
+    onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2284%22 height=%2256%22 viewBox=%220 0 84 56%22><rect width=%2284%22 height=%2256%22 rx=%229%22 fill=%22%23ffffff%22/><text x=%2250%25%22 y=%2252%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial,Helvetica,sans-serif%22 font-size=%2216%22 fill=%22%232e7d32%22>2606AI</text></svg>';">
+</a>
+
     <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
       <div class="input-group w-100">
         <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (ID, mô tả)" aria-label="Tìm sản phẩm">
