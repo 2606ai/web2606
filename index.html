@@ -1918,6 +1918,43 @@ footer.text-light .bi{ color:#fff; }
 #workshopList .workshop-card:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
 #workshopList .workshop-card:focus-visible{outline:2px solid #2e7d32;outline-offset:2px;}
 
+    /* ==== FIX: Logo xưởng bị lớp phủ đè ==== */
+#workshopList{ position:relative; z-index:0; }
+
+/* Hạ tất cả overlay/pseudo trong list xuống dưới */
+#workshopList::before,
+#workshopList::after{
+  z-index:0 !important;
+  pointer-events:none !important;
+}
+
+#workshopList .workshop-card{
+  position:relative;
+  overflow:visible !important;
+}
+
+#workshopList .workshop-card::before,
+#workshopList .workshop-card::after{
+  z-index:0 !important;
+  pointer-events:none !important;
+}
+
+/* Đưa logo lên trên mọi overlay */
+#workshopList .logo-wrap{ position:relative; z-index:2; }
+#workshopList img.thumb{
+  position:relative; z-index:3;
+  display:block !important;
+  max-width:32px; max-height:32px;
+  width:auto; height:auto;
+  object-fit:contain;
+  opacity:1 !important; filter:none !important; mix-blend-mode:normal !important;
+}
+
+/* Nếu có lớp 'skeleton/loading' còn sót */
+#workshopList .skeleton,
+#workshopList .loading,
+#workshopList .img-mask{ display:none !important; }
+
  
 </style>
 <style id="icon-zoom-fix">
