@@ -2214,7 +2214,7 @@ body{
   <div id="workshopBox" class="sidebar-box workshop-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
       <span class="d-inline-flex align-items-center gap-2">
-        Xưởng đề xuất
+        DOANH NGHIỆP GỢI Ý
         <span id="workshopCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span>
       </span>
     </h6>
@@ -3660,14 +3660,8 @@ function driveThumb(u){
   return m ? `https://drive.google.com/thumbnail?id=${m[1]}` : u;
 }
 
-function fixUrl(u){
-  if(!u) return '';
-  u = String(u).trim();
-  if(/^mailto:|^tel:/i.test(u)) return u;
-  if(!/^https?:\/\//i.test(u)) u = 'https://' + u.replace(/^\/\//,'');
-  return u;
-}
-function fixUrl(u){
+// Chuẩn hóa URL: giữ mailto/tel, ép https:// nếu thiếu
+function fixurl(u){
   if(!u) return '';
   u = String(u).trim();
   if(/^mailto:|^tel:/i.test(u)) return u;
@@ -3675,13 +3669,7 @@ function fixUrl(u){
   return u;
 }
 
-  
-<!-- ===== XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== --> 
-/* ============= Helper chung ============= */
-/* Ở trên file đã có esc(), norm(), pickUrls(), hostOf().
-   Ở block này CHỈ render + fetch để tránh trùng tên → không còn SyntaxError. */
-
-/* ============ Render list ============ */
+// ============ Render list ============ 
 function renderWorkshops(items){
   const data  = Array.isArray(items) ? items : [];
   const list  = document.getElementById('workshopList');
@@ -3689,50 +3677,48 @@ function renderWorkshops(items){
   const empty = document.getElementById('workshopEmpty');
   const badge = document.getElementById('workshopCount');
 
-  if (box)   box.classList.toggle('d-none', !(data.length));
+  if (box)   box.classList.toggle('d-none', !data.length);
   if (empty) empty.style.display = data.length ? 'none' : 'block';
-  if (badge) { badge.textContent = data.length; badge.style.display = data.length ? 'inline-block' : 'none'; }
+  if (badge){ badge.textContent = data.length; badge.style.display = data.length ? 'inline-block' : 'none'; }
 
   if (!list) return;
 
   list.innerHTML = data.map(it => {
-    // 1) Link click: ưu tiên cột QUANGCAO, sau đó fallback các cột khác
-    const urlRaw = it.quangcao || it.url || it.link || it.linkFull || it.website || it.domain || '';
-    const href   = fixurl(urlRaw || it.preview || it.quick || it.linkBox || ''); // ép protocol
+    // Link click: ưu tiên cột quangcao
+    const raw  = it.quangcao || it.url || it.link || it.linkFull || it.website || it.domain || '';
+    const href = fixurl(raw || it.preview || it.quick || it.linkBox || '');
 
-    // 2) Thông tin hiển thị
     const company = it.tencongty || it['ten_cty'] || it.company || it.brand || it.site_name || '';
     const title   = company || it.title || it.name || 'Đơn vị';
-    const site    = hostOf(href); // domain gọn để hiển thị
+    const site    = hostOf(href); // hiển thị domain gọn
 
-    // 3) Tài liệu DN (nếu có)
+    // Tài liệu DN (nếu có)
     const dnRaw  = it.chungnhanDN || it.chungnhan || it.cert || '';
     const dnUrls = pickUrls(dnRaw);
     const dnHtml = dnUrls.length
       ? dnUrls.map(u => `<a href="${esc(u)}" target="_blank" rel="noopener">Tài liệu DN</a>`).join(' · ')
       : '';
 
-    // 4) Logo/thumbnail (fallback qua favicon theo hostname)
-    const _host = (() => { try { return new URL(href).hostname; } catch(_) { return ''; } })();
+    // Logo/thumbnail (fallback favicon theo hostname)
+    const _host = (()=>{ try{ return new URL(href).hostname; }catch(_){ return ''; }})();
     const thumb = it.thumb || it.logo || it.image || it.icon || it.avatar || it.img
                || (_host ? `https://icons.duckduckgo.com/ip3/${_host}.ico` : '');
 
-    // 5) Template thẻ xưởng (toàn bộ card click được)
     return `
       <div class="workshop-card" data-href="${esc(href)}" role="link" tabindex="0" aria-label="${esc(title)}">
         <div class="wlogo">
-          <img class="thumb" src="${esc(thumb)}" alt="${esc(title)}"
-               onerror="this.style.display='none'">
+          <img class="thumb" src="${esc(thumb)}" alt="${esc(title)}" onerror="this.style.display='none'">
         </div>
         <div class="winfo">
           <div class="wname">${esc(title)}</div>
-          <div class="wurl">${esc(site || '')}</div>
+          <div class="wurl">${esc(site||'')}</div>
           ${dnHtml ? `<div class="sup-docs">${dnHtml}</div>` : ``}
         </div>
       </div>
     `;
   }).join('');
 }
+
 
 
 /* ============= Auto shuffle (tuỳ chọn) ============= */
