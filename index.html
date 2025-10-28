@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
- 
+    <!-- ==== CONFIG (LOAD FIRST) ==== -->
+  <script>
+    window.API_URL = "https://script.google.com/macros/s/AKfycbxNpQU6m5AAexSB378u0O5i1ATOi2g51vwRVJSolFFRKMs8-s4kC4lUZheEVKrFodsn/exec";
+    window.API_KEY = "";
+    window.AUTO_OPEN_ON_ADD = false;
+  </script>
+
+  <!-- ... phần favicon, title, css ... -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -2914,10 +2921,7 @@ window.WORKSHOP_CONTACT_URL = "https://zalo.me/123456789"; // nếu muốn dùng
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-  /* ==== CONFIG ===== */
-   window.API_URL = "https://script.google.com/macros/s/AKfycbxNpQU6m5AAexSB378u0O5i1ATOi2g51vwRVJSolFFRKMs8-s4kC4lUZheEVKrFodsn/exec";
-   window.API_KEY = "";
-   window.AUTO_OPEN_ON_ADD = false;
+
 
   // ✅ Đoạn thêm mới: di chuyển #groupDots ra ngoài .category-box
   const catBox = document.querySelector('.category-box');
@@ -3675,15 +3679,16 @@ function fetchWorkshops(){
 }
 
 /* ============= Khởi động sau khi có API_URL ============= */
-(function waitAPI(tries=60){ // ~9s
-  if (typeof window.API_URL === 'string' && window.API_URL.length>10){
-    fetchWorkshops();
-  }else if (tries>0){
-    setTimeout(()=>waitAPI(tries-1),150);
-  }else{
-    console.warn('[workshop] Hết thời gian chờ API_URL');
-  }
+/* ============= Khởi động sau khi có API_URL (có fallback) ============= */
+(function waitAPI(tries=120){
+  const ok = u => typeof u==='string' && /^https?:\/\//i.test(u) && u.length>10;
+  if (ok(window.API_URL)) { fetchWorkshops(); return; }
+  if (tries>0) { setTimeout(()=>waitAPI(tries-1),100); return; }
+  console.warn('[workshop] Hết thời gian chờ API_URL – dùng fallback');
+  window.API_URL ||= "https://script.google.com/macros/s/AKfycbxNpQU6m5AAexSB378u0O5i1ATOi2g51vwRVJSolFFRKMs8-s4kC4lUZheEVKrFodsn/exec";
+  fetchWorkshops();
 })();
+
 <!-- ===== /XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== -->
 
 
