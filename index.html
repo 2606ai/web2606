@@ -1944,6 +1944,17 @@ footer.text-light .bi{ color:#fff; }
   transform: none;
   opacity: 1;
 }
+/* Sidebar: Doanh nghiệp/Xưởng gợi ý */
+.workshop-list .workshop-card{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid #e2efe6;border-radius:14px;background:#fff;text-decoration:none}
+.workshop-list .workshop-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.workshop-list .wname{font-weight:700;color:#166534}
+.workshop-list .wurl{font-size:.9rem;color:#6b7280}
+.workshop-list .sup-docs{margin-top:4px;font-size:.86rem}
+
+/* (khuyên dùng) ảnh logo + reset màu link */
+.workshop-list .thumb{width:48px;height:48px;border-radius:12px;object-fit:cover}
+.workshop-list a.workshop-card{color:inherit}
+.workshop-list .sup-docs a{color:#2563eb}
 
  
 </style>
@@ -2363,100 +2374,96 @@ body{
 function findWorkshopBox(){
   return (
     document.getElementById('workshopBox') ||
-    document.querySelector('[data-workshop-box], .workshop-box, #workshopList') ||
+    document.querySelector('[data-workshop-box], .workshop-box, #workshoplist') ||
     document.querySelector('#leftCol .sidebar-box') || // fallback
     null
   );
 }
-  // Đảm bảo có container list bên trong box
-  function ensureList(box){
-    let list = box.querySelector('#workshopList, .workshop-list, [data-workshop-list]');
-    if (!list){
-      list = document.createElement('div');
-      list.id = 'workshopList';
-      list.className = 'd-flex flex-column gap-2';
-      // chèn vào body của card/box nếu có
-      const body = box.querySelector('.card-body, .p-3, .p-2, .body') || box;
-      body.appendChild(list);
-    }
-    let empty = box.querySelector('#workshopEmpty');
-    if (!empty){
-      empty = document.createElement('div');
-      empty.id = 'workshopEmpty';
-      empty.className = 'text-muted small mt-1';
-      empty.textContent = 'Đang tải dữ liệu…';
-      list.after(empty);
-    }
-    // Bỏ các lớp ẩn nếu có
-    box.classList.remove('d-none', 'invisible');
-    box.style.display = 'block';
-    return {list, empty};
+
+// Tạo/lấy container list & ô “đang tải/chưa có dữ liệu”
+function ensureList(box){
+  let ul = box.querySelector('#workshoplist, .workshop-list, [data-workshop-list]');
+  if (!ul){
+    ul = document.createElement('div');
+    ul.className = 'workshop-list';
+    box.appendChild(ul);
   }
+  let empty = box.querySelector('.workshop-empty');
+  if (!empty){
+    empty = document.createElement('div');
+    empty.className = 'workshop-empty small text-muted p-2';
+    empty.style.display = 'none';
+    empty.textContent = 'Chưa có dữ liệu.';
+    box.appendChild(empty);
+  }
+  // mở box nếu đang bị ẩn
+  box.classList.remove('d-none','invisible');
+  box.style.display = 'block';
+  return { ul, empty };
+}
+
 /* ==== UI mới cho sidebar “Xưởng đề xuất” ==== */
-function supplierSidebarHTML(s){
-  const hasSite = !!(s.url && s.url.trim());
-  const hasCertFile = !!(s.cert && s.cert.trim());
+function supplierSidebarHTML(it){
+  // Link website ưu tiên cột 'quangcao'
+  const raw  = it.quangcao || it.url || it.link || it.linkFull || it.website || it.domain || '';
+  const href = fixurl(raw || it.preview || it.quick || it.linkBox || '');
 
-  // ✅ lấy link từ cột chungnhanDN
-  const dnUrls = pickUrls(s.chungnhanDN);
-  const dnHTML = dnUrls.length
-    ? dnUrls.map(u => `<a class="sup-chip link" href="${esc(u)}" target="_blank" rel="noopener">Tài liệu DN</a>`).join(' ')
-    : (s.chungnhanDN ? `<span class="sup-chip muted">${esc(s.chungnhanDN)}</span>` : ``);
+  const name = it.tencongty || it['ten_cty'] || it.company || it.brand || it.title || it.name || 'Đơn vị';
+  const site = (()=>{ try{ return new URL(href).hostname; }catch(_){ return (raw||'').replace(/^https?:\/\/(www\.)?/,''); } })();
 
-  const avatar = s.img || '';
-  const imgTag = avatar
-    ? `<img src="${esc(avatar)}" alt="${esc(s.name)}" onerror="this.style.display='none'">`
-    : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-         <rect x="3" y="5" width="18" height="14" rx="3" fill="#e9efe9"/>
-         <path d="M7 10h10M7 13h10M7 16h6" stroke="#86a586" stroke-width="1.6" stroke-linecap="round"/>
-       </svg>`;
+  // Logo (fallback favicon theo hostname)
+  const _host = (()=>{ try{ return new URL(href).hostname; }catch(_){ return ''; } })();
+  const logo = it.thumb || it.logo || it.image || it.icon || it.avatar || it.img
+            || (_host ? `https://icons.duckduckgo.com/ip3/${_host}.ico` : '');
 
+  // Tài liệu DN: 'cert' (1 link ưu tiên) + 'chungnhanDN' (nhiều link)
+  const dnRaw  = it.chungnhanDN || it.chungnhan || '';
+  const dnList = String(dnRaw).split(/[\s,;\n]+/).filter(Boolean);
+  if (it.cert) dnList.unshift(it.cert);
+
+  const dnHtml = dnList.length
+    ? dnList.map((u,i)=>{
+        const ok  = /^https?:\/\//i.test(u) ? u : `https://${u}`;
+        const txt = (i===0 && it.cert) ? 'Xem tệp' : 'Tài liệu DN';
+        return `<a href="${esc(ok)}" target="_blank" rel="noopener" class="doc-link">${txt}</a>`;
+      }).join(' · ')
+    : '';
+
+  // Dùng <a> để card tự click mở web
   return `
-  <div class="sup-item">
-    <div class="sup-avatar">${imgTag}</div>
-    <div class="sup-meta">
-      <div class="sup-name">
-        <span>Đơn vị</span>
+    <a class="workshop-card text-decoration-none" href="${esc(href)}" target="_blank" rel="noopener" aria-label="${esc(name)}">
+      <div class="wlogo">
+        <img class="thumb" src="${esc(logo)}" alt="${esc(name)}" onerror="this.style.display='none'">
       </div>
-
-      <div class="sup-url">${hasSite ? esc(s.url) : 'Chưa có website'}</div>
-
-      <div class="sup-badges">
-        ${hasSite ? `<span class="sup-badge blue">Website</span>` : ``}
-        ${hasCertFile ? `<span class="sup-badge">Có tệp chứng nhận</span>` : `<span class="sup-badge warn">Chưa có tệp</span>`}
+      <div class="winfo">
+        <div class="wname">${esc(name)}</div>
+        <div class="wurl">${esc(site||'')}</div>
+        ${dnHtml ? `<div class="sup-docs">${dnHtml}</div>` : ``}
       </div>
-
-      <!-- ✅ khu hiển thị tài liệu DN -->
-      ${dnHTML ? `<div class="sup-docs">${dnHTML}</div>` : ``}
-
-      <div class="sup-actions">
-        ${hasSite ? `<a class="sup-btn" href="${esc(s.url)}" target="_blank" rel="noopener">Mở trang</a>` : ``}
-        ${hasCertFile ? `<a class="sup-btn" href="${esc(s.cert)}" target="_blank" rel="noopener">Xem tệp</a>` : ``}
-        ${s.contact ? `<span class="sup-btn">Liên hệ: ${esc(s.contact)}</span>` : ``}
-      </div>
-    </div>
-  </div>`;
+    </a>
+  `;
 }
 
 
+
 /* Dùng container sẵn có (#workshoplist | .workshop-list | [data-workshop-list]) */
 /* Dùng container sẵn có (#workshoplist | .workshop-list | [data-workshop-list]) */
-function renderSuppliersListNew(list){
-  const box = findWorkshopBox();            // lấy đúng container sidebar
-  if (!box) { console.warn('[workshop] không thấy box sidebar'); return; }
+function renderSuppliersListNew(items){
+  const box = findWorkshopBox();
+  if (!box){ console.warn('[workshop] không thấy box sidebar'); return; }
 
-  const { list: ul, empty } = ensureList(box);
+  const { ul, empty } = ensureList(box);
 
-  if (!Array.isArray(list) || !list.length){
+  if (!Array.isArray(items) || !items.length){
     ul.classList.add('sup-list');
     ul.innerHTML = '<div class="small text-muted p-2">Chưa có dữ liệu.</div>';
-    if (empty) empty.style.display = 'block';
+    empty.style.display = 'block';
     return;
   }
 
-  ul.classList.add('sup-list');             // áp CSS mới
-  ul.innerHTML = list.map(supplierSidebarHTML).join('');
-  if (empty) empty.style.display = 'none';
+  ul.classList.add('sup-list');
+  ul.innerHTML = items.map(supplierSidebarHTML).join('');
+  empty.style.display = 'none';
 }
 
   function renderIntoBox(items){
@@ -2982,6 +2989,8 @@ document.addEventListener('click', (ev)=>{
     --fab-bottom: 14px;
   }
 }
+
+    
 </style>
 
 <div id="errbox" role="alert" aria-live="assertive"></div>
