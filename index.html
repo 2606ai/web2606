@@ -3667,7 +3667,10 @@ function renderWorkshops(items){
         ? dnUrls.map(u=>`<a href="${esc(u)}" target="_blank" rel="noopener">Tài liệu DN</a>`).join(' • ')
         : (dnRaw ? esc(dnRaw) : '');
 
-    const thumb = it.thumb || it.image || it.logo || '';
+    const _raw = it.url || it.link || it.linkFull || it.website || it.domain || '';
+    const _host = (()=>{ try{ const p=/^https?:\/\//i.test(_raw); return new URL(p?_raw:`https://${_raw}`).hostname; }catch(_){ return ''; } })();
+    const thumb = it.thumb || it.logo || it.image || it.icon || it.avatar || it.img || (_host ? `https://icons.duckduckgo.com/ip3/${_host}.ico` : '');
+
 
     return `
       <div class="workshop-card" data-href="${esc(goUrl)}" role="link" tabindex="0" aria-label="${esc(title)}">
