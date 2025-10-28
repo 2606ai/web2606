@@ -2045,6 +2045,50 @@ footer.text-light .bi{ color:#fff; }
 /* Nếu còn rule nào set dashed, ép về solid/none */
 #workshopBox, .workshop-box{ border-style: solid !important; }
 
+:root{
+  --header-h: 64px;   /* cao header */
+  --banner-h: 32px;   /* cao dải thông báo */
+}
+
+/* Header cố định trên cùng */
+.site-header{
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  z-index: 1055;
+  background: #fff;
+  border-bottom: 1px solid #eee;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+/* Chừa khoảng cho header + banner */
+body{
+  padding-top: calc(var(--header-h) + var(--banner-h));
+}
+
+/* Banner dính ngay dưới header (không đè logo) */
+.top-banner{
+  position: fixed;
+  top: var(--header-h);
+  left: 0; right: 0;
+  height: var(--banner-h);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1054; /* thấp hơn header một bậc */
+}
+
+/* Ép logo luôn hiển thị đúng kích thước */
+.site-header .logo img,
+.header .logo img{
+  display: block !important;
+  height: 28px !important;
+  width: auto;
+  object-fit: contain;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+/* Sửa selector thiếu dấu chấm (nếu chưa sửa) */
+.container-fluid, .wrap { max-width: 1400px; margin: 0 auto; }
 
   
 </style>
