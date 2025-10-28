@@ -1918,6 +1918,32 @@ footer.text-light .bi{ color:#fff; }
 #workshopList .workshop-card:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.08);}
 #workshopList .workshop-card:focus-visible{outline:2px solid #2e7d32;outline-offset:2px;}
 
+/* Ô chứa icon (bo góc + ẩn phần thừa) */
+.category-item .icon,
+.quick-cat .icon,
+.cat-card .icon{
+  width: 100px;           /* đổi theo kích thước ô của bạn */
+  aspect-ratio: 1/1;      /* luôn vuông */
+  padding: 0;             /* bỏ khoảng trống bên trong */
+  border-radius: 20px;    /* bo góc của ô */
+  overflow: hidden;       /* phần thừa ảnh bị cắt theo bo góc */
+  background: #fff;       /* nền nếu ảnh không phủ hết khi load */
+}
+
+/* Ảnh bên trong phải phủ kín ô */
+.category-item .icon img,
+.quick-cat .icon img,
+.cat-card .icon img{
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;      /* phủ kín, có thể crop viền */
+  border-radius: inherit; /* khớp bo góc với ô */
+  image-rendering: auto;
+  filter: none;
+  transform: none;
+  opacity: 1;
+}
 
  
 </style>
