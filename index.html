@@ -3705,18 +3705,21 @@ function renderWorkshops(items){
                || (_host ? `https://icons.duckduckgo.com/ip3/${_host}.ico` : '');
 
     return `
-      <div class="workshop-card" data-href="${esc(href)}" role="link" tabindex="0" aria-label="${esc(title)}">
-        <div class="wlogo">
-          <img class="thumb" src="${esc(thumb)}" alt="${esc(title)}" onerror="this.style.display='none'">
-        </div>
-        <div class="winfo">
-          <div class="wname">${esc(title)}</div>
-          <div class="wurl">${esc(site||'')}</div>
-          ${dnHtml ? `<div class="sup-docs">${dnHtml}</div>` : ``}
-        </div>
-      </div>
-    `;
-  }).join('');
+  <a class="workshop-card" href="${esc(href)}"
+     target="_blank" rel="noopener"
+     aria-label="${esc(title)}">
+    <div class="wlogo">
+      <img class="thumb" src="${esc(thumb)}" alt="${esc(title)}"
+           onerror="this.style.display='none'">
+    </div>
+    <div class="winfo">
+      <div class="wname">${esc(title)}</div>
+      <div class="wurl">${esc(site||'')}</div>
+      ${dnHtml ? `<div class="sup-docs">${dnHtml}</div>` : ``}
+    </div>
+  </a>
+`;
+
 }
 
 
