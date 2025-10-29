@@ -3438,8 +3438,26 @@ function iconForGroup(name){
   const k = normKey(name);
   return GROUP_ICONS[k] || DEFAULT_GROUP_ICON;
 }
-// Giữ tương thích tên hàm cũ:
-function iconForGroup(name){ return iconForGroup(name); }
+// Dùng chung nguồn icon của GROUP_ICONS
+const DEFAULT_GROUP_ICON =
+  GROUP_ICONS['__DEFAULT__'] || GROUP_ICONS['KHÁC'] || "https://placehold.co/96x96?text=%20";
+
+function normKey(s){
+  return String(s||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/^\s*\d+\.\s*/, '')
+    .replace(/\s+/g,' ')
+    .trim().toUpperCase();
+}
+
+function iconForGroup(name){
+  const k = normKey(name);
+  return GROUP_ICONS[k] || DEFAULT_GROUP_ICON;
+}
+
+// (nếu cần tên khác để tương thích cũ thì alias như này, KHÔNG gọi hàm)
+const getGroupIcon = iconForGroup;  // alias an toàn
+
 
 
 /* Render thanh category (pager) – icon lấy từ map theo tên, lọc vẫn dùng data-val từ Sheet */
@@ -3451,8 +3469,10 @@ function renderCategoryPager(items){
     <div class="category-item ${state.category===val ? 'active' : ''}"
          data-action="select-category" data-val="${esc(val)}">
       <div class="icon">
-        <img src="${esc(iconForGroup(val))}" alt="${esc(val)}"
-     onerror="this.onerror=null;this.src='${esc(iconForGroup('__DEFAULT__'))}'">
+        <img
+              src="${esc(iconForGroup(val))}"
+              alt="${esc(val)}"
+              onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">>
 
       </div>
       <span>${esc(val || 'Khác')}</span>
