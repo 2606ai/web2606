@@ -3001,14 +3001,46 @@ function getCols(){
 // Map tên nhóm -> icon (URL) hoặc emoji
     // Map tên nhóm -> icon (URL)
 // Map tên nhóm -> icon (URL)
-const GROUP_ICONS = {
-  "VẢI CUỘN": "https://drive.google.com/thumbnail?id=ID_VAI_CUON&sz=w1000",
-  "CHỈ MAY": "https://drive.google.com/thumbnail?id=ID_CHI_MAY&sz=w1000",
-  "QUÀ TẶNG 247 EXPRESS (Đối tác)":"https://drive.google.com/thumbnail?id=ID_QT_247EXPRESS&sz=w1000",
-  "NÚT ÁO": "https://drive.google.com/thumbnail?id=ID_NUT_AO&sz=w1000",
-  "LOGO": "https://drive.google.com/thumbnail?id=ID_LOGO&sz=w1000",
-  "KHÁC": "https://drive.google.com/thumbnail?id=1QF98LJ1hq0WE_A-y-YCD3rBxMQBvT333&sz=w2000"
+/* ================= ICON theo nhóm ================= */
+
+/* 1) Map thô: đặt ID thumbnail đúng của từng nhóm */
+const GROUP_ICON_URLS_RAW = {
+  "VẢI CUỘN"                    : "https://drive.google.com/thumbnail?id=ID_VAI_CUON&sz=w1000",
+  "CHỈ MAY"                     : "https://drive.google.com/thumbnail?id=ID_CHI_MAY&sz=w1000",
+  "QUÀ TẶNG 247 EXPRESS (Đối tác)": "https://drive.google.com/thumbnail?id=ID_QT_247EXPRESS&sz=w1000",
+  "NÚT ÁO"                      : "https://drive.google.com/thumbnail?id=ID_NUT_AO&sz=w1000",
+  "LOGO"                        : "https://drive.google.com/thumbnail?id=ID_LOGO&sz=w1000",
+  "KHÁC"                        : "https://drive.google.com/thumbnail?id=1QF98LJ1hq0WE_A-y-YCD3rBxMQBvT333&sz=w2000"
 };
+
+/* 2) Chuẩn hoá key: KHÔNG DẤU + UPPERCASE để đồng nhất với normKey(name) */
+function normKey(s){
+  return String(s||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^\w\.\/-]+/g,' ')     // bỏ ký tự lạ
+    .replace(/\s+/g,' ')             // gộp space
+    .trim().toUpperCase();
+}
+
+/* 3) Build map đã chuẩn hoá từ map thô */
+const GROUP_ICONS = Object.fromEntries(
+  Object.entries(GROUP_ICON_URLS_RAW).map(([k,v]) => [normKey(k), v])
+);
+
+/* 4) Ảnh fallback mặc định */
+const DEFAULT_GROUP_ICON =
+  GROUP_ICONS[normKey('KHÁC')] ||
+  "https://placehold.co/96x96?text=%20";
+
+/* 5) Lấy icon theo tên nhóm (dùng normKey) */
+function iconForGroup(name){
+  const k = normKey(name);
+  return GROUP_ICONS[k] || DEFAULT_GROUP_ICON;
+}
+
+/* (giữ lại alias cũ nếu chỗ khác còn gọi) */
+const getGroupIcon = iconForGroup;
+
 
 
 
@@ -3463,7 +3495,11 @@ function renderCategoryPager(items){
     <div class="category-item ${state.category===val ? 'active' : ''}"
          data-action="select-category" data-val="${esc(val)}">
       <div class="icon">
-        <img src="${esc(iconForGroup(val))}" alt="${esc(val)}"
+        <img
+  src="${esc(iconForGroup(val))}"
+  alt="${esc(val)}"
+  onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
+
      onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
 
 
