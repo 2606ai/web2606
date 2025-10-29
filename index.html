@@ -3452,7 +3452,8 @@ function renderCategoryPager(items){
          data-action="select-category" data-val="${esc(val)}">
       <div class="icon">
         <img src="${esc(iconForGroup(val))}" alt="${esc(val)}"
-             onerror="this.src='${esc(iconForGroup(['__DEFAULT__'])}'">
+     onerror="this.onerror=null;this.src='${esc(iconForGroup('__DEFAULT__'))}'">
+
       </div>
       <span>${esc(val || 'Khác')}</span>
     </div>
