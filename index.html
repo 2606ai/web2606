@@ -1782,9 +1782,6 @@ footer.text-light .bi{ color:#fff; }
 }
 #quickCatsTop { display:none !important; }
 
-   :root{
-  --main:#2E7D32; --main-600:#1f6c23;
-}
 .dtl-backdrop[hidden]{ display:none !important; }
 .dtl-backdrop{
   position: fixed; inset:0; background: rgba(0,0,0,.38);
@@ -2396,43 +2393,36 @@ function findWorkshopBox(){
 /* ==== UI mới cho sidebar “Xưởng đề xuất” ==== */
 function supplierSidebarHTML(s){
   const hasSite = !!(s.url && s.url.trim());
-  const hasCertFile = !!(s.cert && s.cert.trim());
-
-  // ✅ lấy link từ cột chungnhanDN
   const dnUrls = pickUrls(s.chungnhanDN);
+  const hasCertFile = dnUrls.length > 0;
+
   const dnHTML = dnUrls.length
     ? dnUrls.map(u => `<a class="sup-chip link" href="${esc(u)}" target="_blank" rel="noopener">Tài liệu DN</a>`).join(' ')
     : (s.chungnhanDN ? `<span class="sup-chip muted">${esc(s.chungnhanDN)}</span>` : ``);
 
-  const avatar = s.img || '';
-  const imgTag = avatar
-    ? `<img src="${esc(avatar)}" alt="${esc(s.name)}" onerror="this.style.display='none'">`
-    : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-         <rect x="3" y="5" width="18" height="14" rx="3" fill="#e9efe9"/>
-         <path d="M7 10h10M7 13h10M7 16h6" stroke="#86a586" stroke-width="1.6" stroke-linecap="round"/>
-       </svg>`;
+  const avatarUrl = safeImg(s.img || s.logo || s.thumbnail || s.linklogo, 200);
+  const imgTag = `<img src="${esc(avatarUrl)}" alt="${esc(s.name || 'Đơn vị')}" onerror="this.style.display='none'">`;
 
   return `
-  <div class="sup-item">
+  <div class="sup-item" tabindex="0" role="button" data-href="${hasSite?esc(s.url):''}">
     <div class="sup-avatar">${imgTag}</div>
     <div class="sup-meta">
       <div class="sup-name">
-        <span>Đơn vị</span>
+        <span>${esc(s.name || 'Đơn vị')}</span>
       </div>
 
       <div class="sup-url">${hasSite ? esc(s.url) : 'Chưa có website'}</div>
 
       <div class="sup-badges">
         ${hasSite ? `<span class="sup-badge blue">Website</span>` : ``}
-        ${hasCertFile ? `<span class="sup-badge">Có tệp chứng nhận</span>` : `<span class="sup-badge warn">Chưa có tệp</span>`}
+        ${hasCertFile ? `<span class="sup-badge ok">Có tệp chứng nhận</span>` : `<span class="sup-badge warn">Chưa có tệp</span>`}
       </div>
 
-      <!-- ✅ khu hiển thị tài liệu DN -->
       ${dnHTML ? `<div class="sup-docs">${dnHTML}</div>` : ``}
 
       <div class="sup-actions">
         ${hasSite ? `<a class="sup-btn" href="${esc(s.url)}" target="_blank" rel="noopener">Mở trang</a>` : ``}
-        ${hasCertFile ? `<a class="sup-btn" href="${esc(s.cert)}" target="_blank" rel="noopener">Xem tệp</a>` : ``}
+        ${hasCertFile ? `<a class="sup-btn" href="${esc(dnUrls[0])}" target="_blank" rel="noopener">Xem tệp</a>` : ``}
         ${s.contact ? `<span class="sup-btn">Liên hệ: ${esc(s.contact)}</span>` : ``}
       </div>
     </div>
@@ -3353,7 +3343,35 @@ window.products = window.products || {};
 
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
-const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+// === Helpers (bản hoist an toàn) ===
+function esc(s){
+return (s??'').toString().replace(/[&<>"]/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'
+  }[c]));
+}
+
+function pickUrls(s){
+  return String(s||'')
+    .split(/[\s,;|]+/)
+    .map(x => x.trim())
+    .filter(Boolean)
+    .filter(u => /^https?:\/\//i.test(u));
+}
+
+function toDriveThumb(u, sz=600){
+  if(!u) return '';
+  const s = String(u).trim();
+  const m = s.match(/(?:\/d\/|id=)([A-Za-z0-9_-]{10,})/);
+  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
+  if (/^https?:\/\/drive\.google\.com\/thumbnail\?id=/i.test(s))
+    return s.replace(/sz=w\d+/i, `sz=w${sz}`);
+  if (/^https?:\/\//i.test(s)) return s;
+  return '';
+}
+
+const FALLBACK_IMG = 'https://placehold.co/96x96?text=%20';
+function safeImg(u, sz=600){ return toDriveThumb(u, sz) || FALLBACK_IMG; }
+
 function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
 function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
 function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
@@ -4183,22 +4201,6 @@ document.addEventListener('click', (e)=>{
   const grpEl = e.target.closest('[data-action="select-group"]');
   if (grpEl) setFilter('group', grpEl.dataset.val || '');
 });
-
-
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (window.__initDone) return;
-  window.__initDone = true;
-
-  // reset state
-  Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
-
-  renderQuickCatsTop(); // <-- THÊM DÒNG NÀY
-
-  if (typeof updateFilterCount === 'function') updateFilterCount();
-  fetchPage();
-});
-
 
 
 /* Gửi đơn hàng */
