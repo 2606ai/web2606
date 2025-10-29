@@ -3076,7 +3076,9 @@ function renderGroups(groups){
     <div class="group-chip ${state.group===g?'active':''}"
          data-action="select-group" data-val="${esc(g)}">
       <span class="chip-icon">
-        <img src="${esc(iconForGroup(g))}" alt="">
+        <img src="${esc(iconForGroup(g))}" alt="${esc(g)}"
+onerror="this.src='https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48'">
+
       </span>
       <span class="chip-text">${esc(g)}</span>
     </div>
