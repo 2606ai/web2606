@@ -2169,42 +2169,36 @@ body{
         <span class="benefit-note benefit-free">Miễn phí</span>
         <div class="ic">🧩</div>
         <div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div>
-        <div class="sub">Không lo thiếu ý tưởng</div>
       </div>
 
       <div class="bcard" data-benefit="b2" role="button" tabindex="0" aria-label="500+ nhà cung cấp và xưởng sản xuất">
         <span class="benefit-note benefit-free">Miễn phí</span>
         <div class="ic">🏭</div>
         <div class="ttl">2. Hơn 500+ nhà cung cấp và xưởng sản xuất</div>
-        <div class="sub">Báo giá nhanh, đa dạng, dễ dàng so sánh giá</div>
       </div>
 
       <div class="bcard" data-benefit="b3" role="button" tabindex="0" aria-label="Hỗ trợ tư vấn sản xuất">
         <span class="benefit-note benefit-free">Miễn phí</span>
         <div class="ic">💬</div>
         <div class="ttl">3. Hỗ trợ tư vấn sản xuất</div>
-        <div class="sub">Phản hồi nhanh, đáp ứng nhiều nhu cầu</div>
       </div>
 
       <div class="bcard" data-benefit="b4" role="button" tabindex="0" aria-label="Hỗ trợ thiết kế 2D, 3D sản xuất">
         <span class="benefit-note benefit-free">Miễn phí</span>
         <div class="ic">🎨</div>
         <div class="ttl">4. Hỗ trợ thiết kế 2D, 3D sản xuất</div>
-        <div class="sub">Mockup miễn phí cho các đơn hàng chốt</div>
       </div>
 
       <div class="bcard" data-benefit="b5" role="button" tabindex="0" aria-label="Hậu cần vận chuyển và đóng gói hàng">
         <span class="benefit-note benefit-paid">Có phí</span>
         <div class="ic">📦</div>
         <div class="ttl">5. Hậu cần vận chuyển và đóng gói hàng</div>
-        <div class="sub">Dịch vụ nhanh chuyên nghiệp</div>
       </div>
 
       <div class="bcard" data-benefit="b6" role="button" tabindex="0" aria-label="Hỗ trợ giải quyết tranh chấp">
         <span class="benefit-note benefit-paid">Có phí</span>
         <div class="ic">🛡️</div>
         <div class="ttl">6. Hỗ trợ giải quyết tranh chấp</div>
-        <div class="sub">Bảo vệ quyền lợi khách hàng</div>
       </div>
 
     </div>
@@ -2215,7 +2209,7 @@ body{
   <div id="workshopBox" class="sidebar-box workshop-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
       <span class="d-inline-flex align-items-center gap-2">
-        Xưởng đề xuất
+        Doanh nghiệp gợi ý
         <span id="workshopCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span>
       </span>
     </h6>
@@ -2231,7 +2225,6 @@ body{
       </a>
     </div>
   </div>
-  <!-- /XƯỞNG ĐỀ XUẤT -->
 
 </div>
 
@@ -2440,84 +2433,6 @@ function supplierSidebarHTML(s){
 }
 
 
-/* Dùng container sẵn có (#workshoplist | .workshop-list | [data-workshop-list]) */
-/* Dùng container sẵn có (#workshoplist | .workshop-list | [data-workshop-list]) */
-function renderSuppliersListNew(list){
-  const box = findWorkshopBox();            // lấy đúng container sidebar
-  if (!box) { console.warn('[workshop] không thấy box sidebar'); return; }
-
-  const { list: ul, empty } = ensureList(box);
-
-  if (!Array.isArray(list) || !list.length){
-    ul.classList.add('sup-list');
-    ul.innerHTML = '<div class="small text-muted p-2">Chưa có dữ liệu.</div>';
-    if (empty) empty.style.display = 'block';
-    return;
-  }
-
-  ul.classList.add('sup-list');             // áp CSS mới
-  ul.innerHTML = list.map(supplierSidebarHTML).join('');
-  if (empty) empty.style.display = 'none';
-}
-
-  function renderIntoBox(items){
-    const box = findWorkshopBox();
-    if (!box) { console.warn('[workshop] Không tìm thấy box hiện có'); return; }
-    const {list, empty} = ensureList(box);
-
-    const html = (items||[]).map(it=>{
-      const href  = it.url || it.link || '#';
-      const img   = safeImg(it.img || it.image || it.thumbnail || it.linkfull);
-      const title = it.title || it.name || 'Xưởng đề xuất';
-      const desc  = it.desc  || it.details || '';
-      const site  = it.site  || it.domain || '';
-      return `
-        <a class="link-preview d-flex gap-2 align-items-start p-2 rounded-3 border text-decoration-none"
-           href="${href}" target="_blank" rel="noopener">
-          <img src="${img}" onerror="this.src='${FALLBACK}'" width="48" height="48"
-               class="rounded-2 flex-shrink-0" alt="">
-          <div class="small w-100">
-            <div class="fw-semibold text-dark text-truncate">${title}</div>
-            ${desc ? `<div class="text-muted text-truncate">${desc}</div>` : ''}
-            ${site ? `<div class="text-muted">${site}</div>` : ''}
-          </div>
-        </a>`;
-    }).join('');
-
-    list.innerHTML = html;
-    empty.style.display = html ? 'none' : 'block';
-    if (!html) empty.textContent = 'Chưa có dữ liệu quảng cáo.';
-  }
-
-  async function fetchWorkshops(){
-    try{
-      const r = await fetch(window.API_URL + '?action=workshop', {redirect:'follow', mode:'cors'});
-      const txt = await r.text();
-      let json;
-      try { json = JSON.parse(txt); }
-      catch { json = JSON.parse(txt.replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()); }
-      const items = (json && json.ok !== false && Array.isArray(json.items)) ? json.items : [];
-      renderIntoBox(items);
-    }catch(err){
-      console.error('[workshop] fetch error', err);
-      renderIntoBox([]);
-    }
-  }
-
-  // Đợi API_URL rồi mới chạy (tránh lỗi "Không tìm thấy API_URL")
-  function waitAndLoad(tries=60){
-    if (window.API_URL){ fetchWorkshops(); }
-    else if (tries>0){ setTimeout(()=>waitAndLoad(tries-1), 150); }
-    else { console.warn('[workshop] Hết thời gian chờ API_URL'); }
-  }
-
-  // Start
-  if (document.readyState === 'loading'){
-    document.addEventListener('DOMContentLoaded', waitAndLoad);
-  }else{
-    waitAndLoad();
-  }
-})();
 // ====== TIỆN ÍCH ẢNH DRIVE
 function toDriveThumb(u, sz=600){
   if(!u) return '';
@@ -3772,9 +3687,6 @@ function fetchWorkshops(){
   window.API_URL ||= "https://script.google.com/macros/s/AKfycbxNpQU6m5AAexSB378u0O5i1ATOi2g51vwRVJSolFFRKMs8-s4kC4lUZheEVKrFodsn/exec";
   fetchWorkshops();
 })();
-
-<!-- ===== /XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== -->
-
 
 
 
