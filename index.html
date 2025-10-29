@@ -3459,21 +3459,6 @@ function renderPagination(totalItems, pageSize, currentPage){
 }
 
 
-// === Fallback icon (KHAI BÁO 1 LẦN) ===
-const DEFAULT_GROUP_ICON =
-  GROUP_ICONS['__DEFAULT__'] ||
-  GROUP_ICONS['KHÁC'] ||
-  "https://placehold.co/96x96?text=%20";
-
-// === Chuẩn hoá key tên nhóm ===
-function normKey(s){
-  return String(s||'')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
-    .replace(/^\s*\d+\.\s*/, '')
-    .replace(/\s+/g,' ')
-    .trim().toUpperCase();
-}
-
 // === Lấy icon theo group, có fallback ===
 function iconForGroup(name){
   const k = normKey(name);
@@ -3495,14 +3480,11 @@ function renderCategoryPager(items){
     <div class="category-item ${state.category===val ? 'active' : ''}"
          data-action="select-category" data-val="${esc(val)}">
       <div class="icon">
-        <img
+       <img
   src="${esc(iconForGroup(val))}"
   alt="${esc(val)}"
+  loading="lazy"
   onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
-
-     onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
-
-
       </div>
       <span>${esc(val || 'Khác')}</span>
     </div>
