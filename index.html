@@ -3005,7 +3005,7 @@ const GROUP_ICONS = {
   "CHỈ MAY": "https://drive.google.com/thumbnail?id=1osXjmmnCUBvYUj9epom9aauZX7oVRn01&sz=w1000",
   "QUÀ TẶNG 247 EXPRESS (Đối tác)":"https://drive.google.com/thumbnail?id=1osXjmmnCUBvYUj9epom9aauZX7oVRn01&sz=w1000",
   "NÚT ÁO": "https://drive.google.com/thumbnail?id=1osXjmmnCUBvYUj9epom9aauZX7oVRn01&sz=w1000",
-  "LOGO": "https://drive.google.com/thumbnail?id=1osXjmmnCUBvYUj9epom9aauZX7oVRn01&sz=w1000"
+  "LOGO": "https://drive.google.com/thumbnail?id=1osXjmmnCUBvYUj9epom9aauZX7oVRn01&sz=w1000",
   "KHÁC": "https://drive.google.com/thumbnail?id=1QF98LJ1hq0WE_A-y-YCD3rBxMQBvT333&sz=w2000"
 };
 
@@ -3076,8 +3076,10 @@ function renderGroups(groups){
     <div class="group-chip ${state.group===g?'active':''}"
          data-action="select-group" data-val="${esc(g)}">
       <span class="chip-icon">
-        <img src="${esc(iconForGroup(g))}" alt="${esc(g)}"
-onerror="this.src='https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48'">
+        <img src="${iconForGroup(g)}" alt="${esc(g)}"
+onerror="this.src='${GROUP_ICONS['KHÁC']}'">
+
+
 
       </span>
       <span class="chip-text">${esc(g)}</span>
