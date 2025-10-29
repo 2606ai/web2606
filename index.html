@@ -2338,20 +2338,28 @@ body{
   });
 
   // Fallback ảnh (phòng khi link drive hỏng)
-  const FALLBACK = 'https://placehold.co/64x64?text=%20';
+  // Ảnh fallback chung
+const FALLBACK_IMG = 'https://placehold.co/96x96?text=%20';
 
-  function toDriveThumb(u){
-    if (!u) return FALLBACK;
-    const m = String(u).match(/\/d\/([^/]+)\//);
-    if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w800`;
-    if (/drive\.google\.com\/thumbnail\?id=/i.test(u)) return u;
-    return u;
-  }
-  function safeImg(u){
-    if (!u) return FALLBACK;
-    const url = toDriveThumb(u);
-    return /^https?:\/\//i.test(url) ? url : FALLBACK;
-  }
+// Chuẩn hoá mọi link Drive về thumbnail
+function toDriveThumb(u, sz=600){
+  if(!u) return '';
+  const s = String(u).trim();
+  // Bắt id từ nhiều pattern: /d/{id}/, ?id=, uc?export=download&id=
+  const m = s.match(/(?:\/d\/|id=)([A-Za-z0-9_-]{10,})/);
+  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
+  // Nếu đã là thumbnail → cập nhật size
+  if (/^https?:\/\/drive\.google\.com\/thumbnail\?id=/i.test(s))
+    return s.replace(/sz=w\d+/i, `sz=w${sz}`);
+  // Nếu là url http(s) khác → giữ nguyên
+  if (/^https?:\/\//i.test(s)) return s;
+  return ''; // còn lại coi như rỗng
+}
+
+function safeImg(u, sz=600){
+  return toDriveThumb(u, sz) || FALLBACK_IMG;
+}
+
 
 function findWorkshopBox(){
   return (
@@ -2995,7 +3003,7 @@ function getCols(){
 const GROUP_ICONS = {
   "VẢI CUỘN": "https://drive.google.com/thumbnail?id=1KCHoDfyskqziMwW-x205lEMJg-ocJn_n&s...&sz=w1600",
   "CHỈ MAY": "https://drive.google.com/thumbnail?id=1BgBzErC...&sz=w160",
-  "QUÀ TẶNG 247 EXPRESS (Đối tác)": "https://drive.google.com/thumbnail?id=1ixc_p6X9...&sz=w1000",
+  "QUÀ TẶNG 247 EXPRESS (Đối tác)":"https://drive.google.com/thumbnail?id=1ixc_p6X9...&sz=w1000",
   "NÚT ÁO": "https://drive.google.com/thumbnail?id=1osXjmmnCUBvYUj9epom9aauZX7oVRn01&sz=w1000",
   "LOGO": "https://drive.google.com/thumbnail?id=1osXjmmnCUBvYUj9epom9aauZX7oVRn01&sz=w1000"
 };
