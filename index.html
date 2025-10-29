@@ -3424,30 +3424,19 @@ function renderPagination(totalItems, pageSize, currentPage){
   }
 }
 
-/* ========= ICON cho từng Category (dùng thumbnail Google Drive) ========= */
-/* Map tên → ảnh. Điền FILE_ID theo icon bạn muốn cho từng mục. */
-const CATEGORY_ICONS = {
-  "QUA TANG 247 EXPRESS (DOI TAC)": "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w200",
-  "QUA TANG AN PHAM THUONG HIEU":   "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
-  "QUA TANG SAN PHAM THUONG HIEU":  "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
-  "QUA TANG KY NIEM EVENT THUONG HIEU":"https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
-  "QUA TANG PHU KIEN THUONG HIEU":  "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
-  "KHAC":                           "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48",
-  "__DEFAULT__":                    "https://drive.google.com/thumbnail?id=1ixc_p6X925a0JpSG4YIWwpyauVmhRakI&sz=w48" // fallback
-};
-
-/* Chuẩn hoá tên: bỏ dấu, bỏ số thứ tự "1. ", viết hoa để map 1-1 ổn định */
+// Dùng chung nguồn icon của GROUP_ICONS
+const DEFAULT_GROUP_ICON = GROUP_ICONS["KHÁC"] || "https://placehold.co/96x96?text=%20";
 function normKey(s){
-  return String(s||'')
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,'') // bỏ dấu
-    .replace(/^\s*\d+\.\s*/,'')                      // bỏ tiền tố "1. "
-    .replace(/\s+/g,' ').trim()
-    .toUpperCase();
+  return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/^\s*\d+\.\s*/,'').replace(/\s+/g,' ').trim().toUpperCase();
 }
-function iconForCat(name){
+function iconForGroup(name){
   const k = normKey(name);
-  return CATEGORY_ICONS[k] || CATEGORY_ICONS["__DEFAULT__"];
+  return GROUP_ICONS[k] || DEFAULT_GROUP_ICON;
 }
+// Giữ tương thích tên hàm cũ:
+function iconForGroup(name){ return iconForGroup(name); }
+
 
 /* Render thanh category (pager) – icon lấy từ map theo tên, lọc vẫn dùng data-val từ Sheet */
 function renderCategoryPager(items){
@@ -3458,8 +3447,8 @@ function renderCategoryPager(items){
     <div class="category-item ${state.category===val ? 'active' : ''}"
          data-action="select-category" data-val="${esc(val)}">
       <div class="icon">
-        <img src="${esc(iconForCat(val))}" alt="${esc(val)}"
-             onerror="this.src='${esc(CATEGORY_ICONS['__DEFAULT__'])}'">
+        <img src="${esc(iconForGroup(val))}" alt="${esc(val)}"
+             onerror="this.src='${esc(iconForGroup(['__DEFAULT__'])}'">
       </div>
       <span>${esc(val || 'Khác')}</span>
     </div>
