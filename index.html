@@ -1941,6 +1941,22 @@ footer.text-light .bi{ color:#fff; }
   transform: none;
   opacity: 1;
 }
+/* ==== FILTER CHIPS ==== */
+.filters-panel{display:block;margin:8px 0 4px}
+.filter-strip{display:flex;gap:12px;overflow:auto;scroll-snap-type:x mandatory;padding:8px}
+.filter-chip{
+  min-width:120px; scroll-snap-align:start; text-align:center;
+  background:#fff;border:1px solid #e9f2ea;border-radius:14px;padding:10px 6px;
+  transition:.2s; cursor:pointer;
+}
+.filter-chip:hover{box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.filter-chip.active{border-color:#2f7a3b; box-shadow:0 0 0 2px rgba(47,122,59,.15)}
+.filter-chip .thumb{
+  width:96px;height:96px;margin:0 auto 6px;border-radius:12px;
+  background:#f3f7f4;display:flex;align-items:center;justify-content:center;overflow:hidden
+}
+.filter-chip .thumb img{width:96px;height:96px;object-fit:cover}
+.filter-chip .name{font-weight:600;color:#1e7b45;font-size:.95rem;line-height:1.2}
 
  
 </style>
@@ -2959,26 +2975,28 @@ function getCols(){
     // Map tên nhóm -> icon (URL)
 /// DÙNG KEY VIẾT HOA, KHÔNG DẤU
 // (giữ nguyên cái bạn đang có)
+// === GROUP ICONS – single source of truth ===
 const GROUP_ICONS_RAW = {
-  "VAI CUON": "https://drive.google.com/thumbnail?id=ID_VAI_CUON&sz=w1000",
-  "CHI MAY": "https://drive.google.com/thumbnail?id=ID_CHI_MAY&sz=w1000",
-  "QUA TANG 247 EXPRESS (DOI TAC)": "https://drive.google.com/thumbnail?id=ID_QT_247EXPRESS&sz=w1000",
-  "NUT AO": "https://drive.google.com/thumbnail?id=ID_NUT_AO&sz=w1000",
-  "LOGO": "https://drive.google.com/thumbnail?id=ID_LOGO&sz=w1000",
-  "KHAC": "https://drive.google.com/thumbnail?id=1qF98L31hq0WE_A-y-YCD3BvMQ8VT33zS&sz=w2000",
-  "__DEFAULT__": "https://placehold.co/96x96?text=%20&bg=E8F5E9&fc=2E7D32"
+  "VẢI CUỘN": "https://drive.google.com/thumbnail?id=ID_VAI_CUON&sz=w100",
+  "CHỈ MAY": "https://drive.google.com/thumbnail?id=ID_CHI_MAY&sz=w100",
+  "QUÀ TẶNG 247 EXPRESS (ĐỐI TÁC)": "https://drive.google.com/thumbnail?id=ID_QT_247EXPRESS&sz=w100",
+  "NÚT ÁO": "https://drive.google.com/thumbnail?id=ID_NUT_AO&sz=w100",
+  "LOGO": "https://drive.google.com/thumbnail?id=ID_LOGO&sz=w100",
+  "KHÁC": "https://drive.google.com/thumbnail?id=ID_KHAC&sz=w100",
+  "__DEFAULT__": "https://placehold.co/96x96?text=LOGO" // placeholder an toàn
 };
 
-// ✅ Chuẩn hoá key ngay tại nguồn + chuẩn hoá URL thumbnail (nếu cần)
+// Chuẩn hoá key & URL
 const GROUP_ICONS = Object.fromEntries(
-  Object.entries(GROUP_ICONS_RAW).map(([k, v]) => [normKey(k), v])
+  Object.entries(GROUP_ICONS_RAW).map(([k, v]) => [normKey(k), toDriveThumb(v, 96)])
 );
 
-// ✅ Fallback (dùng key đã chuẩn hoá)
+// ❗ Chỉ để MỘT khai báo DEFAULT_GROUP_ICON trong file
 const DEFAULT_GROUP_ICON =
   GROUP_ICONS[normKey('__DEFAULT__')] ||
-  GROUP_ICONS[normKey('KHAC')] ||
-  "https://placehold.co/96x96?text=LOGO";
+  GROUP_ICONS[normKey('KHÁC')] ||
+  'https://placehold.co/96x96?text=LOGO';
+
 
 
 // === THỨ TỰ HIỂN THỊ NHÓM (TRÁI → PHẢI) ===
@@ -3137,6 +3155,13 @@ function iconUrl(u){
   if (ICON_BASE) return new URL(u, ICON_BASE).href;
   return ICON_FALLBACK;
 }
+
+<div class="d-flex align-items-center gap-2" style="margin:8px 0">
+  <span>Tìm thấy <span id="foundCount">0</span></span>
+  <button id="btnClearFilters" class="btn btn-success btn-sm">Xóa bộ lọc</button>
+</div>
+
+    
 /* === Quick Category strip (ô lớn phía trên) – render từ CAT_CONFIG === */
 function buildQuickCatsTopHTML(){
   return `
