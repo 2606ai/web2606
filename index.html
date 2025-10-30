@@ -4318,36 +4318,48 @@ if (newHash !== _lastFacetsHash){
   // console.debug('[render]', fromCache ? 'CACHE' : 'NETWORK', state);
 }
 
-const FETCH_DEBOUNCE = 160;     // ms
-var _fetchTimer = null;
-let _inflightCtl = null;
+// (Tuỳ chọn) log nguồn dữ liệu
+// console.debug('[render]', fromCache ? 'CACHE' : 'NETWORK', state);
+
+
+/* ===== Fetch tối ưu: debounce + abort + cache (LRU) ===== */
+var FETCH_DEBOUNCE = 160;     // ms, chỉnh được
+var _fetchTimer   = null;     // timer của debounce
+var _inflightCtl  = null;     // AbortController đang chạy
 
 
 // LRU cache: key -> {time, payload}
 const _cache = new Map();
 const CACHE_LIMIT = 30;
 function cacheKeyFromState(s){
-  // chỉ key các tham số ảnh hưởng tới dữ liệu
   return [
-    'list', s.page, s.pageSize,
-    s.q||'', s.group||'', s.type||'', s.loai||'', s.note||'', s.category||''
+    'list',
+    s.page,
+    s.pageSize,   // ← đúng là pageSize
+    s.q || '',
+    s.group || '',
+    s.type || '',
+    s.loai || '',
+    s.note || '',
+    s.category || ''
   ].join('|');
 }
+
 function cacheGet(key){
-  if(!_cache.has(key)) return null;
-  const v = _cache.get(key);
-  // làm mới thứ tự LRU
-  _cache.delete(key); _cache.set(key, v);
-  return v.payload;
+    if(!_cache.has(key)) return null;
+    const v = _cache.get(key);
+    // làm mới thứ tự LRU
+    _cache.delete(key);
+    _cache.set(key, v);
+    return v.payload;
 }
 function cacheSet(key, payload){
-  _cache.set(key, { time: Date.now(), payload });
-  if(_cache.size > CACHE_LIMIT){
-    const firstKey = _cache.keys().next().value;
-    _cache.delete(firstKey);
-  }
+    _cache.set(key, { time: Date.now(), payload });
+    if (_cache.size > CACHE_LIMIT){
+        const firstKey = _cache.keys().next().value;
+        _cache.delete(firstKey);
+    }
 }
-
 
 // so sánh facets để tránh rebuild UI không cần thiết
 let _lastFacetsHash = '';
@@ -4355,10 +4367,6 @@ let _lastFacetsHash = '';
 function hashFacets(facets){
   try{ return JSON.stringify(facets||{}); }catch{ return ''; }
 }
-
-// phải khai báo sớm và dùng var để không bị TDZ
-var _fetchTimer = null;
-
 
 
 /* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
