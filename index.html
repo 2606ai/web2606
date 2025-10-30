@@ -25,12 +25,10 @@
 
   <title>2606AI</title>
   <!-- CSS/JS khác -->
-</head>
-
-
 <!-- Bootstrap & Icons -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 
 <style>
 /* =========================
@@ -68,7 +66,6 @@ body{
   font-size:14px;
   color:var(--text);
   background:var(--bg);
-  padding-top:70px;
 }
 img{max-width:100%;display:block}
 
@@ -2114,8 +2111,6 @@ body{
   filter: none !important;
 }
 
-/* Sửa selector thiếu dấu chấm (nếu chưa sửa) */
-.container-fluid, .wrap { max-width: 1400px; margin: 0 auto; }
 
   
 </style>
@@ -2341,93 +2336,44 @@ body{
   // Ảnh fallback chung
 const FALLBACK_IMG = 'https://placehold.co/96x96?text=%20';
 
-// Chuẩn hoá mọi link Drive về thumbnail
-function toDriveThumb(u, sz=600){
-  if(!u) return '';
-  const s = String(u).trim();
-  // Bắt id từ nhiều pattern: /d/{id}/, ?id=, uc?export=download&id=
-  const m = s.match(/(?:\/d\/|id=)([A-Za-z0-9_-]{10,})/);
-  if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
-  // Nếu đã là thumbnail → cập nhật size
-  if (/^https?:\/\/drive\.google\.com\/thumbnail\?id=/i.test(s))
-    return s.replace(/sz=w\d+/i, `sz=w${sz}`);
-  // Nếu là url http(s) khác → giữ nguyên
-  if (/^https?:\/\//i.test(s)) return s;
-  return ''; // còn lại coi như rỗng
-}
-
-function safeImg(u, sz=600){
-  return toDriveThumb(u, sz) || FALLBACK_IMG;
-}
-
-
-function findWorkshopBox(){
-  return (
-    document.getElementById('workshopBox') ||
-    document.querySelector('[data-workshop-box], .workshop-box, #workshopList') ||
-    document.querySelector('#leftCol .sidebar-box') || // fallback
-    null
-  );
-}
-  // Đảm bảo có container list bên trong box
-  function ensureList(box){
-    let list = box.querySelector('#workshopList, .workshop-list, [data-workshop-list]');
-    if (!list){
-      list = document.createElement('div');
-      list.id = 'workshopList';
-      list.className = 'd-flex flex-column gap-2';
-      // chèn vào body của card/box nếu có
-      const body = box.querySelector('.card-body, .p-3, .p-2, .body') || box;
-      body.appendChild(list);
-    }
-    let empty = box.querySelector('#workshopEmpty');
-    if (!empty){
-      empty = document.createElement('div');
-      empty.id = 'workshopEmpty';
-      empty.className = 'text-muted small mt-1';
-      empty.textContent = 'Đang tải dữ liệu…';
-      list.after(empty);
-    }
-    // Bỏ các lớp ẩn nếu có
-    box.classList.remove('d-none', 'invisible');
-    box.style.display = 'block';
-    return {list, empty};
-  }
-/* ==== UI mới cho sidebar “Xưởng đề xuất” ==== */
+/* ==== UI mới cho sidebar “Xưởng đề xuất” (đã fix ảnh/link) ==== */
 function supplierSidebarHTML(s){
-  const hasSite = !!(s.url && s.url.trim());
+  const hasSite     = !!(s.url && s.url.trim());
   const hasCertFile = !!(s.cert && s.cert.trim());
 
-  // ✅ lấy link từ cột chungnhanDN
+  // Link từ cột chungnhanDN → chip
   const dnUrls = pickUrls(s.chungnhanDN);
   const dnHTML = dnUrls.length
     ? dnUrls.map(u => `<a class="sup-chip link" href="${esc(u)}" target="_blank" rel="noopener">Tài liệu DN</a>`).join(' ')
     : (s.chungnhanDN ? `<span class="sup-chip muted">${esc(s.chungnhanDN)}</span>` : ``);
 
-  const avatar = s.img || '';
-  const imgTag = avatar
-    ? `<img src="${esc(avatar)}" alt="${esc(s.name)}" onerror="this.style.display='none'">`
+  // Ảnh đại diện: ưu tiên s.img; tự chuẩn hoá Drive → thumbnail
+  const avatarUrl = safeImg(s.img, 200); // dùng safeImg → toDriveThumb
+  const imgTag = avatarUrl
+    ? `<img src="${esc(avatarUrl)}" alt="${esc(s.name||'Xưởng')}" onerror="this.style.display='none'">`
     : `<svg width="24" height="24" viewBox="0 0 24 24" fill="none">
          <rect x="3" y="5" width="18" height="14" rx="3" fill="#e9efe9"/>
          <path d="M7 10h10M7 13h10M7 16h6" stroke="#86a586" stroke-width="1.6" stroke-linecap="round"/>
        </svg>`;
 
+  // Hiển thị website dưới dạng link
+  const siteHTML = hasSite
+    ? `<a class="sup-url" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a>`
+    : `<span class="sup-url muted">Chưa có website</span>`;
+
   return `
   <div class="sup-item">
     <div class="sup-avatar">${imgTag}</div>
     <div class="sup-meta">
-      <div class="sup-name">
-        <span>Đơn vị</span>
-      </div>
+      <div class="sup-name"><span>${esc(s.name||'Đơn vị')}</span></div>
 
-      <div class="sup-url">${hasSite ? esc(s.url) : 'Chưa có website'}</div>
+      ${siteHTML}
 
       <div class="sup-badges">
         ${hasSite ? `<span class="sup-badge blue">Website</span>` : ``}
         ${hasCertFile ? `<span class="sup-badge">Có tệp chứng nhận</span>` : `<span class="sup-badge warn">Chưa có tệp</span>`}
       </div>
 
-      <!-- ✅ khu hiển thị tài liệu DN -->
       ${dnHTML ? `<div class="sup-docs">${dnHTML}</div>` : ``}
 
       <div class="sup-actions">
@@ -2439,20 +2385,31 @@ function supplierSidebarHTML(s){
   </div>`;
 }
 
+// ===== Helpers (KEEP ONLY THIS BLOCK) =====
+const esc = (s='') =>
+  String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
-// ====== TIỆN ÍCH ẢNH DRIVE
+// LẤY MỌI URL trong 1 chuỗi
+const pickUrls = (s='') => Array.from(String(s).matchAll(/https?:\/\/\S+/g)).map(m=>m[0]);
+
+// Chuẩn hóa link Google Drive → thumbnail (nhận cả /file/d/... và ?id=...)
 function toDriveThumb(u, sz=600){
   if(!u) return '';
-  const s = String(u);
-  // /file/d/{id}/view
-  const m = s.match(/\/d\/([^/]+)\//);
+  const s = String(u).trim();
+  const m = s.match(/(?:\/d\/|id=)([A-Za-z0-9_-]{10,})/);  // /d/<id>/ hoặc ?id=<id>
   if (m && m[1]) return `https://drive.google.com/thumbnail?id=${m[1]}&sz=w${sz}`;
-  // đã là thumbnail
-  if (/drive\.google\.com\/thumbnail\?id=/.test(s)) return s.replace(/sz=w\d+/,'sz=w'+sz);
+  if (/drive\.google\.com\/thumbnail\?id=/.test(s)) return s.replace(/sz=w\d+/, 'sz=w'+sz);
   return s;
 }
-function safeImg(u){ return toDriveThumb(u) || 'https://via.placeholder.com/600x400?text=No+Image'; }
 
+// Ảnh an toàn (CHÚ Ý: có tham số sz vì bạn đang gọi safeImg(s.img, 200))
+function safeImg(u, sz=600){
+  return toDriveThumb(u, sz) || 'https://via.placeholder.com/600x400?text=No+Image';
+}
+
+// Một số util khác (không trùng tên)
+const hostnameFromUrl = (u) => { try{ return new URL(u).hostname; } catch(e){ return (u||'').replace(/^https?:\/\//,''); } };
+const firstLink = (s) => (String(s||'').split(/[\s,;|\n]+/).find(p=>/^https?:\/\//i.test(p)) || '').trim();
 // ====== MAP NHÃN TRƯỜNG (tùy sheet của bạn)
 const FIELD_LABELS = {
   id:'ID', code:'Mã', sku:'SKU', title:'Tiêu đề', name:'Tên',
@@ -3000,16 +2957,28 @@ function getCols(){
 
 // Map tên nhóm -> icon (URL) hoặc emoji
     // Map tên nhóm -> icon (URL)
-// Map tên nhóm -> icon (URL)
-const GROUP_ICONS = {
-  "VẢI CUỘN": "https://drive.google.com/thumbnail?id=ID_VAI_CUON&sz=w1000",
-  "CHỈ MAY": "https://drive.google.com/thumbnail?id=ID_CHI_MAY&sz=w1000",
-  "QUÀ TẶNG 247 EXPRESS (Đối tác)":"https://drive.google.com/thumbnail?id=ID_QT_247EXPRESS&sz=w1000",
-  "NÚT ÁO": "https://drive.google.com/thumbnail?id=ID_NUT_AO&sz=w1000",
+/// DÙNG KEY VIẾT HOA, KHÔNG DẤU
+// (giữ nguyên cái bạn đang có)
+const GROUP_ICONS_RAW = {
+  "VAI CUON": "https://drive.google.com/thumbnail?id=ID_VAI_CUON&sz=w1000",
+  "CHI MAY": "https://drive.google.com/thumbnail?id=ID_CHI_MAY&sz=w1000",
+  "QUA TANG 247 EXPRESS (DOI TAC)": "https://drive.google.com/thumbnail?id=ID_QT_247EXPRESS&sz=w1000",
+  "NUT AO": "https://drive.google.com/thumbnail?id=ID_NUT_AO&sz=w1000",
   "LOGO": "https://drive.google.com/thumbnail?id=ID_LOGO&sz=w1000",
-  "KHÁC": "https://drive.google.com/thumbnail?id=1QF98LJ1hq0WE_A-y-YCD3rBxMQBvT333&sz=w2000"
+  "KHAC": "https://drive.google.com/thumbnail?id=1qF98L31hq0WE_A-y-YCD3BvMQ8VT33zS&sz=w2000",
+  "__DEFAULT__": "https://placehold.co/96x96?text=%20&bg=E8F5E9&fc=2E7D32"
 };
 
+// ✅ Chuẩn hoá key ngay tại nguồn + chuẩn hoá URL thumbnail (nếu cần)
+const GROUP_ICONS = Object.fromEntries(
+  Object.entries(GROUP_ICONS_RAW).map(([k, v]) => [normKey(k), v])
+);
+
+// ✅ Fallback (dùng key đã chuẩn hoá)
+const DEFAULT_GROUP_ICON =
+  GROUP_ICONS[normKey('__DEFAULT__')] ||
+  GROUP_ICONS[normKey('KHAC')] ||
+  "https://placehold.co/96x96?text=LOGO";
 
 
 // === THỨ TỰ HIỂN THỊ NHÓM (TRÁI → PHẢI) ===
@@ -3075,7 +3044,7 @@ function renderGroups(groups){
          data-action="select-group" data-val="${esc(g)}">
       <span class="chip-icon">
         <img src="${iconForGroup(g)}" alt="${esc(g)}"
-onerror="this.src='${GROUP_ICONS['KHÁC']}'">
+onerror="this.src='${GROUP_ICONS['KHAC'] || DEFAULT_GROUP_ICON}'">
 
 
 
@@ -3321,10 +3290,9 @@ window.products = window.products || {};
 
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
-const esc = s => (s??'').toString().replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
 function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
-function hostnameFromUrl(u){ try{ return new URL(u).hostname; }catch(e){ return (u||'').replace(/^https?:\/\//,''); } }
-function firstLink(s){ if(!s) return ''; const parts=String(s).split(/[\s,;|\n]+/).filter(Boolean); for(const p of parts) if(/^https?:\/\//i.test(p)) return p; return parts[0]||''; }
+
 
 /* Nâng chất lượng thumbnail Google Drive/Gusercontent */
 function upgradeThumbQuality(u){
@@ -3352,7 +3320,8 @@ function productCardHtml(it){
   const giftLabel = (it.loai || 'Nhận quà').toString().trim();
 
   const thumbSrc = upgradeThumbQuality(it.img);
-  const linkHref = esc(it.linkFull || it.img || '#');
+  const linkHref = esc(it.linkFull || it.linkfull || it.img || '#');
+
 
   return `<div class="col">
     <div class="cardx product-card" data-id="${esc(it.id)}">
@@ -3428,11 +3397,8 @@ function renderPagination(totalItems, pageSize, currentPage){
 
 
 // === Fallback icon (KHAI BÁO 1 LẦN) ===
-const DEFAULT_GROUP_ICON =
-  GROUP_ICONS['__DEFAULT__'] ||
-  GROUP_ICONS['KHÁC'] ||
-  "https://placehold.co/96x96?text=%20";
-
+const DEFAULT_GROUP_ICON = GROUP_ICONS['__DEFAULT__'] || GROUP_ICONS['KHAC']  || "https://placehold.co/96x96?text=%20&bg=E8F5E9&fc=2E7D32";
+    
 // === Chuẩn hoá key tên nhóm ===
 function normKey(s){
   return String(s||'')
@@ -3569,10 +3535,7 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
-  // --- helper: lấy tất cả URL trong 1 chuỗi ---
-function pickUrls(str){
-  return (String(str||'').match(/https?:\/\/[^\s,;]+/g) || []);
-}
+
 function hostOf(u){
   try{
     u = String(u || '').trim();
@@ -3583,18 +3546,7 @@ function hostOf(u){
   }catch(e){ return ''; }
 }
 
-// Lấy ID từ link Google Drive và trả về thumbnail nhanh
-function driveThumb(u){
-  u = String(u||'').trim();
-  if(!u) return '';
-  // dạng: .../file/d/<id>/view...,  open?id=<id>,  uc?id=<id>
-  const m = u.match(/(?:\/d\/|id=)([A-Za-z0-9_-]{10,})/);
-  return m ? `https://drive.google.com/thumbnail?id=${m[1]}` : u;
-}
 
-
-  
-<!-- ===== XƯỞNG ĐỀ XUẤT – BẢN SẠCH ===== --> 
 /* ============= Helper chung ============= */
 /* Ở trên file đã có esc(), norm(), pickUrls(), hostOf().
    Ở block này CHỈ render + fetch để tránh trùng tên → không còn SyntaxError. */
@@ -3706,35 +3658,61 @@ function fetchWorkshops(){
 
 
 
-/* Cart */
-function addToCartById(id){ const it=products[id]; if(!it) return; const f=cart.find(p=>p.id===id); if(f) f.qty++; else cart.push({...it,qty:1}); updateCart(); if (AUTO_OPEN_ON_ADD) cartOffcanvas.show(); }
-function changeQty(id,delta){ const it=cart.find(p=>p.id===id); if(!it) return; it.qty+=delta; if(it.qty<=0) cart.splice(cart.indexOf(it),1); updateCart(); }
-function removeItem(id){ const i=cart.findIndex(p=>p.id===id); if(i>=0) cart.splice(i,1); updateCart(); }
-function clearCart(){ if(confirm("Xóa toàn bộ giỏ hàng?")){ cart.length=0; updateCart(); } }
-function updateCart(){
-  const count = cart.reduce((a,b)=>a+b.qty,0);
-  const fabCount = document.getElementById('cartFabCount');
-  if(fabCount){ fabCount.textContent=count; fabCount.style.display = count>0 ? 'inline-block' : 'none'; }
-  const list=document.getElementById('cartList'); let total=0;
-  list.innerHTML=cart.map(it=>{
-    const sub=it.qty*(Number(it.price)||0); total+=sub;
-    return `<div class="d-flex align-items-center gap-2 border-bottom py-2">
-      <img src="${esc(it.img)}" alt="Ảnh ${esc(it.id)}" style="width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid #ddd">
-      <div class="flex-grow-1">
-        <div class="fw-semibold small">${esc(it.details||it.id)}</div>
-        <div class="text-muted small">${fmtVND(it.price)}</div>
-      </div>
-      <div class="d-flex align-items-center gap-1">
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="-1">-</button>
-        <span>${it.qty}</span>
-        <button class="btn btn-sm btn-outline-secondary" data-action="qty" data-id="${esc(it.id)}" data-delta="1">+</button>
-      </div>
-      <div style="min-width:90px;text-align:right" class="small">${fmtVND(sub)}</div>
-      <button class="btn btn-sm btn-link text-danger" data-action="remove" data-id="${esc(it.id)}" aria-label="Xóa ${esc(it.id)}">&times;</button>
-    </div>`;
-  }).join('');
-  document.getElementById('cartTotal').innerText=fmtVND(total);
+/* Cart (bản tối giản, an toàn) */
+function addToCartById(id){
+  const it = products[id];
+  if (!it) return;
+  const f = cart.find(p => p.id === id);
+  if (f) f.qty = (f.qty||1) + 1;
+  else cart.push({...it, qty:1});
+  updateCart();
+  if (AUTO_OPEN_ON_ADD && window.cartOffcanvas) cartOffcanvas.show();
 }
+
+function changeQty(id, delta){
+  const row = cart.find(p => p.id === id);
+  if (!row) return;
+  row.qty = Math.max(1, (row.qty||1) + delta);
+  updateCart();
+}
+
+function removeFromCart(id){
+  const idx = cart.findIndex(p => p.id === id);
+  if (idx >= 0) cart.splice(idx,1);
+  updateCart();
+}
+
+function cartTotal(){
+  return cart.reduce((s,p)=> s + (Number(p.price)||0)*(p.qty||1), 0);
+}
+
+function updateCart(){
+  const list = document.getElementById('cartList');
+  if (!list) return;
+  list.innerHTML = cart.map(p=>`
+    <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+      <div class="me-2">
+        <div class="fw-bold">${esc(p.id)}</div>
+        <div class="small text-muted">${esc(p.details||'')}</div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-sm btn-outline-secondary" onclick="changeQty('${esc(p.id)}',-1)">-</button>
+        <span>${p.qty||1}</span>
+        <button class="btn btn-sm btn-outline-secondary" onclick="changeQty('${esc(p.id)}',1)">+</button>
+        <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('${esc(p.id)}')">&times;</button>
+      </div>
+    </div>`).join('');
+
+  const totalEl = document.getElementById('cartTotal');
+  if (totalEl) totalEl.textContent = fmtVND(cartTotal());
+}
+
+/* Clear cart button */
+document.getElementById('clearCartBtn')?.addEventListener('click', ()=>{
+  cart.length = 0;
+  updateCart();
+});
+
 
 /* GỬI ĐƠN – hỗ trợ file */
 async function submitOrder(){
@@ -4166,20 +4144,21 @@ document.addEventListener('click', (e)=>{
   if (grpEl) setFilter('group', grpEl.dataset.val || '');
 });
 
-
-
 document.addEventListener('DOMContentLoaded', () => {
   if (window.__initDone) return;
   window.__initDone = true;
 
-  // reset state
   Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
 
-  renderQuickCatsTop(); // <-- THÊM DÒNG NÀY
-
-  if (typeof updateFilterCount === 'function') updateFilterCount();
+  renderQuickCatsTop();              // đã có
+  if (typeof updateFilterCount==='function') updateFilterCount();
   fetchPage();
+
+  // thêm dòng này để thay cho listener bị xóa ở 4811–4813
+  if (typeof renderBadge==='function') renderBadge();
+  window.updateFilterBadge = renderBadge;  // (nếu bạn đang dùng ở dưới)
 });
+
 
 
 
@@ -4855,9 +4834,6 @@ document.addEventListener('DOMContentLoaded', () => {
       fab.setAttribute('aria-label', 'Không có bộ lọc');
     }
   }
-
-  // Gọi khi trang tải xong
-  document.addEventListener('DOMContentLoaded', renderBadge);
 
   // Tự động cập nhật khi người dùng tương tác với khu vực lọc/nhanh/chips
   ['click','change'].forEach(ev=>{
