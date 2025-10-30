@@ -1779,9 +1779,14 @@ footer.text-light .bi{ color:#fff; }
 }
 #quickCatsTop { display:none !important; }
 
-   :root{
-  --main:#2E7D32; --main-600:#1f6c23;
+:root{
+  --main: #2E7D32;
+  --main-600:#1f6c23;
+  --main-700:#1b5e20;
+  --main-grad: linear-gradient(90deg,#66bb6a 0%, #2e7d32 100%);
+  ...
 }
+
 .dtl-backdrop[hidden]{ display:none !important; }
 .dtl-backdrop{
   position: fixed; inset:0; background: rgba(0,0,0,.38);
@@ -2519,7 +2524,7 @@ document.addEventListener('click', (ev)=>{
    
 </script>
 
-      <!-- Thống kê + Pagination -->
+    <!-- Thống kê + Pagination -->
 <div class="stats-row row g-2 align-items-center">
   <!-- Bên trái -->
   <div class="col-auto d-flex align-items-center found-count">
@@ -2527,17 +2532,20 @@ document.addEventListener('click', (ev)=>{
     <span id="totalCount" class="badge text-bg-primary">0</span>
     <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger ms-2">Xóa bộ lọc</button>
   </div>
-
   <!-- Bên phải -->
   <div class="col text-end">
     <div id="pagerTop" class="d-inline-flex"></div>
   </div>
 </div>
 
+<!-- Thanh nhỏ báo kết quả -->
+<div class="d-flex align-items-center gap-2" style="margin:8px 0">
+  <span>Tìm thấy <span id="foundCount">0</span></span>
+  <button id="btnClearFilters" class="btn btn-success btn-sm">Xóa bộ lọc</button>
+</div>
 
-
-      <!-- Grid -->
-      <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2" aria-live="polite"></div>
+<!-- Grid -->
+<div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2" aria-live="polite"></div>
 
       <!-- Pagination Bottom -->
       <div id="pagerBottom" class="mt-3 pager-bar"></div>
@@ -2905,9 +2913,6 @@ document.addEventListener('DOMContentLoaded', () => {
     catBox.after(dots);
   }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // ... các cấu hình API_URL, API_KEY ở trên
-
   // Gắn handler CHỈ MỘT LẦN cho danh sách xưởng (event delegation)
   const list = document.getElementById('workshopList');
   if (!list) return;
@@ -3156,10 +3161,7 @@ function iconUrl(u){
   return ICON_FALLBACK;
 }
 
-<div class="d-flex align-items-center gap-2" style="margin:8px 0">
-  <span>Tìm thấy <span id="foundCount">0</span></span>
-  <button id="btnClearFilters" class="btn btn-success btn-sm">Xóa bộ lọc</button>
-</div>
+
 
     
 /* === Quick Category strip (ô lớn phía trên) – render từ CAT_CONFIG === */
