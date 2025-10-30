@@ -4174,15 +4174,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
 
-  renderQuickCatsTop();              // đã có
-  if (typeof updateFilterCount==='function') updateFilterCount();
-  fetchPage();
-
-  // thêm dòng này để thay cho listener bị xóa ở 4811–4813
-  if (typeof renderBadge==='function') renderBadge();
-  window.updateFilterBadge = renderBadge;  // (nếu bạn đang dùng ở dưới)
-});
-
+  renderQuickCatsTop();
+if (typeof updateFilterCount === 'function') updateFilterCount();
+fetchPage();
 
 
 
