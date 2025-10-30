@@ -4353,6 +4353,7 @@ let _lastFacetsHash = '';
 function hashFacets(facets){
   try{ return JSON.stringify(facets||{}); }catch{ return ''; }
 }
+let _fetchTimer = null;
 
 /* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
 /* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
