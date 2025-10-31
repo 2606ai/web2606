@@ -3574,9 +3574,13 @@ function syncQuickCatsActive(){
 }
 
 /* ===== SORT & PAGINATION HELPERS ===== */
-const PAGE_SIZE = 24;             // đổi theo ý bạn
-let currentPage = 1, totalPages = 1;
-let visibleItems = [];            // mảng sau khi lọc
+// ---- Pager/Sort state (idempotent) ----
+window.PAGER = window.PAGER || {};
+PAGER.PAGE_SIZE = PAGER.PAGE_SIZE ?? 24;
+PAGER.current   = PAGER.current   ?? 1;
+PAGER.total     = PAGER.total     ?? 1;
+
+window.visibleItems = window.visibleItems || []; // mảng sau khi lọc
 
 const num = v => Number(String(v ?? '').replace(/[^0-9.-]+/g,'')) || NaN;
 const asDate = v => { const t = Date.parse(v||''); return isNaN(t)?0:t; };
@@ -3599,24 +3603,86 @@ function sortItems(list, mode='default'){
   return deco.map(x=>x.it);
 }
 
-function getPage(list, p){ const s=(p-1)*PAGE_SIZE; return list.slice(s, s+PAGE_SIZE); }
+function getPage(list, p){
+  const s = (p-1) * PAGER.PAGE_SIZE;
+  return list.slice(s, s + PAGER.PAGE_SIZE);
+}
 
 function buildPager(){
   const sel = document.getElementById('pageSelect');
   if(!sel) return;
-  sel.innerHTML='';
-  for(let i=1;i<=totalPages;i++){
-    const o=document.createElement('option');
-    o.value=i; o.textContent=`Trang ${i}/${totalPages}`;
-    if(i===currentPage) o.selected=true;
+  sel.innerHTML = '';
+  for(let i=1;i<=PAGER.total;i++){
+    const o = document.createElement('option');
+    o.value = i; o.textContent = `Trang ${i}/${PAGER.total}`;
+    if(i === PAGER.current) o.selected = true;
     sel.appendChild(o);
   }
 }
+
 function goPage(p){
-  currentPage = Math.min(Math.max(1,p), totalPages);
-  renderGrid(getPage(visibleItems, currentPage)); // dùng hàm render/lưới đang có
+  PAGER.current = Math.min(Math.max(1,p), PAGER.total);
+  renderGrid(getPage(visibleItems, PAGER.current));
   buildPager();
 }
+function applyFiltersAndRender(){
+  // 1) lọc (giữ logic cũ của bạn để ra visibleItems)
+  // visibleItems = ...;
+
+  // 2) sắp xếp theo dropdown
+  const mode = document.getElementById('sortKey')?.value || 'default';
+  visibleItems = sortItems(visibleItems, mode);
+
+  // 3) phân trang + render
+  PAGER.total  = Math.max(1, Math.ceil(visibleItems.length / PAGER.PAGE_SIZE));
+  PAGER.current = 1;
+  renderGrid(getPage(visibleItems, PAGER.current));
+  buildPager();
+
+  // 4) (tuỳ chọn) cập nhật badge đếm
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+}
+
+// GẮN SỰ KIỆN – chỉ gắn 1 lần, và nhớ chạy sau khi DOM có các nút
+function bindPagerOnce(){
+  if (window._pagerBound) return;
+  document.getElementById('pagePrev') ?.addEventListener('click', () => goPage(PAGER.current-1));
+  document.getElementById('pageNext') ?.addEventListener('click', () => goPage(PAGER.current+1));
+  document.getElementById('pageSelect')?.addEventListener('change', e => goPage(+e.target.value));
+  document.getElementById('sortKey')   ?.addEventListener('change', applyFiltersAndRender);
+  window._pagerBound = true;
+}
+
+    
+function applyFiltersAndRender(){
+  // 1) lấy dữ liệu đã lọc (hoặc toàn bộ nếu chưa có lọc)
+  let base =
+    (Array.isArray(window.filteredItems) ? window.filteredItems :
+    Array.isArray(window.allItems)      ? window.allItems :
+    Array.isArray(window.items)         ? window.items :
+    Array.isArray(window.visibleItems)  ? window.visibleItems : []);
+
+  // Nếu bạn có hàm lọc theo state, dùng nó:
+  if (typeof filterItems === 'function' && window.state) {
+    base = filterItems(base, state);   // (giữ logic lọc hiện có của bạn)
+  }
+
+  visibleItems = base;
+
+  // 2) sắp xếp theo dropdown
+  const mode = document.getElementById('sortKey')?.value || 'default';
+  visibleItems = sortItems(visibleItems, mode);
+
+  // 3) phân trang + render
+  PAGER.total   = Math.max(1, Math.ceil((visibleItems.length || 0) / PAGER.PAGE_SIZE));
+  PAGER.current = 1;
+  renderGrid(getPage(visibleItems, PAGER.current));
+  buildPager();
+
+  // 4) (tuỳ chọn) cập nhật badge đếm
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+}
+
 
     
 /* Link preview API */
@@ -4750,8 +4816,23 @@ document.addEventListener('click', function(e){
 
 
 /* === INIT === */
+/* === INIT === */
 fetchPage();
-updateFilterCount();
+bindPagerOnce();
+
+(function waitForData(maxTry = 200){ // ~16s nếu 80ms/lần
+  const ok = Array.isArray(window.filteredItems)
+          || Array.isArray(window.allItems)
+          || Array.isArray(window.items);
+  if (ok) {
+    applyFiltersAndRender();
+  } else if (maxTry > 0) {
+    setTimeout(() => waitForData(maxTry - 1), 80);
+  } else {
+    console.warn('Dữ liệu chưa sẵn sàng: allItems/filteredItems/items không phải mảng.');
+  }
+})();
+
 
 /* Phím tắt nhanh mở search */
 document.addEventListener('keydown', (e) => {
@@ -4761,6 +4842,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 }); // <- đóng DOMContentLoaded
+    
 </script>
 
 <!-- ===== FOOTER ===== -->
