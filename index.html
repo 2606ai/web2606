@@ -3644,6 +3644,28 @@ function applyFiltersAndRender(){
   if (typeof updateFilterCount === 'function') updateFilterCount();
 }
 
+/* ---- SHIM renderGrid: tự map về hàm render thật nếu có ---- */
+(function(){
+  if (typeof window.renderGrid === 'function') return;
+
+  const candidates = [
+    'renderProducts','renderItems','renderCards','renderAll','renderList','renderProductCards'
+  ];
+  for (const k of candidates) {
+    if (typeof window[k] === 'function') {
+      window.renderGrid = window[k];
+      console.log('[shim] renderGrid mapped →', k);
+      return;
+    }
+  }
+
+  // fallback cuối cùng (không nên chạy nếu có hàm thật)
+  window.renderGrid = function(list){
+    console.warn('[shim] renderGrid fallback – chưa tìm thấy renderer thật');
+  };
+})();
+
+    
 // GẮN SỰ KIỆN – chỉ gắn 1 lần, và nhớ chạy sau khi DOM có các nút
 function bindPagerOnce(){
   if (window._pagerBound) return;
