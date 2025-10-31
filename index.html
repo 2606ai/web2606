@@ -2537,6 +2537,21 @@ document.addEventListener('click', (ev)=>{
     <div id="pagerTop" class="d-inline-flex"></div>
   </div>
 </div>
+<!-- SORT BAR -->
+<div class="sortbar">
+  <label for="sortKey">Sắp xếp:</label>
+  <select id="sortKey">
+    <option value="default">Mặc định</option>
+    <option value="newest">Mới nhất</option>
+    <option value="oldest">Cũ nhất</option>
+    <option value="priceAsc">Giá ↑</option>
+    <option value="priceDesc">Giá ↓</option>
+    <option value="nameAZ">Tên A→Z</option>
+    <option value="nameZA">Tên Z→A</option>
+    <option value="remainAsc">Còn ngày ↑</option>
+    <option value="remainDesc">Còn ngày ↓</option>
+  </select>
+</div>
 
 <!-- Thanh nhỏ báo kết quả -->
 <div class="d-flex align-items-center gap-2" style="margin:8px 0">
@@ -2886,6 +2901,11 @@ document.addEventListener('click', (ev)=>{
     --fab-bottom: 14px;
   }
 }
+
+.sortbar{display:flex;align-items:center;gap:8px;margin-left:12px}
+.sortbar label{color:#0d4d2b;font-weight:600}
+#sortKey{padding:8px 10px;border:1px solid #e2efe6;border-radius:10px;background:#fff}
+    
 </style>
 
 <div id="errbox" role="alert" aria-live="assertive"></div>
@@ -3553,6 +3573,52 @@ function syncQuickCatsActive(){
   });
 }
 
+/* ===== SORT & PAGINATION HELPERS ===== */
+const PAGE_SIZE = 24;             // đổi theo ý bạn
+let currentPage = 1, totalPages = 1;
+let visibleItems = [];            // mảng sau khi lọc
+
+const num = v => Number(String(v ?? '').replace(/[^0-9.-]+/g,'')) || NaN;
+const asDate = v => { const t = Date.parse(v||''); return isNaN(t)?0:t; };
+
+function sortItems(list, mode='default'){
+  const deco = list.map((it,i)=>({it,i}));
+  deco.sort((a,b)=>{
+    const A=a.it, B=b.it; let da,db,cmp=0;
+    switch(mode){
+      case 'newest':  da=asDate(A.createdAt||A.date||A.ngay); db=asDate(B.createdAt||B.date||B.ngay); cmp=db-da; break;
+      case 'oldest':  da=asDate(A.createdAt||A.date||A.ngay); db=asDate(B.createdAt||B.date||B.ngay); cmp=da-db; break;
+      case 'priceAsc': da=num(A.price||A.gia); db=num(B.price||B.gia); cmp=(isNaN(da)?1e15:da)-(isNaN(db)?1e15:db); break;
+      case 'priceDesc':da=num(A.price||A.gia); db=num(B.price||B.gia); cmp=(isNaN(db)?-1e15:db)-(isNaN(da)?-1e15:da); break;
+      case 'nameAZ':  cmp=String(A.name||A.ten||'').localeCompare(String(B.name||B.ten||''),'vi'); break;
+      case 'nameZA':  cmp=String(B.name||B.ten||'').localeCompare(String(A.name||A.ten||''),'vi'); break;
+      default: cmp=a.i-b.i;
+    }
+    return cmp || (a.i - b.i);
+  });
+  return deco.map(x=>x.it);
+}
+
+function getPage(list, p){ const s=(p-1)*PAGE_SIZE; return list.slice(s, s+PAGE_SIZE); }
+
+function buildPager(){
+  const sel = document.getElementById('pageSelect');
+  if(!sel) return;
+  sel.innerHTML='';
+  for(let i=1;i<=totalPages;i++){
+    const o=document.createElement('option');
+    o.value=i; o.textContent=`Trang ${i}/${totalPages}`;
+    if(i===currentPage) o.selected=true;
+    sel.appendChild(o);
+  }
+}
+function goPage(p){
+  currentPage = Math.min(Math.max(1,p), totalPages);
+  renderGrid(getPage(visibleItems, currentPage)); // dùng hàm render/lưới đang có
+  buildPager();
+}
+
+    
 /* Link preview API */
 function fetchLinkPreview(url){
   const qs = new URLSearchParams({ action:'preview', url });
