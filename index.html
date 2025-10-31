@@ -2537,27 +2537,25 @@ document.addEventListener('click', (ev)=>{
     <div id="pagerTop" class="d-inline-flex"></div>
   </div>
 </div>
-<!-- SORT BAR -->
+<!-- SORT BAR (chỉ icon Giá & Tên) -->
 <div class="sortbar">
-  <label for="sortKey">Sắp xếp:</label>
-  <select id="sortKey">
+  <button id="sortPrice" class="btn btn-light btn-sm" title="Giá ↑/↓">
+    <i class="bi bi-cash-stack"></i><span class="ms-1 d-none d-md-inline">Giá</span>
+  </button>
+  <button id="sortName" class="btn btn-light btn-sm" title="Tên A/Z">
+    <i class="bi bi-sort-alpha-down"></i><span class="ms-1 d-none d-md-inline">Tên</span>
+  </button>
+
+  <!-- Giữ select ẩn để tái dùng logic sẵn có -->
+  <select id="sortKey" class="d-none">
     <option value="default">Mặc định</option>
-    <option value="newest">Mới nhất</option>
-    <option value="oldest">Cũ nhất</option>
     <option value="priceAsc">Giá ↑</option>
     <option value="priceDesc">Giá ↓</option>
     <option value="nameAZ">Tên A→Z</option>
     <option value="nameZA">Tên Z→A</option>
-    <option value="remainAsc">Còn ngày ↑</option>
-    <option value="remainDesc">Còn ngày ↓</option>
   </select>
 </div>
 
-<!-- Thanh nhỏ báo kết quả -->
-<div class="d-flex align-items-center gap-2" style="margin:8px 0">
-  <span>Tìm thấy <span id="foundCount">0</span></span>
-  <button id="btnClearFilters" class="btn btn-success btn-sm">Xóa bộ lọc</button>
-</div>
 
 <!-- Grid -->
 <div id="productGrid" class="row row-cols-2 row-cols-md-3 row-cols-lg-6 g-2" aria-live="polite"></div>
@@ -2904,6 +2902,9 @@ document.addEventListener('click', (ev)=>{
 
 .sortbar{display:flex;align-items:center;gap:8px;margin-left:12px}
 .sortbar label{color:#0d4d2b;font-weight:600}
+.sortbar .btn{border:1px solid #e2efe6;border-radius:10px}
+.sortbar .btn:active{transform:translateY(1px)}
+
 #sortKey{padding:8px 10px;border:1px solid #e2efe6;border-radius:10px;background:#fff}
     
 </style>
@@ -3650,6 +3651,20 @@ function bindPagerOnce(){
   document.getElementById('pageNext') ?.addEventListener('click', () => goPage(PAGER.current+1));
   document.getElementById('pageSelect')?.addEventListener('change', e => goPage(+e.target.value));
   document.getElementById('sortKey')   ?.addEventListener('change', applyFiltersAndRender);
+  document.getElementById('sortPrice')?.addEventListener('click', () => {
+  const sel = document.getElementById('sortKey');
+  const cur = sel.value;
+  sel.value = (cur === 'priceAsc') ? 'priceDesc' : 'priceAsc';
+  sel.dispatchEvent(new Event('change'));
+});
+
+document.getElementById('sortName')?.addEventListener('click', () => {
+  const sel = document.getElementById('sortKey');
+  const cur = sel.value;
+  sel.value = (cur === 'nameAZ') ? 'nameZA' : 'nameAZ';
+  sel.dispatchEvent(new Event('change'));
+});
+
   window._pagerBound = true;
 }
 
