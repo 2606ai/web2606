@@ -4003,20 +4003,6 @@ function updateCart(){
 }
 
 
-
-  // Tổng tiền
-  const totalEl = document.getElementById('cartTotal');
-  if (totalEl) totalEl.textContent = fmtVND(cartTotal());
-
-  // Badge trên nút giỏ
-  const badge = document.querySelector('[data-cart-count]');
-  if (badge){
-    const n = cart.reduce((s,p)=> s + (Number(p.qty)||0), 0);
-    badge.textContent = n > 0 ? String(n) : '';
-    badge.style.display = n > 0 ? 'inline-block' : 'none';
-  }
-}
-
 /* Clear cart button */
 document.getElementById('clearCartBtn')?.addEventListener('click', ()=>{
   cart.length = 0;
