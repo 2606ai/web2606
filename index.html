@@ -1963,7 +1963,15 @@ footer.text-light .bi{ color:#fff; }
 .filter-chip .thumb img{width:96px;height:96px;object-fit:cover}
 .filter-chip .name{font-weight:600;color:#1e7b45;font-size:.95rem;line-height:1.2}
 
- 
+/* Cart offcanvas items */
+.cart-item .thumb{
+  width:56px;
+  height:56px;
+  border-radius:10px;
+  object-fit:cover;
+  box-shadow: var(--shadow-sm);
+}
+
 </style>
 <style id="icon-zoom-fix">
   /* zoom mặc định – có thể đổi 1.2 – 1.6 tuỳ ý */
@@ -2735,10 +2743,10 @@ document.addEventListener('click', (ev)=>{
   </button>
 
   <!-- Nút giỏ hàng -->
-  <button id="cartFab" class="fab" aria-label="Mở giỏ hàng">
-    🛒
-    <span id="cartFabCount" class="fab-badge">0</span>
-  </button>
+<button id="cartFab" class="fab" aria-label="Mở giỏ hàng">
+  🛒
+  <span id="cartFabCount" class="fab-badge">0</span>
+</button>
 
   <!-- Nút danh sách xưởng -->
   <button id="suppliersFab" class="fab" aria-label="Danh sách xưởng">
@@ -3699,6 +3707,7 @@ function renderGrid(list){
 document.addEventListener('DOMContentLoaded', () => {
   bindPagerOnce();          // gắn click cho Giá/Tên, Prev/Next, Select…
   applyFiltersAndRender();  // render trang đầu theo dữ liệu hiện có
+  updateCart();             // ⬅️ đồng bộ số trên badge giỏ
 });
     
 // GẮN SỰ KIỆN – chỉ gắn 1 lần, và nhớ chạy sau khi DOM có các nút
@@ -3919,17 +3928,27 @@ function fetchWorkshops(){
 function addToCartById(id){
   const it = products[id];
   if (!it) return;
+
   const f = cart.find(p => p.id === id);
-  if (f) f.qty = (f.qty||1) + 1;
-  else cart.push({...it, qty:1});
+  if (f) f.qty = (f.qty || 0) + 1;
+  else cart.push({ ...it, qty: 1 });
+
   updateCart();
   if (AUTO_OPEN_ON_ADD && window.cartOffcanvas) cartOffcanvas.show();
 }
 
+
+
 function changeQty(id, delta){
   const row = cart.find(p => p.id === id);
   if (!row) return;
-  row.qty = Math.max(1, (row.qty||1) + delta);
+  row.qty = Math.max(1, (Number(row.qty)||1) + delta);
+  updateCart();
+}
+
+function removeFromCart(id){
+  const idx = cart.findIndex(p => p.id === id);
+  if (idx >= 0) cart.splice(idx, 1);
   updateCart();
 }
 
@@ -3946,22 +3965,56 @@ function cartTotal(){
 function updateCart(){
   const list = document.getElementById('cartList');
   if (!list) return;
-  list.innerHTML = cart.map(p=>`
-    <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
-      <div class="me-2">
-        <div class="fw-bold">${esc(p.id)}</div>
-        <div class="small text-muted">${esc(p.details||'')}</div>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-sm btn-outline-secondary" onclick="changeQty('${esc(p.id)}',-1)">-</button>
-        <span>${p.qty||1}</span>
-        <button class="btn btn-sm btn-outline-secondary" onclick="changeQty('${esc(p.id)}',1)">+</button>
-        <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('${esc(p.id)}')">&times;</button>
-      </div>
-    </div>`).join('');
 
+  list.innerHTML = cart.map(p => {
+    // Lấy thumbnail: ưu tiên cột img (Drive, URL), fallback sang image/icon nếu có
+    const rawThumb = p.img || p.image || p.icon || "";
+    const thumb = rawThumb ? toDriveThumb(rawThumb, 80) : "";
+
+    return `
+      <div class="cart-item d-flex align-items-center justify-content-between py-2 border-bottom">
+        <div class="d-flex align-items-center me-2 gap-2">
+          ${thumb ? `<img class="thumb" src="${thumb}" alt="" onerror="this.src='https://via.placeholder.com/80?text=No+Img'">` : ""}
+          <div>
+            <div class="fw-bold">${esc(p.id)}</div>
+            <div class="small text-muted">${esc(p.details||'')}</div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button class="btn btn-sm btn-outline-secondary" onclick="changeQty('${esc(p.id)}',-1)">-</button>
+          <span>${p.qty||1}</span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="changeQty('${esc(p.id)}',1)">+</button>
+          <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('${esc(p.id)}')">&times;</button>
+        </div>
+      </div>`;
+  }).join('');
+
+  // Tổng tiền
   const totalEl = document.getElementById('cartTotal');
   if (totalEl) totalEl.textContent = fmtVND(cartTotal());
+
+  // Badge trên nút giỏ hàng (đếm tổng quantity thay vì số dòng)
+  const n = cart.reduce((sum,p) => sum + (p.qty||1), 0);
+  const badge = document.getElementById('cartFabCount');
+  if (badge){
+    badge.textContent = n > 0 ? String(n) : '0';
+    badge.style.display = n > 0 ? 'inline-block' : 'none';
+  }
+}
+
+
+
+  // Tổng tiền
+  const totalEl = document.getElementById('cartTotal');
+  if (totalEl) totalEl.textContent = fmtVND(cartTotal());
+
+  // Badge trên nút giỏ
+  const badge = document.querySelector('[data-cart-count]');
+  if (badge){
+    const n = cart.reduce((s,p)=> s + (Number(p.qty)||0), 0);
+    badge.textContent = n > 0 ? String(n) : '';
+    badge.style.display = n > 0 ? 'inline-block' : 'none';
+  }
 }
 
 /* Clear cart button */
