@@ -3213,13 +3213,6 @@ function renderQuickCatsTop(allowedGroups){
 }
 
 
-
-/* Gọi hàm render cho vùng ô lớn – bạn cần có sẵn container #quickCatsTop trong HTML */
-function renderQuickCatsTop(){
-  const box = document.getElementById('quickCatsTop');
-  if (!box) return;           // chưa có container thì bỏ qua
-  box.innerHTML = buildQuickCatsTopHTML();
-}
    
  // ===== CATEGORY CONFIG (mỗi ô = 1 cấu hình riêng) =====
 const CAT_CONFIG = [
@@ -3644,6 +3637,45 @@ function applyFiltersAndRender(){
   if (typeof updateFilterCount === 'function') updateFilterCount();
 }
 
+// renderer tối giản – đặt TRƯỚC khối SHIM
+window.renderGrid = window.renderGrid || function(list){
+  const grid = document.getElementById('productGrid');
+  if (!grid) return;
+  grid.innerHTML = (list || []).map(it => `
+    <div class="col">
+      <div class="cardx">
+        <div class="meta">
+          <div class="id">ID: ${it.id ?? it.ID ?? ''}</div>
+          <div class="details">${it.ten ?? it.name ?? ''}</div>
+          <div class="price">${it.gia ?? it.price ?? ''}</div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+};
+
+
+// === Renderer CHÍNH cho lưới sản phẩm ===
+// (dán NGAY TRƯỚC comment /* ---- SHIM renderGrid ... */ )
+function renderGrid(list){
+  const grid = document.getElementById('productGrid');
+  if (!grid) return;
+
+  const arr = Array.isArray(list) ? list : [];
+  grid.innerHTML = arr.length
+    ? arr.map(productCardHtml).join('')
+    : '<div class="text-muted">Không có dữ liệu…</div>';
+
+  // lưu mảng đang hiển thị để các nơi khác dùng
+  window._lastItems = arr;
+
+  // cập nhật badge/chip nếu có khai báo
+  if (typeof updateGroupUI === 'function'){
+    updateGroupUI({ total: arr.length });
+  }
+}
+
+    
 /* ---- SHIM renderGrid: tự map về hàm render thật nếu có ---- */
 (function(){
   if (typeof window.renderGrid === 'function') return;
@@ -3658,13 +3690,16 @@ function applyFiltersAndRender(){
       return;
     }
   }
-
+    
   // fallback cuối cùng (không nên chạy nếu có hàm thật)
   window.renderGrid = function(list){
     console.warn('[shim] renderGrid fallback – chưa tìm thấy renderer thật');
   };
 })();
-
+document.addEventListener('DOMContentLoaded', () => {
+  bindPagerOnce();          // gắn click cho Giá/Tên, Prev/Next, Select…
+  applyFiltersAndRender();  // render trang đầu theo dữ liệu hiện có
+});
     
 // GẮN SỰ KIỆN – chỉ gắn 1 lần, và nhớ chạy sau khi DOM có các nút
 function bindPagerOnce(){
@@ -3728,6 +3763,35 @@ function fetchLinkPreview(url){
   return fetch(API_URL + '?' + qs.toString()).then(r => r.json());
 }
 
+// Cập nhật giao diện sau khi lọc/sắp xếp (an toàn nếu thiếu phần tử)
+window.updateGroupUI = function (payload = {}) {
+  try {
+    // Tổng số item sau lọc
+    const total =
+      payload.total ??
+      (Array.isArray(window._currentList) ? window._currentList.length :
+       Array.isArray(window.filteredItems) ? window.filteredItems.length :
+       Array.isArray(window.allItems) ? window.allItems.length : 0);
+
+    // Cập nhật badge "Tìm thấy ..."
+    const foundEl =
+      document.querySelector('[data-found-count]') ||
+      document.getElementById('foundCount');
+    if (foundEl) foundEl.textContent = total;
+
+
+   // Tô sáng chip nhóm nếu có  ← FIX: bọc ngoặc khi trộn ?? với ||
+const activeGroup = (payload.group ?? (window.activeFilters && window.activeFilters.group)) || '';
+
+
+    document.querySelectorAll('[data-group-chip]').forEach(chip => {
+      const g = chip.dataset.group || chip.getAttribute('data-group');
+      chip.classList.toggle('active', !!activeGroup && g === activeGroup);
+    });
+  } catch (err) {
+    console.warn('updateGroupUI noop:', err);
+  }
+};
 
 function hostOf(u){
   try{
@@ -4458,6 +4522,9 @@ document.querySelectorAll('.category-item').forEach(el=>{
 function render(res = {}, fromCache){
   const items = res.items || [];
   const grid  = document.getElementById('productGrid');
+// Lưu dữ liệu cho khối sắp xếp/bộ lọc
+window.allItems   = Array.isArray(items) ? items.slice() : [];
+window._lastItems = window.allItems.slice();
 
   // Grid: giữ nguyên
   grid.innerHTML = items.length
