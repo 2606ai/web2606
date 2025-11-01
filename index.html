@@ -5229,6 +5229,67 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <input id="uploworkshopupplierFile" type="file" hidden
        accept=".pdf,.png,.jpg,.jpeg,.doc,.docx,.xls,.xlsx,.zip" />
-   
+
+
+<script>
+// ====== CART – base state ======
+const CART_KEY = 'cart2606ai';
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch(e){ cart = []; }
+
+// ====== Badge counter (nút FAB giỏ) ======
+function updateCartBadge(){
+  const el = document.getElementById('cartFabCount');
+  if(!el) return;
+  const n = cart.reduce((s,i)=> s + (Number(i.qty)||1), 0);
+  el.textContent = n;
+  el.style.display = n>0 ? 'inline-flex' : 'none';
+}
+
+// ====== Mini preview trong FAB (nếu có khung #cartMini) ======
+function renderCartMini(){
+  const box = document.getElementById('cartMini');
+  if(!box) return;
+  if(cart.length === 0){ box.innerHTML = '<div class="muted">Chưa có sản phẩm</div>'; return; }
+  box.innerHTML = cart.slice(0,6).map(item => `
+    <div class="mini-item">
+      <img src="${item.thumb||item.img||''}" alt="">
+      <div class="mini-meta">
+        <div class="name">${item.name||item.id||'SP'}</div>
+        <div class="qty">x${item.qty||1}</div>
+      </div>
+    </div>
+  `).join('') + (cart.length>6 ? `<div class="more">+${cart.length-6} nữa</div>`:'');
+}
+
+// ====== Thêm/Xóa từng món (tuỳ code hiện có có thể đã có) ======
+function addToCart(product){
+  // product: {id, name, thumb/img, qty}
+  const idx = cart.findIndex(x => x.id === product.id);
+  if(idx>=0){ cart[idx].qty = (Number(cart[idx].qty)||1) + (Number(product.qty)||1); }
+  else{ cart.push({ id:product.id, name:product.name, thumb:product.thumb||product.img||'', qty:Number(product.qty)||1 }); }
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  updateCartBadge(); renderCartMini();
+}
+
+// ====== Nút XÓA GIỎ (đang bị lỗi do thiếu hàm này) ======
+function clearCart(silent=false){
+  cart = [];
+  localStorage.removeItem(CART_KEY);
+  updateCartBadge();
+  renderCartMini();
+  // nếu có UI giỏ lớn, nhớ re-render rỗng ở đây
+  const big = document.getElementById('cartPanelList');
+  if(big) big.innerHTML = '<div class="muted">Giỏ hàng trống</div>';
+  if(!silent && window.toast) toast('Đã xóa hết sản phẩm trong giỏ');
+}
+
+// ====== Khởi tạo khi load trang ======
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartBadge();
+  renderCartMini();
+});
+</script>
+    
 </body>
 </html> 
