@@ -1809,6 +1809,9 @@ footer.text-light .bi{ color:#fff; }
 .dtl-badges{ display:flex; gap:8px; flex-wrap:wrap; margin: 4px 0 10px; }
 .dtl-badges .tag{ background:#e8f5e9; color:#1f6c23; padding:4px 8px; border-radius:999px; font-size:12px; }
 .dtl-rows{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+.dtl-col{ display:flex; flex-direction:column; gap:10px; }
+.dtl-col{ display:flex; flex-direction:column; gap:10px; }
+
 .dtl-row{ border:1px solid #eef3ef; border-radius:12px; padding:10px; background:#fafdfb; }
 .dtl-row .k{ font-size:12px; color:#6b7b70; text-transform:uppercase; letter-spacing:.06em; }
 .dtl-row .v{ margin-top:4px; color:#14391c; white-space:pre-wrap; word-break:break-word; }
@@ -1816,6 +1819,26 @@ footer.text-light .bi{ color:#fff; }
 .btn-main{ background:var(--main); color:#fff; padding:10px 14px; border-radius:12px; border:0; cursor:pointer; }
 .btn-main:hover{ background:var(--main-600); }
 .btn-ghost{ background:#f3f7f4; color:#123; padding:10px 14px; border-radius:12px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;}
+
+/* ==== Rich cards for right column ==== */
+.media-card{border:1px solid #e5e7eb;background:#fff;border-radius:12px;padding:10px}
+.media-card h5{margin:0 0 8px;font-size:.9rem;font-weight:800;color:#111827}
+.media-card .thumb{width:100%;border-radius:10px;background:#f3f4f6;overflow:hidden}
+.media-card .thumb img{width:100%;height:auto;display:block;object-fit:cover}
+.media-actions{display:flex;gap:8px;margin-top:8px}
+.btn{padding:8px 12px;border-radius:10px;border:1px solid #e5e7eb;background:#f9fafb;font-size:.84rem}
+.btn:hover{border-color:#cbd5e1}
+
+.qr-box{display:flex;align-items:center;gap:12px}
+.qr-box img{width:120px;height:120px;border-radius:10px;border:1px solid #e5e7eb;background:#fff}
+.qr-meta{flex:1}
+.qr-meta .link{font-size:.85rem;color:#166534;word-break:break-all}
+
+.ad-link{display:flex;align-items:center;gap:10px;border:1px solid #e5e7eb;border-radius:12px;padding:10px;background:#fff}
+.ad-link img{width:20px;height:20px}
+.ad-link .host{font-weight:700}
+
+    
 @media (max-width: 720px){ .dtl-rows{ grid-template-columns: 1fr; } }
 
 .cardx .meta{ cursor:pointer; }
@@ -2456,52 +2479,260 @@ function getItemById(id){
   return arr.find(x => String(x.id)===String(id) || String(x.code)===String(id));
 }
 
+
+// --- Helpers for Drive & QR ---
+function driveId(u){
+  if(!u) return null;
+  const s = String(u);
+  let m = s.match(/\/d\/([^/]+)/);                 // .../file/d/{id}/view
+  if (m) return m[1];
+  m = s.match(/[?&]id=([^&#]+)/);                  // ?id=... hoặc &id=...
+  if (m) return m[1];
+  m = s.match(/uc\?export=download&id=([^&#]+)/);  // uc?export=download&id=...
+  if (m) return m[1];
+  return null;
+}
+function driveThumb(u, sz=320){
+  const id = driveId(u);
+  return id ? `https://drive.google.com/thumbnail?id=${id}&sz=w${sz}` : (u || '');
+}
+function driveDownload(u){
+  const id = driveId(u);
+  return id ? `https://drive.google.com/uc?export=download&id=${id}` : (u || '');
+}
+function hostOf(u){ try{ return new URL(u).host.replace(/^www\./,''); }catch{ return ''; } }
+function qrOf(u, size=160){
+  return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(u||'')}`;
+}
+
+
 // ====== RENDER BOX CHI TIẾT
 function openDetailBox(item){
   if(!item) return;
+
   const modal = document.getElementById('detailModal');
+
+  // ---- Header (ảnh, tiêu đề, sub, nút mở ảnh) ----
   const img = safeImg(item.img || item.image || item.thumbnail || item.linkfull);
   document.getElementById('dtlImg').src = img;
-  document.getElementById('dtlTitle').textContent = item.title || item.name || item.code || item.id || 'Chi tiết';
-  document.getElementById('dtlSub').textContent = [item.group, item.category].filter(Boolean).join(' • ');
+  document.getElementById('dtlTitle').textContent =
+    item.title || item.name || item.code || item.id || 'Chi tiết';
+  document.getElementById('dtlSub').textContent =
+    [item.group, item.category].filter(Boolean).join(' • ');
   document.getElementById('dtlOpenImg').href = (item.linkfull || img);
 
-  // badges (giá, loại…)
+  // ---- Badges (giá, loại, xưởng) ----
   const badges = [];
-  if (item.price) badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
-  if (item.type)  badges.push(`<span class="tag">${item.type}</span>`);
+  if (item.price)    badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
+  if (item.type)     badges.push(`<span class="tag">${item.type}</span>`);
   if (item.supplier) badges.push(`<span class="tag">Xưởng: ${item.supplier}</span>`);
   document.getElementById('dtlBadges').innerHTML = badges.join('');
 
-  // tạo các dòng dữ liệu đầy đủ
-  const rows = [];
+  // ==== SẮP 2 CỘT THEO THỨ TỰ YÊU CẦU ====
+  const LEFT_ORDER  = ["ID","MÔ TẢ","GIÁ","DANH MỤC","NHÓM","LOẠI","LOAI"];
+  const RIGHT_ORDER = ["TENCONGTY","LOGO CÔNG TY","LOGOCONGTY","CHỨNG NHẬN","CHUNGNHANDN","QUẢNG CÁO","IMAGECLICK","IMAGE CLICK"];
+
+  // 1) Gom field → pool
   const seen = new Set(['img','image','thumbnail','linkfull']); // ảnh để riêng
+  const N = s => String(s||'')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,' ').trim().toUpperCase();
+
+  const pool = [];
   Object.keys(item).forEach(k=>{
     if (seen.has(k)) return;
     const v = item[k];
     if (v===undefined || v===null || v==='') return;
-    const label = FIELD_LABELS[k] || k;
-    rows.push(`
-      <div class="dtl-row">
-        <div class="k">${label}</div>
-        <div class="v">${String(v)}</div>
-      </div>
-    `);
+    const label = (typeof FIELD_LABELS!=='undefined' && FIELD_LABELS[k]) ? FIELD_LABELS[k] : k;
+    pool.push({
+      norm: N(label),
+      html: `
+        <div class="dtl-row">
+          <div class="k">${label}</div>
+          <div class="v">${String(v)}</div>
+        </div>`
+    });
   });
-  // nếu có mô tả dài riêng
-  if (item.details && !('details' in item)) {
-    rows.push(`
-      <div class="dtl-row">
-        <div class="k">Mô tả</div>
-        <div class="v">${String(item.details)}</div>
-      </div>
-    `);
-  }
-  document.getElementById('dtlRows').innerHTML = rows.join('');
 
+  // Nếu có mô tả dài riêng
+  if (item.details && !('details' in item)) {
+    pool.push({
+      norm: N('MÔ TẢ'),
+      html: `
+        <div class="dtl-row">
+          <div class="k">Mô tả</div>
+          <div class="v">${String(item.details)}</div>
+        </div>`
+    });
+  }
+
+  // 2) Lấy theo thứ tự
+  function pick(order){
+    const out = [];
+    order.forEach(lbl=>{
+      const key = N(lbl);
+      const idx = pool.findIndex(x => x.norm===key || x.norm.includes(key) || key.includes(x.norm));
+      if (idx>-1){ out.push(pool.splice(idx,1)[0].html); }
+    });
+    return out;
+  }
+
+  // 3) Khởi tạo 2 cột
+  const left  = pick(LEFT_ORDER);
+  const right = pick(RIGHT_ORDER);
+
+  // 4) Phần còn lại cho vào cuối cột phải
+  right.push(...pool.map(x=>x.html));
+
+  // === RENDER RICH (cột phải) & NOTE (cột trái) ===
+
+  // NOTE → chèn vào TRÁI, ngay sau "loai"
+if (item.NOTE || item.note){
+  // xoá mọi NOTE cũ
+  for (let i=left.length-1;i>=0;i--)  if (/>NOTE</i.test(left[i]))  left.splice(i,1);
+  for (let i=right.length-1;i>=0;i--) if (/>NOTE</i.test(right[i])) right.splice(i,1);
+
+  const noteHTML = `
+    <div class="dtl-row">
+      <div class="k">Note</div>
+      <div class="v">${String(item.NOTE || item.note)}</div>
+    </div>`;
+
+  // tìm vị trí sau "loai" (Loại/loai)
+  const idxLoai = left.findIndex(h =>
+    /<div class="k">loai<\/div>/i.test(h) || /<div class="k">Loại<\/div>/.test(h)
+  );
+  if (idxLoai >= 0) left.splice(idxLoai+1, 0, noteHTML);
+  else left.push(noteHTML);
+}
+
+
+// --- XÓA dòng thô trước ---
+for (let i = right.length - 1; i >= 0; i--) {
+  if (/<div class="k">\s*(LOGOCONGTY|LOGO ?CÔNG ?TY)\s*<\/div>/i.test(right[i])) {
+    right.splice(i, 1);
+  }
+}
+// --- Rồi mới thêm thẻ rich ---
+if (item.LOGOCONGTY || item.logo){
+  const linkLogo = item.LOGOCONGTY || item.logo;
+  right.push(`
+    <div class="media-card">
+      <h5>Logo công ty</h5>
+      <div class="thumb"><img src="${driveThumb(linkLogo,480)}" alt="Logo công ty"></div>
+      <div class="media-actions">
+        <a class="btn" target="_blank" href="${linkLogo}">Mở link</a>
+        <a class="btn" href="${driveDownload(linkLogo)}">Tải xuống</a>
+      </div>
+    </div>
+  `);
+}
+
+
+  // XÓA dòng thô trước
+for (let i = right.length - 1; i >= 0; i--) {
+  if (/<div class="k">\s*(CHUNGNHANDN|CHỨNG ?NHẬN)\s*<\/div>/i.test(right[i])) {
+    right.splice(i, 1);
+  }
+}
+if (item.CHUNGNHANDN || item.chungnhanDN){
+  const linkCN = item.CHUNGNHANDN || item.chungnhanDN;
+  right.push(`
+    <div class="media-card">
+      <h5>Chứng nhận</h5>
+      <div class="media-actions">
+        <a class="btn" target="_blank" href="${linkCN}">Xem tệp</a>
+        <a class="btn" href="${driveDownload(linkCN)}">Tải xuống</a>
+      </div>
+    </div>
+  `);
+}
+
+
+  // XÓA dòng thô trước
+for (let i = right.length - 1; i >= 0; i--) {
+  if (/<div class="k">\s*(QUẢNG ?CÁO)\s*<\/div>/i.test(right[i])) {
+    right.splice(i, 1);
+  }
+}
+if (item['QUẢNG CÁO'] || item.quangcao){
+  const urlAd = item['QUẢNG CÁO'] || item.quangcao;
+  const host  = hostOf(urlAd);
+  right.push(`
+    <div class="media-card">
+      <h5>Quảng cáo</h5>
+      <a class="ad-link" target="_blank" href="${urlAd}">
+        <img src="https://www.google.com/s2/favicons?domain=${host}&sz=64" alt="">
+        <div>
+          <div class="host">${host || 'Liên kết'}</div>
+          <div style="font-size:.82rem;color:#6b7280">${urlAd}</div>
+        </div>
+      </a>
+    </div>
+  `);
+}
+
+
+  // XÓA dòng thô trước
+for (let i = right.length - 1; i >= 0; i--) {
+  if (/<div class="k">\s*(IMAGE ?CLICK)\s*<\/div>/i.test(right[i])) {
+    right.splice(i, 1);
+  }
+}
+if (item.IMAGECLICK || item.imageclick){
+  const zalo = item.IMAGECLICK || item.imageclick;
+  right.push(`
+    <div class="media-card">
+      <h5>Zalo / Liên hệ</h5>
+      <div class="qr-box">
+        <img src="${qrOf(zalo,160)}" alt="QR">
+        <div class="qr-meta">
+          <div class="link">${zalo}</div>
+          <div class="media-actions">
+            <a class="btn" target="_blank" href="${zalo}">Mở Zalo</a>
+            <button class="btn" onclick="navigator.clipboard.writeText('${zalo}')">Sao chép</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+
+  // XÓA dòng thô trước
+for (let i = right.length - 1; i >= 0; i--) {
+  if (/<div class="k">\s*LINKFULL\s*<\/div>/i.test(right[i])) {
+    right.splice(i, 1);
+  }
+}
+if (item.LINKFULL || item.linkfull){
+  const linkFullUrl = item.LINKFULL || item.linkfull; // tránh trùng biến L
+  right.push(`
+    <div class="media-card">
+      <h5>Tệp gốc</h5>
+      <div class="media-actions">
+        <a class="btn" target="_blank" href="${linkFullUrl}">Mở</a>
+        <a class="btn" href="${driveDownload(linkFullUrl)}">Tải ảnh</a>
+      </div>
+    </div>
+  `);
+}
+
+  // ---- Bơm vào 2 cột ----
+  const leftCol  = document.getElementById('dtlLeft');
+  const rightCol = document.getElementById('dtlRight');
+  if (leftCol && rightCol){
+    leftCol.innerHTML  = left.join('');
+    rightCol.innerHTML = right.join('');
+  }
+
+  // Mở modal
   modal.hidden = false;
 }
-function closeDetailBox(){ document.getElementById('detailModal').hidden = true; }
+
+function closeDetailBox(){
+  document.getElementById('detailModal').hidden = true;
+}
 
 // ====== BẮT SỰ KIỆN CLICK TỪ THẺ SẢN PHẨM
 // 1) Nếu thẻ sản phẩm có data-id: <div class="product-card" data-id="...">
@@ -5186,7 +5417,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     <div id="dtlBadges" class="dtl-badges"></div>
 
-    <div id="dtlRows" class="dtl-rows"><!-- rows auto render --></div>
+    <div id="dtlRows" class="dtl-rows">
+  <div id="dtlLeft"  class="dtl-col"></div>
+  <div id="dtlRight" class="dtl-col"></div>
+</div>
+
 
     <div class="dtl-actions">
       <a id="dtlOpenImg" class="btn-ghost" target="_blank" rel="noopener">Mở ảnh</a>
