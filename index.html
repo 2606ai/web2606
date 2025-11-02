@@ -2505,6 +2505,32 @@ function qrOf(u, size=160){
   return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(u||'')}`;
 }
 
+    function getDriveId(u){
+  if(!u) return '';
+  const s = String(u).trim();
+
+  // /file/d/{id}/view …
+  let m = s.match(/\/d\/([^/]+)\//);
+  if (m && m[1]) return m[1];
+
+  // ?id=XXXXXXXXXXXXXXXXX
+  m = s.match(/[?&]id=([^&]+)/);
+  if (m && m[1]) return m[1];
+
+  // uc?export=download&id=…
+  m = s.match(/uc\?export=download&id=([^&]+)/);
+  if (m && m[1]) return m[1];
+
+  // Nếu là thumbnail ?id=…&sz=w600
+  m = s.match(/thumbnail\?id=([^&]+)/);
+  if (m && m[1]) return m[1];
+
+  // Nếu đưa thẳng fileId
+  if (/^[A-Za-z0-9_-]{20,}$/.test(s)) return s;
+
+  return '';
+}
+
 
 // ====== RENDER BOX CHI TIẾT
 function openDetailBox(item){
@@ -2521,6 +2547,39 @@ function openDetailBox(item){
     [item.group, item.category].filter(Boolean).join(' • ');
   document.getElementById('dtlOpenImg').href = (item.linkfull || img);
 
+// ===== Chứng nhận (f10) dùng cột chungnhanDN =====
+const raw     = (item.chungnhanDN || item['chungnhanDN'] || '').trim();
+const viewBtn = document.getElementById('btnCertView');
+const downBtn = document.getElementById('btnCertDown');
+
+if (viewBtn && downBtn) {
+  if (!raw){
+    // Không có link → disable 2 nút
+    viewBtn.removeAttribute('href');
+    downBtn.removeAttribute('href');
+    viewBtn.classList.add('is-disabled');
+    downBtn.classList.add('is-disabled');
+    viewBtn.textContent = 'Không có tệp';
+    downBtn.textContent = 'Không có tệp';
+  } else {
+    const id   = getDriveId(raw); // đã thêm ở trên
+    const view = id ? `https://drive.google.com/file/d/${id}/view` 
+                    : raw;
+    const down = id ? `https://drive.google.com/uc?export=download&id=${id}` 
+                    : raw;
+
+    viewBtn.href = view;
+    downBtn.href = down;
+
+    viewBtn.classList.remove('is-disabled');
+    downBtn.classList.remove('is-disabled');
+    viewBtn.textContent = 'Xem tệp';
+    downBtn.textContent = 'Tải xuống';
+  }
+}
+// ===== hết khối Chứng nhận =====
+
+    
   // ---- Badges (giá, loại, xưởng) ----
   const badges = [];
   if (item.price)    badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
@@ -2985,7 +3044,7 @@ document.addEventListener('click', (ev)=>{
   </button>
 
   <!-- Nút chat Zalo -->
-  <a id="zaloFab" class="fab" aria-label="Liên hệ Zalo" href="https://zalo.me/123456789"
+  <a id="zaloFab" class="fab" aria-label="Liên hệ Zalo" href="https://zalo.me/0775238306"
      target="_blank" rel="noopener">
     💬
   </a>
