@@ -4720,7 +4720,8 @@ document.getElementById('workshopContactBtn').setAttribute('href', WORKSHOP_CONT
 document.getElementById('workshopContactBtn2').setAttribute('href', WORKSHOP_CONTACT_URL);
 
 function clearAllFilters(){
-  Object.assign(state, { type:'', loai:'', note:'', category:'', group:'', q:'', page:1 });
+  Object.assign(state, { type:'', loai:'', note:'', category:'', group:'', q:'', sdt:'', page:1 });
+//                                           ↑ THÊM sdt:''
   const sb = document.getElementById('searchBox'); if (sb) sb.value = '';
   document.querySelectorAll('.group-chip.active, .category-item.active, .filter-tag.active')
     .forEach(el => el.classList.remove('active'));
