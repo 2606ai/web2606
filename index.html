@@ -3,7 +3,7 @@
 <head>
     <!-- ==== CONFIG (LOAD FIRST) ==== -->
   <script>
-    window.API_URL = "https://script.google.com/macros/s/AKfycbxNpQU6m5AAexSB378u0O5i1ATOi2g51vwRVJSolFFRKMs8-s4kC4lUZheEVKrFodsn/exec";
+    window.API_URL = "https://script.google.com/macros/s/AKfycbzlSqB7cFeSClN0xXmDKITgSUMwX1sBR9tLNY4lg7iK_qV62kq2JO7jpFkLmSy6CbsX/exec";
     window.API_KEY = "";
     window.AUTO_OPEN_ON_ADD = false;
   </script>
@@ -3610,12 +3610,12 @@ renderGroups(orderedGroups);
 }
 
 
-/* STATE */
 /* STATE (global, safe) */
 window.state = window.state || {
   page: 1,
   pageSize: 36,
   q: '',
+  sdt: '',          // ← THÊM DÒNG NÀY
   group: '',
   type: '',
   loai: '',
@@ -3623,6 +3623,7 @@ window.state = window.state || {
   category: '',
   totalPages: 1
 };
+
 const state = window.state;   // alias để phần code dưới vẫn dùng `state`
 // Thêm 2 biến toàn cục còn thiếu
 window.cart = window.cart || [];
@@ -4579,12 +4580,28 @@ document.addEventListener('click', (ev) => {
   }
 
   /* === TÌM KIẾM === */
-  if (el.matches('#searchBtn')) {
-    state.q = document.getElementById('searchBox').value.trim();
-    state.page = 1;
-    fetchPage();
-    return;
-  }
+if (el.matches('#searchBtn')) {
+  const raw = document.getElementById('searchBox').value.trim();
+
+  // Chuẩn hoá SĐT kiểu VN: +84 → 0, bỏ ký tự không phải số
+  const normalizeVNPhone = (s)=>{
+    if(!s) return "";
+    let x = String(s).trim().replace(/[^\d+]/g,"");
+    if(x.startsWith("+84")) x = "0" + x.slice(3);
+    x = x.replace(/[^\d]/g,"");
+    return x;
+  };
+
+  const phone = normalizeVNPhone(raw);
+  const looksLikePhone = /^0\d{9}$/.test(phone);   // 10 số bắt đầu bằng 0
+
+  state.q   = looksLikePhone ? phone : raw;        // vẫn set q để backend match tự do
+  state.sdt = looksLikePhone ? phone : '';         // nếu là SĐT thì set thêm sdt
+  state.page = 1;
+  fetchPage();
+  return;
+}
+
 
   /* === PHÂN TRANG === */
   if (el.matches('[data-action="page-prev"]'))  { if (state.page > 1) { state.page--; fetchPage(); } return; }
@@ -4902,8 +4919,9 @@ function cacheKeyFromState(s){
   return [
     'list',
     s.page,
-    s.pageSize,   // ← đúng là pageSize
+    s.pageSize,
     s.q || '',
+    s.sdt || '',      // ← THÊM DÒNG NÀY
     s.group || '',
     s.type || '',
     s.loai || '',
@@ -4911,7 +4929,7 @@ function cacheKeyFromState(s){
     s.category || ''
   ].join('|');
 }
-
+    
 function cacheGet(key){
     if(!_cache.has(key)) return null;
     const v = _cache.get(key);
@@ -4948,10 +4966,12 @@ async function _doFetch(){
   _inflightCtl = new AbortController();
 
   const params = new URLSearchParams({
-    action:'list',
-    page:state.page, pageSize:state.pageSize,
-    q:state.q, group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
-  });
+  action:'list',
+  page:state.page, pageSize:state.pageSize,
+  q:state.q, sdt:state.sdt,
+  group:state.group, type:state.type, loai:state.loai, note:state.note, category:state.category
+});
+
 
   // ===== Cache key theo state hiện tại
   const key = cacheKeyFromState(state);
@@ -5124,11 +5144,13 @@ function applyFacetVisibility(items){
       const nextKey   = cacheKeyFromState(nextState);
       if (!cacheGet(nextKey)){
         const p2 = new URLSearchParams({
-          action:'list',
-          page:nextState.page, pageSize:nextState.pageSize,
-          q:nextState.q, group:nextState.group, type:nextState.type,
-          loai:nextState.loai, note:nextState.note, category:nextState.category
-        });
+  action:'list',
+  page:nextState.page, pageSize:nextState.pageSize,
+  q:nextState.q, sdt:nextState.sdt,
+  group:nextState.group, type:nextState.type,
+  loai:nextState.loai, note:nextState.note, category:nextState.category
+});
+
         // fire-and-forget
         fetch(API_URL + '?' + p2.toString())
           .then(r=>r.json()).then(j=>cacheSet(nextKey, j)).catch(()=>{});
