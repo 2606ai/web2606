@@ -2545,6 +2545,76 @@ footer.text-light .bi{ color:#fff; }
   background: var(--brand-600);
   border-color: var(--brand-600);
 }
+/* ===== CART — màu xanh chủ đạo & nút tròn ===== */
+#cartDrawer .open-detail, #cartPanel .open-detail{
+  color: var(--main, #2e7d32); text-decoration:none; cursor:pointer;
+}
+#cartDrawer .open-detail:hover, #cartPanel .open-detail:hover{ text-decoration:underline; }
+
+#cartDrawer .qty, #cartPanel .qty{ display:inline-flex; align-items:center; gap:10px; }
+#cartDrawer .qty .btn, #cartPanel .qty .btn{
+  width:36px; height:36px; border-radius:999px; border:none;
+  background:var(--main, #2e7d32); color:#fff; font-weight:700; line-height:36px; padding:0;
+  box-shadow:0 2px 6px rgba(0,0,0,.12);
+  transition: transform .08s ease, box-shadow .12s ease, background .12s ease, opacity .2s;
+}
+#cartDrawer .qty .btn:hover, #cartPanel .qty .btn:hover{ background:#1f5e27; box-shadow:0 3px 10px rgba(0,0,0,.16); }
+#cartDrawer .qty .btn:active, #cartPanel .qty .btn:active{ transform:translateY(1px) scale(.98); }
+#cartDrawer .qty .btn:focus, #cartPanel .qty .btn:focus{ outline:3px solid #e8f3ea; outline-offset:2px; }
+
+/* Nút “–” màu nền trắng viền xanh (nếu muốn hai nút đều xanh thì xoá block này) */
+#cartDrawer .qty .btn.minus, #cartPanel .qty .btn.minus,
+#cartDrawer .qty .btn[data-action="minus"], #cartPanel .qty .btn[data-action="minus"]{
+  background:#fff; color:var(--main, #2e7d32); border:2px solid var(--main, #2e7d32);
+}
+#cartDrawer .qty .btn.minus:hover, #cartPanel .qty .btn.minus:hover,
+#cartDrawer .qty .btn[data-action="minus"]:hover, #cartPanel .qty .btn[data-action="minus"]:hover{
+  background:#e8f3ea;
+}
+
+/* Con số số lượng */
+#cartDrawer .qty .count, #cartPanel .qty .count{ min-width:28px; text-align:center; font-weight:700; color:#222; }
+
+/* Nút xoá từng item */
+#cartDrawer [data-action="remove"], #cartPanel [data-action="remove"]{
+  width:36px; height:36px; border-radius:999px; border:2px solid #e4e7ec;
+}
+/* Cart: hiển thị giá mỗi dòng */
+#cartDrawer .price-row, #cartPanel .price-row{
+  margin-top: 4px; font-size: 13px; color: #1f5e27;
+}
+#cartDrawer .price-row .unit, #cartPanel .price-row .unit{ opacity:.8; }
+#cartDrawer .price-row b, #cartPanel .price-row b{ font-weight:700; }
+#cartDrawer .price-row .sep, #cartPanel .price-row .sep{ margin:0 6px; opacity:.35; }
+/* === Cart: màu xanh cho Đơn giá / Thành tiền === */
+:root{
+  --brand: var(--main, #2e7d32);
+}
+
+/* === Cart: dùng màu xanh chủ đạo cho Đơn giá / Thành tiền === */
+:root{ --brand: var(--main, #2e7d32); }
+
+/* Hàng giá mỗi sản phẩm */
+#cartDrawer .price-row,
+#cartPanel  .price-row{
+  display:flex; flex-wrap:wrap; gap:6px 8px; align-items:center;
+  margin-top:4px; font-size:13px;
+  color:var(--brand) !important;
+}
+
+/* Tô màu xanh cho toàn bộ phần tử bên trong, tránh bị rule khác đè */
+#cartDrawer .price-row * ,
+#cartPanel  .price-row * { color:var(--brand) !important; }
+
+/* Nhấn mạnh con số, tránh rớt chữ “đ” xuống dòng */
+#cartDrawer .price-row b,
+#cartPanel  .price-row b{ font-weight:800 !important; white-space:nowrap; }
+
+#cartDrawer .price-row .unit,
+#cartPanel  .price-row .unit{ opacity:.9 !important; white-space:nowrap; }
+
+#cartDrawer .price-row .sep,
+#cartPanel  .price-row .sep{ opacity:.35 !important; white-space:nowrap; }
 
 </style>
 <style id="icon-zoom-fix">
@@ -4968,7 +5038,9 @@ function updateCart(){
     // Lấy thumbnail: ưu tiên cột img (Drive, URL), fallback sang image/icon nếu có
     const rawThumb = p.img || p.image || p.icon || "";
     const thumb = rawThumb ? toDriveThumb(rawThumb, 80) : "";
-
+    const unit = getUnitPrice(p);
+    const qty  = Number(p.qty || p.soLuong || 1);
+    const sub  = unit * qty;
     return `
       <div class="cart-item d-flex align-items-center justify-content-between py-2 border-bottom">
         <div class="d-flex align-items-center me-2 gap-2">
@@ -4983,6 +5055,13 @@ function updateCart(){
 </div>
 
             <div class="small text-muted">${esc(p.details||'')}</div>
+            <div class="price-row">
+  <span class="unit">Đơn giá:</span>
+  <b class="unit-price">${moneyVND(unit)}</b>
+  <span class="sep"> · </span>
+  <span class="line-sub">Thành tiền: <b>${moneyVND(sub)}</b></span>
+</div>
+
           </div>
         </div>
         <div class="d-flex align-items-center gap-2">
@@ -6370,6 +6449,12 @@ function addToCart(product){
   updateCartBadge(); renderCartMini();
 }
 
+// ==== Price helpers (cart) ====
+function parsePrice(v){ const n = Number(String(v ?? '').replace(/[^\d]/g,'')); return isFinite(n) ? n : 0; }
+function getUnitPrice(p){ return parsePrice(p.gia ?? p.price ?? p.giaban ?? p.giaBan ?? p.giabanle ?? p.gia_tham_khao); }
+function moneyVND(n){ return (n||0).toLocaleString('vi-VN') + ' đ'; }
+
+    
 // ====== Nút XÓA GIỎ (đang bị lỗi do thiếu hàm này) ======
 function clearCart(silent=false){
   cart = [];
