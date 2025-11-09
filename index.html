@@ -72,6 +72,13 @@ img{max-width:100%;display:block}
 /* Container width to match header/footer */
 /* Container width to match header/footer */
 .container-fluid, .wrap { max-width: 1400px; margin: 0 auto; }
+/* Full-bleed cho footer */
+footer.text-light .container-fluid{
+  max-width: none;   /* bỏ trần 1400px */
+  margin: 0;         /* sát mép màn hình */
+  padding-left: 0;   /* nếu muốn phủ hết ngang */
+  padding-right: 0;
+}
 
 
 /* ---- Header ---- */
@@ -6180,7 +6187,7 @@ document.addEventListener('click', (e) => {
       <!-- Cột 1: Logo + mô tả -->
       <div class="col-md-3 mb-4 text-center">
         <img 
-          src="https://drive.google.com/uc?export=view&id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F" 
+          src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w800" 
           alt="2606AI logo" 
           class="mb-3 d-block mx-auto" 
           style="max-width:160px;height:auto">
