@@ -1994,7 +1994,41 @@ footer.text-light .bi{ color:#fff; }
   object-fit:cover;
   box-shadow: var(--shadow-sm);
 }
+/* ====== CERT PREVIEW ====== */
+.cert-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:12px;
+}
+.cert-item{border-radius:14px; overflow:hidden; background:#fff;}
+.cert-iframe{
+  width:100%;
+  height:340px;     /* đủ xem rõ, tự cuộn bên trong iframe */
+  border:0;
+  display:block;
+}
+@media (min-width: 1024px){
+  .cert-grid{ grid-template-columns:1fr; }
+  .cert-iframe{ height:420px; }
+}
 
+.cert-grid{display:grid;gap:10px}
+.cert-grid .cert-iframe{width:100%;height:360px;border:1px solid #e5efe7;border-radius:10px}
+@media (max-width:768px){ .cert-grid .cert-iframe{height:260px} }
+  .cert-grid{display:grid;gap:12px}
+.cert-item{background:#fff;border:1px solid #e8efe7;border-radius:12px;padding:8px}
+.cert-iframe{width:100%;height:420px;border:0;border-radius:8px;background:#fff;display:block}
+.cert-img{width:100%;height:auto;border-radius:8px;display:block}
+.cert-open{margin-top:6px;font-size:.9rem}
+.cert-open a{color:#2a6b35;text-decoration:underline}
+@media (max-width:768px){ .cert-iframe{height:300px} }
+ .cert-grid{display:grid;gap:12px}
+.cert-item{background:#fff;border:1px solid #e8efe7;border-radius:12px;padding:8px}
+.cert-iframe{width:100%;height:420px;border:0;border-radius:8px;background:#fff;display:block}
+.cert-open{margin-top:6px;font-size:.9rem}
+.cert-open a{color:#2a6b35;text-decoration:underline}
+@media (max-width:768px){ .cert-iframe{height:300px} }
+ 
 </style>
 <style id="icon-zoom-fix">
   /* zoom mặc định – có thể đổi 1.2 – 1.6 tuỳ ý */
@@ -2533,6 +2567,38 @@ function qrOf(u, size=160){
   return '';
 }
 
+// ===== Drive helpers (id + resourcekey) =====
+function parseDrive(u){
+  const s = String(u||'').trim();
+  if (!s) return {kind:'none', src:''};
+
+  // giữ resourcekey nếu có (tránh 403)
+  let rk = '';
+  try { rk = new URL(s).searchParams.get('resourcekey') || ''; } catch(_){}
+
+  // FOLDER: /folders/{id} hoặc ?folder={id}
+  let m = s.match(/\/folders\/([^/?#]+)/) || s.match(/[?&]folder=([^&#]+)/);
+  if (m && m[1]) {
+    const id = m[1];
+    return {
+      kind:'folder',
+      src:`https://drive.google.com/embeddedfolderview?id=${id}${rk?`&resourcekey=${rk}`:''}#grid`
+    };
+  }
+
+  // FILE: /d/{id} hoặc ?id={id} hoặc /thumbnail?id={id}
+  m = s.match(/\/d\/([^/]+)/) || s.match(/[?&]id=([^&#]+)/) || s.match(/\/thumbnail\?id=([^&#]+)/);
+  if (m && m[1]) {
+    const id = m[1];
+    return {
+      kind:'file',
+      src:`https://drive.google.com/file/d/${id}/preview${rk?`?resourcekey=${rk}`:''}`
+    };
+  }
+
+  // Không bắt được id → dùng URL gốc (để còn “Mở trực tiếp”)
+  return {kind:'raw', src:s};
+}
 
 // ====== RENDER BOX CHI TIẾT
 function openDetailBox(item){
@@ -2696,18 +2762,69 @@ for (let i = right.length - 1; i >= 0; i--) {
     right.splice(i, 1);
   }
 }
+// --- Render CHỨNG NHẬN (embed xem trực tiếp) ---
+
+    
 if (item.CHUNGNHANDN || item.chungnhanDN){
-  const linkCN = item.CHUNGNHANDN || item.chungnhanDN;
+  const raw   = String(item.CHUNGNHANDN || item.chungnhanDN);
+  const links = raw.split(/[,\n;]+/).map(s=>s.trim()).filter(Boolean);
+
+ const iframes = links.map(u => {
+  const p = parseDrive(u);                 // dùng helper ở Bước 1
+  const src = p.src || u;
+
+  return `
+    <div class="cert-item">
+      <iframe class="cert-iframe" src="${src}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+      <div class="cert-open"><a href="${u}" target="_blank" rel="noopener">Mở trực tiếp</a></div>
+    </div>`;
+}).join('');
+
+
+
+
+
   right.push(`
     <div class="media-card">
       <h5>Chứng nhận</h5>
-      <div class="media-actions">
-        <a class="btn" target="_blank" href="${linkCN}">Xem tệp</a>
-        <a class="btn" href="${driveDownload(linkCN)}">Tải xuống</a>
-      </div>
+      <div class="cert-grid">${iframes}</div>
     </div>
   `);
 }
+
+    
+// ===== LEFT COLUMN (ID → GIÁ → LOẠI → NOTE → MÔ TẢ) =====
+const toVND = n => {
+  const x = Number(n || 0);
+  return x ? x.toLocaleString('vi-VN') : '';
+};
+const fieldBox = (label, valueHtml) => `
+  <div class="field">
+    <div class="tag">${label}</div>
+    <div class="value">${valueHtml && String(valueHtml).trim() ? valueHtml : '<i>—</i>'}</div>
+  </div>
+`;
+
+if (Array.isArray(left)) left.length = 0;   // ✅ xoá rỗng mảng mà không gán lại biến const
+
+
+// 1) ID
+left.push(fieldBox('ID', esc(item.ID || item.id || '')));
+
+// 2) GIÁ
+left.push(fieldBox('GIÁ', esc(toVND(item.GIA ?? item.gia ?? item.price))));
+
+// 3) LOẠI
+left.push(fieldBox('LOẠI', esc(item.LOAI || item.loai || '')));
+
+// 4) NOTE
+left.push(fieldBox('NOTE', esc(item.NOTE || item.note || item.ghichu || '')));
+
+// 5) MÔ TẢ (đặt cuối cùng)
+left.push(fieldBox('MÔ TẢ', esc(item.MOTA || item.mota || item.details || item.description || '')));
+
+
+
 
 
   // XÓA dòng thô trước
