@@ -2028,7 +2028,370 @@ footer.text-light .bi{ color:#fff; }
 .cert-open{margin-top:6px;font-size:.9rem}
 .cert-open a{color:#2a6b35;text-decoration:underline}
 @media (max-width:768px){ .cert-iframe{height:300px} }
- 
+/* ========= KHOI THONG TIN CHI TIET ========= */
+:root{
+  --detail-bg: #f6faf7;
+  --card-bg: #ffffff;
+  --line: #e6efe8;
+  --text: #1d2b21;
+  --muted: #63796c;
+  --brand: #2a6b35;       /* xanh lá chủ đạo */
+  --brand-2: #eaf4ee;     /* nền nhạt */
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --shadow-sm: 0 2px 10px rgba(0,0,0,.04);
+  --shadow-md: 0 6px 18px rgba(0,0,0,.08);
+}
+
+/* ========= LỚP BỌC CHUNG ========= */
+.detail{
+  background: var(--detail-bg);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.detail *{ box-sizing: border-box }
+
+/* cuộn mượt cột nội dung dài */
+.detail ::-webkit-scrollbar{ height:8px; width:8px }
+.detail ::-webkit-scrollbar-thumb{ background:#cfe1d7; border-radius:8px }
+.detail ::-webkit-scrollbar-track{ background:transparent }
+
+/* ========= HEADER ========= */
+.detail-header{
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--card-bg);
+}
+
+.detail-cover{
+  width: 96px; height: 96px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background:#f0f4f2;
+  box-shadow: var(--shadow-sm);
+}
+.detail-cover img{ width:100%; height:100%; object-fit: cover }
+
+.detail-title{
+  display:flex; flex-direction: column; gap: 6px;
+}
+.detail-title h2{
+  margin:0; font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.2; color: var(--text);
+  font-weight: 800;
+}
+.detail-sub{ color: var(--muted); font-weight: 600 }
+
+/* chips giá */
+.badges{ display:flex; gap:10px; flex-wrap:wrap }
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 10px; border-radius: 999px;
+  background: var(--brand-2); color: var(--brand);
+  font-weight: 700; font-size: .92rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========= GRID NỘI DUNG ========= */
+.detail-body{
+  padding: 16px;
+}
+.detail-grid{
+  display:grid;
+  grid-template-columns: 1.25fr .95fr;   /* trái > phải */
+  gap: 16px;
+}
+
+/* ====== FONT ĐỒNG BỘ CHO POPUP ======
+   Thử theo nhiều container phổ biến của bạn (#detailBox / .detail / .modal / .dialog) */
+#detailBox, .detail, .modal, .dialog { 
+  font-family: var(--app-font, 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial) !important;
+}
+#detailBox *, .detail *, .modal *, .dialog *{
+  font-family: inherit !important;
+}
+
+/* ====== TÊN SẢN PHẨM: xanh lá đậm ====== */
+#detailBox .detail-title :is(h1,h2,h3),
+.detail .detail-title :is(h1,h2,h3),
+.modal  .detail-title :is(h1,h2,h3),
+.dialog .detail-title :is(h1,h2,h3),
+/* fallback cho trường hợp bạn render tên vào element riêng */
+#detailBox .product-name, .detail .product-name, .modal .product-name, .dialog .product-name,
+#detailBox .item-name,    .detail .item-name,    .modal .item-name,    .dialog .item-name {
+  color: var(--brand, #2a6b35) !important;
+  font-weight: 800 !important;
+}
+
+/* ====== NHÃN/MỤC LỤC: xanh lá đậm ======
+   Không phụ thuộc .label; lấy phần tử con đầu tiên của mỗi thẻ field/card */
+#detailBox :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :first-child,
+.detail    :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :first-child,
+.modal     :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :first-child,
+.dialog    :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :first-child {
+  color: var(--brand, #2a6b35) !important;
+  font-weight: 300 !important;
+  letter-spacing: .3px;
+}
+
+/* ====== NỘI DUNG/ GIÁ TRỊ: đen, thường ====== */
+#detailBox :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :nth-child(n+2),
+.detail    :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :nth-child(n+2),
+.modal     :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :nth-child(n+2),
+.dialog    :where(.field,.info-item,.info-card,.box,.card,.cell,.info-block) > :nth-child(n+2) {
+  color: #111 !important;
+  font-weight: 200 !important;
+}
+
+/* ====== TIÊU ĐỀ KHỐI “Chứng nhận” giữ xanh đậm ====== */
+#detailBox .media-card h5,
+.detail .media-card h5,
+.modal  .media-card h5,
+.dialog .media-card h5{
+  color: var(--brand, #2a6b35) !important;
+  font-weight: 400 !important;
+}
+/* ====== DETAIL MODAL – font & màu theo brand ====== */
+#detailBox, .detail, .modal, .dialog {
+  font-family: var(--app-font, 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial) !important;
+}
+#detailBox *, .detail *, .modal *, .dialog * { font-family: inherit !important; }
+
+/* TÊN SẢN PHẨM: xanh đậm + đậm chữ */
+#detailBox .detail-title :is(h1,h2,h3),
+.detail .detail-title :is(h1,h2,h3),
+.modal  .detail-title :is(h1,h2,h3),
+.dialog .detail-title :is(h1,h2,h3),
+#detailBox .product-name, .detail .product-name, .modal .product-name, .dialog .product-name,
+#detailBox .item-name,    .detail .item-name,    .modal .item-name,    .dialog .item-name {
+  color: var(--brand, #2a6b35) !important; /* fallback xanh lá */
+  font-weight: 800 !important;
+}
+
+/* NHÃN (ID, GIÁ, LOẠI, NOTE…): xanh đậm + đậm chữ */
+/* Bắt cả 2 cấu trúc: .field>.tag và .dtl-row>.k */
+#detailBox .field > .tag,
+.detail    .field > .tag,
+.modal     .field > .tag,
+.dialog    .field > .tag,
+#detailBox .dtl-row > .k,
+.detail    .dtl-row > .k,
+.modal     .dtl-row > .k,
+.dialog    .dtl-row > .k {
+  color: var(--brand, #2a6b35) !important;
+  font-weight: 600 !important;
+  letter-spacing: .3px;
+}
+
+/* GIÁ TRỊ: đen, thường */
+/* Bắt cả .field>.value và .dtl-row>.v */
+#detailBox .field > .value,
+.detail    .field > .value,
+.modal     .field > .value,
+.dialog    .field > .value,
+#detailBox .dtl-row > .v,
+.detail    .dtl-row > .v,
+.modal     .dtl-row > .v,
+.dialog    .dtl-row > .v {
+  color: #111 !important;
+  font-weight: 300 !important;
+}
+
+/* Giữ tiêu đề các "thẻ media" (Chứng nhận / Zalo / Logo…) màu xanh đậm */
+#detailBox .media-card h5,
+.detail .media-card h5,
+.modal  .media-card h5,
+.dialog .media-card h5 {
+  color: var(--brand, #2a6b35) !important;
+  font-weight: 500 !important;
+}
+/* === Detail Modal: font + màu đồng bộ thương hiệu === */
+#detailModal .dtl-dialog{
+  font-family: var(--app-font, Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial) !important;
+}
+
+/* Tên sản phẩm (tiêu đề ở phần đầu modal) */
+#detailModal #dtlTitle{
+  color: var(--brand, #2a6b35) !important; /* xanh của brand */
+  font-weight: 300 !important;
+}
+
+/* Nhãn (ID, GIÁ, LOẠI, NOTE, MÔ TẢ…) – in đậm, màu xanh */
+#detailModal .field .tag{
+  color: var(--brand, #2a6b35) !important;
+  font-weight: 300 !important;
+}
+
+/* Giá trị nội dung – đen, in thường */
+#detailModal .field .value{
+  color: #111 !important;
+  font-weight: 200 !important;
+}
+
+/* Tiêu đề khu “Chứng nhận”, “Zalo/Liên hệ”, “Tệp gốc”, “Quảng cáo”… */
+#detailModal .media-card h5{
+  color: var(--brand, #2a6b35) !important;
+  font-weight: 300 !important;
+}
+/* ====== TỔNG THỂ ====== */
+#detailModal .dtl-dialog{
+  font-family: var(--app-font, Inter, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial) !important;
+  color:#111;
+}
+
+/* Tên sản phẩm */
+#detailModal #dtlTitle{
+  color:var(--brand, #2a6b35)!important;
+  font-weight:500!important;
+  letter-spacing:.2px;
+}
+
+/* Field card trái */
+#detailModal .field{
+  background:#fff;
+  border:1px solid #e6efe8;
+  border-radius:14px;
+  padding:12px 14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+#detailModal .field + .field{ margin-top:12px }
+#detailModal .field:hover{
+  transform: translateY(-2px);
+  box-shadow:0 6px 18px rgba(0,0,0,.08);
+}
+
+/* Label & Value */
+#detailModal .field .tag{
+  color:var(--brand, #2a6b35)!important;
+  font-weight:800!important;
+  font-size:.85rem;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  margin-bottom:4px;
+}
+#detailModal .field .value{
+  color:#111!important;
+  font-weight:400!important;
+  font-size:1.05rem;
+  line-height:1.6;
+}
+
+/* Mô tả dài tách nhịp tốt hơn (áp cho mọi container) */
+#detailBox .field.desc .value,
+.detail    .field.desc .value,
+.modal     .field.desc .value,
+.dialog    .field.desc .value { white-space: pre-wrap; }
+
+
+/* ====== CỘT PHẢI ====== */
+#detailModal .right-col{
+  position:sticky; top:12px;
+}
+
+/* Media card */
+#detailModal .media-card{
+  background:#fff;
+  border:1px solid #e6efe8;
+  border-radius:14px;
+  padding:14px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+#detailModal .media-card h5{
+  display:flex; align-items:center; gap:8px;
+  margin:0 0 10px;
+  color:var(--brand, #2a6b35)!important;
+  font-weight:800!important;
+}
+#detailModal .media-card h5:before{
+  content:""; width:6px; height:18px; border-radius:4px; background:var(--brand, #2a6b35);
+}
+
+/* Gallery */
+#detailModal .cert-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  gap:12px;
+}
+#detailModal .cert-item{
+  background:#fff;
+  border:1px solid #e6efe8;
+  border-radius:12px;
+  padding:8px;
+  box-shadow:0 1px 6px rgba(0,0,0,.03);
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+#detailModal .cert-item:hover{
+  transform: translateY(-1px);
+  box-shadow:0 6px 16px rgba(0,0,0,.06);
+}
+#detailModal .cert-img,
+#detailModal .cert-iframe{
+  width:100%; aspect-ratio:4/3;
+  border:0; border-radius:10px; background:#f7faf8; display:block;
+  object-fit:cover;
+}
+#detailModal .cert-open{
+  display:flex; justify-content:flex-end; margin-top:6px;
+}
+#detailModal .cert-open a{
+  font-size:.9rem; color:var(--brand, #2a6b35);
+  background:#eaf4ee; padding:4px 8px; border-radius:8px; text-decoration:none;
+}
+#detailModal .cert-open a:hover{ background:#e4f0e8 }
+
+/* Caption ảnh mờ & cắt dòng */
+#detailModal .cert-item .caption{
+  margin-top:6px; font-size:.88rem; color:#6b7a71; 
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+
+/* Badge giá */
+#detailModal .badges .badge{
+  background:#eaf4ee; color:var(--brand, #2a6b35);
+  font-weight:800; border-radius:999px; padding:6px 10px;
+  box-shadow:0 2px 10px rgba(0,0,0,.04);
+}
+/* Xuống dòng đúng như trong sheet cho MÔ TẢ */
+#detailModal .field.desc .value{
+  white-space: pre-line;  /* hoặc pre-wrap nếu muốn giữ cả nhiều khoảng trắng */
+}
+#detailBox .field .value,
+.detail    .field .value,
+.modal     .field .value,
+.dialog    .field .value { white-space: pre-wrap; }
+/* Mô tả: giữ xuống dòng từ sheet, canh chữ và font đồng bộ */
+#detailModal .field.desc .value{
+  white-space: pre-line;     /* giữ \n từ sheet */
+  line-height: 1.7;
+  font-family: inherit;      /* cùng font với card hiện tại */
+  color: #111827;            /* nội dung: đen */
+}
+
+/* Nhãn (ID, GIÁ, LOẠI, NOTE, MÔ TẢ) in đậm, màu xanh đồng bộ */
+#detailModal .field .tag{
+  font-weight: 500;
+  color: var(--main, #166534);
+}
+/* Nhãn (ID, GIÁ, LOẠI, NOTE…) */
+#detailBox .field > .tag,
+#detailBox .dtl-row > .k { font-size: 14px; font-weight: 300; }
+
+/* Giá trị */
+#detailBox .field > .value,
+#detailBox .dtl-row > .v { font-size: 16px; font-weight: 200; }
+
+/* Riêng khối dtl-row đang set 12px: tăng lên cho rõ hơn */
+.dtl-row .k { font-size: 13px; }    /* hoặc 14px */
+.dtl-row .v { font-size: 15px; line-height: 1.6; }
+
+/* Tiêu đề sản phẩm (nếu muốn to hơn) */
+.detail-title h2 { font-size: clamp(22px, 2.6vw, 34px); }
+
 </style>
 <style id="icon-zoom-fix">
   /* zoom mặc định – có thể đổi 1.2 – 1.6 tuỳ ý */
@@ -2218,12 +2581,14 @@ body{
 </a>
 
     <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
-      <div class="input-group w-100">
-        <input id="searchBox" class="form-control" placeholder="Tìm sản phẩm... (Nhập số điện thoại, ID, mô tả)" aria-label="Tìm sản phẩm">
-        <button id="searchBtn" class="btn btn-primary" type="button">Tìm</button>
-      </div>
-    </form>
+  <div class="input-group w-100">
+    <input id="searchBox" class="form-control"
+           placeholder="Tìm sản phẩm. (Nhập số điện thoại, ID, mô tả)"
+           aria-label="Tìm sản phẩm">
+    <button id="searchBtn" class="btn btn-primary" type="button">Tìm</button>
   </div>
+</form>
+
 </header>
 
 <div class="top-banner" role="region" aria-label="Thông báo">
@@ -2798,12 +3163,14 @@ const toVND = n => {
   const x = Number(n || 0);
   return x ? x.toLocaleString('vi-VN') : '';
 };
-const fieldBox = (label, valueHtml) => `
-  <div class="field">
+const fieldBox = (label, valueHtml, cls='') => `
+  <div class="field ${cls}">
     <div class="tag">${label}</div>
     <div class="value">${valueHtml && String(valueHtml).trim() ? valueHtml : '<i>—</i>'}</div>
   </div>
 `;
+
+
 
 if (Array.isArray(left)) left.length = 0;   // ✅ xoá rỗng mảng mà không gán lại biến const
 
@@ -2820,8 +3187,24 @@ left.push(fieldBox('LOẠI', esc(item.LOAI || item.loai || '')));
 // 4) NOTE
 left.push(fieldBox('NOTE', esc(item.NOTE || item.note || item.ghichu || '')));
 
-// 5) MÔ TẢ (đặt cuối cùng)
-left.push(fieldBox('MÔ TẢ', esc(item.MOTA || item.mota || item.details || item.description || '')));
+
+// 5) MÔ TẢ (đặt cuối cùng) — chuẩn hoá xuống dòng từ Sheet
+{
+  const rawDesc = (item.MOTA || item.mota || item.details || item.description || '');
+  const normalized = String(rawDesc)
+    .replace(/\r\n?/g, '\n')     // CRLF/CR → LF thật
+    .replace(/\\n/g, '\n')       // "\n" (chữ) → newline thật
+    .replace(/<br\s*\/?>/gi, '\n'); // nếu Sheet có <br> thì đổi về newline
+
+  // (tuỳ chọn) tách dấu chấm tròn • sang dòng mới để đọc dễ hơn:
+  const forDisplay = normalized.replace(/\s*•\s*/g, '\n• ');
+
+  left.push(
+    fieldBox('MÔ TẢ', esc(forDisplay), 'desc')
+  );
+}
+
+
 
 
 
@@ -4872,6 +5255,31 @@ document.addEventListener('DOMContentLoaded', () => {
   window.__initDone = true;
 
   Object.assign(state, { page:1, q:'', group:'', type:'', loai:'', note:'', category:'' });
+// --- TÌM THEO TỪ KHÓA (#searchBox / #searchBtn) ---
+function debounce(fn, wait = 300){
+  let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), wait); };
+}
+
+const $q   = document.getElementById('searchBox');
+const $btn = document.getElementById('searchBtn');
+
+// Bấm nút "Tìm"
+$btn?.addEventListener('click', () => {
+  setFilter('q', ($q?.value || '').trim());
+});
+
+// Nhấn Enter trong ô tìm
+$q?.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    setFilter('q', ($q.value || '').trim());
+  }
+});
+
+// Gõ là lọc (debounce)
+$q?.addEventListener('input', debounce(() => {
+  setFilter('q', ($q.value || '').trim());
+}, 350));
 
   renderQuickCatsTop();
 if (typeof updateFilterCount === 'function') updateFilterCount();
