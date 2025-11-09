@@ -283,7 +283,7 @@ img{max-width:100%;display:block}
   display:flex;gap:10px;background:#fff;border:1px solid #e3f2fd;border-radius:10px;padding:10px;box-shadow:var(--shadow-sm)
 }
 #workshopList .title{
-  font-weight:700;
+  font-weight:600;
   color:var(--main);           /* xanh lá */
 }
 #workshopList .desc{
@@ -2391,6 +2391,160 @@ footer.text-light .bi{ color:#fff; }
 
 /* Tiêu đề sản phẩm (nếu muốn to hơn) */
 .detail-title h2 { font-size: clamp(22px, 2.6vw, 34px); }
+/* LABELS (ID/GIÁ/LOẠI/NOTE/MÔ TẢ) */
+#detailBox .field > .tag,
+#detailBox .dtl-row > .k{
+  font-size: 15px;
+  font-weight: 200 !important; /* đậm rõ */
+  letter-spacing: .2px;
+}
+
+/* VALUES (nội dung) */
+#detailBox .field > .value,
+#detailBox .dtl-row > .v{
+  font-size: 16px;             /* hoặc 17–18px nếu cần */
+  font-weight: 200 !important; /* chữ thường rõ hơn */
+  line-height: 1.55;
+}
+/* ==== CART compact (giữ nguyên markup cũ) ==== */
+#cartCanvas .cart-item{
+  display:grid; grid-template-columns:64px 1fr auto; gap:10px;
+  align-items:start; padding:12px 0; border-bottom:1px solid #e8efe8;
+}
+#cartCanvas .cart-item img{
+  width:64px; height:64px; object-fit:cover; border-radius:10px;
+}
+#cartCanvas .cart-item .fw-bold{ font-size:14px; font-weight:700; margin:0 0 2px; }
+#cartCanvas .cart-item .small.text-muted{
+  font-size:13px; line-height:1.45; color:#4a4a4a;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+#cartCanvas .cart-item .small.text-muted.is-open{ -webkit-line-clamp:unset; }
+#cartCanvas .qty .btn{ width:28px; height:28px; border-radius:999px; padding:0; line-height:28px; }
+#cartCanvas .more{ font-size:12px; text-decoration:underline; cursor:pointer; color:#2e7d32; }
+
+#cartCanvas .cart-footer{
+  position:sticky; bottom:0; background:#fff;
+  padding:10px 12px; box-shadow:0 -6px 12px rgba(0,0,0,.06);
+  display:grid; grid-template-columns:1fr auto; gap:10px;
+}
+#cartCanvas .more{
+  font-size:12px;
+  text-decoration: underline;
+  cursor:pointer;
+  color:#2e7d32;
+
+  /* bỏ viền + nền mặc định của button */
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* nếu muốn bỏ viền khi focus (tùy chọn) */
+#cartCanvas .more:focus{
+  outline: none;
+}
+#cartCanvas .fw-bold{ cursor:pointer }
+#cartCanvas .fw-bold:hover{ text-decoration: underline; }
+/* ================== CART — Brand Green & Polished Controls ================== */
+/* Link tên sp: xanh chủ đạo, hover có gạch chân */
+:root{
+  --brand: var(--main, #2e7d32);        /* lấy đúng màu hệ thống nếu đã khai báo */
+  --brand-600: #1f5e27;                 /* màu đậm hơn khi hover/active */
+  --brand-100: #e8f3ea;                 /* nền nhạt */
+}
+#cartCanvas .open-detail{
+  color: var(--brand);
+  text-decoration: none;
+  cursor: pointer;
+}
+#cartCanvas .open-detail:hover{ text-decoration: underline; }
+
+/* Nhóm nút số lượng: tròn, bóng nhẹ, phản hồi tốt */
+#cartCanvas .qty{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+#cartCanvas .qty .btn{
+  width: 36px; height: 36px;
+  border-radius: 999px;
+  border: none;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+  line-height: 36px;
+  padding: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12);
+  transition: transform .08s ease, box-shadow .12s ease, background .12s ease, opacity .2s;
+}
+#cartCanvas .qty .btn:hover{ background: var(--brand-600); box-shadow: 0 3px 10px rgba(0,0,0,.16); }
+#cartCanvas .qty .btn:active{ transform: translateY(1px) scale(.98); }
+#cartCanvas .qty .btn:focus{ outline: 3px solid var(--brand-100); outline-offset: 2px; }
+
+/* Nút “-” nhẹ hơn (màu viền nền nhạt) — nếu muốn cả 2 cùng xanh thì bỏ block này */
+#cartCanvas .qty .btn.minus,
+#cartCanvas .qty .btn[data-action="minus"]{
+  background: #fff;
+  color: var(--brand);
+  border: 2px solid var(--brand);
+}
+#cartCanvas .qty .btn.minus:hover,
+#cartCanvas .qty .btn[data-action="minus"]:hover{
+  background: var(--brand-100);
+}
+
+/* Con số ở giữa (quantity) */
+#cartCanvas .qty .count,
+#cartCanvas .qty .badge,
+#cartCanvas .qty .qty-val{
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+  color: #222;
+}
+
+/* Nút xoá/đóng “×” của từng item (nếu có) */
+#cartCanvas .btn-remove,
+#cartCanvas .qty .btn.remove,
+#cartCanvas [data-action="remove"]{
+  width: 36px; height: 36px;
+  border-radius: 999px;
+  border: 2px solid #e4e7ec;
+  background: #fff;
+  color: #9b1c1c; /* đỏ nhã */
+  font-weight: 800;
+}
+#cartCanvas .btn-remove:hover,
+#cartCanvas .qty .btn.remove:hover,
+#cartCanvas [data-action="remove"]:hover{
+  border-color: #f1c7c7;
+  background: #fff5f5;
+}
+
+/* Hàng item: đường phân cách nhạt hơn một chút */
+#cartCanvas .cart-item{ border-bottom: 1px solid #eef2ef; }
+
+/* Ô tổng cộng: viền/nền hoà tông */
+#cartCanvas .summary, #cartCanvas .total-box{
+  background: #fffbe9;
+  border: 1px solid #f1e7b8;
+}
+
+/* Nút “Xoá toàn bộ”: theo brand, bê tông hoá hover/active */
+#cartCanvas .btn-primary, 
+#cartCanvas .btn-success{
+  background: var(--brand);
+  border-color: var(--brand);
+}
+#cartCanvas .btn-primary:hover, 
+#cartCanvas .btn-success:hover{
+  background: var(--brand-600);
+  border-color: var(--brand-600);
+}
 
 </style>
 <style id="icon-zoom-fix">
@@ -2471,7 +2625,7 @@ footer.text-light .bi{ color:#fff; }
 /* Tông màu chữ cho box này */
 #workshopList .title{
   color:#1b5e20 !important;
-  font-weight:800;
+  font-weight:700;
   font-size:13px !important;   /* ← cỡ chữ tiêu đề */
   line-height:1.25;
 }
@@ -2560,6 +2714,57 @@ body{
   filter: none !important;
 }
 
+/* ==== CART: compact layout ==== */
+#cartDrawer .cart-item,
+#cartPanel  .cart-item{
+  display: grid;
+  grid-template-columns: 64px 1fr auto; /* ảnh | nội dung | cột phải */
+  gap: 10px;
+  align-items: start;
+  padding: 12px 0;
+  border-bottom: 1px solid #e8efe8;
+}
+
+#cartDrawer .cart-item img,
+#cartPanel  .cart-item img{
+  width: 64px; height: 64px; object-fit: cover; border-radius: 10px;
+}
+
+#cartDrawer .cart-item .title,
+#cartPanel  .cart-item .title{
+  font-size: 14px; font-weight: 700; margin: 0 0 2px;
+}
+
+#cartDrawer .cart-item .desc,
+#cartPanel  .cart-item .desc{
+  font-size: 13px; line-height: 1.45; color: #4a4a4a;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Cột phải: giá + cụm tăng/giảm nhỏ gọn */
+#cartDrawer .cart-item .right,
+#cartPanel  .cart-item .right{ text-align: right; white-space: nowrap; }
+
+#cartDrawer .qty, #cartPanel .qty{ display: inline-flex; gap: 6px; align-items: center; }
+#cartDrawer .qty .btn, #cartPanel .qty .btn{
+  width: 28px; height: 28px; border-radius: 999px; padding: 0; line-height: 28px;
+}
+
+/* Nút xem thêm/thu gọn mô tả */
+#cartDrawer .more, #cartPanel .more{
+  font-size: 12px; text-decoration: underline; cursor: pointer; color: #2e7d32;
+}
+#cartDrawer .desc.is-open, #cartPanel .desc.is-open{ -webkit-line-clamp: unset; }
+
+/* Footer: tổng tiền dính đáy + nút hành động */
+#cartDrawer .cart-footer, #cartPanel .cart-footer{
+  position: sticky; bottom: 0; background: #fff;
+  padding: 10px 12px; box-shadow: 0 -6px 12px rgba(0,0,0,.06);
+  display: grid; grid-template-columns: 1fr auto; gap: 10px;
+}
+
+/* Khi mở giỏ, ẩn bớt các FAB lọc để đỡ rối (nếu chúng đè lên) */
+body.cart-open .fab-group{ display: none; }
 
   
 </style>
@@ -4769,7 +4974,14 @@ function updateCart(){
         <div class="d-flex align-items-center me-2 gap-2">
           ${thumb ? `<img class="thumb" src="${thumb}" alt="" onerror="this.src='https://via.placeholder.com/80?text=No+Img'">` : ""}
           <div>
-            <div class="fw-bold">${esc(p.id)}</div>
+            <div class="fw-bold">
+  <a class="open-detail"
+     href="#"
+     data-id="${esc(p.id || p.ID || p.ma || p.sku)}">
+    ${esc(p.ten || p.name || p.title || p.ID || p.id)}
+  </a>
+</div>
+
             <div class="small text-muted">${esc(p.details||'')}</div>
           </div>
         </div>
@@ -5825,6 +6037,48 @@ document.addEventListener('keydown', (e) => {
     }
 });
 }); // <- đóng DOMContentLoaded
+
+/* ==== CART: clamp mô tả + nút Xem thêm/Thu gọn (giữ markup cũ) ==== */
+function cartClampDescriptions(){
+  document.querySelectorAll('#cartCanvas .cart-item .small.text-muted').forEach(d=>{
+    if (d.dataset.clamped || d.textContent.trim().length < 120) return;
+    d.dataset.clamped = '1';
+    const btn = document.createElement('button');
+    btn.className = 'more';
+    btn.textContent = 'Xem thêm';
+    btn.onclick = () => {
+      d.classList.toggle('is-open');
+      btn.textContent = d.classList.contains('is-open') ? 'Thu gọn' : 'Xem thêm';
+    };
+    d.after(btn);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', cartClampDescriptions);
+
+const cartList = document.getElementById('cartList') || document.getElementById('cartPanelList');
+if (cartList){
+  new MutationObserver(cartClampDescriptions).observe(cartList, { childList:true, subtree:true });
+}
+
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('#cartCanvas .open-detail');
+  if (!a) return;
+  e.preventDefault(); e.stopPropagation();
+
+  const id = String(a.dataset.id || a.closest('.cart-item')?.dataset.id || '').trim();
+  const pool = []
+    .concat(window.filteredItems||[], window.allItems||[], window.items||[], window.ads||[], window.products||[]);
+  const item = pool.find(x => String(x.id||x.ID||x.ma||x.sku).trim() === id);
+  if (item && typeof window.openDetailBox === 'function'){
+    window.openDetailBox(item);
+    const oc = document.getElementById('cartCanvas');
+    if (window.bootstrap && oc){
+      (bootstrap.Offcanvas.getInstance(oc) || new bootstrap.Offcanvas(oc)).hide();
+    }
+  }
+});
+
     
 </script>
 
@@ -6133,6 +6387,33 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
   renderCartMini();
 });
+
+ function cartClampDescriptions(root = document){
+  root.querySelectorAll('#cartDrawer .cart-item .desc, #cartPanel .cart-item .desc')
+    .forEach(d => {
+      // nếu quá ngắn thì bỏ qua
+      if (d.textContent.trim().length < 120 || d.dataset.clamped) return;
+      d.dataset.clamped = '1';
+      const btn = document.createElement('button');
+      btn.className = 'more';
+      btn.textContent = 'Xem thêm';
+      btn.onclick = () => {
+        d.classList.toggle('is-open');
+        btn.textContent = d.classList.contains('is-open') ? 'Thu gọn' : 'Xem thêm';
+      };
+      d.after(btn);
+    });
+}
+
+// Gọi sau khi mở/refresh giỏ
+document.addEventListener('cart:rendered', ()=> cartClampDescriptions());
+// Nếu chưa có event, hãy gọi thủ công ngay sau đoạn bạn innerHTML danh sách giỏ:
+setTimeout(()=>cartClampDescriptions(),0);
+
+// Thêm/tắt class để ẩn FAB khi mở giỏ (nếu cần)
+function onCartOpen(){ document.body.classList.add('cart-open');  }
+function onCartClose(){ document.body.classList.remove('cart-open');}   
+    
 </script>
     
 </body>
