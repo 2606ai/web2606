@@ -367,6 +367,131 @@ footer.text-light .container-fluid{
 .suppliers-fab{background:#0d6efd;bottom:84px}
 .zalo-fab{background:#25D366;bottom:20px}
 
+/* ---- FAB menu bên trái (copy link / top / bottom / home) ---- */
+.fab-left-wrapper{
+  position:fixed;
+  left:-40px;              /* Ẩn vào mép trái */
+  bottom:80px;
+  z-index:2600;
+  display:flex;
+  align-items:flex-end;
+  gap:8px;
+  transition:left .25s ease;
+}
+
+/* ---- FAB menu bên trái (copy link / top / bottom / home) ---- */
+.fab-left-wrapper{
+  position:fixed;
+  left:-40px;              /* Ẩn vào mép trái */
+  bottom:80px;
+  z-index:2600;
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  transition:left .25s ease;
+}
+
+.fab-left-wrapper.is-open{
+  left:16px;
+}
+
+.fab-left-main{
+  width:52px;
+  height:52px;
+  border-radius:26px;
+  border:none;
+  background:var(--main-grad);
+  color:#fff;
+  font-size:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:var(--shadow-lg);
+  cursor:pointer;
+}
+
+/* Menu các nút con */
+.fab-left-menu{
+  display:flex;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transform:translateX(-8px);
+  transition:opacity .2s ease, transform .2s ease;
+}
+
+.fab-left-wrapper.is-open .fab-left-menu{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateX(0);
+}
+
+/* Nút con: cùng style brand xanh */
+.fab-left-item{
+  position:relative;
+  width:42px;
+  height:42px;
+  border-radius:999px;
+  border:none;
+  margin:4px 0;
+  background:#fff;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:var(--shadow-md);
+  cursor:pointer;
+}
+
+.fab-left-icon{
+  width:32px;
+  height:32px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--main-grad);
+  color:#fff;
+  font-size:18px;
+}
+
+/* Hover: sáng hơn 1 chút */
+.fab-left-item:hover .fab-left-icon{
+  filter:brightness(1.08);
+}
+
+/* Bong bóng chữ bên phải */
+.fab-left-item::after{
+  content:attr(data-label);
+  position:absolute;
+  left:48px;
+  top:50%;
+  transform:translateY(-50%);
+  white-space:nowrap;
+  font-size:11px;
+  padding:4px 8px;
+  border-radius:999px;
+  background:#f9fafb;
+  color:#111827;
+  box-shadow:0 4px 10px rgba(0,0,0,.08);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .15s ease, transform .15s ease;
+}
+
+.fab-left-item:hover::after{
+  opacity:1;
+  transform:translateY(-50%) translateX(2px);
+}
+
+/* Mobile: đẩy lên chút cho khỏi đè Zalo/cart bên phải */
+@media (max-width: 768px){
+  .fab-left-wrapper{
+    bottom:100px;
+  }
+}
+
+    
 /* ---- Footer ---- */
 .site-footer{background:#fff;border-top:1px solid #eee;padding:16px 0;margin-top:20px;font-size:13px;color:#555}
 .site-footer .brand{font-weight:700;color:var(--main)}
@@ -6514,11 +6639,108 @@ document.addEventListener('cart:rendered', ()=> cartClampDescriptions());
 // Nếu chưa có event, hãy gọi thủ công ngay sau đoạn bạn innerHTML danh sách giỏ:
 setTimeout(()=>cartClampDescriptions(),0);
 
+
+    
 // Thêm/tắt class để ẩn FAB khi mở giỏ (nếu cần)
 function onCartOpen(){ document.body.classList.add('cart-open');  }
 function onCartClose(){ document.body.classList.remove('cart-open');}   
+
+// ===== FAB bên trái: menu nhanh (Copy link / Top / Bottom / Home) =====
+document.addEventListener('DOMContentLoaded', () => {
+  const wrapper = document.getElementById('fabLeftWrapper');
+  const mainBtn = document.getElementById('fabLeftMain');
+  const menu    = document.getElementById('fabLeftMenu');
+
+  if (!wrapper || !mainBtn || !menu) return;
+
+  // Mở / đóng menu
+  mainBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // tránh bị đóng ngay bởi listener click ngoài
+    wrapper.classList.toggle('is-open');
+  });
+
+  // Click các nút con
+  menu.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.fab-left-item');
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    if (!action) return;
+
+    if (action === 'copy-link') {
+      const url = location.href;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(url);
+          alert('Đã sao chép link trang hiện tại!');
+        } else {
+          // Trình duyệt cũ: fallback prompt
+          prompt('Copy link này:', url);
+        }
+      } catch (err) {
+        console.error('Copy link error:', err);
+        prompt('Copy link này:', location.href);
+      }
+    }
+
+    if (action === 'scroll-top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    if (action === 'scroll-bottom') {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    if (action === 'home') {
+      // Về giao diện ban đầu:
+      // ưu tiên dùng clearAllFilters nếu có (giữ nguyên session, không reload)
+      if (typeof clearAllFilters === 'function') {
+        clearAllFilters();           // Xóa toàn bộ bộ lọc, về trang 1
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        // Fallback: reload về URL gốc (không query)
+        location.href = location.pathname;
+      }
+    }
+
+    // Sau khi chọn xong thì đóng menu
+    wrapper.classList.remove('is-open');
+  });
+
+  // Click ngoài vùng FAB thì đóng lại
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) {
+      wrapper.classList.remove('is-open');
+    }
+  });
+});
+
+
     
 </script>
-    
+ <!-- FAB bên trái: menu nhanh -->
+<div class="fab-left-wrapper fab-group" id="fabLeftWrapper">
+  <button class="fab-left-main" id="fabLeftMain" aria-label="Menu nhanh">
+    ☰
+  </button>
+
+ <div class="fab-left-menu" id="fabLeftMenu">
+  <button class="fab-left-item" data-action="copy-link" data-label="Copy link" title="Sao chép link trang">
+    <span class="fab-left-icon">⧉</span>
+  </button>
+
+  <button class="fab-left-item" data-action="scroll-top" data-label="Lên đầu" title="Lên đầu trang">
+    <span class="fab-left-icon">↑</span>
+  </button>
+
+  <button class="fab-left-item" data-action="scroll-bottom" data-label="Xuống cuối" title="Xuống cuối trang">
+    <span class="fab-left-icon">↓</span>
+  </button>
+
+  <button class="fab-left-item" data-action="home" data-label="Trang chính" title="Về giao diện ban đầu">
+    <span class="fab-left-icon">⌂</span>
+  </button>
+</div>
+
 </body>
 </html> 
