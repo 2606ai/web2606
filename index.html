@@ -367,22 +367,11 @@ footer.text-light .container-fluid{
 .suppliers-fab{background:#0d6efd;bottom:84px}
 .zalo-fab{background:#25D366;bottom:20px}
 
-/* ---- FAB menu bên trái (copy link / top / bottom / home) ---- */
-.fab-left-wrapper{
-  position:fixed;
-  left:-40px;              /* Ẩn vào mép trái */
-  bottom:80px;
-  z-index:2600;
-  display:flex;
-  align-items:flex-end;
-  gap:8px;
-  transition:left .25s ease;
-}
 
 /* ---- FAB menu bên trái (copy link / top / bottom / home) ---- */
 .fab-left-wrapper{
   position:fixed;
-  left:-40px;              /* Ẩn vào mép trái */
+  left:-20px;              /* Ẩn vào mép trái */
   bottom:80px;
   z-index:2600;
   display:flex;
@@ -6725,8 +6714,9 @@ document.addEventListener('DOMContentLoaded', () => {
   </button>
 
  <div class="fab-left-menu" id="fabLeftMenu">
-  <button class="fab-left-item" data-action="copy-link" data-label="Copy link" title="Sao chép link trang">
-    <span class="fab-left-icon">⧉</span>
+  <!-- HOME trước -->
+  <button class="fab-left-item" data-action="home" data-label="Trang chính" title="Về giao diện ban đầu">
+    <span class="fab-left-icon">⌂</span>
   </button>
 
   <button class="fab-left-item" data-action="scroll-top" data-label="Lên đầu" title="Lên đầu trang">
@@ -6737,10 +6727,12 @@ document.addEventListener('DOMContentLoaded', () => {
     <span class="fab-left-icon">↓</span>
   </button>
 
-  <button class="fab-left-item" data-action="home" data-label="Trang chính" title="Về giao diện ban đầu">
-    <span class="fab-left-icon">⌂</span>
+  <!-- Copy link xuống cuối -->
+  <button class="fab-left-item" data-action="copy-link" data-label="Copy link" title="Sao chép link trang">
+    <span class="fab-left-icon">⧉</span>
   </button>
 </div>
+
 
 </body>
 </html> 
