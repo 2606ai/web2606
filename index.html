@@ -3022,7 +3022,7 @@ body.cart-open .fab-group{ display: none; }
 
       <div class="bcard" data-benefit="b1" role="button" tabindex="0" aria-label="Tham khảo 10,000+ mẫu sản phẩm">
         <span class="benefit-note benefit-free">Miễn phí</span>
-        <div class="ic">🧩</div>
+        <div class="ic">🔍</div>
         <div class="ttl">1. Tham khảo 10,000+ mẫu sản phẩm</div>
       </div>
 
@@ -3044,15 +3044,15 @@ body.cart-open .fab-group{ display: none; }
         <div class="ttl">4. Hỗ trợ thiết kế 2D, 3D sản xuất</div>
       </div>
 
-      <div class="bcard" data-benefit="b5" role="button" tabindex="0" aria-label="Hậu cần vận chuyển và đóng gói hàng">
+      <div class="bcard" data-benefit="b5" role="button" tabindex="0" aria-label="Mở gian hàng tự quản lý khách hàng">
         <span class="benefit-note benefit-paid">Có phí</span>
-        <div class="ic">📦</div>
-        <div class="ttl">5. Hậu cần vận chuyển và đóng gói hàng</div>
+        <div class="ic">🛒</div>
+        <div class="ttl">5. Mở gian hàng tự quản lý khách hàng</div>
       </div>
 
       <div class="bcard" data-benefit="b6" role="button" tabindex="0" aria-label="Hỗ trợ giải quyết tranh chấp">
         <span class="benefit-note benefit-paid">Có phí</span>
-        <div class="ic">🛡️</div>
+        <div class="ic">🤝</div>
         <div class="ttl">6. Hỗ trợ giải quyết tranh chấp</div>
       </div>
 
@@ -5716,16 +5716,16 @@ document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder
 
 /* ===== Modal Chi tiết Lợi ích ===== */
 const BENEFIT_DETAIL = {
-  b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho ý tưởng lớn, cập nhật thường xuyên.', bullets:[
-      'Tìm nhanh theo ID, từ khóa, loại sản phẩm','Ảnh/Link nguồn tham khảo rõ ràng','Lưu mẫu yêu thích vào giỏ để xin báo giá' ] },
+  b1:{ title:'Tham khảo 10,000+ mẫu sản phẩm', lead:'Kho hàng hóa và ý tưởng lớn, cập nhật thường xuyên.', bullets:[
+      'Tìm nhanh theo Số điện thoại, tên công ty, tên sản phẩm, từ khóa, loại sản phẩm','Thông tin nhà cung cấp rõ ràng và đầy đủ','Lưu mẫu yêu thích vào giỏ để lấy báo giá' ] },
   b2:{ title:'500+ nhà cung cấp & xưởng sản xuất', lead:'Kết nối nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
-      'Lọc theo loại hình/xuất xứ/ghi chú','Gợi ý xưởng ngay trong “Xưởng đề xuất”','Có thể gửi cùng lúc cho nhiều đơn vị' ] },
+      'Tìm kiếm nhà cung cấp bằng số điện thoại/tên công ty','Gợi ý xưởng ngay trong “Xưởng đề xuất”','Gửi báo giá nhanh chóng' ] },
   b3:{ title:'Hỗ trợ tư vấn sản xuất (Miễn phí)', lead:'Đội ngũ CSKH phản hồi nhanh và cụ thể.', bullets:[
       'Tư vấn vật liệu, quy cách, định mức','Ước tính chi phí sơ bộ','Định hướng phương án tối ưu theo ngân sách' ] },
   b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất', lead:'Phục vụ trực tiếp cho đơn hàng đã chốt.', bullets:[
       'Dựng mockup/khung kỹ thuật cơ bản','Xuất file .SVG, .PDF theo yêu cầu xưởng','Miễn phí cho đơn đã xác nhận đặt hàng' ] },
-  b5:{ title:'Hậu cần vận chuyển & đóng gói (Có phí)', lead:'Đảm bảo giao nhận đúng hẹn – an toàn.', bullets:[
-      'Nhận đóng gói – dán tem – chia kiện','Theo dõi tracking – xử lý phát sinh','Báo phí rõ ràng trước khi triển khai' ], note:'Phí dịch vụ sẽ cộng riêng vào tổng đơn theo báo giá.' },
+  b5:{ title:'Mở gian hàng ONLINE để tự mình làm chủ', lead:'An tâm hơn khi có công cụ để tiếp thị khách hàng chuyên nghiệp', bullets:[
+      'Cam kết mọi thông tin của bạn sẽ được công khai để khách hàng nhìn thấy.','Tự bạn quản lý và làm việc trực tiếp với khách hàng của mình.','Giá chỉ từ 6,000 đồng cho 1 sản phẩm/12 tháng (Giá áp dụng đến hết năm 2026).','Đăng tải sản phẩm nhanh chóng, tiện lợi, dễ dàng chào hàng khi có thể, thao tác đơn giản nhập số điện thoại.' ], note:'Mỗi tháng nền tảng sẽ có rất nhiều chiến dịch quảng cáo, bạn sẽ được hưởng lợi ích lớn từ đây, hoàn toàn miễn phí.' },
   b6:{ title:'Hỗ trợ giải quyết tranh chấp (Có phí)', lead:'Tăng cường bảo vệ quyền lợi khách hàng khi phát sinh sự cố.', bullets:[
       'Thu thập chứng cứ – làm việc với xưởng','Đề xuất phương án khắc phục/hoàn tiền','Đồng hành cho đến khi kết thúc vụ việc' ], note:'Chỉ áp dụng cho đơn hàng đã thông báo cho 2606AI.' }
 };
