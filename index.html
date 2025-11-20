@@ -136,12 +136,86 @@ footer.text-light .container-fluid{
 .benefit-free{background:#4caf50}
 .benefit-paid{background:#d32f2f}
 /* Khung sidebar “Xưởng đề xuất” */ .workshop-box{ background:linear-gradient(180deg,#e3f2fd 0%,#bbdefb 100%); border:1px solid #90caf9; border-radius:12px; padding:12px; }
-/* ---- Hero banners ---- */
-.hero{margin-bottom:15px}
-.hero .carousel{border-radius:12px;overflow:hidden;box-shadow:var(--shadow-sm)}
-.hero .mini img{height:145px;object-fit:cover;border-radius:12px}
-.hero .main img{height:300px;object-fit:cover;border-radius:12px}
-.hero .carousel .carousel-indicators [data-bs-target]{width:8px;height:8px;border-radius:50%}
+/* ---- HERO / BANNER FRAMES (auto-fit images theo khung trắng) ---- */
+
+/* Khung hero chung */
+.hero{
+  margin-bottom: 15px;
+}
+.hero .carousel{
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  background: #fff;
+}
+
+/* Cột mini bên phải: 2 banner xếp dọc, cao bằng nhau */
+.hero .mini{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.hero .mini > *{
+  flex: 1 1 0; /* chia đều chiều cao 2 banner nhỏ */
+}
+
+/* === BANNER TRÁI – máy bay 247Express (khung trắng lớn) === */
+#heroMain{
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  height: clamp(220px, 28vw, 320px); /* desktop/mobi tự co giãn */
+}
+#heroMain .carousel-inner,
+#heroMain .carousel-item{
+  height: 100%;
+}
+#heroMain img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* ảnh luôn phủ kín khung trắng */
+}
+
+/* === BANNER PHẢI TRÊN – “Mở gian hàng online miễn phí” === */
+#heroRight1{
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  height: clamp(120px, 17vw, 170px);
+}
+#heroRight1 .carousel-inner,
+#heroRight1 .carousel-item{
+  height: 100%;
+}
+#heroRight1 img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* === BANNER PHẢI DƯỚI – “Mở tài khoản vận chuyển đặc biệt” === */
+#heroRight2{
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  height: clamp(120px, 17vw, 170px);
+}
+#heroRight2 .carousel-inner,
+#heroRight2 .carousel-item{
+  height: 100%;
+}
+#heroRight2 img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Bỏ height cứng cũ cho img hero (để không phá layout) */
+.hero .mini img,
+.hero .main img{
+  height: auto;
+  border-radius: 0;
+}
 
 /* =========================================================
    GROUP BAR (BIG tiles, fill full row) + DOTS = groups count
@@ -2752,7 +2826,7 @@ footer.text-light .bi{ color:#fff; }
 /* Khung trái (heroMain) – cao linh hoạt theo chiều ngang, luôn fill ảnh */
 #heroMain{
   /* cao tối thiểu 220px, theo tỉ lệ màn hình (vw), tối đa 360px */
-  height: clamp(220px, 28vw, 320px);
+  height: clamp(245px, 28vw, 365px);
   border-radius: 16px;
   overflow: hidden;
 }
