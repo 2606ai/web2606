@@ -417,6 +417,14 @@ footer.text-light .container-fluid{
 #cartCanvas .alert{border-radius:10px;font-size:12px;background:#f4f6fd;color:#333;border:1px solid #dbe3ff}
 #cartCanvas .summary-box{background:#fff8e1;border:1px solid #ffe082;border-radius:10px;padding:8px 12px;margin-bottom:12px}
 #cartCanvas #cartTotal{font-weight:700;font-size:16px;color:#d32f2f}
+#cartCanvas .captcha-box{
+  background: #f9fafb;
+  border: 1px dashed #dbe3ff;
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
 
 /* ---- Filter panel ---- */
 #filterPanel h6{font-weight:700;font-size:14px;margin:16px 0 8px;color:var(--main);text-transform:uppercase;letter-spacing:.3px}
@@ -3973,14 +3981,38 @@ document.addEventListener('click', (ev)=>{
       </div>
     </div>
 
-    <div class="alert alert-secondary mt-3 mb-2" style="font-size:12px">
-      <div><strong>Hướng dẫn:</strong></div>
-      <div>1) Bạn cần làm giống mẫu nào hoặc mua sản phẩm gì bấm gửi, chúng tôi sẽ sớm liên hệ lại sau.</div>
-      <div>2) Ghi rõ yêu cầu sẽ giúp chúng tôi tư vấn cho bạn dễ dàng hơn.</div>
-      <div>3) CSKH của 2606ai.vn sẽ trực tiếp liên hệ bạn trong vòng 24h (nếu quá thời gian này, vui lòng liên hệ lại).</div>
-    </div>
+    <div class="alert alert-secondary mt-3 mb-2" style="font-size: 12px;">
+  <strong>Hướng dẫn:</strong>
+  <ol class="mb-0 ps-3">
+    <li>Bạn cần làm giống mẫu nào hoặc mua sản phẩm gì bất kỳ trong giỏ gửi, chúng tôi sẽ sớm liên hệ lại sau.</li>
+    <li>Ghi rõ yêu cầu sẽ giúp chúng tôi tư vấn cho bạn dễ dàng hơn.</li>
+    <li>CSKH của 2606ai.vn sẽ trực tiếp liên hệ bạn trong vòng 24h (nếu quá thời gian này, vui lòng liên hệ lại).</li>
+  </ol>
+</div>
 
-    <button class="btn btn-success w-100" id="submitOrderBtn">Gửi đơn hàng</button>
+<!-- XÁC MINH BẢO MẬT (mini captcha) -->
+<div class="captcha-box mb-2">
+  <label class="form-label mb-1" style="font-size: 13px;">
+    Xác minh bảo mật
+  </label>
+  <div class="d-flex align-items-center gap-2">
+    <span id="orderCaptchaQuestion" class="fw-semibold" style="min-width: 80px;"></span>
+    <input id="orderCaptchaAnswer"
+           type="number"
+           class="form-control"
+           style="max-width: 90px;"
+           placeholder="=?">
+  </div>
+  <div class="form-text" style="font-size: 11px;">
+    Nhập kết quả phép tính rồi bấm "Gửi đơn hàng".
+  </div>
+</div>
+
+<button id="submitOrderBtn"
+        class="btn btn-success w-100 fw-semibold py-2">
+  Gửi đơn hàng
+</button>
+
   </div>
 </div>
 
@@ -5392,6 +5424,25 @@ async function submitOrder(){
     document.getElementById("buyerPhone").focus(); 
     return;
   }
+  // --- Kiểm tra mini captcha ---
+  const captchaInput = document.getElementById('orderCaptchaAnswer');
+  if (captchaInput) {
+    const val = Number(String(captchaInput.value || '').trim());
+    if (!val && val !== 0) {
+      alert('Vui lòng nhập kết quả phép tính xác minh trước khi gửi đơn.');
+      captchaInput.focus();
+      return;
+    }
+    if (val !== orderCaptchaAnswer) {
+      alert('Kết quả phép tính chưa đúng, bạn nhập lại giúp mình nhé.');
+      captchaInput.focus();
+      refreshOrderCaptcha(); // tạo câu hỏi mới
+      return;
+    }
+  }
+
+
+    
   if(email && !isValidEmail(email)){
     alert("Email chưa đúng định dạng.");
     document.getElementById("buyerEmail").focus(); 
@@ -5445,25 +5496,39 @@ async function submitOrder(){
       return;
     }
 
-    if (res && (res.ok || res.success)){
+        if (res && (res.ok || res.success)) {
       const mailState = res.mail || 'ok';
       alert(
         mailState === 'ok'
           ? "Đã gửi đơn hàng thành công!"
-          : "Đã lưu đơn hàng. Gửi email bị lỗi — chúng tôi sẽ kiểm tra lại."
+          : "Đã lưu đơn hàng. Gửi email bị lỗi – chúng tôi sẽ kiểm tra lại."
       );
+
+      // Xóa giỏ + cập nhật lại giao diện
       cart.length = 0;
       updateCart();
+
+      // Làm mới câu hỏi captcha cho lần sau
+      refreshOrderCaptcha();
+
+      // Đóng offcanvas giỏ hàng nếu có
+      const offcanvasEl = document.getElementById('cartCanvas');
+      const bsOffcanvas = offcanvasEl && bootstrap.Offcanvas.getInstance(offcanvasEl);
+      if (bsOffcanvas) bsOffcanvas.hide();
+
     } else {
       const msg = res && res.error ? res.error : "Không rõ nguyên nhân.";
       alert("Gửi đơn hàng thất bại.\nChi tiết: " + msg);
+      refreshOrderCaptcha();   // lỗi cũng tạo câu hỏi mới
     }
 
-  } catch (err){
+  } catch (err) {
     console.error("ORDER – fetch error:", err);
     alert("Không thể gửi đơn hàng (lỗi mạng hoặc API_URL). Vui lòng kiểm tra lại kết nối hoặc tải lại trang.");
+    refreshOrderCaptcha();     // lỗi mạng cũng refresh captcha
   }
 }
+
 
 
 /* Suppliers (offcanvas) */
@@ -5836,6 +5901,21 @@ document.addEventListener('click', (e)=>{
   const grpEl = e.target.closest('[data-action="select-group"]');
   if (grpEl) setFilter('group', grpEl.dataset.val || '');
 });
+// ===== Mini captcha cho form gửi đơn =====
+let orderCaptchaAnswer = null;
+
+function refreshOrderCaptcha() {
+  const qEl   = document.getElementById('orderCaptchaQuestion');
+  const ansEl = document.getElementById('orderCaptchaAnswer');
+  if (!qEl || !ansEl) return;
+
+  const a = Math.floor(1 + Math.random() * 9);
+  const b = Math.floor(1 + Math.random() * 9);
+  orderCaptchaAnswer = a + b;
+
+  qEl.textContent = `${a} + ${b} = ?`;
+  ansEl.value = '';
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   if (window.__initDone) return;
@@ -5872,7 +5952,7 @@ $q?.addEventListener('input', debounce(() => {
 if (typeof updateFilterCount === 'function') updateFilterCount();
 fetchPage();
 
-
+refreshOrderCaptcha();
 
 /* Gửi đơn hàng */
 document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder);
