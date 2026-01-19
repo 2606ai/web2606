@@ -2888,6 +2888,33 @@ footer.text-light .bi{ color:#fff; }
   object-fit: cover;    /* không cắt ảnh, có thể dư khoảng trống */
   background:#fff;        /* (tùy chọn) nền dưới ảnh */
 }
+
+/* === PHÓNG TO ICON DANH MỤC (QUÀ TẶNG / THỔ ĐỊA) === */
+
+/* Khung icon */
+.category-item .icon,
+.category-item .cat-icon{
+  width: 96px;        /* tăng từ ~56 → 96 */
+  height: 96px;
+  border-radius: 20px;
+}
+
+/* Ảnh bên trong */
+.category-item img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;      /* không cắt hình */
+  transform: scale(1.35);  /* 🔥 phóng to ảnh */
+  transform-origin: center;
+}
+
+/* Giữ chữ không bị sát */
+.category-item .cat-title{
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
     
 </style>
 <style id="icon-zoom-fix">
@@ -4381,7 +4408,7 @@ const GROUP_ICONS_RAW = {
   "QUÀ TẶNG 247 EXPRESS (ĐỐI TÁC)": "https://drive.google.com/thumbnail?id=1BVQ8hLn8hlC4c-Q2X0A_bgjSkSL3dLoG&sz=w600",
   "QUÀ TẶNG SỨC KHỎE": "https://drive.google.com/thumbnail?id=1FwMznwFgatG5GjQUb2r2b3_JkMrr3Ixa&sz=w600",
   "QUÀ TẶNG THỜI TRANG": "https://drive.google.com/thumbnail?id=1HHKOcDsAK9Ngv8LbNKWaBPv4apln5diN&sz=w600",
-  "QUÀ TẶNG SÁCH": "https://drive.google.com/thumbnail?id=1Sjm63qKG7TlpXlwWt1ddBXz9ePciy_Nj&sz=w600",
+  "THỔ ĐỊA QUẬN 8": "https://drive.google.com/thumbnail?id=1yWx-TinmJcw0I1As3pM7bndYJ4d7--pY",
   "KHÁC": "https://drive.google.com/thumbnail?id=ID_KHAC&sz=w100",
   "__DEFAULT__": "https://drive.google.com/thumbnail?id=1QF98LJ1hq0WE_A-y-YCD3rBxMQBvT333&sz=w600" // placeholder an toàn
 };
@@ -4405,7 +4432,7 @@ const GROUP_ORDER_RAW = [
   "QUÀ TẶNG TẾT 2026",
   "QUÀ TẶNG 247 EXPRESS (Đối tác)",
   "QUÀ TẶNG THỜI TRANG",
-  "QUÀ TẶNG SÁCH",
+  "THỔ ĐỊA QUẬN 8",
   "LOGO",
 ];
 
