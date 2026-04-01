@@ -3756,11 +3756,11 @@ left.push(fieldBox('ID', esc(item.ID || item.id || '')));
 // 2) GIÁ
 left.push(fieldBox('GIÁ', esc(toVND(item.GIA ?? item.gia ?? item.price))));
 
-// 3) LOẠI
-left.push(fieldBox('LOẠI', esc(item.LOAI || item.loai || '')));
+// 3) HÀNH ĐỘNG
+left.push(fieldBox('HÀNH ĐỘNG', esc(item.LOAI || item.loai || '')));
 
-// 4) NOTE
-left.push(fieldBox('NOTE', esc(item.NOTE || item.note || item.ghichu || '')));
+// 4) Sự kiện
+left.push(fieldBox('SỰ KIỆN', esc(item.NOTE || item.note || item.ghichu || '')));
 
 
 // 5) MÔ TẢ (đặt cuối cùng) — chuẩn hoá xuống dòng từ Sheet
