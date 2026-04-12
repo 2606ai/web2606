@@ -4930,44 +4930,91 @@ const getGroupIcon = iconForGroup;  // alias an toàn
 
 
 
-/* Render thanh category (pager) – icon lấy từ map theo tên, lọc vẫn dùng data-val từ Sheet */
+/* Render dãy B: mặc định hiện toàn bộ theo dataset hiện tại, quá nhiều thì dùng mũi tên */
+let catIndex = 0;
+const catsPerView = 12;
+let allCategories = [];
+
 function renderCategoryPager(items){
   const box = document.getElementById('categoryScroll');
-  const slice = items.slice(catIndex, catIndex + catsPerView);
+  if (!box) return;
+
+  const list = Array.isArray(items) ? items : [];
+  const total = list.length;
+
+  if (catIndex >= total) {
+    catIndex = Math.max(0, total - catsPerView);
+  }
+  if (catIndex < 0) catIndex = 0;
+
+  const slice = list.slice(catIndex, catIndex + catsPerView);
 
   box.innerHTML = slice.map(val => `
     <div class="category-item ${state.category===val ? 'active' : ''}"
-         data-action="select-category" data-val="${esc(val)}">
+         data-action="select-category"
+         data-val="${esc(val)}">
       <div class="icon">
         <img src="${esc(iconForGroup(val))}" alt="${esc(val)}"
-     onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
-
-
+             onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
       </div>
       <span>${esc(val || 'Khác')}</span>
     </div>
   `).join('');
+
+  const leftBtn  = document.getElementById('categoryLeft');
+  const rightBtn = document.getElementById('categoryRight');
+
+  if (leftBtn){
+    const canLeft = catIndex > 0;
+    leftBtn.style.display = total > catsPerView ? '' : 'none';
+    leftBtn.disabled = !canLeft;
+    leftBtn.classList.toggle('is-disabled', !canLeft);
+  }
+
+  if (rightBtn){
+    const canRight = catIndex + catsPerView < total;
+    rightBtn.style.display = total > catsPerView ? '' : 'none';
+    rightBtn.disabled = !canRight;
+    rightBtn.classList.toggle('is-disabled', !canRight);
+  }
 }
-let catIndex = 0;
-const catsPerView = 12;   // hiển thị 12 danh mục mỗi trang (6 cột x 2 hàng)
-let allCategories = [];
 
 function scrollCats(dir){
   const total = allCategories.length;
+  if (total <= catsPerView) return;
+
   catIndex += dir * catsPerView;
-  if(catIndex < 0) catIndex = 0;
-  if(catIndex >= total) catIndex = Math.max(0, total - catsPerView);
+
+  if (catIndex < 0) catIndex = 0;
+  if (catIndex >= total) catIndex = Math.max(0, total - catsPerView);
+
   renderCategoryPager(allCategories);
 }
+
 function buildCategory(items){
-  allCategories = items || [];
+  allCategories = Array.isArray(items) ? items : [];
   catIndex = 0;
   renderCategoryPager(allCategories);
 }
 
+function findGroupByCategory(categoryVal){
+  const norm = (s) => String(s || '')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
+  const cat = norm(categoryVal);
+  if (!cat) return '';
+
+  const pool = Array.isArray(window.allItems) ? window.allItems : [];
+  const hit = pool.find(it => norm(it.category) === cat);
+
+  return hit?.group || '';
+}
 function selectCategory(val){
   state.category = val;
+  state.group = findGroupByCategory(val) || state.group || '';
   state.page = 1;
   fetchPage();
 
@@ -4975,10 +5022,10 @@ function selectCategory(val){
   document.querySelectorAll('#categoryScroll .category-item')
     .forEach(el => el.classList.toggle('active', el.dataset.val === val));
 
-  // 🔄 Đồng bộ 2 dải danh mục (trên + dưới)
+  // Đồng bộ 2 dải danh mục + dãy A
   if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
 
-  // 🔢 Cập nhật lại badge bộ lọc
+  // Cập nhật lại badge bộ lọc
   if (typeof updateFilterCount === 'function') updateFilterCount();
 }
 
@@ -5018,9 +5065,10 @@ function syncQuickCatsActive(){
     .trim()
     .replace(/\s+/g,' ')
     .toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g,''); // bỏ dấu
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 
-  const cur = norm((window.state && state.category) || '');
+  const curCat   = norm(state.category || '');
+  const curGroup = norm(state.group || findGroupByCategory(state.category) || '');
 
   const getVal = (el) =>
     el.dataset?.val ||
@@ -5028,13 +5076,21 @@ function syncQuickCatsActive(){
     el.getAttribute?.('data-category') ||
     el.textContent || '';
 
+  // Đồng bộ active cho dãy B / quick cats
   document.querySelectorAll(
+    '#categoryScroll .category-item,' +
     '[data-quick-cats] [data-action="select-category"],' +
     '[data-quick-cats] [data-cat],' +
     '[data-quick-cats] .category-item,' +
     '[data-quick-cats] .chip'
   ).forEach(el => {
-    const same = cur && norm(getVal(el)) === cur;
+    const same = curCat && norm(getVal(el)) === curCat;
+    el.classList.toggle('active', same);
+  });
+
+  // Đồng bộ active cho dãy A
+  document.querySelectorAll('#groupBar .group-chip').forEach(el => {
+    const same = curGroup && norm(el.dataset.val || el.textContent || '') === curGroup;
     el.classList.toggle('active', same);
   });
 }
@@ -6297,53 +6353,15 @@ fetch(url, { redirect: 'follow', mode: 'cors' })
   // Cập nhật badge lọc
   updateFilterBadge();
 
-  // Đồng bộ trạng thái giữa các cụm danh mục (A+B)
-  if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+  // Dựng lại dãy A + dãy B theo FACETS tổng từ API
+if (typeof buildCategoryFromFacets === 'function') {
+  buildCategoryFromFacets(json.facets || {});
+}
 
-  // Làm mới 2 dải danh mục theo dữ liệu mới
-  if (typeof refreshFacetStripsByData === 'function') {
-    refreshFacetStripsByData(json.items);
-  } else {
-    // Nếu chưa có hàm thì tạo luôn tại đây
-    const _norm = (s) => String(s || '')
-      .trim()
-      .replace(/\s+/g, ' ')
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, ''); // bỏ dấu
-
-    const computeFacets = (items) => {
-      const groupsNorm = new Set();
-      const catsRaw = new Set();
-      (items || []).forEach(it => {
-        if (it.group) groupsNorm.add(_norm(it.group));
-        if (it.category) catsRaw.add(it.category);
-      });
-      return { groupsNorm, catsRaw };
-    };
-
-    const refreshFacetStripsByData = (items) => {
-      const { groupsNorm, catsRaw } = computeFacets(items || []);
-
-      // Cập nhật dải A (ô lớn phía trên)
-      if (typeof renderQuickCatsTop === 'function')
-        renderQuickCatsTop(groupsNorm);
-
-      // Cập nhật dải B (ô nhỏ phía dưới)
-      if (typeof buildCategory === 'function')
-        buildCategory(Array.from(catsRaw));
-
-      // Đồng bộ active + badge
-      if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
-      if (typeof updateFilterCount === 'function') updateFilterCount();
-    };
-
-    // Gắn vào phạm vi global để có thể gọi lại
-    window.refreshFacetStripsByData = refreshFacetStripsByData;
-
-    // Gọi ngay lần đầu
-    refreshFacetStripsByData(json.items);
-  }
+// đồng bộ active + badge sau khi dựng xong
+if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
+if (typeof updateFilterCount === 'function') updateFilterCount();
+updateFilterBadge();
 
 })
 .catch((err) => {
@@ -6380,8 +6398,7 @@ function computeFacets(items){
     render(json, /*fromCache*/false);
      updateFilterBadge();
      syncQuickCatsActive();
-     refreshFacetStripsByData(json.items);
-     applyFacetVisibility(json.items);  // <-- THÊM DÒNG NÀY
+     buildCategoryFromFacets(json.facets || {});
 
 // Chuẩn hoá chuỗi để so sánh
 function _norm(s){
@@ -6398,29 +6415,6 @@ function computeFacets(items){
     if (it.category) cats.add(_norm(it.category));
   });
   return { groups, cats };
-}
-
-// Ẩn/hiện item theo facet (KHÔNG vẽ lại DOM)
-function applyFacetVisibility(items){
-  const { groups, cats } = computeFacets(items||[]);
-
-  // A (ô lớn phía trên)
-  document.querySelectorAll('#quickCatsTop [data-action="select-category"], #quickCatsTop .category-item')
-    .forEach(el=>{
-      const val = el.dataset.val || el.dataset.cat || el.getAttribute('data-category') || el.textContent || '';
-      const show = groups.has(_norm(val));
-      el.style.display = show ? '' : 'none';
-      el.classList.toggle('is-disabled', !show);
-    });
-
-  // B (dải danh mục phía dưới)
-  document.querySelectorAll('#categoryScroll .category-item')
-    .forEach(el=>{
-      const val = el.dataset.val || el.textContent || '';
-      const show = cats.has(_norm(val));
-      el.style.display = show ? '' : 'none';
-      el.classList.toggle('is-disabled', !show);
-    });
 }
 
 
