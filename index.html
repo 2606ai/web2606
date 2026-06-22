@@ -6183,6 +6183,140 @@ document.addEventListener('click', (ev)=>{
 .design2-list .design2-check{
   box-shadow:0 4px 10px rgba(0,0,0,.12) !important;
 }
+
+/* ===== FIX MOBILE DESIGN2 MODAL ===== */
+@media(max-width:768px){
+
+  #benefitModal .modal-dialog{
+    width:calc(100% - 12px) !important;
+    max-width:none !important;
+    margin:6px auto !important;
+  }
+
+  #benefitModal .modal-content{
+    border-radius:16px !important;
+    max-height:96vh !important;
+    overflow-y:auto !important;
+  }
+
+  #benefitModal .modal-header{
+    padding:10px 12px !important;
+  }
+
+  #benefitModal .modal-title{
+    font-size:18px !important;
+    line-height:1.15 !important;
+    gap:6px !important;
+  }
+
+  #benefitModal .modal-title i,
+  #benefitModal .modal-title .bi{
+    font-size:18px !important;
+    margin-right:4px !important;
+  }
+
+  #benefitLead{
+    padding:10px !important;
+  }
+
+  .design2-intro{
+    font-size:12px !important;
+    padding:8px 10px !important;
+    margin-bottom:10px !important;
+    line-height:1.35 !important;
+  }
+
+  .design2-tabs{
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+    margin-bottom:10px !important;
+  }
+
+  .design2-tab{
+    min-height:auto !important;
+    padding:10px 12px !important;
+    border-radius:12px !important;
+    gap:10px !important;
+  }
+
+  .design2-ico{
+    width:38px !important;
+    height:38px !important;
+    font-size:18px !important;
+    flex-shrink:0 !important;
+  }
+
+  .design2-tab-title{
+    font-size:13px !important;
+    white-space:normal !important;
+  }
+
+  .design2-tab-sub{
+    font-size:11px !important;
+  }
+
+  .design2-panel{
+    padding:14px !important;
+    border-radius:14px !important;
+  }
+
+  .design2-panel-grid{
+    grid-template-columns:1fr !important;
+    gap:12px !important;
+  }
+
+  .design2-panel-title{
+    font-size:18px !important;
+  }
+
+  .design2-panel-sub{
+    font-size:13px !important;
+    margin-bottom:12px !important;
+  }
+
+  .design2-list li{
+    font-size:12px !important;
+    margin-bottom:7px !important;
+    line-height:1.35 !important;
+  }
+
+  .design2-check{
+    width:18px !important;
+    height:18px !important;
+    font-size:10px !important;
+  }
+
+  .design2-response{
+    padding:12px !important;
+    text-align:center !important;
+  }
+
+  .design2-response small{
+    font-size:11px !important;
+  }
+
+  .design2-response strong{
+    font-size:20px !important;
+  }
+
+  .design2-actions{
+    grid-template-columns:1fr !important;
+    gap:8px !important;
+    margin-top:12px !important;
+  }
+
+  .design2-btn{
+    min-height:38px !important;
+    font-size:12px !important;
+    border-radius:10px !important;
+  }
+
+  .design2-safe{
+    font-size:11px !important;
+    padding:8px 10px !important;
+    margin-top:10px !important;
+  }
+}
     
 </style>
 
