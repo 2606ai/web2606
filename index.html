@@ -5124,28 +5124,28 @@ document.addEventListener('click', (ev)=>{
 .benefit-text small{
   line-height:1.35 !important;
 }
-/* ===== MODAL ĐẶT HÀNG THEO THIẾT KẾ - GIỐNG ẢNH MẪU ===== */
+/* ===== DESIGN ORDER MODAL - TAB STYLE COLORFUL ===== */
 
 #benefitModal .modal-dialog{
-  max-width:1080px !important; /* chỉnh chiều rộng popup */
+  max-width:980px !important;
 }
 
 #benefitModal .modal-content{
   border:0 !important;
-  border-radius:18px !important;
+  border-radius:22px !important;
   overflow:hidden !important;
-  box-shadow:0 22px 60px rgba(0,0,0,.28) !important;
+  box-shadow:0 22px 60px rgba(0,0,0,.25) !important;
 }
 
 #benefitModal .modal-header{
-  background:linear-gradient(135deg,#2e7d32,#1b5e20) !important;
+  background:linear-gradient(135deg,#15803d,#047857) !important;
   color:#fff !important;
   border:0 !important;
-  padding:20px 26px !important; /* chỉnh chiều cao header */
+  padding:20px 28px !important;
 }
 
 #benefitModal .modal-title{
-  font-size:28px !important; /* cỡ chữ tiêu đề */
+  font-size:28px !important;
   font-weight:900 !important;
 }
 
@@ -5160,414 +5160,1028 @@ document.addEventListener('click', (ev)=>{
 
 #benefitLead{
   background:#fff !important;
-  padding:24px 28px 28px !important; /* khoảng trắng trong popup */
+  padding:26px !important;
 }
 
-.design-intro{
+#benefitModal .modal-footer{
+  display:none !important;
+}
+
+.design2-intro{
   display:flex;
   align-items:center;
   gap:12px;
-  background:#f7fbf7;
-  border:1px solid #dfeee1;
-  border-radius:14px;
-  padding:13px 18px;
-  color:#1b5e20;
-  font-size:17px;
-  font-weight:600;
+  padding:14px 18px;
   margin-bottom:18px;
+  border-radius:14px;
+  background:#f8fafc;
+  color:#14532d;
+  font-weight:600;
+  font-size:16px;
 }
 
-.design-flow{
+.design2-tabs{
   display:grid;
-  gap:16px; /* khoảng cách giữa 3 card */
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-bottom:20px;
 }
 
-.design-card{
-  display:grid;
-  grid-template-columns:330px 1fr 240px; /* cột trái | nội dung | nút */
-  gap:24px;
-  align-items:center;
+.design2-tab{
+  border:1.5px solid #e5e7eb;
   background:#fff;
-  border:1px solid #e2e8e2;
   border-radius:16px;
-  padding:24px 26px; /* độ dày card */
-  box-shadow:0 4px 16px rgba(0,0,0,.04);
-  position:relative;
-  overflow:hidden;
-}
-
-.design-card::before{
-  content:"";
-  position:absolute;
-  left:0;
-  top:0;
-  bottom:0;
-  width:4px; /* vạch màu bên trái */
-  background:#2e7d32;
-}
-
-.design-card.blue::before{background:#1e88e5;}
-.design-card.orange::before{background:#f57c00;}
-
-.design-left{
+  padding:18px;
+  cursor:pointer;
   display:flex;
   align-items:center;
-  gap:18px;
+  gap:14px;
+  transition:.2s ease;
 }
 
-.design-icon{
-  width:76px; /* kích thước ô icon */
-  height:76px;
-  border-radius:16px;
+.design2-tab:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+
+.design2-tab.active.green{
+  border-color:#15803d;
+  box-shadow:0 8px 22px rgba(21,128,61,.16);
+}
+
+.design2-tab.active.blue{
+  border-color:#2563eb;
+  box-shadow:0 8px 22px rgba(37,99,235,.16);
+}
+
+.design2-tab.active.orange{
+  border-color:#f97316;
+  box-shadow:0 8px 22px rgba(249,115,22,.16);
+}
+
+.design2-ico{
+  width:62px;
+  height:62px;
+  border-radius:50%;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#e8f5e9;
-  color:#2e7d32;
-  font-size:34px;
+  font-size:28px;
   flex-shrink:0;
 }
 
-.design-card.blue .design-icon{
-  background:#e3f2fd;
-  color:#1e88e5;
-}
+.green .design2-ico{background:#dcfce7;color:#15803d;}
+.blue .design2-ico{background:#dbeafe;color:#2563eb;}
+.orange .design2-ico{background:#ffedd5;color:#f97316;}
 
-.design-card.orange .design-icon{
-  background:#fff3e0;
-  color:#f57c00;
-}
-
-.design-no{
-  display:inline-block;
-  background:#2e7d32;
-  color:#fff;
-  border-radius:8px;
-  padding:4px 10px; /* kích thước badge 01 */
-  font-size:13px;
+.design2-tab-title{
+  font-size:17px;
   font-weight:900;
-  margin-bottom:10px;
+  line-height:1.2;
 }
 
-.design-card.blue .design-no{background:#1e88e5;}
-.design-card.orange .design-no{background:#f57c00;}
+.green .design2-tab-title{color:#15803d;}
+.blue .design2-tab-title{color:#2563eb;}
+.orange .design2-tab-title{color:#f97316;}
 
-.design-head{
-  font-size:20px; /* cỡ chữ tiêu đề card */
-  font-weight:900;
-  color:#111827;
-  line-height:1.25;
-}
-
-.design-sub{
-  font-size:16px;
-  color:#2e7d32;
-  font-weight:700;
-  margin-top:8px;
-}
-
-.design-card.blue .design-sub{color:#1e88e5;}
-.design-card.orange .design-sub{color:#f57c00;}
-
-.design-list{
-  list-style:none;
-  padding:0 0 0 26px;
-  margin:0;
-  border-left:1px dashed #d5ddd5;
-}
-
-.design-list li{
-  font-size:16px; /* cỡ chữ nội dung */
+.design2-tab-sub{
+  font-size:14px;
+  margin-top:4px;
   color:#374151;
-  line-height:1.45;
-  margin-bottom:10px;
 }
 
-.design-list li:last-child{
-  margin-bottom:0;
+.design2-panel{
+  border:1px solid #e5e7eb;
+  border-radius:18px;
+  padding:28px;
+  background:linear-gradient(180deg,#fff,#f9fafb);
+  box-shadow:0 8px 24px rgba(0,0,0,.05);
 }
 
-.design-list li::before{
-  content:"✓";
+.design2-panel-grid{
+  display:grid;
+  grid-template-columns:1fr 280px;
+  gap:28px;
+  align-items:center;
+}
+
+.design2-panel-title{
+  font-size:26px;
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.design2-panel-sub{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:20px;
+}
+
+.design2-list{
+  list-style:none;
+  padding:0;
+  margin:0;
+}
+
+.design2-list li{
+  font-size:16px;
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.design2-check{
+  width:24px;
+  height:24px;
+  border-radius:50%;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:#e8f5e9;
-  color:#2e7d32;
-  font-size:12px;
+  color:#fff;
+  font-size:13px;
   font-weight:900;
-  margin-right:9px;
+  flex-shrink:0;
 }
 
-.design-card.blue .design-list li::before{
-  background:#e3f2fd;
-  color:#1e88e5;
+.design2-response{
+  border-radius:16px;
+  padding:24px;
+  text-align:center;
+  font-weight:800;
 }
 
-.design-card.orange .design-list li::before{
-  background:#fff3e0;
-  color:#f57c00;
+.design2-response small{
+  display:block;
+  font-size:15px;
+  margin-bottom:8px;
 }
 
-.design-actions{
+.design2-response strong{
+  font-size:30px;
+}
+
+.design2-actions{
   display:grid;
-  gap:14px; /* khoảng cách giữa 2 nút */
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:26px;
 }
 
-.design-btn{
-  min-height:48px; /* chiều cao nút */
-  border-radius:11px;
+.design2-btn{
+  min-height:54px;
+  border-radius:14px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-size:15px;
+  gap:10px;
+  font-size:17px;
   font-weight:900;
   text-decoration:none;
-  white-space:nowrap;
 }
 
-.design-btn-connect{
-  background:#2e7d32;
+.design2-btn-main{
   color:#fff !important;
 }
 
-.design-card.blue .design-btn-connect{background:#1e88e5;}
-.design-card.orange .design-btn-connect{background:#f57c00;}
-
-.design-btn-pdf{
+.design2-btn-sub{
   background:#fff;
-  color:#2e7d32 !important;
-  border:1.6px solid #2e7d32;
 }
 
-.design-card.blue .design-btn-pdf{
-  color:#1e88e5 !important;
-  border-color:#1e88e5;
-}
-
-.design-card.orange .design-btn-pdf{
-  color:#f57c00 !important;
-  border-color:#f57c00;
-}
-
-.design-safe{
+.design2-safe{
   margin-top:18px;
-  padding:13px 16px;
-  border-radius:13px;
-  background:#f1faf2;
-  border:1px solid #d7ead9;
-  color:#2e7d32;
-  font-size:16px;
-  font-weight:600;
+  padding:14px;
+  border-radius:14px;
+  background:#f8fafc;
   text-align:center;
+  color:#334155;
+  font-size:15px;
 }
 
 @media(max-width:768px){
   #benefitModal .modal-dialog{
-    max-width:96% !important;
-  }
-
-  .design-card{
-    grid-template-columns:1fr;
-  }
-
-  .design-list{
-    border-left:0;
-    padding-left:0;
-  }
-
-  .design-actions{
-    grid-template-columns:1fr 1fr;
-  }
-}
-/* ===== UPGRADE GIAO DIỆN MODAL CAO CẤP HƠN ===== */
-
-#benefitModal .modal-content{
-  border-radius:22px !important;
-  background:#fbfdfb !important;
-}
-
-#benefitModal .modal-header{
-  background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 55%,#43a047 100%) !important;
-}
-
-#benefitModal .modal-title{
-  font-size:26px !important;
-  font-weight:850 !important;
-  letter-spacing:.2px;
-}
-
-#benefitLead{
-  background:linear-gradient(180deg,#ffffff 0%,#f7fbf7 100%) !important;
-}
-
-.design-intro{
-  background:rgba(46,125,50,.045) !important;
-  border:1px solid rgba(46,125,50,.14) !important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
-}
-
-.design-card{
-  border:1px solid rgba(46,125,50,.12) !important;
-  box-shadow:0 10px 26px rgba(0,0,0,.045) !important;
-  background:linear-gradient(180deg,#ffffff 0%,#fbfdfb 100%) !important;
-}
-
-.design-card:hover{
-  transform:translateY(-1px);
-  box-shadow:0 14px 30px rgba(0,0,0,.075) !important;
-}
-
-.design-head{
-  font-weight:850 !important;
-  letter-spacing:.1px;
-}
-
-.design-sub{
-  font-weight:650 !important;
-}
-
-.design-list li{
-  color:#2f3b45 !important;
-  font-weight:450;
-}
-
-.design-icon{
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.75), 0 8px 18px rgba(0,0,0,.06);
-}
-
-.design-btn-connect{
-  background:linear-gradient(135deg,#2e7d32,#1b5e20) !important;
-  box-shadow:0 10px 18px rgba(46,125,50,.22);
-}
-
-.design-card.blue .design-btn-connect{
-  background:linear-gradient(135deg,#1e88e5,#0d47a1) !important;
-}
-
-.design-card.orange .design-btn-connect{
-  background:linear-gradient(135deg,#fb8c00,#ef6c00) !important;
-}
-
-.design-btn-pdf{
-  background:rgba(255,255,255,.92) !important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.75);
-}
-
-.design-safe{
-  background:rgba(46,125,50,.055) !important;
-  border:1px solid rgba(46,125,50,.14) !important;
-}
-/* ===== FIX MOBILE MODAL ĐẶT HÀNG ===== */
-@media(max-width:768px){
-
-  #benefitModal .modal-dialog{
-    width:calc(100% - 16px) !important;
+    width:calc(100% - 14px) !important;
     max-width:none !important;
-    margin:8px auto !important;
+    margin:7px auto !important;
   }
 
   #benefitModal .modal-title{
-    font-size:18px !important;
-    line-height:1.2;
-  }
-
-  #benefitModal .modal-header{
-    padding:12px 14px !important;
+    font-size:20px !important;
   }
 
   #benefitLead{
-    padding:10px !important;
-  }
-
-  .design-intro{
-    font-size:12px !important;
-    padding:9px 10px !important;
-    margin-bottom:10px !important;
-  }
-
-  .design-flow{
-    gap:10px !important;
-  }
-
-  .design-card{
-    grid-template-columns:1fr !important;
-    gap:10px !important;
     padding:14px !important;
   }
 
-  .design-left{
-    align-items:center !important;
-    gap:10px !important;
+  .design2-tabs{
+    grid-template-columns:1fr;
+    gap:10px;
   }
 
-  .design-icon{
-    width:46px !important;
-    height:46px !important;
-    font-size:22px !important;
-    border-radius:12px !important;
+  .design2-tab{
+    padding:12px;
   }
 
-  .design-no{
-    font-size:10px !important;
-    padding:2px 7px !important;
-    margin-bottom:5px !important;
+  .design2-ico{
+    width:46px;
+    height:46px;
+    font-size:22px;
   }
 
-  .design-head{
-    font-size:15px !important;
-    line-height:1.25 !important;
+  .design2-panel{
+    padding:18px;
   }
 
-  .design-sub{
-    font-size:12px !important;
-    margin-top:4px !important;
+  .design2-panel-grid{
+    grid-template-columns:1fr;
   }
 
-  .design-list{
-    border-left:0 !important;
-    padding-left:0 !important;
+  .design2-panel-title{
+    font-size:20px;
   }
 
-  .design-list li{
-    font-size:12px !important;
-    line-height:1.35 !important;
-    margin-bottom:6px !important;
+  .design2-panel-sub{
+    font-size:15px;
   }
 
-  .design-list li::before{
-    width:15px !important;
-    height:15px !important;
-    font-size:9px !important;
-    margin-right:6px !important;
+  .design2-list li{
+    font-size:13px;
   }
 
-  .design-actions{
-    grid-template-columns:1fr 1fr !important;
-    gap:8px !important;
+  .design2-actions{
+    grid-template-columns:1fr;
   }
 
-  .design-btn{
-    min-height:36px !important;
-    font-size:11px !important;
-    border-radius:9px !important;
-    padding:0 6px !important;
+  .design2-btn{
+    min-height:42px;
+    font-size:14px;
+  }
+} 
+
+/* ===== NÂNG CẤP MÀU SẮC + HIỆU ỨNG DESIGN2 ===== */
+
+/* Nền tổng popup mềm hơn */
+#benefitLead{
+  background:
+    radial-gradient(circle at top left, rgba(34,197,94,.10), transparent 35%),
+    radial-gradient(circle at top right, rgba(59,130,246,.08), transparent 32%),
+    linear-gradient(180deg,#ffffff 0%,#f6fbf8 100%) !important;
+}
+
+/* Header có chiều sâu hơn */
+#benefitModal .modal-header{
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255,255,255,.18), transparent 22%),
+    linear-gradient(135deg,#0f7a35 0%,#087f5b 55%,#075985 100%) !important;
+}
+
+/* Dòng thông báo */
+.design2-intro{
+  background:linear-gradient(90deg,#f0fdf4,#eff6ff) !important;
+  border:1px solid #d8efe0 !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* Tab đẹp hơn */
+.design2-tab{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(180deg,#ffffff,#fbfdff) !important;
+  box-shadow:0 6px 16px rgba(15,23,42,.05);
+}
+
+.design2-tab::after{
+  content:"";
+  position:absolute;
+  left:18px;
+  right:18px;
+  bottom:0;
+  height:4px;
+  border-radius:999px 999px 0 0;
+  opacity:0;
+}
+
+.design2-tab.green::after{background:#15803d;}
+.design2-tab.blue::after{background:#2563eb;}
+.design2-tab.orange::after{background:#f97316;}
+
+.design2-tab.active::after{
+  opacity:1;
+}
+
+/* Tab đang chọn nổi bật hơn */
+.design2-tab.active.green{
+  background:linear-gradient(180deg,#ffffff,#f0fdf4) !important;
+}
+
+.design2-tab.active.blue{
+  background:linear-gradient(180deg,#ffffff,#eff6ff) !important;
+}
+
+.design2-tab.active.orange{
+  background:linear-gradient(180deg,#ffffff,#fff7ed) !important;
+}
+
+/* Icon có bóng mềm */
+.design2-ico{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 8px 18px rgba(15,23,42,.08);
+}
+
+/* Khung nội dung chính cao cấp hơn */
+.design2-panel{
+  background:
+    radial-gradient(circle at 8% 25%, rgba(34,197,94,.08), transparent 22%),
+    linear-gradient(180deg,#ffffff,#fbfdfc) !important;
+  border:1px solid rgba(15,23,42,.08) !important;
+  box-shadow:0 12px 30px rgba(15,23,42,.08) !important;
+}
+
+/* Badge phản hồi nổi hơn */
+.design2-response{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.85),
+    0 10px 22px rgba(15,23,42,.07);
+}
+
+/* Nút chính có gradient */
+.design2-btn-main{
+  background-image:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,0)) !important;
+  box-shadow:0 10px 22px rgba(15,23,42,.16);
+}
+
+.design2-btn-main:hover,
+.design2-btn-sub:hover{
+  transform:translateY(-1px);
+  filter:brightness(.98);
+}
+
+/* Nút phụ mềm hơn */
+.design2-btn-sub{
+  background:rgba(255,255,255,.88) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* Dấu check có bóng nhẹ */
+.design2-check{
+  box-shadow:0 5px 12px rgba(15,23,42,.12);
+}
+
+/* Khung bảo mật */
+.design2-safe{
+  background:linear-gradient(90deg,#f8fafc,#f0fdf4) !important;
+  border:1px solid #e2efe6;
+}
+/* =====================================================
+   DESIGN 2 - PURPLE PREMIUM THEME
+   DÁN CUỐI FILE CSS
+   ===================================================== */
+
+:root{
+  --design2-primary:#6d28d9;
+  --design2-primary-dark:#5b21b6;
+  --design2-primary-light:#f3e8ff;
+  --design2-border:#ddd6fe;
+  --design2-shadow:rgba(109,40,217,.18);
+}
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+#benefitModal .modal-header{
+  background:linear-gradient(
+      135deg,
+      #8b5cf6 0%,
+      #6d28d9 55%,
+      #4c1d95 100%
+  ) !important;
+
+  border:none !important;
+  padding:18px 24px !important;
+}
+
+#benefitModal .modal-title{
+  color:#fff !important;
+  font-size:42px !important;
+  font-weight:800 !important;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+/* icon trước tiêu đề */
+#benefitModal .modal-title i{
+  font-size:34px !important;
+  color:#fff !important;
+}
+
+/* nút đóng */
+#benefitModal .btn-close{
+  filter:invert(1);
+  opacity:.9;
+}
+
+/* =====================================================
+   KHUNG THÔNG BÁO
+   ===================================================== */
+
+.design2-alert{
+  background:linear-gradient(
+      180deg,
+      #faf5ff,
+      #ffffff
+  ) !important;
+
+  border:1px solid #e9d5ff !important;
+  border-radius:16px !important;
+
+  color:#5b21b6 !important;
+
+  box-shadow:
+    0 4px 16px rgba(109,40,217,.05);
+}
+
+/* =====================================================
+   TAB
+   ===================================================== */
+
+.design2-tabs{
+  gap:12px !important;
+}
+
+.design2-tab{
+  border:1px solid #ece8ff !important;
+
+  border-radius:18px !important;
+
+  background:#fff !important;
+
+  transition:.25s ease;
+}
+
+.design2-tab:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+      0 8px 22px rgba(109,40,217,.10);
+}
+
+.design2-tab.active{
+  border-color:#7c3aed !important;
+
+  box-shadow:
+      0 10px 25px rgba(124,58,237,.18);
+
+  background:
+      linear-gradient(
+          180deg,
+          #ffffff,
+          #faf5ff
+      ) !important;
+
+  position:relative;
+}
+
+.design2-tab.active::after{
+  content:"";
+
+  position:absolute;
+
+  left:18px;
+  right:18px;
+  bottom:-1px;
+
+  height:4px;
+
+  border-radius:999px;
+
+  background:#7c3aed;
+}
+
+/* =====================================================
+   ICON TAB
+   ===================================================== */
+
+.design2-tab-icon{
+  width:60px;
+  height:60px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  background:
+      linear-gradient(
+          180deg,
+          #f5f3ff,
+          #ede9fe
+      );
+
+  color:#6d28d9;
+
+  font-size:26px;
+
+  box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* =====================================================
+   TIÊU ĐỀ
+   ===================================================== */
+
+.design2-panel h3,
+.design2-title{
+  color:#6d28d9 !important;
+
+  font-size:22px !important;
+
+  font-weight:800 !important;
+}
+
+.design2-subtitle{
+  color:#7c3aed !important;
+
+  font-weight:600 !important;
+}
+
+/* =====================================================
+   KHUNG NỘI DUNG
+   ===================================================== */
+
+.design2-panel{
+  background:#fff !important;
+
+  border:1px solid #ede9fe !important;
+
+  border-radius:22px !important;
+
+  box-shadow:
+      0 10px 30px rgba(0,0,0,.04);
+}
+
+/* =====================================================
+   DẤU CHECK
+   ===================================================== */
+
+.design2-check{
+  width:26px;
+  height:26px;
+
+  border-radius:50%;
+
+  background:#7c3aed !important;
+
+  color:#fff;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:13px;
+
+  box-shadow:
+      0 4px 10px rgba(124,58,237,.25);
+}
+
+/* =====================================================
+   CARD PHẢN HỒI NHANH
+   ===================================================== */
+
+.design2-response{
+  background:
+      linear-gradient(
+          180deg,
+          #faf5ff,
+          #f5f3ff
+      ) !important;
+
+  border:1px solid #d8b4fe !important;
+
+  border-radius:20px !important;
+
+  box-shadow:
+      0 10px 30px rgba(124,58,237,.08);
+}
+
+.design2-response .title{
+  color:#7c3aed !important;
+}
+
+.design2-response .time{
+  color:#6d28d9 !important;
+
+  font-size:46px !important;
+
+  font-weight:800 !important;
+}
+
+/* =====================================================
+   NÚT KẾT NỐI NGAY
+   ===================================================== */
+
+.design2-btn-main{
+  background:
+      linear-gradient(
+          135deg,
+          #8b5cf6 0%,
+          #6d28d9 100%
+      ) !important;
+
+  color:#fff !important;
+
+  border:none !important;
+
+  border-radius:16px !important;
+
+  font-weight:800 !important;
+
+  box-shadow:
+      0 10px 25px rgba(109,40,217,.22);
+
+  transition:.25s ease;
+}
+
+.design2-btn-main:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+      0 14px 30px rgba(109,40,217,.28);
+}
+
+/* =====================================================
+   NÚT NHÂN SỰ
+   ===================================================== */
+
+.design2-btn-sub{
+  background:#fff !important;
+
+  border:2px solid #7c3aed !important;
+
+  color:#6d28d9 !important;
+
+  border-radius:16px !important;
+
+  font-weight:700 !important;
+
+  transition:.25s ease;
+}
+
+.design2-btn-sub:hover{
+  background:#faf5ff !important;
+}
+
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+.design2-footer{
+  background:
+      linear-gradient(
+          180deg,
+          #faf5ff,
+          #ffffff
+      ) !important;
+
+  border:1px solid #ede9fe !important;
+
+  border-radius:16px !important;
+
+  color:#6d28d9 !important;
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media(max-width:768px){
+
+  .design2-response{
+      display:none;
   }
 
-  .design-safe{
-    font-size:12px !important;
-    padding:9px 10px !important;
-    margin-top:10px !important;
+  .design2-btn-main,
+  .design2-btn-sub{
+      width:100%;
+  }
+
+  .design2-panel{
+      padding:18px !important;
+  }
+
+  #benefitModal .modal-title{
+      font-size:28px !important;
+  }
+}    
+
+/* ===== FIX DESIGN2: GỌN HƠN + MÀU THEO TAB ===== */
+
+/* Thu nhỏ tổng popup */
+#benefitModal .modal-dialog{
+  max-width:880px !important;
+}
+
+#benefitModal .modal-header{
+  padding:14px 22px !important;
+}
+
+#benefitModal .modal-title{
+  font-size:28px !important;
+  font-weight:800 !important;
+  line-height:1.15 !important;
+}
+
+/* icon đầu tiêu đề: dùng giỏ hàng nhỏ, không quá to */
+#benefitModal .modal-title i,
+#benefitModal .modal-title .bi{
+  font-size:24px !important;
+  margin-right:8px !important;
+  color:#fff !important;
+}
+
+/* giảm khoảng trắng trong popup */
+#benefitLead{
+  padding:18px 22px 20px !important;
+}
+
+.design2-intro{
+  padding:10px 14px !important;
+  margin-bottom:14px !important;
+  font-size:14px !important;
+}
+
+/* tab gọn hơn */
+.design2-tabs{
+  gap:10px !important;
+  margin-bottom:14px !important;
+}
+
+.design2-tab{
+  padding:14px 16px !important;
+  border-radius:14px !important;
+  min-height:86px !important;
+}
+
+.design2-ico{
+  width:48px !important;
+  height:48px !important;
+  font-size:22px !important;
+}
+
+/* chữ trong tab */
+.design2-tab-title{
+  font-size:15px !important;
+  line-height:1.2 !important;
+  white-space:nowrap;
+}
+
+.design2-tab-sub{
+  font-size:12px !important;
+}
+
+/* panel nội dung gọn */
+.design2-panel{
+  padding:22px 26px !important;
+  border-radius:18px !important;
+}
+
+.design2-panel-grid{
+  grid-template-columns:1fr 240px !important;
+  gap:22px !important;
+}
+
+/* tiêu đề nội dung */
+.design2-panel-title{
+  font-size:22px !important;
+  line-height:1.2 !important;
+}
+
+.design2-panel-sub{
+  font-size:15px !important;
+  margin-bottom:16px !important;
+}
+
+/* danh sách */
+.design2-list li{
+  font-size:14px !important;
+  margin-bottom:9px !important;
+}
+
+/* dấu tick phải lấy màu theo JS inline, không bị tím đè */
+.design2-check{
+  background:var(--d2-color, currentColor) !important;
+  box-shadow:0 4px 10px rgba(0,0,0,.12) !important;
+}
+
+/* bỏ ép tím cho tiêu đề/panel/nút */
+.design2-panel-title,
+.design2-panel-sub{
+  color:inherit;
+}
+
+/* ô phản hồi gọn hơn */
+.design2-response{
+  padding:18px !important;
+  border-radius:16px !important;
+}
+
+.design2-response small{
+  font-size:13px !important;
+}
+
+.design2-response strong{
+  font-size:26px !important;
+}
+
+/* nút gọn */
+.design2-actions{
+  margin-top:18px !important;
+  gap:12px !important;
+}
+
+.design2-btn{
+  min-height:44px !important;
+  font-size:14px !important;
+  border-radius:12px !important;
+}
+
+/* nút không ép tím toàn cục nữa */
+.design2-btn-main{
+  box-shadow:0 8px 18px rgba(0,0,0,.14) !important;
+}
+
+.design2-btn-sub{
+  background:#fff !important;
+}
+
+/* footer gọn */
+.design2-safe{
+  margin-top:14px !important;
+  padding:10px 12px !important;
+  font-size:13px !important;
+}
+
+/* Mobile */
+@media(max-width:768px){
+  #benefitModal .modal-title{
+    font-size:20px !important;
+  }
+
+  .design2-tabs{
+    grid-template-columns:1fr !important;
+  }
+
+  .design2-tab{
+    min-height:auto !important;
+  }
+
+  .design2-panel-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .design2-response{
+    display:block !important;
   }
 }
 
-@media(max-width:420px){
-  .design-actions{
-    grid-template-columns:1fr !important;
-  }
+/* ===== FIX DESIGN2: GỌN + MÀU THEO TAB ===== */
+
+#benefitModal .modal-dialog{
+  max-width:820px !important;
+}
+
+#benefitModal .modal-header{
+  padding:10px 20px !important;
+}
+
+#benefitModal .modal-title{
+  font-size:24px !important;
+  line-height:1.15 !important;
+  font-weight:800 !important;
+}
+
+#benefitLead{
+  padding:14px 18px 18px !important;
+}
+
+.design2-intro{
+  padding:9px 12px !important;
+  margin-bottom:12px !important;
+  font-size:13px !important;
+}
+
+.design2-tabs{
+  gap:10px !important;
+  margin-bottom:12px !important;
+}
+
+.design2-tab{
+  padding:12px 14px !important;
+  min-height:76px !important;
+  border-radius:14px !important;
+}
+
+.design2-ico{
+  width:44px !important;
+  height:44px !important;
+  font-size:20px !important;
+}
+
+.design2-tab-title{
+  font-size:14px !important;
+  line-height:1.15 !important;
+  white-space:nowrap;
+}
+
+.design2-tab-sub{
+  font-size:12px !important;
+}
+
+.design2-panel{
+  padding:20px 24px !important;
+  border-radius:16px !important;
+}
+
+.design2-panel-grid{
+  grid-template-columns:1fr 220px !important;
+  gap:18px !important;
+}
+
+.design2-panel-title{
+  font-size:21px !important;
+  line-height:1.2 !important;
+  color:var(--d2-color) !important;
+}
+
+.design2-panel-sub{
+  font-size:14px !important;
+  margin-bottom:14px !important;
+  color:var(--d2-color) !important;
+}
+
+.design2-list li{
+  font-size:13px !important;
+  margin-bottom:8px !important;
+}
+
+.design2-check{
+  width:22px !important;
+  height:22px !important;
+  background:var(--d2-color) !important;
+  color:#fff !important;
+  font-size:12px !important;
+}
+
+.design2-response{
+  padding:16px !important;
+  border-radius:15px !important;
+  background:var(--d2-bg) !important;
+  border:1px solid var(--d2-soft) !important;
+  color:var(--d2-color) !important;
+}
+
+.design2-response small{
+  font-size:12px !important;
+}
+
+.design2-response strong{
+  font-size:24px !important;
+}
+
+.design2-actions{
+  margin-top:16px !important;
+  gap:10px !important;
+}
+
+.design2-btn{
+  min-height:40px !important;
+  font-size:13px !important;
+  border-radius:11px !important;
+}
+
+.design2-btn-main{
+  background:var(--d2-color) !important;
+  color:#fff !important;
+}
+
+.design2-btn-sub{
+  background:#fff !important;
+  color:var(--d2-color) !important;
+  border:1.5px solid var(--d2-color) !important;
+}
+
+.design2-safe{
+  margin-top:12px !important;
+  padding:9px 12px !important;
+  font-size:12px !important;
+}
+
+/* bỏ ép tím toàn bộ dấu tick */
+.design2-list .design2-check{
+  box-shadow:0 4px 10px rgba(0,0,0,.12) !important;
 }
     
 </style>
@@ -7311,85 +7925,40 @@ const BENEFIT_DETAIL = {
 
   customHtml:`
 
-<div class="design-intro">
+<div class="design2-intro">
   🛡️ Chọn hình thức phù hợp, nhân sự sẽ hỗ trợ bạn nhanh nhất!
 </div>
 
-<div class="design-flow">
-
-  <div class="design-card">
-    <div class="design-left">
-      <div class="design-icon">👤</div>
-      <div>
-        <div class="design-no">01</div>
-        <div class="design-head">DƯỚI 3 SẢN PHẨM</div>
-        <div class="design-sub">(1 người phụ trách)</div>
-      </div>
-    </div>
-
-    <ul class="design-list">
-      <li>Đại diện khách hàng riêng (1 người)</li>
-      <li>Báo giá, tư vấn và chăm sóc xuyên suốt</li>
-      <li>Phản hồi trong vòng &lt; 5 phút</li>
-      <li>Kết nối trực tiếp qua Zalo</li>
-    </ul>
-
-    <div class="design-actions">
-      <a href="https://zalo.me/0775238306" target="_blank" class="design-btn design-btn-connect">💬 KẾT NỐI NGAY</a>
-      <a href="LINK_PDF_1" target="_blank" class="design-btn design-btn-pdf">👥 DANH SÁCH NHÂN SỰ</a>
+<div class="design2-tabs">
+  <div class="design2-tab green active" onclick="switchDesign2('green')">
+    <div class="design2-ico">👤</div>
+    <div>
+      <div class="design2-tab-title">DƯỚI 3 SẢN PHẨM</div>
+      <div class="design2-tab-sub">(1 người phụ trách)</div>
     </div>
   </div>
 
-  <div class="design-card blue">
-    <div class="design-left">
-      <div class="design-icon">👥</div>
-      <div>
-        <div class="design-no">02</div>
-        <div class="design-head">NHIỀU SẢN PHẨM CÙNG LÚC</div>
-        <div class="design-sub">(Tạo nhóm phụ trách)</div>
-      </div>
-    </div>
-
-    <ul class="design-list">
-      <li>Trưởng nhóm đại diện khách hàng (Admin)</li>
-      <li>Chuyên viên phụ trách theo từng nhóm sản phẩm</li>
-      <li>Phản hồi trong vòng &lt; 10 phút</li>
-      <li>Nhóm Zalo làm việc nhiều bộ phận</li>
-    </ul>
-
-    <div class="design-actions">
-      <a href="https://zalo.me/0775238306" target="_blank" class="design-btn design-btn-connect">💬 KẾT NỐI NGAY</a>
-      <a href="LINK_PDF_2" target="_blank" class="design-btn design-btn-pdf">👥 DANH SÁCH NHÂN SỰ</a>
+  <div class="design2-tab blue" onclick="switchDesign2('blue')">
+    <div class="design2-ico">👥</div>
+    <div>
+      <div class="design2-tab-title">NHIỀU SẢN PHẨM</div>
+      <div class="design2-tab-sub">(Tạo nhóm phụ trách)</div>
     </div>
   </div>
 
-  <div class="design-card orange">
-    <div class="design-left">
-      <div class="design-icon">🧑‍💼</div>
-      <div>
-        <div class="design-no">03</div>
-        <div class="design-head">ĐƠN HÀNG SỐ LƯỢNG LỚN - THƯỜNG XUYÊN</div>
-        <div class="design-sub">(Trao đổi trực tiếp với Giám đốc)</div>
-      </div>
-    </div>
-
-    <ul class="design-list">
-      <li>Giám đốc phụ trách trực tiếp</li>
-      <li>Tư vấn từ thiết kế đến báo giá và sản xuất</li>
-      <li>Phản hồi trong vòng &lt; 15 phút</li>
-      <li>Kết nối và hỗ trợ trực tiếp</li>
-    </ul>
-
-    <div class="design-actions">
-      <a href="https://zalo.me/0775238306" target="_blank" class="design-btn design-btn-connect">💬 KẾT NỐI NGAY</a>
-      <a href="LINK_PDF_3" target="_blank" class="design-btn design-btn-pdf">👥 DANH SÁCH NHÂN SỰ</a>
+  <div class="design2-tab orange" onclick="switchDesign2('orange')">
+    <div class="design2-ico">🧑‍💼</div>
+    <div>
+      <div class="design2-tab-title">ĐƠN HÀNG LỚN</div>
+      <div class="design2-tab-sub">(Trao đổi trực tiếp)</div>
     </div>
   </div>
-
 </div>
 
-<div class="design-safe">
-  🛡️ Thông tin của bạn được bảo mật. 2606AI sẽ kết nối và hỗ trợ trực tiếp.
+<div id="design2Panel" class="design2-panel"></div>
+
+<div class="design2-safe">
+  🔒 Thông tin của bạn được bảo mật. 2606AI sẽ kết nối và hỗ trợ trực tiếp.
 </div>
 
 `
@@ -7438,6 +8007,7 @@ const BENEFIT_DETAIL = {
   }
 
   modal.show();
+      setTimeout(()=>switchDesign2('green'),100);
 }
   document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
     const key = card.getAttribute('data-benefit');
@@ -7924,6 +8494,110 @@ document.addEventListener('click', (e) => {
   }
 });
 
+window.switchDesign2 = function(type){
+
+  const data = {
+    green:{
+      title:'DƯỚI 3 SẢN PHẨM',
+      sub:'(1 người phụ trách)',
+      color:'#15803d',
+      bg:'#f0fdf4',
+      soft:'#bbf7d0',
+      response:'< 5 PHÚT',
+      pdf:'LINK_PDF_1',
+      items:[
+        'Đại diện khách hàng riêng (1 người)',
+        'Báo giá, tư vấn và chăm sóc xuyên suốt',
+        'Phản hồi trong vòng < 5 phút',
+        'Kết nối trực tiếp qua Zalo'
+      ]
+    },
+    blue:{
+      title:'NHIỀU SẢN PHẨM CÙNG LÚC',
+      sub:'(Tạo nhóm phụ trách)',
+      color:'#2563eb',
+      bg:'#eff6ff',
+      soft:'#bfdbfe',
+      response:'< 10 PHÚT',
+      pdf:'LINK_PDF_2',
+      items:[
+        'Trưởng nhóm đại diện khách hàng (Admin)',
+        'Chuyên viên phụ trách theo từng nhóm sản phẩm',
+        'Phản hồi trong vòng < 10 phút',
+        'Nhóm Zalo làm việc nhiều bộ phận'
+      ]
+    },
+    orange:{
+      title:'ĐƠN HÀNG SỐ LƯỢNG LỚN - THƯỜNG XUYÊN',
+      sub:'(Trao đổi trực tiếp với Giám đốc)',
+      color:'#f97316',
+      bg:'#fff7ed',
+      soft:'#fed7aa',
+      response:'< 15 PHÚT',
+      pdf:'LINK_PDF_3',
+      items:[
+        'Giám đốc phụ trách trực tiếp',
+        'Tư vấn từ thiết kế đến báo giá và sản xuất',
+        'Phản hồi trong vòng < 15 phút',
+        'Kết nối và hỗ trợ trực tiếp'
+      ]
+    }
+  };
+
+  const d = data[type];
+  if(!d) return;
+
+  document.querySelectorAll('.design2-tab').forEach(x=>{
+    x.classList.remove('active');
+  });
+
+  const activeTab = document.querySelector('.design2-tab.' + type);
+  if(activeTab) activeTab.classList.add('active');
+
+  const panel = document.getElementById('design2Panel');
+  if(!panel) return;
+
+  panel.style.setProperty('--d2-color', d.color);
+  panel.style.setProperty('--d2-bg', d.bg);
+  panel.style.setProperty('--d2-soft', d.soft);
+
+  panel.innerHTML = `
+    <div class="design2-panel-grid">
+      <div>
+        <div class="design2-panel-title">${d.title}</div>
+        <div class="design2-panel-sub">${d.sub}</div>
+
+        <ul class="design2-list">
+          ${d.items.map(x=>`
+            <li>
+              <span class="design2-check">✓</span>
+              <span>${x}</span>
+            </li>
+          `).join('')}
+        </ul>
+      </div>
+
+      <div class="design2-response">
+        <small>⚡ PHẢN HỒI NHANH</small>
+        <strong>${d.response}</strong>
+      </div>
+    </div>
+
+    <div class="design2-actions">
+      <a href="https://zalo.me/0775238306"
+         target="_blank"
+         class="design2-btn design2-btn-main">
+        💬 KẾT NỐI NGAY
+      </a>
+
+      <a href="${d.pdf}"
+         target="_blank"
+         class="design2-btn design2-btn-sub">
+        👥 DANH SÁCH NHÂN SỰ
+      </a>
+    </div>
+  `;
+};
     
 </script>
 
