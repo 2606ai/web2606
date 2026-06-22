@@ -5124,7 +5124,343 @@ document.addEventListener('click', (ev)=>{
 .benefit-text small{
   line-height:1.35 !important;
 }
-    
+/* ===== MODAL ĐẶT HÀNG THEO THIẾT KẾ - GIỐNG ẢNH MẪU ===== */
+
+#benefitModal .modal-dialog{
+  max-width:1080px !important; /* chỉnh chiều rộng popup */
+}
+
+#benefitModal .modal-content{
+  border:0 !important;
+  border-radius:18px !important;
+  overflow:hidden !important;
+  box-shadow:0 22px 60px rgba(0,0,0,.28) !important;
+}
+
+#benefitModal .modal-header{
+  background:linear-gradient(135deg,#2e7d32,#1b5e20) !important;
+  color:#fff !important;
+  border:0 !important;
+  padding:20px 26px !important; /* chỉnh chiều cao header */
+}
+
+#benefitModal .modal-title{
+  font-size:28px !important; /* cỡ chữ tiêu đề */
+  font-weight:900 !important;
+}
+
+#benefitModal .btn-close{
+  filter:invert(1);
+  opacity:1;
+}
+
+#benefitModal .modal-body{
+  padding:0 !important;
+}
+
+#benefitLead{
+  background:#fff !important;
+  padding:24px 28px 28px !important; /* khoảng trắng trong popup */
+}
+
+.design-intro{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#f7fbf7;
+  border:1px solid #dfeee1;
+  border-radius:14px;
+  padding:13px 18px;
+  color:#1b5e20;
+  font-size:17px;
+  font-weight:600;
+  margin-bottom:18px;
+}
+
+.design-flow{
+  display:grid;
+  gap:16px; /* khoảng cách giữa 3 card */
+}
+
+.design-card{
+  display:grid;
+  grid-template-columns:330px 1fr 240px; /* cột trái | nội dung | nút */
+  gap:24px;
+  align-items:center;
+  background:#fff;
+  border:1px solid #e2e8e2;
+  border-radius:16px;
+  padding:24px 26px; /* độ dày card */
+  box-shadow:0 4px 16px rgba(0,0,0,.04);
+  position:relative;
+  overflow:hidden;
+}
+
+.design-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0;
+  bottom:0;
+  width:4px; /* vạch màu bên trái */
+  background:#2e7d32;
+}
+
+.design-card.blue::before{background:#1e88e5;}
+.design-card.orange::before{background:#f57c00;}
+
+.design-left{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+
+.design-icon{
+  width:76px; /* kích thước ô icon */
+  height:76px;
+  border-radius:16px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#e8f5e9;
+  color:#2e7d32;
+  font-size:34px;
+  flex-shrink:0;
+}
+
+.design-card.blue .design-icon{
+  background:#e3f2fd;
+  color:#1e88e5;
+}
+
+.design-card.orange .design-icon{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.design-no{
+  display:inline-block;
+  background:#2e7d32;
+  color:#fff;
+  border-radius:8px;
+  padding:4px 10px; /* kích thước badge 01 */
+  font-size:13px;
+  font-weight:900;
+  margin-bottom:10px;
+}
+
+.design-card.blue .design-no{background:#1e88e5;}
+.design-card.orange .design-no{background:#f57c00;}
+
+.design-head{
+  font-size:20px; /* cỡ chữ tiêu đề card */
+  font-weight:900;
+  color:#111827;
+  line-height:1.25;
+}
+
+.design-sub{
+  font-size:16px;
+  color:#2e7d32;
+  font-weight:700;
+  margin-top:8px;
+}
+
+.design-card.blue .design-sub{color:#1e88e5;}
+.design-card.orange .design-sub{color:#f57c00;}
+
+.design-list{
+  list-style:none;
+  padding:0 0 0 26px;
+  margin:0;
+  border-left:1px dashed #d5ddd5;
+}
+
+.design-list li{
+  font-size:16px; /* cỡ chữ nội dung */
+  color:#374151;
+  line-height:1.45;
+  margin-bottom:10px;
+}
+
+.design-list li:last-child{
+  margin-bottom:0;
+}
+
+.design-list li::before{
+  content:"✓";
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:#e8f5e9;
+  color:#2e7d32;
+  font-size:12px;
+  font-weight:900;
+  margin-right:9px;
+}
+
+.design-card.blue .design-list li::before{
+  background:#e3f2fd;
+  color:#1e88e5;
+}
+
+.design-card.orange .design-list li::before{
+  background:#fff3e0;
+  color:#f57c00;
+}
+
+.design-actions{
+  display:grid;
+  gap:14px; /* khoảng cách giữa 2 nút */
+}
+
+.design-btn{
+  min-height:48px; /* chiều cao nút */
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+  font-weight:900;
+  text-decoration:none;
+  white-space:nowrap;
+}
+
+.design-btn-connect{
+  background:#2e7d32;
+  color:#fff !important;
+}
+
+.design-card.blue .design-btn-connect{background:#1e88e5;}
+.design-card.orange .design-btn-connect{background:#f57c00;}
+
+.design-btn-pdf{
+  background:#fff;
+  color:#2e7d32 !important;
+  border:1.6px solid #2e7d32;
+}
+
+.design-card.blue .design-btn-pdf{
+  color:#1e88e5 !important;
+  border-color:#1e88e5;
+}
+
+.design-card.orange .design-btn-pdf{
+  color:#f57c00 !important;
+  border-color:#f57c00;
+}
+
+.design-safe{
+  margin-top:18px;
+  padding:13px 16px;
+  border-radius:13px;
+  background:#f1faf2;
+  border:1px solid #d7ead9;
+  color:#2e7d32;
+  font-size:16px;
+  font-weight:600;
+  text-align:center;
+}
+
+@media(max-width:768px){
+  #benefitModal .modal-dialog{
+    max-width:96% !important;
+  }
+
+  .design-card{
+    grid-template-columns:1fr;
+  }
+
+  .design-list{
+    border-left:0;
+    padding-left:0;
+  }
+
+  .design-actions{
+    grid-template-columns:1fr 1fr;
+  }
+}
+/* ===== UPGRADE GIAO DIỆN MODAL CAO CẤP HƠN ===== */
+
+#benefitModal .modal-content{
+  border-radius:22px !important;
+  background:#fbfdfb !important;
+}
+
+#benefitModal .modal-header{
+  background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 55%,#43a047 100%) !important;
+}
+
+#benefitModal .modal-title{
+  font-size:26px !important;
+  font-weight:850 !important;
+  letter-spacing:.2px;
+}
+
+#benefitLead{
+  background:linear-gradient(180deg,#ffffff 0%,#f7fbf7 100%) !important;
+}
+
+.design-intro{
+  background:rgba(46,125,50,.045) !important;
+  border:1px solid rgba(46,125,50,.14) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+
+.design-card{
+  border:1px solid rgba(46,125,50,.12) !important;
+  box-shadow:0 10px 26px rgba(0,0,0,.045) !important;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfdfb 100%) !important;
+}
+
+.design-card:hover{
+  transform:translateY(-1px);
+  box-shadow:0 14px 30px rgba(0,0,0,.075) !important;
+}
+
+.design-head{
+  font-weight:850 !important;
+  letter-spacing:.1px;
+}
+
+.design-sub{
+  font-weight:650 !important;
+}
+
+.design-list li{
+  color:#2f3b45 !important;
+  font-weight:450;
+}
+
+.design-icon{
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75), 0 8px 18px rgba(0,0,0,.06);
+}
+
+.design-btn-connect{
+  background:linear-gradient(135deg,#2e7d32,#1b5e20) !important;
+  box-shadow:0 10px 18px rgba(46,125,50,.22);
+}
+
+.design-card.blue .design-btn-connect{
+  background:linear-gradient(135deg,#1e88e5,#0d47a1) !important;
+}
+
+.design-card.orange .design-btn-connect{
+  background:linear-gradient(135deg,#fb8c00,#ef6c00) !important;
+}
+
+.design-btn-pdf{
+  background:rgba(255,255,255,.92) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.75);
+}
+
+.design-safe{
+  background:rgba(46,125,50,.055) !important;
+  border:1px solid rgba(46,125,50,.14) !important;
+}
 </style>
 
 <div id="errbox" role="alert" aria-live="assertive"></div>
@@ -6861,8 +7197,94 @@ document.getElementById('submitOrderBtn')?.addEventListener('click', submitOrder
 const BENEFIT_DETAIL = {
   b1:{ title:'Tham khảo 10,000+ sản phẩm mẫu tạo từ A.I đã được kiểm duyệt ', lead:'Kho hàng hóa và ý tưởng lớn, cập nhật thường xuyên', bullets:[
       'Tìm nhanh theo Số điện thoại, tên công ty, tên sản phẩm, từ khóa, loại sản phẩm','Phân loại theo nhu cầu và chiến lược Marketing phù hợp','Lưu mẫu yêu thích vào giỏ để lấy báo giá tham khảo sản xuất' ] },
-  b2:{ title:'Hơn 500+ sản phẩm được người mua chia sẻ sau khi sản xuất', lead:'Tham khảo nhanh – đa dạng – so sánh giá dễ dàng.', bullets:[
-      'Tìm kiếm đơn vị chia sẻ bằng số điện thoại/tên công ty','Sản phẩm được người mua cho phép chia sẻ sau khi có thành phẩm','Liên hệ để nhận quà từ người chia sẻ (Nếu có)' ] },
+ b2:{
+  title:'🛒 ĐẶT HÀNG THEO THIẾT KẾ',
+
+  customHtml:`
+
+<div class="design-intro">
+  🛡️ Chọn hình thức phù hợp, nhân sự sẽ hỗ trợ bạn nhanh nhất!
+</div>
+
+<div class="design-flow">
+
+  <div class="design-card">
+    <div class="design-left">
+      <div class="design-icon">👤</div>
+      <div>
+        <div class="design-no">01</div>
+        <div class="design-head">DƯỚI 3 SẢN PHẨM</div>
+        <div class="design-sub">(1 người phụ trách)</div>
+      </div>
+    </div>
+
+    <ul class="design-list">
+      <li>Đại diện khách hàng riêng (1 người)</li>
+      <li>Báo giá, tư vấn và chăm sóc xuyên suốt</li>
+      <li>Phản hồi trong vòng &lt; 5 phút</li>
+      <li>Kết nối trực tiếp qua Zalo</li>
+    </ul>
+
+    <div class="design-actions">
+      <a href="https://zalo.me/0775238306" target="_blank" class="design-btn design-btn-connect">💬 KẾT NỐI NGAY</a>
+      <a href="LINK_PDF_1" target="_blank" class="design-btn design-btn-pdf">👥 DANH SÁCH NHÂN SỰ</a>
+    </div>
+  </div>
+
+  <div class="design-card blue">
+    <div class="design-left">
+      <div class="design-icon">👥</div>
+      <div>
+        <div class="design-no">02</div>
+        <div class="design-head">NHIỀU SẢN PHẨM CÙNG LÚC</div>
+        <div class="design-sub">(Tạo nhóm phụ trách)</div>
+      </div>
+    </div>
+
+    <ul class="design-list">
+      <li>Trưởng nhóm đại diện khách hàng (Admin)</li>
+      <li>Chuyên viên phụ trách theo từng nhóm sản phẩm</li>
+      <li>Phản hồi trong vòng &lt; 10 phút</li>
+      <li>Nhóm Zalo làm việc nhiều bộ phận</li>
+    </ul>
+
+    <div class="design-actions">
+      <a href="https://zalo.me/0775238306" target="_blank" class="design-btn design-btn-connect">💬 KẾT NỐI NGAY</a>
+      <a href="LINK_PDF_2" target="_blank" class="design-btn design-btn-pdf">👥 DANH SÁCH NHÂN SỰ</a>
+    </div>
+  </div>
+
+  <div class="design-card orange">
+    <div class="design-left">
+      <div class="design-icon">🧑‍💼</div>
+      <div>
+        <div class="design-no">03</div>
+        <div class="design-head">ĐƠN HÀNG SỐ LƯỢNG LỚN - THƯỜNG XUYÊN</div>
+        <div class="design-sub">(Trao đổi trực tiếp với Giám đốc)</div>
+      </div>
+    </div>
+
+    <ul class="design-list">
+      <li>Giám đốc phụ trách trực tiếp</li>
+      <li>Tư vấn từ thiết kế đến báo giá và sản xuất</li>
+      <li>Phản hồi trong vòng &lt; 15 phút</li>
+      <li>Kết nối và hỗ trợ trực tiếp</li>
+    </ul>
+
+    <div class="design-actions">
+      <a href="https://zalo.me/0775238306" target="_blank" class="design-btn design-btn-connect">💬 KẾT NỐI NGAY</a>
+      <a href="LINK_PDF_3" target="_blank" class="design-btn design-btn-pdf">👥 DANH SÁCH NHÂN SỰ</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="design-safe">
+  🛡️ Thông tin của bạn được bảo mật. 2606AI sẽ kết nối và hỗ trợ trực tiếp.
+</div>
+
+`
+},
   b3:{ title:'Đồng hành sản xuất và góp ý chiến lược Marketing phù hợp', lead:'Đội ngũ CSKH gồm các Marketer và chuyên viên phản hồi nhanh và cụ thể', bullets:[
       'Tư vấn vật liệu, quy cách, định mức, kế hoạch triển khai','Ước tính chi phí sơ bộ, dự toán và ngân sách','Theo dõi và hỗ trợ nhiều kỹ năng khác' ] },
   b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất, vận chuyển 247express toàn quốc', lead:'Ứng dụng A.I vào hỗ trợ khách hàng nhanh chóng và cực kỳ hiệu quả', bullets:[
@@ -6880,13 +7302,34 @@ const BENEFIT_DETAIL = {
   const $list  = document.getElementById('benefitList');
   const $note  = document.getElementById('benefitNote');
   function openDetail(key){
-    const d = BENEFIT_DETAIL[key]; if(!d) return;
-    $title.textContent = d.title || 'Chi tiết';
-    $lead.textContent  = d.lead  || '';
-    $list.innerHTML    = (d.bullets||[]).map(li=>`<li>${li}</li>`).join('');
-    $note.textContent  = d.note || '';
-    modal.show();
+
+  const d = BENEFIT_DETAIL[key];
+  if(!d) return;
+
+  $title.textContent = d.title || 'Chi tiết';
+
+  if(d.customHtml){
+
+    $lead.innerHTML = d.customHtml;
+
+    $list.innerHTML = '';
+
+    $note.innerHTML = '';
+
+  }else{
+
+    $lead.textContent = d.lead || '';
+
+    $list.innerHTML = (d.bullets||[])
+      .map(li=>`<li>${li}</li>`)
+      .join('');
+
+    $note.textContent = d.note || '';
+
   }
+
+  modal.show();
+}
   document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
     const key = card.getAttribute('data-benefit');
     card.addEventListener('click', ()=>openDetail(key));
