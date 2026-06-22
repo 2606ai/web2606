@@ -5461,6 +5461,115 @@ document.addEventListener('click', (ev)=>{
   background:rgba(46,125,50,.055) !important;
   border:1px solid rgba(46,125,50,.14) !important;
 }
+/* ===== FIX MOBILE MODAL ĐẶT HÀNG ===== */
+@media(max-width:768px){
+
+  #benefitModal .modal-dialog{
+    width:calc(100% - 16px) !important;
+    max-width:none !important;
+    margin:8px auto !important;
+  }
+
+  #benefitModal .modal-title{
+    font-size:18px !important;
+    line-height:1.2;
+  }
+
+  #benefitModal .modal-header{
+    padding:12px 14px !important;
+  }
+
+  #benefitLead{
+    padding:10px !important;
+  }
+
+  .design-intro{
+    font-size:12px !important;
+    padding:9px 10px !important;
+    margin-bottom:10px !important;
+  }
+
+  .design-flow{
+    gap:10px !important;
+  }
+
+  .design-card{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+    padding:14px !important;
+  }
+
+  .design-left{
+    align-items:center !important;
+    gap:10px !important;
+  }
+
+  .design-icon{
+    width:46px !important;
+    height:46px !important;
+    font-size:22px !important;
+    border-radius:12px !important;
+  }
+
+  .design-no{
+    font-size:10px !important;
+    padding:2px 7px !important;
+    margin-bottom:5px !important;
+  }
+
+  .design-head{
+    font-size:15px !important;
+    line-height:1.25 !important;
+  }
+
+  .design-sub{
+    font-size:12px !important;
+    margin-top:4px !important;
+  }
+
+  .design-list{
+    border-left:0 !important;
+    padding-left:0 !important;
+  }
+
+  .design-list li{
+    font-size:12px !important;
+    line-height:1.35 !important;
+    margin-bottom:6px !important;
+  }
+
+  .design-list li::before{
+    width:15px !important;
+    height:15px !important;
+    font-size:9px !important;
+    margin-right:6px !important;
+  }
+
+  .design-actions{
+    grid-template-columns:1fr 1fr !important;
+    gap:8px !important;
+  }
+
+  .design-btn{
+    min-height:36px !important;
+    font-size:11px !important;
+    border-radius:9px !important;
+    padding:0 6px !important;
+  }
+
+  .design-safe{
+    font-size:12px !important;
+    padding:9px 10px !important;
+    margin-top:10px !important;
+  }
+}
+
+@media(max-width:420px){
+  .design-actions{
+    grid-template-columns:1fr !important;
+  }
+}
+    
 </style>
 
 <div id="errbox" role="alert" aria-live="assertive"></div>
