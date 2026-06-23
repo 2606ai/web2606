@@ -6317,6 +6317,26 @@ document.addEventListener('click', (ev)=>{
     margin-top:10px !important;
   }
 }
+
+#benefitModal .modal-title{
+  display:flex !important;
+  align-items:center !important;
+  gap:14px !important;
+}
+
+#benefitModal .modal-title-img{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  flex:0 0 auto;
+}
+
+@media (max-width:576px){
+  #benefitModal .modal-title-img{
+    width:32px;
+    height:32px;
+  }
+}
     
 </style>
 
@@ -8055,7 +8075,12 @@ const BENEFIT_DETAIL = {
   b1:{ title:'Tham khảo 10,000+ sản phẩm mẫu tạo từ A.I đã được kiểm duyệt ', lead:'Kho hàng hóa và ý tưởng lớn, cập nhật thường xuyên', bullets:[
       'Tìm nhanh theo Số điện thoại, tên công ty, tên sản phẩm, từ khóa, loại sản phẩm','Phân loại theo nhu cầu và chiến lược Marketing phù hợp','Lưu mẫu yêu thích vào giỏ để lấy báo giá tham khảo sản xuất' ] },
  b2:{
-  title:'🛒 ĐẶT HÀNG THEO THIẾT KẾ',
+  titleHtml:`
+    <img class="modal-title-img"
+         src="https://drive.google.com/thumbnail?id=19CihPHw5XuynoCgdel0thI3-MksVSa2o&sz=w150"
+         alt="">
+    <span>ĐẶT HÀNG THEO THIẾT KẾ</span>
+  `,
 
   customHtml:`
 
@@ -8118,7 +8143,11 @@ const BENEFIT_DETAIL = {
   const d = BENEFIT_DETAIL[key];
   if(!d) return;
 
+  if(d.titleHtml){
+  $title.innerHTML = d.titleHtml;
+}else{
   $title.textContent = d.title || 'Chi tiết';
+}
 
   if(d.customHtml){
 
