@@ -2954,6 +2954,8 @@ footer.text-light .bi{ color:#fff; }
   height:200% !important;
   object-fit:contain !important;
 }
+
+
     
 </style>
 <style id="icon-zoom-fix">
@@ -5551,12 +5553,13 @@ document.addEventListener('click', (ev)=>{
    ===================================================== */
 
 #benefitModal .modal-header{
-  background:linear-gradient(
-      135deg,
-      #8b5cf6 0%,
-      #6d28d9 55%,
-      #4c1d95 100%
-  ) !important;
+    background:linear-gradient(
+        135deg,
+        #d97706 0%,
+        #c96f1d 50%,
+        #a85b16 100%
+    ) !important;
+}
 
   border:none !important;
   padding:18px 24px !important;
@@ -6335,6 +6338,93 @@ document.addEventListener('click', (ev)=>{
   #benefitModal .modal-title-img{
     width:32px;
     height:32px;
+  }
+}
+
+.buy-modal-subtitle{
+  text-align:center;
+  font-weight:600;
+  margin-bottom:18px;
+  color:#374151;
+}
+
+.buy-channel-wrap{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.buy-channel-box{
+  border:1px solid #dbeafe;
+  border-radius:16px;
+  overflow:hidden;
+  background:#fff;
+}
+
+.buy-channel-box.direct{
+  border-color:#bbf7d0;
+}
+
+.buy-channel-title{
+  padding:12px 16px;
+  font-weight:800;
+  background:#f0fdf4;
+  color:#15803d;
+}
+
+.buy-channel-box.online .buy-channel-title{
+  background:#eff6ff;
+  color:#2563eb;
+}
+
+.buy-channel-box a{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 16px;
+  color:#111827;
+  text-decoration:none;
+  border-top:1px solid #eef2f7;
+}
+
+.buy-channel-box a:hover{
+  background:#f9fafb;
+}
+
+.buy-channel-box a span{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f3f4f6;
+  font-size:18px;
+}
+
+.buy-channel-box a div{
+  flex:1;
+}
+
+.buy-channel-box a strong{
+  display:block;
+  font-size:14px;
+}
+
+.buy-channel-box a small{
+  display:block;
+  font-size:12px;
+  color:#6b7280;
+}
+
+.buy-channel-box a b{
+  font-size:24px;
+  color:#16a34a;
+}
+
+@media(max-width:768px){
+  .buy-channel-wrap{
+    grid-template-columns:1fr;
   }
 }
     
@@ -8122,8 +8212,98 @@ const BENEFIT_DETAIL = {
 
 `
 },
-  b3:{ title:'Đồng hành sản xuất và góp ý chiến lược Marketing phù hợp', lead:'Đội ngũ CSKH gồm các Marketer và chuyên viên phản hồi nhanh và cụ thể', bullets:[
-      'Tư vấn vật liệu, quy cách, định mức, kế hoạch triển khai','Ước tính chi phí sơ bộ, dự toán và ngân sách','Theo dõi và hỗ trợ nhiều kỹ năng khác' ] },
+  b3:{
+  titleHtml:'MUA LẺ VÀ MUA SỈ',
+  customHtml:`
+    <div class="buy-modal-subtitle">
+      Chọn kênh mua hàng phù hợp với nhu cầu của bạn
+    </div>
+
+    <div class="buy-channel-wrap">
+
+      <div class="buy-channel-box direct">
+        <div class="buy-channel-title">🏢 KÊNH TRỰC TIẾP</div>
+
+        <a href="LINK_XUONG_SAN_XUAT" target="_blank">
+          <span>🏭</span>
+          <div>
+            <strong>Xưởng sản xuất 2606AI</strong>
+            <small>Sản xuất trực tiếp, giá tốt</small>
+          </div>
+          <b>›</b>
+        </a>
+
+        <a href="LINK_SHOWROOM" target="_blank">
+          <span>🏬</span>
+          <div>
+            <strong>Showroom / Cửa hàng</strong>
+            <small>Xem mẫu và nhận tư vấn</small>
+          </div>
+          <b>›</b>
+        </a>
+
+        <a href="LINK_NHAN_VIEN_KD" target="_blank">
+          <span>👨‍💼</span>
+          <div>
+            <strong>Nhân viên kinh doanh</strong>
+            <small>Tư vấn 1:1, báo giá nhanh</small>
+          </div>
+          <b>›</b>
+        </a>
+      </div>
+
+      <div class="buy-channel-box online">
+        <div class="buy-channel-title">🌐 KÊNH ONLINE</div>
+
+        <a href="https://2606ai.com" target="_blank">
+          <span>🌐</span>
+          <div>
+            <strong>Website 2606AI</strong>
+            <small>https://2606ai.com</small>
+          </div>
+          <b>›</b>
+        </a>
+
+        <a href="LINK_TIKTOK_SHOP" target="_blank">
+          <span>🎵</span>
+          <div>
+            <strong>TikTok Shop</strong>
+            <small>Nhập link TikTok Shop</small>
+          </div>
+          <b>›</b>
+        </a>
+
+        <a href="LINK_FACEBOOK" target="_blank">
+          <span>📘</span>
+          <div>
+            <strong>Facebook Shop</strong>
+            <small>Nhập link Facebook</small>
+          </div>
+          <b>›</b>
+        </a>
+
+        <a href="https://zalo.me/0775238306" target="_blank">
+          <span>💬</span>
+          <div>
+            <strong>Zalo OA</strong>
+            <small>Liên hệ nhanh qua Zalo</small>
+          </div>
+          <b>›</b>
+        </a>
+
+        <a href="LINK_SHOPEE" target="_blank">
+          <span>🛒</span>
+          <div>
+            <strong>Shopee</strong>
+            <small>Nhập link Shopee</small>
+          </div>
+          <b>›</b>
+        </a>
+      </div>
+
+    </div>
+  `
+},
   b4:{ title:'Hỗ trợ thiết kế 2D, 3D sản xuất, vận chuyển 247express toàn quốc', lead:'Ứng dụng A.I vào hỗ trợ khách hàng nhanh chóng và cực kỳ hiệu quả', bullets:[
       'Dựng mockup/khung kỹ thuật cơ bản','Xuất file .SVG, .PDF theo yêu cầu xưởng','Cung cấp dịch vụ vận chuyển, gửi mẫu, gửi hàng toàn quốc, từ đối tác 247express' ] },
   b5:{ title:'Đặt quảng cáo trên Website tận dụng hệ sinh thái', lead:'Đặt quảng cáo trên Website tận dụng hệ sinh thái', bullets:[
