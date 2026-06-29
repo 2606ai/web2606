@@ -2997,8 +2997,9 @@ body{
   color:#fff !important;
 }
 #benefitModal .modal-title-img{
-  background:rgba(255,255,255,.18) !important;
-  border-color:rgba(255,255,255,.32) !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
 }
 </style>
 </head>
@@ -3060,7 +3061,7 @@ body{
       <div class="benefit-text">
    
         <strong>GIỚI THIỆU DOANH NGHIỆP</strong>
-        <small>Tổng quan sản phẩm và dịch vụ, quy trình trải nghiệm, tổ chức...</small>
+        <small>Mua hàng, tổ chức, sản phẩm và dịch vụ</small>
       </div>
     </div>
 
@@ -3069,7 +3070,7 @@ body{
       <div class="benefit-text">
      
         <strong>ĐẶT HÀNG THEO THIẾT KẾ</strong>
-        <small>Đặt hàng theo thiết kế, in ấn, chế tác riêng theo yêu cầu...</small>
+        <small>In ấn, tạo hình, dán tem... theo yêu cầu</small>
       </div>
 
     </div>
@@ -3079,7 +3080,7 @@ body{
       <div class="benefit-text">
      
         <strong>KÊNH BÁN HÀNG</strong>
-        <small>Trực tiếp và Online với +10,000 sản phẩm và mẫu tham khảo Ấn phẩm thương hiệu...</small>
+        <small>+10,000 sản phẩm và mẫu tham khảo</small>
       </div>
 
     </div>
@@ -3089,7 +3090,7 @@ body{
       <div class="benefit-text">
        
         <strong>QUÀ TẶNG</strong>
-        <small>Nhập mã quà tặng (Mã GIFT CODE) để nhận quà</small>
+        <small>Nhập mã quà tặng (Mã GIFT CODE)</small>
       </div>
      
     </div>
@@ -8091,6 +8092,23 @@ const BENEFIT_DETAIL = {
     b5:{ grad:'linear-gradient(135deg,#db2777,#831843)' },
     b6:{ grad:'linear-gradient(135deg,#2563eb,#1e3a8a)' }
   };
+  const BENEFIT_TITLE_ICON = {
+    b1:'https://drive.google.com/thumbnail?id=15XGOGRdQKt1ZuJMNCC9MkJ8R74OxgqLt&sz=w150',
+    b2:'https://drive.google.com/thumbnail?id=1_4xB-U0v2cylRN5dZHnvWE0ro5SXW6nY&sz=w150',
+    b3:'https://lh3.googleusercontent.com/d/1N_fVzylsQNxR7DGN-Gwb_V8C19ACU8GX=w150',
+    b4:'https://lh3.googleusercontent.com/d/12aSkVKBAsTPvGFtTWSxxvJU8t7qDkMBR=w150',
+    b5:'https://lh3.googleusercontent.com/d/1PCxAZs_3bniT5CSNk9XtdByQLbwai4oR=w150',
+    b6:'https://drive.google.com/thumbnail?id=1spHz1YnPF4edm0h2gmJ2GBmtJbJ_zXwe&sz=w150'
+  };
+  function safeText(value){
+    const div = document.createElement('div');
+    div.textContent = value || '';
+    return div.innerHTML;
+  }
+  function getBenefitTitle(key, detail){
+    const cardTitle = document.querySelector(`.benefits-v3 .bcard[data-benefit="${key}"] .benefit-text strong`)?.textContent?.trim();
+    return cardTitle || detail.title || 'Chi tiết';
+  }
   function openDetail(key){
 
   const d = BENEFIT_DETAIL[key];
@@ -8101,11 +8119,11 @@ const BENEFIT_DETAIL = {
   if (titleBar) titleBar.style.setProperty('background', theme.grad, 'important');
   modalEl.dataset.benefitTheme = key;
 
-  if(d.titleHtml){
-  $title.innerHTML = d.titleHtml;
-}else{
-  $title.textContent = d.title || 'Chi tiết';
-}
+  const titleIcon = BENEFIT_TITLE_ICON[key];
+  const titleText = getBenefitTitle(key, d);
+  $title.innerHTML = titleIcon
+    ? `<img class="modal-title-img" src="${titleIcon}" alt=""><span>${safeText(titleText)}</span>`
+    : safeText(titleText);
 
   if(d.customHtml){
 
@@ -9020,6 +9038,16 @@ document.addEventListener('DOMContentLoaded', () => {
 #benefitModal .modal-title,
 #benefitModal .modal-title span{
   color:#fff !important;
+}
+#benefitModal .modal-title-img{
+  width:42px !important;
+  height:42px !important;
+  object-fit:contain !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  border-radius:0 !important;
+  padding:0 !important;
 }
 </style>
 </body>
