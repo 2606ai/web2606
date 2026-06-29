@@ -8270,6 +8270,14 @@ function rewardEscape(value){
   return div.innerHTML;
 }
 
+function rewardApiErrorMessage(err){
+  const msg = String(err?.message || err || '');
+  if (/unknown action/i.test(msg)){
+    return 'API Apps Script chưa được cập nhật/deploy chức năng tích điểm. Vui lòng dán bản Apps Script mới và deploy lại.';
+  }
+  return msg || 'Không thể xử lý yêu cầu tích điểm. Vui lòng thử lại.';
+}
+
 function renderRewardHistory(data){
   const pointEl = document.getElementById('rewardCurrentPoint');
   const nextGiftEl = document.getElementById('rewardNextGift');
@@ -8340,7 +8348,7 @@ async function checkRewardPointCode(){
     renderRewardHistory(data);
     codeInput.value = '';
   }catch(err){
-    result.textContent = err?.message || 'Không thể tích điểm. Vui lòng thử lại.';
+    result.textContent = rewardApiErrorMessage(err);
     result.classList.add('error');
   }
 }
@@ -8383,7 +8391,7 @@ async function lookupRewardBalance(){
   }catch(err){
     pointEl.textContent = '0 điểm';
     nextGiftEl.textContent = 'Lỗi tra cứu';
-    historyEl.innerHTML = `<div class="reward-history-empty">${rewardEscape(err?.message || 'Không thể tra cứu điểm. Vui lòng thử lại.')}</div>`;
+    historyEl.innerHTML = `<div class="reward-history-empty">${rewardEscape(rewardApiErrorMessage(err))}</div>`;
   }
 }
 
