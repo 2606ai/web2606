@@ -8386,6 +8386,10 @@ async function lookupRewardBalance(){
     historyEl.innerHTML = `<div class="reward-history-empty">${rewardEscape(err?.message || 'Không thể tra cứu điểm. Vui lòng thử lại.')}</div>`;
   }
 }
+
+window.checkRewardPointCode = checkRewardPointCode;
+window.toggleRewardPointForm = toggleRewardPointForm;
+window.lookupRewardBalance = lookupRewardBalance;
 // Group/category clicks are handled by the main delegated document listener above.
 function render(res = {}, fromCache){
   const items = res.items || [];
