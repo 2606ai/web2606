@@ -8074,7 +8074,48 @@ const BENEFIT_DETAIL = {
   customHtml:`
     <div class="reward-wrap">
       <div class="reward-note">
-        Sau khi hoàn tất đơn hàng, mã tích điểm 12 chữ số sẽ được gửi qua SMS đến số điện thoại mua hàng.
+        <strong>Mã TÍCH ĐIỂM</strong> được nhận sau khi hoàn tất đơn hàng. Nếu chưa nhận được: Hãy liên hệ nhân viên phụ trách đơn.
+        <div class="reward-demo-data">Demo: SĐT 0901234567 - Mã tích điểm 260620260001 - Cộng 100,000,000 điểm</div>
+      </div>
+
+      <div class="reward-balance-card">
+        <div class="reward-section-title">Tra cứu điểm hiện tại</div>
+        <p class="reward-desc">Nhập email hoặc số điện thoại để xem điểm tích lũy và lịch sử cộng điểm.</p>
+        <div class="reward-balance-row">
+          <label>
+            <span>Email/SĐT tích điểm</span>
+            <input id="rewardLookupPhone" type="text" placeholder="Nhập email hoặc số điện thoại">
+          </label>
+          <button class="reward-btn reward-lookup-btn" type="button" onclick="lookupRewardBalance()">TRA CỨU ĐIỂM</button>
+        </div>
+        <button class="reward-btn reward-open-form-btn" type="button" onclick="toggleRewardPointForm()">TÍCH ĐIỂM</button>
+        <div id="rewardPointForm" class="reward-point-form" hidden>
+          <p class="reward-desc">Ví dụ: đơn hàng 100,000,000đ sẽ được cộng 100,000,000 điểm.</p>
+          <div class="reward-grid">
+            <label>
+              <span>Email/SĐT tích điểm</span>
+              <input id="rewardPhoneInput" type="text" placeholder="Nhập email hoặc số điện thoại">
+            </label>
+            <label>
+              <span>Mã tích điểm</span>
+              <input id="rewardCodeInput" type="text" placeholder="Nhập mã tích điểm">
+            </label>
+          </div>
+          <button class="reward-btn" type="button" onclick="checkRewardPointCode()">TÍCH ĐIỂM NGAY</button>
+          <div id="rewardResult" class="reward-result">Mỗi mã tích điểm chỉ sử dụng một lần.</div>
+        </div>
+        <div id="rewardBalanceBox" class="reward-balance-box">
+          <div class="reward-balance-top">
+            <div>
+              <span class="reward-balance-label">Điểm hiện tại</span>
+              <strong id="rewardCurrentPoint">0 điểm</strong>
+            </div>
+            <span id="rewardNextGift">Lịch sử cộng điểm</span>
+          </div>
+          <div id="rewardHistoryList" class="reward-history-list">
+            <div class="reward-history-empty">Nhập SĐT để xem lịch sử cộng điểm.</div>
+          </div>
+        </div>
       </div>
 
       <div class="reward-table-card">
@@ -8131,47 +8172,6 @@ const BENEFIT_DETAIL = {
         </div>
       </div>
 
-      <div class="reward-balance-card">
-        <div class="reward-section-title">Tra cứu điểm hiện tại</div>
-        <p class="reward-desc">Nhập số điện thoại mua hàng để xem số điểm tích lũy và tiến độ đổi quà.</p>
-        <div class="reward-balance-row">
-          <label>
-            <span>Số điện thoại khách hàng</span>
-            <input id="rewardLookupPhone" type="tel" placeholder="Nhập số điện thoại">
-          </label>
-          <button class="reward-btn reward-lookup-btn" type="button" onclick="lookupRewardBalance()">TRA CỨU ĐIỂM</button>
-        </div>
-        <div id="rewardBalanceBox" class="reward-balance-box">
-          <div class="reward-balance-top">
-            <div>
-              <span class="reward-balance-label">Điểm hiện tại</span>
-              <strong id="rewardCurrentPoint">0 điểm</strong>
-            </div>
-            <span id="rewardNextGift">Nhập SĐT để tra cứu</span>
-          </div>
-          <div class="reward-progress">
-            <div id="rewardProgressBar" class="reward-progress-bar" style="width:0%"></div>
-          </div>
-          <div id="rewardProgressText" class="reward-progress-text">Thanh điểm sẽ hiển thị sau khi tra cứu.</div>
-        </div>
-      </div>
-
-      <div class="reward-form-card">
-        <div class="reward-section-title">Tích điểm nhận quà</div>
-        <p class="reward-desc">Ví dụ: đơn hàng 100,000,000đ sẽ được cộng 100,000,000 điểm.</p>
-        <div class="reward-grid">
-          <label>
-            <span>Mã tích điểm</span>
-            <input id="rewardCodeInput" type="text" inputmode="numeric" maxlength="12" placeholder="Nhập mã 12 chữ số">
-          </label>
-          <label>
-            <span>Số điện thoại mua hàng</span>
-            <input id="rewardPhoneInput" type="tel" placeholder="Nhập số điện thoại">
-          </label>
-        </div>
-        <button class="reward-btn" type="button" onclick="checkRewardPointCode()">TÍCH ĐIỂM NGAY</button>
-        <div id="rewardResult" class="reward-result">Mỗi mã tích điểm chỉ sử dụng một lần.</div>
-      </div>
     </div>
   `
 },
@@ -8259,75 +8259,132 @@ const BENEFIT_DETAIL = {
   });
 })();
 
-function checkRewardPointCode(){
+function rewardIdentifierPayload(value){
+  const raw = String(value || '').trim();
+  return raw.includes('@') ? { email: raw, identifier: raw } : { sdt: raw, identifier: raw };
+}
+
+function rewardEscape(value){
+  const div = document.createElement('div');
+  div.textContent = value == null ? '' : String(value);
+  return div.innerHTML;
+}
+
+function renderRewardHistory(data){
+  const pointEl = document.getElementById('rewardCurrentPoint');
+  const nextGiftEl = document.getElementById('rewardNextGift');
+  const historyEl = document.getElementById('rewardHistoryList');
+  if (!pointEl || !nextGiftEl || !historyEl) return;
+
+  const points = Number(data?.points || 0);
+  const history = Array.isArray(data?.history) ? data.history : [];
+  pointEl.textContent = formatRewardPoint(points);
+  nextGiftEl.textContent = history.length ? ('Đã ghi nhận ' + history.length + ' lượt thao tác') : 'Chưa có lịch sử';
+
+  if (!history.length){
+    historyEl.innerHTML = '<div class="reward-history-empty">Chưa có lịch sử cộng điểm cho thông tin này.</div>';
+    return;
+  }
+
+  historyEl.innerHTML = history.map(item => {
+    const point = Number(item.point || 0);
+    const sign = point >= 0 ? '+' : '';
+    return `
+      <div class="reward-history-item">
+        <div>
+          <span>${rewardEscape(item.date || item.status || '')}</span>
+          <strong>${rewardEscape(item.action || item.order || 'Tích điểm')}</strong>
+        </div>
+        <b class="${point < 0 ? 'minus' : ''}">${sign}${formatRewardPoint(point)}</b>
+      </div>
+    `;
+  }).join('');
+}
+
+async function checkRewardPointCode(){
   const codeInput = document.getElementById('rewardCodeInput');
   const phoneInput = document.getElementById('rewardPhoneInput');
   const result = document.getElementById('rewardResult');
   if (!codeInput || !phoneInput || !result) return;
 
-  const code = codeInput.value.replace(/\D/g, '');
-  const phone = phoneInput.value.trim();
-  codeInput.value = code;
+  const code = codeInput.value.trim();
+  const identifier = phoneInput.value.trim();
   result.classList.remove('success', 'error');
 
-  if (code.length !== 12){
-    result.textContent = 'Vui lòng nhập đúng mã tích điểm gồm 12 chữ số.';
+  if (!identifier){
+    result.textContent = 'Vui lòng nhập email hoặc số điện thoại tích điểm.';
     result.classList.add('error');
     return;
   }
-  if (!phone){
-    result.textContent = 'Vui lòng nhập số điện thoại mua hàng để đối chiếu mã.';
+  if (!code){
+    result.textContent = 'Vui lòng nhập mã tích điểm.';
     result.classList.add('error');
     return;
   }
 
-  result.textContent = 'Mã hợp lệ. Điểm sẽ được cộng theo giá trị đơn hàng sau khi hệ thống đối chiếu SMS.';
-  result.classList.add('success');
+  result.textContent = 'Đang kiểm tra mã tích điểm...';
+  try{
+    const resp = await fetch(API_URL, {
+      method:'POST',
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify({
+        action:'reward_redeem',
+        code,
+        ...rewardIdentifierPayload(identifier)
+      })
+    });
+    const data = await resp.json();
+    if (!data.ok) throw new Error(data.error || 'Không thể tích điểm');
+    result.textContent = data.message || 'Tích điểm thành công.';
+    result.classList.add('success');
+    renderRewardHistory(data);
+    codeInput.value = '';
+  }catch(err){
+    result.textContent = err?.message || 'Không thể tích điểm. Vui lòng thử lại.';
+    result.classList.add('error');
+  }
+}
+
+function toggleRewardPointForm(){
+  const form = document.getElementById('rewardPointForm');
+  const codeInput = document.getElementById('rewardCodeInput');
+  if (!form) return;
+  form.hidden = !form.hidden;
+  if (!form.hidden) setTimeout(() => codeInput?.focus(), 50);
 }
 
 function formatRewardPoint(value){
   return Number(value || 0).toLocaleString('vi-VN') + ' điểm';
 }
 
-function getRewardDemoBalance(phone){
-  const digits = phone.replace(/\D/g, '');
-  if (!digits) return 0;
-  const seed = digits.split('').reduce((sum, n, index) => sum + Number(n) * (index + 3), 0);
-  const demoSteps = [1000000, 5000000, 10000000, 20000000, 50000000, 100000000];
-  return demoSteps[seed % demoSteps.length];
-}
-
-function lookupRewardBalance(){
+async function lookupRewardBalance(){
   const phoneInput = document.getElementById('rewardLookupPhone');
   const pointEl = document.getElementById('rewardCurrentPoint');
   const nextGiftEl = document.getElementById('rewardNextGift');
-  const progressBar = document.getElementById('rewardProgressBar');
-  const progressText = document.getElementById('rewardProgressText');
-  if (!phoneInput || !pointEl || !nextGiftEl || !progressBar || !progressText) return;
+  const historyEl = document.getElementById('rewardHistoryList');
+  if (!phoneInput || !pointEl || !nextGiftEl || !historyEl) return;
 
-  const phone = phoneInput.value.trim();
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length < 8){
+  const identifier = phoneInput.value.trim();
+  if (!identifier){
     pointEl.textContent = '0 điểm';
     nextGiftEl.textContent = 'Chưa có dữ liệu';
-    progressBar.style.width = '0%';
-    progressText.textContent = 'Vui lòng nhập đúng số điện thoại mua hàng.';
+    historyEl.innerHTML = '<div class="reward-history-empty">Vui lòng nhập email hoặc số điện thoại tích điểm.</div>';
     return;
   }
 
-  const points = getRewardDemoBalance(phone);
-  const milestones = [1000000, 5000000, 10000000, 20000000, 50000000, 100000000];
-  const next = milestones.find(item => item > points) || milestones[milestones.length - 1];
-  const percent = Math.min(100, Math.round((points / next) * 100));
-
-  pointEl.textContent = formatRewardPoint(points);
-  nextGiftEl.textContent = points >= milestones[milestones.length - 1]
-    ? 'Đủ mốc quà cao nhất'
-    : 'Mốc tiếp theo: ' + formatRewardPoint(next);
-  progressBar.style.width = percent + '%';
-  progressText.textContent = points >= milestones[milestones.length - 1]
-    ? 'Bạn đã đạt mốc quà cao nhất trong danh sách hiện tại.'
-    : 'Bạn đã đạt ' + percent + '% của mốc quà tiếp theo.';
+  nextGiftEl.textContent = 'Đang tra cứu...';
+  historyEl.innerHTML = '<div class="reward-history-empty">Đang tải lịch sử tích điểm...</div>';
+  try{
+    const params = new URLSearchParams({ action:'reward_lookup', ...rewardIdentifierPayload(identifier) });
+    const resp = await fetch(API_URL + '?' + params.toString(), { cache:'no-store' });
+    const data = await resp.json();
+    if (!data.ok) throw new Error(data.error || 'Không thể tra cứu điểm');
+    renderRewardHistory(data);
+  }catch(err){
+    pointEl.textContent = '0 điểm';
+    nextGiftEl.textContent = 'Lỗi tra cứu';
+    historyEl.innerHTML = `<div class="reward-history-empty">${rewardEscape(err?.message || 'Không thể tra cứu điểm. Vui lòng thử lại.')}</div>`;
+  }
 }
 // Group/category clicks are handled by the main delegated document listener above.
 function render(res = {}, fromCache){
@@ -9226,35 +9283,61 @@ document.addEventListener('DOMContentLoaded', () => {
 .reward-wrap{
   display:flex;
   flex-direction:column;
-  gap:16px;
+  gap:12px;
 }
 .reward-note{
   background:#fff7ed;
   border:1px solid #fed7aa;
   border-radius:12px;
   color:#9a3412;
-  font-weight:700;
-  padding:12px 14px;
+  font-size:14px;
+  font-weight:600;
+  padding:10px 12px;
 }
-.reward-table-card,
-.reward-balance-card,
-.reward-form-card{
+.reward-demo-data{
+  background:rgba(255,255,255,.72);
+  border:1px dashed #fdba74;
+  border-radius:9px;
+  color:#7c2d12;
+  font-size:13px;
+  font-weight:600;
+  margin-top:8px;
+  padding:8px 10px;
+}
+.reward-table-card{
   background:#fff;
   border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:16px;
-  box-shadow:0 10px 28px rgba(15,23,42,.08);
+  border-radius:12px;
+  padding:12px;
+  box-shadow:0 6px 18px rgba(15,23,42,.06);
+}
+.reward-balance-card{
+  background:linear-gradient(135deg,#fff7ed 0%,#ffedd5 52%,#fef3c7 100%);
+  border:1px solid #fdba74;
+  border-radius:12px;
+  padding:12px;
+  box-shadow:0 8px 22px rgba(154,52,18,.10);
+}
+.reward-balance-card .reward-section-title{
+  color:#9a3412;
+}
+.reward-balance-card .reward-desc{
+  color:#7c2d12;
+}
+.reward-balance-card input{
+  background:#fffaf5;
+  border-color:#fdba74;
 }
 .reward-section-title{
   color:#b91c1c;
-  font-size:20px;
-  font-weight:900;
-  margin-bottom:10px;
+  font-size:16px;
+  font-weight:750;
+  margin-bottom:8px;
   text-transform:uppercase;
 }
 .reward-table-scroll{
   border:1px solid #fee2e2;
-  border-radius:14px;
+  border-radius:10px;
   overflow:auto;
 }
 .reward-table{
@@ -9267,10 +9350,10 @@ document.addEventListener('DOMContentLoaded', () => {
   background:#fff1f2;
   border-bottom:1px solid #fecdd3;
   color:#9f1239;
-  font-size:12px;
-  font-weight:900;
+  font-size:11px;
+  font-weight:700;
   letter-spacing:.02em;
-  padding:12px;
+  padding:9px 10px;
   text-align:left;
   text-transform:uppercase;
   white-space:nowrap;
@@ -9279,8 +9362,9 @@ document.addEventListener('DOMContentLoaded', () => {
   background:#fff;
   border-bottom:1px solid #f1f5f9;
   color:#334155;
-  font-weight:650;
-  padding:12px;
+  font-size:13px;
+  font-weight:500;
+  padding:9px 10px;
   vertical-align:middle;
 }
 .reward-table tbody tr:hover td{
@@ -9296,31 +9380,31 @@ document.addEventListener('DOMContentLoaded', () => {
   align-items:center;
   display:flex;
   gap:10px;
-  min-width:210px;
+  min-width:190px;
 }
 .reward-table-gift > span{
   align-items:center;
   background:#fff7ed;
   border:1px solid #fed7aa;
-  border-radius:12px;
+  border-radius:9px;
   display:inline-flex;
   flex:0 0 auto;
-  font-size:22px;
-  height:42px;
+  font-size:18px;
+  height:34px;
   justify-content:center;
-  width:42px;
+  width:34px;
 }
 .reward-table-gift strong{
   color:#9a3412;
-  font-size:15px;
-  font-weight:950;
+  font-size:14px;
+  font-weight:700;
   line-height:1.2;
 }
 .reward-point{
   color:#b91c1c;
   display:inline-block;
-  font-size:15px;
-  font-weight:950;
+  font-size:14px;
+  font-weight:700;
   white-space:nowrap;
 }
 .reward-table-btn{
@@ -9328,9 +9412,9 @@ document.addEventListener('DOMContentLoaded', () => {
   border:0;
   border-radius:999px;
   color:#fff;
-  font-size:13px;
-  font-weight:900;
-  padding:8px 12px;
+  font-size:12px;
+  font-weight:700;
+  padding:6px 10px;
   white-space:nowrap;
 }
 .reward-table-btn:hover{
@@ -9339,9 +9423,9 @@ document.addEventListener('DOMContentLoaded', () => {
 .reward-status{
   border-radius:999px;
   display:inline-flex;
-  font-size:12px;
-  font-weight:800;
-  padding:5px 9px;
+  font-size:11px;
+  font-weight:650;
+  padding:4px 8px;
   white-space:nowrap;
 }
 .reward-status.ok{background:#dcfce7;color:#166534;}
@@ -9349,6 +9433,7 @@ document.addEventListener('DOMContentLoaded', () => {
 .reward-status.hot{background:#ffe4e6;color:#be123c;}
 .reward-desc{
   color:#475569;
+  font-size:13px;
   margin:0 0 12px;
 }
 .reward-grid{
@@ -9363,13 +9448,14 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 .reward-grid span{
   color:#334155;
-  font-weight:800;
+  font-size:13px;
+  font-weight:650;
 }
 .reward-grid input{
   border:1px solid #cbd5e1;
-  border-radius:10px;
-  font-size:15px;
-  padding:11px 12px;
+  border-radius:9px;
+  font-size:14px;
+  padding:9px 10px;
   width:100%;
 }
 .reward-balance-row{
@@ -9385,24 +9471,39 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 .reward-balance-row span{
   color:#334155;
-  font-weight:800;
+  font-size:13px;
+  font-weight:650;
 }
 .reward-balance-row input{
   border:1px solid #cbd5e1;
-  border-radius:10px;
-  font-size:15px;
-  padding:11px 12px;
+  border-radius:9px;
+  font-size:14px;
+  padding:9px 10px;
   width:100%;
 }
 .reward-lookup-btn{
   margin-top:0 !important;
 }
+.reward-open-form-btn{
+  background:#9a3412 !important;
+  margin-top:10px !important;
+}
+.reward-point-form{
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(251,146,60,.55);
+  border-radius:12px;
+  margin-top:10px;
+  padding:12px;
+}
+.reward-point-form[hidden]{
+  display:none !important;
+}
 .reward-balance-box{
-  background:linear-gradient(180deg,#fff7ed,#fff);
-  border:1px solid #fed7aa;
-  border-radius:14px;
-  margin-top:14px;
-  padding:14px;
+  background:rgba(255,255,255,.72);
+  border:1px solid rgba(251,146,60,.55);
+  border-radius:12px;
+  margin-top:12px;
+  padding:12px;
 }
 .reward-balance-top{
   align-items:flex-start;
@@ -9413,16 +9514,16 @@ document.addEventListener('DOMContentLoaded', () => {
 .reward-balance-label{
   color:#92400e;
   display:block;
-  font-size:13px;
-  font-weight:800;
+  font-size:12px;
+  font-weight:650;
   margin-bottom:2px;
   text-transform:uppercase;
 }
 #rewardCurrentPoint{
   color:#9a3412;
   display:block;
-  font-size:30px;
-  font-weight:950;
+  font-size:24px;
+  font-weight:750;
   line-height:1.1;
 }
 #rewardNextGift{
@@ -9430,37 +9531,67 @@ document.addEventListener('DOMContentLoaded', () => {
   border:1px solid #fed7aa;
   border-radius:999px;
   color:#9a3412;
-  font-size:13px;
-  font-weight:900;
-  padding:7px 10px;
+  font-size:12px;
+  font-weight:650;
+  padding:6px 9px;
   text-align:center;
 }
-.reward-progress{
-  background:#fee2e2;
-  border-radius:999px;
-  height:16px;
-  margin-top:14px;
-  overflow:hidden;
+.reward-history-list{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-top:12px;
 }
-.reward-progress-bar{
-  background:linear-gradient(90deg,#dc2626,#f97316);
-  border-radius:999px;
-  height:100%;
-  transition:width .3s ease;
+.reward-history-item{
+  align-items:center;
+  background:rgba(255,255,255,.78);
+  border:1px solid rgba(251,146,60,.45);
+  border-radius:10px;
+  display:flex;
+  gap:10px;
+  justify-content:space-between;
+  padding:9px 10px;
 }
-.reward-progress-text{
-  color:#7c2d12;
-  font-weight:700;
-  margin-top:8px;
+.reward-history-item span{
+  color:#9a3412;
+  display:block;
+  font-size:12px;
+  font-weight:600;
+}
+.reward-history-item strong{
+  color:#334155;
+  display:block;
+  font-size:13px;
+  font-weight:650;
+  margin-top:2px;
+}
+.reward-history-item b{
+  color:#15803d;
+  font-size:13px;
+  font-weight:750;
+  white-space:nowrap;
+}
+.reward-history-item b.minus{
+  color:#b91c1c;
+}
+.reward-history-empty{
+  background:rgba(255,255,255,.65);
+  border:1px dashed rgba(251,146,60,.65);
+  border-radius:10px;
+  color:#9a3412;
+  font-size:13px;
+  font-weight:600;
+  padding:10px;
 }
 .reward-btn{
   background:#dc2626;
   border:0;
-  border-radius:10px;
+  border-radius:9px;
   color:#fff;
-  font-weight:900;
-  margin-top:14px;
-  padding:12px 18px;
+  font-size:13px;
+  font-weight:700;
+  margin-top:12px;
+  padding:10px 14px;
   width:100%;
 }
 .reward-result{
@@ -9468,9 +9599,10 @@ document.addEventListener('DOMContentLoaded', () => {
   border:1px solid #e2e8f0;
   border-radius:10px;
   color:#475569;
-  font-weight:700;
+  font-size:13px;
+  font-weight:500;
   margin-top:12px;
-  padding:10px 12px;
+  padding:9px 10px;
 }
 .reward-result.success{
   background:#ecfdf5;
@@ -9488,7 +9620,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .reward-balance-top{flex-direction:column;}
   .reward-table-card,
   .reward-balance-card,
-  .reward-form-card{padding:12px;}
+  .reward-point-form{padding:12px;}
 }
 </style>
 </body>
