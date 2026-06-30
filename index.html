@@ -7317,7 +7317,7 @@ function fetchWorkshops(){
   if (ok(window.API_URL)) { fetchWorkshops(); return; }
   if (tries>0) { setTimeout(()=>waitAPI(tries-1),100); return; }
   console.warn('[workshop] Hết thời gian chờ API_URL – dùng fallback');
-  window.API_URL ||= "https://script.google.com/macros/s/AKfycbxNpQU6m5AAexSB378u0O5i1ATOi2g51vwRVJSolFFRKMs8-s4kC4lUZheEVKrFodsn/exec";
+  window.API_URL ||= "https://script.google.com/macros/s/AKfycbx2_gZVNA9-7cnejoTG8KjzUnRkW9XK2-_pieAUUr8AajeA3EGDyoEAbSe8d7D3wwJ0/exec";
   fetchWorkshops();
 })();
 
@@ -8075,7 +8075,17 @@ const BENEFIT_DETAIL = {
     <div class="reward-wrap">
       <div class="reward-note">
         <strong>Mã TÍCH ĐIỂM</strong> được nhận sau khi hoàn tất đơn hàng. Nếu chưa nhận được: Hãy liên hệ nhân viên phụ trách đơn.
-        <div class="reward-demo-data">Demo: SĐT 0901234567 - Mã tích điểm 260620260001 - Cộng 100,000,000 điểm</div>
+        <div class="reward-demo-data">Quy đổi: 1,000 đồng tương ứng với 1,000 điểm</div>
+      </div>
+      <div class="reward-gift-link-row">
+        <a class="reward-gift-link" href="#" target="_blank" rel="noopener">
+          <span class="reward-gift-link-icon">🎁</span>
+          <span class="reward-gift-link-text">
+            <strong>Danh sách quà tặng</strong>
+            <small>Chọn quà theo điểm tích lũy</small>
+          </span>
+          <span class="reward-gift-link-arrow">›</span>
+        </a>
       </div>
 
       <div class="reward-balance-card">
@@ -8090,7 +8100,7 @@ const BENEFIT_DETAIL = {
         </div>
         <button class="reward-btn reward-open-form-btn" type="button" onclick="toggleRewardPointForm()">TÍCH ĐIỂM</button>
         <div id="rewardPointForm" class="reward-point-form" hidden>
-          <p class="reward-desc">Ví dụ: đơn hàng 100,000,000đ sẽ được cộng 100,000,000 điểm.</p>
+          <p class="reward-desc">Nhập mã đã nhận để cộng điểm vào tài khoản. Quy đổi: 1,000 đồng = 1,000 điểm.</p>
           <div class="reward-grid">
             <label>
               <span>Email/SĐT tích điểm</span>
@@ -8105,70 +8115,17 @@ const BENEFIT_DETAIL = {
           <div id="rewardResult" class="reward-result">Mỗi mã tích điểm chỉ sử dụng một lần.</div>
         </div>
         <div id="rewardBalanceBox" class="reward-balance-box">
-          <div class="reward-balance-top">
-            <div>
-              <span class="reward-balance-label">Điểm hiện tại</span>
+          <div class="reward-balance-summary">
+            <div class="reward-score-card">
+              <span class="reward-balance-label">Số dư điểm</span>
               <strong id="rewardCurrentPoint">0 điểm</strong>
+              <small>Điểm khả dụng sau các lần tích và dùng điểm</small>
             </div>
-            <span id="rewardNextGift">Lịch sử cộng điểm</span>
           </div>
+          <div class="reward-history-title">Lịch sử cộng / dùng điểm</div>
           <div id="rewardHistoryList" class="reward-history-list">
-            <div class="reward-history-empty">Nhập SĐT để xem lịch sử cộng điểm.</div>
+            <div class="reward-history-empty">Nhập email/SĐT để xem lịch sử điểm.</div>
           </div>
-        </div>
-      </div>
-
-      <div class="reward-table-card">
-        <div class="reward-section-title">Danh sách quà tặng</div>
-        <div class="reward-table-scroll">
-          <table class="reward-table">
-            <thead>
-              <tr>
-                <th>Quà tặng</th>
-                <th>Điểm cần đổi</th>
-                <th>Mô tả</th>
-                <th>Trạng thái</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span class="reward-table-gift"><span>🎟️</span><strong>Voucher ưu đãi</strong></span></td>
-                <td><b class="reward-point">1,000,000</b></td>
-                <td>Ưu đãi cho đơn hàng tiếp theo</td>
-                <td><span class="reward-status ok">Còn quà</span></td>
-                <td><button class="reward-table-btn" type="button">Đổi quà</button></td>
-              </tr>
-              <tr>
-                <td><span class="reward-table-gift"><span>💬</span><strong>Miễn phí tư vấn</strong></span></td>
-                <td><b class="reward-point">5,000,000</b></td>
-                <td>Tư vấn phương án sản phẩm và triển khai</td>
-                <td><span class="reward-status ok">Còn quà</span></td>
-                <td><button class="reward-table-btn" type="button">Đổi quà</button></td>
-              </tr>
-              <tr>
-                <td><span class="reward-table-gift"><span>📦</span><strong>Tặng mẫu tham khảo</strong></span></td>
-                <td><b class="reward-point">10,000,000</b></td>
-                <td>Nhận mẫu sản phẩm hoặc file tham khảo</td>
-                <td><span class="reward-status warn">Giới hạn</span></td>
-                <td><button class="reward-table-btn" type="button">Đổi quà</button></td>
-              </tr>
-              <tr>
-                <td><span class="reward-table-gift"><span>🚚</span><strong>Ưu đãi vận chuyển</strong></span></td>
-                <td><b class="reward-point">20,000,000</b></td>
-                <td>Hỗ trợ vận chuyển theo chương trình</td>
-                <td><span class="reward-status ok">Còn quà</span></td>
-                <td><button class="reward-table-btn" type="button">Đổi quà</button></td>
-              </tr>
-              <tr class="reward-row-featured">
-                <td><span class="reward-table-gift"><span>🎁</span><strong>Quà thương hiệu đặc biệt</strong></span></td>
-                <td><b class="reward-point">50,000,000</b></td>
-                <td>Quà tặng theo chiến dịch chăm sóc khách hàng</td>
-                <td><span class="reward-status hot">Nổi bật</span></td>
-                <td><button class="reward-table-btn" type="button">Đổi quà</button></td>
-              </tr>
-            </tbody>
-          </table>
         </div>
       </div>
 
@@ -8280,14 +8237,13 @@ function rewardApiErrorMessage(err){
 
 function renderRewardHistory(data){
   const pointEl = document.getElementById('rewardCurrentPoint');
-  const nextGiftEl = document.getElementById('rewardNextGift');
   const historyEl = document.getElementById('rewardHistoryList');
-  if (!pointEl || !nextGiftEl || !historyEl) return;
+  if (!pointEl || !historyEl) return;
 
   const points = Number(data?.points || 0);
   const history = Array.isArray(data?.history) ? data.history : [];
   pointEl.textContent = formatRewardPoint(points);
-  nextGiftEl.textContent = history.length ? ('Đã ghi nhận ' + history.length + ' lượt thao tác') : 'Chưa có lịch sử';
+  pointEl.classList.toggle('negative', points < 0);
 
   if (!history.length){
     historyEl.innerHTML = '<div class="reward-history-empty">Chưa có lịch sử cộng điểm cho thông tin này.</div>';
@@ -8297,11 +8253,14 @@ function renderRewardHistory(data){
   historyEl.innerHTML = history.map(item => {
     const point = Number(item.point || 0);
     const sign = point >= 0 ? '+' : '';
+    const actionRaw = String(item.action || item.order || '');
+    const actionText = /dung/i.test(actionRaw) ? 'Dùng điểm' : 'Tích điểm';
+    const actionClass = point < 0 ? 'use' : 'add';
     return `
       <div class="reward-history-item">
         <div>
           <span>${rewardEscape(item.date || item.status || '')}</span>
-          <strong>${rewardEscape(item.action || item.order || 'Tích điểm')}</strong>
+          <strong><em class="${actionClass}">${actionText}</em>${item.order ? ' - ' + rewardEscape(item.order) : ''}</strong>
         </div>
         <b class="${point < 0 ? 'minus' : ''}">${sign}${formatRewardPoint(point)}</b>
       </div>
@@ -8368,19 +8327,16 @@ function formatRewardPoint(value){
 async function lookupRewardBalance(){
   const phoneInput = document.getElementById('rewardLookupPhone');
   const pointEl = document.getElementById('rewardCurrentPoint');
-  const nextGiftEl = document.getElementById('rewardNextGift');
   const historyEl = document.getElementById('rewardHistoryList');
-  if (!phoneInput || !pointEl || !nextGiftEl || !historyEl) return;
+  if (!phoneInput || !pointEl || !historyEl) return;
 
   const identifier = phoneInput.value.trim();
   if (!identifier){
     pointEl.textContent = '0 điểm';
-    nextGiftEl.textContent = 'Chưa có dữ liệu';
     historyEl.innerHTML = '<div class="reward-history-empty">Vui lòng nhập email hoặc số điện thoại tích điểm.</div>';
     return;
   }
 
-  nextGiftEl.textContent = 'Đang tra cứu...';
   historyEl.innerHTML = '<div class="reward-history-empty">Đang tải lịch sử tích điểm...</div>';
   try{
     const params = new URLSearchParams({ action:'reward_lookup', ...rewardIdentifierPayload(identifier) });
@@ -8390,7 +8346,6 @@ async function lookupRewardBalance(){
     renderRewardHistory(data);
   }catch(err){
     pointEl.textContent = '0 điểm';
-    nextGiftEl.textContent = 'Lỗi tra cứu';
     historyEl.innerHTML = `<div class="reward-history-empty">${rewardEscape(rewardApiErrorMessage(err))}</div>`;
   }
 }
@@ -9295,50 +9250,141 @@ document.addEventListener('DOMContentLoaded', () => {
 .reward-wrap{
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:10px;
 }
 .reward-note{
-  background:#fff7ed;
-  border:1px solid #fed7aa;
-  border-radius:12px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-left:4px solid #dc2626;
+  border-radius:10px;
   color:#9a3412;
-  font-size:14px;
-  font-weight:600;
-  padding:10px 12px;
-}
-.reward-demo-data{
-  background:rgba(255,255,255,.72);
-  border:1px dashed #fdba74;
-  border-radius:9px;
-  color:#7c2d12;
   font-size:13px;
   font-weight:600;
-  margin-top:8px;
-  padding:8px 10px;
+  padding:10px 12px 10px 14px;
 }
-.reward-table-card{
+.reward-demo-data{
+  background:#f8fafc;
+  border:1px dashed #cbd5e1;
+  border-radius:8px;
+  color:#334155;
+  font-size:12px;
+  font-weight:600;
+  margin-top:7px;
+  padding:7px 9px;
+}
+.reward-gift-link-row{
+  display:flex;
+  justify-content:stretch;
+}
+.reward-gift-link{
+  align-items:center;
+  background:linear-gradient(135deg,#991b1b 0%,#dc2626 48%,#f97316 100%);
+  border:1px solid rgba(255,255,255,.42);
+  border-radius:14px;
+  box-shadow:0 14px 30px rgba(185,28,28,.22), inset 0 1px 0 rgba(255,255,255,.28);
+  color:#fff;
+  display:inline-flex;
+  gap:10px;
+  justify-content:space-between;
+  min-height:58px;
+  overflow:hidden;
+  padding:10px 12px;
+  position:relative;
+  text-decoration:none;
+  transition:transform .18s ease, box-shadow .18s ease;
+  width:100%;
+}
+.reward-gift-link::before{
+  background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.34) 45%,transparent 70%);
+  content:"";
+  height:160%;
+  left:-40%;
+  position:absolute;
+  top:-30%;
+  transform:rotate(12deg);
+  width:28%;
+  animation:rewardShine 3.8s ease-in-out infinite;
+}
+.reward-gift-link-icon{
+  align-items:center;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.26);
+  border-radius:12px;
+  display:inline-flex;
+  flex:0 0 38px;
+  font-size:20px;
+  height:38px;
+  justify-content:center;
+  position:relative;
+  z-index:1;
+}
+.reward-gift-link-text{
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  min-width:0;
+  position:relative;
+  z-index:1;
+}
+.reward-gift-link-text strong{
+  color:#fff;
+  font-size:15px;
+  font-weight:800;
+  letter-spacing:0;
+  line-height:1.15;
+  text-transform:uppercase;
+}
+.reward-gift-link-text small{
+  color:rgba(255,255,255,.82);
+  font-size:12px;
+  font-weight:600;
+  line-height:1.25;
+  margin-top:3px;
+}
+.reward-gift-link-arrow{
+  align-items:center;
+  background:rgba(255,255,255,.16);
+  border-radius:999px;
+  display:inline-flex;
+  flex:0 0 28px;
+  font-size:24px;
+  height:28px;
+  justify-content:center;
+  line-height:1;
+  position:relative;
+  z-index:1;
+}
+.reward-gift-link:hover{
+  box-shadow:0 18px 36px rgba(185,28,28,.28), inset 0 1px 0 rgba(255,255,255,.32);
+  color:#fff;
+  transform:translateY(-1px);
+}
+@keyframes rewardShine{
+  0%,45%{left:-45%;opacity:0;}
+  55%{opacity:1;}
+  100%{left:118%;opacity:0;}
+}
+@media (prefers-reduced-motion:reduce){
+  .reward-gift-link::before{
+    animation:none;
+  }
+}
+.reward-balance-card{
   background:#fff;
   border:1px solid #e5e7eb;
   border-radius:12px;
   padding:12px;
   box-shadow:0 6px 18px rgba(15,23,42,.06);
 }
-.reward-balance-card{
-  background:linear-gradient(135deg,#fff7ed 0%,#ffedd5 52%,#fef3c7 100%);
-  border:1px solid #fdba74;
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 8px 22px rgba(154,52,18,.10);
-}
 .reward-balance-card .reward-section-title{
-  color:#9a3412;
+  color:#b91c1c;
 }
 .reward-balance-card .reward-desc{
-  color:#7c2d12;
+  color:#64748b;
 }
 .reward-balance-card input{
-  background:#fffaf5;
-  border-color:#fdba74;
+  background:#fff;
+  border-color:#cbd5e1;
 }
 .reward-section-title{
   color:#b91c1c;
@@ -9347,102 +9393,6 @@ document.addEventListener('DOMContentLoaded', () => {
   margin-bottom:8px;
   text-transform:uppercase;
 }
-.reward-table-scroll{
-  border:1px solid #fee2e2;
-  border-radius:10px;
-  overflow:auto;
-}
-.reward-table{
-  border-collapse:separate;
-  border-spacing:0;
-  min-width:820px;
-  width:100%;
-}
-.reward-table th{
-  background:#fff1f2;
-  border-bottom:1px solid #fecdd3;
-  color:#9f1239;
-  font-size:11px;
-  font-weight:700;
-  letter-spacing:.02em;
-  padding:9px 10px;
-  text-align:left;
-  text-transform:uppercase;
-  white-space:nowrap;
-}
-.reward-table td{
-  background:#fff;
-  border-bottom:1px solid #f1f5f9;
-  color:#334155;
-  font-size:13px;
-  font-weight:500;
-  padding:9px 10px;
-  vertical-align:middle;
-}
-.reward-table tbody tr:hover td{
-  background:#fff7ed;
-}
-.reward-table tbody tr:last-child td{
-  border-bottom:0;
-}
-.reward-row-featured td{
-  background:#fff7ed;
-}
-.reward-table-gift{
-  align-items:center;
-  display:flex;
-  gap:10px;
-  min-width:190px;
-}
-.reward-table-gift > span{
-  align-items:center;
-  background:#fff7ed;
-  border:1px solid #fed7aa;
-  border-radius:9px;
-  display:inline-flex;
-  flex:0 0 auto;
-  font-size:18px;
-  height:34px;
-  justify-content:center;
-  width:34px;
-}
-.reward-table-gift strong{
-  color:#9a3412;
-  font-size:14px;
-  font-weight:700;
-  line-height:1.2;
-}
-.reward-point{
-  color:#b91c1c;
-  display:inline-block;
-  font-size:14px;
-  font-weight:700;
-  white-space:nowrap;
-}
-.reward-table-btn{
-  background:#dc2626;
-  border:0;
-  border-radius:999px;
-  color:#fff;
-  font-size:12px;
-  font-weight:700;
-  padding:6px 10px;
-  white-space:nowrap;
-}
-.reward-table-btn:hover{
-  background:#b91c1c;
-}
-.reward-status{
-  border-radius:999px;
-  display:inline-flex;
-  font-size:11px;
-  font-weight:650;
-  padding:4px 8px;
-  white-space:nowrap;
-}
-.reward-status.ok{background:#dcfce7;color:#166534;}
-.reward-status.warn{background:#fef3c7;color:#92400e;}
-.reward-status.hot{background:#ffe4e6;color:#be123c;}
 .reward-desc{
   color:#475569;
   font-size:13px;
@@ -9473,8 +9423,8 @@ document.addEventListener('DOMContentLoaded', () => {
 .reward-balance-row{
   align-items:end;
   display:grid;
-  gap:12px;
-  grid-template-columns:minmax(0,1fr) 190px;
+  gap:10px;
+  grid-template-columns:minmax(0,1fr) 170px;
 }
 .reward-balance-row label{
   display:flex;
@@ -9497,72 +9447,111 @@ document.addEventListener('DOMContentLoaded', () => {
   margin-top:0 !important;
 }
 .reward-open-form-btn{
-  background:#9a3412 !important;
-  margin-top:10px !important;
+  background:#7c2d12 !important;
+  margin-top:8px !important;
 }
 .reward-point-form{
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(251,146,60,.55);
-  border-radius:12px;
-  margin-top:10px;
-  padding:12px;
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  margin-top:8px;
+  padding:10px;
 }
 .reward-point-form[hidden]{
   display:none !important;
 }
 .reward-balance-box{
-  background:rgba(255,255,255,.72);
-  border:1px solid rgba(251,146,60,.55);
-  border-radius:12px;
-  margin-top:12px;
+  background:linear-gradient(180deg,#fff7ed 0%,#fff 48%,#f8fafc 100%);
+  border:1px solid #fed7aa;
+  border-radius:14px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+  margin-top:10px;
   padding:12px;
 }
-.reward-balance-top{
-  align-items:flex-start;
-  display:flex;
-  gap:12px;
-  justify-content:space-between;
+.reward-balance-summary{
+  display:block;
+}
+.reward-score-card{
+  background:linear-gradient(135deg,#7f1d1d 0%,#b91c1c 48%,#f97316 100%);
+  border:1px solid rgba(255,255,255,.36);
+  border-radius:16px;
+  box-shadow:0 18px 40px rgba(127,29,29,.22), inset 0 1px 0 rgba(255,255,255,.26);
+  overflow:hidden;
+  padding:15px 16px;
+  position:relative;
+}
+.reward-score-card::before{
+  background:radial-gradient(circle at 82% 18%,rgba(255,255,255,.34),transparent 30%),linear-gradient(110deg,transparent 0%,rgba(255,255,255,.18) 45%,transparent 70%);
+  content:"";
+  inset:0;
+  opacity:.88;
+  pointer-events:none;
+  position:absolute;
+}
+.reward-score-card::after{
+  background:rgba(255,255,255,.16);
+  border-radius:999px;
+  content:"";
+  height:86px;
+  position:absolute;
+  right:-28px;
+  top:-34px;
+  width:86px;
 }
 .reward-balance-label{
-  color:#92400e;
+  color:rgba(255,255,255,.82);
   display:block;
   font-size:12px;
   font-weight:650;
   margin-bottom:2px;
+  position:relative;
   text-transform:uppercase;
+  z-index:1;
 }
 #rewardCurrentPoint{
-  color:#9a3412;
+  color:#fff;
   display:block;
-  font-size:24px;
-  font-weight:750;
+  font-size:30px;
+  font-weight:850;
   line-height:1.1;
+  position:relative;
+  text-shadow:0 8px 18px rgba(69,10,10,.26);
+  z-index:1;
 }
-#rewardNextGift{
-  background:#ffedd5;
-  border:1px solid #fed7aa;
-  border-radius:999px;
-  color:#9a3412;
+.reward-score-card small{
+  color:#ffedd5;
+  display:block;
   font-size:12px;
-  font-weight:650;
-  padding:6px 9px;
-  text-align:center;
+  font-weight:600;
+  margin-top:6px;
+  position:relative;
+  z-index:1;
+}
+#rewardCurrentPoint.negative{
+  color:#fecaca;
+}
+.reward-history-title{
+  color:#475569;
+  font-size:12px;
+  font-weight:700;
+  margin-top:10px;
+  text-transform:uppercase;
 }
 .reward-history-list{
   display:flex;
   flex-direction:column;
-  gap:8px;
-  margin-top:12px;
+  gap:6px;
+  margin-top:8px;
 }
 .reward-history-item{
   align-items:center;
-  background:rgba(255,255,255,.78);
-  border:1px solid rgba(251,146,60,.45);
-  border-radius:10px;
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
   display:flex;
   gap:10px;
   justify-content:space-between;
-  padding:9px 10px;
+  padding:8px 9px;
 }
 .reward-history-item span{
   color:#9a3412;
@@ -9576,6 +9565,23 @@ document.addEventListener('DOMContentLoaded', () => {
   font-size:13px;
   font-weight:650;
   margin-top:2px;
+}
+.reward-history-item em{
+  border-radius:999px;
+  display:inline-flex;
+  font-size:11px;
+  font-style:normal;
+  font-weight:750;
+  margin-right:6px;
+  padding:2px 7px;
+}
+.reward-history-item em.add{
+  background:#dcfce7;
+  color:#166534;
+}
+.reward-history-item em.use{
+  background:#fee2e2;
+  color:#b91c1c;
 }
 .reward-history-item b{
   color:#15803d;
@@ -9629,8 +9635,6 @@ document.addEventListener('DOMContentLoaded', () => {
 @media (max-width:640px){
   .reward-grid{grid-template-columns:1fr;}
   .reward-balance-row{grid-template-columns:1fr;}
-  .reward-balance-top{flex-direction:column;}
-  .reward-table-card,
   .reward-balance-card,
   .reward-point-form{padding:12px;}
 }
