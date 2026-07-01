@@ -3047,19 +3047,18 @@ body{
   <!-- ===== Benefits ===== -->
 <div class="sidebar-box benefits-v3">
   <div class="benefit-head">
-  <div class="benefit-rocket">
-    <img src="https://lh3.googleusercontent.com/d/1mjwwiMhgF5rLX4VSJ0jyMfeXsn4dzrnz=w150" alt="">
+    <div class="benefit-rocket">
+      <img src="https://lh3.googleusercontent.com/d/1mjwwiMhgF5rLX4VSJ0jyMfeXsn4dzrnz=w150" alt="">
+    </div>
+    <div>
+      <h6>Khám phá dịch vụ 2606AI ✨</h6>
+      <p>Đầy đủ giải pháp hỗ trợ kinh doanh</p>
+    </div>
   </div>
-  <div>
-    <h6>Khám phá dịch vụ 2606AI ✨</h6>
-    <p>Đầy đủ giải pháp hỗ trợ kinh doanh</p>
-  </div>
-</div>
   <div class="grid">
     <div class="bcard" data-benefit="b1" role="button" tabindex="0">
       <img class="benefit-icon" src="https://drive.google.com/thumbnail?id=15XGOGRdQKt1ZuJMNCC9MkJ8R74OxgqLt&sz=w150">
       <div class="benefit-text">
-   
         <strong>GIỚI THIỆU DOANH NGHIỆP</strong>
         <small>Mua hàng, tổ chức, sản phẩm và dịch vụ</small>
       </div>
@@ -3068,51 +3067,41 @@ body{
     <div class="bcard" data-benefit="b2" role="button" tabindex="0">
       <img class="benefit-icon" src="https://drive.google.com/thumbnail?id=1_4xB-U0v2cylRN5dZHnvWE0ro5SXW6nY&sz=w150">
       <div class="benefit-text">
-     
         <strong>ĐẶT HÀNG THEO THIẾT KẾ</strong>
         <small>In ấn, tạo hình, dán tem... theo yêu cầu</small>
       </div>
-
     </div>
 
     <div class="bcard" data-benefit="b3" role="button" tabindex="0">
       <img class="benefit-icon"src="https://lh3.googleusercontent.com/d/1N_fVzylsQNxR7DGN-Gwb_V8C19ACU8GX=w150">
       <div class="benefit-text">
-     
         <strong>KÊNH BÁN HÀNG</strong>
         <small>+10,000 sản phẩm và mẫu tham khảo</small>
       </div>
-
     </div>
 
     <div class="bcard" data-benefit="b4" role="button" tabindex="0">
       <img class="benefit-icon" src="https://lh3.googleusercontent.com/d/1pEBJlx-MD_aUKAPIqfjnUs2zEvd63FPG=w150">
       <div class="benefit-text">
-       
         <strong>TÍCH ĐIỂM QUÀ TẶNG</strong>
         <small>Nhập mã tích điểm (12 chữ số)</small>
       </div>
-     
     </div>
 
     <div class="bcard" data-benefit="b5" role="button" tabindex="0">
       <img class="benefit-icon" src="https://lh3.googleusercontent.com/d/1PCxAZs_3bniT5CSNk9XtdByQLbwai4oR=w150">
       <div class="benefit-text">
-       
         <strong>KÊNH TIKTOK</strong>
         <small>Video sản phẩm thực tế</small>
       </div>
-      
     </div>
 
     <div class="bcard" data-benefit="b6" role="button" tabindex="0">
       <img class="benefit-icon" src="https://drive.google.com/thumbnail?id=1spHz1YnPF4edm0h2gmJ2GBmtJbJ_zXwe&sz=w150">
       <div class="benefit-text">
-   
         <strong>KÊNH FACEBOOK</strong>
         <small>Hình ảnh và bài viết</small>
       </div>
-      
     </div>
   </div>
 </div>
@@ -3138,6 +3127,146 @@ body{
     </div>
   </div>
 
+  <!-- ===== TIỆN ÍCH BRIEF BÁO GIÁ NHANH - DEMO ===== -->
+  <div id="quickRequestBox" class="sidebar-box quick-request-box">
+    <div class="quick-request-head">
+      <span class="quick-request-icon">✦</span>
+      <div>
+        <h6>Check file báo giá</h6>
+        <p>Thả hình/file mẫu để sale báo giá nhanh hơn.</p>
+      </div>
+    </div>
+
+    <label id="quickDropZone" class="quick-drop-zone" for="quickFileInput">
+      <input id="quickFileInput" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple hidden>
+      <span class="quick-drop-main">Kéo thả hình/file vào đây</span>
+      <small>Bấm hoặc thả nhiều hình/file để tạo brief báo giá</small>
+      <strong id="quickFileName">Chưa có file đính kèm</strong>
+    </label>
+  </div>
+
+</div>
+
+<div class="modal fade quick-request-modal" id="quickRequestModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h5 class="modal-title">Brief báo giá nhanh</h5>
+          <small>Điền đủ thông tin để sale báo giá mà không cần hỏi lại nhiều lần.</small>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+      </div>
+      <div class="modal-body">
+        <div id="quickVisualPreview" class="quick-visual-preview">
+          <span>Chưa có hình/file mẫu</span>
+          <small>Kéo hình sản phẩm, bản thiết kế, logo hoặc file tham khảo vào ô bên trái.</small>
+        </div>
+        <div id="quickStatus" class="quick-status">Demo chỉ tạo file trình bày, chưa gửi dữ liệu lên hệ thống.</div>
+
+        <label class="quick-description-field">
+          <span class="quick-description-label">
+            Mô tả nhanh / nội dung cần báo giá
+            <button type="button" class="quick-voice-btn" onclick="quickToggleVoiceInput()">🎙 Nói để nhập</button>
+          </span>
+          <textarea id="quickNote" rows="3" placeholder="Mô tả ngắn sản phẩm, ý tưởng, logo/nội dung cần in, phong cách mong muốn..."></textarea>
+        </label>
+
+        <section class="quick-section">
+          <div class="quick-section-title">Bảng số lượng cần lấy giá</div>
+          <div class="quick-quote-table-wrap">
+            <table class="quick-quote-table">
+              <thead>
+                <tr>
+                  <th>STT</th>
+                  <th>Tên sản phẩm</th>
+                  <th>Số lượng</th>
+                  <th>Đơn vị</th>
+                  <th>Giá</th>
+                  <th>Ghi chú</th>
+                </tr>
+              </thead>
+              <tbody id="quickQuoteBody">
+                <tr>
+                  <td class="quick-row-index">1</td>
+                  <td><input id="quickQuoteName1" type="text" placeholder="VD: Móc khóa kim loại"></td>
+                  <td><input id="quickQuoteQty1" type="text" placeholder="100"></td>
+                  <td><input id="quickQuoteUnit1" type="text" placeholder="cái"></td>
+                  <td><input id="quickQuotePrice1" type="text" placeholder="Nhập sau"></td>
+                  <td><input id="quickQuoteNote1" type="text" placeholder="Ghi chú"></td>
+                </tr>
+                <tr>
+                  <td class="quick-row-index">2</td>
+                  <td><input id="quickQuoteName2" type="text" placeholder="VD: Móc khóa kim loại"></td>
+                  <td><input id="quickQuoteQty2" type="text" placeholder="300"></td>
+                  <td><input id="quickQuoteUnit2" type="text" placeholder="cái"></td>
+                  <td><input id="quickQuotePrice2" type="text" placeholder="Nhập sau"></td>
+                  <td><input id="quickQuoteNote2" type="text" placeholder="Ghi chú"></td>
+                </tr>
+                <tr>
+                  <td class="quick-row-index">3</td>
+                  <td><input id="quickQuoteName3" type="text" placeholder="VD: Móc khóa kim loại"></td>
+                  <td><input id="quickQuoteQty3" type="text" placeholder="500"></td>
+                  <td><input id="quickQuoteUnit3" type="text" placeholder="cái"></td>
+                  <td><input id="quickQuotePrice3" type="text" placeholder="Nhập sau"></td>
+                  <td><input id="quickQuoteNote3" type="text" placeholder="Ghi chú"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="quick-table-actions">
+            <button type="button" class="quick-add-row-btn" onclick="quickAddQuoteRow()">+ Thêm dòng</button>
+            <button type="button" class="quick-add-row-btn secondary" onclick="quickAddQuoteColumn()">+ Thêm cột</button>
+          </div>
+        </section>
+
+        <div class="quick-brief-tables">
+          <section class="quick-section">
+            <div class="quick-section-title">Yêu cầu về sản phẩm</div>
+            <table class="quick-vertical-table">
+              <tbody>
+                <tr><th>Chất liệu</th><td><input id="quickMaterial" type="text" placeholder="VD: kim loại, giấy mỹ thuật, mica..."></td></tr>
+                <tr><th>Màu sắc</th><td><input id="quickColor" type="text" placeholder="VD: bạc, xanh thương hiệu, theo logo..."></td></tr>
+                <tr><th>Kích thước</th><td><input id="quickSize" type="text" placeholder="VD: 45mm, 20x30cm, theo mẫu..."></td></tr>
+                <tr><th>Gia công</th><td><input id="quickProcess" type="text" placeholder="VD: mạ bạc, in 2 mặt, ép kim..."></td></tr>
+                <tr><th>Bao bì</th><td><input id="quickPackage" type="text" placeholder="VD: túi OPP, hộp giấy, hộp quà..."></td></tr>
+                <tr><th>Logo</th><td><input id="quickLogo" type="text" placeholder="VD: có logo, cần in logo, gửi file sau..."></td></tr>
+                <tr><th>Khác</th><td><input id="quickProductOther" type="text" placeholder="Yêu cầu khác về sản phẩm"></td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section class="quick-section">
+            <div class="quick-section-title">Yêu cầu mua hàng</div>
+            <table class="quick-vertical-table">
+              <tbody>
+                <tr><th>Thời gian cần nhận</th><td><input id="quickDate" type="text" placeholder="VD: Trước 20/07"></td></tr>
+                <tr><th>Địa điểm giao</th><td><input id="quickDelivery" type="text" placeholder="VD: Quận 7, TP.HCM"></td></tr>
+                <tr><th>Hình thức thanh toán</th><td><input id="quickPayment" type="text" placeholder="VD: chuyển khoản, công nợ, tiền mặt..."></td></tr>
+                <tr><th>Xuất VAT</th><td><select id="quickVat"><option>Chưa xác định</option><option>Cần xuất VAT</option><option>Không cần VAT</option></select></td></tr>
+                <tr><th>Ngân sách</th><td><input id="quickBudget" type="text" placeholder="VD: 50.000đ/phần hoặc 20 triệu"></td></tr>
+                <tr><th>Giao nhiều đợt</th><td><select id="quickSplitDelivery"><option>Không</option><option>Có</option><option>Cần tư vấn</option></select></td></tr>
+                <tr><th>Khác</th><td><input id="quickBuyOther" type="text" placeholder="Yêu cầu khác về mua hàng"></td></tr>
+              </tbody>
+            </table>
+          </section>
+        </div>
+        <section class="quick-section">
+          <div class="quick-section-title">Thông tin liên hệ</div>
+          <div class="quick-contact-grid">
+            <label>Tên / Công ty<input id="quickName" type="text" placeholder="VD: Công ty ABC"></label>
+            <label>SĐT / Zalo<input id="quickPhone" type="tel" placeholder="VD: 0901 234 567"></label>
+            <label>Email<input id="quickEmail" type="email" placeholder="VD: abc@email.com"></label>
+          </div>
+        </section>
+        <div class="quick-actions">
+          <button type="button" onclick="quickExportImage()">Xuất ảnh brief</button>
+          <button type="button" class="secondary" onclick="quickOpenPrint()">Xuất PDF brief</button>
+          <button type="button" class="secondary" onclick="quickSaveBriefData()">Lưu dữ liệu</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -6254,6 +6383,9 @@ document.addEventListener('click', (ev)=>{
 <div id="errbox" role="alert" aria-live="assertive"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script>
 window.ZALO_URL = "https://zalo.me/0775238306";   // <-- thay link thật của bạn
 window.WORKSHOP_CONTACT_URL = "https://zalo.me/0775238306"; // nếu muốn dùng chung
@@ -8144,6 +8276,8 @@ const BENEFIT_DETAIL = {
   const $lead  = document.getElementById('benefitLead');
   const $list  = document.getElementById('benefitList');
   const $note  = document.getElementById('benefitNote');
+  let benefitHistoryActive = false;
+  let benefitClosingFromHistory = false;
   const BENEFIT_THEME = {
     b1:{ grad:'linear-gradient(135deg,#16a34a,#087a32)' },
     b2:{ grad:'linear-gradient(135deg,#7c3aed,#4c1d95)' },
@@ -8169,7 +8303,7 @@ const BENEFIT_DETAIL = {
     const cardTitle = document.querySelector(`.benefits-v3 .bcard[data-benefit="${key}"] .benefit-text strong`)?.textContent?.trim();
     return cardTitle || detail.title || 'Chi tiết';
   }
-  function openDetail(key){
+  function openDetail(key, updateHistory = true){
 
   const d = BENEFIT_DETAIL[key];
   if(!d) return;
@@ -8205,9 +8339,43 @@ const BENEFIT_DETAIL = {
 
   }
 
+  if(updateHistory && window.history && window.history.pushState){
+    const targetHash = `#benefit-${key}`;
+    if(location.hash !== targetHash){
+      history.pushState({ benefitModal:key }, '', targetHash);
+    }
+    benefitHistoryActive = true;
+  }
+
   modal.show();
       setTimeout(()=>switchDesign2('green'),100);
 }
+  window.addEventListener('popstate', ()=>{
+    if(modalEl.classList.contains('show')){
+      benefitClosingFromHistory = true;
+      modal.hide();
+      return;
+    }
+
+    const match = String(location.hash || '').match(/^#benefit-(b[1-6])$/);
+    if(match){
+      openDetail(match[1], false);
+      benefitHistoryActive = true;
+    }
+  });
+
+  modalEl.addEventListener('hidden.bs.modal', ()=>{
+    if(benefitClosingFromHistory){
+      benefitClosingFromHistory = false;
+      benefitHistoryActive = false;
+      return;
+    }
+
+    if(benefitHistoryActive && /^#benefit-b[1-6]$/.test(location.hash)){
+      benefitHistoryActive = false;
+      history.back();
+    }
+  });
   document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
     const key = card.getAttribute('data-benefit');
     card.addEventListener('click', ()=>openDetail(key));
@@ -8834,7 +9002,7 @@ window.switchDesign2 = function(type){
       <div class="col-md-3 mb-4">
         <h6 class="fw-bold text-uppercase mb-3" style="color:#d4af37;">Liên kết nhanh</h6>
         <ul class="list-unstyled mb-0">
-          <li class="mb-2"><a class="link-light text-decoration-none" href="about.html">Về chúng tôi</a></li>
+          <li class="mb-2"><a class="link-light text-decoration-none" href="#" onclick="document.querySelector('.benefits-v3 .bcard[data-benefit=&quot;b1&quot;]')?.click(); return false;">Giới thiệu doanh nghiệp</a></li>
           <li class="mb-2"><a class="link-light text-decoration-none" href="#">Danh mục sản phẩm</a></li>
           <li class="mb-2"><a class="link-light text-decoration-none" href="#">Báo giá nhanh</a></li>
           <li class="mb-2"><a class="link-light text-decoration-none" href="#">Câu hỏi thường gặp</a></li>
@@ -9644,6 +9812,1004 @@ document.addEventListener('DOMContentLoaded', () => {
   .reward-balance-card,
   .reward-point-form{padding:12px;}
 }
+
+/* ===== Premium bamboo footer ===== */
+footer.text-light{
+  background:
+    radial-gradient(circle at 12% 12%,rgba(250,204,21,.2),transparent 28%),
+    radial-gradient(circle at 88% 18%,rgba(187,247,208,.16),transparent 30%),
+    linear-gradient(135deg,#0f3d24 0%,#1f7a3f 48%,#0b2f1e 100%) !important;
+  border-top:1px solid rgba(250,204,21,.28);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+  color:#f8fff8 !important;
+  overflow:hidden;
+  position:relative;
+}
+footer.text-light::before{
+  background:
+    linear-gradient(90deg,transparent 0 7%,rgba(255,255,255,.12) 7% 7.5%,transparent 7.5% 15%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.06) 0 2px,transparent 2px 72px);
+  content:"";
+  inset:-40px -20px;
+  opacity:.48;
+  pointer-events:none;
+  position:absolute;
+  transform:skewX(-10deg);
+}
+footer.text-light::after{
+  background:
+    radial-gradient(ellipse at center,rgba(250,204,21,.22),transparent 64%);
+  bottom:-120px;
+  content:"";
+  height:220px;
+  left:8%;
+  pointer-events:none;
+  position:absolute;
+  width:84%;
+}
+footer.text-light .container-fluid{
+  max-width:none !important;
+  padding-left:clamp(20px,4vw,56px) !important;
+  padding-right:clamp(20px,4vw,56px) !important;
+  position:relative;
+  z-index:1;
+}
+footer.text-light .row{
+  position:relative;
+}
+footer.text-light .row::before{
+  background:linear-gradient(90deg,transparent,rgba(250,204,21,.56),transparent);
+  content:"";
+  height:1px;
+  left:0;
+  position:absolute;
+  right:0;
+  top:20px;
+}
+footer.text-light h6{
+  color:#fde68a !important;
+  font-size:13px;
+  letter-spacing:.04em;
+  position:relative;
+}
+footer.text-light h6::after{
+  background:linear-gradient(90deg,#fde68a,rgba(253,230,138,0));
+  border-radius:999px;
+  content:"";
+  display:block;
+  height:2px;
+  margin-top:8px;
+  width:54px;
+}
+footer.text-light p,
+footer.text-light li,
+footer.text-light .small{
+  color:rgba(248,255,248,.86) !important;
+}
+footer.text-light a{
+  color:#ecfdf5 !important;
+  text-decoration:none !important;
+  transition:color .16s ease, transform .16s ease, opacity .16s ease;
+}
+footer.text-light a:hover{
+  color:#fde68a !important;
+  opacity:1;
+}
+footer.text-light .list-unstyled li a{
+  display:inline-flex;
+  gap:7px;
+  align-items:center;
+}
+footer.text-light .list-unstyled li a::before{
+  background:#fde68a;
+  border-radius:999px;
+  box-shadow:0 0 12px rgba(253,230,138,.35);
+  content:"";
+  height:6px;
+  opacity:.85;
+  width:6px;
+}
+footer.text-light .d-flex a{
+  align-items:center;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  display:inline-flex;
+  height:36px;
+  justify-content:center;
+  width:36px;
+}
+footer.text-light .d-flex a:hover{
+  background:rgba(253,230,138,.18);
+  transform:translateY(-2px);
+}
+footer.text-light img[alt="2606AI logo"]{
+  background:rgba(255,255,255,.92);
+  border-radius:14px;
+  box-shadow:0 16px 40px rgba(0,0,0,.18);
+  padding:10px 14px;
+}
+
+/* ===== Demo quick request form ===== */
+.quick-request-box{
+  background:linear-gradient(180deg,#ecfdf5 0%,#ffffff 100%) !important;
+  border:1px solid #86efac !important;
+  border-radius:16px !important;
+  box-shadow:0 14px 34px rgba(22,101,52,.14) !important;
+  display:flex;
+  flex-direction:column;
+  min-height:clamp(520px,64vh,760px);
+  overflow:hidden;
+  position:relative;
+}
+.quick-request-head{
+  align-items:center;
+  display:grid;
+  gap:10px;
+  grid-template-columns:42px 1fr;
+  margin-bottom:12px;
+}
+.quick-request-icon{
+  align-items:center;
+  background:linear-gradient(135deg,#22c55e,#166534);
+  border-radius:13px;
+  color:#fff;
+  display:inline-flex;
+  font-size:22px;
+  height:42px;
+  justify-content:center;
+  width:42px;
+}
+.quick-request-head h6{
+  color:#166534;
+  font-size:15px;
+  font-weight:850;
+  margin:0;
+  text-transform:uppercase;
+}
+.quick-request-head p{
+  color:#64748b;
+  font-size:12px;
+  line-height:1.35;
+  margin:2px 0 0;
+}
+.quick-drop-zone{
+  align-items:center;
+  background:
+    radial-gradient(circle at 18% 20%,rgba(250,204,21,.24),transparent 28%),
+    linear-gradient(135deg,#16a34a 0%,#22c55e 52%,#166534 100%);
+  border:1px solid rgba(255,255,255,.52);
+  border-radius:18px;
+  box-shadow:0 18px 34px rgba(22,101,52,.22), inset 0 1px 0 rgba(255,255,255,.28);
+  color:#166534;
+  cursor:pointer;
+  display:flex;
+  flex:1;
+  flex-direction:column;
+  gap:6px;
+  justify-content:center;
+  min-height:420px;
+  overflow:hidden;
+  padding:18px 14px;
+  position:relative;
+  text-align:center;
+  transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease;
+}
+.quick-drop-zone::before{
+  background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.34) 45%,transparent 70%);
+  content:"";
+  height:180%;
+  left:-48%;
+  position:absolute;
+  top:-40%;
+  transform:rotate(12deg);
+  width:30%;
+  animation:quickDropShine 4s ease-in-out infinite;
+}
+.quick-drop-zone::after{
+  background:rgba(255,255,255,.16);
+  border-radius:999px;
+  content:"";
+  height:92px;
+  position:absolute;
+  right:-28px;
+  top:-32px;
+  width:92px;
+}
+.quick-drop-zone.is-dragging,
+.quick-drop-zone:hover{
+  border-color:rgba(255,255,255,.88);
+  box-shadow:0 22px 42px rgba(22,101,52,.28), inset 0 1px 0 rgba(255,255,255,.32);
+  transform:translateY(-2px);
+}
+.quick-drop-main{
+  color:#fff;
+  font-size:17px;
+  font-weight:850;
+  line-height:1.15;
+  position:relative;
+  text-shadow:0 8px 18px rgba(20,83,45,.25);
+  text-transform:uppercase;
+  z-index:1;
+}
+.quick-drop-zone small{
+  color:rgba(255,255,255,.84);
+  font-size:12px;
+  font-weight:650;
+  position:relative;
+  z-index:1;
+}
+.quick-drop-zone strong{
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:999px;
+  color:#fff;
+  font-size:12px;
+  font-weight:750;
+  margin-top:5px;
+  max-width:100%;
+  overflow:hidden;
+  padding:5px 9px;
+  position:relative;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  z-index:1;
+}
+.quick-form-grid{
+  display:grid;
+  gap:9px;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  margin-top:12px;
+  animation:quickFormIn .2s ease-out both;
+}
+.quick-form-grid label{
+  color:#334155;
+  display:flex;
+  flex-direction:column;
+  font-size:12px;
+  font-weight:750;
+  gap:5px;
+}
+.quick-form-grid input,
+.quick-form-grid select,
+.quick-form-grid textarea{
+  background:#fff;
+  border:1px solid #cbd5e1;
+  border-radius:10px;
+  color:#0f172a;
+  font-size:13px;
+  outline:none;
+  padding:8px 9px;
+  width:100%;
+}
+.quick-form-grid .quick-wide{
+  grid-column:1 / -1;
+}
+.quick-form-grid input:focus,
+.quick-form-grid select:focus,
+.quick-form-grid textarea:focus{
+  border-color:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.14);
+}
+.quick-description-field{
+  color:#334155;
+  display:flex;
+  flex-direction:column;
+  font-size:12px;
+  font-weight:800;
+  gap:6px;
+  margin-top:12px;
+}
+.quick-description-label{
+  align-items:center;
+  display:flex;
+  gap:8px;
+  justify-content:space-between;
+}
+.quick-voice-btn{
+  background:#15803d;
+  border:0;
+  border-radius:999px;
+  color:#fff;
+  font-size:12px;
+  font-weight:850;
+  padding:6px 10px;
+}
+.quick-voice-btn.is-listening{
+  background:#dc2626;
+  box-shadow:0 0 0 4px rgba(220,38,38,.12);
+}
+.quick-description-field textarea,
+.quick-quote-table input,
+.quick-vertical-table input,
+.quick-vertical-table select,
+.quick-contact-grid input{
+  background:#fff;
+  border:1px solid #cbd5e1;
+  border-radius:9px;
+  color:#0f172a;
+  font-size:13px;
+  outline:none;
+  padding:8px 9px;
+  width:100%;
+}
+.quick-description-field textarea:focus,
+.quick-quote-table input:focus,
+.quick-vertical-table input:focus,
+.quick-vertical-table select:focus,
+.quick-contact-grid input:focus{
+  border-color:#22c55e;
+  box-shadow:0 0 0 3px rgba(34,197,94,.14);
+}
+.quick-section{
+  background:rgba(255,255,255,.78);
+  border:1px solid #dcfce7;
+  border-radius:14px;
+  margin-top:12px;
+  overflow:hidden;
+}
+.quick-section-title{
+  background:linear-gradient(90deg,#dcfce7,#f0fdf4);
+  color:#166534;
+  font-size:13px;
+  font-weight:850;
+  padding:9px 11px;
+  text-transform:uppercase;
+}
+.quick-quote-table-wrap{
+  overflow-x:auto;
+}
+.quick-quote-table,
+.quick-vertical-table{
+  border-collapse:collapse;
+  width:100%;
+}
+.quick-quote-table th,
+.quick-quote-table td,
+.quick-vertical-table th,
+.quick-vertical-table td{
+  border-top:1px solid #e2e8f0;
+  padding:8px;
+  vertical-align:middle;
+}
+.quick-quote-table th{
+  color:#475569;
+  font-size:12px;
+  font-weight:850;
+  white-space:nowrap;
+}
+.quick-row-index{
+  color:#166534;
+  font-size:13px;
+  font-weight:850;
+  text-align:center;
+  width:54px;
+}
+.quick-quote-table td:nth-child(2),
+.quick-quote-table td:nth-child(6){
+  min-width:180px;
+}
+.quick-quote-table td:nth-child(3),
+.quick-quote-table td:nth-child(4),
+.quick-quote-table td:nth-child(5){
+  min-width:110px;
+}
+.quick-add-row-btn{
+  background:#fff;
+  border:0;
+  border-top:1px solid #e2e8f0;
+  color:#15803d;
+  font-size:13px;
+  font-weight:850;
+  padding:10px;
+  text-align:left;
+  width:100%;
+}
+.quick-add-row-btn:hover{
+  background:#f0fdf4;
+}
+.quick-table-actions{
+  border-top:1px solid #e2e8f0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+}
+.quick-table-actions .quick-add-row-btn{
+  border-top:0;
+}
+.quick-table-actions .quick-add-row-btn + .quick-add-row-btn{
+  border-left:1px solid #e2e8f0;
+}
+.quick-add-row-btn.secondary{
+  color:#0f766e;
+}
+.quick-quote-table th.quick-custom-col{
+  min-width:150px;
+}
+.quick-quote-table th.quick-custom-col input{
+  background:#ecfdf5;
+  border-color:#bbf7d0;
+  color:#166534;
+  font-size:12px;
+  font-weight:850;
+  padding:6px 8px;
+}
+.quick-brief-tables{
+  display:grid;
+  gap:12px;
+  grid-template-columns:1fr 1fr;
+}
+.quick-vertical-table th{
+  background:#f8fafc;
+  color:#334155;
+  font-size:12px;
+  font-weight:800;
+  line-height:1.25;
+  width:34%;
+}
+.quick-contact-grid{
+  display:grid;
+  gap:10px;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  padding:10px;
+}
+.quick-contact-grid label{
+  color:#334155;
+  display:flex;
+  flex-direction:column;
+  font-size:12px;
+  font-weight:800;
+  gap:6px;
+}
+.quick-actions{
+  display:grid;
+  gap:8px;
+  grid-template-columns:1fr 1fr 1fr;
+  margin-top:12px;
+}
+.quick-actions button{
+  background:#15803d;
+  border:0;
+  border-radius:999px;
+  color:#fff;
+  font-size:13px;
+  font-weight:800;
+  padding:9px 10px;
+}
+.quick-actions button.secondary{
+  background:#fff;
+  border:1px solid #15803d;
+  color:#15803d;
+}
+.quick-status{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:10px;
+  color:#64748b;
+  font-size:12px;
+  margin-top:10px;
+  padding:8px;
+}
+.quick-request-modal .modal-dialog{
+  max-width:920px;
+}
+.quick-request-modal .modal-content{
+  border:0;
+  border-radius:18px;
+  box-shadow:0 28px 70px rgba(15,23,42,.28);
+  overflow:hidden;
+}
+.quick-request-modal .modal-header{
+  background:linear-gradient(135deg,#166534,#22c55e);
+  border:0;
+  color:#fff;
+  padding:18px 20px;
+}
+.quick-request-modal .modal-title{
+  color:#fff;
+  font-size:20px;
+  font-weight:850;
+  margin:0;
+  text-transform:uppercase;
+}
+.quick-request-modal .modal-header small{
+  color:rgba(255,255,255,.84);
+  display:block;
+  font-size:13px;
+  margin-top:3px;
+}
+.quick-request-modal .modal-body{
+  background:linear-gradient(180deg,#f0fdf4,#fff);
+  padding:16px;
+}
+.quick-visual-preview{
+  align-items:center;
+  background:#fff;
+  border:1px dashed #86efac;
+  border-radius:14px;
+  color:#166534;
+  display:grid;
+  gap:8px;
+  grid-template-columns:74px 1fr;
+  min-height:82px;
+  padding:10px;
+}
+.quick-visual-preview{
+  cursor:pointer;
+  transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.quick-visual-preview.is-dragging,
+.quick-visual-preview:hover{
+  border-color:#22c55e;
+  box-shadow:0 12px 34px rgba(22,101,52,.14);
+}
+.quick-visual-preview img{
+  background:#ecfdf5;
+  border-radius:10px;
+  height:62px;
+  object-fit:cover;
+  width:74px;
+}
+.quick-visual-preview .quick-file-icon{
+  align-items:center;
+  background:#ecfdf5;
+  border-radius:10px;
+  display:flex;
+  font-size:26px;
+  height:62px;
+  justify-content:center;
+  width:74px;
+}
+.quick-visual-preview span{
+  color:#166534;
+  display:block;
+  font-size:13px;
+  font-weight:800;
+}
+.quick-visual-preview small{
+  color:#64748b;
+  display:block;
+  font-size:12px;
+  line-height:1.35;
+  margin-top:2px;
+}
+.quick-visual-preview.has-many{
+  grid-template-columns:1fr;
+}
+.quick-preview-list{
+  display:grid;
+  gap:8px;
+  grid-template-columns:repeat(auto-fill,minmax(118px,1fr));
+  width:100%;
+}
+.quick-preview-item{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:12px;
+  overflow:hidden;
+}
+.quick-preview-item img,
+.quick-preview-item .quick-file-icon{
+  border-radius:0;
+  height:76px;
+  width:100%;
+}
+.quick-preview-item img{
+  object-fit:cover;
+}
+.quick-preview-item span{
+  color:#334155;
+  font-size:11px;
+  font-weight:750;
+  overflow:hidden;
+  padding:7px 8px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.quick-request-modal .quick-status{
+  margin:0 0 12px;
+}
+.quick-request-modal .quick-actions{
+  margin-top:14px;
+}
+@keyframes quickDropShine{
+  0%,46%{left:-52%;opacity:0;}
+  56%{opacity:1;}
+  100%{left:120%;opacity:0;}
+}
+@keyframes quickFormIn{
+  from{opacity:0;transform:translateY(-6px);}
+  to{opacity:1;transform:translateY(0);}
+}
+@media (prefers-reduced-motion:reduce){
+  .quick-drop-zone::before,
+  .quick-form-grid{
+    animation:none;
+  }
+}
+@media (max-width:640px){
+  .quick-form-grid,
+  .quick-brief-tables,
+  .quick-contact-grid,
+  .quick-actions{
+    grid-template-columns:1fr;
+  }
+}
 </style>
+<script>
+(function initQuickRequestDemo(){
+  const box = document.getElementById('quickRequestBox');
+  const modalEl = document.getElementById('quickRequestModal');
+  const input = document.getElementById('quickFileInput');
+  const drop = document.getElementById('quickDropZone');
+  const fileName = document.getElementById('quickFileName');
+  const status = document.getElementById('quickStatus');
+  const preview = document.getElementById('quickVisualPreview');
+  if(!input || !drop) return;
+
+  window.quickRequestFiles = [];
+  window.quickCustomQuoteCols = window.quickCustomQuoteCols || 0;
+
+  function openForm(message){
+    if(modalEl && window.bootstrap){
+      bootstrap.Modal.getOrCreateInstance(modalEl).show();
+    }
+    if(message && status) status.textContent = message;
+  }
+
+  function renderFiles(files){
+    if(!preview) return;
+    if(!files.length){
+      preview.classList.remove('has-many');
+      preview.innerHTML = '<span>Chưa có hình/file mẫu</span><small>Kéo hình sản phẩm, bản thiết kế, logo hoặc file tham khảo vào ô bên trái.</small>';
+      return;
+    }
+    preview.classList.add('has-many');
+    preview.innerHTML = `
+      <div>
+        <span>Đã tải lên ${files.length} file mẫu</span>
+        <small>Sale có thể xem hình/logo/file tham khảo để báo giá sát nhu cầu hơn.</small>
+      </div>
+      <div class="quick-preview-list">
+        ${files.map(file => {
+          const safeName = String(file.name || '').replace(/[<>&"]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));
+          if(file.type && file.type.startsWith('image/')){
+            const url = URL.createObjectURL(file);
+            return `<div class="quick-preview-item"><img src="${url}" alt=""><span>${safeName}</span></div>`;
+          }
+          return `<div class="quick-preview-item"><div class="quick-file-icon">📎</div><span>${safeName}</span></div>`;
+        }).join('')}
+      </div>`;
+  }
+
+  function setFiles(fileList){
+    const files = Array.from(fileList || []).filter(Boolean);
+    openForm(files.length ? 'Đang đọc file đính kèm...' : 'Vui lòng điền nhanh thông tin nhu cầu bên dưới.');
+    if(!files.length) return;
+    window.quickRequestFiles = (window.quickRequestFiles || []).concat(files);
+    const allFiles = window.quickRequestFiles;
+    fileName.textContent = allFiles.length === 1 ? allFiles[0].name : `${allFiles.length} file đã chọn`;
+    status.textContent = files.length === 1 ? 'Đã nhận file: ' + files[0].name : `Đã nhận thêm ${files.length} file mẫu.`;
+    renderFiles(allFiles);
+  }
+
+  drop.addEventListener('click', () => openForm('Vui lòng chọn file hoặc điền nhu cầu bên dưới.'));
+  input.addEventListener('change', () => setFiles(input.files));
+  [drop, preview].filter(Boolean).forEach(zone => {
+    zone.addEventListener('click', () => {
+      if(zone === preview) input.click();
+    });
+    ['dragenter','dragover'].forEach(evt => {
+      zone.addEventListener(evt, e => {
+        e.preventDefault();
+        zone.classList.add('is-dragging');
+      });
+    });
+    ['dragleave','drop'].forEach(evt => {
+      zone.addEventListener(evt, e => {
+        e.preventDefault();
+        zone.classList.remove('is-dragging');
+      });
+    });
+    zone.addEventListener('drop', e => setFiles(e.dataTransfer && e.dataTransfer.files));
+  });
+})();
+
+function quickValue(id){
+  return (document.getElementById(id)?.value || '').trim();
+}
+
+function quickQuoteRows(){
+  const rows = Array.from(document.querySelectorAll('#quickQuoteBody tr'));
+  const customCount = window.quickCustomQuoteCols || 0;
+  return rows.map((tr, index) => {
+    const custom = Array.from({length:customCount}, (_, colIndex) => ({
+      title: quickValue(`quickCustomColTitle${colIndex + 1}`) || `Cột ${colIndex + 1}`,
+      value: quickValue(`quickCustomCol${colIndex + 1}Row${index + 1}`)
+    })).filter(item => item.value);
+    return {
+      stt: String(index + 1),
+      name: quickValue(`quickQuoteName${index + 1}`),
+      qty: quickValue(`quickQuoteQty${index + 1}`),
+      unit: quickValue(`quickQuoteUnit${index + 1}`),
+      price: quickValue(`quickQuotePrice${index + 1}`),
+      note: quickValue(`quickQuoteNote${index + 1}`),
+      custom
+    };
+  }).filter(row => row.name || row.qty || row.unit || row.price || row.note || row.custom.length);
+}
+
+function quickAddQuoteRow(){
+  const body = document.getElementById('quickQuoteBody');
+  if(!body) return;
+  const index = body.querySelectorAll('tr').length + 1;
+  const customCells = Array.from({length:window.quickCustomQuoteCols || 0}, (_, colIndex) =>
+    `<td><input id="quickCustomCol${colIndex + 1}Row${index}" type="text" placeholder="Nhập nội dung"></td>`
+  ).join('');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="quick-row-index">${index}</td>
+    <td><input id="quickQuoteName${index}" type="text" placeholder="Tên sản phẩm"></td>
+    <td><input id="quickQuoteQty${index}" type="text" placeholder="${index * 100}"></td>
+    <td><input id="quickQuoteUnit${index}" type="text" placeholder="cái"></td>
+    <td><input id="quickQuotePrice${index}" type="text" placeholder="Nhập sau"></td>
+    ${customCells}
+    <td><input id="quickQuoteNote${index}" type="text" placeholder="Ghi chú"></td>`;
+  body.appendChild(tr);
+}
+
+function quickAddQuoteColumn(){
+  const table = document.querySelector('.quick-quote-table');
+  const body = document.getElementById('quickQuoteBody');
+  if(!table || !body) return;
+  const colIndex = (window.quickCustomQuoteCols || 0) + 1;
+  window.quickCustomQuoteCols = colIndex;
+
+  const headerRow = table.querySelector('thead tr');
+  const th = document.createElement('th');
+  th.className = 'quick-custom-col';
+  th.innerHTML = `<input id="quickCustomColTitle${colIndex}" type="text" placeholder="Tên cột mới">`;
+  headerRow.insertBefore(th, headerRow.lastElementChild);
+
+  Array.from(body.querySelectorAll('tr')).forEach((tr, rowIndex) => {
+    const td = document.createElement('td');
+    td.innerHTML = `<input id="quickCustomCol${colIndex}Row${rowIndex + 1}" type="text" placeholder="Nhập nội dung">`;
+    tr.insertBefore(td, tr.lastElementChild);
+  });
+
+  const titleInput = document.getElementById(`quickCustomColTitle${colIndex}`);
+  titleInput?.focus();
+}
+
+function quickData(){
+  const quoteRows = quickQuoteRows();
+  return {
+    name: quickValue('quickName') || 'Chưa nhập',
+    phone: quickValue('quickPhone') || 'Chưa nhập',
+    email: quickValue('quickEmail') || 'Chưa nhập',
+    product: quickValue('quickProduct') || quickValue('quickNote') || 'Chưa nhập',
+    need: quickValue('quickNeed') || 'Chưa chọn',
+    purpose: quickValue('quickPurpose') || 'Chưa chọn',
+    qty: quoteRows.length
+      ? quoteRows.map(row => {
+          const customText = (row.custom || []).map(item => `${item.title}: ${item.value}`).join(' - ');
+          return [row.stt, row.name, row.qty, row.unit, row.price, customText, row.note].filter(Boolean).join(' - ');
+        }).join(' | ')
+      : 'Chưa nhập',
+    size: quickValue('quickSize') || 'Chưa nhập',
+    material: quickValue('quickMaterial') || 'Chưa nhập',
+    color: quickValue('quickColor') || 'Chưa nhập',
+    process: quickValue('quickProcess') || 'Chưa nhập',
+    package: quickValue('quickPackage') || 'Chưa nhập',
+    logo: quickValue('quickLogo') || 'Chưa nhập',
+    productOther: quickValue('quickProductOther') || 'Chưa nhập',
+    budget: quickValue('quickBudget') || 'Chưa nhập',
+    date: quickValue('quickDate') || 'Chưa nhập',
+    delivery: quickValue('quickDelivery') || 'Chưa nhập',
+    payment: quickValue('quickPayment') || 'Chưa nhập',
+    vat: quickValue('quickVat') || 'Chưa xác định',
+    splitDelivery: quickValue('quickSplitDelivery') || 'Không',
+    buyOther: quickValue('quickBuyOther') || 'Chưa nhập',
+    note: quickValue('quickNote') || 'Chưa có ghi chú',
+    quoteRows,
+    file: (window.quickRequestFiles || []).length
+      ? (window.quickRequestFiles || []).map(file => file.name).join(', ')
+      : 'Không có file đính kèm',
+    fileCount: (window.quickRequestFiles || []).length,
+    time: new Date().toLocaleString('vi-VN')
+  };
+}
+
+let quickVoiceRecognition = null;
+let quickVoiceListening = false;
+
+function quickToggleVoiceInput(){
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  const note = document.getElementById('quickNote');
+  const status = document.getElementById('quickStatus');
+  const btn = document.querySelector('.quick-voice-btn');
+
+  if(!SpeechRecognition){
+    if(status) status.textContent = 'Trình duyệt chưa hỗ trợ nhập mô tả bằng giọng nói. Hãy thử bằng Chrome.';
+    return;
+  }
+
+  if(quickVoiceRecognition && quickVoiceListening){
+    quickVoiceRecognition.stop();
+    return;
+  }
+
+  quickVoiceRecognition = new SpeechRecognition();
+  quickVoiceRecognition.lang = 'vi-VN';
+  quickVoiceRecognition.interimResults = true;
+  quickVoiceRecognition.continuous = true;
+  let finalText = note?.value ? note.value.trim() : '';
+
+  quickVoiceRecognition.onstart = () => {
+    quickVoiceListening = true;
+    btn?.classList.add('is-listening');
+    if(btn) btn.textContent = 'Đang nghe...';
+    if(status) status.textContent = 'Đang nghe giọng nói tiếng Việt. Bấm lại để dừng.';
+  };
+
+  quickVoiceRecognition.onresult = event => {
+    let interimText = '';
+    for(let i = event.resultIndex; i < event.results.length; i++){
+      const text = event.results[i][0].transcript;
+      if(event.results[i].isFinal){
+        finalText = [finalText, text.trim()].filter(Boolean).join(' ');
+      }else{
+        interimText += text;
+      }
+    }
+    if(note) note.value = [finalText, interimText.trim()].filter(Boolean).join(' ');
+  };
+
+  quickVoiceRecognition.onerror = () => {
+    if(status) status.textContent = 'Không nhận được giọng nói hoặc chưa cấp quyền micro.';
+  };
+
+  quickVoiceRecognition.onend = () => {
+    quickVoiceListening = false;
+    btn?.classList.remove('is-listening');
+    if(btn) btn.textContent = '🎙 Nói để nhập';
+    if(status) status.textContent = 'Đã dừng nhập giọng nói. Bạn có thể chỉnh lại mô tả trước khi xuất file.';
+  };
+
+  quickVoiceRecognition.start();
+}
+
+function quickSetStatus(message){
+  const status = document.getElementById('quickStatus');
+  if(status) status.textContent = message;
+}
+
+function quickDownloadBlob(blob, filename){
+  const link = document.createElement('a');
+  link.download = filename;
+  link.href = URL.createObjectURL(blob);
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+}
+
+function quickCanvasToBlob(canvas, type = 'image/png', quality = .95){
+  return new Promise(resolve => canvas.toBlob(resolve, type, quality));
+}
+
+function quickSafeFileName(name, index){
+  const raw = String(name || `file-${index + 1}`).trim();
+  return raw.replace(/[\\/:*?"<>|]+/g, '-').replace(/\s+/g, ' ').slice(0, 120) || `file-${index + 1}`;
+}
+
+async function quickCaptureBriefCanvas(){
+  if(!window.html2canvas){
+    throw new Error('Thiếu thư viện xuất ảnh html2canvas. Vui lòng mở file khi có internet rồi thử lại.');
+  }
+  const target = document.querySelector('#quickRequestModal .modal-content');
+  if(!target){
+    throw new Error('Không tìm thấy khung brief để xuất file.');
+  }
+  return html2canvas(target, {
+    backgroundColor:'#ffffff',
+    scale:Math.min(2, window.devicePixelRatio || 2),
+    useCORS:true
+  });
+}
+
+function quickPdfBlobFromCanvas(canvas){
+  if(!window.jspdf || !window.jspdf.jsPDF){
+    throw new Error('Thiếu thư viện xuất PDF jsPDF. Vui lòng mở file khi có internet rồi thử lại.');
+  }
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF({
+    orientation: canvas.width >= canvas.height ? 'l' : 'p',
+    unit:'px',
+    format:[canvas.width, canvas.height],
+    hotfixes:['px_scaling']
+  });
+  pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, canvas.width, canvas.height);
+  return pdf.output('blob');
+}
+
+function quickBriefPayload(){
+  const d = quickData();
+  return {
+    ...d,
+    files: (window.quickRequestFiles || []).map(file => ({
+      name:file.name,
+      type:file.type,
+      size:file.size
+    }))
+  };
+}
+
+async function quickSaveBriefData(){
+  if(!window.JSZip){
+    quickSetStatus('Thiếu thư viện tạo ZIP. Vui lòng mở file khi có internet rồi thử lại.');
+    return;
+  }
+  try{
+    quickSetStatus('Đang tạo gói ZIP gồm file khách tải lên, PNG brief và PDF brief...');
+    const zip = new JSZip();
+    const canvas = await quickCaptureBriefCanvas();
+    const pngBlob = await quickCanvasToBlob(canvas, 'image/png');
+    const pdfBlob = quickPdfBlobFromCanvas(canvas);
+    zip.file('brief-bao-gia-2606ai.png', pngBlob);
+    zip.file('brief-bao-gia-2606ai.pdf', pdfBlob);
+    zip.file('du-lieu-brief.json', JSON.stringify(quickBriefPayload(), null, 2));
+
+    const filesFolder = zip.folder('file-khach-tai-len');
+    (window.quickRequestFiles || []).forEach((file, index) => {
+      filesFolder.file(`${String(index + 1).padStart(2, '0')}-${quickSafeFileName(file.name, index)}`, file);
+    });
+
+    const blob = await zip.generateAsync({type:'blob'});
+    quickDownloadBlob(blob, 'brief-bao-gia-2606ai.zip');
+    quickSetStatus('Đã tải xuống ZIP gồm file đính kèm, PNG brief, PDF brief và dữ liệu nhập.');
+  }catch(err){
+    quickSetStatus(err.message || 'Không tạo được gói ZIP. Vui lòng thử lại.');
+  }
+}
+
+function quickDrawWrapped(ctx, text, x, y, maxWidth, lineHeight){
+  const words = String(text || '').split(/\s+/);
+  let line = '';
+  for(const word of words){
+    const test = line ? line + ' ' + word : word;
+    if(ctx.measureText(test).width > maxWidth && line){
+      ctx.fillText(line, x, y);
+      line = word;
+      y += lineHeight;
+    }else{
+      line = test;
+    }
+  }
+  if(line) ctx.fillText(line, x, y);
+  return y + lineHeight;
+}
+
+async function quickExportImage(){
+  try{
+    quickSetStatus('Đang xuất ảnh brief theo đúng giao diện đang mở...');
+    const canvas = await quickCaptureBriefCanvas();
+    const blob = await quickCanvasToBlob(canvas, 'image/png');
+    quickDownloadBlob(blob, 'brief-bao-gia-2606ai.png');
+    quickSetStatus('Đã xuất ảnh brief PNG giống giao diện popup hiện tại.');
+  }catch(err){
+    quickSetStatus(err.message || 'Không xuất được ảnh brief. Vui lòng thử lại.');
+  }
+}
+
+async function quickOpenPrint(){
+  try{
+    quickSetStatus('Đang xuất PDF brief theo đúng giao diện đang mở...');
+    const canvas = await quickCaptureBriefCanvas();
+    const blob = quickPdfBlobFromCanvas(canvas);
+    quickDownloadBlob(blob, 'brief-bao-gia-2606ai.pdf');
+    quickSetStatus('Đã xuất PDF brief giống giao diện popup hiện tại.');
+  }catch(err){
+    quickSetStatus(err.message || 'Không xuất được PDF brief. Vui lòng thử lại.');
+  }
+}
+</script>
 </body>
 </html> 
