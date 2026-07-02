@@ -202,10 +202,13 @@ footer.text-light .container-fluid{
   height: clamp(120px, 17vw, 170px);
 }
 #heroRight1 .carousel-inner,
-#heroRight1 .carousel-item{
+#heroRight1 .carousel-item,
+#heroRight2 .carousel-inner,
+#heroRight2 .carousel-item{
   height: 100%;
 }
-#heroRight1 img{
+#heroRight1 img,
+#heroRight2 img{
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -607,6 +610,15 @@ footer.text-light .container-fluid{
   object-fit:cover;
   border-radius:12px;
   width:100%;
+}
+@media (max-width:768px){
+  .hero-workshop img{
+    background:#fff;
+    height:auto;
+    max-height:none;
+    object-fit:contain;
+    width:100%;
+  }
 }
 
 /* Minor helpers */
@@ -1965,6 +1977,44 @@ footer.text-light .bi{ color:#fff; }
   visibility:visible !important;
   opacity:1 !important;
 }
+.brand-position-line{
+  align-items:center;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  justify-content:center;
+  margin:6px auto 8px;
+  max-width:760px;
+  min-height:38px;
+  padding:0 10px;
+  text-align:center;
+}
+.brand-position-line strong{
+  color:#087a32;
+  font-size:16px;
+  font-weight:700;
+  letter-spacing:.2px;
+  line-height:1.15;
+}
+.brand-position-line span{
+  color:#475569;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.2;
+}
+@media (max-width:768px){
+  .brand-position-line{
+    align-items:center;
+    gap:3px;
+    margin:6px auto 8px;
+  }
+  .brand-position-line strong{
+    font-size:14px;
+  }
+  .brand-position-line span{
+    font-size:12px;
+  }
+}
 /* Badge số trên FAB bộ lọc */
 .fab-badge{
   position:absolute; top:-4px; right:-4px;
@@ -3063,8 +3113,8 @@ body{
       <img src="https://lh3.googleusercontent.com/d/1mjwwiMhgF5rLX4VSJ0jyMfeXsn4dzrnz=w150" alt="">
     </div>
     <div>
-      <h6>Khám phá dịch vụ 2606AI ✨</h6>
-      <p>Đầy đủ giải pháp hỗ trợ kinh doanh</p>
+      <h6>LỐI TẮT NHANH</h6>
+      <p>Khám phá những giá trị mà chúng tôi mang lại...</p>
     </div>
   </div>
   <div class="grid">
@@ -3156,6 +3206,35 @@ body{
       </a>
     </div>
   </div>
+
+  <!-- ===== GÓC TƯ VẤN SEO ===== -->
+  <section class="sidebar-box seo-guide-box" aria-label="Góc tư vấn báo giá">
+    <div class="seo-guide-head">
+      <span class="seo-guide-icon">?</span>
+      <div>
+        <h6>Tư vấn quà tặng thương hiệu</h6>
+        <p>Gửi đúng nhu cầu để báo giá và lên phương án nhanh hơn.</p>
+      </div>
+    </div>
+    <div class="seo-guide-list">
+      <a href="#" class="seo-guide-link">
+        <strong>Quà tặng doanh nghiệp theo mục tiêu</strong>
+        <small>Chọn theo khách hàng, sự kiện, ngân sách và số lượng.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Ấn phẩm nhận diện cần chuẩn bị gì?</strong>
+        <small>Logo, màu thương hiệu, quy cách in/khắc/mạ và file mẫu.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Chế tác theo yêu cầu cần thông tin gì?</strong>
+        <small>Kích thước, chất liệu, mẫu mong muốn, thời gian và số lượng.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Gắn nhận diện lên sản phẩm thế nào?</strong>
+        <small>In, dán tem, khắc, đúc, mạ hoặc đóng gói theo bộ quà.</small>
+      </a>
+    </div>
+  </section>
 
 </div>
 
@@ -3314,6 +3393,10 @@ body{
         </div>
       </div>
 <!-- QUICK CATEGORY (ô lớn KHÁC, QUÀ TẶNG...) -->
+<div class="brand-position-line">
+  <strong>2606AI QUÀ TẶNG DOANH NGHIỆP</strong>
+  <span>"Quà tặng thương hiệu - Ấn phẩm nhận diện - Chế tác theo yêu cầu"</span>
+</div>
 <div id="quickCatsTop" class="mt-3 mb-3"></div>
 
     <!-- Danh mục (Group chips + Category scroller) -->
@@ -4596,8 +4679,11 @@ document.addEventListener('click', (ev)=>{
 .benefit-head{
   display:flex !important;
   align-items:center !important;
-  gap:10px !important;
-  margin-bottom:4px !important;
+  gap:9px !important;
+  margin-bottom:10px !important;
+  padding:0 !important;
+  position:relative;
+  z-index:1;
 }
 
 .benefit-rocket{
@@ -4618,18 +4704,64 @@ document.addEventListener('click', (ev)=>{
 }
 
 .benefits-v3 h6{
+  align-items:center;
+  display:inline-flex;
   margin:0 !important;
-  font-size:16px !important;
-  font-weight:900 !important;
-  line-height:1.2 !important;
-  color:#087a32 !important;
+  font-size:10.5px !important;
+  font-weight:800 !important;
+  letter-spacing:0;
+  line-height:1.15 !important;
+  animation:quickTitleGradient 3.2s ease-in-out infinite;
+  background:linear-gradient(90deg,#087a32 0%,#16a34a 35%,#f59e0b 52%,#087a32 75%,#087a32 100%);
+  background-size:220% 100%;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent !important;
+  position:relative;
+  white-space:nowrap;
 }
-
+.benefits-v3 h6::after{
+  background:linear-gradient(90deg,transparent,#22c55e,transparent);
+  bottom:-4px;
+  content:"";
+  height:1px;
+  left:0;
+  opacity:.55;
+  position:absolute;
+  width:100%;
+}
 .benefit-head p{
-  margin:3px 0 0 !important;
+  margin:6px 0 0 !important;
   font-size:12px !important;
   line-height:1.25 !important;
   color:#667085 !important;
+  max-width:none;
+  overflow:hidden;
+  text-align:left;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+@media (max-width:1200px){
+  .benefits-v3 h6{
+    font-size:10px !important;
+  }
+  .benefit-head{
+    gap:8px !important;
+    padding:0 !important;
+  }
+  .benefit-rocket{
+    width:44px !important;
+    height:44px !important;
+    flex-basis:44px !important;
+  }
+  .benefit-rocket img{
+    width:32px !important;
+    height:32px !important;
+  }
+}
+@keyframes quickTitleGradient{
+  0%,100%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
 }
 
 .benefits-v3 .grid{
@@ -4871,6 +5003,41 @@ document.addEventListener('click', (ev)=>{
   /* Độ đậm */
 
   color:#0f8a3a !important;
+}
+.benefits-v3 .benefit-head h6{
+  animation:none !important;
+  background:none !important;
+  -webkit-background-clip:initial !important;
+  background-clip:initial !important;
+  color:#087a32 !important;
+  display:block !important;
+  overflow:hidden !important;
+  padding-bottom:6px !important;
+  position:relative !important;
+  width:100% !important;
+}
+.benefits-v3 .benefit-head h6::after{
+  animation:quickTitleBar 1.8s ease-in-out infinite !important;
+  background:linear-gradient(90deg,transparent,#16a34a 20%,#facc15 50%,#16a34a 80%,transparent) !important;
+  border-radius:999px !important;
+  bottom:0 !important;
+  content:"" !important;
+  height:2px !important;
+  left:0 !important;
+  opacity:.95 !important;
+  position:absolute !important;
+  transform:translateX(-70%);
+  width:34% !important;
+}
+@keyframes quickTitleBar{
+  0%,100%{
+    opacity:.25;
+    transform:translateX(-85%);
+  }
+  50%{
+    opacity:1;
+    transform:translateX(285%);
+  }
 }
 
 /* ===== KHOẢNG CÁCH GIỮA CÁC CARD ===== */
@@ -9984,6 +10151,79 @@ footer.text-light img[alt="2606AI logo"]{
   font-size:12px;
   line-height:1.35;
   margin:2px 0 0;
+}
+.seo-guide-box{
+  background:linear-gradient(180deg,#ffffff 0%,#f0fdf4 100%);
+  border:1px solid #bbf7d0;
+  border-radius:16px;
+  box-shadow:0 12px 32px rgba(22,101,52,.08);
+  padding:14px;
+}
+.seo-guide-head{
+  align-items:center;
+  display:grid;
+  gap:10px;
+  grid-template-columns:42px 1fr;
+  margin-bottom:12px;
+}
+.seo-guide-icon{
+  align-items:center;
+  background:#15803d;
+  border-radius:14px;
+  color:#fff;
+  display:inline-flex;
+  font-size:20px;
+  font-weight:900;
+  height:42px;
+  justify-content:center;
+  line-height:1;
+  width:42px;
+}
+.seo-guide-head h6{
+  color:#065f25;
+  font-size:14px;
+  font-weight:700;
+  margin:0;
+  text-transform:uppercase;
+}
+.seo-guide-head p{
+  color:#64748b;
+  font-size:12px;
+  line-height:1.35;
+  margin:2px 0 0;
+}
+.seo-guide-list{
+  display:grid;
+  gap:9px;
+}
+.seo-guide-link{
+  background:rgba(255,255,255,.84);
+  border:1px solid #dcfce7;
+  border-radius:12px;
+  color:#14532d;
+  display:block;
+  padding:10px 11px;
+  text-decoration:none;
+  transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.seo-guide-link:hover{
+  border-color:#86efac;
+  box-shadow:0 8px 18px rgba(22,101,52,.10);
+  color:#166534;
+  transform:translateY(-1px);
+}
+.seo-guide-link strong{
+  display:block;
+  font-size:13px;
+  font-weight:650;
+  line-height:1.25;
+}
+.seo-guide-link small{
+  color:#64748b;
+  display:block;
+  font-size:12px;
+  line-height:1.35;
+  margin-top:4px;
 }
 .quick-drop-zone{
   align-items:center;
