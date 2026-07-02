@@ -3249,6 +3249,24 @@ body{
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
       </div>
       <div class="modal-body">
+        <section class="quick-section quick-brief-top">
+          <div class="quick-top-row">
+            <div class="quick-brief-meta-card">
+              <span>Mã brief</span>
+              <strong id="quickBriefCode">Đang tạo mã</strong>
+            </div>
+            <div class="quick-brief-meta-card">
+              <span>Thời gian tạo</span>
+              <strong id="quickBriefTime">Đang ghi nhận</strong>
+            </div>
+          </div>
+          <div class="quick-contact-grid">
+            <label>Tên / Công ty<input id="quickName" type="text" placeholder="VD: Công ty ABC"></label>
+            <label>SĐT / Zalo<input id="quickPhone" type="tel" placeholder="VD: 0901 234 567"></label>
+            <label>Email<input id="quickEmail" type="email" placeholder="VD: abc@email.com"></label>
+            <label>Địa chỉ giao / nhận<input id="quickAddress" type="text" placeholder="VD: Quận 7, TP.HCM"></label>
+          </div>
+        </section>
         <div id="quickVisualPreview" class="quick-visual-preview">
           <span>Chưa có hình/file mẫu</span>
           <small>Kéo hình sản phẩm, bản thiết kế, logo hoặc file tham khảo vào ô bên trái.</small>
@@ -3311,45 +3329,6 @@ body{
           </div>
         </section>
 
-        <div class="quick-brief-tables">
-          <section class="quick-section">
-            <div class="quick-section-title">Yêu cầu về sản phẩm</div>
-            <table class="quick-vertical-table">
-              <tbody>
-                <tr><th>Chất liệu</th><td><input id="quickMaterial" type="text" placeholder="VD: kim loại, giấy mỹ thuật, mica..."></td></tr>
-                <tr><th>Màu sắc</th><td><input id="quickColor" type="text" placeholder="VD: bạc, xanh thương hiệu, theo logo..."></td></tr>
-                <tr><th>Kích thước</th><td><input id="quickSize" type="text" placeholder="VD: 45mm, 20x30cm, theo mẫu..."></td></tr>
-                <tr><th>Gia công</th><td><input id="quickProcess" type="text" placeholder="VD: mạ bạc, in 2 mặt, ép kim..."></td></tr>
-                <tr><th>Bao bì</th><td><input id="quickPackage" type="text" placeholder="VD: túi OPP, hộp giấy, hộp quà..."></td></tr>
-                <tr><th>Logo</th><td><input id="quickLogo" type="text" placeholder="VD: có logo, cần in logo, gửi file sau..."></td></tr>
-                <tr><th>Khác</th><td><input id="quickProductOther" type="text" placeholder="Yêu cầu khác về sản phẩm"></td></tr>
-              </tbody>
-            </table>
-          </section>
-
-          <section class="quick-section">
-            <div class="quick-section-title">Yêu cầu mua hàng</div>
-            <table class="quick-vertical-table">
-              <tbody>
-                <tr><th>Thời gian cần nhận</th><td><input id="quickDate" type="text" placeholder="VD: Trước 20/07"></td></tr>
-                <tr><th>Địa điểm giao</th><td><input id="quickDelivery" type="text" placeholder="VD: Quận 7, TP.HCM"></td></tr>
-                <tr><th>Hình thức thanh toán</th><td><input id="quickPayment" type="text" placeholder="VD: chuyển khoản, công nợ, tiền mặt..."></td></tr>
-                <tr><th>Xuất VAT</th><td><select id="quickVat"><option>Chưa xác định</option><option>Cần xuất VAT</option><option>Không cần VAT</option></select></td></tr>
-                <tr><th>Ngân sách</th><td><input id="quickBudget" type="text" placeholder="VD: 50.000đ/phần hoặc 20 triệu"></td></tr>
-                <tr><th>Giao nhiều đợt</th><td><select id="quickSplitDelivery"><option>Không</option><option>Có</option><option>Cần tư vấn</option></select></td></tr>
-                <tr><th>Khác</th><td><input id="quickBuyOther" type="text" placeholder="Yêu cầu khác về mua hàng"></td></tr>
-              </tbody>
-            </table>
-          </section>
-        </div>
-        <section class="quick-section">
-          <div class="quick-section-title">Thông tin liên hệ</div>
-          <div class="quick-contact-grid">
-            <label>Tên / Công ty<input id="quickName" type="text" placeholder="VD: Công ty ABC"></label>
-            <label>SĐT / Zalo<input id="quickPhone" type="tel" placeholder="VD: 0901 234 567"></label>
-            <label>Email<input id="quickEmail" type="email" placeholder="VD: abc@email.com"></label>
-          </div>
-        </section>
         <div class="quick-actions">
           <button type="button" onclick="quickExportImage()">Xuất ảnh brief</button>
           <button type="button" class="secondary" onclick="quickOpenPrint()">Xuất PDF brief</button>
@@ -10490,6 +10469,40 @@ footer.text-light img[alt="2606AI logo"]{
   gap:12px;
   grid-template-columns:1fr 1fr;
 }
+.quick-brief-top{
+  background:linear-gradient(135deg,#ffffff 0%,#ecfdf5 58%,#f8fafc 100%);
+  border-color:#bbf7d0;
+  box-shadow:0 10px 26px rgba(22,101,52,.07);
+  margin-top:0;
+  padding:10px;
+}
+.quick-top-row{
+  display:grid;
+  gap:10px;
+  grid-template-columns:1fr 1fr;
+  margin-bottom:10px;
+}
+.quick-brief-meta-card{
+  background:rgba(255,255,255,.92);
+  border:1px solid #bbf7d0;
+  border-radius:12px;
+  box-shadow:0 8px 18px rgba(22,101,52,.06);
+  padding:10px 12px;
+}
+.quick-brief-meta-card span{
+  color:#64748b;
+  display:block;
+  font-size:12px;
+  font-weight:650;
+  margin-bottom:4px;
+}
+.quick-brief-meta-card strong{
+  color:#166534;
+  display:block;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
 .quick-vertical-table th{
   background:#f8fafc;
   color:#334155;
@@ -10501,8 +10514,8 @@ footer.text-light img[alt="2606AI logo"]{
 .quick-contact-grid{
   display:grid;
   gap:10px;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  padding:10px;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  padding:0;
 }
 .quick-contact-grid label{
   color:#334155;
@@ -10681,6 +10694,7 @@ footer.text-light img[alt="2606AI logo"]{
 @media (max-width:640px){
   .quick-form-grid,
   .quick-brief-tables,
+  .quick-top-row,
   .quick-contact-grid,
   .quick-actions{
     grid-template-columns:1fr;
@@ -10824,6 +10838,7 @@ footer.text-light img[alt="2606AI logo"]{
   window.quickCustomQuoteCols = window.quickCustomQuoteCols || 0;
 
   function openForm(message){
+    quickEnsureBriefMeta();
     if(modalEl && window.bootstrap){
       bootstrap.Modal.getOrCreateInstance(modalEl).show();
     }
@@ -10892,6 +10907,24 @@ function quickValue(id){
   return (document.getElementById(id)?.value || '').trim();
 }
 
+function quickRandomBriefCode(){
+  return Array.from({length:10}, () => Math.floor(Math.random() * 10)).join('');
+}
+
+function quickEnsureBriefMeta(){
+  window.quickBriefState = window.quickBriefState || {};
+  if(!window.quickBriefState.code){
+    window.quickBriefState.code = quickRandomBriefCode();
+  }
+  if(!window.quickBriefState.createdAt){
+    window.quickBriefState.createdAt = new Date();
+  }
+  const codeEl = document.getElementById('quickBriefCode');
+  const timeEl = document.getElementById('quickBriefTime');
+  if(codeEl) codeEl.textContent = window.quickBriefState.code;
+  if(timeEl) timeEl.textContent = window.quickBriefState.createdAt.toLocaleString('vi-VN');
+}
+
 function quickQuoteRows(){
   const rows = Array.from(document.querySelectorAll('#quickQuoteBody tr'));
   const customCount = window.quickCustomQuoteCols || 0;
@@ -10955,11 +10988,15 @@ function quickAddQuoteColumn(){
 }
 
 function quickData(){
+  quickEnsureBriefMeta();
   const quoteRows = quickQuoteRows();
   return {
+    briefCode: window.quickBriefState?.code || '',
+    briefCreatedAt: window.quickBriefState?.createdAt ? window.quickBriefState.createdAt.toLocaleString('vi-VN') : '',
     name: quickValue('quickName') || 'Chưa nhập',
     phone: quickValue('quickPhone') || 'Chưa nhập',
     email: quickValue('quickEmail') || 'Chưa nhập',
+    address: quickValue('quickAddress') || 'Chưa nhập',
     product: quickValue('quickProduct') || quickValue('quickNote') || 'Chưa nhập',
     need: quickValue('quickNeed') || 'Chưa chọn',
     purpose: quickValue('quickPurpose') || 'Chưa chọn',
