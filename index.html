@@ -595,7 +595,19 @@ footer.text-light .container-fluid{
 }
 
 /* ---- Footer hero workshop ---- */
-.hero-workshop img{height:180px;object-fit:cover;border-radius:12px}
+.hero-workshop,
+#footerworkshop,
+#footerworkshop .carousel-inner,
+#footerworkshop .carousel-item{
+  width:100%;
+}
+.hero-workshop img{
+  display:block;
+  height:180px;
+  object-fit:cover;
+  border-radius:12px;
+  width:100%;
+}
 
 /* Minor helpers */
 .small{font-size:.875rem}
@@ -3924,7 +3936,7 @@ document.addEventListener('click', (ev)=>{
   <div class="col-auto d-flex align-items-center found-count">
     <span class="lbl">Tìm thấy</span>
     <span id="totalCount" class="badge text-bg-primary">0</span>
-    <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger ms-2">Xóa bộ lọc</button>
+    <button id="clearFiltersBtn2" class="btn btn-sm btn-outline-danger ms-2">Xóa</button>
   </div>
   <!-- Bên phải -->
   <div class="col text-end">
@@ -4066,7 +4078,7 @@ document.addEventListener('click', (ev)=>{
   <div class="offcanvas-header">
     <h5 id="filterPanelLabel" class="mb-0">Bộ lọc nâng cao</h5>
     <div class="d-flex gap-2">
-      <button type="button" class="btn btn-outline-danger btn-sm" id="clearFiltersBtn">Xóa bộ lọc</button>
+      <button type="button" class="btn btn-outline-danger btn-sm" id="clearFiltersBtn">Xóa</button>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
   </div>
