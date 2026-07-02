@@ -3106,6 +3106,24 @@ body{
   </div>
 </div>
 
+  <!-- ===== TIỆN ÍCH BRIEF BÁO GIÁ NHANH - DEMO ===== -->
+  <div id="quickRequestBox" class="sidebar-box quick-request-box">
+    <div class="quick-request-head">
+      <span class="quick-request-icon">✦</span>
+      <div>
+        <h6>Check file báo giá</h6>
+        <p>Thả hình/file mẫu để sale báo giá nhanh hơn.</p>
+      </div>
+    </div>
+
+    <label id="quickDropZone" class="quick-drop-zone" for="quickFileInput">
+      <input id="quickFileInput" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple hidden>
+      <span class="quick-drop-main">Kéo thả hình/file vào đây</span>
+      <small>Bấm hoặc thả nhiều hình/file để tạo brief báo giá</small>
+      <strong id="quickFileName">Chưa có file đính kèm</strong>
+    </label>
+  </div>
+
   <!-- ===== XƯỞNG ĐỀ XUẤT ===== -->
   <div id="workshopBox" class="sidebar-box workshop-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
@@ -3125,24 +3143,6 @@ body{
         📢 LIÊN HỆ ĐẶT QUẢNG CÁO
       </a>
     </div>
-  </div>
-
-  <!-- ===== TIỆN ÍCH BRIEF BÁO GIÁ NHANH - DEMO ===== -->
-  <div id="quickRequestBox" class="sidebar-box quick-request-box">
-    <div class="quick-request-head">
-      <span class="quick-request-icon">✦</span>
-      <div>
-        <h6>Check file báo giá</h6>
-        <p>Thả hình/file mẫu để sale báo giá nhanh hơn.</p>
-      </div>
-    </div>
-
-    <label id="quickDropZone" class="quick-drop-zone" for="quickFileInput">
-      <input id="quickFileInput" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple hidden>
-      <span class="quick-drop-main">Kéo thả hình/file vào đây</span>
-      <small>Bấm hoặc thả nhiều hình/file để tạo brief báo giá</small>
-      <strong id="quickFileName">Chưa có file đính kèm</strong>
-    </label>
   </div>
 
 </div>
@@ -3930,24 +3930,24 @@ document.addEventListener('click', (ev)=>{
   <div class="col text-end">
     <div id="pagerTop" class="d-inline-flex"></div>
   </div>
-</div>
-<!-- SORT BAR (chỉ icon Giá & Tên) -->
-<div class="sortbar">
-  <button id="sortPrice" class="btn btn-light btn-sm" title="Giá ↑/↓">
-    <i class="bi bi-cash-stack"></i><span class="ms-1 d-none d-md-inline">Giá</span>
-  </button>
-  <button id="sortName" class="btn btn-light btn-sm" title="Tên A/Z">
-    <i class="bi bi-sort-alpha-down"></i><span class="ms-1 d-none d-md-inline">Tên</span>
-  </button>
+  <!-- SORT BAR (chỉ icon Giá & Tên) -->
+  <div class="sortbar col-auto">
+    <button id="sortPrice" class="btn btn-light btn-sm" title="Giá ↑/↓">
+      <i class="bi bi-cash-stack"></i><span class="ms-1 d-none d-md-inline">Giá</span>
+    </button>
+    <button id="sortName" class="btn btn-light btn-sm" title="Tên A/Z">
+      <i class="bi bi-sort-alpha-down"></i><span class="ms-1 d-none d-md-inline">Tên</span>
+    </button>
 
-  <!-- Giữ select ẩn để tái dùng logic sẵn có -->
-  <select id="sortKey" class="d-none">
-    <option value="default">Mặc định</option>
-    <option value="priceAsc">Giá ↑</option>
-    <option value="priceDesc">Giá ↓</option>
-    <option value="nameAZ">Tên A→Z</option>
-    <option value="nameZA">Tên Z→A</option>
-  </select>
+    <!-- Giữ select ẩn để tái dùng logic sẵn có -->
+    <select id="sortKey" class="d-none">
+      <option value="default">Mặc định</option>
+      <option value="priceAsc">Giá ↑</option>
+      <option value="priceDesc">Giá ↓</option>
+      <option value="nameAZ">Tên A→Z</option>
+      <option value="nameZA">Tên Z→A</option>
+    </select>
+  </div>
 </div>
 
 
@@ -10432,6 +10432,128 @@ footer.text-light img[alt="2606AI logo"]{
   .quick-contact-grid,
   .quick-actions{
     grid-template-columns:1fr;
+  }
+}
+</style>
+<style id="mobile-category-swipe-fix">
+@media (max-width:768px){
+  .category-box .category-wrapper{
+    overflow:hidden !important;
+    padding:12px 6px !important;
+  }
+  #categoryScroll.category-scroll{
+    display:grid !important;
+    grid-auto-flow:column !important;
+    grid-auto-columns:minmax(92px, 30vw) !important;
+    grid-template-columns:none !important;
+    grid-template-rows:repeat(2, minmax(126px, auto)) !important;
+    gap:12px !important;
+    justify-items:stretch !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    overscroll-behavior-x:contain;
+    padding:4px 8px 10px !important;
+    scroll-behavior:smooth;
+    scroll-padding-inline:8px;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+    touch-action:pan-x pan-y;
+    -webkit-overflow-scrolling:touch;
+  }
+  #categoryScroll.category-scroll::-webkit-scrollbar{
+    display:none;
+  }
+  #categoryScroll .category-item{
+    align-self:stretch;
+    display:flex !important;
+    flex-direction:column;
+    height:126px;
+    justify-content:flex-start;
+    min-width:0;
+    padding:8px 4px !important;
+    scroll-snap-align:start;
+    width:100%;
+  }
+  #categoryScroll .category-item .icon{
+    flex:0 0 54px;
+    height:54px !important;
+    margin:0 auto 8px !important;
+    width:54px !important;
+  }
+  #categoryScroll .category-item span{
+    font-size:12px !important;
+    line-height:1.18 !important;
+    max-width:86px;
+  }
+  .cat-arrow{
+    background:rgba(255,255,255,.72) !important;
+    border-radius:999px;
+    font-size:20px !important;
+    height:46px;
+    top:50% !important;
+    width:24px;
+  }
+  .cat-arrow.left{left:0 !important;}
+  .cat-arrow.right{right:0 !important;}
+}
+</style>
+<style id="stats-toolbar-layout-fix">
+.stats-row{
+  align-items:center !important;
+  display:flex !important;
+  flex-wrap:nowrap !important;
+  gap:8px !important;
+  justify-content:flex-start !important;
+  margin:10px 0 12px !important;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:2px;
+  scrollbar-width:none;
+}
+.stats-row::-webkit-scrollbar{
+  display:none;
+}
+.stats-row > .col,
+.stats-row > .col-auto{
+  flex:0 0 auto !important;
+  max-width:none !important;
+  width:auto !important;
+}
+.stats-row .found-count{
+  flex:0 0 auto !important;
+  white-space:nowrap;
+}
+.stats-row #pagerTop{
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  margin:0 !important;
+  white-space:nowrap;
+}
+.stats-row .sortbar{
+  align-items:center;
+  display:inline-flex !important;
+  flex:0 0 auto !important;
+  gap:8px !important;
+  margin:0 0 0 auto !important;
+  padding:0 !important;
+  white-space:nowrap;
+}
+.stats-row .btn,
+.stats-row .form-select{
+  height:38px;
+  margin:0 !important;
+}
+.stats-row .form-select{
+  min-width:122px;
+}
+@media (max-width:768px){
+  .stats-row{
+    -webkit-overflow-scrolling:touch;
+    padding-inline:2px;
+  }
+  .stats-row .btn,
+  .stats-row .form-select{
+    height:36px;
   }
 }
 </style>
