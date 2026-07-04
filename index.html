@@ -3241,96 +3241,189 @@ body{
 <div class="modal fade quick-request-modal" id="quickRequestModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
-      <div class="modal-header">
-        <div>
-          <h5 class="modal-title">Brief báo giá nhanh</h5>
-          <small>Điền đủ thông tin để sale báo giá mà không cần hỏi lại nhiều lần.</small>
+      <div class="modal-header quick-storage-header">
+        <div class="quick-storage-title">
+          <div class="quick-storage-brand">
+            <span class="quick-storage-mark">↗</span>
+            <div>
+              <h5 class="modal-title">2606AI TIỆN ÍCH LƯU TRỮ</h5>
+              <small>Tạo Profile sản phẩm để sử dụng, lưu trữ và tra cứu thông tin nhanh chóng</small>
+            </div>
+          </div>
+        </div>
+        <div class="quick-storage-meta">
+          <div class="quick-storage-line">
+            <span>ID: <strong id="quickBriefCode">Đang tạo</strong></span>
+            <span id="quickBriefTime">Đang ghi nhận</span>
+          </div>
+          <button type="button" class="quick-storage-place" onclick="quickChooseStorageLocation()">
+            <span>Nơi lưu File</span>
+            <strong id="quickStorageLink">Bấm để chọn nơi lưu file</strong>
+          </button>
         </div>
         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
       </div>
       <div class="modal-body">
-        <section class="quick-section quick-brief-top">
-          <div class="quick-top-row">
-            <div class="quick-brief-meta-card">
-              <span>Mã brief</span>
-              <strong id="quickBriefCode">Đang tạo mã</strong>
-            </div>
-            <div class="quick-brief-meta-card">
-              <span>Thời gian tạo</span>
-              <strong id="quickBriefTime">Đang ghi nhận</strong>
+        <section class="quick-party-grid">
+          <div class="quick-party-card">
+            <div class="quick-party-title">Người mua</div>
+            <div class="quick-party-fields">
+              <div class="quick-logo-name-row">
+                <label class="quick-logo-upload">
+                  <input id="quickBuyerLogo" type="file" accept="image/*" hidden>
+                  <span id="quickBuyerLogoPreview">Logo</span>
+                </label>
+                <input id="quickName" type="text" placeholder="Điền tên công ty hoặc người mua">
+              </div>
+              <label class="quick-info-line"><span>Địa chỉ</span><input id="quickAddress" type="text" placeholder="Nhập địa chỉ"></label>
+              <label class="quick-info-line"><span>Liên hệ</span><input id="quickPhone" type="tel" placeholder="Nhập số điện thoại / Zalo"></label>
+              <label class="quick-info-line"><span>Email</span><input id="quickEmail" type="email" placeholder="Nhập email"></label>
             </div>
           </div>
-          <div class="quick-contact-grid">
-            <label>Tên / Công ty<input id="quickName" type="text" placeholder="VD: Công ty ABC"></label>
-            <label>SĐT / Zalo<input id="quickPhone" type="tel" placeholder="VD: 0901 234 567"></label>
-            <label>Email<input id="quickEmail" type="email" placeholder="VD: abc@email.com"></label>
-            <label>Địa chỉ giao / nhận<input id="quickAddress" type="text" placeholder="VD: Quận 7, TP.HCM"></label>
+          <div class="quick-party-card">
+            <div class="quick-party-title">Người bán</div>
+            <div class="quick-party-fields">
+              <div class="quick-logo-name-row">
+                <label class="quick-logo-upload has-logo">
+                  <input id="quickSellerLogo" type="file" accept="image/*" hidden>
+                  <span id="quickSellerLogoPreview"><img src="https://2606ai.com/logo-2606ai.png" alt="2606AI"></span>
+                </label>
+                <input id="quickSellerName" type="text" value="CÔNG TY TNHH MTV HỆ SINH THÁI THƯƠNG MẠI 2606AI VIỆT NAM" placeholder="Điền tên công ty hoặc người bán">
+              </div>
+              <label class="quick-info-line"><span>Địa chỉ</span><input id="quickSellerAddress" type="text" value="Số 87 Đường số 1, Khu phố 25, Phường Tân Thuận, Thành phố Hồ Chí Minh, Việt Nam" placeholder="Địa chỉ / chi nhánh phụ trách"></label>
+              <label class="quick-info-line"><span>Liên hệ</span><input id="quickSellerPhone" type="text" value="0775 238 306 - Mr. Đăng Em" placeholder="Số điện thoại tư vấn"></label>
+              <label class="quick-info-line"><span>Email</span><input id="quickSellerEmail" type="email" value="Info2606ai.vn@gmail.com" placeholder="Email tư vấn"></label>
+            </div>
           </div>
         </section>
-        <div id="quickVisualPreview" class="quick-visual-preview">
-          <span>Chưa có hình/file mẫu</span>
-          <small>Kéo hình sản phẩm, bản thiết kế, logo hoặc file tham khảo vào ô bên trái.</small>
-        </div>
+
+        <section class="quick-profile-main">
+          <div id="quickVisualPreview" class="quick-visual-preview quick-upload-panel">
+            <span>☁</span>
+            <strong>Tải file lên</strong>
+            <small>Kéo thả file vào đây<br>hoặc chọn file để tải lên</small>
+            <em>Hỗ trợ: .jpg, .png, .pdf, .ai, .zip</em>
+          </div>
+          <div class="quick-product-fields">
+            <label class="quick-product-name">
+              <span>Tên sản phẩm</span>
+              <input id="quickProduct" type="text" placeholder="Nhập tên sản phẩm">
+              <button type="button" class="quick-bulk-name-btn" onclick="quickBulkProductNames()">Nhập hàng loạt</button>
+            </label>
+            <label class="quick-description-field">
+              <span class="quick-description-label">
+                <b>✎ Mô tả sản phẩm</b>
+                <span class="quick-desc-tabs" role="tablist" aria-label="Kiểu nhập nội dung">
+                  <button type="button" class="active" data-quick-desc-tab="free" onclick="quickSwitchDescTab('free')">Mô tả tự do</button>
+                  <button type="button" data-quick-desc-tab="standard" onclick="quickSwitchDescTab('standard')">Bố cục chuẩn</button>
+                </span>
+                <button type="button" class="quick-voice-btn" onclick="quickToggleVoiceInput()">🎙 Nói để nhập</button>
+              </span>
+              <textarea id="quickNote" class="quick-desc-free" rows="6" placeholder="Mô tả bất kỳ những gì bạn nghĩ về sản phẩm, chất liệu, màu sắc, logo, đóng gói, thời gian cần nhận..."></textarea>
+              <div id="quickStandardForm" class="quick-standard-form" hidden>
+                <div class="quick-standard-title">Bố cục chuẩn</div>
+                <div class="quick-standard-grid">
+                  <label>Loại yêu cầu
+                    <select id="quickRequestType">
+                      <option>Tư vấn sản phẩm theo yêu cầu</option>
+                      <option>Tìm mua sản phẩm tương tự</option>
+                      <option>Tìm mua sản phẩm liên quan</option>
+                    </select>
+                  </label>
+                  <label>Chất liệu
+                    <input id="quickStandardMaterial" type="text" placeholder="VD: giấy, kim loại, mica, vải...">
+                  </label>
+                  <label>Kích thước
+                    <input id="quickStandardSize" type="text" placeholder="VD: 20x30cm, 45mm, theo mẫu...">
+                  </label>
+                  <label>Thời gian cần hàng
+                    <input id="quickStandardDate" type="text" placeholder="VD: Trước 20/07">
+                  </label>
+                  <label class="wide">Ghi chú khác
+                    <textarea id="quickStandardNote" rows="3" placeholder="Yêu cầu về logo, màu sắc, đóng gói, ngân sách, giao hàng..."></textarea>
+                  </label>
+                </div>
+              </div>
+            </label>
+          </div>
+        </section>
         <div id="quickStatus" class="quick-status">Demo chỉ tạo file trình bày, chưa gửi dữ liệu lên hệ thống.</div>
 
-        <label class="quick-description-field">
-          <span class="quick-description-label">
-            Mô tả nhanh / nội dung cần báo giá
-            <button type="button" class="quick-voice-btn" onclick="quickToggleVoiceInput()">🎙 Nói để nhập</button>
-          </span>
-          <textarea id="quickNote" rows="3" placeholder="Mô tả ngắn sản phẩm, ý tưởng, logo/nội dung cần in, phong cách mong muốn..."></textarea>
-        </label>
-
-        <section class="quick-section">
-          <div class="quick-section-title">Bảng số lượng cần lấy giá</div>
+        <section class="quick-section quick-product-table-section">
           <div class="quick-quote-table-wrap">
             <table class="quick-quote-table">
               <thead>
                 <tr>
                   <th>STT</th>
                   <th>Tên sản phẩm</th>
-                  <th>Số lượng</th>
                   <th>Đơn vị</th>
-                  <th>Giá</th>
+                  <th>Số lượng</th>
+                  <th>Đơn giá</th>
+                  <th>Thành tiền</th>
                   <th>Ghi chú</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="quickQuoteBody">
                 <tr>
-                  <td class="quick-row-index">1</td>
-                  <td><input id="quickQuoteName1" type="text" placeholder="VD: Móc khóa kim loại"></td>
-                  <td><input id="quickQuoteQty1" type="text" placeholder="100"></td>
-                  <td><input id="quickQuoteUnit1" type="text" placeholder="cái"></td>
-                  <td><input id="quickQuotePrice1" type="text" placeholder="Nhập sau"></td>
+                  <td class="quick-row-index" data-row="1"></td>
+                  <td><input id="quickQuoteName1" type="text" placeholder="Nhập tên sản phẩm"></td>
+                  <td><input id="quickQuoteUnit1" type="text" placeholder="Nhập đơn vị"></td>
+                  <td><input id="quickQuoteQty1" type="text" placeholder="Nhập số lượng"></td>
+                  <td><input id="quickQuotePrice1" type="text" placeholder="Nhập đơn giá"></td>
+                  <td class="quick-line-total">0</td>
                   <td><input id="quickQuoteNote1" type="text" placeholder="Ghi chú"></td>
+                  <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
                 </tr>
                 <tr>
-                  <td class="quick-row-index">2</td>
-                  <td><input id="quickQuoteName2" type="text" placeholder="VD: Móc khóa kim loại"></td>
-                  <td><input id="quickQuoteQty2" type="text" placeholder="300"></td>
-                  <td><input id="quickQuoteUnit2" type="text" placeholder="cái"></td>
-                  <td><input id="quickQuotePrice2" type="text" placeholder="Nhập sau"></td>
+                  <td class="quick-row-index" data-row="2"></td>
+                  <td><input id="quickQuoteName2" type="text" placeholder="Nhập tên sản phẩm"></td>
+                  <td><input id="quickQuoteUnit2" type="text" placeholder="Nhập đơn vị"></td>
+                  <td><input id="quickQuoteQty2" type="text" placeholder="Nhập số lượng"></td>
+                  <td><input id="quickQuotePrice2" type="text" placeholder="Nhập đơn giá"></td>
+                  <td class="quick-line-total">0</td>
                   <td><input id="quickQuoteNote2" type="text" placeholder="Ghi chú"></td>
+                  <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
                 </tr>
                 <tr>
-                  <td class="quick-row-index">3</td>
-                  <td><input id="quickQuoteName3" type="text" placeholder="VD: Móc khóa kim loại"></td>
-                  <td><input id="quickQuoteQty3" type="text" placeholder="500"></td>
-                  <td><input id="quickQuoteUnit3" type="text" placeholder="cái"></td>
-                  <td><input id="quickQuotePrice3" type="text" placeholder="Nhập sau"></td>
+                  <td class="quick-row-index" data-row="3"></td>
+                  <td><input id="quickQuoteName3" type="text" placeholder="Nhập tên sản phẩm"></td>
+                  <td><input id="quickQuoteUnit3" type="text" placeholder="Nhập đơn vị"></td>
+                  <td><input id="quickQuoteQty3" type="text" placeholder="Nhập số lượng"></td>
+                  <td><input id="quickQuotePrice3" type="text" placeholder="Nhập đơn giá"></td>
+                  <td class="quick-line-total">0</td>
                   <td><input id="quickQuoteNote3" type="text" placeholder="Ghi chú"></td>
+                  <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
+                </tr>
+                <tr>
+                  <td class="quick-row-index" data-row="4"></td>
+                  <td><input id="quickQuoteName4" type="text" placeholder="Nhập tên sản phẩm"></td>
+                  <td><input id="quickQuoteUnit4" type="text" placeholder="Nhập đơn vị"></td>
+                  <td><input id="quickQuoteQty4" type="text" placeholder="Nhập số lượng"></td>
+                  <td><input id="quickQuotePrice4" type="text" placeholder="Nhập đơn giá"></td>
+                  <td class="quick-line-total">0</td>
+                  <td><input id="quickQuoteNote4" type="text" placeholder="Ghi chú"></td>
+                  <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="quick-table-actions">
+          <div class="quick-table-footer">
             <button type="button" class="quick-add-row-btn" onclick="quickAddQuoteRow()">+ Thêm dòng</button>
-            <button type="button" class="quick-add-row-btn secondary" onclick="quickAddQuoteColumn()">+ Thêm cột</button>
+            <button type="button" class="quick-add-row-btn" onclick="quickAddQuoteColumn()">+ Thêm cột</button>
+            <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastQuoteColumn()">× Xóa cột</button>
+            <label class="quick-extra-note">
+              <span>✎ Ghi chú thêm</span>
+              <input id="quickProductOther" type="text" placeholder="Nhập ghi chú thêm (nếu có)...">
+            </label>
           </div>
         </section>
 
+        <div id="quickExtraProductBlocks" class="quick-extra-product-blocks"></div>
+        <button type="button" class="quick-add-product-btn" onclick="quickAddProductBlock()">+ Thêm sản phẩm</button>
+
         <div class="quick-actions">
-          <button type="button" onclick="quickExportImage()">Xuất ảnh brief</button>
+          <button type="button" onclick="quickPrintBrief()">In brief</button>
           <button type="button" class="secondary" onclick="quickOpenPrint()">Xuất PDF brief</button>
           <button type="button" class="secondary" onclick="quickSaveBriefData()">Lưu dữ liệu</button>
         </div>
@@ -3373,8 +3466,8 @@ body{
       </div>
 <!-- QUICK CATEGORY (ô lớn KHÁC, QUÀ TẶNG...) -->
 <div class="brand-position-line">
-  <strong>2606AI QUÀ TẶNG DOANH NGHIỆP</strong>
-  <span>"Quà tặng thương hiệu - Ấn phẩm nhận diện - Chế tác theo yêu cầu"</span>
+  <strong>2606AI HỆ SINH THÁI QUÀ TẶNG</strong>
+  <span>"Nâng cấp giá trị - Ấn phẩm thương hiệu - Chế tác theo yêu cầu"</span>
 </div>
 <div id="quickCatsTop" class="mt-3 mb-3"></div>
 
@@ -10537,7 +10630,7 @@ footer.text-light img[alt="2606AI logo"]{
   border-radius:999px;
   color:#fff;
   font-size:13px;
-  font-weight:800;
+  font-weight:600;
   padding:9px 10px;
 }
 .quick-actions button.secondary{
@@ -10569,6 +10662,40 @@ footer.text-light img[alt="2606AI logo"]{
   color:#fff;
   padding:18px 20px;
 }
+.quick-request-modal .quick-storage-header{
+  align-items:stretch;
+  background:#159947;
+  border:3px solid #ffffff;
+  border-radius:0;
+  display:grid;
+  gap:18px;
+  grid-template-columns:minmax(0,1fr) minmax(260px,430px) auto;
+  padding:12px 14px;
+}
+.quick-storage-title{
+  align-self:center;
+  min-width:0;
+}
+.quick-storage-brand{
+  align-items:center;
+  display:flex;
+  gap:16px;
+  min-width:0;
+}
+.quick-storage-mark{
+  align-items:center;
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:16px;
+  color:#fff;
+  display:inline-flex;
+  flex:0 0 52px;
+  font-size:30px;
+  font-weight:500;
+  height:52px;
+  justify-content:center;
+  line-height:1;
+  width:52px;
+}
 .quick-request-modal .modal-title{
   color:#fff;
   font-size:20px;
@@ -10576,11 +10703,59 @@ footer.text-light img[alt="2606AI logo"]{
   margin:0;
   text-transform:uppercase;
 }
+.quick-request-modal .quick-storage-header .modal-title{
+  font-size:24px;
+  font-weight:700;
+  letter-spacing:.2px;
+  line-height:1.05;
+}
 .quick-request-modal .modal-header small{
   color:rgba(255,255,255,.84);
   display:block;
   font-size:13px;
   margin-top:3px;
+}
+.quick-request-modal .quick-storage-header small{
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.25;
+  margin-top:8px;
+}
+.quick-storage-meta{
+  display:grid;
+  gap:5px;
+  min-width:0;
+}
+.quick-storage-line{
+  align-items:center;
+  color:#fff;
+  display:flex;
+  font-size:18px;
+  font-weight:500;
+  gap:22px;
+  justify-content:space-between;
+  line-height:1;
+  white-space:nowrap;
+}
+.quick-storage-line strong{
+  font-weight:500;
+}
+.quick-storage-place{
+  align-items:center;
+  background:#666;
+  color:#050505;
+  display:flex;
+  font-size:24px;
+  font-weight:400;
+  justify-content:center;
+  min-height:42px;
+  padding:6px 14px;
+  text-align:center;
+}
+.quick-request-modal .quick-storage-header .btn-close{
+  align-self:start;
+  margin:0;
 }
 .quick-request-modal .modal-body{
   background:linear-gradient(180deg,#f0fdf4,#fff);
@@ -10651,6 +10826,13 @@ footer.text-light img[alt="2606AI logo"]{
   border:1px solid #e2e8f0;
   border-radius:12px;
   overflow:hidden;
+  position:relative;
+}
+.quick-preview-item .quick-file-remove{
+  position:absolute;
+  right:5px;
+  top:5px;
+  z-index:2;
 }
 .quick-preview-item img,
 .quick-preview-item .quick-file-icon{
@@ -10676,6 +10858,693 @@ footer.text-light img[alt="2606AI logo"]{
 .quick-request-modal .quick-actions{
   margin-top:14px;
 }
+.quick-request-modal .modal-dialog{
+  max-width:1120px;
+}
+.quick-request-modal .modal-content{
+  border-radius:12px;
+}
+.quick-request-modal .quick-storage-header{
+  background:linear-gradient(135deg,#007a35 0%,#11a84f 48%,#21c76a 100%);
+  border:0;
+  border-radius:12px 12px 0 0;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
+  grid-template-columns:minmax(0,1fr) minmax(320px,430px) auto;
+  padding:18px 22px;
+}
+.quick-request-modal .quick-storage-header .modal-title{
+  font-size:25px;
+  font-weight:650;
+  text-shadow:0 2px 12px rgba(0,0,0,.18);
+}
+.quick-request-modal .quick-storage-header small{
+  color:rgba(255,255,255,.9);
+  font-size:14px;
+}
+.quick-storage-line{
+  font-size:17px;
+}
+.quick-storage-place{
+  background:rgba(255,255,255,.08);
+  border:1px dashed rgba(255,255,255,.62);
+  border-radius:8px;
+  color:#fff;
+  cursor:pointer;
+  flex-direction:column;
+  font-size:13px;
+  font-weight:600;
+  gap:8px;
+  min-height:44px;
+  overflow:hidden;
+  padding:7px 10px;
+  transition:background .15s ease,border-color .15s ease,transform .15s ease;
+}
+.quick-storage-place:hover{
+  background:rgba(255,255,255,.16);
+  border-color:rgba(255,255,255,.86);
+  transform:translateY(-1px);
+}
+.quick-storage-place.is-active{
+  background:rgba(255,255,255,.18);
+  border-style:solid;
+}
+.quick-storage-place::before{
+  content:"";
+}
+.quick-storage-place span{
+  align-items:center;
+  display:flex;
+  font-size:15px;
+  font-weight:800;
+  gap:6px;
+  line-height:1;
+}
+.quick-storage-place span::before{
+  content:"☁";
+  font-size:16px;
+}
+.quick-storage-place strong{
+  color:rgba(255,255,255,.9);
+  display:block;
+  font-size:11px;
+  font-weight:500;
+  line-height:1.25;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  text-align:center;
+}
+.quick-request-modal .quick-storage-header{
+  gap:12px;
+  grid-template-columns:minmax(0,1fr) minmax(300px,430px) auto;
+  padding:10px 16px;
+}
+.quick-storage-brand{
+  gap:12px;
+}
+.quick-storage-mark{
+  flex-basis:42px;
+  font-size:24px;
+  height:42px;
+  width:42px;
+}
+.quick-request-modal .quick-storage-header .modal-title{
+  font-size:20px;
+  line-height:1;
+}
+.quick-request-modal .quick-storage-header small{
+  font-size:12px;
+  line-height:1.2;
+  margin-top:5px;
+}
+.quick-storage-meta{
+  gap:4px;
+}
+.quick-storage-line{
+  font-size:14px;
+  line-height:1;
+}
+.quick-storage-place{
+  gap:4px;
+  min-height:32px;
+  padding:5px 9px;
+}
+.quick-storage-place span{
+  font-size:13px;
+}
+.quick-storage-place span::before{
+  font-size:13px;
+}
+.quick-storage-place strong{
+  font-size:10px;
+  line-height:1.15;
+}
+.quick-request-modal .modal-body{
+  background:#ffffff;
+  padding:18px;
+}
+.quick-party-grid{
+  display:grid;
+  gap:14px;
+  grid-template-columns:1fr 1fr;
+}
+.quick-party-card{
+  background:#fff;
+  border:1px solid #e5e7eb;
+  border-radius:12px;
+  box-shadow:0 8px 22px rgba(15,23,42,.05);
+  padding:13px 14px;
+}
+.quick-party-title{
+  align-items:center;
+  color:#065f25;
+  display:flex;
+  font-size:16px;
+  font-weight:750;
+  gap:8px;
+  margin-bottom:10px;
+  padding-left:10px;
+  position:relative;
+  text-transform:uppercase;
+}
+.quick-party-title::before{
+  background:linear-gradient(180deg,#22c55e,#087a32);
+  border-radius:999px;
+  content:"";
+  height:18px;
+  left:0;
+  position:absolute;
+  width:4px;
+}
+.quick-party-fields{
+  display:grid;
+  gap:8px;
+}
+.quick-party-fields label{
+  align-items:center;
+  color:#111827;
+  display:grid;
+  font-size:13px;
+  font-weight:750;
+  gap:10px;
+  grid-template-columns:74px 1fr;
+}
+.quick-party-fields .quick-info-line{
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  border-radius:8px;
+  gap:0;
+  grid-template-columns:82px 1fr;
+  overflow:hidden;
+}
+.quick-info-line span{
+  background:#f0fdf4;
+  color:#065f25;
+  font-size:12px;
+  font-weight:800;
+  height:100%;
+  padding:9px 10px;
+}
+.quick-info-line input{
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+}
+.quick-logo-name-row{
+  display:grid;
+  gap:10px;
+  grid-template-columns:54px 1fr;
+}
+.quick-logo-upload{
+  align-items:center !important;
+  background:linear-gradient(135deg,#ecfdf5,#ffffff);
+  border:1px dashed #86efac;
+  border-radius:10px;
+  color:#087a32 !important;
+  cursor:pointer;
+  display:flex !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+  height:44px;
+  justify-content:center;
+  overflow:hidden;
+  padding:0 !important;
+  position:relative;
+  text-transform:uppercase;
+}
+.quick-logo-upload:hover{
+  background:#dcfce7;
+  border-color:#22c55e;
+}
+.quick-logo-upload img{
+  height:100%;
+  object-fit:contain;
+  padding:4px;
+  width:100%;
+}
+.quick-logo-upload.has-logo{
+  background:#fff;
+  border-style:solid;
+}
+.quick-party-fields input,
+.quick-product-name input,
+.quick-description-field textarea,
+.quick-quote-table input,
+.quick-extra-note input{
+  background:#fff;
+  border:1px solid #d7dee8;
+  border-radius:9px;
+  box-shadow:inset 0 1px 2px rgba(15,23,42,.03);
+  color:#0f172a;
+  font-size:14px;
+  outline:none;
+  padding:8px 10px;
+  width:100%;
+}
+.quick-party-fields input:focus,
+.quick-product-name input:focus,
+.quick-description-field textarea:focus,
+.quick-quote-table input:focus,
+.quick-extra-note input:focus{
+  border-color:#159947;
+  box-shadow:0 0 0 3px rgba(21,153,71,.12);
+}
+.quick-profile-main{
+  display:grid;
+  gap:18px;
+  grid-template-columns:340px 1fr;
+  margin-top:18px;
+}
+.quick-upload-panel{
+  align-items:center;
+  background:linear-gradient(135deg,#f1fff7 0%,#ffffff 100%);
+  border:1px solid #c6ead4;
+  border-radius:12px;
+  box-shadow:0 10px 26px rgba(22,101,52,.07);
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:238px;
+  padding:16px;
+  position:relative;
+  text-align:center;
+}
+.quick-upload-panel::before{
+  border:1px dashed #b9cfc2;
+  border-radius:10px;
+  bottom:14px;
+  content:"";
+  left:14px;
+  pointer-events:none;
+  position:absolute;
+  right:14px;
+  top:14px;
+}
+.quick-upload-panel > span{
+  color:#087a32;
+  font-size:44px;
+  line-height:1;
+}
+.quick-upload-panel > strong{
+  color:#065f25;
+  font-size:20px;
+  font-weight:800;
+  margin-top:10px;
+  text-transform:uppercase;
+}
+.quick-upload-panel > small{
+  color:#334155;
+  font-size:14px;
+  line-height:1.45;
+  margin-top:8px;
+}
+.quick-upload-panel > em{
+  color:#8a94a6;
+  font-size:12px;
+  font-style:normal;
+  margin-top:18px;
+}
+.quick-product-fields{
+  display:grid;
+  gap:14px;
+}
+.quick-product-name{
+  align-items:center;
+  display:grid;
+  gap:12px;
+  grid-template-columns:minmax(0,1fr) 116px;
+}
+.quick-product-name span,
+.quick-description-label b{
+  align-items:center;
+  background:transparent;
+  border-radius:0;
+  color:#087a32;
+  display:inline-flex;
+  font-size:12px;
+  font-weight:800;
+  justify-content:flex-start;
+  min-height:36px;
+  padding:0;
+  text-transform:uppercase;
+}
+.quick-product-name span{
+  display:none;
+}
+.quick-bulk-name-btn{
+  background:#0f8a3a;
+  border:0;
+  border-radius:8px;
+  color:#fff;
+  font-size:12px;
+  font-weight:600;
+  min-height:36px;
+  padding:8px 10px;
+}
+.quick-bulk-name-btn:hover{
+  background:#087a32;
+}
+.quick-description-field{
+  display:grid;
+  gap:0;
+  margin:0;
+}
+.quick-description-label{
+  justify-content:flex-start;
+}
+.quick-description-label b{
+  display:none;
+}
+.quick-desc-tabs{
+  align-items:center;
+  background:#ecfdf5;
+  border:1px solid #bbf7d0;
+  border-radius:9px;
+  display:inline-flex;
+  gap:4px;
+  padding:3px;
+}
+.quick-desc-tabs button{
+  background:transparent;
+  border:0;
+  border-radius:7px;
+  color:#087a32;
+  font-size:12px;
+  font-weight:600;
+  min-height:28px;
+  padding:5px 10px;
+}
+.quick-desc-tabs button.active{
+  background:#087a32;
+  color:#fff;
+  box-shadow:0 3px 8px rgba(8,122,50,.16);
+}
+.quick-description-field textarea{
+  border-radius:0 10px 10px 10px;
+  min-height:156px;
+  resize:vertical;
+}
+.quick-standard-form{
+  background:#fff;
+  border:1px solid #d7dee8;
+  border-radius:0 10px 10px 10px;
+  padding:12px;
+}
+.quick-standard-title{
+  color:#065f25;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:10px;
+  text-transform:uppercase;
+}
+.quick-standard-grid{
+  display:grid;
+  gap:10px;
+  grid-template-columns:1fr 1fr;
+}
+.quick-standard-grid label{
+  color:#334155;
+  display:flex;
+  flex-direction:column;
+  font-size:12px;
+  font-weight:750;
+  gap:5px;
+}
+.quick-standard-grid label.wide{
+  grid-column:1 / -1;
+}
+.quick-standard-grid input,
+.quick-standard-grid select,
+.quick-standard-grid textarea{
+  background:#fff;
+  border:1px solid #d7dee8;
+  border-radius:9px;
+  color:#0f172a;
+  font-size:13px;
+  outline:none;
+  padding:8px 10px;
+  width:100%;
+}
+.quick-standard-grid input:focus,
+.quick-standard-grid select:focus,
+.quick-standard-grid textarea:focus{
+  border-color:#159947;
+  box-shadow:0 0 0 3px rgba(21,153,71,.12);
+}
+.quick-voice-btn{
+  margin-left:auto;
+}
+.quick-product-table-section{
+  border-color:#d7efe0;
+  box-shadow:0 12px 30px rgba(15,23,42,.05);
+  margin-top:18px;
+}
+.quick-quote-table th{
+  background:linear-gradient(90deg,#eefcf4,#ffffff);
+  color:#065f25;
+  font-size:13px;
+  font-weight:800;
+  padding:12px 10px;
+  text-align:center;
+}
+.quick-quote-table td{
+  padding:7px 10px;
+}
+.quick-row-index{
+  background:transparent;
+  border-radius:0;
+  color:#fff;
+  display:table-cell;
+  font-size:12px;
+  line-height:1;
+  padding:7px 8px;
+  text-align:center;
+  width:42px;
+}
+.quick-row-index::before{
+  background:#087a32;
+  border-radius:6px;
+  box-shadow:0 2px 8px rgba(8,122,50,.18);
+  color:#fff;
+  content:attr(data-row);
+  display:inline-flex;
+  font-size:12px;
+  font-weight:700;
+  height:24px;
+  align-items:center;
+  justify-content:center;
+  min-width:24px;
+}
+.quick-line-total{
+  color:#064e3b;
+  font-size:14px;
+  font-weight:600;
+  text-align:center;
+  white-space:nowrap;
+}
+.quick-table-footer{
+  align-items:end;
+  display:grid;
+  gap:10px;
+  grid-template-columns:130px 130px 120px minmax(0,1fr);
+  padding:12px 18px 18px;
+}
+.quick-table-footer .quick-add-row-btn{
+  border:1px solid #86cfa3;
+  border-radius:8px;
+  color:#087a32;
+  font-weight:800;
+  padding:10px 14px;
+  text-align:center;
+}
+.quick-table-footer .quick-add-row-btn.danger{
+  border-color:#fecaca;
+  color:#dc2626;
+}
+.quick-row-remove,
+.quick-file-remove{
+  align-items:center;
+  background:#fff;
+  border:1px solid #fecaca;
+  border-radius:999px;
+  color:#dc2626;
+  display:inline-flex;
+  font-size:15px;
+  font-weight:800;
+  height:26px;
+  justify-content:center;
+  width:26px;
+}
+.quick-row-remove:hover,
+.quick-file-remove:hover{
+  background:#fee2e2;
+}
+.quick-extra-note{
+  background:#f3fbf6;
+  border:1px solid #d6eadf;
+  border-radius:10px;
+  color:#065f25;
+  display:grid;
+  gap:8px;
+  padding:10px;
+}
+.quick-extra-note span{
+  font-size:13px;
+  font-weight:800;
+  text-transform:uppercase;
+}
+.quick-product-clone .quick-table-footer{
+  grid-template-columns:140px 140px 120px minmax(320px,1fr);
+}
+.quick-product-clone .quick-extra-note{
+  min-width:0;
+}
+.quick-product-clone .quick-extra-note input{
+  width:100%;
+}
+.quick-product-clone .quick-quote-table td:nth-last-child(2){
+  min-width:190px;
+}
+.quick-extra-product-blocks{
+  display:grid;
+  gap:16px;
+  margin-top:16px;
+}
+.quick-product-clone{
+  background:#fbfffd;
+  border:1px solid #bbf7d0;
+  border-radius:14px;
+  padding:14px;
+}
+.quick-product-clone-head{
+  align-items:center;
+  color:#065f25;
+  display:flex;
+  font-size:14px;
+  font-weight:800;
+  justify-content:space-between;
+  margin-bottom:12px;
+  text-transform:uppercase;
+}
+.quick-product-clone-head button{
+  background:#fff;
+  border:1px solid #fecaca;
+  border-radius:999px;
+  color:#dc2626;
+  font-size:12px;
+  font-weight:800;
+  padding:5px 10px;
+}
+.quick-add-product-btn{
+  background:linear-gradient(135deg,#0f8a3a,#16a34a);
+  border:0;
+  border-radius:999px;
+  color:#fff;
+  display:block;
+  font-size:14px;
+  font-weight:600;
+  margin:16px auto 0;
+  min-width:220px;
+  padding:11px 18px;
+}
+.quick-add-product-btn:hover{
+  background:linear-gradient(135deg,#087a32,#0f8a3a);
+}
+.quick-request-modal .quick-status{
+  margin:12px 0 0;
+}
+.quick-request-modal button:not(.btn-close){
+  font-weight:600;
+}
+body.quick-exporting .quick-request-modal .modal-content{
+  box-shadow:none !important;
+  transform:none !important;
+}
+body.quick-exporting .quick-request-modal .btn-close,
+body.quick-exporting .quick-request-modal .quick-actions,
+body.quick-exporting .quick-request-modal .quick-status,
+body.quick-exporting .quick-request-modal .quick-row-remove,
+body.quick-exporting .quick-request-modal .quick-file-remove,
+body.quick-exporting .quick-request-modal .quick-bulk-name-btn,
+body.quick-exporting .quick-request-modal .quick-voice-btn,
+body.quick-exporting .quick-request-modal .quick-add-product-btn,
+body.quick-exporting .quick-request-modal .quick-table-footer .quick-add-row-btn,
+body.quick-exporting .quick-request-modal .quick-product-clone-head button{
+  display:none !important;
+}
+body.quick-exporting .quick-request-modal input,
+body.quick-exporting .quick-request-modal textarea,
+body.quick-exporting .quick-request-modal select{
+  appearance:none !important;
+  background:#fff !important;
+  box-shadow:none !important;
+  filter:none !important;
+  line-height:1.35 !important;
+  min-height:36px;
+}
+body.quick-exporting .quick-request-modal textarea{
+  min-height:150px;
+}
+body.quick-exporting .quick-request-modal .quick-product-name{
+  grid-template-columns:1fr !important;
+}
+body.quick-exporting .quick-request-modal .quick-table-footer{
+  grid-template-columns:1fr !important;
+}
+body.quick-exporting .quick-request-modal .quick-extra-note{
+  grid-column:1 / -1;
+}
+.quick-export-field{
+  align-items:center;
+  background:#fff;
+  border:1px solid #d7dee8;
+  border-radius:9px;
+  color:#0f172a;
+  display:flex;
+  font-size:14px;
+  line-height:1.45;
+  min-height:36px;
+  overflow:visible;
+  padding:8px 10px;
+  white-space:pre-wrap;
+  width:100%;
+}
+.quick-export-field.is-textarea{
+  align-items:flex-start;
+  min-height:150px;
+}
+body.quick-printing .modal-backdrop,
+body.quick-printing .site-header,
+body.quick-printing .top-banner,
+body.quick-printing .fab-stack,
+body.quick-printing .fab-left-wrapper{
+  display:none !important;
+}
+@media print{
+  body.quick-printing *{
+    visibility:hidden !important;
+  }
+  body.quick-printing #quickRequestModal,
+  body.quick-printing #quickRequestModal *{
+    visibility:visible !important;
+  }
+  body.quick-printing #quickRequestModal{
+    background:#fff !important;
+    inset:0 !important;
+    overflow:visible !important;
+    position:absolute !important;
+  }
+  body.quick-printing #quickRequestModal .modal-dialog{
+    margin:0 !important;
+    max-width:none !important;
+    width:100% !important;
+  }
+  body.quick-printing #quickRequestModal .modal-content{
+    border:0 !important;
+    border-radius:0 !important;
+    box-shadow:none !important;
+  }
+}
 @keyframes quickDropShine{
   0%,46%{left:-52%;opacity:0;}
   56%{opacity:1;}
@@ -10692,12 +11561,55 @@ footer.text-light img[alt="2606AI logo"]{
   }
 }
 @media (max-width:640px){
+  .quick-request-modal .quick-storage-header{
+    grid-template-columns:1fr auto;
+  }
+  .quick-storage-meta{
+    grid-column:1 / -1;
+  }
+  .quick-request-modal .quick-storage-header .modal-title{
+    font-size:18px;
+  }
+  .quick-storage-line{
+    font-size:14px;
+    gap:10px;
+  }
+  .quick-storage-place{
+    font-size:13px;
+    min-height:32px;
+  }
   .quick-form-grid,
   .quick-brief-tables,
+  .quick-party-grid,
+  .quick-profile-main,
+  .quick-product-name,
   .quick-top-row,
   .quick-contact-grid,
+  .quick-table-footer,
   .quick-actions{
     grid-template-columns:1fr;
+  }
+  .quick-party-fields label{
+    grid-template-columns:1fr;
+  }
+  .quick-description-label{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .quick-desc-tabs{
+    width:100%;
+  }
+  .quick-desc-tabs button{
+    flex:1;
+  }
+  .quick-standard-grid{
+    grid-template-columns:1fr;
+  }
+  .quick-voice-btn{
+    margin-left:0;
+  }
+  .quick-upload-panel{
+    min-height:190px;
   }
 }
 </style>
@@ -10849,7 +11761,7 @@ footer.text-light img[alt="2606AI logo"]{
     if(!preview) return;
     if(!files.length){
       preview.classList.remove('has-many');
-      preview.innerHTML = '<span>Chưa có hình/file mẫu</span><small>Kéo hình sản phẩm, bản thiết kế, logo hoặc file tham khảo vào ô bên trái.</small>';
+      preview.innerHTML = '<span>☁</span><strong>Tải file lên</strong><small>Kéo thả file vào đây<br>hoặc chọn file để tải lên</small><em>Hỗ trợ: .jpg, .png, .pdf, .ai, .zip</em>';
       return;
     }
     preview.classList.add('has-many');
@@ -10859,15 +11771,30 @@ footer.text-light img[alt="2606AI logo"]{
         <small>Sale có thể xem hình/logo/file tham khảo để báo giá sát nhu cầu hơn.</small>
       </div>
       <div class="quick-preview-list">
-        ${files.map(file => {
+        ${files.map((file, index) => {
           const safeName = String(file.name || '').replace(/[<>&"]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));
           if(file.type && file.type.startsWith('image/')){
             const url = URL.createObjectURL(file);
-            return `<div class="quick-preview-item"><img src="${url}" alt=""><span>${safeName}</span></div>`;
+            return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-file-index="${index}" aria-label="Xóa file">×</button><img src="${url}" alt=""><span>${safeName}</span></div>`;
           }
-          return `<div class="quick-preview-item"><div class="quick-file-icon">📎</div><span>${safeName}</span></div>`;
+          return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-file-index="${index}" aria-label="Xóa file">×</button><div class="quick-file-icon">📎</div><span>${safeName}</span></div>`;
         }).join('')}
       </div>`;
+  }
+
+  function removeFileAt(index){
+    const files = window.quickRequestFiles || [];
+    files.splice(index, 1);
+    window.quickRequestFiles = files;
+    if(fileName){
+      fileName.textContent = files.length
+        ? (files.length === 1 ? files[0].name : `${files.length} file đã chọn`)
+        : 'Chưa có file đính kèm';
+    }
+    if(status){
+      status.textContent = files.length ? `Còn ${files.length} file mẫu.` : 'Đã xóa hết file mẫu.';
+    }
+    renderFiles(files);
   }
 
   function setFiles(fileList){
@@ -10879,14 +11806,24 @@ footer.text-light img[alt="2606AI logo"]{
     fileName.textContent = allFiles.length === 1 ? allFiles[0].name : `${allFiles.length} file đã chọn`;
     status.textContent = files.length === 1 ? 'Đã nhận file: ' + files[0].name : `Đã nhận thêm ${files.length} file mẫu.`;
     renderFiles(allFiles);
+    if(input) input.value = '';
   }
 
   drop.addEventListener('click', () => openForm('Vui lòng chọn file hoặc điền nhu cầu bên dưới.'));
   input.addEventListener('change', () => setFiles(input.files));
   [drop, preview].filter(Boolean).forEach(zone => {
-    zone.addEventListener('click', () => {
-      if(zone === preview) input.click();
+    zone.addEventListener('click', e => {
+      if(zone === preview && !e.target.closest('.quick-file-remove')) input.click();
     });
+    if(zone === preview){
+      zone.addEventListener('click', e => {
+        const removeBtn = e.target.closest('.quick-file-remove');
+        if(!removeBtn) return;
+        e.preventDefault();
+        e.stopPropagation();
+        removeFileAt(Number(removeBtn.dataset.fileIndex));
+      });
+    }
     ['dragenter','dragover'].forEach(evt => {
       zone.addEventListener(evt, e => {
         e.preventDefault();
@@ -10903,9 +11840,73 @@ footer.text-light img[alt="2606AI logo"]{
   });
 })();
 
+function quickBindLogoPreview(inputId, previewId){
+  const input = document.getElementById(inputId);
+  const preview = document.getElementById(previewId);
+  const box = input?.closest('.quick-logo-upload');
+  if(!input || !preview || !box) return;
+  input.addEventListener('change', () => {
+    const file = input.files && input.files[0];
+    if(!file) return;
+    if(!file.type || !file.type.startsWith('image/')){
+      preview.textContent = 'Logo';
+      box.classList.remove('has-logo');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.innerHTML = `<img src="${reader.result}" alt="Logo">`;
+      box.classList.add('has-logo');
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+quickBindLogoPreview('quickBuyerLogo','quickBuyerLogoPreview');
+quickBindLogoPreview('quickSellerLogo','quickSellerLogoPreview');
+
+function quickSwitchDescTab(tab){
+  const free = document.getElementById('quickNote');
+  const standard = document.getElementById('quickStandardForm');
+  document.querySelectorAll('[data-quick-desc-tab]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.quickDescTab === tab);
+  });
+  if(free) free.hidden = tab !== 'free';
+  if(standard) standard.hidden = tab !== 'standard';
+  window.quickDescMode = tab;
+}
+
 function quickValue(id){
   return (document.getElementById(id)?.value || '').trim();
 }
+
+function quickParseMoney(value){
+  const cleaned = String(value || '').replace(/[^\d,.-]/g, '').replace(/\./g, '').replace(',', '.');
+  const num = Number(cleaned);
+  return Number.isFinite(num) ? num : 0;
+}
+
+function quickFormatMoney(value){
+  return Math.round(value || 0).toLocaleString('vi-VN');
+}
+
+function quickUpdateRowTotal(row){
+  if(!row) return;
+  const qty = quickParseMoney(row.querySelector('input[id^="quickQuoteQty"], .quick-clone-qty')?.value);
+  const price = quickParseMoney(row.querySelector('input[id^="quickQuotePrice"], .quick-clone-price')?.value);
+  const total = row.querySelector('.quick-line-total');
+  if(total) total.textContent = quickFormatMoney(qty * price);
+}
+
+function quickUpdateAllTotals(){
+  document.querySelectorAll('#quickQuoteBody tr, .quick-product-clone tbody tr').forEach(quickUpdateRowTotal);
+}
+
+document.addEventListener('input', e => {
+  if(e.target.matches('input[id^="quickQuoteQty"], input[id^="quickQuotePrice"], .quick-clone-qty, .quick-clone-price')){
+    quickUpdateRowTotal(e.target.closest('tr'));
+  }
+});
 
 function quickRandomBriefCode(){
   return Array.from({length:10}, () => Math.floor(Math.random() * 10)).join('');
@@ -10921,8 +11922,49 @@ function quickEnsureBriefMeta(){
   }
   const codeEl = document.getElementById('quickBriefCode');
   const timeEl = document.getElementById('quickBriefTime');
+  const storageEl = document.getElementById('quickStorageLink');
   if(codeEl) codeEl.textContent = window.quickBriefState.code;
   if(timeEl) timeEl.textContent = window.quickBriefState.createdAt.toLocaleString('vi-VN');
+  if(storageEl) storageEl.textContent = window.quickBriefState.storageLink || 'Bấm để chọn nơi lưu file';
+}
+
+async function quickChooseStorageLocation(){
+  quickEnsureBriefMeta();
+  let selectedPath = '';
+  if(window.showDirectoryPicker){
+    try{
+      const dirHandle = await window.showDirectoryPicker({
+        id:'brief-2606ai',
+        mode:'readwrite',
+        startIn:'downloads'
+      });
+      selectedPath = `${dirHandle.name}/brief-${window.quickBriefState.code}`;
+    }catch(err){
+      quickSetStatus('Bạn chưa chọn nơi lưu file. Có thể bấm lại "Nơi lưu File" để chọn thư mục.');
+      return '';
+    }
+  }else{
+    selectedPath = window.prompt(
+      'Trình duyệt chưa hỗ trợ chọn thư mục. Nhập nơi lưu file sẽ hiển thị trên brief:',
+      window.quickBriefState.storageLink || `2606AI/Brief/brief-${window.quickBriefState.code}`
+    ) || '';
+  }
+  if(!selectedPath.trim()) return;
+  window.quickBriefState.storageLink = selectedPath.trim();
+  const storageEl = document.getElementById('quickStorageLink');
+  const storageBox = document.querySelector('.quick-storage-place');
+  if(storageEl) storageEl.textContent = window.quickBriefState.storageLink;
+  if(storageBox) storageBox.classList.add('is-active');
+  return window.quickBriefState.storageLink;
+}
+
+async function quickEnsureStorageLocation(){
+  quickEnsureBriefMeta();
+  if(window.quickBriefState.storageLink) return window.quickBriefState.storageLink;
+  const selectedPath = await quickChooseStorageLocation();
+  const storageEl = document.getElementById('quickStorageLink');
+  if(!selectedPath && storageEl) storageEl.textContent = 'Chưa chọn nơi lưu file';
+  return selectedPath || '';
 }
 
 function quickQuoteRows(){
@@ -10945,6 +11987,18 @@ function quickQuoteRows(){
   }).filter(row => row.name || row.qty || row.unit || row.price || row.note || row.custom.length);
 }
 
+function quickUpdateQuoteIndexes(){
+  const rows = Array.from(document.querySelectorAll('#quickQuoteBody tr'));
+  rows.forEach((tr, index) => {
+    const rowNumber = index + 1;
+    const indexCell = tr.querySelector('.quick-row-index');
+    if(indexCell) indexCell.dataset.row = String(rowNumber);
+    tr.querySelectorAll('input[id]').forEach(input => {
+      input.id = input.id.replace(/Row\d+$/, `Row${rowNumber}`).replace(/\d+$/, String(rowNumber));
+    });
+  });
+}
+
 function quickAddQuoteRow(){
   const body = document.getElementById('quickQuoteBody');
   if(!body) return;
@@ -10954,14 +12008,29 @@ function quickAddQuoteRow(){
   ).join('');
   const tr = document.createElement('tr');
   tr.innerHTML = `
-    <td class="quick-row-index">${index}</td>
+    <td class="quick-row-index" data-row="${index}"></td>
     <td><input id="quickQuoteName${index}" type="text" placeholder="Tên sản phẩm"></td>
-    <td><input id="quickQuoteQty${index}" type="text" placeholder="${index * 100}"></td>
     <td><input id="quickQuoteUnit${index}" type="text" placeholder="cái"></td>
-    <td><input id="quickQuotePrice${index}" type="text" placeholder="Nhập sau"></td>
+    <td><input id="quickQuoteQty${index}" type="text" placeholder="${index * 100}"></td>
+    <td><input id="quickQuotePrice${index}" type="text" placeholder="Nhập đơn giá"></td>
+    <td class="quick-line-total">0</td>
     ${customCells}
-    <td><input id="quickQuoteNote${index}" type="text" placeholder="Ghi chú"></td>`;
+    <td><input id="quickQuoteNote${index}" type="text" placeholder="Ghi chú"></td>
+    <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>`;
   body.appendChild(tr);
+  quickUpdateQuoteIndexes();
+}
+
+function quickRemoveQuoteRow(button){
+  const body = document.getElementById('quickQuoteBody');
+  const row = button?.closest('tr');
+  if(!body || !row) return;
+  if(body.querySelectorAll('tr').length <= 1){
+    row.querySelectorAll('input').forEach(input => { input.value = ''; });
+    return;
+  }
+  row.remove();
+  quickUpdateQuoteIndexes();
 }
 
 function quickAddQuoteColumn(){
@@ -10979,6 +12048,7 @@ function quickAddQuoteColumn(){
 
   Array.from(body.querySelectorAll('tr')).forEach((tr, rowIndex) => {
     const td = document.createElement('td');
+    td.className = `quick-custom-cell quick-custom-cell-${colIndex}`;
     td.innerHTML = `<input id="quickCustomCol${colIndex}Row${rowIndex + 1}" type="text" placeholder="Nhập nội dung">`;
     tr.insertBefore(td, tr.lastElementChild);
   });
@@ -10987,16 +12057,302 @@ function quickAddQuoteColumn(){
   titleInput?.focus();
 }
 
+function quickRemoveLastQuoteColumn(){
+  const colIndex = window.quickCustomQuoteCols || 0;
+  if(!colIndex) return;
+  document.getElementById(`quickCustomColTitle${colIndex}`)?.closest('th')?.remove();
+  document.querySelectorAll(`.quick-custom-cell-${colIndex}`).forEach(cell => cell.remove());
+  window.quickCustomQuoteCols = colIndex - 1;
+}
+
+function quickBulkProductNames(){
+  const productInput = document.getElementById('quickProduct');
+  const status = document.getElementById('quickStatus');
+  const text = productInput?.value || '';
+  const names = text.split(/\r?\n|,|;|\|/).map(item => item.trim()).filter(Boolean);
+  if(!names.length){
+    if(status) status.textContent = 'Hãy nhập tên sản phẩm trước, có thể ngăn cách nhiều tên bằng dấu phẩy hoặc xuống dòng.';
+    productInput?.focus();
+    return;
+  }
+  if(productInput) productInput.value = names.join(', ');
+  const body = document.getElementById('quickQuoteBody');
+  if(!body) return;
+  while(body.querySelectorAll('tr').length < names.length){
+    quickAddQuoteRow();
+  }
+  const rows = Array.from(body.querySelectorAll('tr'));
+  rows.forEach((row, index) => {
+    const input = document.getElementById(`quickQuoteName${index + 1}`);
+    if(input) input.value = names[index] || names[0];
+  });
+  quickUpdateQuoteIndexes();
+  if(status) status.textContent = names.length === 1
+    ? `Đã điền "${names[0]}" cho toàn bộ cột tên sản phẩm.`
+    : `Đã nhập ${names.length} tên sản phẩm vào bảng bên dưới.`;
+}
+
+function quickAddProductBlock(){
+  const holder = document.getElementById('quickExtraProductBlocks');
+  if(!holder) return;
+  const index = holder.children.length + 2;
+  const block = document.createElement('section');
+  block.className = 'quick-product-clone';
+  block.innerHTML = `
+    <div class="quick-product-clone-head">
+      <span>Sản phẩm ${index}</span>
+      <button type="button" onclick="this.closest('.quick-product-clone').remove()">× Xóa sản phẩm</button>
+    </div>
+    <section class="quick-profile-main">
+      <div class="quick-visual-preview quick-upload-panel quick-clone-upload">
+        <input class="quick-clone-file-input" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ai,.zip" multiple hidden>
+        <div class="quick-clone-file-view">
+          <span>☁</span>
+          <strong>Tải file lên</strong>
+          <small>Kéo thả file vào đây<br>hoặc chọn file để tải lên</small>
+          <em>Hỗ trợ file tham khảo sản phẩm ${index}</em>
+        </div>
+      </div>
+      <div class="quick-product-fields">
+        <label class="quick-product-name">
+          <span>Tên sản phẩm</span>
+          <input class="quick-clone-product-name" type="text" placeholder="Nhập tên sản phẩm">
+          <button type="button" class="quick-bulk-name-btn" onclick="quickFillCloneNames(this)">Nhập hàng loạt</button>
+        </label>
+        <label class="quick-description-field">
+          <span class="quick-description-label">
+            <span class="quick-desc-tabs">
+              <button type="button" class="active" onclick="quickSwitchCloneDescTab(this,'free')">Mô tả tự do</button>
+              <button type="button" onclick="quickSwitchCloneDescTab(this,'standard')">Bố cục chuẩn</button>
+            </span>
+            <button type="button" class="quick-voice-btn" onclick="quickToggleVoiceInput(this)">🎙 Nói để nhập</button>
+          </span>
+          <textarea class="quick-clone-free-desc" rows="5" placeholder="Mô tả sản phẩm, chất liệu, kích thước, thời gian cần hàng..."></textarea>
+          <div class="quick-standard-form quick-clone-standard-desc" hidden>
+            <div class="quick-standard-title">Bố cục chuẩn</div>
+            <div class="quick-standard-grid">
+              <label>Loại yêu cầu
+                <select>
+                  <option>Tư vấn sản phẩm theo yêu cầu</option>
+                  <option>Tìm mua sản phẩm tương tự</option>
+                  <option>Tìm mua sản phẩm liên quan</option>
+                </select>
+              </label>
+              <label>Chất liệu <input type="text" placeholder="VD: kim loại, giấy, mica..."></label>
+              <label>Kích thước <input type="text" placeholder="VD: 45mm, 20x30cm..."></label>
+              <label>Thời gian cần hàng <input type="text" placeholder="VD: Trước 20/07"></label>
+              <label class="wide">Ghi chú khác <textarea rows="3" placeholder="Yêu cầu khác về sản phẩm..."></textarea></label>
+            </div>
+          </div>
+        </label>
+      </div>
+    </section>
+    <section class="quick-section quick-product-table-section">
+      <div class="quick-quote-table-wrap">
+        <table class="quick-quote-table">
+          <thead>
+            <tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th><th>Ghi chú</th><th></th></tr>
+          </thead>
+          <tbody>
+            ${[1,2,3].map(row => `
+              <tr>
+                <td class="quick-row-index" data-row="${row}"></td>
+                <td><input class="quick-clone-name" type="text" placeholder="Nhập tên sản phẩm"></td>
+                <td><input type="text" placeholder="Nhập đơn vị"></td>
+                <td><input class="quick-clone-qty" type="text" placeholder="Nhập số lượng"></td>
+                <td><input class="quick-clone-price" type="text" placeholder="Nhập đơn giá"></td>
+                <td class="quick-line-total">0</td>
+                <td><input type="text" placeholder="Ghi chú"></td>
+                <td><button type="button" class="quick-row-remove" onclick="quickRemoveCloneRow(this)">×</button></td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+      <div class="quick-table-footer">
+        <button type="button" class="quick-add-row-btn" onclick="quickAddCloneRow(this)">+ Thêm dòng</button>
+        <button type="button" class="quick-add-row-btn" onclick="quickAddCloneColumn(this)">+ Thêm cột</button>
+        <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastCloneColumn(this)">× Xóa cột</button>
+        <label class="quick-extra-note"><span>✎ Ghi chú thêm</span><input type="text" placeholder="Nhập ghi chú thêm (nếu có)..."></label>
+      </div>
+    </section>`;
+  holder.appendChild(block);
+  quickInitCloneUpload(block);
+}
+
+function quickInitCloneUpload(block){
+  const panel = block?.querySelector('.quick-clone-upload');
+  const input = block?.querySelector('.quick-clone-file-input');
+  const view = block?.querySelector('.quick-clone-file-view');
+  if(!panel || !input || !view) return;
+  block.quickFiles = block.quickFiles || [];
+  const render = () => {
+    const files = block.quickFiles || [];
+    if(!files.length){
+      view.innerHTML = '<span>☁</span><strong>Tải file lên</strong><small>Kéo thả file vào đây<br>hoặc chọn file để tải lên</small><em>Hỗ trợ file tham khảo sản phẩm</em>';
+      panel.classList.remove('has-many');
+      return;
+    }
+    panel.classList.add('has-many');
+    view.innerHTML = `
+      <div>
+        <span>Đã tải lên ${files.length} file mẫu</span>
+        <small>File riêng cho sản phẩm này.</small>
+      </div>
+      <div class="quick-preview-list">
+        ${files.map((file, index) => {
+          const safeName = String(file.name || '').replace(/[<>&"]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));
+          if(file.type && file.type.startsWith('image/')){
+            return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-clone-file-index="${index}" aria-label="Xóa file">×</button><img src="${URL.createObjectURL(file)}" alt=""><span>${safeName}</span></div>`;
+          }
+          return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-clone-file-index="${index}" aria-label="Xóa file">×</button><div class="quick-file-icon">📎</div><span>${safeName}</span></div>`;
+        }).join('')}
+      </div>`;
+  };
+  const addFiles = fileList => {
+    const files = Array.from(fileList || []).filter(Boolean);
+    if(!files.length) return;
+    block.quickFiles = (block.quickFiles || []).concat(files);
+    render();
+    input.value = '';
+  };
+  panel.addEventListener('click', e => {
+    if(e.target === input) return;
+    const removeBtn = e.target.closest('.quick-file-remove');
+    if(removeBtn){
+      e.preventDefault();
+      e.stopPropagation();
+      block.quickFiles.splice(Number(removeBtn.dataset.cloneFileIndex), 1);
+      render();
+      return;
+    }
+    e.preventDefault();
+    input.click();
+  });
+  input.addEventListener('change', () => addFiles(input.files));
+  ['dragenter','dragover'].forEach(evt => {
+    panel.addEventListener(evt, e => {
+      e.preventDefault();
+      panel.classList.add('is-dragging');
+    });
+  });
+  ['dragleave','drop'].forEach(evt => {
+    panel.addEventListener(evt, e => {
+      e.preventDefault();
+      panel.classList.remove('is-dragging');
+    });
+  });
+  panel.addEventListener('drop', e => addFiles(e.dataTransfer && e.dataTransfer.files));
+}
+
+function quickFillCloneNames(button){
+  const block = button.closest('.quick-product-clone');
+  const input = block?.querySelector('.quick-clone-product-name');
+  const names = String(input?.value || '').split(/\r?\n|,|;|\|/).map(item => item.trim()).filter(Boolean);
+  if(!block || !names.length) return;
+  const rows = Array.from(block.querySelectorAll('tbody tr'));
+  rows.forEach((row, index) => {
+    const nameInput = row.querySelector('.quick-clone-name');
+    if(nameInput) nameInput.value = names[index] || names[0];
+  });
+}
+
+function quickSwitchCloneDescTab(button, mode){
+  const field = button.closest('.quick-description-field');
+  if(!field) return;
+  field.querySelectorAll('.quick-desc-tabs button').forEach(btn => btn.classList.toggle('active', btn === button));
+  const free = field.querySelector('.quick-clone-free-desc');
+  const standard = field.querySelector('.quick-clone-standard-desc');
+  if(free) free.hidden = mode !== 'free';
+  if(standard) standard.hidden = mode !== 'standard';
+}
+
+function quickRefreshCloneRows(tbody){
+  Array.from(tbody.querySelectorAll('tr')).forEach((row, index) => {
+    const cell = row.querySelector('.quick-row-index');
+    if(cell) cell.dataset.row = String(index + 1);
+  });
+}
+
+function quickAddCloneRow(button){
+  const block = button.closest('.quick-product-clone');
+  const tbody = block?.querySelector('tbody');
+  if(!block || !tbody) return;
+  const rowIndex = tbody.querySelectorAll('tr').length + 1;
+  const customCells = Array.from({length:Number(block.dataset.customCols || 0)}, (_, colIndex) =>
+    `<td class="quick-custom-cell quick-clone-custom-cell-${colIndex + 1}"><input type="text" placeholder="Nhập nội dung"></td>`
+  ).join('');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="quick-row-index" data-row="${rowIndex}"></td>
+    <td><input class="quick-clone-name" type="text" placeholder="Nhập tên sản phẩm"></td>
+    <td><input type="text" placeholder="Nhập đơn vị"></td>
+    <td><input class="quick-clone-qty" type="text" placeholder="Nhập số lượng"></td>
+    <td><input class="quick-clone-price" type="text" placeholder="Nhập đơn giá"></td>
+    <td class="quick-line-total">0</td>
+    ${customCells}
+    <td><input type="text" placeholder="Ghi chú"></td>
+    <td><button type="button" class="quick-row-remove" onclick="quickRemoveCloneRow(this)">×</button></td>`;
+  tbody.appendChild(tr);
+}
+
+function quickAddCloneColumn(button){
+  const block = button.closest('.quick-product-clone');
+  const table = block?.querySelector('.quick-quote-table');
+  const body = block?.querySelector('tbody');
+  if(!block || !table || !body) return;
+  const colIndex = Number(block.dataset.customCols || 0) + 1;
+  block.dataset.customCols = String(colIndex);
+  const headerRow = table.querySelector('thead tr');
+  const th = document.createElement('th');
+  th.className = `quick-custom-col quick-clone-custom-head-${colIndex}`;
+  th.innerHTML = `<input type="text" placeholder="Tên cột mới">`;
+  headerRow.insertBefore(th, headerRow.lastElementChild?.previousElementSibling || headerRow.lastElementChild);
+  Array.from(body.querySelectorAll('tr')).forEach(tr => {
+    const td = document.createElement('td');
+    td.className = `quick-custom-cell quick-clone-custom-cell-${colIndex}`;
+    td.innerHTML = `<input type="text" placeholder="Nhập nội dung">`;
+    tr.insertBefore(td, tr.lastElementChild?.previousElementSibling || tr.lastElementChild);
+  });
+  th.querySelector('input')?.focus();
+}
+
+function quickRemoveLastCloneColumn(button){
+  const block = button.closest('.quick-product-clone');
+  const colIndex = Number(block?.dataset.customCols || 0);
+  if(!block || !colIndex) return;
+  block.querySelector(`.quick-clone-custom-head-${colIndex}`)?.remove();
+  block.querySelectorAll(`.quick-clone-custom-cell-${colIndex}`).forEach(cell => cell.remove());
+  block.dataset.customCols = String(colIndex - 1);
+}
+
+function quickRemoveCloneRow(button){
+  const tbody = button.closest('tbody');
+  const row = button.closest('tr');
+  if(!tbody || !row) return;
+  if(tbody.querySelectorAll('tr').length <= 1){
+    row.querySelectorAll('input').forEach(input => { input.value = ''; });
+    quickUpdateRowTotal(row);
+    return;
+  }
+  row.remove();
+  quickRefreshCloneRows(tbody);
+}
+
 function quickData(){
   quickEnsureBriefMeta();
   const quoteRows = quickQuoteRows();
   return {
     briefCode: window.quickBriefState?.code || '',
     briefCreatedAt: window.quickBriefState?.createdAt ? window.quickBriefState.createdAt.toLocaleString('vi-VN') : '',
+    storageLink: window.quickBriefState?.storageLink || '',
     name: quickValue('quickName') || 'Chưa nhập',
     phone: quickValue('quickPhone') || 'Chưa nhập',
     email: quickValue('quickEmail') || 'Chưa nhập',
     address: quickValue('quickAddress') || 'Chưa nhập',
+    sellerName: quickValue('quickSellerName') || 'Chưa nhập',
+    sellerAddress: quickValue('quickSellerAddress') || 'Chưa nhập',
+    sellerPhone: quickValue('quickSellerPhone') || 'Chưa nhập',
+    sellerEmail: quickValue('quickSellerEmail') || 'Chưa nhập',
     product: quickValue('quickProduct') || quickValue('quickNote') || 'Chưa nhập',
     need: quickValue('quickNeed') || 'Chưa chọn',
     purpose: quickValue('quickPurpose') || 'Chưa chọn',
@@ -11020,6 +12376,12 @@ function quickData(){
     vat: quickValue('quickVat') || 'Chưa xác định',
     splitDelivery: quickValue('quickSplitDelivery') || 'Không',
     buyOther: quickValue('quickBuyOther') || 'Chưa nhập',
+    descriptionMode: window.quickDescMode || 'free',
+    requestType: quickValue('quickRequestType') || 'Chưa chọn',
+    standardMaterial: quickValue('quickStandardMaterial') || 'Chưa nhập',
+    standardSize: quickValue('quickStandardSize') || 'Chưa nhập',
+    standardDate: quickValue('quickStandardDate') || 'Chưa nhập',
+    standardNote: quickValue('quickStandardNote') || 'Chưa nhập',
     note: quickValue('quickNote') || 'Chưa có ghi chú',
     quoteRows,
     file: (window.quickRequestFiles || []).length
@@ -11033,11 +12395,12 @@ function quickData(){
 let quickVoiceRecognition = null;
 let quickVoiceListening = false;
 
-function quickToggleVoiceInput(){
+function quickToggleVoiceInput(button){
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const note = document.getElementById('quickNote');
+  const btn = button || document.querySelector('.quick-voice-btn');
+  const field = btn?.closest('.quick-description-field');
+  const note = field?.querySelector('textarea:not([hidden])') || document.getElementById('quickNote');
   const status = document.getElementById('quickStatus');
-  const btn = document.querySelector('.quick-voice-btn');
 
   if(!SpeechRecognition){
     if(status) status.textContent = 'Trình duyệt chưa hỗ trợ nhập mô tả bằng giọng nói. Hãy thử bằng Chrome.';
@@ -11057,6 +12420,12 @@ function quickToggleVoiceInput(){
 
   quickVoiceRecognition.onstart = () => {
     quickVoiceListening = true;
+    document.querySelectorAll('.quick-voice-btn.is-listening').forEach(item => {
+      if(item !== btn){
+        item.classList.remove('is-listening');
+        item.textContent = '🎙 Nói để nhập';
+      }
+    });
     btn?.classList.add('is-listening');
     if(btn) btn.textContent = 'Đang nghe...';
     if(status) status.textContent = 'Đang nghe giọng nói tiếng Việt. Bấm lại để dừng.';
@@ -11111,7 +12480,30 @@ function quickSafeFileName(name, index){
   return raw.replace(/[\\/:*?"<>|]+/g, '-').replace(/\s+/g, ' ').slice(0, 120) || `file-${index + 1}`;
 }
 
+function quickPrepareExportClone(clonedDoc){
+  clonedDoc.body.classList.add('quick-exporting');
+  clonedDoc.querySelectorAll('#quickRequestModal input, #quickRequestModal textarea, #quickRequestModal select').forEach(field => {
+    if(field.type === 'hidden' || field.closest('.quick-logo-upload') || field.classList.contains('quick-clone-file-input')){
+      return;
+    }
+    const replacement = clonedDoc.createElement('div');
+    replacement.className = 'quick-export-field';
+    if(field.tagName === 'TEXTAREA') replacement.classList.add('is-textarea');
+    const value = field.tagName === 'SELECT'
+      ? (field.options[field.selectedIndex]?.text || '')
+      : (field.value || field.getAttribute('placeholder') || '');
+    replacement.textContent = value;
+    const style = clonedDoc.defaultView.getComputedStyle(field);
+    replacement.style.minHeight = `${Math.max(field.offsetHeight || 0, field.tagName === 'TEXTAREA' ? 150 : 36)}px`;
+    replacement.style.fontSize = style.fontSize;
+    replacement.style.fontWeight = style.fontWeight;
+    replacement.style.color = style.color;
+    field.replaceWith(replacement);
+  });
+}
+
 async function quickCaptureBriefCanvas(){
+  await quickEnsureStorageLocation();
   if(!window.html2canvas){
     throw new Error('Thiếu thư viện xuất ảnh html2canvas. Vui lòng mở file khi có internet rồi thử lại.');
   }
@@ -11119,11 +12511,29 @@ async function quickCaptureBriefCanvas(){
   if(!target){
     throw new Error('Không tìm thấy khung brief để xuất file.');
   }
-  return html2canvas(target, {
-    backgroundColor:'#ffffff',
-    scale:Math.min(2, window.devicePixelRatio || 2),
-    useCORS:true
-  });
+  const oldScrollTop = target.scrollTop || 0;
+  const exportScale = Math.max(3, Math.min(4, window.devicePixelRatio || 3));
+  document.body.classList.add('quick-exporting');
+  target.scrollTop = 0;
+  await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  try{
+    return await html2canvas(target, {
+      backgroundColor:'#ffffff',
+      scale:exportScale,
+      useCORS:true,
+      allowTaint:true,
+      scrollX:0,
+      scrollY:0,
+      windowWidth:Math.max(document.documentElement.clientWidth, target.scrollWidth),
+      windowHeight:Math.max(document.documentElement.clientHeight, target.scrollHeight),
+      width:target.scrollWidth,
+      height:target.scrollHeight,
+      onclone: quickPrepareExportClone
+    });
+  }finally{
+    target.scrollTop = oldScrollTop;
+    document.body.classList.remove('quick-exporting');
+  }
 }
 
 function quickPdfBlobFromCanvas(canvas){
@@ -11153,6 +12563,290 @@ function quickBriefPayload(){
   };
 }
 
+function quickBriefFileBaseName(){
+  quickEnsureBriefMeta();
+  return `brief-bao-gia-2606ai-${window.quickBriefState?.code || Date.now()}`;
+}
+
+function quickPrintEscape(value){
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&':'&amp;',
+    '<':'&lt;',
+    '>':'&gt;',
+    '"':'&quot;',
+    "'":'&#39;'
+  }[char]));
+}
+
+function quickPrintText(value, fallback = 'Chưa nhập'){
+  const text = String(value || '').trim();
+  return quickPrintEscape(text || fallback);
+}
+
+function quickGetTableRows(tbodySelector){
+  const rows = Array.from(document.querySelectorAll(`${tbodySelector} tr`));
+  return rows.map((tr, index) => {
+    const cells = Array.from(tr.children);
+    return {
+      stt: String(index + 1),
+      name: cells[1]?.querySelector('input')?.value?.trim() || '',
+      unit: cells[2]?.querySelector('input')?.value?.trim() || '',
+      qty: cells[3]?.querySelector('input')?.value?.trim() || '',
+      price: cells[4]?.querySelector('input')?.value?.trim() || '',
+      total: tr.querySelector('.quick-line-total')?.textContent?.trim() || '0',
+      note: cells[cells.length - 2]?.querySelector('input')?.value?.trim() || ''
+    };
+  }).filter(row => row.name || row.unit || row.qty || row.price || row.note);
+}
+
+function quickPrintRowsHtml(rows){
+  if(!rows.length){
+    return '<tr><td colspan="7" class="muted">Chưa có dòng báo giá.</td></tr>';
+  }
+  return rows.map(row => `
+    <tr>
+      <td class="center">${quickPrintText(row.stt, '')}</td>
+      <td>${quickPrintText(row.name, '')}</td>
+      <td>${quickPrintText(row.unit, '')}</td>
+      <td class="num">${quickPrintText(row.qty, '')}</td>
+      <td class="num">${quickPrintText(row.price, '')}</td>
+      <td class="num">${quickPrintText(row.total, '')}</td>
+      <td>${quickPrintText(row.note, '')}</td>
+    </tr>`).join('');
+}
+
+function quickPrintFileCardsHtml(files){
+  const list = Array.from(files || []);
+  if(!list.length){
+    return '<div class="file-empty">Chưa có file mẫu</div>';
+  }
+  return `
+    <div class="file-summary">${list.length} file đã tải lên</div>
+    <div class="file-grid">
+      ${list.slice(0, 6).map(file => {
+        const name = quickPrintText(file.name || 'File đính kèm', '');
+        if(file.type && file.type.startsWith('image/')){
+          return `
+            <figure class="file-card">
+              <img src="${quickPrintEscape(URL.createObjectURL(file))}" alt="${name}">
+              <figcaption>${name}</figcaption>
+            </figure>`;
+        }
+        return `
+          <figure class="file-card is-doc">
+            <div class="doc-icon">FILE</div>
+            <figcaption>${name}</figcaption>
+          </figure>`;
+      }).join('')}
+    </div>
+    ${list.length > 6 ? `<div class="file-more">+ ${list.length - 6} file khác</div>` : ''}`;
+}
+
+function quickExtraProductPrintData(){
+  return Array.from(document.querySelectorAll('.quick-product-clone')).map((block, index) => {
+    const title = block.querySelector('.quick-product-clone-head span')?.textContent?.trim() || `Sản phẩm ${index + 2}`;
+    const name = block.querySelector('.quick-clone-product-name')?.value?.trim() || '';
+    const desc = block.querySelector('.quick-clone-free-desc:not([hidden])')?.value?.trim()
+      || Array.from(block.querySelectorAll('.quick-clone-standard-desc input, .quick-clone-standard-desc textarea, .quick-clone-standard-desc select'))
+        .map(field => field.value || field.options?.[field.selectedIndex]?.text || '')
+        .filter(Boolean)
+        .join(' | ');
+    const rows = Array.from(block.querySelectorAll('tbody tr')).map((tr, rowIndex) => {
+      const cells = Array.from(tr.children);
+      return {
+        stt: String(rowIndex + 1),
+        name: cells[1]?.querySelector('input')?.value?.trim() || '',
+        unit: cells[2]?.querySelector('input')?.value?.trim() || '',
+        qty: cells[3]?.querySelector('input')?.value?.trim() || '',
+        price: cells[4]?.querySelector('input')?.value?.trim() || '',
+        total: tr.querySelector('.quick-line-total')?.textContent?.trim() || '0',
+        note: cells[cells.length - 2]?.querySelector('input')?.value?.trim() || ''
+      };
+    }).filter(row => row.name || row.unit || row.qty || row.price || row.note);
+    const extraNote = block.querySelector('.quick-extra-note input')?.value?.trim() || '';
+    return {title, name, desc, rows, extraNote};
+  }).filter(item => item.name || item.desc || item.rows.length || item.extraNote);
+}
+
+function quickInfoRowsHtml(rows){
+  return rows.map(([label, value]) => `
+    <div class="info-row">
+      <span>${quickPrintEscape(label)}</span>
+      <b>${quickPrintText(value)}</b>
+    </div>`).join('');
+}
+
+function quickBriefPrintHtml(data){
+  const mainRows = quickGetTableRows('#quickQuoteBody');
+  const extraProducts = quickExtraProductPrintData();
+  const fileCards = quickPrintFileCardsHtml(window.quickRequestFiles || []);
+  const description = data.descriptionMode === 'standard'
+    ? [
+        `Loại yêu cầu: ${data.requestType}`,
+        `Chất liệu: ${data.standardMaterial}`,
+        `Kích thước: ${data.standardSize}`,
+        `Thời gian cần hàng: ${data.standardDate}`,
+        `Ghi chú: ${data.standardNote}`
+      ].join('\n')
+    : data.note;
+  const extraHtml = extraProducts.map(product => `
+    <section class="section product-section">
+      <h2>${quickPrintText(product.title, 'Sản phẩm')}</h2>
+      <div class="desc-line"><strong>Tên sản phẩm:</strong> ${quickPrintText(product.name)}</div>
+      <div class="desc">${quickPrintText(product.desc, 'Chưa có mô tả')}</div>
+      <table>
+        <thead><tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th><th>Ghi chú</th></tr></thead>
+        <tbody>${quickPrintRowsHtml(product.rows)}</tbody>
+      </table>
+      ${product.extraNote ? `<div class="note"><strong>Ghi chú thêm:</strong> ${quickPrintText(product.extraNote, '')}</div>` : ''}
+    </section>`).join('');
+
+  return `<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Brief 2606AI ${quickPrintText(data.briefCode, '')}</title>
+  <style>
+    @page{size:A4;margin:9mm}
+    *{box-sizing:border-box}
+    body{margin:0;background:#fff;color:#142033;font-family:"Segoe UI",Arial,sans-serif;font-size:11px;line-height:1.45}
+    .page{width:100%;max-width:188mm;margin:0 auto}
+    .header{display:grid;grid-template-columns:1fr 74mm;gap:12px;align-items:center;background:linear-gradient(135deg,#05742f 0%,#19b85c 100%);color:#fff;border-radius:10px;padding:11px 14px}
+    .brand{display:flex;gap:10px;align-items:center}
+    .mark{width:36px;height:36px;border:2px solid rgba(255,255,255,.85);border-radius:10px;display:grid;place-items:center}
+    .mark svg{width:23px;height:23px;stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    h1{font-size:19px;line-height:1.1;margin:0 0 4px;font-weight:700;letter-spacing:0}
+    .brand p{margin:0;font-size:10.5px;font-weight:500;opacity:.95}
+    .meta{display:grid;gap:5px;font-size:11px;font-weight:700}
+    .meta-top{display:flex;justify-content:space-between;gap:8px}
+    .storage{border:1px dashed rgba(255,255,255,.75);border-radius:8px;padding:7px 9px;text-align:center;overflow-wrap:anywhere;background:rgba(255,255,255,.13)}
+    .storage strong{display:block;font-size:12px;margin-bottom:2px}
+    .section{border:1px solid #d8ecdf;border-radius:10px;padding:10px;margin-top:9px;break-inside:avoid;background:#fff}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    h2{margin:0 0 8px;color:#047331;font-size:13px;text-transform:uppercase;letter-spacing:0;font-weight:700}
+    .seller-heading{display:flex;align-items:center;gap:8px}
+    .seller-heading img{width:30px;height:30px;object-fit:contain;border:1px solid #d8ecdf;border-radius:7px;background:#fff;padding:3px}
+    .info-row{display:grid;grid-template-columns:25mm 1fr;border:1px solid #e3eaf0;border-radius:6px;margin-top:5px;overflow:hidden;min-height:27px}
+    .info-row span{background:#ecfdf5;color:#065f25;font-weight:700;padding:6px 8px}
+    .info-row b{font-weight:500;padding:6px 8px;overflow-wrap:anywhere}
+    .product-grid{display:grid;grid-template-columns:54mm 1fr;gap:9px}
+    .file-box{border:1px dashed #a9dcbc;border-radius:8px;min-height:36mm;padding:8px;color:#065f25;background:#f7fffa}
+    .file-summary{font-weight:700;text-align:center;margin-bottom:6px}
+    .file-empty{text-align:center;font-weight:700;padding:22px 8px}
+    .file-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .file-card{margin:0;border:1px solid #d8ecdf;border-radius:7px;overflow:hidden;background:#fff}
+    .file-card img{width:100%;height:22mm;object-fit:cover;display:block}
+    .file-card figcaption{font-size:8.5px;line-height:1.25;padding:4px;color:#2d4055;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .file-card.is-doc{min-height:29mm;display:grid;align-content:center;gap:4px;text-align:center}
+    .doc-icon{width:28px;height:34px;margin:0 auto;border:1.5px solid #0b7f39;border-radius:4px;display:grid;place-items:center;font-size:7px;font-weight:700;color:#0b7f39;background:#ecfdf5}
+    .file-more{font-size:9px;text-align:center;margin-top:5px;color:#536272}
+    .desc,.note{border:1px solid #dfe8ef;border-radius:8px;padding:9px;white-space:pre-wrap;overflow-wrap:anywhere;background:#fff}
+    .desc{min-height:36mm}
+    .desc-line{margin-bottom:7px}
+    table{width:100%;border-collapse:collapse;margin-top:7px;break-inside:auto}
+    th,td{border:1px solid #dfe8ef;padding:5px 6px;vertical-align:top}
+    th{background:#ecfdf5;color:#065f25;font-size:10.5px;text-align:left;font-weight:700}
+    td{font-size:10.5px}
+    .center{text-align:center}
+    .num{text-align:right;white-space:nowrap}
+    .muted{color:#6b7280;text-align:center}
+    .note{margin-top:7px;background:#f7fffa}
+    .footer{margin-top:9px;border-top:1px solid #e5e7eb;padding-top:7px;color:#536272;font-size:9.5px;display:flex;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{max-width:none}.section{break-inside:avoid}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="header">
+      <div class="brand">
+        <div class="mark">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M7 3.5h7l3 3v14H7z"></path>
+            <path d="M14 3.5v4h4"></path>
+            <circle cx="12" cy="12" r="2.2"></circle>
+            <path d="M8.7 17c.8-1.7 5.8-1.7 6.6 0"></path>
+          </svg>
+        </div>
+        <div>
+          <h1>2606AI TIỆN ÍCH LƯU TRỮ</h1>
+          <p>Tạo profile sản phẩm để sử dụng, lưu trữ và tra cứu thông tin nhanh chóng</p>
+        </div>
+      </div>
+      <div class="meta">
+        <div class="meta-top"><span>ID: ${quickPrintText(data.briefCode, '')}</span><span>${quickPrintText(data.time, '')}</span></div>
+        <div class="storage"><strong>Nơi lưu File</strong>${quickPrintText(data.storageLink, 'Chưa chọn nơi lưu file')}</div>
+      </div>
+    </header>
+
+    <section class="grid2">
+      <div class="section">
+        <h2>Người mua</h2>
+        ${quickInfoRowsHtml([
+          ['Tên / Công ty', data.name],
+          ['Địa chỉ', data.address],
+          ['Liên hệ', data.phone],
+          ['Email', data.email]
+        ])}
+      </div>
+      <div class="section">
+        <h2 class="seller-heading"><img src="https://2606ai.com/logo-2606ai.png" alt="">Người bán</h2>
+        ${quickInfoRowsHtml([
+          ['Tên / Công ty', data.sellerName],
+          ['Địa chỉ', data.sellerAddress],
+          ['Liên hệ', data.sellerPhone],
+          ['Email', data.sellerEmail]
+        ])}
+      </div>
+    </section>
+
+    <section class="section product-section">
+      <h2>Thông tin sản phẩm chính</h2>
+      <div class="product-grid">
+        <div class="file-box">
+          ${fileCards}
+        </div>
+        <div>
+          <div class="desc-line"><strong>Tên sản phẩm:</strong> ${quickPrintText(data.product)}</div>
+          <div class="desc">${quickPrintText(description, 'Chưa có mô tả')}</div>
+        </div>
+      </div>
+      <table>
+        <thead><tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th><th>Ghi chú</th></tr></thead>
+        <tbody>${quickPrintRowsHtml(mainRows)}</tbody>
+      </table>
+      ${data.productOther && data.productOther !== 'Chưa nhập' ? `<div class="note"><strong>Ghi chú thêm:</strong> ${quickPrintText(data.productOther, '')}</div>` : ''}
+    </section>
+
+    ${extraHtml}
+
+    <footer class="footer">
+      <span>2606AI - Brief báo giá nhanh</span>
+      <span>${quickPrintText(data.storageLink, 'Chưa chọn nơi lưu file')}</span>
+    </footer>
+  </main>
+</body>
+</html>`;
+}
+
+async function quickPrintBrief(){
+  const printWindow = window.open('', '_blank', 'width=1100,height=850');
+  if(!printWindow){
+    quickSetStatus('Trình duyệt đang chặn cửa sổ in. Hãy cho phép popup rồi bấm In brief lại.');
+    return;
+  }
+  printWindow.document.open();
+  printWindow.document.write('<!doctype html><html><head><meta charset="UTF-8"><title>Đang tạo brief</title></head><body style="font-family:Arial;padding:24px">Đang tạo bản in A4...</body></html>');
+  printWindow.document.close();
+  await quickEnsureStorageLocation();
+  const data = quickData();
+  quickSetStatus('Đã tạo bản in A4 riêng. Trong hộp in, nên tắt Headers and footers để giấy sạch hơn.');
+  printWindow.document.open();
+  printWindow.document.write(quickBriefPrintHtml(data));
+  printWindow.document.close();
+  printWindow.focus();
+  setTimeout(() => printWindow.print(), 500);
+}
+
 async function quickSaveBriefData(){
   if(!window.JSZip){
     quickSetStatus('Thiếu thư viện tạo ZIP. Vui lòng mở file khi có internet rồi thử lại.');
@@ -11164,8 +12858,9 @@ async function quickSaveBriefData(){
     const canvas = await quickCaptureBriefCanvas();
     const pngBlob = await quickCanvasToBlob(canvas, 'image/png');
     const pdfBlob = quickPdfBlobFromCanvas(canvas);
-    zip.file('brief-bao-gia-2606ai.png', pngBlob);
-    zip.file('brief-bao-gia-2606ai.pdf', pdfBlob);
+    const baseName = quickBriefFileBaseName();
+    zip.file(`${baseName}.png`, pngBlob);
+    zip.file(`${baseName}.pdf`, pdfBlob);
     zip.file('du-lieu-brief.json', JSON.stringify(quickBriefPayload(), null, 2));
 
     const filesFolder = zip.folder('file-khach-tai-len');
@@ -11174,7 +12869,7 @@ async function quickSaveBriefData(){
     });
 
     const blob = await zip.generateAsync({type:'blob'});
-    quickDownloadBlob(blob, 'brief-bao-gia-2606ai.zip');
+    quickDownloadBlob(blob, `${baseName}.zip`);
     quickSetStatus('Đã tải xuống ZIP gồm file đính kèm, PNG brief, PDF brief và dữ liệu nhập.');
   }catch(err){
     quickSetStatus(err.message || 'Không tạo được gói ZIP. Vui lòng thử lại.');
@@ -11203,7 +12898,7 @@ async function quickExportImage(){
     quickSetStatus('Đang xuất ảnh brief theo đúng giao diện đang mở...');
     const canvas = await quickCaptureBriefCanvas();
     const blob = await quickCanvasToBlob(canvas, 'image/png');
-    quickDownloadBlob(blob, 'brief-bao-gia-2606ai.png');
+    quickDownloadBlob(blob, `${quickBriefFileBaseName()}.png`);
     quickSetStatus('Đã xuất ảnh brief PNG giống giao diện popup hiện tại.');
   }catch(err){
     quickSetStatus(err.message || 'Không xuất được ảnh brief. Vui lòng thử lại.');
@@ -11211,15 +12906,7 @@ async function quickExportImage(){
 }
 
 async function quickOpenPrint(){
-  try{
-    quickSetStatus('Đang xuất PDF brief theo đúng giao diện đang mở...');
-    const canvas = await quickCaptureBriefCanvas();
-    const blob = quickPdfBlobFromCanvas(canvas);
-    quickDownloadBlob(blob, 'brief-bao-gia-2606ai.pdf');
-    quickSetStatus('Đã xuất PDF brief giống giao diện popup hiện tại.');
-  }catch(err){
-    quickSetStatus(err.message || 'Không xuất được PDF brief. Vui lòng thử lại.');
-  }
+  await quickPrintBrief();
 }
 </script>
 </body>
