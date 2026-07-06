@@ -3121,8 +3121,8 @@ body{
     <div class="bcard" data-benefit="b1" role="button" tabindex="0">
       <img class="benefit-icon" src="https://drive.google.com/thumbnail?id=15XGOGRdQKt1ZuJMNCC9MkJ8R74OxgqLt&sz=w150">
       <div class="benefit-text">
-        <strong>GIÁ TRỊ THƯƠNG HIỆU</strong>
-        <small>Mua hàng, tổ chức, sản phẩm và dịch vụ</small>
+        <strong>KHÁM PHÁ THƯƠNG HIỆU</strong>
+        <small>Giai đoạn nền móng (2026 - 2028)</small>
       </div>
     </div>
 
@@ -3130,7 +3130,7 @@ body{
       <img class="benefit-icon" src="https://drive.google.com/thumbnail?id=1_4xB-U0v2cylRN5dZHnvWE0ro5SXW6nY&sz=w150">
       <div class="benefit-text">
         <strong>ĐẶT HÀNG THEO THIẾT KẾ</strong>
-        <small>In ấn, tạo hình, dán tem... theo yêu cầu</small>
+        <small>Đội ngũ hỗ trợ chuyên nghiệp</small>
       </div>
     </div>
 
@@ -3138,7 +3138,7 @@ body{
       <img class="benefit-icon"src="https://lh3.googleusercontent.com/d/1N_fVzylsQNxR7DGN-Gwb_V8C19ACU8GX=w150">
       <div class="benefit-text">
         <strong>KÊNH BÁN HÀNG</strong>
-        <small>+10,000 sản phẩm và mẫu tham khảo</small>
+        <small>+10,000 sản phẩm và kiểu dáng</small>
       </div>
     </div>
 
@@ -3174,7 +3174,7 @@ body{
       <span class="quick-request-icon">✦</span>
       <div>
         <h6>TẠO PROFILE SẢN PHẨM</h6>
-        <p>Nhập, tải tệp, điền thông tin để tạo hồ sơ sản phẩm nhanh chóng... trải nghiệm chuyên nghiệp.</p>
+        <p>Điền thông tin để lưu trữ File nghiệp</p>
       </div>
     </div>
 
@@ -3215,6 +3215,7 @@ body{
         <h6>Tư vấn quà tặng thương hiệu</h6>
         <p>Gửi đúng nhu cầu để báo giá và lên phương án nhanh hơn.</p>
       </div>
+      <span id="seoGuideCounter" class="seo-guide-counter">4/4</span>
     </div>
     <div class="seo-guide-list">
       <a href="#" class="seo-guide-link">
@@ -10230,13 +10231,15 @@ footer.text-light img[alt="2606AI logo"]{
   border-radius:16px;
   box-shadow:0 12px 32px rgba(22,101,52,.08);
   padding:14px;
+  position:relative;
 }
 .seo-guide-head{
   align-items:center;
   display:grid;
   gap:10px;
-  grid-template-columns:42px 1fr;
+  grid-template-columns:42px minmax(0,1fr);
   margin-bottom:12px;
+  padding-right:34px;
 }
 .seo-guide-icon{
   align-items:center;
@@ -10253,16 +10256,33 @@ footer.text-light img[alt="2606AI logo"]{
 }
 .seo-guide-head h6{
   color:#065f25;
-  font-size:14px;
+  font-size:13px;
   font-weight:700;
   margin:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
   text-transform:uppercase;
+  white-space:nowrap;
 }
 .seo-guide-head p{
   color:#64748b;
   font-size:12px;
   line-height:1.35;
   margin:2px 0 0;
+}
+.seo-guide-counter{
+  background:rgba(255,255,255,.58);
+  border:1px solid rgba(203,213,225,.55);
+  border-radius:999px;
+  color:rgba(100,116,139,.72);
+  font-size:11px;
+  font-weight:500;
+  line-height:1;
+  padding:5px 7px;
+  position:absolute;
+  right:14px;
+  top:16px;
+  white-space:nowrap;
 }
 .seo-guide-list{
   display:grid;
@@ -12908,6 +12928,19 @@ async function quickExportImage(){
 async function quickOpenPrint(){
   await quickPrintBrief();
 }
+
+function updateSeoGuideCounter(){
+  const counter = document.getElementById('seoGuideCounter');
+  const links = Array.from(document.querySelectorAll('.seo-guide-list .seo-guide-link'));
+  if(!counter || !links.length) return;
+  const visible = links.filter(link => {
+    const style = window.getComputedStyle(link);
+    return !link.hidden && !link.classList.contains('d-none') && style.display !== 'none' && style.visibility !== 'hidden';
+  }).length;
+  counter.textContent = `${visible}/${links.length}`;
+}
+
+updateSeoGuideCounter();
 </script>
 </body>
 </html> 
