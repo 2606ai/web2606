@@ -3150,7 +3150,7 @@ body{
       </div>
     </div>
 
-    <div class="bcard" data-benefit="b5" role="button" tabindex="0">
+    <div class="bcard" data-benefit="b5" data-external-url="https://www.tiktok.com/@2606ai.com?_r=1&_t=ZS-97ng9pmwTEi" role="button" tabindex="0">
       <img class="benefit-icon" src="https://lh3.googleusercontent.com/d/1PCxAZs_3bniT5CSNk9XtdByQLbwai4oR=w150">
       <div class="benefit-text">
         <strong>KÊNH TIKTOK</strong>
@@ -3158,7 +3158,7 @@ body{
       </div>
     </div>
 
-    <div class="bcard" data-benefit="b6" role="button" tabindex="0">
+    <div class="bcard" data-benefit="b6" data-external-url="https://www.facebook.com/Mr.Ravende" role="button" tabindex="0">
       <img class="benefit-icon" src="https://drive.google.com/thumbnail?id=1spHz1YnPF4edm0h2gmJ2GBmtJbJ_zXwe&sz=w150">
       <div class="benefit-text">
         <strong>KÊNH FACEBOOK</strong>
@@ -8630,8 +8630,16 @@ const BENEFIT_DETAIL = {
   });
   document.querySelectorAll('.benefits-v3 .bcard[data-benefit]').forEach(card=>{
     const key = card.getAttribute('data-benefit');
-    card.addEventListener('click', ()=>openDetail(key));
-    card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openDetail(key); }});
+    const externalUrl = card.getAttribute('data-external-url');
+    const openCard = () => {
+      if(externalUrl){
+        window.open(externalUrl, '_blank', 'noopener');
+        return;
+      }
+      openDetail(key);
+    };
+    card.addEventListener('click', openCard);
+    card.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); openCard(); }});
     card.style.cursor = 'pointer';
   });
 })();
