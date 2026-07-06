@@ -6613,15 +6613,45 @@ document.addEventListener('click', (ev)=>{
   font-size:14px;
 }
 
+.buy-channel-box a strong em{
+  background:#fef3c7;
+  border:1px solid #fde68a;
+  border-radius:999px;
+  color:#92400e;
+  font-size:10px;
+  font-style:normal;
+  font-weight:700;
+  margin-left:6px;
+  padding:2px 7px;
+  vertical-align:middle;
+  white-space:nowrap;
+}
+
 .buy-channel-box a small{
   display:block;
   font-size:12px;
   color:#6b7280;
 }
 
+.buy-channel-box a small.buy-channel-meta{
+  color:#047331;
+  font-size:11px;
+  font-weight:600;
+  margin-top:3px;
+}
+
 .buy-channel-box a b{
   font-size:24px;
   color:#16a34a;
+}
+
+.buy-channel-box a.is-setup{
+  cursor:default;
+}
+
+.buy-channel-box a.is-setup b{
+  color:#d97706;
+  font-size:18px;
 }
 
 @media(max-width:768px){
@@ -8428,24 +8458,25 @@ const BENEFIT_DETAIL = {
       <div class="buy-channel-box direct">
         <div class="buy-channel-title">🏢 KÊNH TRỰC TIẾP</div>
 
-        <a href="LINK_SHOWROOM" target="_blank">
+        <a href="#" class="is-setup" onclick="return false;">
           <span>🏬</span>
           <div>
-            <strong>Cửa hàng</strong>
-            <small>Xem mẫu và nhận tư vấn</small>
+            <strong>Cửa hàng <em>Đang setup</em></strong>
+            <small>Không gian trưng bày và tư vấn trực tiếp đang được hoàn thiện.</small>
           </div>
-          <b>›</b>
+          <b>⏳</b>
         </a>
       </div>
 
       <div class="buy-channel-box online">
         <div class="buy-channel-title">🌐 KÊNH ONLINE</div>
 
-        <a href="LINK_TIKTOK_SHOP" target="_blank">
-          <span>🎵</span>
+        <a href="https://2606ai.com" target="_blank" rel="noopener">
+          <span>🌐</span>
           <div>
-            <strong>TikTok Shop</strong>
-            <small>Mua hàng qua TikTok Shop</small>
+            <strong>Website 2606AI</strong>
+            <small>Sản phẩm đang xuất hiện tại 2606ai.com</small>
+            <small class="buy-channel-meta">Thời gian: 24/7 · Hotline: 0775 238 306</small>
           </div>
           <b>›</b>
         </a>
