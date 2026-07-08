@@ -2654,6 +2654,169 @@ footer.text-light .bi{ color:#fff; }
   font-weight: 200 !important; /* chữ thường rõ hơn */
   line-height: 1.55;
 }
+
+/* Product detail popup - polished profile view */
+#detailModal .dtl-dialog{
+  width:min(1120px, calc(100vw - 28px)) !important;
+  max-height:calc(100vh - 28px) !important;
+  overflow:auto;
+  padding:22px !important;
+  border-radius:22px !important;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfdfb 100%) !important;
+  box-shadow:0 24px 70px rgba(15,64,32,.22) !important;
+}
+#detailModal .dtl-close{
+  width:44px !important;
+  height:44px !important;
+  border-radius:14px !important;
+  background:#f3faf5 !important;
+  color:#061f12 !important;
+  font-size:28px !important;
+  line-height:1 !important;
+}
+#detailModal .dtl-head{
+  display:grid !important;
+  grid-template-columns:126px minmax(0,1fr);
+  gap:18px !important;
+  align-items:center !important;
+  margin:0 52px 14px 0 !important;
+}
+#detailModal .dtl-head img{
+  width:126px !important;
+  height:126px !important;
+  border-radius:18px !important;
+  box-shadow:0 12px 30px rgba(0,0,0,.12);
+}
+#detailModal #dtlTitle{
+  margin:0 0 6px !important;
+  color:#087227 !important;
+  font-size:clamp(26px,2.4vw,38px) !important;
+  font-weight:500 !important;
+  line-height:1.18 !important;
+  letter-spacing:0 !important;
+}
+#detailModal .dtl-sub{
+  color:#52635a !important;
+  font-size:15px !important;
+  font-weight:400 !important;
+}
+#detailModal .dtl-badges{
+  margin:8px 0 18px !important;
+  gap:10px !important;
+}
+#detailModal .dtl-badges .tag{
+  background:#edf8ef !important;
+  color:#087227 !important;
+  border:1px solid #d9f0dd !important;
+  padding:7px 12px !important;
+  border-radius:999px !important;
+  font-size:13px !important;
+  font-weight:400 !important;
+}
+#detailModal .dtl-rows{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(360px,.95fr) !important;
+  gap:14px !important;
+}
+#detailModal .dtl-col{
+  gap:12px !important;
+}
+#detailModal .dtl-row,
+#detailModal .field{
+  background:#ffffff !important;
+  border:1px solid #e1eee5 !important;
+  border-radius:16px !important;
+  padding:16px 18px !important;
+  box-shadow:0 8px 24px rgba(17,80,42,.05) !important;
+  transform:none !important;
+}
+#detailModal .dtl-row .k,
+#detailModal .field .tag{
+  color:#087227 !important;
+  font-size:13px !important;
+  font-weight:600 !important;
+  letter-spacing:.01em !important;
+  text-transform:none !important;
+  margin-bottom:8px !important;
+}
+#detailModal .dtl-row .v,
+#detailModal .field .value{
+  color:#111827 !important;
+  font-size:17px !important;
+  font-weight:350 !important;
+  line-height:1.55 !important;
+}
+#detailModal .field.desc .value{
+  font-size:16px !important;
+}
+#detailModal .right-col{
+  position:static !important;
+}
+#detailModal .media-card{
+  padding:16px !important;
+  border-radius:18px !important;
+  border:1px solid #dfeee5 !important;
+  background:#ffffff !important;
+  box-shadow:0 10px 28px rgba(17,80,42,.06) !important;
+}
+#detailModal .media-card h5{
+  margin:0 0 12px !important;
+  color:#087227 !important;
+  font-size:18px !important;
+  font-weight:600 !important;
+}
+#detailModal .media-card h5:before{
+  width:5px !important;
+  height:24px !important;
+  background:#2e9b47 !important;
+}
+#detailModal .cert-grid{
+  max-height:360px;
+  overflow:auto;
+  display:grid !important;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) !important;
+  gap:12px !important;
+  padding:10px !important;
+  background:#f7fbf8;
+  border:1px solid #e3f1e8;
+  border-radius:16px;
+}
+#detailModal .cert-item{
+  border-radius:14px !important;
+  padding:8px !important;
+  background:#fff !important;
+}
+#detailModal .cert-img,
+#detailModal .cert-iframe{
+  aspect-ratio:1/1 !important;
+  height:auto !important;
+  min-height:150px;
+  object-fit:cover !important;
+}
+#detailModal .cert-open{
+  justify-content:center !important;
+}
+#detailModal .cert-open a{
+  font-size:12px !important;
+  font-weight:400 !important;
+  padding:5px 10px !important;
+}
+#detailModal .dtl-actions{
+  margin-top:16px !important;
+}
+#detailModal .dtl-actions .btn-ghost,
+#detailModal .dtl-actions .btn-main{
+  font-weight:500 !important;
+  border-radius:999px !important;
+}
+@media (max-width: 760px){
+  #detailModal .dtl-dialog{ padding:16px !important; }
+  #detailModal .dtl-head{ grid-template-columns:82px 1fr; margin-right:46px !important; }
+  #detailModal .dtl-head img{ width:82px !important; height:82px !important; }
+  #detailModal #dtlTitle{ font-size:22px !important; }
+  #detailModal .dtl-rows{ grid-template-columns:1fr !important; }
+  #detailModal .cert-grid{ max-height:300px; grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+}
 /* ==== CART compact (giữ nguyên markup cũ) ==== */
 #cartCanvas .cart-item{
   display:grid; grid-template-columns:64px 1fr auto; gap:10px;
@@ -3468,7 +3631,7 @@ body{
       </div>
 <!-- QUICK CATEGORY (ô lớn KHÁC, QUÀ TẶNG...) -->
 <div class="brand-position-line">
-  <strong>2606AI HỆ SINH THÁI QUÀ TẶNG</strong>
+  <strong>2606AI QUÀ TẶNG CÁ NHÂN HÓA</strong>
   <span>"Đa dạng lựa chọn - Chế tác hiện đại - Dịch vụ chuyên nghiệp"</span>
 </div>
 <div id="quickCatsTop" class="mt-3 mb-3"></div>
@@ -3633,7 +3796,11 @@ const FIELD_LABELS = {
   image:'Ảnh', img:'Ảnh', thumbnail:'Ảnh', linkfull:'Link ảnh gốc',
   supplier:'Xưởng', material:'Vật liệu', size:'Kích thước', color:'Màu',
   weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
-  lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật'
+  lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật',
+  ID:'Sản phẩm', GIA:'Giá tham khảo', LOAI:'Tư vấn / đặt hàng', NOTE:'Bộ sưu tập',
+  MOTA:'Mô tả sản phẩm', TENCONGTY:'Đơn vị cung cấp', SDT:'Liên hệ',
+  CHUNGNHANDN:'Hình ảnh / tài liệu', LOGOCONGTY:'Logo công ty',
+  IMAGECLICK:'Kênh liên hệ', LINKFULL:'Ảnh gốc'
 };
 
 // ====== TÌM ITEM THEO ID (dựa vào items đã render lần cuối)
@@ -3890,7 +4057,7 @@ for (let i = right.length - 1; i >= 0; i--) {
     right.splice(i, 1);
   }
 }
-// --- Render CHỨNG NHẬN (embed xem trực tiếp) ---
+// --- Render hình ảnh / tài liệu tham khảo (embed xem trực tiếp) ---
 
     
 if (item.CHUNGNHANDN || item.chungnhanDN){
@@ -3914,7 +4081,7 @@ if (item.CHUNGNHANDN || item.chungnhanDN){
 
   right.push(`
     <div class="media-card">
-      <h5>Chứng nhận</h5>
+      <h5>Hình ảnh / tài liệu tham khảo</h5>
       <div class="cert-grid">${iframes}</div>
     </div>
   `);
@@ -3938,17 +4105,17 @@ const fieldBox = (label, valueHtml, cls='') => `
 if (Array.isArray(left)) left.length = 0;   // ✅ xoá rỗng mảng mà không gán lại biến const
 
 
-// 1) ID
-left.push(fieldBox('ID', esc(item.ID || item.id || '')));
+// 1) Sản phẩm
+left.push(fieldBox('Sản phẩm', esc(item.ID || item.id || item.name || item.title || '')));
 
-// 2) GIÁ
-left.push(fieldBox('GIÁ', esc(toVND(item.GIA ?? item.gia ?? item.price))));
+// 2) Giá tham khảo
+left.push(fieldBox('Giá tham khảo', esc(toVND(item.GIA ?? item.gia ?? item.price))));
 
-// 3) HÀNH ĐỘNG
-left.push(fieldBox('HÀNH ĐỘNG', esc(item.LOAI || item.loai || '')));
+// 3) Tư vấn / đặt hàng
+left.push(fieldBox('Tư vấn / đặt hàng', esc(item.LOAI || item.loai || '')));
 
-// 4) Sự kiện
-left.push(fieldBox('SỰ KIỆN', esc(item.NOTE || item.note || item.ghichu || '')));
+// 4) Bộ sưu tập / ghi chú
+left.push(fieldBox('Bộ sưu tập', esc(item.NOTE || item.note || item.ghichu || '')));
 
 
 // 5) MÔ TẢ (đặt cuối cùng) — chuẩn hoá xuống dòng từ Sheet
@@ -3963,7 +4130,7 @@ left.push(fieldBox('SỰ KIỆN', esc(item.NOTE || item.note || item.ghichu || '
   const forDisplay = normalized.replace(/\s*•\s*/g, '\n• ');
 
   left.push(
-    fieldBox('MÔ TẢ', esc(forDisplay), 'desc')
+    fieldBox('Mô tả sản phẩm', esc(forDisplay), 'desc')
   );
 }
 
