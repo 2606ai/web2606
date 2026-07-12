@@ -3632,6 +3632,46 @@ body{
         <strong>Gắn nhận diện lên sản phẩm thế nào?</strong>
         <small>In, dán tem, khắc, đúc, mạ hoặc đóng gói theo bộ quà.</small>
       </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Chọn combo quà tặng theo ngân sách?</strong>
+        <small>Gợi ý mức quà phù hợp theo số lượng, nhóm khách và mục tiêu trao tặng.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Làm mẫu thử trước khi sản xuất được không?</strong>
+        <small>Kiểm tra thiết kế, chất liệu, màu sắc và quy cách hoàn thiện trước khi đặt hàng.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>File logo cần chuẩn bị định dạng nào?</strong>
+        <small>Ưu tiên AI, PDF, SVG hoặc PNG rõ nét để in, khắc, đúc và mạ chính xác hơn.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Thời gian sản xuất quà tặng mất bao lâu?</strong>
+        <small>Phụ thuộc số lượng, độ phức tạp, công nghệ gia công và thời gian duyệt mẫu.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Cá nhân hóa theo từng người nhận thế nào?</strong>
+        <small>Thêm tên, mã nhân viên, lời chúc, QR, số thứ tự hoặc thông điệp riêng.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Đóng gói quà tặng cần lưu ý gì?</strong>
+        <small>Chọn hộp, túi, thiệp, tem niêm phong và cách trình bày theo hình ảnh thương hiệu.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Quà tặng sự kiện nên chọn loại nào?</strong>
+        <small>Ưu tiên sản phẩm dễ nhận diện, dễ vận chuyển, phù hợp chủ đề và thời điểm trao tặng.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Sản phẩm nhận diện thương hiệu gồm gì?</strong>
+        <small>Móc khóa, huy hiệu, tem nhãn, bảng tên, phụ kiện, bao bì và vật phẩm trưng bày.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Đơn hàng số lượng lớn cần chuẩn bị gì?</strong>
+        <small>Danh sách số lượng, deadline, địa điểm giao, yêu cầu chia đợt và người phụ trách.</small>
+      </a>
+      <a href="#" class="seo-guide-link">
+        <strong>Gắn QR hoặc mã chiến dịch lên quà tặng?</strong>
+        <small>Hỗ trợ theo dõi chiến dịch, dẫn về landing page, form đăng ký hoặc nội dung thương hiệu.</small>
+      </a>
     </div>
   </section>
 
@@ -3664,7 +3704,7 @@ body{
       </div>
       <div class="modal-body">
         <section class="quick-party-grid">
-          <div class="quick-party-card">
+          <div class="quick-party-card quick-buyer-card">
             <div class="quick-party-title">Người mua</div>
             <div class="quick-party-fields">
               <div class="quick-logo-name-row">
@@ -3679,7 +3719,7 @@ body{
               <label class="quick-info-line"><span>Email</span><input id="quickEmail" type="email" placeholder="Nhập email"></label>
             </div>
           </div>
-          <div class="quick-party-card">
+          <div class="quick-party-card quick-seller-card">
             <div class="quick-party-title">Người bán</div>
             <div class="quick-party-fields">
               <div class="quick-logo-name-row">
@@ -3759,7 +3799,6 @@ body{
                   <th>Số lượng</th>
                   <th>Đơn giá</th>
                   <th>Thành tiền</th>
-                  <th>Ghi chú</th>
                   <th></th>
                 </tr>
               </thead>
@@ -3767,48 +3806,17 @@ body{
                 <tr>
                   <td class="quick-row-index" data-row="1"></td>
                   <td><input id="quickQuoteName1" type="text" placeholder="Nhập tên sản phẩm"></td>
-                  <td><input id="quickQuoteUnit1" type="text" placeholder="Nhập đơn vị"></td>
+                  <td><input id="quickQuoteUnit1" type="text" value="cái" placeholder="Đơn vị"></td>
                   <td><input id="quickQuoteQty1" type="text" placeholder="Nhập số lượng"></td>
                   <td><input id="quickQuotePrice1" type="text" placeholder="Nhập đơn giá"></td>
                   <td class="quick-line-total">0</td>
-                  <td><input id="quickQuoteNote1" type="text" placeholder="Ghi chú"></td>
-                  <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
-                </tr>
-                <tr>
-                  <td class="quick-row-index" data-row="2"></td>
-                  <td><input id="quickQuoteName2" type="text" placeholder="Nhập tên sản phẩm"></td>
-                  <td><input id="quickQuoteUnit2" type="text" placeholder="Nhập đơn vị"></td>
-                  <td><input id="quickQuoteQty2" type="text" placeholder="Nhập số lượng"></td>
-                  <td><input id="quickQuotePrice2" type="text" placeholder="Nhập đơn giá"></td>
-                  <td class="quick-line-total">0</td>
-                  <td><input id="quickQuoteNote2" type="text" placeholder="Ghi chú"></td>
-                  <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
-                </tr>
-                <tr>
-                  <td class="quick-row-index" data-row="3"></td>
-                  <td><input id="quickQuoteName3" type="text" placeholder="Nhập tên sản phẩm"></td>
-                  <td><input id="quickQuoteUnit3" type="text" placeholder="Nhập đơn vị"></td>
-                  <td><input id="quickQuoteQty3" type="text" placeholder="Nhập số lượng"></td>
-                  <td><input id="quickQuotePrice3" type="text" placeholder="Nhập đơn giá"></td>
-                  <td class="quick-line-total">0</td>
-                  <td><input id="quickQuoteNote3" type="text" placeholder="Ghi chú"></td>
-                  <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
-                </tr>
-                <tr>
-                  <td class="quick-row-index" data-row="4"></td>
-                  <td><input id="quickQuoteName4" type="text" placeholder="Nhập tên sản phẩm"></td>
-                  <td><input id="quickQuoteUnit4" type="text" placeholder="Nhập đơn vị"></td>
-                  <td><input id="quickQuoteQty4" type="text" placeholder="Nhập số lượng"></td>
-                  <td><input id="quickQuotePrice4" type="text" placeholder="Nhập đơn giá"></td>
-                  <td class="quick-line-total">0</td>
-                  <td><input id="quickQuoteNote4" type="text" placeholder="Ghi chú"></td>
                   <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="quick-table-footer">
-            <button type="button" class="quick-add-row-btn" onclick="quickAddQuoteRow()">+ Thêm dòng</button>
+            <button type="button" class="quick-add-row-btn primary" onclick="quickAddQuoteRow()">+ Thêm dòng</button>
             <button type="button" class="quick-add-row-btn" onclick="quickAddQuoteColumn()">+ Thêm cột</button>
             <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastQuoteColumn()">× Xóa cột</button>
             <label class="quick-extra-note">
@@ -3822,9 +3830,7 @@ body{
         <button type="button" class="quick-add-product-btn" onclick="quickAddProductBlock()">+ Thêm sản phẩm</button>
 
         <div class="quick-actions">
-          <button type="button" onclick="quickPrintBrief()">In brief</button>
-          <button type="button" class="secondary" onclick="quickOpenPrint()">Xuất PDF brief</button>
-          <button type="button" class="secondary" onclick="quickSaveBriefData()">Lưu dữ liệu</button>
+          <button type="button" class="secondary" onclick="quickResetBriefForm()">Làm mới</button>
         </div>
       </div>
     </div>
@@ -9887,13 +9893,12 @@ window.switchDesign2 = function(type){
   <div class="container-fluid footer-inner">
     <div class="footer-grid">
       <section class="footer-brand-block">
-        <img
-          src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w800"
-          alt="2606AI logo"
-          class="footer-logo">
-        <h5>2606AI QUÀ TẶNG COMBO</h5>
-        <p>Hệ sinh thái quà tặng doanh nghiệp, ấn phẩm thương hiệu và sản phẩm nhận diện theo yêu cầu.</p>
-        <p class="footer-slogan">"Cùng nhau tạo nên món quà dành riêng cho người nhận"</p>
+        <iframe
+          class="footer-map-frame"
+          title="Bản đồ 2606AI"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=S%E1%BB%91%2087%20%C4%90%C6%B0%E1%BB%9Dng%20s%E1%BB%91%201%2C%20Khu%20ph%E1%BB%91%2025%2C%20Ph%C6%B0%E1%BB%9Dng%20T%C3%A2n%20Thu%E1%BA%ADn%2C%20Th%C3%A0nh%20ph%E1%BB%91%20H%E1%BB%93%20Ch%C3%AD%20Minh%2C%20Vi%E1%BB%87t%20Nam&output=embed"></iframe>
       </section>
 
       <section>
@@ -10929,8 +10934,8 @@ footer.text-light.footer-2606{
   box-shadow:inset 0 1px 0 rgba(255,255,255,.12) !important;
   color:#f8fff8 !important;
   margin:28px auto 0 !important;
-  max-width:1400px;
-  width:calc(100% - 32px) !important;
+  max-width:none;
+  width:100% !important;
 }
 footer.text-light.footer-2606::before,
 footer.text-light.footer-2606::after{
@@ -10943,48 +10948,56 @@ footer.text-light.footer-2606 .small{
   color:rgba(248,255,248,.9) !important;
 }
 .footer-2606 .footer-inner{
-  max-width:1280px !important;
+  max-width:1440px !important;
   margin:0 auto;
-  padding:46px 34px 22px !important;
+  padding:34px 40px 18px !important;
 }
 .footer-2606 .footer-grid{
   display:grid;
-  grid-template-columns:260px minmax(330px,1.18fr) minmax(220px,.9fr) minmax(250px,1fr);
+  grid-template-columns:minmax(340px,1.18fr) minmax(360px,1.05fr) minmax(230px,.76fr) minmax(230px,.72fr);
   justify-content:space-between;
-  gap:28px;
+  gap:30px;
   align-items:start;
 }
 .footer-2606 .footer-brand-block{
-  max-width:330px;
+  max-width:390px;
   margin:0 auto;
   text-align:center;
 }
+.footer-2606 .footer-map-frame{
+  background:#fff;
+  border:0;
+  border-radius:8px;
+  display:block;
+  height:230px;
+  width:100%;
+}
 .footer-2606 .footer-logo{
   display:block;
-  width:min(164px,58vw);
+  width:min(138px,52vw);
   height:auto;
-  margin:0 auto 18px;
+  margin:0 auto 14px;
   object-fit:contain;
 }
 .footer-2606 .footer-brand-block h5{
   color:#fff7c2;
-  font-size:16px;
-  font-weight:680;
+  font-size:14px;
+  font-weight:620;
   letter-spacing:.01em;
-  margin:0 0 10px;
-  white-space:nowrap;
+  line-height:1.32;
+  margin:0 0 8px;
 }
 .footer-2606 .footer-brand-block p{
-  font-size:13px;
-  line-height:1.58;
-  margin:0 0 9px;
+  font-size:12.5px;
+  line-height:1.45;
+  margin:0 0 7px;
 }
 .footer-2606 .footer-slogan{
   color:#fde68a !important;
   display:block;
-  font-size:13px !important;
-  font-weight:600;
-  line-height:1.45 !important;
+  font-size:12.5px !important;
+  font-weight:520;
+  line-height:1.36 !important;
   margin-left:auto !important;
   margin-right:auto !important;
   max-width:310px;
@@ -10992,8 +11005,8 @@ footer.text-light.footer-2606 .small{
 footer.text-light.footer-2606 h6{
   color:#fde68a !important;
   font-size:14px !important;
-  font-weight:680 !important;
-  margin:0 0 18px !important;
+  font-weight:620 !important;
+  margin:0 0 14px !important;
 }
 footer.text-light.footer-2606 h6::after{
   background:linear-gradient(90deg,#fde68a,rgba(253,230,138,0)) !important;
@@ -11020,12 +11033,12 @@ footer.text-light.footer-2606 a:hover{
   padding:0;
 }
 .footer-2606 .footer-info-list li{
-  line-height:1.62;
-  margin-bottom:8px;
+  line-height:1.5;
+  margin-bottom:6px;
 }
 .footer-2606 .footer-link-list{
   display:grid;
-  gap:9px;
+  gap:8px;
 }
 .footer-2606 .footer-link-list a,
 .footer-2606 .footer-link-list span{
@@ -11053,8 +11066,8 @@ footer.text-light.footer-2606 a:hover{
 .footer-2606 .footer-social-links{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
-  margin-top:16px;
+  gap:8px;
+  margin-top:12px;
 }
 .footer-2606 .footer-social-links a{
   align-items:center;
@@ -11062,9 +11075,9 @@ footer.text-light.footer-2606 a:hover{
   border:1px solid rgba(255,255,255,.18);
   border-radius:999px;
   display:inline-flex;
-  height:36px;
+  height:32px;
   justify-content:center;
-  width:36px;
+  width:32px;
 }
 .footer-2606 .zalo-mark{
   color:#fff;
@@ -11078,17 +11091,17 @@ footer.text-light.footer-2606 a:hover{
   flex-wrap:wrap;
   gap:10px 18px;
   justify-content:space-between;
-  margin-top:38px;
-  padding-top:18px;
+  margin-top:28px;
+  padding-top:14px;
   color:rgba(248,255,248,.82);
-  font-size:13px;
+  font-size:12.5px;
 }
 .footer-2606 .footer-bottom strong{
   color:#fde68a;
 }
 @media (min-width: 993px) and (max-width: 1199px){
   footer.text-light.footer-2606{
-    width:calc(100% - 48px) !important;
+    width:100% !important;
   }
   .footer-2606 .footer-inner{
     max-width:100% !important;
@@ -11184,6 +11197,9 @@ footer.text-light.footer-2606 a:hover{
   border:1px solid #bbf7d0;
   border-radius:16px;
   box-shadow:0 12px 32px rgba(22,101,52,.08);
+  display:flex;
+  flex-direction:column;
+  max-height:668px;
   padding:14px;
   position:relative;
 }
@@ -11235,12 +11251,22 @@ footer.text-light.footer-2606 a:hover{
   padding:5px 7px;
   position:absolute;
   right:14px;
-  top:16px;
+  top:20px;
   white-space:nowrap;
 }
 .seo-guide-list{
   display:grid;
   gap:9px;
+  overflow-y:auto;
+  padding-right:4px;
+  scrollbar-width:thin;
+}
+.seo-guide-list::-webkit-scrollbar{
+  width:6px;
+}
+.seo-guide-list::-webkit-scrollbar-thumb{
+  background:rgba(21,128,61,.28);
+  border-radius:999px;
 }
 .seo-guide-link{
   background:rgba(255,255,255,.84);
@@ -11270,6 +11296,15 @@ footer.text-light.footer-2606 a:hover{
   font-size:12px;
   line-height:1.35;
   margin-top:4px;
+}
+@media (max-width: 992px){
+  .seo-guide-box{
+    max-height:none;
+  }
+  .seo-guide-list{
+    overflow:visible;
+    padding-right:0;
+  }
 }
 .quick-drop-zone{
   align-items:center;
@@ -11483,9 +11518,11 @@ footer.text-light.footer-2606 a:hover{
   text-align:center;
   width:54px;
 }
-.quick-quote-table td:nth-child(2),
+.quick-quote-table td:nth-child(2){
+  min-width:220px;
+}
 .quick-quote-table td:nth-child(6){
-  min-width:180px;
+  min-width:120px;
 }
 .quick-quote-table td:nth-child(3),
 .quick-quote-table td:nth-child(4),
@@ -11595,7 +11632,7 @@ footer.text-light.footer-2606 a:hover{
 .quick-actions{
   display:grid;
   gap:8px;
-  grid-template-columns:1fr 1fr 1fr;
+  grid-template-columns:1fr;
   margin-top:12px;
 }
 .quick-actions button{
@@ -12284,6 +12321,24 @@ footer.text-light.footer-2606 a:hover{
 .quick-quote-table td{
   padding:7px 10px;
 }
+.quick-quote-table th:nth-child(2),
+.quick-quote-table td:nth-child(2){
+  min-width:260px;
+}
+.quick-quote-table th:nth-child(3),
+.quick-quote-table td:nth-child(3){
+  min-width:82px;
+  width:92px;
+}
+.quick-quote-table td:nth-child(3) input{
+  min-width:0;
+  text-align:center;
+}
+.quick-quote-table th:nth-child(6),
+.quick-quote-table td:nth-child(6){
+  min-width:120px;
+  width:130px;
+}
 .quick-row-index{
   background:transparent;
   border-radius:0;
@@ -12331,6 +12386,16 @@ footer.text-light.footer-2606 a:hover{
   padding:10px 14px;
   text-align:center;
 }
+.quick-table-footer .quick-add-row-btn.primary{
+  background:#138a3d;
+  border-color:#138a3d;
+  box-shadow:0 8px 18px rgba(19,138,61,.18);
+  color:#fff;
+}
+.quick-table-footer .quick-add-row-btn.primary:hover{
+  background:#0f7834;
+  border-color:#0f7834;
+}
 .quick-table-footer .quick-add-row-btn.danger{
   border-color:#fecaca;
   color:#dc2626;
@@ -12376,9 +12441,6 @@ footer.text-light.footer-2606 a:hover{
 .quick-product-clone .quick-extra-note input{
   width:100%;
 }
-.quick-product-clone .quick-quote-table td:nth-last-child(2){
-  min-width:190px;
-}
 .quick-extra-product-blocks{
   display:grid;
   gap:16px;
@@ -12388,6 +12450,9 @@ footer.text-light.footer-2606 a:hover{
   background:#fbfffd;
   border:1px solid #bbf7d0;
   border-radius:14px;
+  display:grid;
+  gap:10px;
+  grid-template-columns:minmax(420px,.9fr) minmax(560px,1.1fr);
   padding:14px;
 }
 .quick-product-clone-head{
@@ -12399,6 +12464,18 @@ footer.text-light.footer-2606 a:hover{
   justify-content:space-between;
   margin-bottom:12px;
   text-transform:uppercase;
+  grid-column:1 / -1;
+}
+.quick-product-clone .quick-profile-main{
+  display:grid;
+  gap:10px;
+  grid-template-columns:1fr;
+}
+.quick-product-clone .quick-product-table-section{
+  align-self:stretch;
+  display:flex;
+  flex-direction:column;
+  margin-top:0;
 }
 .quick-product-clone-head button{
   background:#fff;
@@ -12429,6 +12506,143 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-request-modal button:not(.btn-close){
   font-weight:600;
+}
+@media (min-width:1100px){
+  .quick-request-modal .modal-dialog{
+    max-width:min(1560px,96vw);
+  }
+  .quick-request-modal .modal-body{
+    display:grid;
+    gap:8px;
+    grid-template-areas:
+      "profile quote"
+      "status quote"
+      "extras extras"
+      "party party"
+      "add add"
+      "actions actions";
+    grid-template-columns:minmax(520px,0.9fr) minmax(620px,1.1fr);
+    padding:10px;
+  }
+  .quick-request-modal .modal-body > .quick-profile-main{
+    align-self:stretch;
+    display:grid;
+    gap:8px;
+    grid-area:profile;
+    grid-template-columns:1fr;
+    min-width:0;
+  }
+  .quick-request-modal .modal-body > .quick-party-grid{
+    align-self:end;
+    display:grid;
+    gap:8px;
+    grid-area:party;
+    grid-template-columns:1fr 1fr;
+    margin:0;
+    min-width:0;
+  }
+  .quick-request-modal .quick-seller-card{
+    order:1;
+  }
+  .quick-request-modal .quick-buyer-card{
+    order:2;
+  }
+  .quick-request-modal #quickVisualPreview{
+    height:auto;
+    min-height:160px;
+  }
+  .quick-request-modal .modal-body > .quick-profile-main .quick-product-fields{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+    min-width:0;
+  }
+  .quick-request-modal .modal-body > .quick-product-table-section{
+    align-self:stretch;
+    display:flex;
+    flex-direction:column;
+    grid-area:quote;
+    margin-top:0;
+    min-width:0;
+  }
+  .quick-request-modal .quick-quote-table-wrap{
+    flex:1;
+  }
+  .quick-request-modal .modal-body > #quickStatus{
+    grid-area:status;
+    margin:0;
+  }
+  .quick-request-modal .modal-body > #quickExtraProductBlocks{
+    grid-area:extras;
+    margin-top:6px;
+  }
+  .quick-request-modal .modal-body > .quick-add-product-btn{
+    grid-area:add;
+    margin:4px auto 0;
+  }
+  .quick-request-modal .modal-body > .quick-actions{
+    align-self:end;
+    display:grid;
+    gap:8px;
+    grid-area:actions;
+    grid-template-columns:minmax(180px,270px);
+    justify-content:center;
+    margin-top:0;
+  }
+  .quick-request-modal .quick-party-card{
+    border-radius:10px;
+    box-shadow:none;
+    padding:7px 8px;
+  }
+  .quick-request-modal .quick-party-title{
+    font-size:12px;
+    margin-bottom:4px;
+  }
+  .quick-request-modal .quick-party-fields{
+    gap:4px;
+  }
+  .quick-request-modal .quick-party-fields .quick-info-line{
+    grid-template-columns:58px 1fr;
+  }
+  .quick-request-modal .quick-info-line span{
+    font-size:10px;
+    padding:5px 6px;
+  }
+  .quick-request-modal .quick-party-fields input,
+  .quick-request-modal .quick-product-name input,
+  .quick-request-modal .quick-description-field textarea,
+  .quick-request-modal .quick-quote-table input,
+  .quick-request-modal .quick-extra-note input{
+    font-size:13px;
+    padding:7px 9px;
+  }
+  .quick-request-modal .quick-logo-name-row{
+    grid-template-columns:40px 1fr;
+  }
+  .quick-request-modal .quick-logo-upload{
+    height:34px;
+  }
+  .quick-request-modal .quick-description-field textarea{
+    min-height:122px;
+  }
+  .quick-request-modal .quick-quote-table th{
+    font-size:12px;
+    padding:9px 8px;
+  }
+  .quick-request-modal .quick-quote-table td{
+    padding:6px 8px;
+  }
+  .quick-request-modal .quick-table-footer{
+    gap:8px;
+    grid-template-columns:116px 116px 104px minmax(220px,1fr);
+    padding:9px 10px 10px;
+  }
+  .quick-request-modal .quick-table-footer .quick-add-row-btn{
+    padding:8px 10px;
+  }
+  .quick-request-modal .quick-extra-note span{
+    font-size:12px;
+  }
 }
 body.quick-exporting .quick-request-modal .modal-content{
   box-shadow:none !important;
@@ -12532,6 +12746,11 @@ body.quick-printing .fab-left-wrapper{
   .quick-drop-zone::before,
   .quick-form-grid{
     animation:none;
+  }
+}
+@media (max-width:1099px){
+  .quick-product-clone{
+    grid-template-columns:1fr;
   }
 }
 @media (max-width:640px){
@@ -12955,10 +13174,9 @@ function quickQuoteRows(){
       qty: quickValue(`quickQuoteQty${index + 1}`),
       unit: quickValue(`quickQuoteUnit${index + 1}`),
       price: quickValue(`quickQuotePrice${index + 1}`),
-      note: quickValue(`quickQuoteNote${index + 1}`),
       custom
     };
-  }).filter(row => row.name || row.qty || row.unit || row.price || row.note || row.custom.length);
+  }).filter(row => row.name || row.qty || row.unit || row.price || row.custom.length);
 }
 
 function quickUpdateQuoteIndexes(){
@@ -12984,12 +13202,11 @@ function quickAddQuoteRow(){
   tr.innerHTML = `
     <td class="quick-row-index" data-row="${index}"></td>
     <td><input id="quickQuoteName${index}" type="text" placeholder="Tên sản phẩm"></td>
-    <td><input id="quickQuoteUnit${index}" type="text" placeholder="cái"></td>
+    <td><input id="quickQuoteUnit${index}" type="text" value="cái" placeholder="Đơn vị"></td>
     <td><input id="quickQuoteQty${index}" type="text" placeholder="${index * 100}"></td>
     <td><input id="quickQuotePrice${index}" type="text" placeholder="Nhập đơn giá"></td>
     <td class="quick-line-total">0</td>
     ${customCells}
-    <td><input id="quickQuoteNote${index}" type="text" placeholder="Ghi chú"></td>
     <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>`;
   body.appendChild(tr);
   quickUpdateQuoteIndexes();
@@ -13001,6 +13218,10 @@ function quickRemoveQuoteRow(button){
   if(!body || !row) return;
   if(body.querySelectorAll('tr').length <= 1){
     row.querySelectorAll('input').forEach(input => { input.value = ''; });
+    row.querySelector('input[id^="quickQuoteUnit"]')?.setAttribute('value', 'cái');
+    const unitInput = row.querySelector('input[id^="quickQuoteUnit"]');
+    if(unitInput) unitInput.value = 'cái';
+    quickUpdateRowTotal(row);
     return;
   }
   row.remove();
@@ -13125,25 +13346,24 @@ function quickAddProductBlock(){
       <div class="quick-quote-table-wrap">
         <table class="quick-quote-table">
           <thead>
-            <tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th><th>Ghi chú</th><th></th></tr>
+            <tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th><th></th></tr>
           </thead>
           <tbody>
-            ${[1,2,3].map(row => `
+            ${[1].map(row => `
               <tr>
                 <td class="quick-row-index" data-row="${row}"></td>
                 <td><input class="quick-clone-name" type="text" placeholder="Nhập tên sản phẩm"></td>
-                <td><input type="text" placeholder="Nhập đơn vị"></td>
+                <td><input type="text" value="cái" placeholder="Đơn vị"></td>
                 <td><input class="quick-clone-qty" type="text" placeholder="Nhập số lượng"></td>
                 <td><input class="quick-clone-price" type="text" placeholder="Nhập đơn giá"></td>
                 <td class="quick-line-total">0</td>
-                <td><input type="text" placeholder="Ghi chú"></td>
                 <td><button type="button" class="quick-row-remove" onclick="quickRemoveCloneRow(this)">×</button></td>
               </tr>`).join('')}
           </tbody>
         </table>
       </div>
       <div class="quick-table-footer">
-        <button type="button" class="quick-add-row-btn" onclick="quickAddCloneRow(this)">+ Thêm dòng</button>
+        <button type="button" class="quick-add-row-btn primary" onclick="quickAddCloneRow(this)">+ Thêm dòng</button>
         <button type="button" class="quick-add-row-btn" onclick="quickAddCloneColumn(this)">+ Thêm cột</button>
         <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastCloneColumn(this)">× Xóa cột</button>
         <label class="quick-extra-note"><span>✎ Ghi chú thêm</span><input type="text" placeholder="Nhập ghi chú thêm (nếu có)..."></label>
@@ -13259,12 +13479,11 @@ function quickAddCloneRow(button){
   tr.innerHTML = `
     <td class="quick-row-index" data-row="${rowIndex}"></td>
     <td><input class="quick-clone-name" type="text" placeholder="Nhập tên sản phẩm"></td>
-    <td><input type="text" placeholder="Nhập đơn vị"></td>
+    <td><input type="text" value="cái" placeholder="Đơn vị"></td>
     <td><input class="quick-clone-qty" type="text" placeholder="Nhập số lượng"></td>
     <td><input class="quick-clone-price" type="text" placeholder="Nhập đơn giá"></td>
     <td class="quick-line-total">0</td>
     ${customCells}
-    <td><input type="text" placeholder="Ghi chú"></td>
     <td><button type="button" class="quick-row-remove" onclick="quickRemoveCloneRow(this)">×</button></td>`;
   tbody.appendChild(tr);
 }
@@ -13305,6 +13524,8 @@ function quickRemoveCloneRow(button){
   if(!tbody || !row) return;
   if(tbody.querySelectorAll('tr').length <= 1){
     row.querySelectorAll('input').forEach(input => { input.value = ''; });
+    const unitInput = row.querySelector('td:nth-child(3) input');
+    if(unitInput) unitInput.value = 'cái';
     quickUpdateRowTotal(row);
     return;
   }
@@ -13333,7 +13554,7 @@ function quickData(){
     qty: quoteRows.length
       ? quoteRows.map(row => {
           const customText = (row.custom || []).map(item => `${item.title}: ${item.value}`).join(' - ');
-          return [row.stt, row.name, row.qty, row.unit, row.price, customText, row.note].filter(Boolean).join(' - ');
+          return [row.stt, row.name, row.qty, row.unit, row.price, customText].filter(Boolean).join(' - ');
         }).join(' | ')
       : 'Chưa nhập',
     size: quickValue('quickSize') || 'Chưa nhập',
@@ -13435,6 +13656,64 @@ function quickToggleVoiceInput(button){
 function quickSetStatus(message){
   const status = document.getElementById('quickStatus');
   if(status) status.textContent = message;
+}
+
+function quickDefaultSellerLogoHtml(){
+  return `<img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w160" alt="2606AI" referrerpolicy="no-referrer" onerror="this.onerror=null;this.replaceWith(document.createTextNode('2606AI'))">`;
+}
+
+function quickDefaultQuoteRowHtml(){
+  return `
+    <tr>
+      <td class="quick-row-index" data-row="1"></td>
+      <td><input id="quickQuoteName1" type="text" placeholder="Nhập tên sản phẩm"></td>
+      <td><input id="quickQuoteUnit1" type="text" value="cái" placeholder="Đơn vị"></td>
+      <td><input id="quickQuoteQty1" type="text" placeholder="Nhập số lượng"></td>
+      <td><input id="quickQuotePrice1" type="text" placeholder="Nhập đơn giá"></td>
+      <td class="quick-line-total">0</td>
+      <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
+    </tr>`;
+}
+
+function quickResetBriefForm(){
+  const sellerDefaults = {
+    quickSellerName:'CÔNG TY TNHH MTV HỆ SINH THÁI THƯƠNG MẠI 2606AI VIỆT NAM',
+    quickSellerAddress:'Số 87 Đường số 1, Khu phố 25, Phường Tân Thuận, Thành phố Hồ Chí Minh, Việt Nam',
+    quickSellerPhone:'0775 238 306 - Mr. Đăng Em',
+    quickSellerEmail:'Info2606ai.vn@gmail.com'
+  };
+  document.querySelectorAll('#quickRequestModal input, #quickRequestModal textarea').forEach(field => {
+    if(field.type === 'file'){
+      field.value = '';
+      return;
+    }
+    field.value = sellerDefaults[field.id] || '';
+  });
+  const buyerLogoBox = document.getElementById('quickBuyerLogoPreview')?.closest('.quick-logo-upload');
+  const buyerLogo = document.getElementById('quickBuyerLogoPreview');
+  if(buyerLogo) buyerLogo.textContent = 'Logo';
+  buyerLogoBox?.classList.remove('has-logo');
+  const sellerLogoBox = document.getElementById('quickSellerLogoPreview')?.closest('.quick-logo-upload');
+  const sellerLogo = document.getElementById('quickSellerLogoPreview');
+  if(sellerLogo) sellerLogo.innerHTML = quickDefaultSellerLogoHtml();
+  sellerLogoBox?.classList.add('has-logo');
+  const preview = document.getElementById('quickVisualPreview');
+  if(preview){
+    preview.classList.remove('has-many', 'has-file');
+    preview.innerHTML = '<span>☁</span><strong>Tải file lên</strong><small>Kéo thả file vào đây<br>hoặc chọn file để tải lên</small><em>Hỗ trợ: .jpg, .png, .pdf, .ai, .zip</em>';
+  }
+  window.quickRequestFiles = [];
+  window.quickCustomQuoteCols = 0;
+  document.querySelectorAll('.quick-quote-table th.quick-custom-col, #quickQuoteBody .quick-custom-cell').forEach(el => el.remove());
+  const quoteBody = document.getElementById('quickQuoteBody');
+  if(quoteBody) quoteBody.innerHTML = quickDefaultQuoteRowHtml();
+  const extraBlocks = document.getElementById('quickExtraProductBlocks');
+  if(extraBlocks) extraBlocks.innerHTML = '';
+  quickSwitchDescTab('free');
+  quickUpdateAllTotals();
+  window.quickBriefState = {};
+  quickEnsureBriefMeta();
+  quickSetStatus('Đã làm mới brief. Bạn có thể nhập thông tin mới.');
 }
 
 function quickDownloadBlob(blob, filename){
@@ -13567,15 +13846,14 @@ function quickGetTableRows(tbodySelector){
       unit: cells[2]?.querySelector('input')?.value?.trim() || '',
       qty: cells[3]?.querySelector('input')?.value?.trim() || '',
       price: cells[4]?.querySelector('input')?.value?.trim() || '',
-      total: tr.querySelector('.quick-line-total')?.textContent?.trim() || '0',
-      note: cells[cells.length - 2]?.querySelector('input')?.value?.trim() || ''
+      total: tr.querySelector('.quick-line-total')?.textContent?.trim() || '0'
     };
-  }).filter(row => row.name || row.unit || row.qty || row.price || row.note);
+  }).filter(row => row.name || row.unit || row.qty || row.price);
 }
 
 function quickPrintRowsHtml(rows){
   if(!rows.length){
-    return '<tr><td colspan="7" class="muted">Chưa có dòng báo giá.</td></tr>';
+    return '<tr><td colspan="6" class="muted">Chưa có dòng báo giá.</td></tr>';
   }
   return rows.map(row => `
     <tr>
@@ -13585,7 +13863,6 @@ function quickPrintRowsHtml(rows){
       <td class="num">${quickPrintText(row.qty, '')}</td>
       <td class="num">${quickPrintText(row.price, '')}</td>
       <td class="num">${quickPrintText(row.total, '')}</td>
-      <td>${quickPrintText(row.note, '')}</td>
     </tr>`).join('');
 }
 
@@ -13633,10 +13910,9 @@ function quickExtraProductPrintData(){
         unit: cells[2]?.querySelector('input')?.value?.trim() || '',
         qty: cells[3]?.querySelector('input')?.value?.trim() || '',
         price: cells[4]?.querySelector('input')?.value?.trim() || '',
-        total: tr.querySelector('.quick-line-total')?.textContent?.trim() || '0',
-        note: cells[cells.length - 2]?.querySelector('input')?.value?.trim() || ''
+        total: tr.querySelector('.quick-line-total')?.textContent?.trim() || '0'
       };
-    }).filter(row => row.name || row.unit || row.qty || row.price || row.note);
+    }).filter(row => row.name || row.unit || row.qty || row.price);
     const extraNote = block.querySelector('.quick-extra-note input')?.value?.trim() || '';
     return {title, name, desc, rows, extraNote};
   }).filter(item => item.name || item.desc || item.rows.length || item.extraNote);
@@ -13669,7 +13945,7 @@ function quickBriefPrintHtml(data){
       <div class="desc-line"><strong>Tên sản phẩm:</strong> ${quickPrintText(product.name)}</div>
       <div class="desc">${quickPrintText(product.desc, 'Chưa có mô tả')}</div>
       <table>
-        <thead><tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th><th>Ghi chú</th></tr></thead>
+        <thead><tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
         <tbody>${quickPrintRowsHtml(product.rows)}</tbody>
       </table>
       ${product.extraNote ? `<div class="note"><strong>Ghi chú thêm:</strong> ${quickPrintText(product.extraNote, '')}</div>` : ''}
@@ -13785,7 +14061,7 @@ function quickBriefPrintHtml(data){
         </div>
       </div>
       <table>
-        <thead><tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th><th>Ghi chú</th></tr></thead>
+        <thead><tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
         <tbody>${quickPrintRowsHtml(mainRows)}</tbody>
       </table>
       ${data.productOther && data.productOther !== 'Chưa nhập' ? `<div class="note"><strong>Ghi chú thêm:</strong> ${quickPrintText(data.productOther, '')}</div>` : ''}
@@ -13805,7 +14081,7 @@ function quickBriefPrintHtml(data){
 async function quickPrintBrief(){
   const printWindow = window.open('', '_blank', 'width=1100,height=850');
   if(!printWindow){
-    quickSetStatus('Trình duyệt đang chặn cửa sổ in. Hãy cho phép popup rồi bấm In brief lại.');
+    quickSetStatus('Tính năng in đang tạm ẩn để ưu tiên hoàn thiện giao diện.');
     return;
   }
   printWindow.document.open();
@@ -13885,16 +14161,34 @@ async function quickOpenPrint(){
 
 function updateSeoGuideCounter(){
   const counter = document.getElementById('seoGuideCounter');
+  const list = document.querySelector('.seo-guide-list');
   const links = Array.from(document.querySelectorAll('.seo-guide-list .seo-guide-link'));
   if(!counter || !links.length) return;
-  const visible = links.filter(link => {
+  const activeLinks = links.filter(link => {
     const style = window.getComputedStyle(link);
     return !link.hidden && !link.classList.contains('d-none') && style.display !== 'none' && style.visibility !== 'hidden';
-  }).length;
-  counter.textContent = `${visible}/${links.length}`;
+  });
+  if(!activeLinks.length){
+    counter.textContent = `0/${links.length}`;
+    return;
+  }
+  const viewport = list?.getBoundingClientRect();
+  let lastVisible = 0;
+  if(viewport){
+    activeLinks.forEach((link, index) => {
+      const rect = link.getBoundingClientRect();
+      const isVisible = rect.bottom > viewport.top + 4 && rect.top < viewport.bottom - 4;
+      if(isVisible) lastVisible = index + 1;
+    });
+  }
+  counter.textContent = `${lastVisible || activeLinks.length}/${links.length}`;
 }
 
 updateSeoGuideCounter();
+document.querySelector('.seo-guide-list')?.addEventListener('scroll', () => {
+  window.requestAnimationFrame(updateSeoGuideCounter);
+});
+window.addEventListener('resize', updateSeoGuideCounter);
 </script>
 </body>
 </html> 
