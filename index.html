@@ -105,50 +105,14 @@ footer.text-light .container-fluid{
   display:flex;
   align-items:center;
   gap:14px;
-  padding-left:0;
-  padding-right:0;
+  padding-left:12px;
+  padding-right:12px;
 }
 .site-header img.logo{width:84px;aspect-ratio:3/2;object-fit:contain;cursor:pointer}
-.header-brand-copy{
-  display:flex;
-  flex:0 0 350px;
-  flex-direction:column;
-  justify-content:center;
-  min-width:240px;
-  line-height:1.16;
-}
-.header-brand-copy strong{
-  color:#263e99;
-  font-size:15px;
-  font-weight:700;
-  letter-spacing:.1px;
-  white-space:nowrap;
-}
-.header-brand-copy span{
-  color:#475569;
-  font-size:12px;
-  font-weight:500;
-  margin-top:2px;
-  white-space:nowrap;
-}
-.header-search{flex:1 1 auto;min-width:280px}
+.header-search{flex:1;min-width:280px}
 .header-search .form-control{font-size:13px;padding:6px 10px}
 @media (max-width:992px){
 .site-header img.logo{width:72px}
-.header-brand-copy{
-  flex-basis:300px;
-}
-.header-brand-copy strong{
-  font-size:13px;
-}
-.header-brand-copy span{
-  font-size:11px;
-}
-}
-@media (max-width:768px){
-.header-brand-copy{
-  display:none;
-}
 }
 
 /* ---- Top banner (marquee) ---- */
@@ -491,6 +455,234 @@ footer.text-light .container-fluid{
 }
 .filter-tag:hover{background:#eef3ff;border-color:#b3c8ff}
 .filter-tag.active{background:var(--main-grad);color:#fff;border-color:var(--main);box-shadow:0 2px 8px rgba(0,24,168,.25)}
+
+#filterPanel{
+  width:min(460px, 100vw);
+}
+#filterPanel .offcanvas-header{
+  position:sticky;
+  top:0;
+  z-index:5;
+  background:#fff;
+  border-bottom:1px solid #e6f1e8;
+  box-shadow:0 6px 18px rgba(15,23,42,.06);
+  padding:16px 18px 12px;
+}
+#filterPanelLabel{
+  color:#1f2937;
+  font-size:22px;
+  font-weight:600;
+  letter-spacing:0;
+}
+#filterPanel .offcanvas-body{
+  padding:12px 18px 16px;
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:#cfe6d4 transparent;
+}
+#clearFiltersBtn{
+  border:0;
+  border-radius:12px;
+  background:#e8f4eb;
+  color:#2e7d32;
+  font-weight:600;
+  padding:8px 14px;
+}
+#clearFiltersBtn.has-active{
+  background:#2e7d32;
+  color:#fff;
+}
+.filter-panel-search{
+  position:sticky;
+  top:0;
+  z-index:3;
+  background:#fff;
+  padding:0 0 10px;
+}
+.filter-panel-search input{
+  border:1px solid #d7e8dc;
+  border-radius:14px;
+  box-shadow:none;
+  font-size:14px;
+  height:42px;
+}
+.filter-section{
+  border:1px solid #e2f2e7;
+  border-radius:16px;
+  background:linear-gradient(180deg,#fff,#fbfffc);
+  margin-bottom:10px;
+  overflow:hidden;
+}
+.filter-section-toggle{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:#216a2b;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:12px 14px;
+  text-align:left;
+}
+.filter-section-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-width:0;
+  font-size:14px;
+  font-weight:650;
+  text-transform:uppercase;
+}
+.filter-section-arrow{
+  color:#2e7d32;
+  font-size:13px;
+  transition:transform .2s ease;
+}
+.filter-section-count{
+  color:#7b8b83;
+  font-size:12px;
+  font-weight:600;
+}
+.filter-section.collapsed .filter-section-arrow{
+  transform:rotate(-90deg);
+}
+.filter-section-body{
+  max-height:520px;
+  opacity:1;
+  padding:0 14px 14px;
+  transition:max-height .22s ease, opacity .18s ease, padding .2s ease;
+}
+.filter-section.collapsed .filter-section-body{
+  max-height:0;
+  opacity:0;
+  padding-top:0;
+  padding-bottom:0;
+  overflow:hidden;
+}
+#filterPanel .filter-box-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:0;
+}
+#filterPanel .filter-tag{
+  align-items:center;
+  background:#fff;
+  border:1px solid #2e7d32;
+  border-radius:20px;
+  color:#2e7d32;
+  cursor:pointer;
+  display:inline-flex;
+  font-size:13px;
+  font-weight:500;
+  line-height:1.25;
+  max-width:100%;
+  min-height:36px;
+  padding:7px 14px;
+  transition:background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease;
+  white-space:normal;
+  word-break:break-word;
+}
+#filterPanel .filter-tag:hover{
+  background:#f0faf3;
+  border-color:#2e7d32;
+  color:#216a2b;
+}
+#filterPanel .filter-tag.active{
+  background:#2e7d32;
+  border-color:#2e7d32;
+  box-shadow:none;
+  color:#fff;
+}
+.filter-more{
+  border:0;
+  background:transparent;
+  color:#2e7d32;
+  font-size:13px;
+  font-weight:650;
+  padding:8px 4px 0;
+}
+.filter-empty{
+  color:#64748b;
+  display:none;
+  font-size:13px;
+  padding:16px 4px;
+  text-align:center;
+}
+.filter-selected-panel{
+  background:#f6fbf7;
+  border:1px solid #d7efdc;
+  border-radius:16px;
+  display:none;
+  margin-top:12px;
+  padding:12px;
+}
+.filter-selected-panel.is-visible{
+  display:block;
+}
+.filter-selected-head{
+  align-items:center;
+  color:#216a2b;
+  display:flex;
+  font-size:13px;
+  font-weight:650;
+  justify-content:space-between;
+  margin-bottom:8px;
+  text-transform:uppercase;
+}
+.filter-selected-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.filter-selected-chip{
+  align-items:center;
+  background:#fff;
+  border:1px solid #bfe6c8;
+  border-radius:999px;
+  color:#216a2b;
+  display:inline-flex;
+  font-size:13px;
+  font-weight:500;
+  gap:6px;
+  max-width:100%;
+  padding:6px 10px 6px 12px;
+}
+.filter-selected-chip button{
+  align-items:center;
+  background:#e8f4eb;
+  border:0;
+  border-radius:999px;
+  color:#216a2b;
+  display:inline-flex;
+  height:18px;
+  justify-content:center;
+  line-height:1;
+  padding:0;
+  width:18px;
+}
+.filter-clear-all-wide{
+  background:#2e7d32;
+  border:0;
+  border-radius:14px;
+  color:#fff;
+  display:none;
+  font-size:14px;
+  font-weight:600;
+  margin-top:10px;
+  min-height:40px;
+  width:100%;
+}
+.filter-clear-all-wide.is-visible{
+  display:block;
+}
+@media (max-width:575.98px){
+  #filterPanel{ width:100vw; }
+  #filterPanelLabel{ font-size:20px; }
+  #filterPanel .offcanvas-header{ padding-right:14px; }
+  #filterPanel .offcanvas-body{ padding-right:18px; }
+}
 
 
 
@@ -2025,7 +2217,6 @@ footer.text-light .bi{ color:#fff; }
   flex-direction:column;
   gap:2px;
   justify-content:center;
-  display:none;
   margin:-4px auto 6px;
   max-width:760px;
   min-height:0;
@@ -3286,11 +3477,6 @@ body{
     onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2284%22 height=%2256%22 viewBox=%220 0 84 56%22><rect width=%2284%22 height=%2256%22 rx=%229%22 fill=%22%23ffffff%22/><text x=%2250%25%22 y=%2252%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial,Helvetica,sans-serif%22 font-size=%2216%22 fill=%22%232e7d32%22>2606AI</text></svg>';">
 </a>
 
-    <div class="header-brand-copy" aria-label="Định vị thương hiệu 2606AI">
-      <strong>QUÀ TẶNG COMBO CÁ NHÂN HÓA</strong>
-      <span>"Luôn luôn mang đến nhiều hơn một giá trị"</span>
-    </div>
-
     <form id="filter-form" class="header-search d-flex gap-2 m-0" onsubmit="return false;">
   <div class="input-group w-100">
     <input id="searchBox" class="form-control"
@@ -4455,12 +4641,58 @@ document.addEventListener('click', (ev)=>{
     </div>
   </div>
   <div class="offcanvas-body">
-    <h6>NHÓM DANH MỤC</h6><div id="brandBox" class="mb-3"></div>
-    <h6>NỘI DUNG</h6><div id="typeBox" class="mb-3"></div>
-    <h6>HÀNH ĐỘNG</h6><div id="loaiBox" class="mb-3"></div>
-    <h6>SỰ KIỆN</h6><div id="noteBox" class="mb-3"></div>
-     <h6>XEM THÊM</h6><div id="groupBox" class="mb-3"></div>
+    <div class="filter-panel-search">
+      <input id="filterPanelSearch" class="form-control" type="search" placeholder="Tìm trong bộ lọc..." autocomplete="off">
+    </div>
+    <div id="filterPanelEmpty" class="filter-empty">Không tìm thấy bộ lọc phù hợp</div>
 
+    <section class="filter-section" data-filter-section="brandBox">
+      <button type="button" class="filter-section-toggle" data-filter-toggle="brandBox">
+        <span class="filter-section-title"><span class="filter-section-arrow">▼</span> NHÓM DANH MỤC</span>
+        <span class="filter-section-count" data-filter-count="brandBox">(0)</span>
+      </button>
+      <div class="filter-section-body"><div id="brandBox"></div></div>
+    </section>
+
+    <section class="filter-section" data-filter-section="typeBox">
+      <button type="button" class="filter-section-toggle" data-filter-toggle="typeBox">
+        <span class="filter-section-title"><span class="filter-section-arrow">▼</span> NỘI DUNG</span>
+        <span class="filter-section-count" data-filter-count="typeBox">(0)</span>
+      </button>
+      <div class="filter-section-body"><div id="typeBox"></div></div>
+    </section>
+
+    <section class="filter-section collapsed" data-filter-section="loaiBox">
+      <button type="button" class="filter-section-toggle" data-filter-toggle="loaiBox">
+        <span class="filter-section-title"><span class="filter-section-arrow">▼</span> HÀNH ĐỘNG</span>
+        <span class="filter-section-count" data-filter-count="loaiBox">(0)</span>
+      </button>
+      <div class="filter-section-body"><div id="loaiBox"></div></div>
+    </section>
+
+    <section class="filter-section collapsed" data-filter-section="noteBox">
+      <button type="button" class="filter-section-toggle" data-filter-toggle="noteBox">
+        <span class="filter-section-title"><span class="filter-section-arrow">▼</span> SỰ KIỆN</span>
+        <span class="filter-section-count" data-filter-count="noteBox">(0)</span>
+      </button>
+      <div class="filter-section-body"><div id="noteBox"></div></div>
+    </section>
+
+    <section class="filter-section collapsed" data-filter-section="groupBox">
+      <button type="button" class="filter-section-toggle" data-filter-toggle="groupBox">
+        <span class="filter-section-title"><span class="filter-section-arrow">▼</span> XEM THÊM</span>
+        <span class="filter-section-count" data-filter-count="groupBox">(0)</span>
+      </button>
+      <div class="filter-section-body"><div id="groupBox"></div></div>
+    </section>
+
+    <div id="filterSelectedPanel" class="filter-selected-panel">
+      <div class="filter-selected-head">
+        <span id="filterSelectedTitle">ĐÃ CHỌN (0)</span>
+      </div>
+      <div id="filterSelectedList" class="filter-selected-list"></div>
+      <button type="button" id="filterClearAllWide" class="filter-clear-all-wide">Xóa tất cả bộ lọc</button>
+    </div>
   </div>
 </div>
 
@@ -7545,14 +7777,135 @@ function selectCategory(val){
 function buildFilterBox(boxId, items, field){
   const box=document.getElementById(boxId);
   if(!box) return;
-  box.classList.add("filter-box-group");
-  box.innerHTML=(items||[]).map(val=>`
-    <div class="filter-tag ${state[field]===val?'active':''}"
-      data-action="set-filter" data-field="${field}" data-val="${esc(val)}" role="button" tabindex="0">
-      ${esc(val||'Tất cả')}
-    </div>
+  window._filterBoxData = window._filterBoxData || {};
+  window._filterBoxData[boxId] = {
+    field,
+    items: Array.from(new Set((items || []).filter(v => v != null && String(v).trim() !== '').map(v => String(v).trim())))
+  };
+  renderFilterBox(boxId);
+  renderSelectedFiltersPanel();
+  updateFilterPanelClearState();
+}
+
+function filterTextNorm(value){
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .replace(/đ/g,'d')
+    .replace(/\s+/g,' ')
+    .trim();
+}
+
+function renderFilterBox(boxId){
+  const box = document.getElementById(boxId);
+  const data = window._filterBoxData?.[boxId];
+  if(!box || !data) return;
+
+  const query = filterTextNorm(document.getElementById('filterPanelSearch')?.value || '');
+  const expanded = box.dataset.expanded === '1';
+  const selected = state[data.field] || '';
+  const allItems = data.items || [];
+  let visibleItems = query
+    ? allItems.filter(item => filterTextNorm(item).includes(query))
+    : allItems.slice();
+
+  if(!query && !expanded && visibleItems.length > 8){
+    const firstItems = visibleItems.slice(0, 8);
+    if(selected && !firstItems.includes(selected) && visibleItems.includes(selected)){
+      firstItems.push(selected);
+    }
+    visibleItems = firstItems;
+  }
+
+  box.classList.add('filter-box-group');
+  box.innerHTML = visibleItems.map(val => {
+    const isActive = state[data.field] === val;
+    const label = `${isActive ? '✓ ' : ''}${val || 'Tất cả'}`;
+    return `
+      <div class="filter-tag ${isActive ? 'active' : ''}"
+        data-action="set-filter" data-field="${data.field}" data-val="${esc(val)}" role="button" tabindex="0">
+        ${esc(label)}
+      </div>
+    `;
+  }).join('');
+
+  if(!query && allItems.length > 8){
+    const moreCount = Math.max(0, allItems.length - 8);
+    box.insertAdjacentHTML('beforeend', `
+      <button type="button" class="filter-more" data-filter-more="${boxId}">
+        ${expanded ? '− Thu gọn' : `+ Xem thêm (${moreCount})`}
+      </button>
+    `);
+  }
+
+  const countEl = document.querySelector(`[data-filter-count="${boxId}"]`);
+  if(countEl) countEl.textContent = `(${allItems.length})`;
+
+  const section = document.querySelector(`[data-filter-section="${boxId}"]`);
+  if(section){
+    section.hidden = !!query && visibleItems.length === 0;
+    if(query && visibleItems.length > 0) section.classList.remove('collapsed');
+  }
+}
+
+function renderAllFilterBoxes(){
+  Object.keys(window._filterBoxData || {}).forEach(renderFilterBox);
+  updateFilterSearchEmpty();
+  renderSelectedFiltersPanel();
+  updateFilterPanelClearState();
+}
+
+function updateFilterSearchEmpty(){
+  const query = filterTextNorm(document.getElementById('filterPanelSearch')?.value || '');
+  const empty = document.getElementById('filterPanelEmpty');
+  if(!empty) return;
+  const hasVisible = Array.from(document.querySelectorAll('#filterPanel [data-filter-section]'))
+    .some(section => !section.hidden);
+  empty.style.display = query && !hasVisible ? 'block' : 'none';
+}
+
+function getSelectedFilterRows(){
+  const labels = {
+    category:'Nhóm danh mục',
+    type:'Nội dung',
+    loai:'Hành động',
+    note:'Sự kiện',
+    group:'Xem thêm'
+  };
+  return ['category','type','loai','note','group']
+    .filter(field => state[field])
+    .map(field => ({ field, label: labels[field] || field, value: state[field] }));
+}
+
+function renderSelectedFiltersPanel(){
+  const panel = document.getElementById('filterSelectedPanel');
+  const list = document.getElementById('filterSelectedList');
+  const title = document.getElementById('filterSelectedTitle');
+  const clearWide = document.getElementById('filterClearAllWide');
+  if(!panel || !list || !title) return;
+  const rows = getSelectedFilterRows();
+  panel.classList.toggle('is-visible', rows.length > 0);
+  if(clearWide) clearWide.classList.toggle('is-visible', rows.length > 0);
+  title.textContent = `ĐÃ CHỌN (${rows.length})`;
+  list.innerHTML = rows.map(row => `
+    <span class="filter-selected-chip">
+      ${esc(row.value)}
+      <button type="button" data-filter-remove="${row.field}" aria-label="Xóa ${esc(row.value)}">×</button>
+    </span>
   `).join('');
 }
+
+function updateFilterPanelClearState(){
+  const hasActive = getSelectedFilterRows().length > 0;
+  const clearBtn = document.getElementById('clearFiltersBtn');
+  if(clearBtn){
+    clearBtn.classList.toggle('has-active', hasActive);
+    clearBtn.disabled = !hasActive;
+    clearBtn.textContent = hasActive ? 'Xóa tất cả' : 'Xóa';
+  }
+}
+
 function updateFilterCount(){
   // Đếm tổng số bộ lọc đang được áp dụng
   let c = 0;
@@ -7569,6 +7922,8 @@ function updateFilterCount(){
     fb.textContent = c > 99 ? '99+' : String(c);
     fb.style.display = c > 0 ? 'inline-block' : 'none';
   }
+  if (typeof updateFilterPanelClearState === 'function') updateFilterPanelClearState();
+  if (typeof renderSelectedFiltersPanel === 'function') renderSelectedFiltersPanel();
 }
 /* Đồng bộ trạng thái active cho CẢ 2 dải danh mục (trên + dưới) */
 function syncQuickCatsActive(){
@@ -8451,6 +8806,7 @@ document.addEventListener('click', (ev) => {
     state.page = 1;
     fetchPage();
     updateFilterCount();
+    if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
     return;
   }
 
@@ -8537,24 +8893,64 @@ function clearAllFilters(){
   Object.assign(state, { type:'', loai:'', note:'', category:'', group:'', q:'', sdt:'', page:1 });
 //                                           ↑ THÊM sdt:''
   const sb = document.getElementById('searchBox'); if (sb) sb.value = '';
+  const fs = document.getElementById('filterPanelSearch'); if (fs) fs.value = '';
   document.querySelectorAll('.group-chip.active, .category-item.active, .filter-tag.active')
     .forEach(el => el.classList.remove('active'));
   if (typeof updateGroupUI === 'function') updateGroupUI();
   if (typeof updateGroupDots === 'function') updateGroupDots();
   if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
   if (typeof updateFilterCount === 'function') updateFilterCount();
+  if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
   fetchPage();
 }
 
 // Gắn sự kiện an toàn (nếu thiếu nút sẽ không lỗi)
 document.getElementById('clearFiltersBtn')?.addEventListener('click', clearAllFilters);
 document.getElementById('clearFiltersBtn2')?.addEventListener('click', clearAllFilters);
+document.getElementById('filterClearAllWide')?.addEventListener('click', clearAllFilters);
+
+document.getElementById('filterPanelSearch')?.addEventListener('input', () => {
+  if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
+});
+
+document.getElementById('filterPanel')?.addEventListener('click', (event) => {
+  const toggle = event.target.closest('[data-filter-toggle]');
+  if (toggle) {
+    const section = document.querySelector(`[data-filter-section="${toggle.dataset.filterToggle}"]`);
+    section?.classList.toggle('collapsed');
+    return;
+  }
+
+  const more = event.target.closest('[data-filter-more]');
+  if (more) {
+    const box = document.getElementById(more.dataset.filterMore);
+    if (box) {
+      box.dataset.expanded = box.dataset.expanded === '1' ? '0' : '1';
+      renderFilterBox(more.dataset.filterMore);
+    }
+    return;
+  }
+
+  const remove = event.target.closest('[data-filter-remove]');
+  if (remove) {
+    const field = remove.dataset.filterRemove;
+    if (field && Object.prototype.hasOwnProperty.call(state, field)) {
+      state[field] = '';
+      state.page = 1;
+      fetchPage();
+      updateFilterCount();
+      if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
+    }
+  }
+});
 
 /* Helper setFilter */
 function setFilter(key, val){
   state[key] = (val == null ? '' : String(val));
   state.page = 1;
   fetchPage();
+  if (typeof updateFilterCount === 'function') updateFilterCount();
+  if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
 }
 // ===== Mini captcha cho form gửi đơn =====
 let orderCaptchaAnswer = null;
