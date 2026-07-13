@@ -3685,22 +3685,27 @@ body{
           <div class="quick-storage-brand">
             <span class="quick-storage-mark">↗</span>
             <div>
-              <h5 class="modal-title">2606AI TIỆN ÍCH LƯU TRỮ</h5>
+              <h5 class="modal-title">BÁO GIÁ KHÁCH HÀNG</h5>
               <small>Tạo Profile sản phẩm để sử dụng, lưu trữ và tra cứu thông tin nhanh chóng</small>
             </div>
           </div>
         </div>
-        <div class="quick-storage-meta">
+        <div class="quick-storage-center">
           <div class="quick-storage-line">
             <span>ID: <strong id="quickBriefCode">Đang tạo</strong></span>
             <span id="quickBriefTime">Đang ghi nhận</span>
           </div>
+        </div>
+        <div class="quick-storage-meta">
           <button type="button" class="quick-storage-place" onclick="quickChooseStorageLocation()">
             <span>Nơi lưu File</span>
             <strong id="quickStorageLink">Bấm để chọn nơi lưu file</strong>
           </button>
         </div>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        <div class="quick-header-actions">
+          <button type="button" class="quick-view-toggle" id="quickViewToggle" onclick="quickToggleViewMode()" aria-label="Chế độ xem nội dung" aria-pressed="false">👁</button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
+        </div>
       </div>
       <div class="modal-body">
         <section class="quick-party-grid">
@@ -3752,13 +3757,9 @@ body{
             <label class="quick-description-field">
               <span class="quick-description-label">
                 <b>✎ Mô tả sản phẩm</b>
-                <span class="quick-desc-tabs" role="tablist" aria-label="Kiểu nhập nội dung">
-                  <button type="button" class="active" data-quick-desc-tab="free" onclick="quickSwitchDescTab('free')">Mô tả tự do</button>
-                  <button type="button" data-quick-desc-tab="standard" onclick="quickSwitchDescTab('standard')">Bố cục chuẩn</button>
-                </span>
                 <button type="button" class="quick-voice-btn" onclick="quickToggleVoiceInput()">🎙 Nói để nhập</button>
               </span>
-              <textarea id="quickNote" class="quick-desc-free" rows="6" placeholder="Mô tả bất kỳ những gì bạn nghĩ về sản phẩm, chất liệu, màu sắc, logo, đóng gói, thời gian cần nhận..."></textarea>
+              <textarea id="quickNote" class="quick-desc-free" rows="6" placeholder="1. Thông tin về hình dạng kích thước sản phẩm&#10;2. Đặc tính cần có của sản phẩm&#10;3. Những gì bạn có và cần của sản phẩm&#10;4. Các yêu cầu khác..."></textarea>
               <div id="quickStandardForm" class="quick-standard-form" hidden>
                 <div class="quick-standard-title">Bố cục chuẩn</div>
                 <div class="quick-standard-grid">
@@ -3805,24 +3806,55 @@ body{
               <tbody id="quickQuoteBody">
                 <tr>
                   <td class="quick-row-index" data-row="1"></td>
-                  <td><input id="quickQuoteName1" type="text" placeholder="Nhập tên sản phẩm"></td>
+                  <td><input id="quickQuoteName1" type="text"></td>
                   <td><input id="quickQuoteUnit1" type="text" value="cái" placeholder="Đơn vị"></td>
-                  <td><input id="quickQuoteQty1" type="text" placeholder="Nhập số lượng"></td>
-                  <td><input id="quickQuotePrice1" type="text" placeholder="Nhập đơn giá"></td>
+                  <td><input id="quickQuoteQty1" type="text"></td>
+                  <td><input id="quickQuotePrice1" type="text"></td>
                   <td class="quick-line-total">0</td>
                   <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
                 </tr>
               </tbody>
+              <tfoot>
+                <tr class="quick-services-row">
+                  <td colspan="7">
+                    <div class="quick-services-panel">
+                      <div class="quick-services-title">Dịch vụ đi kèm</div>
+                      <table class="quick-services-table">
+                        <thead>
+                          <tr><th></th><th>Tên dịch vụ</th><th>Thành tiền</th><th></th></tr>
+                        </thead>
+                        <tbody class="quick-services-body">
+                          <tr><td><input type="checkbox"></td><td>Bao bì theo yêu cầu</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                          <tr><td><input type="checkbox"></td><td>Vận chuyển nhiều địa điểm</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                          <tr><td><input type="checkbox"></td><td>Gia công thêm công đoạn</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                          <tr><td><input type="checkbox"></td><td>Kho bãi và đóng gói riêng</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+                <tr class="quick-signature-row">
+                  <td colspan="7">
+                    <div class="quick-signature-grid">
+                      <label class="quick-extra-note quick-signature-note">
+                        <span>✎ Ghi chú thêm</span>
+                        <input id="quickProductOther" type="text" placeholder="Nhập ghi chú thêm (nếu có)...">
+                      </label>
+                      <div class="quick-signature-box">
+                        <strong>Người báo giá</strong>
+                        <span>Ký/đóng dấu ghi rõ họ tên</span>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tfoot>
             </table>
           </div>
           <div class="quick-table-footer">
             <button type="button" class="quick-add-row-btn primary" onclick="quickAddQuoteRow()">+ Thêm dòng</button>
+            <button type="button" class="quick-add-row-btn service" onclick="quickAddServiceOption(this)">+ Thêm dịch vụ</button>
             <button type="button" class="quick-add-row-btn" onclick="quickAddQuoteColumn()">+ Thêm cột</button>
             <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastQuoteColumn()">× Xóa cột</button>
-            <label class="quick-extra-note">
-              <span>✎ Ghi chú thêm</span>
-              <input id="quickProductOther" type="text" placeholder="Nhập ghi chú thêm (nếu có)...">
-            </label>
           </div>
         </section>
 
@@ -11680,7 +11712,7 @@ footer.text-light.footer-2606 a:hover{
   border-radius:0;
   display:grid;
   gap:18px;
-  grid-template-columns:minmax(0,1fr) minmax(260px,430px) auto;
+  grid-template-columns:minmax(0,1fr) minmax(150px,220px) minmax(0,1fr) auto;
   padding:12px 14px;
 }
 .quick-storage-title{
@@ -11736,6 +11768,15 @@ footer.text-light.footer-2606 a:hover{
 .quick-storage-meta{
   display:grid;
   gap:5px;
+  justify-self:end;
+  max-width:430px;
+  min-width:0;
+  width:100%;
+}
+.quick-storage-center{
+  align-items:center;
+  display:flex;
+  justify-content:center;
   min-width:0;
 }
 .quick-storage-line{
@@ -11767,6 +11808,31 @@ footer.text-light.footer-2606 a:hover{
 .quick-request-modal .quick-storage-header .btn-close{
   align-self:start;
   margin:0;
+}
+.quick-header-actions{
+  align-self:start;
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+}
+.quick-view-toggle{
+  align-items:center;
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:999px;
+  color:#fff;
+  display:inline-flex;
+  font-size:16px;
+  height:32px;
+  justify-content:center;
+  line-height:1;
+  padding:0;
+  width:32px;
+}
+.quick-view-toggle:hover,
+.quick-view-toggle.is-active{
+  background:#fff;
+  color:#087a32;
 }
 .quick-request-modal .modal-body{
   background:linear-gradient(180deg,#f0fdf4,#fff);
@@ -11824,18 +11890,35 @@ footer.text-light.footer-2606 a:hover{
   margin-top:2px;
 }
 .quick-visual-preview.has-many{
-  grid-template-columns:1fr;
+  align-items:stretch;
+  justify-content:flex-start;
+  max-height:304px;
+  min-height:224px;
+  overflow:hidden;
+  padding:14px;
+}
+.quick-visual-preview.has-many > div:first-child{
+  margin-bottom:8px;
+  position:relative;
+  text-align:center;
+  z-index:1;
 }
 .quick-preview-list{
   display:grid;
   gap:8px;
-  grid-template-columns:repeat(auto-fill,minmax(118px,1fr));
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  max-height:220px;
+  overflow-y:auto;
+  padding:0 3px 3px;
+  scrollbar-width:thin;
   width:100%;
+  z-index:1;
 }
 .quick-preview-item{
   background:#f8fafc;
   border:1px solid #e2e8f0;
   border-radius:12px;
+  min-height:104px;
   overflow:hidden;
   position:relative;
 }
@@ -11848,7 +11931,7 @@ footer.text-light.footer-2606 a:hover{
 .quick-preview-item img,
 .quick-preview-item .quick-file-icon{
   border-radius:0;
-  height:76px;
+  height:72px;
   width:100%;
 }
 .quick-preview-item img{
@@ -11859,7 +11942,7 @@ footer.text-light.footer-2606 a:hover{
   font-size:11px;
   font-weight:750;
   overflow:hidden;
-  padding:7px 8px;
+  padding:6px 7px;
   text-overflow:ellipsis;
   white-space:nowrap;
 }
@@ -11880,7 +11963,7 @@ footer.text-light.footer-2606 a:hover{
   border:0;
   border-radius:12px 12px 0 0;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
-  grid-template-columns:minmax(0,1fr) minmax(320px,430px) auto;
+  grid-template-columns:minmax(0,1fr) minmax(160px,220px) minmax(0,1fr) auto;
   padding:18px 22px;
 }
 .quick-request-modal .quick-storage-header .modal-title{
@@ -11946,7 +12029,7 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-request-modal .quick-storage-header{
   gap:12px;
-  grid-template-columns:minmax(0,1fr) minmax(300px,430px) auto;
+  grid-template-columns:minmax(0,1fr) minmax(150px,210px) minmax(0,1fr) auto;
   padding:10px 16px;
 }
 .quick-storage-brand{
@@ -11972,7 +12055,11 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-storage-line{
   font-size:14px;
+  flex-direction:column;
+  gap:4px;
+  justify-content:center;
   line-height:1;
+  text-align:center;
 }
 .quick-storage-place{
   gap:4px;
@@ -12185,6 +12272,10 @@ footer.text-light.footer-2606 a:hover{
   gap:12px;
   grid-template-columns:minmax(0,1fr) 116px;
 }
+.quick-product-name input,
+.quick-quote-table tbody tr > td:nth-child(2) input{
+  font-weight:500;
+}
 .quick-product-name span,
 .quick-description-label b{
   align-items:center;
@@ -12219,6 +12310,7 @@ footer.text-light.footer-2606 a:hover{
   display:grid;
   gap:0;
   margin:0;
+  position:relative;
 }
 .quick-description-label{
   justify-content:flex-start;
@@ -12251,35 +12343,44 @@ footer.text-light.footer-2606 a:hover{
   box-shadow:0 3px 8px rgba(8,122,50,.16);
 }
 .quick-description-field textarea{
-  border-radius:0 10px 10px 10px;
+  border-radius:10px;
   min-height:156px;
+  padding-bottom:42px;
   resize:vertical;
+}
+.quick-description-field .quick-desc-tabs,
+.quick-description-field .quick-standard-form{
+  display:none !important;
+}
+.quick-description-field .quick-desc-free,
+.quick-description-field .quick-clone-free-desc{
+  display:block !important;
 }
 .quick-standard-form{
   background:#fff;
   border:1px solid #d7dee8;
   border-radius:0 10px 10px 10px;
-  padding:12px;
+  padding:10px;
 }
 .quick-standard-title{
   color:#065f25;
-  font-size:13px;
+  font-size:12px;
   font-weight:800;
-  margin-bottom:10px;
+  margin-bottom:7px;
   text-transform:uppercase;
 }
 .quick-standard-grid{
   display:grid;
-  gap:10px;
+  gap:7px 8px;
   grid-template-columns:1fr 1fr;
 }
 .quick-standard-grid label{
   color:#334155;
   display:flex;
   flex-direction:column;
-  font-size:12px;
-  font-weight:750;
-  gap:5px;
+  font-size:11px;
+  font-weight:700;
+  gap:3px;
 }
 .quick-standard-grid label.wide{
   grid-column:1 / -1;
@@ -12291,9 +12392,9 @@ footer.text-light.footer-2606 a:hover{
   border:1px solid #d7dee8;
   border-radius:9px;
   color:#0f172a;
-  font-size:13px;
+  font-size:12px;
   outline:none;
-  padding:8px 10px;
+  padding:6px 8px;
   width:100%;
 }
 .quick-standard-grid input:focus,
@@ -12303,7 +12404,12 @@ footer.text-light.footer-2606 a:hover{
   box-shadow:0 0 0 3px rgba(21,153,71,.12);
 }
 .quick-voice-btn{
-  margin-left:auto;
+  bottom:10px;
+  box-shadow:0 8px 18px rgba(8,122,50,.18);
+  margin-left:0;
+  position:absolute;
+  right:10px;
+  z-index:2;
 }
 .quick-product-table-section{
   border-color:#d7efe0;
@@ -12319,7 +12425,7 @@ footer.text-light.footer-2606 a:hover{
   text-align:center;
 }
 .quick-quote-table td{
-  padding:7px 10px;
+  padding:4px 8px;
 }
 .quick-quote-table th:nth-child(2),
 .quick-quote-table td:nth-child(2){
@@ -12342,27 +12448,28 @@ footer.text-light.footer-2606 a:hover{
 .quick-row-index{
   background:transparent;
   border-radius:0;
-  color:#fff;
+  color:#065f25;
   display:table-cell;
   font-size:12px;
-  line-height:1;
-  padding:7px 8px;
+  font-weight:600;
+  line-height:1.2;
+  padding:6px 8px;
   text-align:center;
   width:42px;
 }
 .quick-row-index::before{
-  background:#087a32;
-  border-radius:6px;
-  box-shadow:0 2px 8px rgba(8,122,50,.18);
-  color:#fff;
+  background:transparent;
+  border-radius:0;
+  box-shadow:none;
+  color:#065f25;
   content:attr(data-row);
   display:inline-flex;
   font-size:12px;
-  font-weight:700;
-  height:24px;
+  font-weight:600;
+  height:auto;
   align-items:center;
   justify-content:center;
-  min-width:24px;
+  min-width:0;
 }
 .quick-line-total{
   color:#064e3b;
@@ -12375,22 +12482,34 @@ footer.text-light.footer-2606 a:hover{
   align-items:end;
   display:grid;
   gap:10px;
-  grid-template-columns:130px 130px 120px minmax(0,1fr);
+  grid-template-areas:
+    "add col"
+    "service del";
+  grid-template-columns:108px 118px;
   padding:12px 18px 18px;
 }
 .quick-table-footer .quick-add-row-btn{
   border:1px solid #86cfa3;
   border-radius:8px;
   color:#087a32;
+  font-size:13px;
   font-weight:800;
-  padding:10px 14px;
+  padding:9px 10px;
   text-align:center;
+  white-space:nowrap;
 }
 .quick-table-footer .quick-add-row-btn.primary{
   background:#138a3d;
   border-color:#138a3d;
   box-shadow:0 8px 18px rgba(19,138,61,.18);
   color:#fff;
+  grid-area:add;
+}
+.quick-table-footer .quick-add-row-btn.service{
+  background:#eafff2;
+  border-color:#76c998;
+  color:#087a32;
+  grid-area:service;
 }
 .quick-table-footer .quick-add-row-btn.primary:hover{
   background:#0f7834;
@@ -12399,6 +12518,13 @@ footer.text-light.footer-2606 a:hover{
 .quick-table-footer .quick-add-row-btn.danger{
   border-color:#fecaca;
   color:#dc2626;
+  grid-area:del;
+}
+.quick-table-footer .quick-add-row-btn:not(.primary):not(.danger):not(.service){
+  grid-area:col;
+}
+.quick-table-footer .quick-add-row-btn.service{
+  grid-area:service;
 }
 .quick-row-remove,
 .quick-file-remove{
@@ -12425,6 +12551,8 @@ footer.text-light.footer-2606 a:hover{
   color:#065f25;
   display:grid;
   gap:8px;
+  grid-area:note;
+  min-height:100%;
   padding:10px;
 }
 .quick-extra-note span{
@@ -12433,13 +12561,197 @@ footer.text-light.footer-2606 a:hover{
   text-transform:uppercase;
 }
 .quick-product-clone .quick-table-footer{
-  grid-template-columns:140px 140px 120px minmax(320px,1fr);
+  grid-template-columns:108px 118px;
 }
 .quick-product-clone .quick-extra-note{
   min-width:0;
 }
 .quick-product-clone .quick-extra-note input{
   width:100%;
+}
+.quick-services-row td{
+  background:#fbfffd;
+  border-top:1px solid #dcfce7;
+  padding:8px 8px 2px;
+}
+.quick-services-panel{
+  display:grid;
+  gap:3px;
+  grid-template-columns:1fr;
+}
+.quick-services-title{
+  color:#087a32;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.1px;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.quick-services-table{
+  border-collapse:separate;
+  border-spacing:0;
+  overflow:hidden;
+  table-layout:fixed;
+  width:100%;
+}
+.quick-services-table th{
+  background:#ecfdf5;
+  border-bottom:1px solid #dcfce7;
+  color:#065f25;
+  font-size:12px;
+  font-weight:800;
+  padding:3px 8px;
+  text-align:left;
+}
+.quick-services-table th:first-child,
+.quick-services-table td:first-child{
+  text-align:center;
+  width:34px;
+}
+.quick-services-table th:nth-child(3),
+.quick-services-table td:nth-child(3){
+  width:140px;
+}
+.quick-services-table th:nth-child(4),
+.quick-services-table td:nth-child(4){
+  text-align:center;
+  width:34px;
+}
+.quick-services-table td{
+  border-bottom:1px solid #eef7f0;
+  color:#065f25;
+  font-size:12px;
+  font-weight:650;
+  line-height:1.15;
+  padding:1px 8px;
+}
+.quick-services-table tbody tr:last-child td{
+  border-bottom:0;
+}
+.quick-services-table input[type="checkbox"]{
+  accent-color:#138a3d;
+  appearance:auto !important;
+  border:0;
+  box-shadow:none;
+  flex:0 0 auto;
+  height:14px;
+  margin:0;
+  min-width:14px;
+  padding:0;
+  width:14px;
+}
+.quick-services-table input[type="text"]:not(:only-child){
+  width:100%;
+}
+.quick-services-table input[type="text"]{
+  background:#fff;
+  border:1px solid #d7dee8;
+  border-radius:7px;
+  color:#0f172a;
+  font-size:12px;
+  min-height:24px;
+  padding:2px 8px;
+  width:100%;
+}
+.quick-service-name-input{
+  min-height:24px;
+}
+.quick-service-remove{
+  align-items:center;
+  background:#fff;
+  border:1px solid #fecaca;
+  border-radius:999px;
+  color:#dc2626;
+  display:inline-flex;
+  font-size:13px;
+  font-weight:800;
+  height:22px;
+  justify-content:center;
+  line-height:1;
+  width:22px;
+}
+.quick-service-remove:hover{
+  background:#fee2e2;
+}
+.quick-request-modal.is-view-mode .quick-table-footer,
+.quick-request-modal.is-view-mode .quick-row-remove,
+.quick-request-modal.is-view-mode .quick-file-remove,
+.quick-request-modal.is-view-mode .quick-service-remove,
+.quick-request-modal.is-view-mode .quick-bulk-name-btn,
+.quick-request-modal.is-view-mode .quick-voice-btn,
+.quick-request-modal.is-view-mode .quick-desc-tabs,
+.quick-request-modal.is-view-mode .quick-status,
+.quick-request-modal.is-view-mode .quick-add-product-btn,
+.quick-request-modal.is-view-mode .quick-product-clone-head button{
+  display:none !important;
+}
+.quick-request-modal.is-view-mode .quick-storage-place{
+  pointer-events:none;
+}
+.quick-request-modal.is-view-mode input:not([type="checkbox"]),
+.quick-request-modal.is-view-mode textarea,
+.quick-request-modal.is-view-mode select{
+  background:transparent !important;
+  border-color:transparent !important;
+  box-shadow:none !important;
+  color:#0f172a;
+  pointer-events:none;
+}
+.quick-request-modal.is-view-mode input::placeholder,
+.quick-request-modal.is-view-mode textarea::placeholder{
+  color:transparent;
+}
+.quick-request-modal.is-view-mode input[type="checkbox"]{
+  pointer-events:none;
+}
+.quick-request-modal.is-view-mode .is-hidden-in-view{
+  display:none !important;
+}
+.quick-request-modal.is-view-mode .quick-quote-table,
+.quick-request-modal.is-view-mode .quick-product-table-section,
+.quick-request-modal.is-view-mode .quick-product-clone{
+  box-shadow:none;
+}
+.quick-signature-row td{
+  background:#fff;
+  border-top:1px solid #dcfce7;
+  padding:12px 18px 16px;
+}
+.quick-signature-grid{
+  align-items:end;
+  display:grid;
+  gap:14px;
+  grid-template-columns:minmax(260px,1fr) minmax(180px,240px);
+}
+.quick-signature-note{
+  grid-area:auto;
+  min-width:0;
+  padding:8px 10px;
+}
+.quick-signature-note input{
+  min-height:34px;
+  width:100%;
+}
+.quick-signature-box{
+  align-items:center;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  justify-content:center;
+  margin-left:auto;
+  min-height:74px;
+  text-align:center;
+  width:100%;
+}
+.quick-signature-box strong{
+  color:#065f25;
+  font-size:14px;
+  font-weight:600;
+  text-transform:uppercase;
+}
+.quick-signature-box span{
+  color:#64748b;
+  font-size:12px;
 }
 .quick-extra-product-blocks{
   display:grid;
@@ -12530,6 +12842,7 @@ footer.text-light.footer-2606 a:hover{
     gap:8px;
     grid-area:profile;
     grid-template-columns:1fr;
+    margin-top:0;
     min-width:0;
   }
   .quick-request-modal .modal-body > .quick-party-grid{
@@ -12549,7 +12862,7 @@ footer.text-light.footer-2606 a:hover{
   }
   .quick-request-modal #quickVisualPreview{
     height:auto;
-    min-height:160px;
+    min-height:224px;
   }
   .quick-request-modal .modal-body > .quick-profile-main .quick-product-fields{
     display:flex;
@@ -12614,7 +12927,7 @@ footer.text-light.footer-2606 a:hover{
   .quick-request-modal .quick-quote-table input,
   .quick-request-modal .quick-extra-note input{
     font-size:13px;
-    padding:7px 9px;
+    padding:5px 8px;
   }
   .quick-request-modal .quick-logo-name-row{
     grid-template-columns:40px 1fr;
@@ -12625,20 +12938,47 @@ footer.text-light.footer-2606 a:hover{
   .quick-request-modal .quick-description-field textarea{
     min-height:122px;
   }
+  .quick-request-modal .quick-standard-form{
+    max-height:170px;
+    overflow-y:auto;
+    padding:8px;
+  }
+  .quick-request-modal .quick-standard-title{
+    display:none;
+  }
+  .quick-request-modal .quick-standard-grid{
+    gap:6px 8px;
+  }
+  .quick-request-modal .quick-standard-grid input,
+  .quick-request-modal .quick-standard-grid select,
+  .quick-request-modal .quick-standard-grid textarea{
+    min-height:31px;
+    padding:6px 8px;
+  }
+  .quick-request-modal .quick-standard-grid textarea{
+    min-height:48px;
+  }
   .quick-request-modal .quick-quote-table th{
     font-size:12px;
-    padding:9px 8px;
+    padding:7px 8px;
   }
   .quick-request-modal .quick-quote-table td{
-    padding:6px 8px;
+    padding:4px 7px;
+  }
+  .quick-request-modal .quick-quote-table input{
+    min-height:34px;
   }
   .quick-request-modal .quick-table-footer{
     gap:8px;
-    grid-template-columns:116px 116px 104px minmax(220px,1fr);
+    grid-template-areas:
+      "add col"
+      "service del";
+    grid-template-columns:96px 112px;
     padding:9px 10px 10px;
   }
   .quick-request-modal .quick-table-footer .quick-add-row-btn{
-    padding:8px 10px;
+    font-size:12px;
+    padding:8px 6px;
   }
   .quick-request-modal .quick-extra-note span{
     font-size:12px;
@@ -12757,6 +13097,9 @@ body.quick-printing .fab-left-wrapper{
   .quick-request-modal .quick-storage-header{
     grid-template-columns:1fr auto;
   }
+  .quick-storage-center{
+    grid-column:1 / -1;
+  }
   .quick-storage-meta{
     grid-column:1 / -1;
   }
@@ -12782,6 +13125,20 @@ body.quick-printing .fab-left-wrapper{
   .quick-actions{
     grid-template-columns:1fr;
   }
+  .quick-table-footer{
+    grid-template-areas:
+      "add"
+      "service"
+      "col"
+      "del";
+  }
+  .quick-signature-grid{
+    grid-template-columns:1fr;
+  }
+  .quick-signature-box{
+    margin:0 auto;
+    width:100%;
+  }
   .quick-party-fields label{
     grid-template-columns:1fr;
   }
@@ -12803,6 +13160,10 @@ body.quick-printing .fab-left-wrapper{
   }
   .quick-upload-panel{
     min-height:190px;
+  }
+  .quick-preview-list{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    max-height:228px;
   }
 }
 </style>
@@ -13083,6 +13444,13 @@ function quickFormatMoney(value){
   return Math.round(value || 0).toLocaleString('vi-VN');
 }
 
+function quickFormatMoneyInput(input){
+  if(!input) return;
+  const raw = String(input.value || '').trim();
+  if(!raw) return;
+  input.value = quickFormatMoney(quickParseMoney(raw));
+}
+
 function quickUpdateRowTotal(row){
   if(!row) return;
   const qty = quickParseMoney(row.querySelector('input[id^="quickQuoteQty"], .quick-clone-qty')?.value);
@@ -13097,6 +13465,13 @@ function quickUpdateAllTotals(){
 
 document.addEventListener('input', e => {
   if(e.target.matches('input[id^="quickQuoteQty"], input[id^="quickQuotePrice"], .quick-clone-qty, .quick-clone-price')){
+    quickUpdateRowTotal(e.target.closest('tr'));
+  }
+});
+
+document.addEventListener('focusout', e => {
+  if(e.target.matches('input[id^="quickQuotePrice"], .quick-clone-price, .quick-services-table td:nth-child(3) input[type="text"]')){
+    quickFormatMoneyInput(e.target);
     quickUpdateRowTotal(e.target.closest('tr'));
   }
 });
@@ -13191,6 +13566,74 @@ function quickUpdateQuoteIndexes(){
   });
 }
 
+function quickSyncSignatureColspans(scope = document){
+  scope.querySelectorAll('.quick-quote-table').forEach(table => {
+    const count = table.querySelectorAll('thead th').length || 7;
+    const serviceCell = table.querySelector('.quick-services-row td');
+    if(serviceCell) serviceCell.colSpan = count;
+    const signatureCell = table.querySelector('.quick-signature-row td');
+    if(signatureCell) signatureCell.colSpan = count;
+  });
+}
+
+function quickAddServiceOption(button){
+  const section = button?.closest('.quick-product-table-section');
+  const body = section?.querySelector('.quick-services-body');
+  if(!body) return;
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td><input type="checkbox"></td>
+    <td><input class="quick-service-name-input" type="text"></td>
+    <td><input type="text"></td>
+    <td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td>`;
+  body.appendChild(row);
+  row.querySelector('.quick-service-name-input')?.focus();
+}
+
+function quickRemoveServiceRow(button){
+  button?.closest('tr')?.remove();
+}
+
+function quickToggleViewMode(){
+  const modal = document.getElementById('quickRequestModal');
+  if(!modal) return;
+  const enabled = !modal.classList.contains('is-view-mode');
+  modal.classList.toggle('is-view-mode', enabled);
+  const toggle = document.getElementById('quickViewToggle');
+  if(toggle){
+    toggle.classList.toggle('is-active', enabled);
+    toggle.setAttribute('aria-pressed', String(enabled));
+    toggle.setAttribute('title', enabled ? 'Tắt chế độ xem' : 'Ẩn nút thao tác');
+  }
+  quickRefreshViewMode(modal, enabled);
+}
+
+function quickRefreshViewMode(modal, enabled){
+  if(!modal) return;
+  modal.querySelectorAll('.is-hidden-in-view').forEach(item => item.classList.remove('is-hidden-in-view'));
+  if(!enabled) return;
+
+  modal.querySelectorAll('.quick-quote-table tbody tr').forEach(row => {
+    const hasValue = Array.from(row.querySelectorAll('input[type="text"]')).some(input => {
+      const id = String(input.id || '').toLowerCase();
+      if(id.includes('unit')) return false;
+      return Boolean(input.value.trim());
+    });
+    if(!hasValue) row.classList.add('is-hidden-in-view');
+  });
+
+  modal.querySelectorAll('.quick-services-body tr').forEach(row => {
+    const checked = row.querySelector('input[type="checkbox"]')?.checked;
+    const hasTextValue = Array.from(row.querySelectorAll('input[type="text"]')).some(input => input.value.trim());
+    const hasEditableName = Boolean(row.querySelector('.quick-service-name-input')?.value.trim());
+    if(!checked && !hasTextValue && !hasEditableName) row.classList.add('is-hidden-in-view');
+  });
+
+  modal.querySelectorAll('.quick-upload-panel').forEach(panel => {
+    if(!panel.querySelector('.quick-preview-item')) panel.classList.add('is-hidden-in-view');
+  });
+}
+
 function quickAddQuoteRow(){
   const body = document.getElementById('quickQuoteBody');
   if(!body) return;
@@ -13201,10 +13644,10 @@ function quickAddQuoteRow(){
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td class="quick-row-index" data-row="${index}"></td>
-    <td><input id="quickQuoteName${index}" type="text" placeholder="Tên sản phẩm"></td>
+    <td><input id="quickQuoteName${index}" type="text"></td>
     <td><input id="quickQuoteUnit${index}" type="text" value="cái" placeholder="Đơn vị"></td>
-    <td><input id="quickQuoteQty${index}" type="text" placeholder="${index * 100}"></td>
-    <td><input id="quickQuotePrice${index}" type="text" placeholder="Nhập đơn giá"></td>
+    <td><input id="quickQuoteQty${index}" type="text"></td>
+    <td><input id="quickQuotePrice${index}" type="text"></td>
     <td class="quick-line-total">0</td>
     ${customCells}
     <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>`;
@@ -13249,6 +13692,7 @@ function quickAddQuoteColumn(){
   });
 
   const titleInput = document.getElementById(`quickCustomColTitle${colIndex}`);
+  quickSyncSignatureColspans();
   titleInput?.focus();
 }
 
@@ -13258,6 +13702,7 @@ function quickRemoveLastQuoteColumn(){
   document.getElementById(`quickCustomColTitle${colIndex}`)?.closest('th')?.remove();
   document.querySelectorAll(`.quick-custom-cell-${colIndex}`).forEach(cell => cell.remove());
   window.quickCustomQuoteCols = colIndex - 1;
+  quickSyncSignatureColspans();
 }
 
 function quickBulkProductNames(){
@@ -13316,13 +13761,9 @@ function quickAddProductBlock(){
         </label>
         <label class="quick-description-field">
           <span class="quick-description-label">
-            <span class="quick-desc-tabs">
-              <button type="button" class="active" onclick="quickSwitchCloneDescTab(this,'free')">Mô tả tự do</button>
-              <button type="button" onclick="quickSwitchCloneDescTab(this,'standard')">Bố cục chuẩn</button>
-            </span>
             <button type="button" class="quick-voice-btn" onclick="quickToggleVoiceInput(this)">🎙 Nói để nhập</button>
           </span>
-          <textarea class="quick-clone-free-desc" rows="5" placeholder="Mô tả sản phẩm, chất liệu, kích thước, thời gian cần hàng..."></textarea>
+          <textarea class="quick-clone-free-desc" rows="5" placeholder="1. Thông tin về hình dạng kích thước sản phẩm&#10;2. Đặc tính cần có của sản phẩm&#10;3. Những gì bạn có và cần của sản phẩm&#10;4. Các yêu cầu khác..."></textarea>
           <div class="quick-standard-form quick-clone-standard-desc" hidden>
             <div class="quick-standard-title">Bố cục chuẩn</div>
             <div class="quick-standard-grid">
@@ -13352,25 +13793,57 @@ function quickAddProductBlock(){
             ${[1].map(row => `
               <tr>
                 <td class="quick-row-index" data-row="${row}"></td>
-                <td><input class="quick-clone-name" type="text" placeholder="Nhập tên sản phẩm"></td>
+                <td><input class="quick-clone-name" type="text"></td>
                 <td><input type="text" value="cái" placeholder="Đơn vị"></td>
-                <td><input class="quick-clone-qty" type="text" placeholder="Nhập số lượng"></td>
-                <td><input class="quick-clone-price" type="text" placeholder="Nhập đơn giá"></td>
+                <td><input class="quick-clone-qty" type="text"></td>
+                <td><input class="quick-clone-price" type="text"></td>
                 <td class="quick-line-total">0</td>
                 <td><button type="button" class="quick-row-remove" onclick="quickRemoveCloneRow(this)">×</button></td>
               </tr>`).join('')}
           </tbody>
+          <tfoot>
+            <tr class="quick-services-row">
+              <td colspan="7">
+                <div class="quick-services-panel">
+                  <div class="quick-services-title">Dịch vụ đi kèm</div>
+                  <table class="quick-services-table">
+                    <thead>
+                      <tr><th></th><th>Tên dịch vụ</th><th>Thành tiền</th><th></th></tr>
+                    </thead>
+                    <tbody class="quick-services-body">
+                      <tr><td><input type="checkbox"></td><td>Bao bì theo yêu cầu</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                      <tr><td><input type="checkbox"></td><td>Vận chuyển nhiều địa điểm</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                      <tr><td><input type="checkbox"></td><td>Gia công thêm công đoạn</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                      <tr><td><input type="checkbox"></td><td>Kho bãi và đóng gói riêng</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            <tr class="quick-signature-row">
+              <td colspan="7">
+                <div class="quick-signature-grid">
+                  <label class="quick-extra-note quick-signature-note"><span>✎ Ghi chú thêm</span><input type="text" placeholder="Nhập ghi chú thêm (nếu có)..."></label>
+                  <div class="quick-signature-box">
+                    <strong>Người báo giá</strong>
+                    <span>Ký/đóng dấu ghi rõ họ tên</span>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
       <div class="quick-table-footer">
         <button type="button" class="quick-add-row-btn primary" onclick="quickAddCloneRow(this)">+ Thêm dòng</button>
+        <button type="button" class="quick-add-row-btn service" onclick="quickAddServiceOption(this)">+ Thêm dịch vụ</button>
         <button type="button" class="quick-add-row-btn" onclick="quickAddCloneColumn(this)">+ Thêm cột</button>
         <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastCloneColumn(this)">× Xóa cột</button>
-        <label class="quick-extra-note"><span>✎ Ghi chú thêm</span><input type="text" placeholder="Nhập ghi chú thêm (nếu có)..."></label>
       </div>
     </section>`;
   holder.appendChild(block);
   quickInitCloneUpload(block);
+  quickSyncSignatureColspans(block);
 }
 
 function quickInitCloneUpload(block){
@@ -13478,10 +13951,10 @@ function quickAddCloneRow(button){
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td class="quick-row-index" data-row="${rowIndex}"></td>
-    <td><input class="quick-clone-name" type="text" placeholder="Nhập tên sản phẩm"></td>
+    <td><input class="quick-clone-name" type="text"></td>
     <td><input type="text" value="cái" placeholder="Đơn vị"></td>
-    <td><input class="quick-clone-qty" type="text" placeholder="Nhập số lượng"></td>
-    <td><input class="quick-clone-price" type="text" placeholder="Nhập đơn giá"></td>
+    <td><input class="quick-clone-qty" type="text"></td>
+    <td><input class="quick-clone-price" type="text"></td>
     <td class="quick-line-total">0</td>
     ${customCells}
     <td><button type="button" class="quick-row-remove" onclick="quickRemoveCloneRow(this)">×</button></td>`;
@@ -13507,6 +13980,7 @@ function quickAddCloneColumn(button){
     tr.insertBefore(td, tr.lastElementChild?.previousElementSibling || tr.lastElementChild);
   });
   th.querySelector('input')?.focus();
+  quickSyncSignatureColspans(block);
 }
 
 function quickRemoveLastCloneColumn(button){
@@ -13516,6 +13990,7 @@ function quickRemoveLastCloneColumn(button){
   block.querySelector(`.quick-clone-custom-head-${colIndex}`)?.remove();
   block.querySelectorAll(`.quick-clone-custom-cell-${colIndex}`).forEach(cell => cell.remove());
   block.dataset.customCols = String(colIndex - 1);
+  quickSyncSignatureColspans(block);
 }
 
 function quickRemoveCloneRow(button){
@@ -13666,10 +14141,10 @@ function quickDefaultQuoteRowHtml(){
   return `
     <tr>
       <td class="quick-row-index" data-row="1"></td>
-      <td><input id="quickQuoteName1" type="text" placeholder="Nhập tên sản phẩm"></td>
+      <td><input id="quickQuoteName1" type="text"></td>
       <td><input id="quickQuoteUnit1" type="text" value="cái" placeholder="Đơn vị"></td>
-      <td><input id="quickQuoteQty1" type="text" placeholder="Nhập số lượng"></td>
-      <td><input id="quickQuotePrice1" type="text" placeholder="Nhập đơn giá"></td>
+      <td><input id="quickQuoteQty1" type="text"></td>
+      <td><input id="quickQuotePrice1" type="text"></td>
       <td class="quick-line-total">0</td>
       <td><button type="button" class="quick-row-remove" onclick="quickRemoveQuoteRow(this)">×</button></td>
     </tr>`;
@@ -13707,6 +14182,7 @@ function quickResetBriefForm(){
   document.querySelectorAll('.quick-quote-table th.quick-custom-col, #quickQuoteBody .quick-custom-cell').forEach(el => el.remove());
   const quoteBody = document.getElementById('quickQuoteBody');
   if(quoteBody) quoteBody.innerHTML = quickDefaultQuoteRowHtml();
+  quickSyncSignatureColspans();
   const extraBlocks = document.getElementById('quickExtraProductBlocks');
   if(extraBlocks) extraBlocks.innerHTML = '';
   quickSwitchDescTab('free');
@@ -14018,7 +14494,7 @@ function quickBriefPrintHtml(data){
           </svg>
         </div>
         <div>
-          <h1>2606AI TIỆN ÍCH LƯU TRỮ</h1>
+          <h1>BÁO GIÁ KHÁCH HÀNG</h1>
           <p>Tạo profile sản phẩm để sử dụng, lưu trữ và tra cứu thông tin nhanh chóng</p>
         </div>
       </div>
