@@ -3686,7 +3686,6 @@ body{
             <span class="quick-storage-mark">↗</span>
             <div>
               <h5 class="modal-title">BÁO GIÁ KHÁCH HÀNG</h5>
-              <small>Tạo Profile sản phẩm để sử dụng, lưu trữ và tra cứu thông tin nhanh chóng</small>
             </div>
           </div>
         </div>
@@ -3821,13 +3820,13 @@ body{
                       <div class="quick-services-title">Dịch vụ đi kèm</div>
                       <table class="quick-services-table">
                         <thead>
-                          <tr><th></th><th>Tên dịch vụ</th><th>Thành tiền</th><th></th></tr>
+                          <tr><th></th><th>Tên dịch vụ</th><th>Mô tả dịch vụ</th><th>Thành tiền</th><th></th></tr>
                         </thead>
                         <tbody class="quick-services-body">
-                          <tr><td><input type="checkbox"></td><td>Bao bì theo yêu cầu</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
-                          <tr><td><input type="checkbox"></td><td>Vận chuyển nhiều địa điểm</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
-                          <tr><td><input type="checkbox"></td><td>Gia công thêm công đoạn</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
-                          <tr><td><input type="checkbox"></td><td>Kho bãi và đóng gói riêng</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                          <tr><td><input type="checkbox"></td><td>Bao bì theo yêu cầu</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                          <tr><td><input type="checkbox"></td><td>Vận chuyển nhiều địa điểm</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                          <tr><td><input type="checkbox"></td><td>Gia công thêm công đoạn</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                          <tr><td><input type="checkbox"></td><td>Kho bãi và đóng gói riêng</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
                         </tbody>
                       </table>
                     </div>
@@ -12426,10 +12425,22 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-quote-table td{
   padding:4px 8px;
+  vertical-align:middle;
+}
+.quick-quote-table{
+  table-layout:fixed;
+}
+.quick-quote-table input{
+  width:100%;
+}
+.quick-quote-table th:first-child,
+.quick-quote-table td:first-child{
+  width:42px;
 }
 .quick-quote-table th:nth-child(2),
 .quick-quote-table td:nth-child(2){
-  min-width:260px;
+  min-width:220px;
+  width:34%;
 }
 .quick-quote-table th:nth-child(3),
 .quick-quote-table td:nth-child(3){
@@ -12440,10 +12451,22 @@ footer.text-light.footer-2606 a:hover{
   min-width:0;
   text-align:center;
 }
+.quick-quote-table td:nth-child(4) input,
+.quick-quote-table td:nth-child(5) input{
+  min-width:0;
+  text-align:center;
+}
+.quick-quote-table td:nth-child(2) input{
+  text-align:left;
+}
 .quick-quote-table th:nth-child(6),
 .quick-quote-table td:nth-child(6){
   min-width:120px;
-  width:130px;
+  width:145px;
+}
+.quick-quote-table th:last-child,
+.quick-quote-table td:last-child{
+  width:38px;
 }
 .quick-row-index{
   background:transparent;
@@ -12475,7 +12498,8 @@ footer.text-light.footer-2606 a:hover{
   color:#064e3b;
   font-size:14px;
   font-weight:600;
-  text-align:center;
+  padding-right:14px;
+  text-align:right;
   white-space:nowrap;
 }
 .quick-table-footer{
@@ -12606,24 +12630,36 @@ footer.text-light.footer-2606 a:hover{
 .quick-services-table th:first-child,
 .quick-services-table td:first-child{
   text-align:center;
-  width:34px;
+  width:32px;
+}
+.quick-services-table th:nth-child(2),
+.quick-services-table td:nth-child(2){
+  text-align:left;
+  width:30%;
 }
 .quick-services-table th:nth-child(3),
 .quick-services-table td:nth-child(3){
-  width:140px;
+  text-align:left;
+  width:40%;
 }
 .quick-services-table th:nth-child(4),
 .quick-services-table td:nth-child(4){
+  text-align:right;
+  width:130px;
+}
+.quick-services-table th:nth-child(5),
+.quick-services-table td:nth-child(5){
   text-align:center;
-  width:34px;
+  width:32px;
 }
 .quick-services-table td{
   border-bottom:1px solid #eef7f0;
   color:#065f25;
   font-size:12px;
-  font-weight:650;
+  font-weight:600;
   line-height:1.15;
-  padding:1px 8px;
+  padding:2px 8px;
+  vertical-align:middle;
 }
 .quick-services-table tbody tr:last-child td{
   border-bottom:0;
@@ -12651,6 +12687,17 @@ footer.text-light.footer-2606 a:hover{
   font-size:12px;
   min-height:24px;
   padding:2px 8px;
+  width:100%;
+}
+.quick-services-table td:nth-child(4) input[type="text"]{
+  text-align:right;
+}
+.quick-services-table td:nth-child(3) input[type="text"]{
+  text-align:left;
+}
+.quick-services-table td:nth-child(2) input[type="text"],
+.quick-service-name-input{
+  text-align:left;
   width:100%;
 }
 .quick-service-name-input{
@@ -12712,16 +12759,58 @@ footer.text-light.footer-2606 a:hover{
 .quick-request-modal.is-view-mode .quick-product-clone{
   box-shadow:none;
 }
+.quick-request-modal.is-view-mode .quick-quote-table > thead > tr > th:last-child,
+.quick-request-modal.is-view-mode .quick-quote-table > tbody > tr > td:last-child,
+.quick-request-modal.is-view-mode .quick-services-table th:last-child,
+.quick-request-modal.is-view-mode .quick-services-table td:last-child{
+  display:none;
+}
+.quick-request-modal.is-view-mode .quick-quote-table td:first-child,
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(3),
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(4),
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(5){
+  text-align:center;
+}
+.quick-request-modal.is-view-mode .quick-quote-table td:first-child input,
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(3) input,
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(4) input,
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(5) input{
+  text-align:center;
+}
+.quick-request-modal.is-view-mode .quick-quote-table .quick-line-total,
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(4),
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(4) input{
+  text-align:right;
+}
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(2),
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(3){
+  text-align:left;
+}
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(2) input[type="text"],
+.quick-request-modal .quick-services-table td:nth-child(3) input[type="text"],
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(3) input[type="text"]{
+  text-align:left;
+}
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(2) input[type="text"]{
+  color:#065f25;
+  font-weight:600;
+}
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(2) input[type="text"],
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(3) input[type="text"],
+.quick-request-modal.is-view-mode .quick-services-table td:nth-child(4) input[type="text"]{
+  min-height:0;
+  padding:0;
+}
 .quick-signature-row td{
   background:#fff;
   border-top:1px solid #dcfce7;
-  padding:12px 18px 16px;
+  padding:10px 18px 14px;
 }
 .quick-signature-grid{
-  align-items:end;
+  align-items:center;
   display:grid;
   gap:14px;
-  grid-template-columns:minmax(260px,1fr) minmax(180px,240px);
+  grid-template-columns:minmax(320px,1fr) minmax(180px,240px);
 }
 .quick-signature-note{
   grid-area:auto;
@@ -12818,6 +12907,29 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-request-modal button:not(.btn-close){
   font-weight:600;
+}
+.quick-request-modal .modal-content,
+.quick-request-modal .modal-header,
+.quick-request-modal .modal-body,
+.quick-request-modal .quick-section,
+.quick-request-modal .quick-upload-panel,
+.quick-request-modal .quick-upload-panel::before,
+.quick-request-modal .quick-file-card,
+.quick-request-modal .quick-product-table-section,
+.quick-request-modal .quick-quote-table,
+.quick-request-modal .quick-quote-table-wrap,
+.quick-request-modal .quick-services-table,
+.quick-request-modal .quick-party-card,
+.quick-request-modal .quick-info-line,
+.quick-request-modal .quick-info-line span,
+.quick-request-modal .quick-logo-upload,
+.quick-request-modal .quick-status,
+.quick-request-modal .quick-extra-note,
+.quick-request-modal input,
+.quick-request-modal textarea,
+.quick-request-modal select,
+.quick-request-modal button:not(.btn-close){
+  border-radius:0 !important;
 }
 @media (min-width:1100px){
   .quick-request-modal .modal-dialog{
@@ -13470,7 +13582,7 @@ document.addEventListener('input', e => {
 });
 
 document.addEventListener('focusout', e => {
-  if(e.target.matches('input[id^="quickQuotePrice"], .quick-clone-price, .quick-services-table td:nth-child(3) input[type="text"]')){
+  if(e.target.matches('input[id^="quickQuotePrice"], .quick-clone-price, .quick-services-table td:nth-child(4) input[type="text"]')){
     quickFormatMoneyInput(e.target);
     quickUpdateRowTotal(e.target.closest('tr'));
   }
@@ -13585,6 +13697,7 @@ function quickAddServiceOption(button){
     <td><input type="checkbox"></td>
     <td><input class="quick-service-name-input" type="text"></td>
     <td><input type="text"></td>
+    <td><input type="text"></td>
     <td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td>`;
   body.appendChild(row);
   row.querySelector('.quick-service-name-input')?.focus();
@@ -13613,7 +13726,7 @@ function quickRefreshViewMode(modal, enabled){
   modal.querySelectorAll('.is-hidden-in-view').forEach(item => item.classList.remove('is-hidden-in-view'));
   if(!enabled) return;
 
-  modal.querySelectorAll('.quick-quote-table tbody tr').forEach(row => {
+  modal.querySelectorAll('.quick-quote-table > tbody > tr').forEach(row => {
     const hasValue = Array.from(row.querySelectorAll('input[type="text"]')).some(input => {
       const id = String(input.id || '').toLowerCase();
       if(id.includes('unit')) return false;
@@ -13808,13 +13921,13 @@ function quickAddProductBlock(){
                   <div class="quick-services-title">Dịch vụ đi kèm</div>
                   <table class="quick-services-table">
                     <thead>
-                      <tr><th></th><th>Tên dịch vụ</th><th>Thành tiền</th><th></th></tr>
+                      <tr><th></th><th>Tên dịch vụ</th><th>Mô tả dịch vụ</th><th>Thành tiền</th><th></th></tr>
                     </thead>
                     <tbody class="quick-services-body">
-                      <tr><td><input type="checkbox"></td><td>Bao bì theo yêu cầu</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
-                      <tr><td><input type="checkbox"></td><td>Vận chuyển nhiều địa điểm</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
-                      <tr><td><input type="checkbox"></td><td>Gia công thêm công đoạn</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
-                      <tr><td><input type="checkbox"></td><td>Kho bãi và đóng gói riêng</td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                      <tr><td><input type="checkbox"></td><td>Bao bì theo yêu cầu</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                      <tr><td><input type="checkbox"></td><td>Vận chuyển nhiều địa điểm</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                      <tr><td><input type="checkbox"></td><td>Gia công thêm công đoạn</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
+                      <tr><td><input type="checkbox"></td><td>Kho bãi và đóng gói riêng</td><td><input type="text"></td><td><input type="text"></td><td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td></tr>
                     </tbody>
                   </table>
                 </div>
