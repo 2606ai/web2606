@@ -3857,6 +3857,20 @@ body{
           </div>
         </section>
 
+        <section class="quick-timeline-strip" aria-label="Timeline ghi nhận">
+          <div class="quick-timeline-head">
+            <span>Timeline</span>
+            <button type="button" class="quick-timeline-add" onclick="quickAddTimelineItem(this)">+ Thêm</button>
+          </div>
+          <div class="quick-timeline-list">
+            <div class="quick-timeline-item">
+              <input class="quick-timeline-time" type="text" placeholder="Thời gian">
+              <input class="quick-timeline-note" type="text" placeholder="Nội dung ghi chú">
+              <button type="button" class="quick-timeline-remove" onclick="quickRemoveTimelineItem(this)" aria-label="Xóa timeline">×</button>
+            </div>
+          </div>
+        </section>
+
         <div id="quickExtraProductBlocks" class="quick-extra-product-blocks"></div>
         <button type="button" class="quick-add-product-btn" onclick="quickAddProductBlock()">+ Thêm sản phẩm</button>
 
@@ -15040,29 +15054,30 @@ window.addEventListener('resize', updateSeoGuideCounter);
       .quick-request-modal .quick-storage-place strong{font-size:11px!important;font-weight:600!important;line-height:1.2!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
       .quick-request-modal .quick-import-file-btn{border:1px solid rgba(255,255,255,.75)!important;background:rgba(255,255,255,.14)!important;color:#fff!important;font-weight:600!important;font-size:13px!important;padding:5px 12px!important;min-height:34px!important;white-space:nowrap!important;cursor:pointer!important}
       .quick-request-modal .quick-extra-note textarea{width:100%!important;min-height:44px!important;resize:vertical!important;border:1px solid #cfe0ee!important;padding:6px 9px!important;font:inherit!important;color:#123!important;background:#fff!important}
-      .quick-request-modal .quick-quote-table{table-layout:fixed!important}
-      .quick-request-modal .quick-quote-table th:first-child,.quick-request-modal .quick-quote-table td:first-child{width:38px!important;text-align:center!important}
+      .quick-request-modal .quick-quote-table{table-layout:fixed!important;width:100%!important;min-width:0!important}
+      .quick-request-modal .quick-quote-table th,.quick-request-modal .quick-quote-table td{padding-left:6px!important;padding-right:6px!important}
+      .quick-request-modal .quick-quote-table th:first-child,.quick-request-modal .quick-quote-table td:first-child{width:34px!important;text-align:center!important}
       .quick-request-modal .quick-quote-table th:nth-child(2),.quick-request-modal .quick-quote-table td:nth-child(2){width:37%!important}
-      .quick-request-modal .quick-quote-table th:nth-child(3),.quick-request-modal .quick-quote-table td:nth-child(3){width:78px!important}
-      .quick-request-modal .quick-quote-table th:nth-child(4),.quick-request-modal .quick-quote-table td:nth-child(4){width:112px!important}
-      .quick-request-modal .quick-quote-table th:nth-child(5),.quick-request-modal .quick-quote-table td:nth-child(5){width:116px!important;text-align:right!important}
-      .quick-request-modal .quick-quote-table th:nth-child(6),.quick-request-modal .quick-quote-table td:nth-child(6){width:126px!important;text-align:right!important;padding-right:8px!important}
-      .quick-request-modal .quick-quote-table th:last-child,.quick-request-modal .quick-quote-table td:last-child{width:34px!important;text-align:center!important}
-      .quick-request-modal .quick-quote-table td:nth-child(5) input{width:100%!important;text-align:right!important}
-      .quick-request-modal .quick-quote-table .quick-line-total{display:block!important;width:100%!important;text-align:right!important;font-weight:600!important;color:#005f46!important}
+      .quick-request-modal .quick-quote-table th:nth-child(3),.quick-request-modal .quick-quote-table td:nth-child(3){width:70px!important}
+      .quick-request-modal .quick-quote-table th:nth-child(4),.quick-request-modal .quick-quote-table td:nth-child(4){width:100px!important}
+      .quick-request-modal .quick-quote-table th:nth-child(5),.quick-request-modal .quick-quote-table td:nth-child(5){width:104px!important;text-align:center!important}
+      .quick-request-modal .quick-quote-table th:nth-child(6),.quick-request-modal .quick-quote-table td:nth-child(6){width:114px!important;text-align:center!important;padding-right:6px!important}
+      .quick-request-modal .quick-quote-table th:last-child,.quick-request-modal .quick-quote-table td:last-child{width:30px!important;text-align:center!important}
+      .quick-request-modal .quick-quote-table td:nth-child(5) input{width:100%!important;text-align:center!important}
+      .quick-request-modal .quick-quote-table .quick-line-total{display:block!important;width:100%!important;text-align:center!important;font-weight:600!important;color:#005f46!important}
       .quick-request-modal .quick-services-panel{margin-top:4px!important}
       .quick-request-modal .quick-services-title{margin-bottom:3px!important}
-      .quick-request-modal .quick-services-table{table-layout:fixed!important}
+      .quick-request-modal .quick-services-table{table-layout:fixed!important;width:100%!important;min-width:0!important}
       .quick-request-modal .quick-services-table th,.quick-request-modal .quick-services-table td{padding:3px 7px!important;height:28px!important;line-height:1.15!important;vertical-align:middle!important}
       .quick-request-modal .quick-services-table input[type="text"]{height:24px!important;padding:2px 6px!important;font-size:13px!important}
       .quick-request-modal .quick-services-table input[type="checkbox"]{margin:0!important}
       .quick-request-modal .quick-services-table th:first-child,.quick-request-modal .quick-services-table td:first-child{width:32px!important;text-align:center!important}
-      .quick-request-modal .quick-services-table th:nth-child(2),.quick-request-modal .quick-services-table td:nth-child(2){width:31%!important;text-align:left!important}
-      .quick-request-modal .quick-services-table th:nth-child(3),.quick-request-modal .quick-services-table td:nth-child(3){width:35%!important;text-align:left!important}
-      .quick-request-modal .quick-services-table th:nth-child(4),.quick-request-modal .quick-services-table td:nth-child(4){width:140px!important;text-align:right!important;padding-left:6px!important}
-      .quick-request-modal .quick-services-table th:nth-child(5),.quick-request-modal .quick-services-table td:nth-child(5){width:34px!important;text-align:center!important}
+      .quick-request-modal .quick-services-table th:nth-child(2),.quick-request-modal .quick-services-table td:nth-child(2){width:29%!important;text-align:left!important}
+      .quick-request-modal .quick-services-table th:nth-child(3),.quick-request-modal .quick-services-table td:nth-child(3){width:33%!important;text-align:left!important}
+      .quick-request-modal .quick-services-table th:nth-child(4),.quick-request-modal .quick-services-table td:nth-child(4){width:126px!important;text-align:center!important;padding-left:5px!important}
+      .quick-request-modal .quick-services-table th:nth-child(5),.quick-request-modal .quick-services-table td:nth-child(5){width:30px!important;text-align:center!important}
       .quick-request-modal .quick-services-table td:nth-child(3) input[type="text"]{width:100%!important;text-align:left!important}
-      .quick-request-modal .quick-services-table td:nth-child(4) input[type="text"]{width:100%!important;text-align:right!important}
+      .quick-request-modal .quick-services-table td:nth-child(4) input[type="text"]{width:100%!important;text-align:center!important}
       .quick-request-modal .quick-service-name-input{width:100%!important;border:0!important;background:transparent!important;color:#006b2e!important;font-weight:600!important;text-align:left!important;padding-left:0!important}
       .quick-request-modal .quick-service-name-input:focus{border:1px solid #cfe0ee!important;background:#fff!important;padding-left:7px!important}
       .quick-request-modal.is-view-mode .quick-extra-note textarea,
