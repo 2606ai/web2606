@@ -3903,7 +3903,7 @@ body{
 <!-- QUICK CATEGORY (ô lớn KHÁC, QUÀ TẶNG...) -->
 <div class="brand-position-line">
   <strong>2606AI QUÀ TẶNG COMBO CÁ NHÂN HÓA</strong>
-  <span>"Cùng nhau tạo nên món quà dành riêng cho người nhận"</span>
+  <span>"Thiết kế tạo nên món quà dành riêng cho người nhận"</span>
 </div>
 <div id="quickCatsTop" class="mt-3 mb-3"></div>
 
@@ -11699,7 +11699,7 @@ footer.text-light.footer-2606 a:hover{
   overflow:hidden;
 }
 .quick-request-modal .modal-header{
-  background:linear-gradient(135deg,#166534,#22c55e);
+  background:#0f9f46;
   border:0;
   color:#fff;
   padding:18px 20px;
@@ -11958,7 +11958,7 @@ footer.text-light.footer-2606 a:hover{
   border-radius:12px;
 }
 .quick-request-modal .quick-storage-header{
-  background:linear-gradient(135deg,#007a35 0%,#11a84f 48%,#21c76a 100%);
+  background:#0f9f46;
   border:0;
   border-radius:12px 12px 0 0;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14);
@@ -12345,6 +12345,7 @@ footer.text-light.footer-2606 a:hover{
   border-radius:10px;
   min-height:156px;
   padding-bottom:42px;
+  padding-right:132px;
   resize:vertical;
 }
 .quick-description-field .quick-desc-tabs,
@@ -12403,11 +12404,13 @@ footer.text-light.footer-2606 a:hover{
   box-shadow:0 0 0 3px rgba(21,153,71,.12);
 }
 .quick-voice-btn{
-  bottom:10px;
+  bottom:14px;
   box-shadow:0 8px 18px rgba(8,122,50,.18);
   margin-left:0;
+  max-width:calc(100% - 54px);
   position:absolute;
-  right:10px;
+  right:30px;
+  touch-action:manipulation;
   z-index:2;
 }
 .quick-product-table-section{
@@ -13096,6 +13099,184 @@ footer.text-light.footer-2606 a:hover{
     font-size:12px;
   }
 }
+.quick-request-modal .quick-preview-item span{
+  color:#334155;
+  font-size:11px;
+  font-weight:600;
+  text-align:center;
+}
+.quick-request-modal .quick-services-title{
+  font-weight:700;
+  margin:3px 0 2px;
+}
+.quick-request-modal .quick-services-row td{
+  padding:6px 8px 2px;
+}
+.quick-request-modal .quick-services-table th{
+  font-weight:700;
+  padding:7px 8px;
+}
+.quick-request-modal .quick-services-table td{
+  font-weight:500;
+  line-height:1.25;
+  padding:5px 8px;
+}
+.quick-request-modal .quick-services-table input[type="text"]{
+  font-size:12px;
+  height:28px;
+  min-height:28px;
+  padding:4px 8px;
+}
+.quick-request-modal .quick-table-footer{
+  gap:8px 10px;
+}
+.quick-request-modal .quick-table-footer .quick-add-row-btn{
+  font-size:12px;
+  font-weight:600;
+  min-height:32px;
+  padding:6px 10px;
+}
+.quick-request-modal .quick-table-footer .quick-add-row-btn:not(.primary){
+  box-shadow:none;
+}
+.quick-request-modal .quick-signature-row td{
+  padding:8px 14px 10px;
+}
+.quick-request-modal .quick-signature-grid{
+  gap:12px;
+  grid-template-columns:minmax(360px,1fr) minmax(160px,220px);
+}
+.quick-request-modal .quick-signature-box{
+  gap:3px;
+  opacity:.82;
+}
+.quick-request-modal .quick-signature-box strong{
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:0;
+}
+.quick-request-modal .quick-signature-box span{
+  font-size:11px;
+}
+.quick-request-modal .quick-party-card{
+  background:#fcfffd;
+  border-color:#dfeee5;
+  box-shadow:none;
+}
+.quick-request-modal .quick-party-title{
+  font-weight:650;
+  letter-spacing:0;
+}
+.quick-request-modal .quick-party-title::before{
+  opacity:.8;
+}
+.quick-request-modal .quick-party-fields .quick-info-line{
+  background:#fff;
+  border-color:#e3eadf;
+}
+.quick-request-modal .quick-info-line span{
+  background:#eefbf2;
+  font-weight:650;
+}
+.quick-request-modal .quick-party-fields input{
+  color:#334155;
+  font-weight:400;
+}
+.quick-request-modal.is-view-mode .quick-party-fields input{
+  background:#fff;
+  color:#1f2937;
+}
+.quick-request-modal .quick-status{
+  display:none !important;
+}
+.quick-request-modal .quick-description-field textarea{
+  min-height:190px;
+}
+.quick-request-modal .quick-quote-table-wrap{
+  flex:0 0 auto !important;
+  overflow-x:auto;
+  overflow-y:hidden;
+}
+.quick-request-modal .modal-body > .quick-product-table-section{
+  align-self:start !important;
+}
+.quick-request-modal .quick-quote-table{
+  table-layout:auto !important;
+  min-width:860px;
+  width:100%;
+}
+.quick-request-modal .quick-quote-table th,
+.quick-request-modal .quick-quote-table td{
+  box-sizing:border-box;
+  min-width:112px;
+  white-space:nowrap;
+}
+.quick-request-modal .quick-quote-table th:first-child,
+.quick-request-modal .quick-quote-table td:first-child{
+  min-width:44px;
+  width:44px;
+}
+.quick-request-modal .quick-quote-table th:nth-child(2),
+.quick-request-modal .quick-quote-table td:nth-child(2){
+  min-width:280px;
+  width:34%;
+}
+.quick-request-modal .quick-quote-table th:nth-child(3),
+.quick-request-modal .quick-quote-table td:nth-child(3){
+  min-width:82px;
+  width:82px;
+}
+.quick-request-modal .quick-quote-table th:nth-child(4),
+.quick-request-modal .quick-quote-table td:nth-child(4),
+.quick-request-modal .quick-quote-table th:nth-child(5),
+.quick-request-modal .quick-quote-table td:nth-child(5){
+  min-width:116px;
+  width:116px;
+}
+.quick-request-modal .quick-quote-table th:nth-child(6),
+.quick-request-modal .quick-quote-table td:nth-child(6){
+  min-width:132px;
+  width:132px;
+}
+.quick-request-modal .quick-quote-table th.quick-custom-col,
+.quick-request-modal .quick-quote-table td.quick-custom-cell{
+  min-width:150px;
+  width:150px;
+}
+.quick-request-modal .quick-quote-table th:last-child,
+.quick-request-modal .quick-quote-table td:last-child{
+  min-width:38px;
+  width:38px;
+}
+.quick-request-modal .quick-quote-table input{
+  min-width:0;
+}
+.quick-request-modal .quick-services-row > td,
+.quick-request-modal .quick-signature-row > td{
+  padding-left:8px !important;
+  padding-right:8px !important;
+}
+.quick-request-modal .quick-services-panel{
+  gap:2px;
+}
+.quick-request-modal .quick-services-table td{
+  padding-top:2px !important;
+  padding-bottom:2px !important;
+}
+.quick-request-modal .quick-signature-row td{
+  padding-top:6px !important;
+  padding-bottom:8px !important;
+}
+.quick-request-modal .quick-signature-grid{
+  gap:10px;
+  grid-template-columns:minmax(360px,1fr) minmax(160px,210px);
+}
+.quick-request-modal .quick-signature-note{
+  padding:6px 8px;
+}
+.quick-request-modal .quick-table-footer{
+  padding-top:8px;
+}
 body.quick-exporting .quick-request-modal .modal-content{
   box-shadow:none !important;
   transform:none !important;
@@ -13437,14 +13618,16 @@ body.quick-printing .fab-left-wrapper{
         <small>Sale có thể xem hình/logo/file tham khảo để báo giá sát nhu cầu hơn.</small>
       </div>
       <div class="quick-preview-list">
-        ${files.map((file, index) => {
-          const safeName = String(file.name || '').replace(/[<>&"]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));
-          if(file.type && file.type.startsWith('image/')){
-            const url = URL.createObjectURL(file);
-            return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-file-index="${index}" aria-label="Xóa file">×</button><img src="${url}" alt=""><span>${safeName}</span></div>`;
-          }
-          return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-file-index="${index}" aria-label="Xóa file">×</button><div class="quick-file-icon">📎</div><span>${safeName}</span></div>`;
-        }).join('')}
+      ${files.map((file, index) => {
+        const safeName = String(file.name || '').replace(/[<>&"]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));
+        const isImage = file.type && file.type.startsWith('image/');
+        const displayName = isImage ? `Ảnh ${index + 1}` : `File ${index + 1}`;
+        if(isImage){
+          const url = URL.createObjectURL(file);
+          return `<div class="quick-preview-item" title="${safeName}"><button type="button" class="quick-file-remove" data-file-index="${index}" aria-label="Xóa file">×</button><img src="${url}" alt=""><span>${displayName}</span></div>`;
+        }
+        return `<div class="quick-preview-item" title="${safeName}"><button type="button" class="quick-file-remove" data-file-index="${index}" aria-label="Xóa file">×</button><div class="quick-file-icon">📎</div><span>${displayName}</span></div>`;
+      }).join('')}
       </div>`;
   }
 
@@ -13981,10 +14164,12 @@ function quickInitCloneUpload(block){
       <div class="quick-preview-list">
         ${files.map((file, index) => {
           const safeName = String(file.name || '').replace(/[<>&"]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[s]));
-          if(file.type && file.type.startsWith('image/')){
-            return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-clone-file-index="${index}" aria-label="Xóa file">×</button><img src="${URL.createObjectURL(file)}" alt=""><span>${safeName}</span></div>`;
+          const isImage = file.type && file.type.startsWith('image/');
+          const displayName = isImage ? `Ảnh ${index + 1}` : `File ${index + 1}`;
+          if(isImage){
+            return `<div class="quick-preview-item" title="${safeName}"><button type="button" class="quick-file-remove" data-clone-file-index="${index}" aria-label="Xóa file">×</button><img src="${URL.createObjectURL(file)}" alt=""><span>${displayName}</span></div>`;
           }
-          return `<div class="quick-preview-item"><button type="button" class="quick-file-remove" data-clone-file-index="${index}" aria-label="Xóa file">×</button><div class="quick-file-icon">📎</div><span>${safeName}</span></div>`;
+          return `<div class="quick-preview-item" title="${safeName}"><button type="button" class="quick-file-remove" data-clone-file-index="${index}" aria-label="Xóa file">×</button><div class="quick-file-icon">📎</div><span>${displayName}</span></div>`;
         }).join('')}
       </div>`;
   };
@@ -14778,6 +14963,323 @@ document.querySelector('.seo-guide-list')?.addEventListener('scroll', () => {
   window.requestAnimationFrame(updateSeoGuideCounter);
 });
 window.addEventListener('resize', updateSeoGuideCounter);
+
+/* === 2606AI quick brief polish patch: save/import, compact service table, mobile === */
+(function(){
+  const STORAGE_EMPTY = 'Chưa có link lưu dữ liệu';
+  const STORAGE_BUTTON = 'BẤM LƯU DỮ LIỆU';
+
+  function q(selector, root=document){ return root.querySelector(selector); }
+  function qa(selector, root=document){ return Array.from(root.querySelectorAll(selector)); }
+  function val(id){ const el = document.getElementById(id); return el ? (el.value || '') : ''; }
+  function setVal(id, value){ const el = document.getElementById(id); if(el) el.value = value || ''; }
+  function esc(value){
+    return String(value || '').replace(/[&<>"']/g, ch => ({
+      '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+    }[ch]));
+  }
+
+  function ensureStorageControls(){
+    const mark = q('.quick-storage-mark');
+    if(mark) mark.remove();
+
+    const place = q('.quick-storage-place');
+    if(place){
+      place.onclick = () => window.quickSaveBriefData();
+      const title = place.querySelector('span');
+      if(title) title.textContent = STORAGE_BUTTON;
+      const link = document.getElementById('quickStorageLink');
+      if(link && (!link.textContent || /chọn nơi lưu file/i.test(link.textContent))){
+        link.textContent = window.quickBriefState?.storageLink || STORAGE_EMPTY;
+      }
+    }
+
+    const meta = q('.quick-storage-meta');
+    if(meta && !document.getElementById('quickBriefImportInput')){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'quick-import-file-btn';
+      btn.textContent = 'Import file';
+      btn.onclick = () => window.quickImportBriefFile();
+
+      const input = document.createElement('input');
+      input.id = 'quickBriefImportInput';
+      input.type = 'file';
+      input.accept = '.2606brief,.json,application/json';
+      input.hidden = true;
+      input.addEventListener('change', event => window.quickHandleBriefImport(event));
+
+      meta.appendChild(btn);
+      meta.appendChild(input);
+    }
+  }
+
+  function ensureMultilineNote(){
+    const el = document.getElementById('quickProductOther');
+    if(el && el.tagName === 'INPUT'){
+      const textarea = document.createElement('textarea');
+      textarea.id = el.id;
+      textarea.placeholder = el.placeholder || 'Nhập ghi chú thêm (nếu có)...';
+      textarea.rows = 2;
+      textarea.value = el.value || '';
+      textarea.className = el.className || '';
+      el.replaceWith(textarea);
+    }
+  }
+
+  function ensureQuickPatchStyle(){
+    if(document.getElementById('quickBriefPatchStyle')) return;
+    const style = document.createElement('style');
+    style.id = 'quickBriefPatchStyle';
+    style.textContent = `
+      .quick-request-modal .quick-storage-mark{display:none!important}
+      .quick-request-modal .quick-storage-brand{gap:0!important}
+      .quick-request-modal .quick-storage-meta{display:grid!important;grid-template-columns:minmax(220px,1fr) auto!important;gap:8px!important;align-items:stretch!important}
+      .quick-request-modal .quick-storage-place{min-height:36px!important;padding:5px 12px!important}
+      .quick-request-modal .quick-storage-place span{font-size:13px!important;letter-spacing:.01em!important}
+      .quick-request-modal .quick-storage-place strong{font-size:11px!important;font-weight:600!important;line-height:1.2!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+      .quick-request-modal .quick-import-file-btn{border:1px solid rgba(255,255,255,.75)!important;background:rgba(255,255,255,.14)!important;color:#fff!important;font-weight:600!important;font-size:13px!important;padding:5px 12px!important;min-height:34px!important;white-space:nowrap!important;cursor:pointer!important}
+      .quick-request-modal .quick-extra-note textarea{width:100%!important;min-height:44px!important;resize:vertical!important;border:1px solid #cfe0ee!important;padding:6px 9px!important;font:inherit!important;color:#123!important;background:#fff!important}
+      .quick-request-modal .quick-quote-table{table-layout:fixed!important}
+      .quick-request-modal .quick-quote-table th:first-child,.quick-request-modal .quick-quote-table td:first-child{width:38px!important;text-align:center!important}
+      .quick-request-modal .quick-quote-table th:nth-child(2),.quick-request-modal .quick-quote-table td:nth-child(2){width:37%!important}
+      .quick-request-modal .quick-quote-table th:nth-child(3),.quick-request-modal .quick-quote-table td:nth-child(3){width:78px!important}
+      .quick-request-modal .quick-quote-table th:nth-child(4),.quick-request-modal .quick-quote-table td:nth-child(4){width:112px!important}
+      .quick-request-modal .quick-quote-table th:nth-child(5),.quick-request-modal .quick-quote-table td:nth-child(5){width:116px!important;text-align:right!important}
+      .quick-request-modal .quick-quote-table th:nth-child(6),.quick-request-modal .quick-quote-table td:nth-child(6){width:126px!important;text-align:right!important;padding-right:8px!important}
+      .quick-request-modal .quick-quote-table th:last-child,.quick-request-modal .quick-quote-table td:last-child{width:34px!important;text-align:center!important}
+      .quick-request-modal .quick-quote-table td:nth-child(5) input{width:100%!important;text-align:right!important}
+      .quick-request-modal .quick-quote-table .quick-line-total{display:block!important;width:100%!important;text-align:right!important;font-weight:600!important;color:#005f46!important}
+      .quick-request-modal .quick-services-panel{margin-top:4px!important}
+      .quick-request-modal .quick-services-title{margin-bottom:3px!important}
+      .quick-request-modal .quick-services-table{table-layout:fixed!important}
+      .quick-request-modal .quick-services-table th,.quick-request-modal .quick-services-table td{padding:3px 7px!important;height:28px!important;line-height:1.15!important;vertical-align:middle!important}
+      .quick-request-modal .quick-services-table input[type="text"]{height:24px!important;padding:2px 6px!important;font-size:13px!important}
+      .quick-request-modal .quick-services-table input[type="checkbox"]{margin:0!important}
+      .quick-request-modal .quick-services-table th:first-child,.quick-request-modal .quick-services-table td:first-child{width:32px!important;text-align:center!important}
+      .quick-request-modal .quick-services-table th:nth-child(2),.quick-request-modal .quick-services-table td:nth-child(2){width:31%!important;text-align:left!important}
+      .quick-request-modal .quick-services-table th:nth-child(3),.quick-request-modal .quick-services-table td:nth-child(3){width:35%!important;text-align:left!important}
+      .quick-request-modal .quick-services-table th:nth-child(4),.quick-request-modal .quick-services-table td:nth-child(4){width:140px!important;text-align:right!important;padding-left:6px!important}
+      .quick-request-modal .quick-services-table th:nth-child(5),.quick-request-modal .quick-services-table td:nth-child(5){width:34px!important;text-align:center!important}
+      .quick-request-modal .quick-services-table td:nth-child(3) input[type="text"]{width:100%!important;text-align:left!important}
+      .quick-request-modal .quick-services-table td:nth-child(4) input[type="text"]{width:100%!important;text-align:right!important}
+      .quick-request-modal .quick-service-name-input{width:100%!important;border:0!important;background:transparent!important;color:#006b2e!important;font-weight:600!important;text-align:left!important;padding-left:0!important}
+      .quick-request-modal .quick-service-name-input:focus{border:1px solid #cfe0ee!important;background:#fff!important;padding-left:7px!important}
+      .quick-request-modal.is-view-mode .quick-extra-note textarea,
+      .quick-request-modal.is-view-mode textarea{white-space:pre-line!important}
+      .quick-request-modal.is-view-mode .quick-services-body tr:not(.is-hidden-in-view){display:table-row!important}
+      @media (max-width:768px){
+        .quick-request-modal .modal-dialog{max-width:100%!important;margin:0!important}
+        .quick-request-modal .modal-content{min-height:100vh!important}
+        .quick-request-modal .quick-storage-header{grid-template-columns:1fr!important;gap:8px!important;padding:10px 12px!important;position:relative!important}
+        .quick-request-modal .quick-storage-center{justify-self:start!important;text-align:left!important}
+        .quick-request-modal .quick-storage-meta{grid-template-columns:1fr auto!important;width:100%!important;padding-right:48px!important}
+        .quick-request-modal .quick-header-actions{position:absolute!important;right:8px!important;top:8px!important}
+        .quick-request-modal .modal-body{grid-template-columns:1fr!important;padding:10px!important;gap:10px!important;overflow-x:hidden!important}
+        .quick-request-modal .quick-profile-main,.quick-request-modal .quick-product-table-section,.quick-request-modal .quick-party-grid,.quick-request-modal #quickStatus,.quick-request-modal #quickExtraProductBlocks,.quick-request-modal .quick-add-product-btn,.quick-request-modal .quick-actions{grid-column:1!important}
+        .quick-request-modal .quick-product-table-section{overflow-x:auto!important}
+        .quick-request-modal .quick-quote-table{min-width:720px!important}
+        .quick-request-modal .quick-services-table{min-width:640px!important}
+        .quick-request-modal .quick-party-grid{grid-template-columns:1fr!important}
+        .quick-request-modal .quick-storage-header .modal-title{font-size:20px!important}
+        .quick-request-modal .quick-import-file-btn{padding:5px 8px!important}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function collectQuoteRows(){
+    return qa('#quickQuoteBody tr').map(tr => {
+      const cells = tr.children;
+      return {
+        name: cells[1]?.querySelector('input')?.value || '',
+        unit: cells[2]?.querySelector('input')?.value || '',
+        qty: cells[3]?.querySelector('input')?.value || '',
+        price: cells[4]?.querySelector('input')?.value || ''
+      };
+    }).filter(row => row.name || row.qty || row.price);
+  }
+
+  function collectServices(){
+    return qa('.quick-services-body tr').map(tr => {
+      const cells = tr.children;
+      const nameInput = cells[1]?.querySelector('input');
+      return {
+        checked: !!cells[0]?.querySelector('input[type="checkbox"]')?.checked,
+        name: nameInput ? nameInput.value : (cells[1]?.textContent || '').trim(),
+        desc: cells[2]?.querySelector('input,textarea')?.value || '',
+        amount: cells[3]?.querySelector('input')?.value || ''
+      };
+    }).filter(item => item.checked || item.name || item.desc || item.amount);
+  }
+
+  function collectBriefData(){
+    if(typeof quickEnsureBriefMeta === 'function') quickEnsureBriefMeta();
+    return {
+      version: '2606ai-brief-v1',
+      code: window.quickBriefState?.code || String(Date.now()).slice(-10),
+      createdAt: window.quickBriefState?.createdAt ? new Date(window.quickBriefState.createdAt).toISOString() : new Date().toISOString(),
+      storageLink: window.quickBriefState?.storageLink || '',
+      product: {
+        name: val('quickProduct'),
+        note: val('quickNote'),
+        other: val('quickProductOther')
+      },
+      seller: {
+        name: val('quickSellerName'),
+        address: val('quickSellerAddress'),
+        phone: val('quickSellerPhone'),
+        email: val('quickSellerEmail')
+      },
+      buyer: {
+        name: val('quickName'),
+        address: val('quickAddress'),
+        phone: val('quickPhone'),
+        email: val('quickEmail')
+      },
+      rows: collectQuoteRows(),
+      services: collectServices()
+    };
+  }
+
+  function downloadBriefData(data){
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `2606AI-brief-${data.code || Date.now()}.2606brief`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  window.quickSaveBriefData = function(){
+    const data = collectBriefData();
+    const suggested = data.storageLink || `2606AI/Brief/brief-${data.code || Date.now()}.2606brief`;
+    const entered = window.prompt('Nhập link/nơi lưu dữ liệu để hiển thị trên brief:', suggested);
+    if(entered !== null){
+      data.storageLink = entered.trim() || suggested;
+      window.quickBriefState = window.quickBriefState || {};
+      window.quickBriefState.storageLink = data.storageLink;
+      quickUpdateStorageDisplay();
+    }
+    downloadBriefData(data);
+    if(typeof quickSetStatus === 'function'){
+      quickSetStatus('Đã lưu dữ liệu brief. Có thể import file này để mở lại và chỉnh sửa.');
+    }
+  };
+
+  window.quickChooseStorageLocation = window.quickSaveBriefData;
+
+  window.quickUpdateStorageDisplay = function(){
+    window.quickBriefState = window.quickBriefState || {};
+    if(!window.quickBriefState.createdAt) window.quickBriefState.createdAt = new Date();
+    if(!window.quickBriefState.code) window.quickBriefState.code = String(Date.now()).slice(-10);
+    const codeEl = document.getElementById('quickBriefCode');
+    const timeEl = document.getElementById('quickBriefTime');
+    const storageEl = document.getElementById('quickStorageLink');
+    if(codeEl) codeEl.textContent = window.quickBriefState.code;
+    if(timeEl) timeEl.textContent = new Date(window.quickBriefState.createdAt).toLocaleString('vi-VN');
+    if(storageEl) storageEl.textContent = window.quickBriefState.storageLink || STORAGE_EMPTY;
+    ensureStorageControls();
+  };
+
+  window.quickImportBriefFile = function(){
+    ensureStorageControls();
+    document.getElementById('quickBriefImportInput')?.click();
+  };
+
+  window.quickHandleBriefImport = function(event){
+    const file = event.target.files && event.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const data = JSON.parse(String(reader.result || '{}'));
+        quickApplyBriefData(data);
+        if(typeof quickSetStatus === 'function') quickSetStatus('Đã import dữ liệu brief cũ. Bạn có thể chỉnh sửa tiếp.');
+      }catch(err){
+        if(typeof quickSetStatus === 'function') quickSetStatus('File import không đúng định dạng dữ liệu brief.');
+      }finally{
+        event.target.value = '';
+      }
+    };
+    reader.readAsText(file, 'utf-8');
+  };
+
+  function serviceRowHtml(service){
+    return `<tr>
+      <td><input type="checkbox" ${service.checked ? 'checked' : ''}></td>
+      <td><input type="text" class="quick-service-name-input" value="${esc(service.name)}"></td>
+      <td><input type="text" value="${esc(service.desc)}"></td>
+      <td><input type="text" value="${esc(service.amount)}"></td>
+      <td><button type="button" class="quick-service-remove" onclick="quickRemoveServiceRow(this)">×</button></td>
+    </tr>`;
+  }
+
+  function applyQuoteRows(rows){
+    const body = document.getElementById('quickQuoteBody');
+    if(!body) return;
+    const needed = Math.max(1, rows.length || 1);
+    while(qa('#quickQuoteBody tr').length < needed && typeof quickAddQuoteRow === 'function') quickAddQuoteRow();
+    qa('#quickQuoteBody tr').forEach((tr, index) => {
+      const row = rows[index] || {};
+      const cells = tr.children;
+      if(cells[1]?.querySelector('input')) cells[1].querySelector('input').value = row.name || '';
+      if(cells[2]?.querySelector('input')) cells[2].querySelector('input').value = row.unit || 'cái';
+      if(cells[3]?.querySelector('input')) cells[3].querySelector('input').value = row.qty || '';
+      if(cells[4]?.querySelector('input')) cells[4].querySelector('input').value = row.price || '';
+      if(typeof quickUpdateRowTotal === 'function') quickUpdateRowTotal(tr);
+    });
+  }
+
+  function applyServices(services){
+    const body = q('.quick-services-body');
+    if(!body) return;
+    const fallback = [
+      {name:'Bao bì theo yêu cầu', desc:'', amount:'', checked:false},
+      {name:'Vận chuyển nhiều địa điểm', desc:'', amount:'', checked:false},
+      {name:'Gia công thêm công đoạn', desc:'', amount:'', checked:false},
+      {name:'Kho bãi và đóng gói riêng', desc:'', amount:'', checked:false}
+    ];
+    body.innerHTML = (services && services.length ? services : fallback).map(serviceRowHtml).join('');
+  }
+
+  window.quickApplyBriefData = function(data){
+    window.quickBriefState = window.quickBriefState || {};
+    if(data.code) window.quickBriefState.code = data.code;
+    if(data.createdAt) window.quickBriefState.createdAt = new Date(data.createdAt);
+    window.quickBriefState.storageLink = data.storageLink || '';
+    setVal('quickProduct', data.product?.name || '');
+    setVal('quickNote', data.product?.note || '');
+    ensureMultilineNote();
+    setVal('quickProductOther', data.product?.other || '');
+    setVal('quickSellerName', data.seller?.name || '');
+    setVal('quickSellerAddress', data.seller?.address || '');
+    setVal('quickSellerPhone', data.seller?.phone || '');
+    setVal('quickSellerEmail', data.seller?.email || '');
+    setVal('quickName', data.buyer?.name || '');
+    setVal('quickAddress', data.buyer?.address || '');
+    setVal('quickPhone', data.buyer?.phone || '');
+    setVal('quickEmail', data.buyer?.email || '');
+    applyQuoteRows(data.rows || []);
+    applyServices(data.services || []);
+    quickUpdateStorageDisplay();
+  };
+
+  const initQuickPatch = () => {
+    ensureQuickPatchStyle();
+    ensureStorageControls();
+    ensureMultilineNote();
+    if(typeof quickUpdateStorageDisplay === 'function') quickUpdateStorageDisplay();
+  };
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initQuickPatch);
+  }else{
+    initQuickPatch();
+  }
+})();
 </script>
 </body>
 </html> 
