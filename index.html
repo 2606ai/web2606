@@ -12567,6 +12567,123 @@ footer.text-light.footer-2606 a:hover{
 .quick-table-footer .quick-add-row-btn.service{
   grid-area:service;
 }
+.quick-timeline-strip{
+  align-items:flex-start;
+  background:#ffffff;
+  border:1px solid #d8efe1;
+  border-left:4px solid #139447;
+  color:#075f2a;
+  display:flex;
+  gap:9px;
+  grid-column:1/-1;
+  margin:6px 0 5px;
+  min-width:0;
+  padding:7px 9px 7px 8px;
+}
+.quick-timeline-head{
+  align-items:center;
+  color:#075f2a;
+  display:flex;
+  flex:0 0 auto;
+  font-size:11px;
+  font-weight:600;
+  gap:8px;
+  justify-content:flex-start;
+  margin:0;
+  padding-top:2px;
+  white-space:nowrap;
+}
+.quick-timeline-list{
+  display:flex;
+  flex:1 1 auto;
+  flex-direction:row;
+  gap:7px;
+  min-width:0;
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:1px;
+}
+.quick-timeline-item{
+  align-items:stretch;
+  background:#f8fffb;
+  border:1px solid #cfeadb;
+  box-shadow:0 1px 4px rgba(8,105,45,.04);
+  display:grid;
+  flex:0 0 205px;
+  gap:2px;
+  grid-template-areas:
+    "time remove"
+    "note remove";
+  grid-template-columns:minmax(0,1fr) 20px;
+  padding:4px 5px 5px;
+}
+.quick-timeline-time{
+  grid-area:time;
+}
+.quick-timeline-note{
+  grid-area:note;
+}
+.quick-timeline-time,
+.quick-timeline-note{
+  background:transparent;
+  border:1px solid transparent;
+  color:#102033;
+  font-size:11px;
+  height:19px;
+  min-width:0;
+  padding:1px 4px;
+  width:100%;
+}
+.quick-timeline-time{
+  color:#075f2a;
+  font-weight:600;
+}
+.quick-timeline-note{
+  color:#25364a;
+}
+.quick-timeline-time:focus,
+.quick-timeline-note:focus{
+  background:#fbfffd;
+  border-color:#9ad6b0;
+  outline:0;
+}
+.quick-timeline-add{
+  background:#138a3d;
+  border:1px solid #138a3d;
+  color:#fff;
+  cursor:pointer;
+  font-size:11px;
+  font-weight:600;
+  height:23px;
+  padding:0 8px;
+}
+.quick-timeline-remove{
+  align-self:start;
+  background:#fff7f7;
+  border:1px solid #ffd0d0;
+  color:#ef4444;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
+  grid-area:remove;
+  height:20px;
+  line-height:16px;
+  min-height:20px;
+  padding:0;
+  width:20px;
+}
+.quick-request-modal.is-view-mode .quick-timeline-add,
+.quick-request-modal.is-view-mode .quick-timeline-remove{
+  display:none!important;
+}
+.quick-request-modal.is-view-mode .quick-timeline-time,
+.quick-request-modal.is-view-mode .quick-timeline-note{
+  background:transparent!important;
+  border:0!important;
+  color:inherit!important;
+  pointer-events:none!important;
+  padding:0!important;
+}
 .quick-row-remove,
 .quick-file-remove{
   align-items:center;
@@ -12959,6 +13076,7 @@ footer.text-light.footer-2606 a:hover{
       "profile quote"
       "status quote"
       "extras extras"
+      "timeline timeline"
       "party party"
       "add add"
       "actions actions";
@@ -13017,6 +13135,9 @@ footer.text-light.footer-2606 a:hover{
   .quick-request-modal .modal-body > #quickExtraProductBlocks{
     grid-area:extras;
     margin-top:6px;
+  }
+  .quick-request-modal .modal-body > .quick-timeline-strip{
+    grid-area:timeline;
   }
   .quick-request-modal .modal-body > .quick-add-product-btn{
     grid-area:add;
@@ -13883,6 +14004,62 @@ function quickSyncSignatureColspans(scope = document){
     const signatureCell = table.querySelector('.quick-signature-row td');
     if(signatureCell) signatureCell.colSpan = count;
   });
+}
+
+function quickTimelineNow(){
+  const now = new Date();
+  const pad = value => String(value).padStart(2, '0');
+  return `${pad(now.getHours())}:${pad(now.getMinutes())} ${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
+}
+
+function quickCreateTimelineItem(time = '', note = ''){
+  const row = document.createElement('div');
+  row.className = 'quick-timeline-item';
+  row.innerHTML = `
+    <input class="quick-timeline-time" type="text" placeholder="Thời gian">
+    <input class="quick-timeline-note" type="text" placeholder="Nội dung ghi chú">
+    <button type="button" class="quick-timeline-remove" onclick="quickRemoveTimelineItem(this)" aria-label="Xóa timeline">×</button>
+  `;
+  const timeInput = row.querySelector('.quick-timeline-time');
+  const noteInput = row.querySelector('.quick-timeline-note');
+  if(timeInput) timeInput.value = time || quickTimelineNow();
+  if(noteInput) noteInput.value = note || '';
+  return row;
+}
+
+function quickInitTimeline(){
+  document.querySelectorAll('.quick-timeline-time').forEach(input => {
+    if(!input.value) input.value = quickTimelineNow();
+  });
+}
+
+function quickAddTimelineItem(button){
+  const strip = button?.closest('.quick-timeline-strip');
+  const list = strip ? strip.querySelector('.quick-timeline-list') : document.querySelector('.quick-timeline-list');
+  if(!list) return;
+  const row = quickCreateTimelineItem();
+  list.appendChild(row);
+  row.querySelector('.quick-timeline-note')?.focus();
+}
+
+function quickRemoveTimelineItem(button){
+  const list = button?.closest('.quick-timeline-list');
+  const item = button?.closest('.quick-timeline-item');
+  if(!list || !item) return;
+  if(list.children.length <= 1){
+    const timeInput = item.querySelector('.quick-timeline-time');
+    const noteInput = item.querySelector('.quick-timeline-note');
+    if(timeInput) timeInput.value = quickTimelineNow();
+    if(noteInput) noteInput.value = '';
+    return;
+  }
+  item.remove();
+}
+
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', quickInitTimeline);
+}else{
+  quickInitTimeline();
 }
 
 function quickAddServiceOption(button){
@@ -15091,10 +15268,15 @@ window.addEventListener('resize', updateSeoGuideCounter);
         .quick-request-modal .quick-storage-meta{grid-template-columns:1fr auto!important;width:100%!important;padding-right:48px!important}
         .quick-request-modal .quick-header-actions{position:absolute!important;right:8px!important;top:8px!important}
         .quick-request-modal .modal-body{grid-template-columns:1fr!important;padding:10px!important;gap:10px!important;overflow-x:hidden!important}
-        .quick-request-modal .quick-profile-main,.quick-request-modal .quick-product-table-section,.quick-request-modal .quick-party-grid,.quick-request-modal #quickStatus,.quick-request-modal #quickExtraProductBlocks,.quick-request-modal .quick-add-product-btn,.quick-request-modal .quick-actions{grid-column:1!important}
+        .quick-request-modal .quick-profile-main,.quick-request-modal .quick-product-table-section,.quick-request-modal .quick-party-grid,.quick-request-modal .quick-timeline-strip,.quick-request-modal #quickStatus,.quick-request-modal #quickExtraProductBlocks,.quick-request-modal .quick-add-product-btn,.quick-request-modal .quick-actions{grid-column:1!important}
         .quick-request-modal .quick-product-table-section{overflow-x:auto!important}
         .quick-request-modal .quick-quote-table{min-width:720px!important}
         .quick-request-modal .quick-services-table{min-width:640px!important}
+        .quick-request-modal .quick-timeline-strip{display:block!important}
+        .quick-request-modal .quick-timeline-head{margin-bottom:5px!important}
+        .quick-request-modal .quick-timeline-list{display:flex!important;flex-direction:row!important;overflow-x:auto!important;overflow-y:hidden!important}
+        .quick-request-modal .quick-timeline-strip{padding:7px 8px!important}
+        .quick-request-modal .quick-timeline-item{flex:0 0 210px!important;grid-template-areas:"time remove" "note remove"!important;grid-template-columns:minmax(0,1fr) 20px!important}
         .quick-request-modal .quick-party-grid{grid-template-columns:1fr!important}
         .quick-request-modal .quick-storage-header .modal-title{font-size:20px!important}
         .quick-request-modal .quick-import-file-btn{padding:5px 8px!important}
