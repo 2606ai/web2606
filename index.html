@@ -2221,11 +2221,11 @@ footer.text-light .bi{ color:#fff; }
   flex-direction:column;
   gap:2px;
   justify-content:center;
-  margin:4px 8px 8px;
+  margin:3px 8px 6px;
   max-width:none;
-  min-height:36px;
+  min-height:29px;
   overflow:hidden;
-  padding:4px 10px;
+  padding:3px 10px;
   position:relative;
   text-align:center;
 }
@@ -2908,11 +2908,11 @@ footer.text-light .bi{ color:#fff; }
 
 /* Product detail popup - polished profile view */
 #detailModal .dtl-dialog{
-  width:min(1120px, calc(100vw - 28px)) !important;
+  width:min(1040px, calc(100vw - 28px)) !important;
   max-height:calc(100vh - 28px) !important;
   overflow:auto;
-  padding:22px !important;
-  border-radius:22px !important;
+  padding:18px !important;
+  border-radius:18px !important;
   background:linear-gradient(180deg,#ffffff 0%,#fbfdfb 100%) !important;
   box-shadow:0 24px 70px rgba(15,64,32,.22) !important;
 }
@@ -2927,39 +2927,40 @@ footer.text-light .bi{ color:#fff; }
 }
 #detailModal .dtl-head{
   display:grid !important;
-  grid-template-columns:126px minmax(0,1fr);
-  gap:18px !important;
+  grid-template-columns:104px minmax(0,1fr);
+  gap:16px !important;
   align-items:center !important;
   margin:0 52px 14px 0 !important;
 }
 #detailModal .dtl-head img{
-  width:126px !important;
-  height:126px !important;
-  border-radius:18px !important;
-  box-shadow:0 12px 30px rgba(0,0,0,.12);
+  width:104px !important;
+  height:104px !important;
+  border-radius:15px !important;
+  border:1px solid #e2ece5;
+  box-shadow:0 8px 20px rgba(0,0,0,.09);
 }
 #detailModal #dtlTitle{
   margin:0 0 6px !important;
-  color:#087227 !important;
-  font-size:clamp(26px,2.4vw,38px) !important;
-  font-weight:500 !important;
-  line-height:1.18 !important;
+  color:#096c2a !important;
+  font-size:clamp(21px,1.8vw,28px) !important;
+  font-weight:600 !important;
+  line-height:1.25 !important;
   letter-spacing:0 !important;
 }
 #detailModal .dtl-sub{
   color:#52635a !important;
-  font-size:15px !important;
+  font-size:13px !important;
   font-weight:400 !important;
 }
 #detailModal .dtl-badges{
-  margin:8px 0 18px !important;
-  gap:10px !important;
+  margin:8px 0 14px !important;
+  gap:7px !important;
 }
 #detailModal .dtl-badges .tag{
   background:#edf8ef !important;
   color:#087227 !important;
   border:1px solid #d9f0dd !important;
-  padding:7px 12px !important;
+  padding:5px 10px !important;
   border-radius:999px !important;
   font-size:13px !important;
   font-weight:400 !important;
@@ -2967,18 +2968,18 @@ footer.text-light .bi{ color:#fff; }
 #detailModal .dtl-rows{
   display:grid !important;
   grid-template-columns:minmax(0,1fr) minmax(360px,.95fr) !important;
-  gap:14px !important;
+  gap:12px !important;
 }
 #detailModal .dtl-col{
-  gap:12px !important;
+  gap:9px !important;
 }
 #detailModal .dtl-row,
 #detailModal .field{
-  background:#ffffff !important;
-  border:1px solid #e1eee5 !important;
-  border-radius:16px !important;
-  padding:16px 18px !important;
-  box-shadow:0 8px 24px rgba(17,80,42,.05) !important;
+  background:linear-gradient(135deg,#ffffff,#fbfefc) !important;
+  border:1px solid #deebe2 !important;
+  border-radius:12px !important;
+  padding:11px 14px !important;
+  box-shadow:0 4px 14px rgba(17,80,42,.04) !important;
   transform:none !important;
 }
 #detailModal .dtl-row .k,
@@ -2988,14 +2989,14 @@ footer.text-light .bi{ color:#fff; }
   font-weight:600 !important;
   letter-spacing:.01em !important;
   text-transform:none !important;
-  margin-bottom:8px !important;
+  margin-bottom:4px !important;
 }
 #detailModal .dtl-row .v,
 #detailModal .field .value{
   color:#111827 !important;
-  font-size:17px !important;
-  font-weight:350 !important;
-  line-height:1.55 !important;
+  font-size:15px !important;
+  font-weight:400 !important;
+  line-height:1.45 !important;
 }
 #detailModal .field.desc .value{
   font-size:16px !important;
@@ -3004,16 +3005,16 @@ footer.text-light .bi{ color:#fff; }
   position:static !important;
 }
 #detailModal .media-card{
-  padding:16px !important;
-  border-radius:18px !important;
+  padding:12px !important;
+  border-radius:14px !important;
   border:1px solid #dfeee5 !important;
   background:#ffffff !important;
   box-shadow:0 10px 28px rgba(17,80,42,.06) !important;
 }
 #detailModal .media-card h5{
-  margin:0 0 12px !important;
+  margin:0 0 9px !important;
   color:#087227 !important;
-  font-size:18px !important;
+  font-size:16px !important;
   font-weight:600 !important;
 }
 #detailModal .media-card h5:before{
@@ -3022,12 +3023,12 @@ footer.text-light .bi{ color:#fff; }
   background:#2e9b47 !important;
 }
 #detailModal .cert-grid{
-  max-height:360px;
+  max-height:330px;
   overflow:auto;
   display:grid !important;
   grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) !important;
-  gap:12px !important;
-  padding:10px !important;
+  gap:9px !important;
+  padding:8px !important;
   background:#f7fbf8;
   border:1px solid #e3f1e8;
   border-radius:16px;
@@ -3064,7 +3065,7 @@ footer.text-light .bi{ color:#fff; }
   #detailModal .dtl-dialog{ padding:16px !important; }
   #detailModal .dtl-head{ grid-template-columns:82px 1fr; margin-right:46px !important; }
   #detailModal .dtl-head img{ width:82px !important; height:82px !important; }
-  #detailModal #dtlTitle{ font-size:22px !important; }
+  #detailModal #dtlTitle{ font-size:19px !important; }
   #detailModal .dtl-rows{ grid-template-columns:1fr !important; }
   #detailModal .cert-grid{ max-height:300px; grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
 }
@@ -10249,29 +10250,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </div>
 </div>
 
-<!-- BOX CHI TIẾT SẢN PHẨM -->
-<div id="detailModal" class="dtl-backdrop" hidden>
-  <div class="dtl-dialog" role="dialog" aria-modal="true" aria-labelledby="dtlTitle">
-    <button class="dtl-close" type="button" data-close="detailModal" aria-label="Đóng">×</button>
-
-    <div class="dtl-head">
-      <img id="dtlImg" src="" alt="">
-      <div>
-        <h4 id="dtlTitle">Chi tiết</h4>
-        <div id="dtlSub" class="dtl-sub"></div>
-        <div id="dtlBadges" class="dtl-badges"></div>
-      </div>
-    </div>
-
-    <div id="dtlRows" class="dtl-rows"></div>
-
-    <div class="dtl-actions">
-      <a id="dtlOpenImg" class="btn-ghost" href="#" target="_blank" rel="noopener">Mở ảnh gốc</a>
-      <button type="button" class="btn-main" data-close="detailModal">Đóng</button>
-    </div>
-  </div>
-</div>
-
 <script>
 (function(){
   var href="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w32";
@@ -11369,6 +11347,12 @@ footer.text-light.footer-2606 a:hover{
   .seo-guide-list{
     overflow:visible;
     padding-right:0;
+  }
+}
+@media (max-width: 768px){
+  .seo-guide-list{
+    overflow-y:auto;
+    padding-right:4px;
   }
 }
 .quick-drop-zone{
@@ -15238,10 +15222,39 @@ document.querySelector('.seo-guide-list')?.addEventListener('scroll', () => {
 });
 window.addEventListener('resize', updateSeoGuideCounter);
 
+function syncSeoGuideMobileItems(){
+  const guide = document.querySelector('.seo-guide-box');
+  const list = guide?.querySelector('.seo-guide-list');
+  if(!guide || !list) return;
+
+  if(window.innerWidth > 768){
+    list.style.removeProperty('height');
+    list.style.removeProperty('max-height');
+    list.style.removeProperty('overflow-y');
+    return;
+  }
+
+  const links = Array.from(list.querySelectorAll('.seo-guide-link'))
+    .filter(link => link.offsetParent !== null)
+    .slice(0, 6);
+  if(!links.length) return;
+
+  const gap = parseFloat(window.getComputedStyle(list).rowGap) || 0;
+  const sixItemHeight = Math.ceil(
+    links.reduce((sum, link) => sum + link.getBoundingClientRect().height, 0)
+    + gap * Math.max(0, links.length - 1)
+  );
+  list.style.height = `${sixItemHeight}px`;
+  list.style.maxHeight = `${sixItemHeight}px`;
+  list.style.overflowY = 'auto';
+}
+
 function syncSeoGuideHeightToProducts(){
   const guide = document.querySelector('.seo-guide-box');
   const grid = document.getElementById('productGrid');
   if(!guide || !grid) return;
+
+  syncSeoGuideMobileItems();
 
   if(window.innerWidth <= 992){
     guide.style.removeProperty('height');
@@ -15477,7 +15490,66 @@ function syncSeoGuideHeightToProducts(){
     URL.revokeObjectURL(url);
   }
 
-  window.quickSaveBriefData = function(){
+  function collectUploadedBriefFiles(){
+    const entries = [];
+    (window.quickRequestFiles || []).forEach((file, index) => {
+      entries.push({
+        folder:'san-pham-chinh',
+        index,
+        file
+      });
+    });
+    qa('.quick-product-clone').forEach((block, blockIndex) => {
+      (block.quickFiles || []).forEach((file, fileIndex) => {
+        entries.push({
+          folder:`san-pham-${blockIndex + 2}`,
+          index:fileIndex,
+          file
+        });
+      });
+    });
+    return entries;
+  }
+
+  async function downloadBriefPackage(data){
+    if(!window.JSZip){
+      throw new Error('Thiếu thư viện tạo ZIP. Vui lòng kiểm tra kết nối rồi thử lại.');
+    }
+    const uploads = collectUploadedBriefFiles();
+    data.files = uploads.map(entry => ({
+      folder:entry.folder,
+      name:entry.file.name,
+      type:entry.file.type,
+      size:entry.file.size
+    }));
+
+    const zip = new JSZip();
+    const dataName = `2606AI-brief-${data.code || Date.now()}.2606brief`;
+    zip.file(dataName, JSON.stringify(data, null, 2));
+    const filesFolder = zip.folder('file-tai-len');
+    uploads.forEach(entry => {
+      const safeName = typeof quickSafeFileName === 'function'
+        ? quickSafeFileName(entry.file.name, entry.index)
+        : String(entry.file.name || `file-${entry.index + 1}`).replace(/[\\/:*?"<>|]+/g, '-');
+      filesFolder.file(
+        `${entry.folder}/${String(entry.index + 1).padStart(2, '0')}-${safeName}`,
+        entry.file
+      );
+    });
+
+    const blob = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `2606AI-brief-${data.code || Date.now()}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return uploads.length;
+  }
+
+  window.quickSaveBriefData = async function(){
     const data = collectBriefData();
     const suggested = data.storageLink || `2606AI/Brief/brief-${data.code || Date.now()}.2606brief`;
     const entered = window.prompt('Nhập link/nơi lưu dữ liệu để hiển thị trên brief:', suggested);
@@ -15487,9 +15559,16 @@ function syncSeoGuideHeightToProducts(){
       window.quickBriefState.storageLink = data.storageLink;
       quickUpdateStorageDisplay();
     }
-    downloadBriefData(data);
-    if(typeof quickSetStatus === 'function'){
-      quickSetStatus('Đã lưu dữ liệu brief. Có thể import file này để mở lại và chỉnh sửa.');
+    try{
+      if(typeof quickSetStatus === 'function') quickSetStatus('Đang đóng gói dữ liệu và file tải lên...');
+      const fileCount = await downloadBriefPackage(data);
+      if(typeof quickSetStatus === 'function'){
+        quickSetStatus(`Đã tải gói ZIP gồm dữ liệu brief và ${fileCount} file đính kèm.`);
+      }
+    }catch(err){
+      if(typeof quickSetStatus === 'function'){
+        quickSetStatus(err.message || 'Không tạo được gói lưu dữ liệu. Vui lòng thử lại.');
+      }
     }
   };
 
