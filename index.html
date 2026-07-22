@@ -2213,35 +2213,52 @@ footer.text-light .bi{ color:#fff; }
 }
 .brand-position-line{
   align-items:center;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  box-shadow:none;
   display:flex;
   flex-direction:column;
   gap:2px;
   justify-content:center;
-  margin:-4px auto 6px;
-  max-width:760px;
-  min-height:0;
-  padding:0 10px;
+  margin:4px 8px 8px;
+  max-width:none;
+  min-height:36px;
+  overflow:hidden;
+  padding:4px 10px;
+  position:relative;
   text-align:center;
 }
+.brand-position-line::before{
+  display:none;
+}
+.brand-position-line::after{
+  display:none;
+}
 .brand-position-line strong{
-  color:#087a32;
-  font-size:16px;
-  font-weight:700;
-  letter-spacing:.2px;
+  color:#64748b;
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:.15px;
   line-height:1.15;
+  position:relative;
+  z-index:1;
 }
 .brand-position-line span{
-  color:#475569;
-  font-size:13px;
-  font-weight:600;
+  color:#94a3b8;
+  font-size:11.5px;
+  font-weight:500;
   line-height:1.2;
+  position:relative;
+  z-index:1;
 }
 @media (max-width:768px){
   .brand-position-line{
     align-items:center;
     gap:2px;
-    margin:-2px auto 6px;
-    min-height:28px;
+    margin:6px 0 10px;
+    min-height:44px;
+    padding:6px 10px;
   }
   .brand-position-line strong{
     font-size:14px;
@@ -3569,7 +3586,6 @@ body{
   <!-- ===== TIỆN ÍCH BRIEF BÁO GIÁ NHANH - DEMO ===== -->
   <div id="quickRequestBox" class="sidebar-box quick-request-box">
     <div class="quick-request-head">
-      <span class="quick-request-icon">✦</span>
       <div>
         <h6>TẠO PROFILE SẢN PHẨM</h6>
         <p>Điền thông tin để lưu trữ File nghiệp</p>
@@ -3579,7 +3595,6 @@ body{
     <label id="quickDropZone" class="quick-drop-zone" for="quickFileInput">
       <input id="quickFileInput" type="file" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx" multiple hidden>
       <span class="quick-drop-main">Kéo thả hình/file vào đây</span>
-      <small>Bấm hoặc thả nhiều hình/file để tạo hồ sơ sản phẩm</small>
       <strong id="quickFileName">Chưa có file đính kèm</strong>
     </label>
   </div>
@@ -3851,9 +3866,10 @@ body{
           </div>
           <div class="quick-table-footer">
             <button type="button" class="quick-add-row-btn primary" onclick="quickAddQuoteRow()">+ Thêm dòng</button>
-            <button type="button" class="quick-add-row-btn service" onclick="quickAddServiceOption(this)">+ Thêm dịch vụ</button>
             <button type="button" class="quick-add-row-btn" onclick="quickAddQuoteColumn()">+ Thêm cột</button>
             <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastQuoteColumn()">× Xóa cột</button>
+            <button type="button" class="quick-add-row-btn service" onclick="quickAddServiceOption(this)">+ Thêm dịch vụ</button>
+            <button type="button" class="quick-add-row-btn product quick-add-product-btn" onclick="quickAddProductBlock()">+ Thêm sản phẩm</button>
           </div>
         </section>
 
@@ -3872,10 +3888,10 @@ body{
         </section>
 
         <div id="quickExtraProductBlocks" class="quick-extra-product-blocks"></div>
-        <button type="button" class="quick-add-product-btn" onclick="quickAddProductBlock()">+ Thêm sản phẩm</button>
 
         <div class="quick-actions">
           <button type="button" class="secondary" onclick="quickResetBriefForm()">Làm mới</button>
+          <button type="button" class="quick-print-btn" onclick="quickOpenPrint()">🖨 In</button>
         </div>
       </div>
     </div>
@@ -5416,9 +5432,11 @@ document.addEventListener('click', (ev)=>{
 
 .benefits-v3 .bcard:nth-child(5) .benefit-icon,
 .benefits-v3 .bcard:nth-child(5) .benefit-action{
-  background:linear-gradient(135deg,#fb7185,#db2777) !important;
+  background:linear-gradient(135deg,#4a4a4a 0%,#171717 48%,#000000 100%) !important;
 }
-.benefits-v3 .bcard:nth-child(5)::after{background:#fbcfe8 !important;}
+.benefits-v3 .bcard:nth-child(5)::after{
+  background:linear-gradient(135deg,rgba(64,64,64,.06),rgba(0,0,0,.18)) !important;
+}
 
 .benefits-v3 .bcard:nth-child(6) .benefit-icon,
 .benefits-v3 .bcard:nth-child(6) .benefit-action{
@@ -5446,7 +5464,7 @@ document.addEventListener('click', (ev)=>{
 .benefits-v3 .bcard:nth-child(2) strong{color:#6d28d9 !important;}
 .benefits-v3 .bcard:nth-child(3) strong{color:#ea580c !important;}
 .benefits-v3 .bcard:nth-child(4) strong{color:#1d4ed8 !important;}
-.benefits-v3 .bcard:nth-child(5) strong{color:#db2777 !important;}
+.benefits-v3 .bcard:nth-child(5) strong{color:#111111 !important;}
 .benefits-v3 .bcard:nth-child(6) strong{color:#1d4ed8 !important;}
 
 .benefit-action{
@@ -5756,7 +5774,7 @@ document.addEventListener('click', (ev)=>{
 }
 
 .benefits-v3 .bcard:nth-child(5) .benefit-icon{
-  background:linear-gradient(135deg,#fb7185,#db2777);
+  background:linear-gradient(135deg,#4a4a4a 0%,#171717 48%,#000000 100%);
 }
 
 .benefits-v3 .bcard:nth-child(6) .benefit-icon{
@@ -9170,7 +9188,6 @@ const BENEFIT_DETAIL = {
 
       <div class="reward-balance-card">
         <div class="reward-section-title">Tra cứu điểm hiện tại</div>
-        <p class="reward-desc">Nhập email hoặc số điện thoại để xem điểm tích lũy và lịch sử cộng điểm.</p>
         <div class="reward-balance-row">
           <label>
             <span>Email/SĐT tích điểm</span>
@@ -11209,9 +11226,10 @@ footer.text-light.footer-2606 a:hover{
 .quick-request-head{
   align-items:center;
   display:grid;
-  gap:10px;
-  grid-template-columns:42px 1fr;
+  gap:0;
+  grid-template-columns:1fr;
   margin-bottom:12px;
+  text-align:left;
 }
 .quick-request-icon{
   align-items:center;
@@ -11244,7 +11262,8 @@ footer.text-light.footer-2606 a:hover{
   box-shadow:0 12px 32px rgba(22,101,52,.08);
   display:flex;
   flex-direction:column;
-  max-height:668px;
+  height:auto;
+  max-height:none;
   padding:14px;
   position:relative;
 }
@@ -11344,6 +11363,7 @@ footer.text-light.footer-2606 a:hover{
 }
 @media (max-width: 992px){
   .seo-guide-box{
+    height:auto;
     max-height:none;
   }
   .seo-guide-list{
@@ -11963,7 +11983,10 @@ footer.text-light.footer-2606 a:hover{
   margin:0 0 12px;
 }
 .quick-request-modal .quick-actions{
+  grid-template-columns:repeat(2,minmax(0,1fr));
   margin-top:14px;
+  justify-self:end;
+  width:min(460px,100%);
 }
 .quick-request-modal .modal-dialog{
   max-width:1120px;
@@ -12523,10 +12546,8 @@ footer.text-light.footer-2606 a:hover{
   align-items:end;
   display:grid;
   gap:10px;
-  grid-template-areas:
-    "add col"
-    "service del";
-  grid-template-columns:108px 118px;
+  grid-template-areas:"add col del service product";
+  grid-template-columns:108px 108px 108px 136px 136px;
   padding:12px 18px 18px;
 }
 .quick-table-footer .quick-add-row-btn{
@@ -12561,17 +12582,29 @@ footer.text-light.footer-2606 a:hover{
   color:#dc2626;
   grid-area:del;
 }
-.quick-table-footer .quick-add-row-btn:not(.primary):not(.danger):not(.service){
+.quick-table-footer .quick-add-row-btn:not(.primary):not(.danger):not(.service):not(.product){
   grid-area:col;
 }
 .quick-table-footer .quick-add-row-btn.service{
   grid-area:service;
 }
+.quick-table-footer .quick-add-row-btn.product{
+  background:#eafff2;
+  border-color:#76c998;
+  color:#087a32;
+  grid-area:product !important;
+  justify-self:stretch;
+  margin:0 !important;
+  min-width:0 !important;
+  position:static !important;
+  width:100% !important;
+}
 .quick-timeline-strip{
   align-items:flex-start;
-  background:#ffffff;
-  border:1px solid #d8efe1;
-  border-left:4px solid #139447;
+  background:linear-gradient(135deg,#ecfdf3 0%,#dcfce7 100%);
+  border:1px solid #86efac;
+  border-left:4px solid #0f8a3a;
+  box-shadow:0 3px 12px rgba(15,138,58,.12);
   color:#075f2a;
   display:flex;
   gap:9px;
@@ -12605,9 +12638,9 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-timeline-item{
   align-items:stretch;
-  background:#f8fffb;
-  border:1px solid #cfeadb;
-  box-shadow:0 1px 4px rgba(8,105,45,.04);
+  background:#ffffff;
+  border:1px solid #9fdfb7;
+  box-shadow:0 2px 7px rgba(8,105,45,.09);
   display:grid;
   flex:0 0 205px;
   gap:2px;
@@ -12719,7 +12752,8 @@ footer.text-light.footer-2606 a:hover{
   text-transform:uppercase;
 }
 .quick-product-clone .quick-table-footer{
-  grid-template-columns:108px 118px;
+  grid-template-areas:"add col del service";
+  grid-template-columns:108px 108px 108px 136px;
 }
 .quick-product-clone .quick-extra-note{
   min-width:0;
@@ -12986,9 +13020,10 @@ footer.text-light.footer-2606 a:hover{
   border:1px solid #bbf7d0;
   border-radius:14px;
   display:grid;
-  gap:10px;
-  grid-template-columns:minmax(420px,.9fr) minmax(560px,1.1fr);
-  padding:14px;
+  gap:8px;
+  grid-template-columns:minmax(520px,.9fr) minmax(620px,1.1fr);
+  overflow:hidden;
+  padding:14px 0;
 }
 .quick-product-clone-head{
   align-items:center;
@@ -12998,6 +13033,7 @@ footer.text-light.footer-2606 a:hover{
   font-weight:800;
   justify-content:space-between;
   margin-bottom:12px;
+  padding:0 14px;
   text-transform:uppercase;
   grid-column:1 / -1;
 }
@@ -13069,6 +13105,10 @@ footer.text-light.footer-2606 a:hover{
   .quick-request-modal .modal-dialog{
     max-width:min(1560px,96vw);
   }
+  .quick-request-modal .modal-content{
+    transform:scale(.8);
+    transform-origin:center center;
+  }
   .quick-request-modal .modal-body{
     display:grid;
     gap:8px;
@@ -13078,7 +13118,6 @@ footer.text-light.footer-2606 a:hover{
       "extras extras"
       "timeline timeline"
       "party party"
-      "add add"
       "actions actions";
     grid-template-columns:minmax(520px,0.9fr) minmax(620px,1.1fr);
     padding:10px;
@@ -13139,18 +13178,16 @@ footer.text-light.footer-2606 a:hover{
   .quick-request-modal .modal-body > .quick-timeline-strip{
     grid-area:timeline;
   }
-  .quick-request-modal .modal-body > .quick-add-product-btn{
-    grid-area:add;
-    margin:4px auto 0;
-  }
   .quick-request-modal .modal-body > .quick-actions{
     align-self:end;
     display:grid;
     gap:8px;
     grid-area:actions;
-    grid-template-columns:minmax(180px,270px);
-    justify-content:center;
+    grid-template-columns:repeat(2,minmax(110px,1fr));
+    justify-content:end;
+    justify-self:end;
     margin-top:0;
+    width:min(460px,100%);
   }
   .quick-request-modal .quick-party-card{
     border-radius:10px;
@@ -13220,11 +13257,13 @@ footer.text-light.footer-2606 a:hover{
   }
   .quick-request-modal .quick-table-footer{
     gap:8px;
-    grid-template-areas:
-      "add col"
-      "service del";
-    grid-template-columns:96px 112px;
+    grid-template-areas:"add col del service product";
+    grid-template-columns:96px 104px 104px 132px 132px;
     padding:9px 10px 10px;
+  }
+  .quick-request-modal .quick-product-clone .quick-table-footer{
+    grid-template-areas:"add col del service";
+    grid-template-columns:96px 104px 104px 132px;
   }
   .quick-request-modal .quick-table-footer .quick-add-row-btn{
     font-size:12px;
@@ -13294,16 +13333,20 @@ footer.text-light.footer-2606 a:hover{
   font-size:11px;
 }
 .quick-request-modal .quick-party-card{
-  background:#fcfffd;
-  border-color:#dfeee5;
-  box-shadow:none;
+  background:linear-gradient(135deg,#f0fdf4 0%,#e5fbed 100%);
+  border:1px solid #78d69b;
+  box-shadow:0 4px 14px rgba(15,138,58,.13);
 }
 .quick-request-modal .quick-party-title{
-  font-weight:650;
-  letter-spacing:0;
+  background:linear-gradient(135deg,#0f8a3a,#16a34a);
+  color:#fff;
+  font-weight:750;
+  letter-spacing:.2px;
+  margin:-7px -8px 7px;
+  padding:6px 10px;
 }
 .quick-request-modal .quick-party-title::before{
-  opacity:.8;
+  display:none;
 }
 .quick-request-modal .quick-party-fields .quick-info-line{
   background:#fff;
@@ -13553,12 +13596,26 @@ body.quick-printing .fab-left-wrapper{
   .quick-actions{
     grid-template-columns:1fr;
   }
+  .quick-request-modal .quick-actions{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    justify-self:stretch;
+    width:100%;
+  }
   .quick-table-footer{
     grid-template-areas:
       "add"
-      "service"
       "col"
-      "del";
+      "del"
+      "service"
+      "product";
+    grid-template-columns:1fr;
+  }
+  .quick-product-clone .quick-table-footer{
+    grid-template-areas:
+      "add"
+      "col"
+      "del"
+      "service";
   }
   .quick-signature-grid{
     grid-template-columns:1fr;
@@ -14323,9 +14380,9 @@ function quickAddProductBlock(){
       </div>
       <div class="quick-table-footer">
         <button type="button" class="quick-add-row-btn primary" onclick="quickAddCloneRow(this)">+ Thêm dòng</button>
-        <button type="button" class="quick-add-row-btn service" onclick="quickAddServiceOption(this)">+ Thêm dịch vụ</button>
         <button type="button" class="quick-add-row-btn" onclick="quickAddCloneColumn(this)">+ Thêm cột</button>
         <button type="button" class="quick-add-row-btn danger" onclick="quickRemoveLastCloneColumn(this)">× Xóa cột</button>
+        <button type="button" class="quick-add-row-btn service" onclick="quickAddServiceOption(this)">+ Thêm dịch vụ</button>
       </div>
     </section>`;
   holder.appendChild(block);
@@ -14894,6 +14951,9 @@ function quickInfoRowsHtml(rows){
 function quickBriefPrintHtml(data){
   const mainRows = quickGetTableRows('#quickQuoteBody');
   const extraProducts = quickExtraProductPrintData();
+  const grandTotal = [...mainRows, ...extraProducts.flatMap(product => product.rows || [])]
+    .reduce((sum, row) => sum + quickParseMoney(row.total), 0);
+  const grandTotalText = quickFormatMoney(grandTotal);
   const fileCards = quickPrintFileCardsHtml(window.quickRequestFiles || []);
   const description = data.descriptionMode === 'standard'
     ? [
@@ -14922,69 +14982,73 @@ function quickBriefPrintHtml(data){
   <meta charset="UTF-8">
   <title>Brief 2606AI ${quickPrintText(data.briefCode, '')}</title>
   <style>
-    @page{size:A4;margin:9mm}
+    @page{size:A4;margin:10mm}
     *{box-sizing:border-box}
-    body{margin:0;background:#fff;color:#142033;font-family:"Segoe UI",Arial,sans-serif;font-size:11px;line-height:1.45}
-    .page{width:100%;max-width:188mm;margin:0 auto}
-    .header{display:grid;grid-template-columns:1fr 74mm;gap:12px;align-items:center;background:linear-gradient(135deg,#05742f 0%,#19b85c 100%);color:#fff;border-radius:10px;padding:11px 14px}
-    .brand{display:flex;gap:10px;align-items:center}
-    .mark{width:36px;height:36px;border:2px solid rgba(255,255,255,.85);border-radius:10px;display:grid;place-items:center}
-    .mark svg{width:23px;height:23px;stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
-    h1{font-size:19px;line-height:1.1;margin:0 0 4px;font-weight:700;letter-spacing:0}
-    .brand p{margin:0;font-size:10.5px;font-weight:500;opacity:.95}
-    .meta{display:grid;gap:5px;font-size:11px;font-weight:700}
-    .meta-top{display:flex;justify-content:space-between;gap:8px}
-    .storage{border:1px dashed rgba(255,255,255,.75);border-radius:8px;padding:7px 9px;text-align:center;overflow-wrap:anywhere;background:rgba(255,255,255,.13)}
-    .storage strong{display:block;font-size:12px;margin-bottom:2px}
-    .section{border:1px solid #d8ecdf;border-radius:10px;padding:10px;margin-top:9px;break-inside:avoid;background:#fff}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-    h2{margin:0 0 8px;color:#047331;font-size:13px;text-transform:uppercase;letter-spacing:0;font-weight:700}
-    .seller-heading{display:flex;align-items:center;gap:8px}
-    .seller-heading img{width:30px;height:30px;object-fit:contain;border:1px solid #d8ecdf;border-radius:7px;background:#fff;padding:3px}
-    .info-row{display:grid;grid-template-columns:25mm 1fr;border:1px solid #e3eaf0;border-radius:6px;margin-top:5px;overflow:hidden;min-height:27px}
-    .info-row span{background:#ecfdf5;color:#065f25;font-weight:700;padding:6px 8px}
-    .info-row b{font-weight:500;padding:6px 8px;overflow-wrap:anywhere}
-    .product-grid{display:grid;grid-template-columns:54mm 1fr;gap:9px}
-    .file-box{border:1px dashed #a9dcbc;border-radius:8px;min-height:36mm;padding:8px;color:#065f25;background:#f7fffa}
+    body{margin:0;background:#fff;color:#1f2937;font-family:"Segoe UI",Arial,sans-serif;font-size:10.5px;line-height:1.45}
+    .page{width:100%;max-width:190mm;margin:0 auto}
+    .header{display:grid;grid-template-columns:1fr 66mm;gap:16px;align-items:center;background:#fff;border:1px solid #cfe5d7;border-top:6px solid #0b8f43;border-radius:8px;padding:12px 14px;box-shadow:0 5px 18px rgba(7,92,43,.08)}
+    .brand{display:flex;align-items:center}
+    h1{color:#075f2a;font-size:21px;line-height:1.1;margin:0 0 4px;font-weight:800;letter-spacing:.2px}
+    .brand p{margin:0;color:#5b6b63;font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.45px}
+    .meta{display:grid;gap:6px;background:#f0fbf4;border:1px solid #ccebd8;border-radius:7px;padding:8px 10px;color:#14532d;font-size:9.5px}
+    .meta-top{display:flex;justify-content:space-between;gap:8px;font-weight:700;padding-bottom:6px;border-bottom:1px solid #d7ecdf}
+    .storage{overflow-wrap:anywhere;color:#465b50}
+    .storage strong{display:block;color:#087a39;font-size:10.5px;margin-bottom:2px;text-transform:uppercase;letter-spacing:.3px}
+    .section{position:relative;border:1px solid #d7e7de;border-radius:8px;padding:11px;margin-top:9px;break-inside:avoid;background:#fff;box-shadow:0 2px 8px rgba(15,68,42,.035)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .grid2 .section{margin-top:0;padding:0 11px 10px;background:linear-gradient(180deg,#f1fbf5 0%,#fff 42%);border-color:#9fd8b4;box-shadow:0 4px 12px rgba(8,122,57,.08);overflow:hidden}
+    .grid2 h2{background:linear-gradient(135deg,#087a39,#10a34f);color:#fff;margin:0 -11px 7px;padding:7px 11px;font-size:11px;letter-spacing:.45px}
+    .grid2 h2::before{display:none}
+    h2{display:flex;align-items:center;gap:7px;margin:0 0 9px;color:#075f2a;font-size:11.5px;text-transform:uppercase;letter-spacing:.35px;font-weight:800}
+    h2::before{content:"";width:4px;height:15px;border-radius:4px;background:#10a34f}
+    .seller-heading{display:flex;align-items:center}
+    .info-row{display:grid;grid-template-columns:25mm 1fr;border-bottom:1px solid #e5eee9;min-height:26px}
+    .info-row:last-child{border-bottom:0}
+    .info-row span{color:#64746c;font-weight:650;padding:6px 5px 6px 0}
+    .info-row b{color:#20372c;font-weight:600;padding:6px 0;overflow-wrap:anywhere}
+    .product-grid{display:grid;grid-template-columns:52mm 1fr;gap:10px}
+    .file-box{border:1px dashed #91d2aa;border-radius:7px;min-height:34mm;padding:8px;color:#065f25;background:#f5fcf7}
     .file-summary{font-weight:700;text-align:center;margin-bottom:6px}
     .file-empty{text-align:center;font-weight:700;padding:22px 8px}
     .file-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-    .file-card{margin:0;border:1px solid #d8ecdf;border-radius:7px;overflow:hidden;background:#fff}
+    .file-card{margin:0;border:1px solid #d8ecdf;border-radius:6px;overflow:hidden;background:#fff}
     .file-card img{width:100%;height:22mm;object-fit:cover;display:block}
     .file-card figcaption{font-size:8.5px;line-height:1.25;padding:4px;color:#2d4055;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .file-card.is-doc{min-height:29mm;display:grid;align-content:center;gap:4px;text-align:center}
     .doc-icon{width:28px;height:34px;margin:0 auto;border:1.5px solid #0b7f39;border-radius:4px;display:grid;place-items:center;font-size:7px;font-weight:700;color:#0b7f39;background:#ecfdf5}
     .file-more{font-size:9px;text-align:center;margin-top:5px;color:#536272}
-    .desc,.note{border:1px solid #dfe8ef;border-radius:8px;padding:9px;white-space:pre-wrap;overflow-wrap:anywhere;background:#fff}
-    .desc{min-height:36mm}
-    .desc-line{margin-bottom:7px}
-    table{width:100%;border-collapse:collapse;margin-top:7px;break-inside:auto}
-    th,td{border:1px solid #dfe8ef;padding:5px 6px;vertical-align:top}
-    th{background:#ecfdf5;color:#065f25;font-size:10.5px;text-align:left;font-weight:700}
-    td{font-size:10.5px}
+    .desc,.note{border:1px solid #dfe8ef;border-radius:7px;padding:9px;white-space:pre-wrap;overflow-wrap:anywhere;background:#fbfdfc}
+    .desc{min-height:34mm;color:#3b4d44}
+    .desc-line{margin-bottom:7px;padding:7px 9px;background:#edf9f1;border-left:3px solid #10a34f;color:#164d2e}
+    table{width:100%;border-collapse:separate;border-spacing:0;margin-top:9px;break-inside:auto;border:1px solid #d9e8df;border-radius:6px;overflow:hidden}
+    th,td{border-right:1px solid #d9e8df;border-bottom:1px solid #d9e8df;padding:6px 7px;text-align:center;vertical-align:middle}
+    th:last-child,td:last-child{border-right:0}
+    tbody tr:last-child td{border-bottom:0}
+    th{background:#087a39;color:#fff;font-size:9.5px;font-weight:750;text-transform:uppercase;letter-spacing:.2px}
+    td{font-size:10px;background:#fff}
+    tbody tr:nth-child(even) td{background:#f8fcf9}
     .center{text-align:center}
-    .num{text-align:right;white-space:nowrap}
+    .num{text-align:center;white-space:nowrap}
     .muted{color:#6b7280;text-align:center}
-    .note{margin-top:7px;background:#f7fffa}
-    .footer{margin-top:9px;border-top:1px solid #e5e7eb;padding-top:7px;color:#536272;font-size:9.5px;display:flex;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
-    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{max-width:none}.section{break-inside:avoid}}
+    .note{margin-top:7px;background:#f7fcf9;border-color:#cfe5d7}
+    .quote-summary{display:flex;justify-content:flex-end;align-items:center;gap:16px;margin-top:8px;padding:8px 10px;background:#edf9f1;border:1px solid #cbe6d5;border-radius:6px;color:#075f2a}
+    .quote-summary span{font-size:9.5px;font-weight:750;letter-spacing:.25px}
+    .quote-summary strong{font-size:13px;font-weight:650;min-width:34mm;text-align:right}
+    .approval{display:grid;grid-template-columns:1fr 1fr;gap:18mm;margin-top:12px;break-inside:avoid}
+    .signature{text-align:center;border-top:1px solid #cfdcd5;padding-top:7px;min-height:28mm}
+    .signature strong{display:block;color:#174d30;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
+    .signature span{display:block;color:#7a8981;font-size:8.5px;margin-top:2px}
+    .footer{margin-top:10px;border-top:2px solid #0b8f43;padding-top:7px;color:#697a71;font-size:8.5px;display:flex;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{max-width:none}.section,.approval{break-inside:avoid}}
   </style>
 </head>
 <body>
   <main class="page">
     <header class="header">
       <div class="brand">
-        <div class="mark">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M7 3.5h7l3 3v14H7z"></path>
-            <path d="M14 3.5v4h4"></path>
-            <circle cx="12" cy="12" r="2.2"></circle>
-            <path d="M8.7 17c.8-1.7 5.8-1.7 6.6 0"></path>
-          </svg>
-        </div>
         <div>
           <h1>BÁO GIÁ KHÁCH HÀNG</h1>
-          <p>Tạo profile sản phẩm để sử dụng, lưu trữ và tra cứu thông tin nhanh chóng</p>
+          <p>Phiếu thông tin và yêu cầu báo giá</p>
         </div>
       </div>
       <div class="meta">
@@ -15004,7 +15068,7 @@ function quickBriefPrintHtml(data){
         ])}
       </div>
       <div class="section">
-        <h2 class="seller-heading"><img src="https://drive.google.com/thumbnail?id=1e9N6rgsTP5vYtKl4Lwq801dfteYLbx_F&sz=w160" alt="" referrerpolicy="no-referrer">Người bán</h2>
+        <h2 class="seller-heading">Người bán</h2>
         ${quickInfoRowsHtml([
           ['Tên / Công ty', data.sellerName],
           ['Địa chỉ', data.sellerAddress],
@@ -15029,14 +15093,20 @@ function quickBriefPrintHtml(data){
         <thead><tr><th>STT</th><th>Tên sản phẩm</th><th>Đơn vị</th><th>Số lượng</th><th>Đơn giá</th><th>Thành tiền</th></tr></thead>
         <tbody>${quickPrintRowsHtml(mainRows)}</tbody>
       </table>
+      <div class="quote-summary"><span>Tổng giá trị dự kiến</span><strong>${quickPrintText(grandTotalText, '0')}</strong></div>
       ${data.productOther && data.productOther !== 'Chưa nhập' ? `<div class="note"><strong>Ghi chú thêm:</strong> ${quickPrintText(data.productOther, '')}</div>` : ''}
     </section>
 
     ${extraHtml}
 
+    <section class="approval">
+      <div class="signature"><strong>Đại diện khách hàng</strong><span>Ký và ghi rõ họ tên</span></div>
+      <div class="signature"><strong>Người lập báo giá</strong><span>Ký và ghi rõ họ tên</span></div>
+    </section>
+
     <footer class="footer">
-      <span>2606AI - Brief báo giá nhanh</span>
-      <span>${quickPrintText(data.storageLink, 'Chưa chọn nơi lưu file')}</span>
+      <span>2606AI • Hồ sơ báo giá ${quickPrintText(data.briefCode, '')}</span>
+      <span>Nơi lưu: ${quickPrintText(data.storageLink, 'Chưa chọn')}</span>
     </footer>
   </main>
 </body>
@@ -15046,20 +15116,33 @@ function quickBriefPrintHtml(data){
 async function quickPrintBrief(){
   const printWindow = window.open('', '_blank', 'width=1100,height=850');
   if(!printWindow){
-    quickSetStatus('Tính năng in đang tạm ẩn để ưu tiên hoàn thiện giao diện.');
+    quickSetStatus('Trình duyệt đang chặn cửa sổ in. Vui lòng cho phép popup rồi thử lại.');
     return;
   }
-  printWindow.document.open();
-  printWindow.document.write('<!doctype html><html><head><meta charset="UTF-8"><title>Đang tạo brief</title></head><body style="font-family:Arial;padding:24px">Đang tạo bản in A4...</body></html>');
-  printWindow.document.close();
-  await quickEnsureStorageLocation();
-  const data = quickData();
-  quickSetStatus('Đã tạo bản in A4 riêng. Trong hộp in, nên tắt Headers and footers để giấy sạch hơn.');
-  printWindow.document.open();
-  printWindow.document.write(quickBriefPrintHtml(data));
-  printWindow.document.close();
-  printWindow.focus();
-  setTimeout(() => printWindow.print(), 500);
+  try{
+    quickEnsureBriefMeta();
+    const data = quickData();
+    printWindow.document.open();
+    printWindow.document.write(quickBriefPrintHtml(data));
+    printWindow.document.close();
+
+    const startPrint = () => {
+      if(printWindow.closed) return;
+      printWindow.focus();
+      printWindow.print();
+    };
+
+    printWindow.onafterprint = () => {
+      setTimeout(() => {
+        if(!printWindow.closed) printWindow.close();
+      }, 120);
+    };
+    quickSetStatus('Đã mở bản in A4. Trong hộp in, nên tắt Headers and footers để giấy sạch hơn.');
+    setTimeout(startPrint, 350);
+  }catch(err){
+    if(!printWindow.closed) printWindow.close();
+    quickSetStatus(err.message || 'Không mở được bản in. Vui lòng thử lại.');
+  }
 }
 
 async function quickSaveBriefData(){
@@ -15154,6 +15237,49 @@ document.querySelector('.seo-guide-list')?.addEventListener('scroll', () => {
   window.requestAnimationFrame(updateSeoGuideCounter);
 });
 window.addEventListener('resize', updateSeoGuideCounter);
+
+function syncSeoGuideHeightToProducts(){
+  const guide = document.querySelector('.seo-guide-box');
+  const grid = document.getElementById('productGrid');
+  if(!guide || !grid) return;
+
+  if(window.innerWidth <= 992){
+    guide.style.removeProperty('height');
+    guide.style.removeProperty('max-height');
+    return;
+  }
+
+  const cards = Array.from(grid.querySelectorAll('.product-card'))
+    .filter(card => card.offsetParent !== null);
+  if(!cards.length) return;
+
+  const productBottom = Math.max(...cards.map(card => card.getBoundingClientRect().bottom));
+  const guideTop = guide.getBoundingClientRect().top;
+  const targetHeight = Math.round(productBottom - guideTop);
+  if(targetHeight < 120) return;
+
+  guide.style.height = `${targetHeight}px`;
+  guide.style.maxHeight = `${targetHeight}px`;
+}
+
+(function initSeoGuideProductAlignment(){
+  const grid = document.getElementById('productGrid');
+  if(!grid) return;
+  let scheduled = 0;
+  const schedule = () => {
+    window.cancelAnimationFrame(scheduled);
+    scheduled = window.requestAnimationFrame(syncSeoGuideHeightToProducts);
+  };
+  if('ResizeObserver' in window){
+    new ResizeObserver(schedule).observe(grid);
+  }else{
+    new MutationObserver(schedule).observe(grid, {childList:true, subtree:true});
+  }
+  window.addEventListener('load', schedule);
+  window.addEventListener('resize', schedule);
+  window.addEventListener('scroll', schedule, {passive:true});
+  schedule();
+})();
 
 /* === 2606AI quick brief polish patch: save/import, compact service table, mobile === */
 (function(){
@@ -15478,5 +15604,431 @@ window.addEventListener('resize', updateSeoGuideCounter);
   }
 })();
 </script>
+<script>
+(function () {
+  var captureButtonId = 'briefCaptureBtn';
+  var html2CanvasUrl = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+
+  function textOf(el) {
+    return (el && el.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function findBriefTitle() {
+    var nodes = document.querySelectorAll('h1,h2,h3,h4,.modal-title,.brief-title,.quick-brief-title,div,span');
+    for (var i = 0; i < nodes.length; i += 1) {
+      if (/BÁO GIÁ KHÁCH HÀNG/i.test(textOf(nodes[i])) && nodes[i].children.length < 5) {
+        return nodes[i];
+      }
+    }
+    return null;
+  }
+
+  function getBriefRoot() {
+    var direct = document.querySelector('[data-brief-capture-root]');
+    if (direct) return direct;
+
+    var title = findBriefTitle();
+    if (!title) {
+      return document.querySelector('.modal.show .modal-content,.modal-content,.quick-request-modal,.brief-modal');
+    }
+
+    var best = null;
+    var viewportW = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var viewportH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    var maxHeight = Math.max(document.documentElement.scrollHeight, viewportH) + 40;
+
+    for (var node = title; node && node !== document.body; node = node.parentElement) {
+      var rect = node.getBoundingClientRect();
+      if (
+        rect.width > Math.min(560, viewportW * 0.45) &&
+        rect.height > Math.min(260, viewportH * 0.35) &&
+        rect.width <= viewportW + 40 &&
+        rect.height <= maxHeight
+      ) {
+        best = node;
+      }
+    }
+
+    return best || title.closest('.modal-content,.modal-dialog,.quick-request-modal,.brief-modal,[role="dialog"]') || title.parentElement;
+  }
+
+  function findButtonByText(pattern) {
+    var controls = document.querySelectorAll('button,a,[role="button"]');
+    for (var i = 0; i < controls.length; i += 1) {
+      if (pattern.test(textOf(controls[i]))) return controls[i];
+    }
+    return null;
+  }
+
+  function findEyeButton() {
+    var controls = document.querySelectorAll('button,a,[role="button"]');
+    for (var i = 0; i < controls.length; i += 1) {
+      var label = (controls[i].getAttribute('aria-label') || controls[i].title || textOf(controls[i])).toLowerCase();
+      var rect = controls[i].getBoundingClientRect();
+      if (
+        rect.width <= 64 &&
+        rect.height <= 64 &&
+        (label.indexOf('xem') !== -1 || label.indexOf('ẩn') !== -1 || label.indexOf('eye') !== -1 || controls[i].querySelector('svg'))
+      ) {
+        return controls[i];
+      }
+    }
+    return null;
+  }
+
+  function ensureCaptureButton() {
+    if (document.getElementById(captureButtonId)) return;
+    if (!findBriefTitle()) return;
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = captureButtonId;
+    btn.className = 'brief-capture-btn';
+    btn.setAttribute('data-brief-capture', 'true');
+    btn.textContent = 'Chụp ảnh';
+
+    var importBtn = findButtonByText(/Import file/i);
+    var eyeBtn = findEyeButton();
+    var saveBtn = findButtonByText(/BẤM LƯU DỮ LIỆU|Nơi lưu File/i);
+
+    if (importBtn && importBtn.parentNode) {
+      importBtn.parentNode.insertBefore(btn, importBtn.nextSibling);
+      return;
+    }
+    if (eyeBtn && eyeBtn.parentNode) {
+      eyeBtn.parentNode.insertBefore(btn, eyeBtn);
+      return;
+    }
+    if (saveBtn && saveBtn.parentNode) {
+      saveBtn.parentNode.insertBefore(btn, saveBtn.nextSibling);
+    }
+  }
+
+  function loadHtml2Canvas() {
+    if (window.html2canvas) return Promise.resolve();
+
+    return new Promise(function (resolve, reject) {
+      var existing = document.querySelector('script[src*="html2canvas"]');
+      if (existing) {
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', reject, { once: true });
+        return;
+      }
+
+      var script = document.createElement('script');
+      script.src = html2CanvasUrl;
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  function getBriefId() {
+    var root = getBriefRoot();
+    var match = textOf(root || document.body).match(/ID:\s*([0-9]+)/i);
+    return match ? match[1] : String(Date.now());
+  }
+
+  async function captureBrief() {
+    var root = getBriefRoot();
+    var btn = document.getElementById(captureButtonId);
+    var oldText = btn ? btn.textContent : '';
+
+    if (!root) {
+      alert('Chưa tìm thấy khung báo giá để chụp.');
+      return;
+    }
+
+    try {
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Đang chụp...';
+      }
+
+      await loadHtml2Canvas();
+      document.body.classList.add('brief-capturing');
+      await new Promise(function (resolve) {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(resolve);
+        });
+      });
+
+      var canvas = await window.html2canvas(root, {
+        backgroundColor: '#ffffff',
+        scale: Math.min(3, Math.max(2, window.devicePixelRatio || 2)),
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+        imageTimeout: 15000,
+        scrollX: -window.scrollX,
+        scrollY: -window.scrollY
+      });
+
+      canvas.toBlob(function (blob) {
+        if (!blob) {
+          alert('Chưa xuất được ảnh. Vui lòng thử lại.');
+          return;
+        }
+
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = 'bao-gia-2606ai-' + getBriefId() + '.png';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(function () {
+          URL.revokeObjectURL(url);
+        }, 1000);
+      }, 'image/png', 1);
+    } catch (error) {
+      console.error(error);
+      alert('Chưa chụp được ảnh. Vui lòng tải lại trang và thử lại.');
+    } finally {
+      document.body.classList.remove('brief-capturing');
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = oldText || 'Chụp ảnh';
+      }
+    }
+  }
+
+  document.addEventListener('click', function (event) {
+    var trigger = event.target.closest && event.target.closest('[data-brief-capture],#' + captureButtonId);
+    if (!trigger) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    captureBrief();
+  }, true);
+
+  var style = document.createElement('style');
+  style.textContent = [
+    '.brief-capture-btn{height:44px;padding:0 14px;border:1px solid rgba(255,255,255,.85);background:rgba(255,255,255,.14);color:#fff;font-weight:600;font-size:14px;line-height:1;cursor:pointer;white-space:nowrap;}',
+    '.brief-capture-btn:hover{background:rgba(255,255,255,.24);}',
+    '.brief-capture-btn:disabled{opacity:.7;cursor:wait;}',
+    'body.brief-capturing .brief-capture-btn{visibility:hidden!important;}',
+    '@media (max-width:768px){.brief-capture-btn{height:36px;padding:0 10px;font-size:12px;}}'
+  ].join('');
+  document.head.appendChild(style);
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureCaptureButton);
+  } else {
+    ensureCaptureButton();
+  }
+
+  var timer = 0;
+  var observer = new MutationObserver(function () {
+    clearTimeout(timer);
+    timer = setTimeout(ensureCaptureButton, 120);
+  });
+
+  if (document.body) {
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+})();
+</script>
+<script>
+(function () {
+  if (window.__briefCaptureButtonReady) return;
+  window.__briefCaptureButtonReady = true;
+
+  const style = document.createElement('style');
+  style.textContent = `
+    #briefCaptureBtn {
+      height: 44px;
+      min-width: 92px;
+      padding: 0 14px;
+      margin-left: 8px;
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 0;
+      background: #fff;
+      color: #07883a;
+      font-size: 13px;
+      font-weight: 650;
+      line-height: 1;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    #briefCaptureBtn:hover { background: #ecfff3; }
+    #briefCaptureBtn:disabled { opacity: .7; cursor: wait; }
+    body.brief-capturing #briefCaptureBtn { visibility: hidden !important; }
+    @media (max-width: 768px) {
+      #briefCaptureBtn {
+        height: 36px;
+        min-width: 76px;
+        padding: 0 10px;
+        font-size: 12px;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  function cleanText(el) {
+    return (el && el.textContent || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function findBriefTitle() {
+    return Array.from(document.querySelectorAll('h1,h2,h3,h4,div,span,strong'))
+      .find(el => /BÁO GIÁ KHÁCH HÀNG/i.test(cleanText(el)) && el.children.length < 10);
+  }
+
+  function findBriefRoot() {
+    const title = findBriefTitle();
+    if (!title) return null;
+    const semanticRoot = title.closest('[role="dialog"], .modal-content, .modal-dialog, .brief-modal, .quote-modal, .quick-brief-modal');
+    if (semanticRoot) return semanticRoot;
+
+    let best = title;
+    for (let node = title; node && node !== document.body; node = node.parentElement) {
+      const rect = node.getBoundingClientRect();
+      if (rect.width >= 700 && rect.height >= 360) best = node;
+    }
+    return best || title.parentElement;
+  }
+
+  function findActionButton(pattern) {
+    return Array.from(document.querySelectorAll('button, a, [role="button"]'))
+      .find(el => pattern.test(cleanText(el)));
+  }
+
+  function ensureCaptureButton() {
+    if (!findBriefTitle() || document.getElementById('briefCaptureBtn')) return;
+
+    const btn = document.createElement('button');
+    btn.id = 'briefCaptureBtn';
+    btn.type = 'button';
+    btn.textContent = 'Chụp ảnh';
+
+    const importBtn = findActionButton(/Import file/i);
+    const saveBtn = findActionButton(/BẤM LƯU DỮ LIỆU|Nơi lưu File|Lưu dữ liệu/i);
+    const reference = importBtn || saveBtn;
+
+    if (reference && reference.parentElement) {
+      reference.parentElement.insertBefore(btn, reference.nextSibling);
+      return;
+    }
+
+    const title = findBriefTitle();
+    const header = title && (title.closest('header') || title.parentElement);
+    if (header) header.appendChild(btn);
+  }
+
+  function loadHtml2Canvas() {
+    if (window.html2canvas) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  }
+
+  function quoteIdFrom(root) {
+    const match = cleanText(root).match(/ID:\s*([0-9]+)/i);
+    return match ? match[1] : String(Date.now());
+  }
+
+  async function captureBrief(btn) {
+    const root = findBriefRoot();
+    if (!root) {
+      alert('Chưa tìm thấy khung báo giá để chụp.');
+      return;
+    }
+
+    btn.disabled = true;
+    const oldText = btn.textContent;
+    btn.textContent = 'Đang chụp...';
+    document.body.classList.add('brief-capturing');
+
+    try {
+      await loadHtml2Canvas();
+      const canvas = await window.html2canvas(root, {
+        backgroundColor: '#ffffff',
+        scale: Math.max(2, Math.min(3, window.devicePixelRatio || 2)),
+        useCORS: true,
+        allowTaint: true,
+        logging: false,
+        scrollX: 0,
+        scrollY: 0
+      });
+
+      const link = document.createElement('a');
+      link.download = `bao-gia-2606ai-${quoteIdFrom(root)}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error(error);
+      alert('Chưa chụp được ảnh. Vui lòng kiểm tra kết nối mạng hoặc thử tải lại trang.');
+    } finally {
+      document.body.classList.remove('brief-capturing');
+      btn.disabled = false;
+      btn.textContent = oldText;
+    }
+  }
+
+  document.addEventListener('click', function (event) {
+    const btn = event.target.closest('#briefCaptureBtn');
+    if (!btn) return;
+    event.preventDefault();
+    captureBrief(btn);
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureCaptureButton);
+  } else {
+    ensureCaptureButton();
+  }
+
+  new MutationObserver(function () {
+    window.clearTimeout(window.__briefCaptureButtonTimer);
+    window.__briefCaptureButtonTimer = window.setTimeout(ensureCaptureButton, 120);
+  }).observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+
+<style id="brief-remove-capture-button-final-style">
+  #briefCaptureBtn,
+  .brief-capture-btn-override-v2,
+  [data-brief-action="capture"],
+  button[data-action="capture"] {
+    display: none !important;
+  }
+</style>
+<script id="brief-remove-capture-button-final-script">
+(function () {
+  if (window.__briefRemoveCaptureButtonFinal) return;
+  window.__briefRemoveCaptureButtonFinal = true;
+
+  function cleanText(el) {
+    return (el && el.textContent ? el.textContent : '').replace(/\s+/g, ' ').trim();
+  }
+
+  function removeCaptureButtons() {
+    var nodes = Array.prototype.slice.call(document.querySelectorAll('#briefCaptureBtn, .brief-capture-btn-override-v2, [data-brief-action="capture"], button[data-action="capture"], button, a'));
+    nodes.forEach(function (node) {
+      if (
+        node.id === 'briefCaptureBtn' ||
+        node.classList.contains('brief-capture-btn-override-v2') ||
+        node.getAttribute('data-brief-action') === 'capture' ||
+        node.getAttribute('data-action') === 'capture' ||
+        cleanText(node) === 'Chụp ảnh'
+      ) {
+        node.remove();
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', removeCaptureButtons);
+  removeCaptureButtons();
+
+  if (document.body) {
+    new MutationObserver(removeCaptureButtons).observe(document.body, { childList: true, subtree: true });
+  }
+})();
+</script>
 </body>
 </html> 
+
