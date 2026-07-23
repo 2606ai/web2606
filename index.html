@@ -3707,7 +3707,13 @@ body{
         </div>
         <div class="quick-storage-center">
           <div class="quick-storage-line">
-            <span>ID: <strong id="quickBriefCode">Đang tạo</strong></span>
+            <label class="quick-brief-id" for="quickBriefCode">
+              <span>ID:</span>
+              <input id="quickBriefCode" type="text" inputmode="numeric" maxlength="20"
+                     value="" aria-label="Mã báo giá"
+                     oninput="quickUpdateBriefCode(this)"
+                     onblur="quickFinishBriefCode(this)">
+            </label>
             <span id="quickBriefTime">Đang ghi nhận</span>
           </div>
         </div>
@@ -3718,6 +3724,11 @@ body{
           </button>
         </div>
         <div class="quick-header-actions">
+          <label class="quick-color-picker" title="Đổi màu nhận diện brief">
+            <span>🎨</span>
+            <input id="quickBriefColor" type="color" value="#0f9f46"
+                   aria-label="Chọn màu brief" oninput="quickSetBriefColor(this.value)">
+          </label>
           <button type="button" class="quick-view-toggle" id="quickViewToggle" onclick="quickToggleViewMode()" aria-label="Chế độ xem nội dung" aria-pressed="false">👁</button>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Đóng"></button>
         </div>
@@ -11851,6 +11862,118 @@ footer.text-light.footer-2606 a:hover{
   background:#fff;
   color:#087a32;
 }
+.quick-color-picker{
+  align-items:center;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.5);
+  border-radius:999px;
+  cursor:pointer;
+  display:inline-flex;
+  height:32px;
+  justify-content:center;
+  overflow:hidden;
+  position:relative;
+  width:32px;
+}
+.quick-color-picker:hover{
+  background:#fff;
+}
+.quick-color-picker span{
+  font-size:15px;
+  line-height:1;
+  pointer-events:none;
+}
+.quick-color-picker input{
+  cursor:pointer;
+  height:44px;
+  inset:-6px;
+  opacity:0;
+  position:absolute;
+  width:44px;
+}
+#quickRequestModal{
+  --quick-accent:#0f9f46;
+  --quick-accent-dark:#087a32;
+  --quick-accent-soft:rgba(15,159,70,.12);
+  --quick-accent-bg:rgba(15,159,70,.055);
+  --quick-accent-border:rgba(15,159,70,.28);
+}
+#quickRequestModal .quick-storage-header,
+#quickRequestModal .quick-party-title{
+  background:var(--quick-accent) !important;
+}
+#quickRequestModal .quick-timeline-strip{
+  background:linear-gradient(90deg,var(--quick-accent-soft),#f8fffa) !important;
+  border-color:var(--quick-accent) !important;
+}
+#quickRequestModal .quick-quote-table th,
+#quickRequestModal .quick-services-table th{
+  background:linear-gradient(90deg,var(--quick-accent-soft),#fff) !important;
+  color:var(--quick-accent-dark) !important;
+}
+#quickRequestModal .quick-services-title,
+#quickRequestModal .quick-row-index,
+#quickRequestModal .quick-line-total{
+  color:var(--quick-accent-dark) !important;
+}
+#quickRequestModal .quick-party-card,
+#quickRequestModal .quick-product-table-section,
+#quickRequestModal .quick-visual-preview,
+#quickRequestModal .quick-logo-upload,
+#quickRequestModal .quick-extra-note,
+#quickRequestModal .quick-signature-note,
+#quickRequestModal .quick-info-line,
+#quickRequestModal .quick-services-row td,
+#quickRequestModal .quick-services-table td,
+#quickRequestModal .quick-preview-item{
+  border-color:var(--quick-accent-border) !important;
+}
+#quickRequestModal .quick-party-fields,
+#quickRequestModal .quick-info-line span,
+#quickRequestModal .quick-services-row td,
+#quickRequestModal .quick-signature-row td,
+#quickRequestModal .quick-extra-note,
+#quickRequestModal .quick-signature-note,
+#quickRequestModal .quick-preview-item,
+#quickRequestModal .quick-upload-panel,
+#quickRequestModal .quick-logo-upload,
+#quickRequestModal .quick-visual-preview .quick-file-icon{
+  background:var(--quick-accent-bg) !important;
+}
+#quickRequestModal .quick-party-title,
+#quickRequestModal .quick-services-title,
+#quickRequestModal .quick-description-label b,
+#quickRequestModal .quick-product-name > span,
+#quickRequestModal .quick-extra-note > span,
+#quickRequestModal .quick-timeline-head,
+#quickRequestModal .quick-visual-preview > strong,
+#quickRequestModal .quick-visual-preview > span,
+#quickRequestModal .quick-info-line > span,
+#quickRequestModal .quick-services-table td,
+#quickRequestModal .quick-services-table input,
+#quickRequestModal .quick-service-name-input,
+#quickRequestModal .quick-signature-box strong,
+#quickRequestModal .quick-logo-upload{
+  color:var(--quick-accent-dark) !important;
+}
+#quickRequestModal .quick-party-title{
+  color:#fff !important;
+}
+#quickRequestModal input[type="checkbox"]{
+  accent-color:var(--quick-accent);
+}
+#quickRequestModal .quick-visual-preview:hover,
+#quickRequestModal .quick-visual-preview.is-dragging,
+#quickRequestModal .quick-logo-upload:hover{
+  border-color:var(--quick-accent) !important;
+  box-shadow:0 10px 26px var(--quick-accent-soft) !important;
+}
+#quickRequestModal .quick-add-row-btn.primary,
+#quickRequestModal .quick-timeline-add,
+#quickRequestModal .quick-print-btn{
+  background:var(--quick-accent) !important;
+  border-color:var(--quick-accent) !important;
+}
 .quick-request-modal .modal-body{
   background:linear-gradient(180deg,#f0fdf4,#fff);
   padding:16px;
@@ -12049,7 +12172,7 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-request-modal .quick-storage-header{
   gap:12px;
-  grid-template-columns:minmax(0,1fr) minmax(150px,210px) minmax(0,1fr) auto;
+  grid-template-columns:minmax(0,1fr) minmax(300px,350px) minmax(0,1fr) auto;
   padding:10px 16px;
 }
 .quick-storage-brand{
@@ -12075,11 +12198,58 @@ footer.text-light.footer-2606 a:hover{
 }
 .quick-storage-line{
   font-size:14px;
-  flex-direction:column;
-  gap:4px;
+  flex-direction:row;
+  gap:12px;
   justify-content:center;
   line-height:1;
   text-align:center;
+}
+.quick-storage-line{
+  background:rgba(0,0,0,.10);
+  border:1px solid rgba(255,255,255,.24);
+  border-radius:9px;
+  min-height:38px;
+  padding:6px 11px;
+}
+.quick-brief-id{
+  align-items:center;
+  color:#fff;
+  display:inline-flex;
+  flex:0 0 auto;
+  gap:5px;
+  margin:0;
+  white-space:nowrap;
+}
+.quick-brief-id > span{
+  font-size:15px;
+  font-weight:800;
+}
+.quick-brief-id input{
+  background:#fff;
+  border:1px solid rgba(255,255,255,.72);
+  border-radius:6px;
+  color:#dc2626;
+  font-size:17px;
+  font-weight:680;
+  height:28px;
+  line-height:1;
+  outline:none;
+  padding:3px 7px;
+  text-align:center;
+  width:124px;
+}
+.quick-brief-id input:hover,
+.quick-brief-id input:focus{
+  background:#fff;
+  border-color:#fff;
+  box-shadow:0 0 0 3px rgba(255,255,255,.20);
+  color:#dc2626;
+}
+#quickBriefTime{
+  color:#fff;
+  font-size:15px;
+  font-weight:750;
+  white-space:nowrap;
 }
 .quick-storage-place{
   gap:4px;
@@ -12922,6 +13092,44 @@ footer.text-light.footer-2606 a:hover{
 .quick-request-modal.is-view-mode .quick-quote-table td:nth-child(4),
 .quick-request-modal.is-view-mode .quick-quote-table td:nth-child(5){
   text-align:center;
+}
+.quick-request-modal.is-view-mode .quick-quote-table th:first-child,
+.quick-request-modal.is-view-mode .quick-quote-table td:first-child,
+.quick-request-modal.is-view-mode .quick-row-index{
+  min-width:28px !important;
+  width:28px !important;
+}
+.quick-request-modal.is-view-mode .quick-quote-table th,
+.quick-request-modal.is-view-mode .quick-quote-table td{
+  padding-left:5px !important;
+  padding-right:5px !important;
+}
+.quick-request-modal.is-view-mode .quick-quote-table th:nth-child(2),
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(2){
+  min-width:190px;
+  width:32%;
+}
+.quick-request-modal.is-view-mode .quick-quote-table th:nth-child(3),
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(3){
+  min-width:58px;
+  width:66px;
+}
+.quick-request-modal.is-view-mode .quick-quote-table th:nth-child(4),
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(4),
+.quick-request-modal.is-view-mode .quick-quote-table th:nth-child(5),
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(5){
+  min-width:76px;
+  width:90px;
+}
+.quick-request-modal.is-view-mode .quick-quote-table th:nth-child(6),
+.quick-request-modal.is-view-mode .quick-quote-table td:nth-child(6){
+  min-width:104px;
+  width:120px;
+}
+.quick-request-modal.is-view-mode .quick-quote-table .quick-custom-col,
+.quick-request-modal.is-view-mode .quick-quote-table .quick-custom-cell{
+  min-width:90px;
+  width:100px;
 }
 .quick-request-modal.is-view-mode .quick-quote-table td:first-child input,
 .quick-request-modal.is-view-mode .quick-quote-table td:nth-child(3) input,
@@ -13951,18 +14159,74 @@ function quickRandomBriefCode(){
   return Array.from({length:10}, () => Math.floor(Math.random() * 10)).join('');
 }
 
+function quickNormalizeBriefColor(color){
+  const value = String(color || '').trim();
+  return /^#[0-9a-f]{6}$/i.test(value) ? value.toLowerCase() : '#0f9f46';
+}
+
+function quickColorRgb(color){
+  const hex = quickNormalizeBriefColor(color).slice(1);
+  return {
+    r:parseInt(hex.slice(0,2),16),
+    g:parseInt(hex.slice(2,4),16),
+    b:parseInt(hex.slice(4,6),16)
+  };
+}
+
+function quickColorShade(color, amount){
+  const rgb = quickColorRgb(color);
+  const clamp = value => Math.max(0, Math.min(255, Math.round(value)));
+  return `#${[rgb.r,rgb.g,rgb.b].map(value => clamp(value + amount).toString(16).padStart(2,'0')).join('')}`;
+}
+
+function quickSetBriefColor(color){
+  const value = quickNormalizeBriefColor(color);
+  const rgb = quickColorRgb(value);
+  window.quickBriefState = window.quickBriefState || {};
+  window.quickBriefState.color = value;
+  const modal = document.getElementById('quickRequestModal');
+  if(modal){
+    modal.style.setProperty('--quick-accent', value);
+    modal.style.setProperty('--quick-accent-dark', quickColorShade(value, -38));
+    modal.style.setProperty('--quick-accent-soft', `rgba(${rgb.r},${rgb.g},${rgb.b},.12)`);
+    modal.style.setProperty('--quick-accent-bg', `rgba(${rgb.r},${rgb.g},${rgb.b},.055)`);
+    modal.style.setProperty('--quick-accent-border', `rgba(${rgb.r},${rgb.g},${rgb.b},.28)`);
+  }
+  const input = document.getElementById('quickBriefColor');
+  if(input && input.value !== value) input.value = value;
+}
+
+function quickUpdateBriefCode(input){
+  if(!input) return;
+  const clean = String(input.value || '').replace(/\D/g, '').slice(0, 20);
+  if(input.value !== clean) input.value = clean;
+  window.quickBriefState = window.quickBriefState || {};
+  window.quickBriefState.code = clean;
+}
+
+function quickFinishBriefCode(input){
+  if(!input) return;
+  if(!String(input.value || '').trim()) input.value = quickRandomBriefCode();
+  quickUpdateBriefCode(input);
+}
+
 function quickEnsureBriefMeta(){
   window.quickBriefState = window.quickBriefState || {};
+  const codeEl = document.getElementById('quickBriefCode');
+  const editedCode = codeEl && 'value' in codeEl ? String(codeEl.value || '').replace(/\D/g, '').slice(0, 20) : '';
+  if(editedCode){
+    window.quickBriefState.code = editedCode;
+  }
   if(!window.quickBriefState.code){
     window.quickBriefState.code = quickRandomBriefCode();
   }
   if(!window.quickBriefState.createdAt){
     window.quickBriefState.createdAt = new Date();
   }
-  const codeEl = document.getElementById('quickBriefCode');
+  quickSetBriefColor(window.quickBriefState.color || '#0f9f46');
   const timeEl = document.getElementById('quickBriefTime');
   const storageEl = document.getElementById('quickStorageLink');
-  if(codeEl) codeEl.textContent = window.quickBriefState.code;
+  if(codeEl) codeEl.value = window.quickBriefState.code;
   if(timeEl) timeEl.textContent = window.quickBriefState.createdAt.toLocaleString('vi-VN');
   if(storageEl) storageEl.textContent = window.quickBriefState.storageLink || 'Bấm để chọn nơi lưu file';
 }
@@ -14140,6 +14404,26 @@ function quickRefreshViewMode(modal, enabled){
   if(!modal) return;
   modal.querySelectorAll('.is-hidden-in-view').forEach(item => item.classList.remove('is-hidden-in-view'));
   if(!enabled) return;
+
+  modal.querySelectorAll('.quick-quote-table').forEach(table => {
+    const body = table.querySelector('tbody');
+    table.querySelectorAll('thead .quick-custom-col').forEach(header => {
+      const columnIndex = header.cellIndex;
+      const title = header.querySelector('input')?.value.trim() || header.textContent.trim();
+      const cells = Array.from(body?.rows || [])
+        .map(row => row.cells[columnIndex])
+        .filter(Boolean);
+      const hasValue = cells.some(cell =>
+        Array.from(cell.querySelectorAll('input, textarea, select')).some(control =>
+          control.type === 'checkbox' ? control.checked : Boolean(control.value.trim())
+        ) || Boolean(cell.textContent.trim())
+      );
+      if(!title && !hasValue){
+        header.classList.add('is-hidden-in-view');
+        cells.forEach(cell => cell.classList.add('is-hidden-in-view'));
+      }
+    });
+  });
 
   modal.querySelectorAll('.quick-quote-table > tbody > tr').forEach(row => {
     const hasValue = Array.from(row.querySelectorAll('input[type="text"]')).some(input => {
@@ -14541,9 +14825,12 @@ function quickRemoveCloneRow(button){
 function quickData(){
   quickEnsureBriefMeta();
   const quoteRows = quickQuoteRows();
+  const sellerLogo = document.querySelector('#quickSellerLogoPreview img')?.src || '';
+  const buyerLogo = document.querySelector('#quickBuyerLogoPreview img')?.src || '';
   return {
     briefCode: window.quickBriefState?.code || '',
     briefCreatedAt: window.quickBriefState?.createdAt ? window.quickBriefState.createdAt.toLocaleString('vi-VN') : '',
+    briefColor: window.quickBriefState?.color || '#0f9f46',
     storageLink: window.quickBriefState?.storageLink || '',
     name: quickValue('quickName') || 'Chưa nhập',
     phone: quickValue('quickPhone') || 'Chưa nhập',
@@ -14553,6 +14840,8 @@ function quickData(){
     sellerAddress: quickValue('quickSellerAddress') || 'Chưa nhập',
     sellerPhone: quickValue('quickSellerPhone') || 'Chưa nhập',
     sellerEmail: quickValue('quickSellerEmail') || 'Chưa nhập',
+    sellerLogo,
+    buyerLogo,
     product: quickValue('quickProduct') || quickValue('quickNote') || 'Chưa nhập',
     need: quickValue('quickNeed') || 'Chưa chọn',
     purpose: quickValue('quickPurpose') || 'Chưa chọn',
@@ -14690,6 +14979,10 @@ function quickResetBriefForm(){
   document.querySelectorAll('#quickRequestModal input, #quickRequestModal textarea').forEach(field => {
     if(field.type === 'file'){
       field.value = '';
+      return;
+    }
+    if(field.id === 'quickBriefColor'){
+      field.value = '#0f9f46';
       return;
     }
     field.value = sellerDefaults[field.id] || '';
@@ -14842,6 +15135,11 @@ function quickPrintText(value, fallback = 'Chưa nhập'){
   return quickPrintEscape(text || fallback);
 }
 
+function quickPrintLogoSrc(value){
+  const src = String(value || '').trim();
+  return /^(data:image\/|https?:\/\/)/i.test(src) ? quickPrintEscape(src) : '';
+}
+
 function quickGetTableRows(tbodySelector){
   const rows = Array.from(document.querySelectorAll(`${tbodySelector} tr`));
   return rows.map((tr, index) => {
@@ -14938,6 +15236,11 @@ function quickBriefPrintHtml(data){
   const grandTotal = [...mainRows, ...extraProducts.flatMap(product => product.rows || [])]
     .reduce((sum, row) => sum + quickParseMoney(row.total), 0);
   const grandTotalText = quickFormatMoney(grandTotal);
+  const printAccent = quickNormalizeBriefColor(data.briefColor);
+  const printAccentDark = quickColorShade(printAccent, -38);
+  const printRgb = quickColorRgb(printAccent);
+  const printAccentSoft = `rgba(${printRgb.r},${printRgb.g},${printRgb.b},.08)`;
+  const sellerLogoSrc = quickPrintLogoSrc(data.sellerLogo);
   const fileCards = quickPrintFileCardsHtml(window.quickRequestFiles || []);
   const description = data.descriptionMode === 'standard'
     ? [
@@ -14968,11 +15271,13 @@ function quickBriefPrintHtml(data){
   <style>
     @page{size:A4;margin:10mm}
     *{box-sizing:border-box}
+    :root{--accent:${printAccent};--accent-dark:${printAccentDark};--accent-soft:${printAccentSoft}}
     body{margin:0;background:#fff;color:#1f2937;font-family:"Segoe UI",Arial,sans-serif;font-size:10.5px;line-height:1.45}
     .page{width:100%;max-width:190mm;margin:0 auto}
     .header{display:grid;grid-template-columns:1fr 66mm;gap:16px;align-items:center;background:#fff;border:1px solid #cfe5d7;border-top:6px solid #0b8f43;border-radius:8px;padding:12px 14px;box-shadow:0 5px 18px rgba(7,92,43,.08)}
-    .brand{display:flex;align-items:center}
-    h1{color:#075f2a;font-size:21px;line-height:1.1;margin:0 0 4px;font-weight:800;letter-spacing:.2px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand-logo{width:16mm;height:16mm;object-fit:contain;border:1px solid #d7e7de;border-radius:6px;padding:2px;background:#fff}
+    h1{color:var(--accent-dark);font-size:21px;line-height:1.1;margin:0 0 4px;font-weight:800;letter-spacing:.2px}
     .brand p{margin:0;color:#5b6b63;font-size:9.5px;font-weight:500;text-transform:uppercase;letter-spacing:.45px}
     .meta{display:grid;gap:6px;background:#f0fbf4;border:1px solid #ccebd8;border-radius:7px;padding:8px 10px;color:#14532d;font-size:9.5px}
     .meta-top{display:flex;justify-content:space-between;gap:8px;font-weight:700;padding-bottom:6px;border-bottom:1px solid #d7ecdf}
@@ -14981,7 +15286,7 @@ function quickBriefPrintHtml(data){
     .section{position:relative;border:1px solid #d7e7de;border-radius:8px;padding:11px;margin-top:9px;break-inside:avoid;background:#fff;box-shadow:0 2px 8px rgba(15,68,42,.035)}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
     .grid2 .section{margin-top:0;padding:0 11px 10px;background:linear-gradient(180deg,#f1fbf5 0%,#fff 42%);border-color:#9fd8b4;box-shadow:0 4px 12px rgba(8,122,57,.08);overflow:hidden}
-    .grid2 h2{background:linear-gradient(135deg,#087a39,#10a34f);color:#fff;margin:0 -11px 7px;padding:7px 11px;font-size:11px;letter-spacing:.45px}
+    .grid2 h2{background:linear-gradient(135deg,var(--accent-dark),var(--accent));color:#fff;margin:0 -11px 7px;padding:7px 11px;font-size:11px;letter-spacing:.45px}
     .grid2 h2::before{display:none}
     h2{display:flex;align-items:center;gap:7px;margin:0 0 9px;color:#075f2a;font-size:11.5px;text-transform:uppercase;letter-spacing:.35px;font-weight:800}
     h2::before{content:"";width:4px;height:15px;border-radius:4px;background:#10a34f}
@@ -15008,7 +15313,7 @@ function quickBriefPrintHtml(data){
     th,td{border-right:1px solid #d9e8df;border-bottom:1px solid #d9e8df;padding:6px 7px;text-align:center;vertical-align:middle}
     th:last-child,td:last-child{border-right:0}
     tbody tr:last-child td{border-bottom:0}
-    th{background:#087a39;color:#fff;font-size:9.5px;font-weight:750;text-transform:uppercase;letter-spacing:.2px}
+    th{background:var(--accent-dark);color:#fff;font-size:9.5px;font-weight:750;text-transform:uppercase;letter-spacing:.2px}
     td{font-size:10px;background:#fff}
     tbody tr:nth-child(even) td{background:#f8fcf9}
     .center{text-align:center}
@@ -15022,14 +15327,26 @@ function quickBriefPrintHtml(data){
     .signature{text-align:center;border-top:1px solid #cfdcd5;padding-top:7px;min-height:28mm}
     .signature strong{display:block;color:#174d30;font-size:10px;text-transform:uppercase;letter-spacing:.3px}
     .signature span{display:block;color:#7a8981;font-size:8.5px;margin-top:2px}
-    .footer{margin-top:10px;border-top:2px solid #0b8f43;padding-top:7px;color:#697a71;font-size:8.5px;display:flex;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
-    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{max-width:none}.section,.approval{break-inside:avoid}}
+    .footer{margin-top:10px;border-top:2px solid var(--accent);padding-top:7px;color:#697a71;font-size:8.5px;display:flex;justify-content:space-between;gap:10px;overflow-wrap:anywhere}
+    .header{border-top-color:var(--accent)}
+    .meta,.grid2 .section,.file-box,.desc-line,.quote-summary,.note{background:var(--accent-soft);border-color:var(--accent)}
+    h2,.info-row span,.storage strong,.desc-line,.quote-summary,.file-summary,.seller-heading{color:var(--accent-dark)}
+    h2::before{background:var(--accent)}
+    .screen-tools{position:fixed;right:18px;top:18px;z-index:20;display:flex;gap:8px;padding:8px;background:rgba(255,255,255,.96);border:1px solid #d9e3dd;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.15)}
+    .screen-tools button{border:1px solid var(--accent);border-radius:7px;background:#fff;color:var(--accent-dark);cursor:pointer;font:600 13px "Segoe UI",Arial,sans-serif;padding:8px 14px}
+    .screen-tools .print-now{background:var(--accent);color:#fff}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact}.page{max-width:none}.section,.approval{break-inside:avoid}.screen-tools{display:none!important}}
   </style>
 </head>
 <body>
+  <div class="screen-tools">
+    <button type="button" onclick="window.close()">Đóng</button>
+    <button type="button" class="print-now" onclick="window.print()">In tài liệu</button>
+  </div>
   <main class="page">
     <header class="header">
       <div class="brand">
+        ${sellerLogoSrc ? `<img class="brand-logo" src="${sellerLogoSrc}" alt="Logo công ty">` : ''}
         <div>
           <h1>BÁO GIÁ KHÁCH HÀNG</h1>
           <p>Phiếu thông tin và yêu cầu báo giá</p>
@@ -15110,19 +15427,8 @@ async function quickPrintBrief(){
     printWindow.document.write(quickBriefPrintHtml(data));
     printWindow.document.close();
 
-    const startPrint = () => {
-      if(printWindow.closed) return;
-      printWindow.focus();
-      printWindow.print();
-    };
-
-    printWindow.onafterprint = () => {
-      setTimeout(() => {
-        if(!printWindow.closed) printWindow.close();
-      }, 120);
-    };
-    quickSetStatus('Đã mở bản in A4. Trong hộp in, nên tắt Headers and footers để giấy sạch hơn.');
-    setTimeout(startPrint, 350);
+    printWindow.focus();
+    quickSetStatus('Đã mở trang xem trước. Nhấn “In tài liệu” trên trang đó khi đã kiểm tra xong.');
   }catch(err){
     if(!printWindow.closed) printWindow.close();
     quickSetStatus(err.message || 'Không mở được bản in. Vui lòng thử lại.');
@@ -15449,12 +15755,30 @@ function syncSeoGuideHeightToProducts(){
     }).filter(item => item.checked || item.name || item.desc || item.amount);
   }
 
+  function logoSrcForBrief(previewId){
+    return document.querySelector(`#${previewId} img`)?.src || '';
+  }
+
+  function applyBriefLogo(previewId, src, fallbackText){
+    const preview = document.getElementById(previewId);
+    const box = preview?.closest('.quick-logo-upload');
+    if(!preview) return;
+    if(src && /^(data:image\/|https?:\/\/)/i.test(src)){
+      preview.innerHTML = `<img src="${esc(src)}" alt="Logo công ty">`;
+      box?.classList.add('has-logo');
+    }else{
+      preview.textContent = fallbackText || 'Logo';
+      box?.classList.remove('has-logo');
+    }
+  }
+
   function collectBriefData(){
     if(typeof quickEnsureBriefMeta === 'function') quickEnsureBriefMeta();
     return {
       version: '2606ai-brief-v1',
       code: window.quickBriefState?.code || String(Date.now()).slice(-10),
       createdAt: window.quickBriefState?.createdAt ? new Date(window.quickBriefState.createdAt).toISOString() : new Date().toISOString(),
+      briefColor: window.quickBriefState?.color || '#0f9f46',
       storageLink: window.quickBriefState?.storageLink || '',
       product: {
         name: val('quickProduct'),
@@ -15465,13 +15789,15 @@ function syncSeoGuideHeightToProducts(){
         name: val('quickSellerName'),
         address: val('quickSellerAddress'),
         phone: val('quickSellerPhone'),
-        email: val('quickSellerEmail')
+        email: val('quickSellerEmail'),
+        logo: logoSrcForBrief('quickSellerLogoPreview')
       },
       buyer: {
         name: val('quickName'),
         address: val('quickAddress'),
         phone: val('quickPhone'),
-        email: val('quickEmail')
+        email: val('quickEmail'),
+        logo: logoSrcForBrief('quickBuyerLogoPreview')
       },
       rows: collectQuoteRows(),
       services: collectServices()
@@ -15581,9 +15907,10 @@ function syncSeoGuideHeightToProducts(){
     const codeEl = document.getElementById('quickBriefCode');
     const timeEl = document.getElementById('quickBriefTime');
     const storageEl = document.getElementById('quickStorageLink');
-    if(codeEl) codeEl.textContent = window.quickBriefState.code;
+    if(codeEl) codeEl.value = window.quickBriefState.code;
     if(timeEl) timeEl.textContent = new Date(window.quickBriefState.createdAt).toLocaleString('vi-VN');
     if(storageEl) storageEl.textContent = window.quickBriefState.storageLink || STORAGE_EMPTY;
+    if(typeof quickSetBriefColor === 'function') quickSetBriefColor(window.quickBriefState.color || '#0f9f46');
     ensureStorageControls();
   };
 
@@ -15652,6 +15979,7 @@ function syncSeoGuideHeightToProducts(){
     window.quickBriefState = window.quickBriefState || {};
     if(data.code) window.quickBriefState.code = data.code;
     if(data.createdAt) window.quickBriefState.createdAt = new Date(data.createdAt);
+    window.quickBriefState.color = data.briefColor || '#0f9f46';
     window.quickBriefState.storageLink = data.storageLink || '';
     setVal('quickProduct', data.product?.name || '');
     setVal('quickNote', data.product?.note || '');
@@ -15665,6 +15993,8 @@ function syncSeoGuideHeightToProducts(){
     setVal('quickAddress', data.buyer?.address || '');
     setVal('quickPhone', data.buyer?.phone || '');
     setVal('quickEmail', data.buyer?.email || '');
+    applyBriefLogo('quickSellerLogoPreview', data.seller?.logo || '', 'Logo');
+    applyBriefLogo('quickBuyerLogoPreview', data.buyer?.logo || '', 'Logo');
     applyQuoteRows(data.rows || []);
     applyServices(data.services || []);
     quickUpdateStorageDisplay();
@@ -15804,6 +16134,8 @@ function syncSeoGuideHeightToProducts(){
 
   function getBriefId() {
     var root = getBriefRoot();
+    var inputValue = root && root.querySelector ? root.querySelector('#quickBriefCode')?.value : '';
+    if (inputValue) return inputValue;
     var match = textOf(root || document.body).match(/ID:\s*([0-9]+)/i);
     return match ? match[1] : String(Date.now());
   }
@@ -16006,6 +16338,8 @@ function syncSeoGuideHeightToProducts(){
   }
 
   function quoteIdFrom(root) {
+    const inputValue = root && root.querySelector ? root.querySelector('#quickBriefCode')?.value : '';
+    if (inputValue) return inputValue;
     const match = cleanText(root).match(/ID:\s*([0-9]+)/i);
     return match ? match[1] : String(Date.now());
   }
