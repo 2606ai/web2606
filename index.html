@@ -15693,7 +15693,14 @@ function quickBriefPayload(){
 
 function quickBriefFileBaseName(){
   quickEnsureBriefMeta();
-  return `brief-bao-gia-2606ai-${window.quickBriefState?.code || Date.now()}`;
+  const briefId = String(window.quickBriefState?.code || Date.now()).trim();
+  const productName = String(
+    quickValue('quickProduct') ||
+    document.querySelector('#quickQuoteBody input[id^="quickQuoteName"]')?.value ||
+    'Chưa có tên sản phẩm'
+  ).trim();
+  const buyerPhone = String(quickValue('quickPhone') || 'Chưa có SĐT').trim();
+  return quickSafeFileName(`${briefId} - ${productName} - ${buyerPhone}`,0);
 }
 
 function quickPrintEscape(value){
@@ -16385,7 +16392,10 @@ function syncSeoGuideHeightToProducts(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `2606AI-brief-${data.code || Date.now()}.2606brief`;
+    const baseName = typeof quickBriefFileBaseName === 'function'
+      ? quickBriefFileBaseName()
+      : `${data.code || Date.now()} - ${data.product?.name || 'Chưa có tên sản phẩm'} - ${data.buyer?.phone || 'Chưa có SĐT'}`;
+    a.download = `${baseName}.2606brief`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -16426,7 +16436,10 @@ function syncSeoGuideHeightToProducts(){
     }));
 
     const zip = new JSZip();
-    const dataName = `2606AI-brief-${data.code || Date.now()}.2606brief`;
+    const baseName = typeof quickBriefFileBaseName === 'function'
+      ? quickBriefFileBaseName()
+      : `${data.code || Date.now()} - ${data.product?.name || 'Chưa có tên sản phẩm'} - ${data.buyer?.phone || 'Chưa có SĐT'}`;
+    const dataName = `${baseName}.2606brief`;
     zip.file(dataName, JSON.stringify(data, null, 2));
     const filesFolder = zip.folder('file-tai-len');
     uploads.forEach(entry => {
@@ -16443,7 +16456,7 @@ function syncSeoGuideHeightToProducts(){
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `2606AI-brief-${data.code || Date.now()}.zip`;
+    a.download = `${baseName}.zip`;
     document.body.appendChild(a);
     a.click();
     a.remove();
