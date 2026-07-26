@@ -4140,8 +4140,29 @@ function driveThumb(u, sz=320){
   return id ? `https://drive.google.com/thumbnail?id=${id}&sz=w${sz}` : (u || '');
 }
 function driveDownload(u){
+  const source = String(u || '').trim();
   const id = driveId(u);
-  return id ? `https://drive.google.com/uc?export=download&id=${id}` : (u || '');
+  if (!id) return source;
+
+  // Tệp Google Workspace phải dùng đường dẫn export riêng; dùng /uc sẽ
+  // chuyển sang drive.usercontent.google.com và có thể trả về HTTP 500.
+  if (/docs\.google\.com\/document\//i.test(source)) {
+    return `https://docs.google.com/document/d/${id}/export?format=docx`;
+  }
+  if (/docs\.google\.com\/spreadsheets\//i.test(source)) {
+    return `https://docs.google.com/spreadsheets/d/${id}/export?format=xlsx`;
+  }
+  if (/docs\.google\.com\/presentation\//i.test(source)) {
+    return `https://docs.google.com/presentation/d/${id}/export/pptx`;
+  }
+  if (/docs\.google\.com\/drawings\//i.test(source)) {
+    return `https://docs.google.com/drawings/d/${id}/export/png`;
+  }
+  if (/docs\.google\.com\/forms\//i.test(source)) {
+    return source;
+  }
+
+  return `https://drive.google.com/uc?export=download&confirm=t&id=${encodeURIComponent(id)}`;
 }
 function hostOf(u){ try{ return new URL(u).host.replace(/^www\./,''); }catch{ return ''; } }
 function qrOf(u, size=160){
@@ -5149,6 +5170,28 @@ document.addEventListener('click', (ev)=>{
   background:#087a39;
   color:#fff;
 }
+.company-sheet-actions{
+  align-self:center;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.company-sheet-download{
+  background:#fff;
+  border:1px solid #0f9141;
+  border-radius:9px;
+  color:#087a39;
+  font-size:12px;
+  font-weight:700;
+  padding:7px 11px;
+  text-align:center;
+  text-decoration:none;
+  white-space:nowrap;
+}
+.company-sheet-download:hover{
+  background:#eaf8ef;
+  color:#075f2d;
+}
 @media(max-width:480px){
   .company-vault-body{padding:14px}
   .company-vault-login{padding:21px}
@@ -5159,7 +5202,7 @@ document.addEventListener('click', (ev)=>{
   .company-vault-item-actions{grid-column:2}
   .company-sheet-file{grid-template-columns:34px minmax(0,1fr)}
   .company-sheet-index{height:34px;width:34px}
-  .company-sheet-open{grid-column:2;justify-self:start}
+  .company-sheet-actions{grid-column:2;justify-self:start}
 }
 </style>
 
@@ -9209,6 +9252,7 @@ let suppliersAll = [];
 function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
 function supplierCardHTML(s){
   const hasLink = /^https?:\/\//i.test(String(s.url || '').trim());
+  const downloadUrl = hasLink ? driveDownload(s.url) : '';
   return `
     <article class="company-sheet-file">
       <div class="company-sheet-index">${esc(s.stt || '')}</div>
@@ -9217,8 +9261,11 @@ function supplierCardHTML(s){
         <p>${esc(s.description || 'Chưa có mô tả cho hồ sơ này.')}</p>
       </div>
       ${hasLink
-        ? `<a class="company-sheet-open" href="${esc(s.url)}" target="_blank" rel="noopener">Mở hồ sơ ↗</a>`
-        : '<span class="company-sheet-open" style="background:#94a3b8;border-color:#94a3b8">Chưa có link</span>'}
+        ? `<div class="company-sheet-actions">
+            <a class="company-sheet-open" href="${esc(s.url)}" target="_blank" rel="noopener">Mở hồ sơ ↗</a>
+            <a class="company-sheet-download" href="${esc(downloadUrl)}" target="_blank" rel="noopener" download>Tải xuống ↓</a>
+          </div>`
+        : '<div class="company-sheet-actions"><span class="company-sheet-open" style="background:#94a3b8;border-color:#94a3b8">Chưa có link</span></div>'}
     </article>`;
 }
 
