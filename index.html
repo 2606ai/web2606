@@ -4110,7 +4110,7 @@ const FIELD_LABELS = {
   supplier:'Xưởng', material:'Vật liệu', size:'Kích thước', color:'Màu',
   weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
   lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật',
-  ID:'Sản phẩm', GIA:'Giá tham khảo', LOAI:'Tư vấn / đặt hàng', NOTE:'Bộ sưu tập',
+  ID:'Sản phẩm', GIA:'Giá tham khảo', LOAI:'Tư vấn / đặt hàng', NOTE:'Thông báo',
   MOTA:'Mô tả sản phẩm', TENCONGTY:'Đơn vị cung cấp', SDT:'Liên hệ',
   CHUNGNHANDN:'Hình ảnh / tài liệu', LOGOCONGTY:'Logo công ty',
   IMAGECLICK:'Kênh liên hệ', LINKFULL:'Ảnh gốc'
@@ -4448,8 +4448,8 @@ left.push(fieldBox('Giá tham khảo', esc(toVND(item.GIA ?? item.gia ?? item.pr
 // 3) Tư vấn / đặt hàng
 left.push(fieldBox('Tư vấn / đặt hàng', esc(item.LOAI || item.loai || '')));
 
-// 4) Bộ sưu tập / ghi chú
-left.push(fieldBox('Bộ sưu tập', esc(item.NOTE || item.note || item.ghichu || '')));
+// 4) Thông báo / ghi chú
+left.push(fieldBox('Thông báo', esc(item.NOTE || item.note || item.ghichu || '')));
 
 
 // 5) MÔ TẢ (đặt cuối cùng) — chuẩn hoá xuống dòng từ Sheet
