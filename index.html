@@ -4110,7 +4110,7 @@ const FIELD_LABELS = {
   supplier:'Xưởng', material:'Vật liệu', size:'Kích thước', color:'Màu',
   weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
   lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật',
-  ID:'Sản phẩm', GIA:'Giá tham khảo', LOAI:'Tư vấn / đặt hàng', NOTE:'Thông báo',
+  ID:'Sản phẩm', GIA:'Giá tham khảo', LOAI:'Tư vấn / đặt hàng', NOTE:'Bộ sưu tập',
   MOTA:'Mô tả sản phẩm', TENCONGTY:'Đơn vị cung cấp', SDT:'Liên hệ',
   CHUNGNHANDN:'Hình ảnh / tài liệu', LOGOCONGTY:'Logo công ty',
   IMAGECLICK:'Kênh liên hệ', LINKFULL:'Ảnh gốc'
@@ -4448,8 +4448,8 @@ left.push(fieldBox('Giá tham khảo', esc(toVND(item.GIA ?? item.gia ?? item.pr
 // 3) Tư vấn / đặt hàng
 left.push(fieldBox('Tư vấn / đặt hàng', esc(item.LOAI || item.loai || '')));
 
-// 4) Thông báo / ghi chú
-left.push(fieldBox('Thông báo', esc(item.NOTE || item.note || item.ghichu || '')));
+// 4) Bộ sưu tập / ghi chú
+left.push(fieldBox('Bộ sưu tập', esc(item.NOTE || item.note || item.ghichu || '')));
 
 
 // 5) MÔ TẢ (đặt cuối cùng) — chuẩn hoá xuống dòng từ Sheet
@@ -8265,6 +8265,40 @@ function upgradeThumbQuality(u){
   return u;
 }
 
+/* Sản phẩm nội bộ: giá 66.666đ chỉ hiện khi tìm đúng ID. */
+const RESTRICTED_PRODUCT_PRICE = 66666;
+
+function productPriceValue(item){
+  const raw = item?.price ?? item?.gia ?? item?.GIA ?? item?.giaban ?? item?.giaBan ?? '';
+  if (typeof raw === 'number') return raw;
+  const digits = String(raw).replace(/[^\d-]/g, '');
+  return digits ? Number(digits) : 0;
+}
+
+function isRestrictedProduct(item){
+  return productPriceValue(item) === RESTRICTED_PRODUCT_PRICE;
+}
+
+function productIdValue(item){
+  return String(item?.id ?? item?.ID ?? item?.code ?? item?.sku ?? '').trim();
+}
+
+function isExactProductIdSearch(item, query = state?.q){
+  const searchedId = String(query ?? '').trim().toLocaleLowerCase('vi');
+  const productId = productIdValue(item).toLocaleLowerCase('vi');
+  return !!searchedId && !!productId && searchedId === productId;
+}
+
+function canDisplayProduct(item, query = state?.q){
+  return !isRestrictedProduct(item) || isExactProductIdSearch(item, query);
+}
+
+function refreshRestrictedProductVisibility(){
+  if (typeof updateCart === 'function') updateCart();
+  if (typeof renderCartMini === 'function') renderCartMini();
+  if (typeof updateCartBadge === 'function') updateCartBadge();
+}
+
 /* Logo reload */
 document.getElementById('logoLink')?.addEventListener('click', (e)=>{ e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); setTimeout(()=>location.reload(),150); });
 
@@ -8734,7 +8768,8 @@ function applyFiltersAndRender(){
 window.renderGrid = window.renderGrid || function(list){
   const grid = document.getElementById('productGrid');
   if (!grid) return;
-  grid.innerHTML = (list || []).map(it => `
+  const safeList = (Array.isArray(list) ? list : []).filter(it => canDisplayProduct(it, state.q));
+  grid.innerHTML = safeList.map(it => `
     <div class="col">
       <div class="cardx">
         <div class="meta">
@@ -8754,7 +8789,7 @@ function renderGrid(list){
   const grid = document.getElementById('productGrid');
   if (!grid) return;
 
-  const arr = Array.isArray(list) ? list : [];
+  const arr = (Array.isArray(list) ? list : []).filter(it => canDisplayProduct(it, state.q));
   grid.innerHTML = arr.length
     ? arr.map(productCardHtml).join('')
     : '<div class="text-muted">Đang tải dữ liệu...</div>';
@@ -9044,14 +9079,17 @@ function removeFromCart(id){
 }
 
 function cartTotal(){
-  return cart.reduce((s,p)=> s + (Number(p.price)||0)*(p.qty||1), 0);
+  return cart
+    .filter(p => canDisplayProduct(p, state.q))
+    .reduce((s,p)=> s + (Number(p.price)||0)*(p.qty||1), 0);
 }
 
 function updateCart(){
   const list = document.getElementById('cartList');
   if (!list) return;
+  const visibleCart = cart.filter(p => canDisplayProduct(p, state.q));
 
-  list.innerHTML = cart.map(p => {
+  list.innerHTML = visibleCart.map(p => {
     // Lấy thumbnail: ưu tiên cột img (Drive, URL), fallback sang image/icon nếu có
     const rawThumb = p.img || p.image || p.icon || "";
     const thumb = rawThumb ? toDriveThumb(rawThumb, 80) : "";
@@ -9095,7 +9133,7 @@ function updateCart(){
   if (totalEl) totalEl.textContent = fmtVND(cartTotal());
 
   // Badge trên nút giỏ hàng (đếm tổng quantity thay vì số dòng)
-  const n = cart.reduce((sum,p) => sum + (p.qty||1), 0);
+  const n = visibleCart.reduce((sum,p) => sum + (p.qty||1), 0);
   const badge = document.getElementById('cartFabCount');
   if (badge){
     badge.textContent = n > 0 ? String(n) : '0';
@@ -9468,6 +9506,7 @@ document.addEventListener('click', (ev) => {
     state.q   = looksLikePhone ? phone : raw;
     state.sdt = looksLikePhone ? phone : '';
     state.page = 1;
+    refreshRestrictedProductVisibility();
     fetchPage();
     return;
   }
@@ -9605,6 +9644,7 @@ function clearAllFilters(){
   if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
   if (typeof updateFilterCount === 'function') updateFilterCount();
   if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
+  refreshRestrictedProductVisibility();
   fetchPage();
 }
 
@@ -9652,6 +9692,7 @@ document.getElementById('filterPanel')?.addEventListener('click', (event) => {
 function setFilter(key, val){
   state[key] = (val == null ? '' : String(val));
   state.page = 1;
+  if (key === 'q') refreshRestrictedProductVisibility();
   fetchPage();
   if (typeof updateFilterCount === 'function') updateFilterCount();
   if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
@@ -10131,7 +10172,8 @@ window.toggleRewardPointForm = toggleRewardPointForm;
 window.lookupRewardBalance = lookupRewardBalance;
 // Group/category clicks are handled by the main delegated document listener above.
 function render(res = {}, fromCache){
-  const items = res.items || [];
+  const sourceItems = Array.isArray(res.items) ? res.items : [];
+  const items = sourceItems.filter(item => canDisplayProduct(item, state.q));
   const grid  = document.getElementById('productGrid');
 // Lưu dữ liệu cho khối sắp xếp/bộ lọc
 window.allItems   = Array.isArray(items) ? items.slice() : [];
@@ -10141,7 +10183,7 @@ if (typeof renderFooterCategories === 'function') renderFooterCategories(res?.fa
   // Grid: giữ nguyên
   grid.innerHTML = items.length
     ? items.map(productCardHtml).join('')
-    : '<div class="text-muted">Đang tải dữ liệu...</div>';
+    : '<div class="text-muted">Không tìm thấy sản phẩm phù hợp.</div>';
 
   // 🔁 Rebuild facets khi đổi
 const newHash = hashFacets(res?.facets || {});
@@ -10469,7 +10511,7 @@ document.addEventListener('click', (e) => {
   const pool = []
     .concat(window.filteredItems||[], window.allItems||[], window.items||[], window.ads||[], window.products||[]);
   const item = pool.find(x => String(x.id||x.ID||x.ma||x.sku).trim() === id);
-  if (item && typeof window.openDetailBox === 'function'){
+  if (item && canDisplayProduct(item, state.q) && typeof window.openDetailBox === 'function'){
     window.openDetailBox(item);
     const oc = document.getElementById('cartCanvas');
     if (window.bootstrap && oc){
@@ -10903,7 +10945,7 @@ const CART_KEY = 'cart2606ai';
 try {
   const savedCart = JSON.parse(localStorage.getItem(CART_KEY) || '[]');
   if (Array.isArray(savedCart) && savedCart.length && Array.isArray(window.cart) && !window.cart.length) {
-    window.cart.push(...savedCart);
+    window.cart.push(...savedCart.filter(item => canDisplayProduct(item, state.q)));
   }
 } catch(e){}
 
@@ -10914,7 +10956,9 @@ function persistCart(){
 function updateCartBadge(){
   const el = document.getElementById('cartFabCount');
   if(!el) return;
-  const n = (window.cart || []).reduce((s,i)=> s + (Number(i.qty)||1), 0);
+  const n = (window.cart || [])
+    .filter(item => canDisplayProduct(item, state.q))
+    .reduce((s,i)=> s + (Number(i.qty)||1), 0);
   el.textContent = n;
   el.style.display = n>0 ? 'inline-flex' : 'none';
 }
@@ -10922,7 +10966,7 @@ function updateCartBadge(){
 function renderCartMini(){
   const box = document.getElementById('cartMini');
   if(!box) return;
-  const items = window.cart || [];
+  const items = (window.cart || []).filter(item => canDisplayProduct(item, state.q));
   if(items.length === 0){ box.innerHTML = '<div class="muted">Chưa có sản phẩm</div>'; return; }
   box.innerHTML = items.slice(0,6).map(item => `
     <div class="mini-item">
