@@ -16524,14 +16524,8 @@ function syncSeoGuideHeightToProducts(){
   if(!cards.length) return;
 
   const productBottom = Math.max(...cards.map(card => card.getBoundingClientRect().bottom));
-  const rowTops = [...new Set(
-    cards
-      .map(card => Math.round(card.getBoundingClientRect().top))
-      .sort((a, b) => a - b)
-  )];
-  const oneProductRow = rowTops.length > 1 ? rowTops[1] - rowTops[0] : 0;
   const guideTop = guide.getBoundingClientRect().top;
-  const targetHeight = Math.round(productBottom - guideTop - oneProductRow);
+  const targetHeight = Math.round(productBottom - guideTop);
   if(targetHeight < 120) return;
 
   guide.style.height = `${targetHeight}px`;
@@ -17395,40 +17389,68 @@ body > .container-fluid.my-3 > .row{
   }
 }
 
-/* Banner chính và hai banner phụ luôn bằng chiều cao, ảnh không bị méo. */
-.hero{
+/* Khóa tỷ lệ toàn cụm để carousel đổi ảnh không làm trang bị giật. */
+.hero.row{
   align-items:stretch;
-  --bs-gutter-x:var(--layout-gap);
+  aspect-ratio:2.82 / 1;
+  display:grid;
+  gap:var(--layout-gap);
+  grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+  margin-left:0;
+  margin-right:0;
+  min-height:0;
+  width:100%;
 }
-.hero > .main,
-.hero > .mini{
+.hero.row > .main,
+.hero.row > .mini{
+  height:100%;
+  max-width:none;
+  min-height:0;
   min-width:0;
+  padding:0;
+  width:100%;
 }
 #heroMain{
-  aspect-ratio:1.88 / 1;
-  height:auto !important;
+  aspect-ratio:auto;
+  contain:layout paint;
+  height:100% !important;
   width:100%;
 }
 .hero .mini{
+  display:grid !important;
   gap:var(--layout-gap) !important;
+  grid-template-rows:minmax(0,1fr) minmax(0,1fr);
   margin-top:0 !important;
 }
 .hero .mini > *{
-  flex:1 1 0;
+  height:100% !important;
   min-height:0;
+  overflow:hidden;
 }
 .hero .mini > * + *{
   margin-top:0 !important;
 }
 #heroRight1,
 #heroRight2{
-  height:auto !important;
+  contain:layout paint;
+  height:100% !important;
 }
+#heroMain .carousel-inner,
+#heroMain .carousel-item,
 #heroRight1 .carousel-inner,
 #heroRight1 .carousel-item,
 #heroRight2 .carousel-inner,
 #heroRight2 .carousel-item{
   height:100% !important;
+}
+#heroMain img,
+#heroRight1 img,
+#heroRight2 img{
+  display:block;
+  height:100% !important;
+  max-height:none !important;
+  object-fit:cover;
+  width:100% !important;
 }
 #heroMain,
 #heroRight1,
@@ -17436,6 +17458,46 @@ body > .container-fluid.my-3 > .row{
 .sidebar-box,
 .category-box{
   border-radius:var(--panel-radius);
+}
+
+/* Khung CSKH có chiều cao ổn định; chỉ phần danh sách bên trong được cuộn. */
+.seo-guide-box{
+  min-height:0;
+  overflow:hidden;
+}
+.seo-guide-head{
+  flex:0 0 auto;
+}
+.seo-guide-list{
+  display:flex !important;
+  flex-direction:column;
+  flex:1 1 auto;
+  gap:9px;
+  height:auto !important;
+  min-height:0;
+  overflow-x:hidden !important;
+  overflow-y:auto !important;
+  overscroll-behavior:contain;
+  padding-right:4px;
+  scrollbar-color:rgba(21,128,61,.48) rgba(220,252,231,.7);
+  scrollbar-gutter:auto;
+  scrollbar-width:thin;
+}
+.seo-guide-list > .seo-guide-group{
+  flex:0 0 auto;
+  min-height:max-content;
+}
+.seo-guide-list::-webkit-scrollbar{
+  display:block;
+  width:5px;
+}
+.seo-guide-list::-webkit-scrollbar-track{
+  background:transparent;
+  border-radius:999px;
+}
+.seo-guide-list::-webkit-scrollbar-thumb{
+  background:rgba(21,128,61,.48);
+  border-radius:999px;
 }
 
 /* Tablet giữ hai vùng chính; điện thoại xếp một cột và giữ tỷ lệ từng banner. */
@@ -17448,6 +17510,10 @@ body > .container-fluid.my-3 > .row{
     flex:0 0 68%;
     max-width:68%;
   }
+  .seo-guide-box{
+    height:min(76vh,720px) !important;
+    max-height:min(76vh,720px) !important;
+  }
 }
 @media (max-width:767.98px){
   body > .container-fluid.my-3{
@@ -17459,16 +17525,34 @@ body > .container-fluid.my-3 > .row{
     flex:0 0 100%;
     max-width:100%;
   }
-  .hero > .main,
-  .hero > .mini{
-    flex:0 0 100%;
+  .hero.row{
+    aspect-ratio:auto;
+    grid-template-columns:minmax(0,1fr);
+  }
+  .hero.row > .main,
+  .hero.row > .mini{
+    height:auto;
     max-width:100%;
+  }
+  #heroMain{
+    aspect-ratio:1.88 / 1;
+    height:auto !important;
+  }
+  .hero .mini{
+    grid-template-rows:none;
   }
   #heroRight1,
   #heroRight2{
     aspect-ratio:1.88 / 1;
-    flex:none;
+    height:auto !important;
     width:100%;
+  }
+  .seo-guide-box{
+    height:min(76vh,680px) !important;
+    max-height:min(76vh,680px) !important;
+  }
+  .seo-guide-list{
+    overflow-y:auto !important;
   }
 }
 </style>
