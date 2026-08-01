@@ -81,6 +81,10 @@ body{
   background:var(--bg);
 }
 img{max-width:100%;display:block}
+.site-loading-status{
+  color:#dc2626 !important;
+  font-weight:600;
+}
 
 /* Container width to match header/footer */
 /* Container width to match header/footer */
@@ -3610,7 +3614,7 @@ body{
     </h6>
 
     <div id="workshopList" class="d-flex flex-column gap-2"></div>
-    <div id="workshopEmpty" class="small text-muted">(debug) Đang tải danh sách...</div>
+    <div id="workshopEmpty" class="small site-loading-status">Đang tải dữ liệu cho website</div>
 
     <div class="mt-2 text-center">
       <a id="workshopContactBtn2" href="#" target="_blank" rel="noopener"
@@ -4889,7 +4893,7 @@ document.addEventListener('click', (ev)=>{
         <input id="supSearch" type="search" placeholder="Tìm theo tên file hoặc nội dung mô tả...">
       </div>
       <div id="suppliersList" class="company-vault-list">
-        <div class="company-vault-empty">Đang tải danh sách hồ sơ...</div>
+        <div class="company-vault-empty site-loading-status">Đang tải dữ liệu cho website</div>
       </div>
     </section>
   </div>
@@ -8862,7 +8866,7 @@ function renderGrid(list){
   const arr = (Array.isArray(list) ? list : []).filter(it => canDisplayProduct(it, state.q));
   grid.innerHTML = arr.length
     ? arr.map(productCardHtml).join('')
-    : '<div class="text-muted">Đang tải dữ liệu...</div>';
+    : '<div class="site-loading-status">Đang tải dữ liệu cho website</div>';
 
   // lưu mảng đang hiển thị để các nơi khác dùng
   window._lastItems = arr;
@@ -9468,7 +9472,7 @@ function loworkshopuppliers(){
     refreshBtn.disabled = true;
     refreshBtn.textContent = '↻ Đang tải';
   }
-  box.innerHTML='<div class="company-vault-empty">Đang tải danh sách hồ sơ...</div>';
+  box.innerHTML='<div class="company-vault-empty site-loading-status">Đang tải dữ liệu cho website</div>';
   const separator = API_URL.includes('?') ? '&' : '?';
   const requestParams = new URLSearchParams({
     action:'suppliers',
@@ -10224,7 +10228,7 @@ async function lookupRewardBalance(){
     return;
   }
 
-  historyEl.innerHTML = '<div class="reward-history-empty">Đang tải lịch sử tích điểm...</div>';
+  historyEl.innerHTML = '<div class="reward-history-empty site-loading-status">Đang tải dữ liệu cho website</div>';
   try{
     const params = new URLSearchParams({ action:'reward_lookup', ...rewardIdentifierPayload(identifier) });
     const resp = await fetch(API_URL + '?' + params.toString(), { cache:'no-store' });
@@ -10730,7 +10734,7 @@ window.switchDesign2 = function(type){
       <section>
         <h6>Danh mục sản phẩm</h6>
         <ul id="footerCategoryList" class="footer-link-list footer-category-list">
-          <li><span>Đang tải danh mục...</span></li>
+          <li><span class="site-loading-status">Đang tải dữ liệu cho website</span></li>
         </ul>
       </section>
 
@@ -10814,7 +10818,7 @@ function renderFooterCategories(facets){
           </a>
         </li>
       `).join('')
-    : '<li><span>Đang tải danh mục...</span></li>';
+    : '<li><span class="site-loading-status">Đang tải dữ liệu cho website</span></li>';
 
   if (rows.some(row => row.count === null) && typeof footerFetchAllCategoryCounts === 'function') {
     footerFetchAllCategoryCounts();
@@ -12045,12 +12049,14 @@ footer.text-light.footer-2606 a:hover{
   white-space:nowrap;
 }
 .seo-guide-list{
+  -webkit-overflow-scrolling:touch;
   counter-reset:cskh-standard;
   display:grid;
   gap:9px;
   overflow-y:auto;
   padding-right:4px;
   scrollbar-width:thin;
+  touch-action:pan-y;
 }
 .seo-guide-list::-webkit-scrollbar{
   width:6px;
@@ -12149,6 +12155,7 @@ footer.text-light.footer-2606 a:hover{
   display:block;
   padding:10px 11px;
   text-decoration:none;
+  touch-action:manipulation;
   transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
 }
 .seo-guide-link:hover{
@@ -16442,25 +16449,7 @@ updateSeoGuideCounter();
 const seoGuideList = document.querySelector('.seo-guide-list');
 const seoGuideGroups = Array.from(document.querySelectorAll('.seo-guide-list > .seo-guide-group'));
 const seoGuideLinks = Array.from(document.querySelectorAll('.seo-guide-list .seo-guide-link'));
-seoGuideLinks.forEach(link => link.setAttribute('aria-expanded', 'false'));
-seoGuideGroups.forEach(group => {
-  group.addEventListener('toggle', () => {
-    if(group.open){
-      seoGuideGroups.forEach(other => {
-        if(other !== group) other.open = false;
-      });
-    }
-    window.setTimeout(() => {
-      syncSeoGuideMobileItems();
-      updateSeoGuideCounter();
-    }, 220);
-  });
-});
-seoGuideList?.addEventListener('click', event => {
-  const selected = event.target.closest('.seo-guide-link');
-  if(!selected || !seoGuideList.contains(selected)) return;
-  event.preventDefault();
-
+function toggleSeoGuideStep(selected){
   const shouldOpen = !selected.classList.contains('is-open');
   seoGuideLinks.forEach(link => {
     link.classList.remove('is-open');
@@ -16473,7 +16462,38 @@ seoGuideList?.addEventListener('click', event => {
   window.setTimeout(() => {
     syncSeoGuideMobileItems();
     updateSeoGuideCounter();
+    if(shouldOpen) selected.scrollIntoView({block:'nearest', behavior:'smooth'});
   }, 260);
+}
+
+seoGuideLinks.forEach(link => {
+  link.removeAttribute('href');
+  link.setAttribute('role', 'button');
+  link.setAttribute('tabindex', '0');
+  link.setAttribute('aria-expanded', 'false');
+  link.addEventListener('click', event => {
+    event.preventDefault();
+    event.stopPropagation();
+    toggleSeoGuideStep(link);
+  });
+  link.addEventListener('keydown', event => {
+    if(event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    toggleSeoGuideStep(link);
+  });
+});
+seoGuideGroups.forEach(group => {
+  group.addEventListener('toggle', () => {
+    if(group.open){
+      seoGuideGroups.forEach(other => {
+        if(other !== group) other.open = false;
+      });
+    }
+    window.setTimeout(() => {
+      syncSeoGuideMobileItems();
+      updateSeoGuideCounter();
+    }, 220);
+  });
 });
 document.querySelector('.seo-guide-list')?.addEventListener('scroll', () => {
   window.requestAnimationFrame(updateSeoGuideCounter);
