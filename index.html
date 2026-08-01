@@ -3635,7 +3635,7 @@ body{
       <span id="seoGuideCounter" class="seo-guide-counter">4/4</span>
     </div>
     <div class="seo-guide-list">
-      <details class="seo-guide-group">
+      <details class="seo-guide-group" open>
         <summary>Tiêu chuẩn quy trình</summary>
         <div class="seo-guide-group-content seo-guide-process-list">
       <details class="seo-guide-link">
@@ -3734,7 +3734,7 @@ body{
         </div>
       </details>
 
-      <details class="seo-guide-group">
+      <details class="seo-guide-group" open>
         <summary>Từ khóa chuyên ngành</summary>
         <div class="seo-guide-group-content">
           <div class="seo-guide-chip-list">
@@ -3745,7 +3745,7 @@ body{
         </div>
       </details>
 
-      <details class="seo-guide-group">
+      <details class="seo-guide-group" open>
         <summary>Bài viết chuyên ngành</summary>
         <div class="seo-guide-group-content seo-guide-demo-list">
           <article><b>Chuẩn bị file logo đúng kỹ thuật</b><span>Định dạng vector, mã màu và kích thước cần có trước khi sản xuất.</span></article>
@@ -3754,7 +3754,7 @@ body{
         </div>
       </details>
 
-      <details class="seo-guide-group">
+      <details class="seo-guide-group" open>
         <summary>Mẹo mua hàng</summary>
         <div class="seo-guide-group-content seo-guide-demo-list">
           <article><b>Chốt số lượng trước khi hỏi giá</b><span>Số lượng ảnh hưởng trực tiếp đến đơn giá và phương án sản xuất.</span></article>
@@ -16477,11 +16477,6 @@ seoGuideLinks.forEach(link => {
 });
 seoGuideGroups.forEach(group => {
   group.addEventListener('toggle', () => {
-    if(group.open){
-      seoGuideGroups.forEach(other => {
-        if(other !== group) other.open = false;
-      });
-    }
     window.setTimeout(() => {
       syncSeoGuideMobileItems();
       updateSeoGuideCounter();
@@ -17369,6 +17364,114 @@ function syncSeoGuideHeightToProducts(){
   }).observe(document.body, { childList: true, subtree: true });
 })();
 </script>
+
+<style id="responsive-proportion-system">
+/* Giữ tỷ lệ khung ổn định nhưng vẫn đảm bảo khả năng đọc trên từng thiết bị. */
+:root{
+  --page-content-max:1720px;
+  --layout-gap:clamp(12px,1.2vw,20px);
+  --panel-radius:clamp(12px,1vw,16px);
+}
+body > .container-fluid.my-3{
+  max-width:var(--page-content-max) !important;
+  padding-left:clamp(10px,2vw,24px);
+  padding-right:clamp(10px,2vw,24px);
+  width:100%;
+}
+body > .container-fluid.my-3 > .row{
+  --bs-gutter-x:var(--layout-gap);
+  align-items:flex-start;
+}
+
+/* Cột trái/phải luôn theo cùng một tỷ lệ trên màn hình máy tính. */
+@media (min-width:992px){
+  #leftCol{
+    flex:0 0 24%;
+    max-width:24%;
+  }
+  #leftCol + .col-lg-9{
+    flex:0 0 76%;
+    max-width:76%;
+  }
+}
+
+/* Banner chính và hai banner phụ luôn bằng chiều cao, ảnh không bị méo. */
+.hero{
+  align-items:stretch;
+  --bs-gutter-x:var(--layout-gap);
+}
+.hero > .main,
+.hero > .mini{
+  min-width:0;
+}
+#heroMain{
+  aspect-ratio:1.88 / 1;
+  height:auto !important;
+  width:100%;
+}
+.hero .mini{
+  gap:var(--layout-gap) !important;
+  margin-top:0 !important;
+}
+.hero .mini > *{
+  flex:1 1 0;
+  min-height:0;
+}
+.hero .mini > * + *{
+  margin-top:0 !important;
+}
+#heroRight1,
+#heroRight2{
+  height:auto !important;
+}
+#heroRight1 .carousel-inner,
+#heroRight1 .carousel-item,
+#heroRight2 .carousel-inner,
+#heroRight2 .carousel-item{
+  height:100% !important;
+}
+#heroMain,
+#heroRight1,
+#heroRight2,
+.sidebar-box,
+.category-box{
+  border-radius:var(--panel-radius);
+}
+
+/* Tablet giữ hai vùng chính; điện thoại xếp một cột và giữ tỷ lệ từng banner. */
+@media (min-width:768px) and (max-width:991.98px){
+  #leftCol{
+    flex:0 0 32%;
+    max-width:32%;
+  }
+  #leftCol + .col-md-8{
+    flex:0 0 68%;
+    max-width:68%;
+  }
+}
+@media (max-width:767.98px){
+  body > .container-fluid.my-3{
+    padding-left:10px;
+    padding-right:10px;
+  }
+  #leftCol,
+  #leftCol + .col-md-8{
+    flex:0 0 100%;
+    max-width:100%;
+  }
+  .hero > .main,
+  .hero > .mini{
+    flex:0 0 100%;
+    max-width:100%;
+  }
+  #heroRight1,
+  #heroRight2{
+    aspect-ratio:1.88 / 1;
+    flex:none;
+    width:100%;
+  }
+}
+</style>
 
 <style id="brief-remove-capture-button-final-style">
   #briefCaptureBtn,
