@@ -2913,9 +2913,13 @@ footer.text-light .bi{ color:#fff; }
 /* Product detail popup - polished profile view */
 #detailModal .dtl-dialog{
   width:min(1040px, calc(100vw - 28px)) !important;
+  height:min(760px, calc(100vh - 24px)) !important;
   max-height:calc(100vh - 28px) !important;
-  overflow:auto;
-  padding:18px !important;
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+  padding:14px !important;
   border-radius:18px !important;
   background:linear-gradient(180deg,#ffffff 0%,#fbfdfb 100%) !important;
   box-shadow:0 24px 70px rgba(15,64,32,.22) !important;
@@ -2931,15 +2935,17 @@ footer.text-light .bi{ color:#fff; }
 }
 #detailModal .dtl-head{
   display:grid !important;
-  grid-template-columns:104px minmax(0,1fr);
-  gap:16px !important;
-  align-items:center !important;
-  margin:0 52px 14px 0 !important;
+  grid-template-columns:142px minmax(0,1fr);
+  gap:20px !important;
+  align-items:start !important;
+  flex:0 0 auto;
+  margin:0 52px 10px 0 !important;
 }
 #detailModal .dtl-head img{
-  width:104px !important;
-  height:104px !important;
-  border-radius:15px !important;
+  width:142px !important;
+  height:142px !important;
+  object-fit:contain !important;
+  border-radius:10px !important;
   border:1px solid #e2ece5;
   box-shadow:0 8px 20px rgba(0,0,0,.09);
 }
@@ -2957,25 +2963,56 @@ footer.text-light .bi{ color:#fff; }
   font-weight:400 !important;
 }
 #detailModal .dtl-badges{
-  margin:8px 0 14px !important;
-  gap:7px !important;
+  margin:8px 0 0 !important;
+  gap:6px !important;
 }
 #detailModal .dtl-badges .tag{
   background:#edf8ef !important;
   color:#087227 !important;
   border:1px solid #d9f0dd !important;
-  padding:5px 10px !important;
-  border-radius:999px !important;
-  font-size:13px !important;
+  padding:4px 9px !important;
+  border-radius:0 !important;
+  font-size:12px !important;
   font-weight:400 !important;
+}
+#detailModal .dtl-badges .tag-business{
+  background:#eaf2ff !important;
+  border-color:#b8cff4 !important;
+  color:#174f99 !important;
+  font-weight:600 !important;
+}
+#detailModal .dtl-badges .tag-contact{
+  background:#fff2dd !important;
+  border-color:#f0c98d !important;
+  color:#a34e00 !important;
+  font-weight:600 !important;
 }
 #detailModal .dtl-rows{
   display:grid !important;
   grid-template-columns:minmax(0,1fr) minmax(360px,.95fr) !important;
   gap:12px !important;
+  flex:1 1 auto;
+  min-height:0;
+  overflow:hidden;
 }
 #detailModal .dtl-col{
   gap:9px !important;
+  min-height:0;
+  overflow:auto;
+}
+#detailModal #dtlRight{
+  overflow:hidden;
+}
+#detailModal #dtlRight .media-gallery{
+  display:flex;
+  flex:1 1 auto;
+  flex-direction:column;
+  min-height:0;
+}
+#detailModal #dtlRight .media-gallery .cert-grid{
+  flex:1 1 auto;
+  min-height:0;
+  max-height:none !important;
 }
 #detailModal .dtl-row,
 #detailModal .field{
@@ -3005,11 +3042,22 @@ footer.text-light .bi{ color:#fff; }
 #detailModal .field.desc .value{
   font-size:16px !important;
 }
+#detailModal #dtlLeft .field.desc{
+  flex:1 1 auto;
+  min-height:0;
+  height:100%;
+  overflow:auto;
+  padding:13px 16px !important;
+}
+#detailModal #dtlLeft .field.desc .value{
+  font-size:15px !important;
+  line-height:1.5 !important;
+}
 #detailModal .right-col{
   position:static !important;
 }
 #detailModal .media-card{
-  padding:12px !important;
+  padding:10px !important;
   border-radius:14px !important;
   border:1px solid #dfeee5 !important;
   background:#ffffff !important;
@@ -3026,8 +3074,37 @@ footer.text-light .bi{ color:#fff; }
   height:24px !important;
   background:#2e9b47 !important;
 }
+#detailModal .media-card-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin:0 0 9px;
+}
+#detailModal .media-card-head h5{
+  margin:0 !important;
+}
+#detailModal .open-document-btn{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:32px;
+  padding:6px 12px;
+  border:1px solid #087227;
+  border-radius:6px;
+  background:#0b8b35;
+  color:#fff;
+  font-size:13px;
+  font-weight:600;
+  line-height:1;
+  text-decoration:none;
+}
+#detailModal .open-document-btn:hover{
+  background:#076f2a;
+}
 #detailModal .cert-grid{
-  max-height:330px;
+  max-height:min(520px, calc(100vh - 310px));
   overflow:auto;
   display:grid !important;
   grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) !important;
@@ -3066,12 +3143,15 @@ footer.text-light .bi{ color:#fff; }
   border-radius:999px !important;
 }
 @media (max-width: 760px){
-  #detailModal .dtl-dialog{ padding:16px !important; }
-  #detailModal .dtl-head{ grid-template-columns:82px 1fr; margin-right:46px !important; }
-  #detailModal .dtl-head img{ width:82px !important; height:82px !important; }
+  #detailModal .dtl-dialog{ height:calc(100vh - 16px) !important; padding:12px !important; border-radius:14px !important; }
+  #detailModal .dtl-head{ grid-template-columns:100px 1fr; gap:12px !important; margin-right:46px !important; }
+  #detailModal .dtl-head img{ width:100px !important; height:100px !important; }
   #detailModal #dtlTitle{ font-size:19px !important; }
-  #detailModal .dtl-rows{ grid-template-columns:1fr !important; }
-  #detailModal .cert-grid{ max-height:300px; grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  #detailModal .dtl-rows{ display:block !important; overflow:auto !important; }
+  #detailModal .dtl-col{ overflow:visible !important; }
+  #detailModal #dtlRight{ margin-top:10px; overflow:visible; }
+  #detailModal #dtlLeft .field.desc{ height:auto; min-height:200px; }
+  #detailModal .cert-grid{ max-height:380px; grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
 }
 /* ==== CART compact (giữ nguyên markup cũ) ==== */
 #cartCanvas .cart-item{
@@ -4041,6 +4121,20 @@ body{
  <div class="category-wrapper">
   <button id="catPrev" class="cat-arrow left"  type="button" aria-label="prev">‹</button>
   <div id="categoryScroll" class="category-scroll"></div>
+  <aside id="categoryTypePanel" class="category-type-panel" aria-label="Loại hình sản phẩm" hidden>
+    <section class="category-facet-section">
+      <div class="category-type-title">TÍNH CHẤT</div>
+      <div id="categoryTypeKeywords" class="category-type-keywords"></div>
+    </section>
+    <section id="categoryActionSection" class="category-facet-section category-action-section" hidden>
+      <div class="category-type-title">HÀNH ĐỘNG</div>
+      <div id="categoryActionKeywords" class="category-type-keywords"></div>
+    </section>
+    <section id="categoryEventSection" class="category-facet-section category-event-section" hidden>
+      <div class="category-type-title">SỰ KIỆN</div>
+      <div id="categoryEventKeywords" class="category-type-keywords"></div>
+    </section>
+  </aside>
   <button id="catNext" class="cat-arrow right" type="button" aria-label="next">›</button>
 </div>
 
@@ -4185,7 +4279,9 @@ const FIELD_LABELS = {
   weight:'Khối lượng', moq:'MOQ', qty_min:'SL tối thiểu',
   lead_time:'Thời gian SX', warranty:'Bảo hành', updated_at:'Cập nhật',
   ID:'Sản phẩm', GIA:'Giá tham khảo', LOAI:'Tư vấn / đặt hàng', NOTE:'Bộ sưu tập',
-  MOTA:'Mô tả sản phẩm', TENCONGTY:'Đơn vị cung cấp', SDT:'Liên hệ',
+  MOTA:'Mô tả sản phẩm',
+  TENCONGTY:'Đơn vị bán', tencongty:'Đơn vị bán',
+  SDT:'Kết nối ngay', sdt:'Kết nối ngay',
   CHUNGNHANDN:'Hình ảnh / tài liệu', LOGOCONGTY:'Logo công ty',
   IMAGECLICK:'Kênh liên hệ', LINKFULL:'Ảnh gốc'
 };
@@ -4315,7 +4411,8 @@ function openDetailBox(item){
     item.title || item.name || item.code || item.id || 'Chi tiết';
   document.getElementById('dtlSub').textContent =
     [item.group, item.category].filter(Boolean).join(' • ');
-  document.getElementById('dtlOpenImg').href = (item.linkfull || img);
+  const openImageLink = document.getElementById('dtlOpenImg');
+  if (openImageLink) openImageLink.href = (item.linkfull || img);
 
 // ===== Chứng nhận (f10) dùng cột chungnhanDN =====
 const raw     = (item.chungnhanDN || item['chungnhanDN'] || '').trim();
@@ -4350,19 +4447,36 @@ if (viewBtn && downBtn) {
 // ===== hết khối Chứng nhận =====
 
     
-  // ---- Badges (giá, loại, xưởng) ----
+  // ---- Thông tin tóm tắt: thay cho các card lớn bị lặp ở cột trái ----
   const badges = [];
-  if (item.price)    badges.push(`<span class="tag">Giá tham khảo: ${item.price}</span>`);
-  if (item.type)     badges.push(`<span class="tag">${item.type}</span>`);
-  if (item.supplier) badges.push(`<span class="tag">Xưởng: ${item.supplier}</span>`);
+  const badgeKeys = new Set();
+  const addBadge = (label, value, extraClass = '') => {
+    const text = String(value ?? '').trim();
+    if (!text) return;
+    const key = `${label}|${text}`.toLocaleLowerCase('vi');
+    if (badgeKeys.has(key)) return;
+    badgeKeys.add(key);
+    badges.push(`<span class="tag ${extraClass}">${label ? `${esc(label)}: ` : ''}${esc(text)}</span>`);
+  };
+  const summaryPrice = item.price ?? item.GIA ?? item.gia;
+  if (summaryPrice) addBadge('Giá tham khảo', fmtVND(summaryPrice));
+  addBadge('Tính chất', item.type);
+  addBadge('Hành động', item.LOAI || item.loai);
+  addBadge('Sự kiện', item.NOTE || item.note || item.ghichu);
+  addBadge('Đơn vị bán', item.TENCONGTY || item.tencongty, 'tag-business');
+  addBadge('Kết nối ngay', item.SDT || item.sdt, 'tag-contact');
+  if (item.supplier) addBadge('Xưởng', item.supplier);
   document.getElementById('dtlBadges').innerHTML = badges.join('');
 
   // ==== SẮP 2 CỘT THEO THỨ TỰ YÊU CẦU ====
   const LEFT_ORDER  = ["ID","MÔ TẢ","GIÁ","DANH MỤC","NHÓM","LOẠI","LOAI"];
-  const RIGHT_ORDER = ["TENCONGTY","LOGO CÔNG TY","LOGOCONGTY","CHỨNG NHẬN","CHUNGNHANDN","QUẢNG CÁO","IMAGECLICK","IMAGE CLICK"];
+  const RIGHT_ORDER = ["LOGO CÔNG TY","LOGOCONGTY","CHỨNG NHẬN","CHUNGNHANDN","QUẢNG CÁO","IMAGECLICK","IMAGE CLICK"];
 
   // 1) Gom field → pool
-  const seen = new Set(['img','image','thumbnail','linkfull']); // ảnh để riêng
+  const seen = new Set([
+    'img','image','thumbnail','linkfull',
+    'TENCONGTY','tencongty','SDT','sdt'
+  ]); // ảnh và thông tin đầu popup để riêng
   const N = s => String(s||'')
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
     .replace(/\s+/g,' ').trim().toUpperCase();
@@ -4488,8 +4602,11 @@ if (item.CHUNGNHANDN || item.chungnhanDN){
 
 
   right.push(`
-    <div class="media-card">
-      <h5>Hình ảnh / tài liệu tham khảo</h5>
+    <div class="media-card media-gallery">
+      <div class="media-card-head">
+        <h5>Thông tin chi tiết</h5>
+        <a class="open-document-btn" href="${esc(links[0])}" target="_blank" rel="noopener">Mở tài liệu</a>
+      </div>
       <div class="cert-grid">${iframes}</div>
     </div>
   `);
@@ -4510,23 +4627,10 @@ const fieldBox = (label, valueHtml, cls='') => `
 
 
 
-if (Array.isArray(left)) left.length = 0;   // ✅ xoá rỗng mảng mà không gán lại biến const
+if (Array.isArray(left)) left.length = 0;   // xoá các field thô, chỉ giữ phần mô tả
 
 
-// 1) Sản phẩm
-left.push(fieldBox('Sản phẩm', esc(item.ID || item.id || item.name || item.title || '')));
-
-// 2) Giá tham khảo
-left.push(fieldBox('Giá tham khảo', esc(toVND(item.GIA ?? item.gia ?? item.price))));
-
-// 3) Tư vấn / đặt hàng
-left.push(fieldBox('Tư vấn / đặt hàng', esc(item.LOAI || item.loai || '')));
-
-// 4) Bộ sưu tập / ghi chú
-left.push(fieldBox('Bộ sưu tập', esc(item.NOTE || item.note || item.ghichu || '')));
-
-
-// 5) MÔ TẢ (đặt cuối cùng) — chuẩn hoá xuống dòng từ Sheet
+// MÔ TẢ — tên, giá, tư vấn và bộ sưu tập đã được đưa lên các nhãn tóm tắt
 {
   const rawDesc = (item.MOTA || item.mota || item.details || item.description || '');
   const normalized = String(rawDesc)
@@ -4830,7 +4934,7 @@ document.addEventListener('click', (ev)=>{
 
     <section class="filter-section" data-filter-section="typeBox">
       <button type="button" class="filter-section-toggle" data-filter-toggle="typeBox">
-        <span class="filter-section-title"><span class="filter-section-arrow">▼</span> NỘI DUNG</span>
+        <span class="filter-section-title"><span class="filter-section-arrow">▼</span> TÍNH CHẤT</span>
         <span class="filter-section-count" data-filter-count="typeBox">(0)</span>
       </button>
       <div class="filter-section-body"><div id="typeBox"></div></div>
@@ -8132,7 +8236,13 @@ dotBox?.addEventListener('click', (e)=>{
   if(chip){
     state.group = chip.dataset.val || '';
     state.category = '';
+    state.type = '';
+    state.loai = '';
+    state.note = '';
     state.page = 1;
+    renderCategoryTypeButtons([]);
+    renderCategoryActionButtons([]);
+    renderCategoryEventButtons([]);
     updateGroupUI();       // đổi active chip + ink-bar
     updateGroupDots();     // chấm đổi màu
     fetchPage();           // nạp dữ liệu theo group
@@ -8278,7 +8388,7 @@ if (typeof renderFooterCategories === 'function') renderFooterCategories(facets 
 
   // 🔁 THAY DÒNG NÀY
   // buildCategory(facets?.categories || []);
-    buildCategory(facets?.categories || []);
+    buildCategory(state.category ? [state.category] : (facets?.categories || []));
 
 
   // các box lọc khác giữ nguyên
@@ -8485,6 +8595,306 @@ let catIndex = 0;
 const catsPerView = 12;
 let allCategories = [];
 
+window._categoryTypeCache = window._categoryTypeCache || Object.create(null);
+window._categoryTypeCountCache = window._categoryTypeCountCache || Object.create(null);
+window._categoryActionCache = window._categoryActionCache || Object.create(null);
+window._categoryActionCountCache = window._categoryActionCountCache || Object.create(null);
+window._categoryEventCache = window._categoryEventCache || Object.create(null);
+window._categoryEventCountCache = window._categoryEventCountCache || Object.create(null);
+window._categoryPreviewItems = window._categoryPreviewItems || Object.create(null);
+
+function fastFilterNorm(value){
+  return String(value || '')
+    .trim()
+    .replace(/\s+/g, ' ')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+function renderFastProductPreview(items){
+  const list = Array.isArray(items) ? items : [];
+  const grid = document.getElementById('productGrid');
+  if(!grid) return false;
+
+  grid.innerHTML = list.length
+    ? list.map(productCardHtml).join('')
+    : '<div class="text-muted">Không tìm thấy sản phẩm phù hợp.</div>';
+  const total = document.getElementById('totalCount');
+  if(total) total.textContent = Number(list.length).toLocaleString('vi-VN');
+  renderPagination(list.length, state.pageSize, 1);
+  return true;
+}
+
+function renderFastSelectedFacetsPreview(){
+  const key = categoryTypeCacheKey();
+  const pool = Array.isArray(window._categoryPreviewItems[key])
+    ? window._categoryPreviewItems[key]
+    : [];
+  if(!pool.length) return false;
+  const wantedType = fastFilterNorm(state.type);
+  const wantedAction = fastFilterNorm(state.loai);
+  const wantedEvent = fastFilterNorm(state.note);
+  const matches = pool.filter(item => {
+    const itemType = fastFilterNorm(item?.type ?? item?.Type ?? item?.loai_hinh ?? item?.loaiHinh);
+    const itemAction = fastFilterNorm(item?.loai ?? item?.LOAI ?? item?.action ?? item?.hanh_dong ?? item?.hanhDong);
+    const itemEvent = fastFilterNorm(item?.note ?? item?.NOTE ?? item?.event ?? item?.su_kien ?? item?.suKien);
+    return (!wantedType || itemType === wantedType)
+      && (!wantedAction || itemAction === wantedAction)
+      && (!wantedEvent || itemEvent === wantedEvent);
+  });
+  return renderFastProductPreview(matches);
+}
+
+function renderFastTypePreview(){ return renderFastSelectedFacetsPreview(); }
+function renderFastActionPreview(){ return renderFastSelectedFacetsPreview(); }
+function renderFastEventPreview(){ return renderFastSelectedFacetsPreview(); }
+
+function cleanCategoryTypes(values){
+  return Array.from(new Set(
+    (Array.isArray(values) ? values : [])
+      .map(value => {
+        if(value && typeof value === 'object'){
+          return value.value ?? value.label ?? value.name ?? value.type ?? '';
+        }
+        return value;
+      })
+      .map(value => String(value ?? '').trim())
+      .filter(Boolean)
+  ));
+}
+
+function categoryTypeCacheKey(){
+  return [state.group || '', state.category || ''].map(value => String(value).trim()).join('|');
+}
+
+function setCategoryTypePanelVisible(visible){
+  const wrapper = document.querySelector('.category-box .category-wrapper');
+  const panel = document.getElementById('categoryTypePanel');
+  if(!wrapper || !panel) return;
+  panel.hidden = !visible;
+  wrapper.classList.toggle('has-category-types', visible);
+}
+
+function renderCategoryTypeButtons(values, options = {}){
+  const box = document.getElementById('categoryTypeKeywords');
+  if(!box) return;
+
+  const list = cleanCategoryTypes(values);
+  const counts = options.counts || window._activeCategoryTypeCounts || {};
+  window._activeCategoryTypes = list;
+  window._activeCategoryTypeCounts = counts;
+  setCategoryTypePanelVisible(!!state.category);
+
+  if(!state.category){
+    box.innerHTML = '';
+    return;
+  }
+  if(options.loading){
+    box.innerHTML = '<span class="category-type-message">Đang tải loại hình sản phẩm...</span>';
+    return;
+  }
+  if(!list.length){
+    box.innerHTML = '<span class="category-type-message">Chưa có loại hình sản phẩm.</span>';
+    return;
+  }
+
+  box.innerHTML = list.map(value => `
+    <button type="button"
+      class="category-type-keyword ${state.type === value ? 'active' : ''}"
+      data-action="set-filter" data-field="type" data-val="${esc(value)}">
+      <span>${state.type === value ? '✓ ' : ''}${esc(value)}</span>
+      ${Number.isFinite(Number(counts[value])) ? `<span class="category-type-count">${Number(counts[value]).toLocaleString('vi-VN')}</span>` : ''}
+    </button>
+  `).join('');
+}
+
+function renderCategoryActionButtons(values, options = {}){
+  const section = document.getElementById('categoryActionSection');
+  const box = document.getElementById('categoryActionKeywords');
+  if(!section || !box) return;
+
+  const list = cleanCategoryTypes(values);
+  const counts = options.counts || window._activeCategoryActionCounts || {};
+  window._activeCategoryActions = list;
+  window._activeCategoryActionCounts = counts;
+  section.hidden = !state.category || (!list.length && !options.loading);
+
+  if(!state.category){
+    box.innerHTML = '';
+    return;
+  }
+  if(options.loading){
+    section.hidden = false;
+    box.innerHTML = '<span class="category-type-message">Đang tải hành động...</span>';
+    return;
+  }
+  if(!list.length){
+    box.innerHTML = '';
+    return;
+  }
+
+  box.innerHTML = list.map(value => `
+    <button type="button"
+      class="category-type-keyword ${state.loai === value ? 'active' : ''}"
+      data-action="set-filter" data-field="loai" data-val="${esc(value)}">
+      <span>${state.loai === value ? '✓ ' : ''}${esc(value)}</span>
+      ${Number.isFinite(Number(counts[value])) ? `<span class="category-type-count">${Number(counts[value]).toLocaleString('vi-VN')}</span>` : ''}
+    </button>
+  `).join('');
+}
+
+function renderCategoryEventButtons(values, options = {}){
+  const section = document.getElementById('categoryEventSection');
+  const box = document.getElementById('categoryEventKeywords');
+  if(!section || !box) return;
+
+  const list = cleanCategoryTypes(values);
+  const counts = options.counts || window._activeCategoryEventCounts || {};
+  window._activeCategoryEvents = list;
+  window._activeCategoryEventCounts = counts;
+  section.hidden = !state.category || (!list.length && !options.loading);
+
+  if(!state.category){
+    box.innerHTML = '';
+    return;
+  }
+  if(options.loading){
+    section.hidden = false;
+    box.innerHTML = '<span class="category-type-message">Đang tải sự kiện...</span>';
+    return;
+  }
+  if(!list.length){
+    box.innerHTML = '';
+    return;
+  }
+
+  box.innerHTML = list.map(value => `
+    <button type="button"
+      class="category-type-keyword ${state.note === value ? 'active' : ''}"
+      data-action="set-filter" data-field="note" data-val="${esc(value)}">
+      <span>${state.note === value ? '✓ ' : ''}${esc(value)}</span>
+      ${Number.isFinite(Number(counts[value])) ? `<span class="category-type-count">${Number(counts[value]).toLocaleString('vi-VN')}</span>` : ''}
+    </button>
+  `).join('');
+}
+
+function updateCategoryTypePanel(res, sourceItems){
+  if(!state.category){
+    renderCategoryTypeButtons([]);
+    renderCategoryActionButtons([]);
+    renderCategoryEventButtons([]);
+    return;
+  }
+
+  const facetTypes = cleanCategoryTypes(res?.facets?.types || []);
+  const itemTypes = cleanCategoryTypes(
+    (Array.isArray(sourceItems) ? sourceItems : []).map(item =>
+      item?.type ?? item?.Type ?? item?.loai_hinh ?? item?.loaiHinh ?? ''
+    )
+  );
+  const incoming = cleanCategoryTypes([...facetTypes, ...itemTypes]);
+  const facetActions = cleanCategoryTypes(res?.facets?.loais || []);
+  const itemActions = cleanCategoryTypes(
+    (Array.isArray(sourceItems) ? sourceItems : []).map(item =>
+      item?.loai ?? item?.LOAI ?? item?.action ?? item?.hanh_dong ?? item?.hanhDong ?? ''
+    )
+  );
+  const incomingActions = cleanCategoryTypes([...facetActions, ...itemActions]);
+  const facetEvents = cleanCategoryTypes(res?.facets?.notes || []);
+  const itemEvents = cleanCategoryTypes(
+    (Array.isArray(sourceItems) ? sourceItems : []).map(item =>
+      item?.note ?? item?.NOTE ?? item?.event ?? item?.su_kien ?? item?.suKien ?? ''
+    )
+  );
+  const incomingEvents = cleanCategoryTypes([...facetEvents, ...itemEvents]);
+  const key = categoryTypeCacheKey();
+  const cached = cleanCategoryTypes(window._categoryTypeCache[key] || []);
+  const cachedActions = cleanCategoryTypes(window._categoryActionCache[key] || []);
+  const cachedEvents = cleanCategoryTypes(window._categoryEventCache[key] || []);
+  const incomingCounts = Object.create(null);
+  const itemCounts = Object.create(null);
+  const incomingActionCounts = Object.create(null);
+  const itemActionCounts = Object.create(null);
+  const incomingEventCounts = Object.create(null);
+  const itemEventCounts = Object.create(null);
+
+  (Array.isArray(res?.facets?.types) ? res.facets.types : []).forEach(value => {
+    if(!value || typeof value !== 'object') return;
+    const label = String(value.value ?? value.label ?? value.name ?? value.type ?? '').trim();
+    const count = Number(value.count ?? value.total ?? value.qty ?? value.quantity);
+    if(label && Number.isFinite(count)) incomingCounts[label] = count;
+  });
+  (Array.isArray(sourceItems) ? sourceItems : []).forEach(item => {
+    const label = String(item?.type ?? item?.Type ?? item?.loai_hinh ?? item?.loaiHinh ?? '').trim();
+    if(label) itemCounts[label] = (itemCounts[label] || 0) + 1;
+  });
+  Object.keys(itemCounts).forEach(label => {
+    if(!Object.prototype.hasOwnProperty.call(incomingCounts, label)) incomingCounts[label] = itemCounts[label];
+  });
+
+  (Array.isArray(res?.facets?.loais) ? res.facets.loais : []).forEach(value => {
+    if(!value || typeof value !== 'object') return;
+    const label = String(value.value ?? value.label ?? value.name ?? value.loai ?? '').trim();
+    const count = Number(value.count ?? value.total ?? value.qty ?? value.quantity);
+    if(label && Number.isFinite(count)) incomingActionCounts[label] = count;
+  });
+  (Array.isArray(sourceItems) ? sourceItems : []).forEach(item => {
+    const label = String(item?.loai ?? item?.LOAI ?? item?.action ?? item?.hanh_dong ?? item?.hanhDong ?? '').trim();
+    if(label) itemActionCounts[label] = (itemActionCounts[label] || 0) + 1;
+  });
+  Object.keys(itemActionCounts).forEach(label => {
+    if(!Object.prototype.hasOwnProperty.call(incomingActionCounts, label)) incomingActionCounts[label] = itemActionCounts[label];
+  });
+
+  (Array.isArray(res?.facets?.notes) ? res.facets.notes : []).forEach(value => {
+    if(!value || typeof value !== 'object') return;
+    const label = String(value.value ?? value.label ?? value.name ?? value.note ?? '').trim();
+    const count = Number(value.count ?? value.total ?? value.qty ?? value.quantity);
+    if(label && Number.isFinite(count)) incomingEventCounts[label] = count;
+  });
+  (Array.isArray(sourceItems) ? sourceItems : []).forEach(item => {
+    const label = String(item?.note ?? item?.NOTE ?? item?.event ?? item?.su_kien ?? item?.suKien ?? '').trim();
+    if(label) itemEventCounts[label] = (itemEventCounts[label] || 0) + 1;
+  });
+  Object.keys(itemEventCounts).forEach(label => {
+    if(!Object.prototype.hasOwnProperty.call(incomingEventCounts, label)) incomingEventCounts[label] = itemEventCounts[label];
+  });
+
+  if(!state.type && !state.loai && !state.note){
+    if(incoming.length){
+    window._categoryTypeCache[key] = incoming;
+    window._categoryTypeCountCache[key] = incomingCounts;
+    }
+    if(incomingActions.length){
+      window._categoryActionCache[key] = incomingActions;
+      window._categoryActionCountCache[key] = incomingActionCounts;
+    }
+    if(incomingEvents.length){
+      window._categoryEventCache[key] = incomingEvents;
+      window._categoryEventCountCache[key] = incomingEventCounts;
+    }
+    window._categoryPreviewItems[key] = Array.isArray(sourceItems) ? sourceItems.slice() : [];
+  }else if(incoming.length){
+    window._categoryTypeCache[key] = cleanCategoryTypes([...cached, ...incoming]);
+    if(incomingActions.length){
+      window._categoryActionCache[key] = cleanCategoryTypes([...cachedActions, ...incomingActions]);
+    }
+    if(incomingEvents.length){
+      window._categoryEventCache[key] = cleanCategoryTypes([...cachedEvents, ...incomingEvents]);
+    }
+  }
+
+  renderCategoryTypeButtons(window._categoryTypeCache[key] || incoming, {
+    counts: window._categoryTypeCountCache[key] || incomingCounts
+  });
+  renderCategoryActionButtons(window._categoryActionCache[key] || incomingActions, {
+    counts: window._categoryActionCountCache[key] || incomingActionCounts
+  });
+  renderCategoryEventButtons(window._categoryEventCache[key] || incomingEvents, {
+    counts: window._categoryEventCountCache[key] || incomingEventCounts
+  });
+}
+
 function renderCategoryPager(items){
   const box = document.getElementById('categoryScroll');
   if (!box) return;
@@ -8563,10 +8973,28 @@ function findGroupByCategory(categoryVal){
   return hit?.group || '';
 }
 function selectCategory(val){
+  const pool = Array.isArray(window.allItems) ? window.allItems.slice() : [];
+  const wantedCategory = fastFilterNorm(val);
+  const localMatches = pool.filter(item =>
+    fastFilterNorm(item?.category ?? item?.CATEGORY ?? item?.danh_muc ?? item?.danhMuc) === wantedCategory
+  );
+
   state.category = val;
   state.group = findGroupByCategory(val) || state.group || '';
+  state.type = '';
+  state.loai = '';
+  state.note = '';
   state.page = 1;
-  fetchPage();
+  buildCategory([val]);
+  if(localMatches.length){
+    updateCategoryTypePanel({ facets:{ types:[] } }, localMatches);
+    renderFastProductPreview(localMatches);
+  }else{
+    renderCategoryTypeButtons([], { loading:true });
+    renderCategoryActionButtons([], { loading:true });
+    renderCategoryEventButtons([], { loading:true });
+  }
+  fetchPage(true);
 
   // Cập nhật active cho danh mục đang click
   document.querySelectorAll('#categoryScroll .category-item')
@@ -8675,7 +9103,7 @@ function updateFilterSearchEmpty(){
 function getSelectedFilterRows(){
   const labels = {
     category:'Nhóm danh mục',
-    type:'Nội dung',
+    type:'Loại hình sản phẩm',
     loai:'Hành động',
     note:'Sự kiện',
     group:'Xem thêm'
@@ -9082,27 +9510,57 @@ function stopWorkshopShuffle(){
 }
 
 /* ============= Fetch dữ liệu ============= */
+let workshopFetchKey = '';
+let workshopFetchAt = 0;
+let workshopFetchPromise = null;
+let workshopFetchController = null;
+
 function fetchWorkshops(){
   const qs = new URLSearchParams({
     action:'workshop',
     q: state?.q || '', group: state?.group || '', type: state?.type || '',
     loai: state?.loai || '', note: state?.note || '', category: state?.category || ''
   });
-  fetch(window.API_URL + '?' + qs.toString())
+  const requestKey = qs.toString();
+  const now = Date.now();
+
+  // Một lượt render trước đây có thể gọi cùng API xưởng 2-3 lần liên tiếp.
+  // Dùng lại yêu cầu đang chạy hoặc dữ liệu vừa nhận để giảm nghẽn mạng.
+  if(workshopFetchPromise && workshopFetchKey === requestKey) return workshopFetchPromise;
+  if(workshopFetchKey === requestKey && now - workshopFetchAt < 1500){
+    return Promise.resolve(workshopData);
+  }
+
+  try{ workshopFetchController?.abort(); }catch(_){ }
+  workshopFetchController = new AbortController();
+  workshopFetchKey = requestKey;
+  workshopFetchAt = now;
+
+  const task = fetch(window.API_URL + '?' + requestKey, { signal:workshopFetchController.signal })
     .then(r => r.json())
     .then(r => {
       const items = (r && Array.isArray(r.items)) ? r.items : [];
       workshopData = items;
       renderWorkshops(items);
       startWorkshopShuffle();
+      workshopFetchAt = Date.now();
+      return items;
     })
     .catch(err => {
+      if(err?.name === 'AbortError') return workshopData;
       console.error('[workshop] fetch error:', err);
       workshopData = [];
       renderWorkshops([]);
       const box = document.getElementById('workshopBox');
       if (box) box.classList.remove('d-none'); // giữ chỗ + thông báo rỗng
+      return [];
+    })
+    .finally(() => {
+      if(workshopFetchPromise === task) workshopFetchPromise = null;
     });
+
+  workshopFetchPromise = task;
+  return task;
 }
 
 /* ============= Khởi động sau khi có API_URL ============= */
@@ -9603,7 +10061,13 @@ document.addEventListener('click', (ev) => {
   if (groupEl) {
     state.group = groupEl.dataset.val || '';
     state.category = '';
+    state.type = '';
+    state.loai = '';
+    state.note = '';
     state.page  = 1;
+    renderCategoryTypeButtons([]);
+    renderCategoryActionButtons([]);
+    renderCategoryEventButtons([]);
     updateGroupUI();
     updateGroupDots?.();
     syncQuickCatsActive?.();
@@ -9618,7 +10082,19 @@ document.addEventListener('click', (ev) => {
     const field = filterEl.dataset.field;
     state[field] = filterEl.dataset.val || '';
     state.page = 1;
-    fetchPage();
+    if(field === 'type'){
+      renderCategoryTypeButtons(window._activeCategoryTypes || []);
+      renderFastTypePreview(state.type);
+    }
+    if(field === 'loai'){
+      renderCategoryActionButtons(window._activeCategoryActions || []);
+      renderFastActionPreview(state.loai);
+    }
+    if(field === 'note'){
+      renderCategoryEventButtons(window._activeCategoryEvents || []);
+      renderFastEventPreview(state.note);
+    }
+    fetchPage(field === 'type');
     updateFilterCount();
     if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
     return;
@@ -9719,6 +10195,9 @@ function clearAllFilters(){
   if (typeof updateFilterCount === 'function') updateFilterCount();
   if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
   refreshRestrictedProductVisibility();
+  renderCategoryTypeButtons([]);
+  renderCategoryActionButtons([]);
+  renderCategoryEventButtons([]);
   fetchPage();
 }
 
@@ -9767,6 +10246,18 @@ function setFilter(key, val){
   state[key] = (val == null ? '' : String(val));
   state.page = 1;
   if (key === 'q') refreshRestrictedProductVisibility();
+  if (key === 'type'){
+    renderCategoryTypeButtons(window._activeCategoryTypes || []);
+    renderFastTypePreview(state.type);
+  }
+  if (key === 'loai'){
+    renderCategoryActionButtons(window._activeCategoryActions || []);
+    renderFastActionPreview(state.loai);
+  }
+  if (key === 'note'){
+    renderCategoryEventButtons(window._activeCategoryEvents || []);
+    renderFastEventPreview(state.note);
+  }
   fetchPage();
   if (typeof updateFilterCount === 'function') updateFilterCount();
   if (typeof renderAllFilterBoxes === 'function') renderAllFilterBoxes();
@@ -10245,14 +10736,40 @@ window.checkRewardPointCode = checkRewardPointCode;
 window.toggleRewardPointForm = toggleRewardPointForm;
 window.lookupRewardBalance = lookupRewardBalance;
 // Group/category clicks are handled by the main delegated document listener above.
+function refineKeywordSearchItems(items, query){
+  const list = Array.isArray(items) ? items : [];
+  const wanted = fastFilterNorm(query);
+  if(!wanted || !list.length) return list;
+
+  const exactIdMatches = list.filter(item =>
+    fastFilterNorm(item?.id ?? item?.ID ?? item?.code ?? item?.sku) === wanted
+  );
+  if(exactIdMatches.length) return exactIdMatches;
+
+  const phraseMatches = list.filter(item => {
+    const searchableFields = [
+      item?.id, item?.ID, item?.title, item?.name, item?.ten,
+      item?.details, item?.description, item?.category,
+      item?.type, item?.loai, item?.note, item?.supplier
+    ];
+    return searchableFields.some(value => fastFilterNorm(value).includes(wanted));
+  });
+
+  // Chỉ thu hẹp khi có kết quả khớp cả cụm; nếu không có thì giữ tìm kiếm rộng của API.
+  return phraseMatches.length ? phraseMatches : list;
+}
+
 function render(res = {}, fromCache){
   const sourceItems = Array.isArray(res.items) ? res.items : [];
-  const items = sourceItems.filter(item => canDisplayProduct(item, state.q));
+  const refinedItems = refineKeywordSearchItems(sourceItems, state.q);
+  const items = refinedItems.filter(item => canDisplayProduct(item, state.q));
+  const searchWasRefined = !!state.q && refinedItems.length < sourceItems.length;
+  const displayTotal = searchWasRefined ? items.length : Number(res?.total || 0);
   const grid  = document.getElementById('productGrid');
 // Lưu dữ liệu cho khối sắp xếp/bộ lọc
 window.allItems   = Array.isArray(items) ? items.slice() : [];
 window._lastItems = window.allItems.slice();
-if (typeof renderFooterCategories === 'function') renderFooterCategories(res?.facets || window._lastFacets || {});
+updateCategoryTypePanel(res, sourceItems);
 
   // Grid: giữ nguyên
   grid.innerHTML = items.length
@@ -10264,17 +10781,11 @@ const newHash = hashFacets(res?.facets || {});
 if (newHash !== _lastFacetsHash){
   _lastFacetsHash = newHash;
   buildCategoryFromFacets(res?.facets || {});
-  fetchWorkshops();   // <-- thay cho renderSuppliers(...)
-} else {
-  // phòng trường hợp lần đầu chưa có gì trong supBox
-  if (!document.querySelector('#workshopList')?.children?.length){
-    fetchWorkshops(); // <-- thay cho renderSuppliers(...)
-  }
 }
 
 
-  document.getElementById('totalCount').textContent = Number(res?.total||0).toLocaleString('vi-VN');
-  renderPagination(res?.total||0, state.pageSize, state.page);
+  document.getElementById('totalCount').textContent = Number(displayTotal).toLocaleString('vi-VN');
+  renderPagination(displayTotal, state.pageSize, searchWasRefined ? 1 : state.page);
   updateGroupUI();
   updateGroupDots?.();
 
@@ -10290,6 +10801,8 @@ if (newHash !== _lastFacetsHash){
 var FETCH_DEBOUNCE = 160;     // ms, chỉnh được
 var _fetchTimer   = null;     // timer của debounce
 var _inflightCtl  = null;     // AbortController đang chạy
+var _prefetchTimer = null;
+var _prefetchCtl = null;
 
 
 // LRU cache: key -> {time, payload}
@@ -10333,15 +10846,32 @@ function hashFacets(facets){
   try{ return JSON.stringify(facets||{}); }catch{ return ''; }
 }
 
+function sameListPayload(a, b){
+  if(!a || !b) return false;
+  try{
+    return Number(a.total || 0) === Number(b.total || 0)
+      && JSON.stringify(a.items || []) === JSON.stringify(b.items || [])
+      && hashFacets(a.facets || {}) === hashFacets(b.facets || {});
+  }catch(_){
+    return false;
+  }
+}
+
 
 /* Chỉ gọi public API này ở mọi nơi thay vì gọi trực tiếp _doFetch */
-function fetchPage(){
+function fetchPage(immediate = false){
     clearTimeout(_fetchTimer);
+    if(immediate){
+      _doFetch();
+      return;
+    }
     _fetchTimer = setTimeout(_doFetch, FETCH_DEBOUNCE);
 }
 
 async function _doFetch(){
   try{ _inflightCtl?.abort(); }catch(_){ }
+  clearTimeout(_prefetchTimer);
+  try{ _prefetchCtl?.abort(); }catch(_){ }
   _inflightCtl = new AbortController();
 
   const params = new URLSearchParams({
@@ -10382,36 +10912,41 @@ async function _doFetch(){
       throw new Error('Bad JSON schema or empty data');
     }
 
+    const needsRender = !cached || !sameListPayload(cached, json);
     cacheSet(key, json);
-    render(json, false);
+    if(needsRender) render(json, false);
 
     if (typeof updateFilterBadge === 'function') updateFilterBadge();
     if (typeof syncQuickCatsActive === 'function') syncQuickCatsActive();
     if (typeof updateFilterCount === 'function') updateFilterCount();
 
-    setTimeout(fetchWorkshops, 200);
+    clearTimeout(window._workshopRefreshTimer);
+    window._workshopRefreshTimer = setTimeout(fetchWorkshops, 700);
 
     if (json.total && state.page * state.pageSize < json.total){
       const nextState = { ...state, page: state.page + 1 };
       const nextKey = cacheKeyFromState(nextState);
       if (!cacheGet(nextKey)){
-        const p2 = new URLSearchParams({
-          action:'list',
-          page:nextState.page,
-          pageSize:nextState.pageSize,
-          q:nextState.q || '',
-          sdt:nextState.sdt || '',
-          group:nextState.group || '',
-          type:nextState.type || '',
-          loai:nextState.loai || '',
-          note:nextState.note || '',
-          category:nextState.category || ''
-        });
-        fetch(API_URL + '?' + p2.toString())
-          .then(r => r.text())
-          .then(t => JSON.parse(String(t || '').replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()))
-          .then(j => { if (j && Array.isArray(j.items)) cacheSet(nextKey, j); })
-          .catch(()=>{});
+        _prefetchTimer = setTimeout(() => {
+          _prefetchCtl = new AbortController();
+          const p2 = new URLSearchParams({
+            action:'list',
+            page:nextState.page,
+            pageSize:nextState.pageSize,
+            q:nextState.q || '',
+            sdt:nextState.sdt || '',
+            group:nextState.group || '',
+            type:nextState.type || '',
+            loai:nextState.loai || '',
+            note:nextState.note || '',
+            category:nextState.category || ''
+          });
+          fetch(API_URL + '?' + p2.toString(), { signal:_prefetchCtl.signal })
+            .then(r => r.text())
+            .then(t => JSON.parse(String(t || '').replace(/^\)\]\}'[^\n]*\n?/, '').replace(/^\uFEFF/, '').trim()))
+            .then(j => { if (j && Array.isArray(j.items)) cacheSet(nextKey, j); })
+            .catch(()=>{});
+        }, 1200);
       }
     }
   }catch(err){
@@ -10982,21 +11517,14 @@ document.addEventListener('DOMContentLoaded', () => {
       <div>
         <h3 id="dtlTitle">Tiêu đề</h3>
         <div id="dtlSub" class="dtl-sub"></div>
+        <div id="dtlBadges" class="dtl-badges"></div>
       </div>
     </div>
-
-    <div id="dtlBadges" class="dtl-badges"></div>
 
     <div id="dtlRows" class="dtl-rows">
   <div id="dtlLeft"  class="dtl-col"></div>
   <div id="dtlRight" class="dtl-col"></div>
 </div>
-
-
-    <div class="dtl-actions">
-      <a id="dtlOpenImg" class="btn-ghost" target="_blank" rel="noopener">Mở ảnh</a>
-      <button class="btn-main" data-close="detailModal">Đóng</button>
-    </div>
   </div>
 </div>
 
@@ -17500,6 +18028,111 @@ body > .container-fluid.my-3 > .row{
   border-radius:999px;
 }
 
+/* Khi chọn một danh mục con: giữ danh mục bên trái, hiện loại hình tương ứng bên phải. */
+.category-type-panel[hidden]{
+  display:none !important;
+}
+.category-wrapper.has-category-types{
+  align-items:stretch;
+  display:grid !important;
+  grid-template-columns:156px minmax(0,1fr);
+  min-height:205px;
+  overflow:hidden !important;
+}
+.category-wrapper.has-category-types #categoryScroll{
+  align-items:flex-start;
+  border-right:1px solid #d9f1df;
+  display:flex !important;
+  gap:10px !important;
+  justify-content:flex-start;
+  min-height:190px;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  padding:4px 10px 8px 8px !important;
+}
+.category-wrapper.has-category-types #categoryScroll .category-item{
+  flex:0 0 120px !important;
+  min-width:120px !important;
+  width:120px !important;
+}
+.category-type-panel{
+  background:#fbfefc;
+  min-width:0;
+  padding:8px 18px 12px;
+}
+.category-facet-section[hidden]{
+  display:none !important;
+}
+.category-facet-section{
+  align-items:start;
+  display:grid;
+  gap:8px;
+  grid-template-columns:112px minmax(0,1fr);
+}
+.category-facet-section + .category-facet-section{
+  border-top:1px solid #e3f3e7;
+  margin-top:11px;
+  padding-top:11px;
+}
+.category-type-title{
+  color:#166534;
+  font-size:12px;
+  font-weight:750;
+  letter-spacing:.3px;
+  margin:0;
+  padding-top:8px;
+}
+.category-type-keywords{
+  align-content:flex-start;
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+}
+.category-type-keyword{
+  align-items:center;
+  background:#fff;
+  border:1px solid #b7e4c5;
+  border-radius:999px;
+  color:#166534;
+  cursor:pointer;
+  display:inline-flex;
+  font-size:12px;
+  gap:7px;
+  line-height:1.2;
+  padding:8px 13px;
+}
+.category-type-count{
+  align-items:center;
+  background:#e8f5ec;
+  border-radius:999px;
+  color:#166534;
+  display:inline-flex;
+  font-size:10px;
+  font-weight:700;
+  justify-content:center;
+  min-width:20px;
+  padding:2px 6px;
+}
+.category-type-keyword:hover{
+  background:#f0fdf4;
+  border-color:#4ade80;
+}
+.category-type-keyword.active{
+  background:#16833d;
+  border-color:#16833d;
+  color:#fff;
+}
+.category-type-keyword.active .category-type-count{
+  background:rgba(255,255,255,.22);
+  color:#fff;
+}
+.category-type-message{
+  color:#64748b;
+  display:inline-block;
+  font-size:12px;
+  padding-top:4px;
+}
+
 /* Tablet giữ hai vùng chính; điện thoại xếp một cột và giữ tỷ lệ từng banner. */
 @media (min-width:768px) and (max-width:991.98px){
   #leftCol{
@@ -17553,6 +18186,21 @@ body > .container-fluid.my-3 > .row{
   }
   .seo-guide-list{
     overflow-y:auto !important;
+  }
+  .category-wrapper.has-category-types{
+    grid-template-columns:minmax(0,1fr);
+  }
+  .category-wrapper.has-category-types #categoryScroll{
+    border-bottom:1px solid #d9f1df;
+    border-right:0;
+    min-height:128px;
+  }
+  .category-type-panel{
+    min-height:110px;
+  }
+  .category-facet-section{
+    gap:6px;
+    grid-template-columns:90px minmax(0,1fr);
   }
 }
 </style>
