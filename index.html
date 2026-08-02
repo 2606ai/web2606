@@ -2989,7 +2989,7 @@ footer.text-light .bi{ color:#fff; }
 }
 #detailModal .dtl-rows{
   display:grid !important;
-  grid-template-columns:minmax(0,1fr) minmax(360px,.95fr) !important;
+  grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr) !important;
   gap:12px !important;
   flex:1 1 auto;
   min-height:0;
@@ -3013,6 +3013,7 @@ footer.text-light .bi{ color:#fff; }
   flex:1 1 auto;
   min-height:0;
   max-height:none !important;
+  overflow:hidden !important;
 }
 #detailModal .dtl-row,
 #detailModal .field{
@@ -3048,6 +3049,23 @@ footer.text-light .bi{ color:#fff; }
   height:100%;
   overflow:auto;
   padding:13px 16px !important;
+}
+#detailModal #dtlLeft .field.desc > .tag{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0 0 9px !important;
+  color:#087227 !important;
+  font-size:16px !important;
+  font-weight:600 !important;
+}
+#detailModal #dtlLeft .field.desc > .tag::before{
+  content:"";
+  flex:0 0 5px;
+  width:5px;
+  height:24px;
+  border-radius:4px;
+  background:#2e9b47;
 }
 #detailModal #dtlLeft .field.desc .value{
   font-size:15px !important;
@@ -3107,7 +3125,8 @@ footer.text-light .bi{ color:#fff; }
   max-height:min(520px, calc(100vh - 310px));
   overflow:auto;
   display:grid !important;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  grid-auto-rows:minmax(0,1fr);
   gap:9px !important;
   padding:8px !important;
   background:#f7fbf8;
@@ -3115,16 +3134,29 @@ footer.text-light .bi{ color:#fff; }
   border-radius:16px;
 }
 #detailModal .cert-item{
+  box-sizing:border-box;
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  height:auto;
+  overflow:hidden;
   border-radius:14px !important;
   padding:8px !important;
   background:#fff !important;
 }
+#detailModal .cert-item:only-child{
+  grid-column:1 / -1;
+}
 #detailModal .cert-img,
 #detailModal .cert-iframe{
-  aspect-ratio:1/1 !important;
-  height:auto !important;
-  min-height:150px;
+  flex:1 1 auto;
+  aspect-ratio:auto !important;
+  height:100% !important;
+  min-height:0;
   object-fit:cover !important;
+}
+#detailModal .media-gallery .cert-open{
+  display:none !important;
 }
 #detailModal .cert-open{
   justify-content:center !important;
@@ -3143,15 +3175,66 @@ footer.text-light .bi{ color:#fff; }
   border-radius:999px !important;
 }
 @media (max-width: 760px){
-  #detailModal .dtl-dialog{ height:calc(100vh - 16px) !important; padding:12px !important; border-radius:14px !important; }
-  #detailModal .dtl-head{ grid-template-columns:100px 1fr; gap:12px !important; margin-right:46px !important; }
-  #detailModal .dtl-head img{ width:100px !important; height:100px !important; }
-  #detailModal #dtlTitle{ font-size:19px !important; }
-  #detailModal .dtl-rows{ display:block !important; overflow:auto !important; }
-  #detailModal .dtl-col{ overflow:visible !important; }
+  #detailModal .dtl-dialog{
+    height:calc(100vh - 16px) !important;
+    padding:12px !important;
+    border-radius:14px !important;
+    background:#f3f8f4 !important;
+  }
+  #detailModal .dtl-head{
+    grid-template-columns:1fr !important;
+    gap:10px !important;
+    margin:0 0 12px !important;
+    padding:12px 46px 14px !important;
+    border:1px solid #e2eee6;
+    border-radius:14px;
+    background:rgba(255,255,255,.82);
+    text-align:center;
+  }
+  #detailModal .dtl-head img{
+    width:128px !important;
+    height:128px !important;
+    justify-self:center;
+    margin:0 auto !important;
+  }
+  #detailModal #dtlTitle{ font-size:19px !important; text-align:center; }
+  #detailModal .dtl-sub{ text-align:center; }
+  #detailModal .dtl-badges{ justify-content:center; }
+  #detailModal .dtl-rows{
+    display:block !important;
+    overflow:auto !important;
+    padding:8px !important;
+    border:1px solid #e0ece4;
+    border-radius:14px;
+    background:#edf5ef;
+  }
+  #detailModal .dtl-col{ gap:12px !important; overflow:visible !important; }
   #detailModal #dtlRight{ margin-top:10px; overflow:visible; }
+  #detailModal .media-card,
+  #detailModal .dtl-row,
+  #detailModal .field{ background:#fff !important; }
+  #detailModal #dtlRight .media-gallery .cert-grid{
+    max-height:420px !important;
+    overflow:auto !important;
+  }
   #detailModal #dtlLeft .field.desc{ height:auto; min-height:200px; }
-  #detailModal .cert-grid{ max-height:380px; grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  #detailModal .cert-grid{
+    max-height:420px;
+    grid-template-columns:1fr !important;
+    justify-items:center;
+  }
+  #detailModal .cert-item{
+    align-items:stretch;
+    width:100%;
+  }
+  #detailModal .cert-img,
+  #detailModal .cert-iframe{
+    width:100% !important;
+    min-height:320px !important;
+    margin:0 auto !important;
+    object-fit:contain !important;
+    object-position:center !important;
+  }
 }
 /* ==== CART compact (giữ nguyên markup cũ) ==== */
 #cartCanvas .cart-item{
@@ -3672,8 +3755,7 @@ body{
   <div id="quickRequestBox" class="sidebar-box quick-request-box">
     <div class="quick-request-head">
       <div>
-        <h6>TẠO PROFILE SẢN PHẨM</h6>
-        <p>Lấy mã Brief lưu trữ</p>
+        <h6>TẠO BRIEF SẢN PHẨM</h6>
       </div>
     </div>
 
@@ -3688,21 +3770,13 @@ body{
   <div id="workshopBox" class="sidebar-box workshop-box">
     <h6 class="fw-bold mb-2 d-flex align-items-center justify-content-between">
       <span class="d-inline-flex align-items-center gap-2">
-        Doanh nghiệp gợi ý
+        QUẢNG CÁO HÔM NAY
         <span id="workshopCount" class="badge rounded-pill text-bg-primary" style="display:none">0</span>
       </span>
     </h6>
 
     <div id="workshopList" class="d-flex flex-column gap-2"></div>
     <div id="workshopEmpty" class="small site-loading-status">Đang tải dữ liệu cho website</div>
-
-    <div class="mt-2 text-center">
-      <a id="workshopContactBtn2" href="#" target="_blank" rel="noopener"
-         class="btn btn-sm fw-bold px-3"
-         style="border-radius:999px;background:#ffca28;color:#0d47a1;border:none">
-        📢 LIÊN HỆ ĐẶT QUẢNG CÁO
-      </a>
-    </div>
   </div>
 
   <!-- ===== GÓC TƯ VẤN SEO ===== -->
@@ -3816,30 +3890,34 @@ body{
 
       <details class="seo-guide-group" open>
         <summary>Từ khóa chuyên ngành</summary>
-        <div class="seo-guide-group-content">
-          <div class="seo-guide-chip-list">
-            <span>Dung sai sản xuất</span><span>MOQ</span><span>Lead time</span>
-            <span>Mockup</span><span>Mẫu đối chứng</span><span>In UV</span>
-            <span>Khắc laser</span><span>Mạ điện</span><span>Ép kim</span>
-          </div>
+        <div class="seo-guide-group-content seo-guide-demo-accordion">
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Dung sai sản xuất</strong></summary><div class="seo-guide-detail">Khoảng sai lệch cho phép về kích thước, màu sắc hoặc vị trí gia công của sản phẩm.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>MOQ</strong></summary><div class="seo-guide-detail">Số lượng đặt hàng tối thiểu mà đơn vị sản xuất có thể tiếp nhận cho một mẫu.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Lead time</strong></summary><div class="seo-guide-detail">Khoảng thời gian dự kiến từ lúc xác nhận đơn hàng đến khi hoàn thành hoặc giao hàng.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Mockup</strong></summary><div class="seo-guide-detail">Hình ảnh mô phỏng sản phẩm dùng để kiểm tra bố cục, logo và màu sắc trước khi sản xuất.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Mẫu đối chứng</strong></summary><div class="seo-guide-detail">Mẫu được hai bên xác nhận và sử dụng làm căn cứ kiểm tra chất lượng hàng sản xuất.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>In UV</strong></summary><div class="seo-guide-detail">Công nghệ in dùng tia UV làm khô mực nhanh, phù hợp với nhiều bề mặt vật liệu.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Khắc laser</strong></summary><div class="seo-guide-detail">Phương pháp tạo nội dung hoặc logo bằng tia laser, có độ bền cao và không dùng mực.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Mạ điện</strong></summary><div class="seo-guide-detail">Quy trình phủ một lớp kim loại lên bề mặt để tạo màu, tăng độ bền hoặc chống oxy hóa.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Ép kim</strong></summary><div class="seo-guide-detail">Kỹ thuật ép lớp nhũ kim loại lên bề mặt bằng nhiệt và khuôn để tạo điểm nhấn.</div></details>
         </div>
       </details>
 
       <details class="seo-guide-group" open>
         <summary>Bài viết chuyên ngành</summary>
-        <div class="seo-guide-group-content seo-guide-demo-list">
-          <article><b>Chuẩn bị file logo đúng kỹ thuật</b><span>Định dạng vector, mã màu và kích thước cần có trước khi sản xuất.</span></article>
-          <article><b>Kiểm soát màu sắc giữa các lô hàng</b><span>Cách duyệt mẫu và xác định mức chênh lệch màu có thể chấp nhận.</span></article>
-          <article><b>Checklist duyệt mẫu trước sản xuất</b><span>Các điểm cần kiểm tra về nội dung, vị trí logo, chất liệu và quy cách.</span></article>
+        <div class="seo-guide-group-content seo-guide-demo-accordion">
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Chuẩn bị file logo đúng kỹ thuật</strong></summary><div class="seo-guide-detail">Định dạng vector, mã màu và kích thước cần có trước khi sản xuất.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Kiểm soát màu sắc giữa các lô hàng</strong></summary><div class="seo-guide-detail">Cách duyệt mẫu và xác định mức chênh lệch màu có thể chấp nhận.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Checklist duyệt mẫu trước sản xuất</strong></summary><div class="seo-guide-detail">Các điểm cần kiểm tra về nội dung, vị trí logo, chất liệu và quy cách.</div></details>
         </div>
       </details>
 
       <details class="seo-guide-group" open>
         <summary>Mẹo mua hàng</summary>
-        <div class="seo-guide-group-content seo-guide-demo-list">
-          <article><b>Chốt số lượng trước khi hỏi giá</b><span>Số lượng ảnh hưởng trực tiếp đến đơn giá và phương án sản xuất.</span></article>
-          <article><b>Gửi mẫu tham khảo rõ ràng</b><span>Hình ảnh, kích thước và yêu cầu cụ thể giúp báo giá nhanh, ít sai lệch.</span></article>
-          <article><b>Dành thời gian cho bước duyệt mẫu</b><span>Duyệt kỹ trước sản xuất giúp hạn chế phát sinh chi phí và tiến độ.</span></article>
+        <div class="seo-guide-group-content seo-guide-demo-accordion">
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Chốt số lượng trước khi hỏi giá</strong></summary><div class="seo-guide-detail">Số lượng ảnh hưởng trực tiếp đến đơn giá và phương án sản xuất.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Gửi mẫu tham khảo rõ ràng</strong></summary><div class="seo-guide-detail">Hình ảnh, kích thước và yêu cầu cụ thể giúp báo giá nhanh, ít sai lệch.</div></details>
+          <details class="seo-guide-link seo-guide-demo-link"><summary><strong>Dành thời gian cho bước duyệt mẫu</strong></summary><div class="seo-guide-detail">Duyệt kỹ trước sản xuất giúp hạn chế phát sinh chi phí và tiến độ.</div></details>
         </div>
       </details>
     </div>
@@ -4119,7 +4197,6 @@ body{
 
 
  <div class="category-wrapper">
-  <button id="catPrev" class="cat-arrow left"  type="button" aria-label="prev">‹</button>
   <div id="categoryScroll" class="category-scroll"></div>
   <aside id="categoryTypePanel" class="category-type-panel" aria-label="Loại hình sản phẩm" hidden>
     <section class="category-facet-section">
@@ -4135,54 +4212,7 @@ body{
       <div id="categoryEventKeywords" class="category-type-keywords"></div>
     </section>
   </aside>
-  <button id="catNext" class="cat-arrow right" type="button" aria-label="next">›</button>
 </div>
-
-
-<script>
-(function(){
-  const wrap = document.getElementById('categoryScroll');
-  const prev = document.getElementById('catPrev');
-  const next = document.getElementById('catNext');
-  if (!wrap || !prev || !next) return;
-
-  const eps  = 4; // chống sai số 1-2px
-  const getMax = () => Math.max(0, wrap.scrollWidth - wrap.clientWidth);
-  const step   = () => Math.max(240, Math.round(wrap.clientWidth * 0.9));
-  const clamp  = (n, min, max) => Math.min(max, Math.max(min, n));
-
-  function go(dir){
-    const max = getMax();
-    const target = clamp(wrap.scrollLeft + dir * step(), 0, max);
-    wrap.scrollTo({ left: target, behavior: 'smooth' });
-    // backup: đảm bảo cập nhật state kể cả khi event scroll không bắn
-    setTimeout(update, 350);
-  }
-
-  function update(){
-    const max = getMax();
-    const atStart = wrap.scrollLeft <= eps;
-    const atEnd   = wrap.scrollLeft >= (max - eps);
-    const noScroll = max <= eps;
-
-    prev.disabled = atStart || noScroll;
-    next.disabled = atEnd   || noScroll;
-
-    prev.classList.toggle('is-disabled', prev.disabled);
-    next.classList.toggle('is-disabled', next.disabled);
-  }
-
-  prev.addEventListener('click', () => go(-1));
-  next.addEventListener('click', () => go( 1));
-  wrap.addEventListener('scroll', update, { passive:true });
-  window.addEventListener('resize', () => setTimeout(update, 50));
-
-  update();
-  setTimeout(update, 300); // khi ảnh/render xong
-})();
-
- 
-</script>
 
 <script>
 // ===== XƯỞNG ĐỀ XUẤT – DÙNG BOX HIỆN CÓ, KHÔNG TẠO BOX MỚI =====
@@ -8370,9 +8400,85 @@ function renderCategoriesFromConfig(){
 
   
 /* === GHI ĐÈ buildCategoryFromFacets → gọi renderGroups mới === */
-function buildCategoryFromFacets(facets){
+function categoryFacetLabel(value){
+  if(value && typeof value === 'object'){
+    return String(value.value ?? value.label ?? value.name ?? value.category ?? '').trim();
+  }
+  return String(value ?? '').trim();
+}
+
+function categoryFacetCount(value){
+  if(!value || typeof value !== 'object') return null;
+  const count = Number(value.count ?? value.total ?? value.qty ?? value.quantity);
+  return Number.isFinite(count) ? count : null;
+}
+
+// Ảnh chụp số liệu gần nhất để giao diện có số đúng ngay khi mở trang.
+// Lượt tải nền bên dưới vẫn tổng hợp lại từ API và thay thế các số này khi
+// nguồn dữ liệu thay đổi.
+const INITIAL_CATEGORY_COUNTS = Object.freeze({
+  'BỘ SƯU TẬP SỰ KIỆN': 1,
+  'CHẾ TÁC LOGO': 5,
+  'LOGO KIM LOẠI': 36,
+  'MUA HÀNG HỘ': 1,
+  'MÓC KHÓA CHỦ ĐỀ SỰ KIỆN': 31,
+  'MÓC KHÓA LOGO THƯƠNG HIỆU': 30,
+  'MÓC KHÓA TẠO HÌNH SẢN PHẨM': 107,
+  'MẶT KIM LOẠI': 2,
+  'QUÀ KẾT NỐI': 9,
+  'SET QUÀ HẠT KHÔ': 6,
+  'TÀI KHOẢN VẬN CHUYỂN': 2,
+  'TÚI VẢI': 2,
+  'ĐỒNG XU LƯU NIỆM': 30
+});
+
+function buildCategoryFromFacets(facets, sourceItems){
   const groupsRaw = facets?.groups_all || facets?.groups || [];
   const groups = Array.isArray(groupsRaw) && groupsRaw.length ? groupsRaw : GROUP_ORDER_RAW;
+  const rawCategories = Array.isArray(facets?.categories) ? facets.categories : [];
+  const categories = rawCategories.map(categoryFacetLabel).filter(Boolean);
+  const categoryCounts = Object.create(null);
+
+  rawCategories.forEach(value => {
+    const label = categoryFacetLabel(value);
+    const count = categoryFacetCount(value);
+    if(label && count !== null) categoryCounts[label] = count;
+  });
+
+  const countSources = [
+    facets?.category_counts,
+    facets?.categories_count,
+    facets?.categoryCounts,
+    facets?.counts?.categories
+  ];
+  countSources.forEach(source => {
+    if(!source || typeof source !== 'object' || Array.isArray(source)) return;
+    Object.entries(source).forEach(([label, count]) => {
+      const numeric = Number(count);
+      if(label && Number.isFinite(numeric)) categoryCounts[label] = numeric;
+    });
+  });
+
+  const fallbackCounts = Object.create(null);
+  (Array.isArray(sourceItems) ? sourceItems : []).forEach(item => {
+    const label = String(item?.category ?? item?.danh_muc ?? item?.danhMuc ?? '').trim();
+    if(label) fallbackCounts[label] = (fallbackCounts[label] || 0) + 1;
+  });
+  Object.entries(fallbackCounts).forEach(([label, count]) => {
+    if(!Object.prototype.hasOwnProperty.call(categoryCounts, label)) categoryCounts[label] = count;
+  });
+  if(categoryCountFilterKey() === '|||||'){
+    Object.assign(categoryCounts, INITIAL_CATEGORY_COUNTS);
+  }
+  // Ưu tiên bộ đếm đầy đủ đã được tổng hợp từ tất cả các trang API.
+  // `sourceItems` chỉ là dữ liệu trang hiện tại nên không thể đại diện cho
+  // tổng số toàn bộ danh mục.
+  const completeCounts = window._completeCategoryCountMaps?.[categoryCountFilterKey()] || {};
+  Object.entries(completeCounts).forEach(([label, count]) => {
+    const numeric = Number(count);
+    if(label && Number.isFinite(numeric)) categoryCounts[label] = numeric;
+  });
+  window._categoryCountMap = categoryCounts;
 
  // SẮP XẾP THỨ TỰ NHÓM TRƯỚC KHI VẼ
 const orderedGroups = orderGroups(groups);
@@ -8388,7 +8494,7 @@ if (typeof renderFooterCategories === 'function') renderFooterCategories(facets 
 
   // 🔁 THAY DÒNG NÀY
   // buildCategory(facets?.categories || []);
-    buildCategory(state.category ? [state.category] : (facets?.categories || []));
+    buildCategory(state.category ? [state.category] : categories);
 
 
   // các box lọc khác giữ nguyên
@@ -8396,7 +8502,7 @@ if (typeof renderFooterCategories === 'function') renderFooterCategories(facets 
   buildFilterBox('typeBox',   facets?.types     || [], 'type');
   buildFilterBox('loaiBox',   facets?.loais     || [], 'loai');
   buildFilterBox('noteBox',   facets?.notes     || [], 'note');
-  buildFilterBox('brandBox',  facets?.categories|| [], 'category');
+  buildFilterBox('brandBox',  categories, 'category');
 
   requestAnimationFrame(()=> catEl && catEl.classList.remove('fade-out'));
 }
@@ -8592,7 +8698,7 @@ const getGroupIcon = iconForGroup;  // alias an toàn
 
 /* Render dãy B: mặc định hiện toàn bộ theo dataset hiện tại, quá nhiều thì dùng mũi tên */
 let catIndex = 0;
-const catsPerView = 12;
+const catsPerView = 20;
 let allCategories = [];
 
 window._categoryTypeCache = window._categoryTypeCache || Object.create(null);
@@ -8909,17 +9015,24 @@ function renderCategoryPager(items){
 
   const slice = list.slice(catIndex, catIndex + catsPerView);
 
-  box.innerHTML = slice.map(val => `
-    <div class="category-item ${state.category===val ? 'active' : ''}"
-         data-action="select-category"
-         data-val="${esc(val)}">
-      <div class="icon">
-        <img src="${esc(iconForGroup(val))}" alt="${esc(val)}"
-             onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
+  box.innerHTML = slice.map(val => {
+    const directCount = Number(window._categoryCountMap?.[val]);
+    const count = Number.isFinite(directCount) ? directCount : 0;
+    return `
+      <div class="category-item ${state.category===val ? 'active' : ''}"
+           data-action="select-category"
+           data-val="${esc(val)}">
+        <div class="icon">
+          <img src="${esc(iconForGroup(val))}" alt="${esc(val)}"
+               onerror="this.onerror=null;this.src='${esc(DEFAULT_GROUP_ICON)}'">
+        </div>
+        <span>${esc(val || 'Khác')}</span>
+        <small class="category-keyword-count"
+               aria-label="${count.toLocaleString('vi-VN')} sản phẩm"
+               title="${count.toLocaleString('vi-VN')} sản phẩm">${count.toLocaleString('vi-VN')}</small>
       </div>
-      <span>${esc(val || 'Khác')}</span>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 
   const leftBtn  = document.getElementById('categoryLeft');
   const rightBtn = document.getElementById('categoryRight');
@@ -8955,6 +9068,113 @@ function buildCategory(items){
   allCategories = Array.isArray(items) ? items : [];
   catIndex = 0;
   renderCategoryPager(allCategories);
+}
+
+// ===== Bộ đếm danh mục đầy đủ (không phụ thuộc trang sản phẩm hiện tại) =====
+// Apps Script giới hạn tối đa 120 sản phẩm/lượt. Tải trang đầu để biết
+// `total`, rồi tải các trang còn lại và cộng theo trường `category`.
+window._completeCategoryCountMaps = window._completeCategoryCountMaps || Object.create(null);
+let _categoryCountController = null;
+let _categoryCountInflightKey = '';
+let _categoryCountInflightPromise = null;
+
+function categoryCountFilterKey(){
+  return [
+    state.q || '', state.sdt || '', state.group || '',
+    state.type || '', state.loai || '', state.note || ''
+  ].map(value => String(value).trim()).join('|');
+}
+
+function categoryCountParams(page){
+  return new URLSearchParams({
+    action:'list', page:String(page), pageSize:'120',
+    q:state.q || '', sdt:state.sdt || '', group:state.group || '',
+    type:state.type || '', loai:state.loai || '', note:state.note || '',
+    category:''
+  });
+}
+
+function countCategoriesFromItems(items){
+  const counts = Object.create(null);
+  (Array.isArray(items) ? items : []).forEach(item => {
+    const label = String(
+      item?.category ?? item?.CATEGORY ?? item?.danh_muc ?? item?.danhMuc ?? ''
+    ).trim();
+    if(label) counts[label] = (counts[label] || 0) + 1;
+  });
+  return counts;
+}
+
+function applyCompleteCategoryCounts(key, counts){
+  if(key !== categoryCountFilterKey()) return;
+  window._categoryCountMap = Object.assign(
+    Object.create(null), window._categoryCountMap || {}, counts || {}
+  );
+  if(Array.isArray(allCategories) && allCategories.length){
+    renderCategoryPager(allCategories);
+  }
+}
+
+async function refreshCategoryCountMapForState(){
+  const key = categoryCountFilterKey();
+  const cached = window._completeCategoryCountMaps[key];
+  if(cached){
+    applyCompleteCategoryCounts(key, cached);
+    return cached;
+  }
+  if(_categoryCountInflightPromise && _categoryCountInflightKey === key){
+    return _categoryCountInflightPromise;
+  }
+
+  try{ _categoryCountController?.abort(); }catch(_){ }
+  _categoryCountController = new AbortController();
+  const signal = _categoryCountController.signal;
+  _categoryCountInflightKey = key;
+
+  const task = (async () => {
+    try{
+      const firstResp = await fetch(API_URL + '?' + categoryCountParams(1).toString(), {
+        cache:'no-store', redirect:'follow', mode:'cors', signal
+      });
+      if(!firstResp.ok) throw new Error('Không tải được bộ đếm danh mục');
+      const first = await firstResp.json();
+      const firstItems = Array.isArray(first?.items) ? first.items : [];
+      const total = Math.max(0, Number(first?.total || firstItems.length));
+      const pageCount = Math.max(1, Math.ceil(total / 120));
+      const remainingRequests = [];
+
+      for(let page = 2; page <= pageCount; page++){
+        remainingRequests.push(
+          fetch(API_URL + '?' + categoryCountParams(page).toString(), {
+            cache:'no-store', redirect:'follow', mode:'cors', signal
+          }).then(resp => {
+            if(!resp.ok) throw new Error('Không tải được trang bộ đếm danh mục');
+            return resp.json();
+          })
+        );
+      }
+
+      const remaining = await Promise.all(remainingRequests);
+      const allCountItems = firstItems.concat(
+        ...remaining.map(payload => Array.isArray(payload?.items) ? payload.items : [])
+      );
+      const counts = countCategoriesFromItems(allCountItems);
+      window._completeCategoryCountMaps[key] = counts;
+      applyCompleteCategoryCounts(key, counts);
+      return counts;
+    }catch(err){
+      if(err?.name !== 'AbortError') console.warn('[category-counts]', err);
+      return null;
+    }finally{
+      if(_categoryCountInflightKey === key){
+        _categoryCountInflightKey = '';
+        _categoryCountInflightPromise = null;
+      }
+    }
+  })();
+
+  _categoryCountInflightPromise = task;
+  return task;
 }
 
 function findGroupByCategory(categoryVal){
@@ -10180,7 +10400,6 @@ document.getElementById('suppliersFab').addEventListener('click', ()=>{
 });
 document.getElementById('zaloFab').setAttribute('href', ZALO_URL);
 document.getElementById('workshopContactBtn')?.setAttribute('href', WORKSHOP_CONTACT_URL);
-document.getElementById('workshopContactBtn2')?.setAttribute('href', WORKSHOP_CONTACT_URL);
 
 function clearAllFilters(){
   Object.assign(state, { type:'', loai:'', note:'', category:'', group:'', q:'', sdt:'', page:1 });
@@ -10780,8 +10999,9 @@ updateCategoryTypePanel(res, sourceItems);
 const newHash = hashFacets(res?.facets || {});
 if (newHash !== _lastFacetsHash){
   _lastFacetsHash = newHash;
-  buildCategoryFromFacets(res?.facets || {});
+  buildCategoryFromFacets(res?.facets || {}, sourceItems);
 }
+refreshCategoryCountMapForState();
 
 
   document.getElementById('totalCount').textContent = Number(displayTotal).toLocaleString('vi-VN');
@@ -12487,7 +12707,7 @@ footer.text-light.footer-2606 a:hover{
   gap:0;
   grid-template-columns:1fr;
   margin-bottom:12px;
-  text-align:left;
+  text-align:center;
 }
 .quick-request-icon{
   align-items:center;
@@ -12636,6 +12856,14 @@ footer.text-light.footer-2606 a:hover{
   counter-reset:cskh-standard;
   display:grid;
   gap:7px;
+}
+.seo-guide-demo-accordion{
+  display:grid;
+  gap:7px;
+}
+.seo-guide-demo-link strong::before{
+  content:none !important;
+  counter-increment:none !important;
 }
 .seo-guide-chip-list{
   display:flex;
@@ -12821,8 +13049,8 @@ footer.text-light.footer-2606 a:hover{
 .quick-drop-zone{
   align-items:center;
   background:
-    radial-gradient(circle at 18% 20%,rgba(250,204,21,.24),transparent 28%),
-    linear-gradient(135deg,#16a34a 0%,#22c55e 52%,#166534 100%);
+    linear-gradient(180deg,rgba(4,28,18,.02) 30%,rgba(4,49,27,.62) 100%),
+    url("https://drive.google.com/thumbnail?id=1IZbgyaaVzUF5Fv5d31eGTTppBr7_8VQL&sz=w1000") center/cover no-repeat;
   border:1px solid rgba(255,255,255,.52);
   border-radius:18px;
   box-shadow:0 18px 34px rgba(22,101,52,.22), inset 0 1px 0 rgba(255,255,255,.28);
@@ -12832,34 +13060,40 @@ footer.text-light.footer-2606 a:hover{
   flex:1;
   flex-direction:column;
   gap:6px;
-  justify-content:center;
+  justify-content:flex-end;
   min-height:420px;
   overflow:hidden;
-  padding:18px 14px;
+  padding:18px 14px 30px;
   position:relative;
   text-align:center;
   transition:border-color .16s ease,box-shadow .16s ease,transform .16s ease;
 }
 .quick-drop-zone::before{
-  background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.34) 45%,transparent 70%);
   content:"";
-  height:180%;
-  left:-48%;
   position:absolute;
-  top:-40%;
+  top:-35%;
+  left:-52%;
+  width:34%;
+  height:175%;
+  background:linear-gradient(110deg,transparent 0%,rgba(255,255,255,.12) 35%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.10) 65%,transparent 100%);
+  filter:blur(1px);
   transform:rotate(12deg);
-  width:30%;
-  animation:quickDropShine 4s ease-in-out infinite;
+  animation:quickDropShine 4.5s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
 }
 .quick-drop-zone::after{
-  background:rgba(255,255,255,.16);
-  border-radius:999px;
   content:"";
-  height:92px;
   position:absolute;
-  right:-28px;
-  top:-32px;
-  width:92px;
+  right:-34px;
+  top:-34px;
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,.28) 0%,rgba(92,255,161,.14) 42%,transparent 72%);
+  animation:quickDropGlow 3.2s ease-in-out infinite;
+  pointer-events:none;
+  z-index:0;
 }
 .quick-drop-zone.is-dragging,
 .quick-drop-zone:hover{
@@ -15193,12 +15427,17 @@ body.quick-printing .fab-left-wrapper{
   56%{opacity:1;}
   100%{left:120%;opacity:0;}
 }
+@keyframes quickDropGlow{
+  0%,100%{opacity:.45;transform:scale(.9);}
+  50%{opacity:1;transform:scale(1.12);}
+}
 @keyframes quickFormIn{
   from{opacity:0;transform:translateY(-6px);}
   to{opacity:1;transform:translateY(0);}
 }
 @media (prefers-reduced-motion:reduce){
   .quick-drop-zone::before,
+  .quick-drop-zone::after,
   .quick-form-grid{
     animation:none;
   }
@@ -18026,6 +18265,232 @@ body > .container-fluid.my-3 > .row{
 .seo-guide-list::-webkit-scrollbar-thumb{
   background:rgba(21,128,61,.48);
   border-radius:999px;
+}
+
+/* CHĂM SÓC KHÁCH HÀNG: cùng bảng màu với thanh thông báo, giảm cạnh tranh với sản phẩm. */
+.seo-guide-box{
+  background:linear-gradient(145deg,#43a34f 0%,#2f8d3e 48%,#1f7333 100%) !important;
+  border-color:#2d8b3d !important;
+  box-shadow:0 14px 30px rgba(22,101,52,.18) !important;
+  color:#fff !important;
+}
+.seo-guide-head{
+  border-bottom-color:rgba(255,255,255,.16) !important;
+}
+.seo-guide-icon{
+  background:rgba(255,255,255,.94) !important;
+  border-color:transparent !important;
+}
+.seo-guide-head h6,
+.seo-guide-head p{
+  color:#fff !important;
+}
+.seo-guide-counter{
+  background:rgba(255,255,255,.14) !important;
+  border-color:rgba(255,255,255,.28) !important;
+  color:#fff !important;
+}
+.seo-guide-list{
+  scrollbar-color:rgba(255,255,255,.52) transparent !important;
+}
+.seo-guide-list::-webkit-scrollbar-track{
+  background:transparent !important;
+}
+.seo-guide-list::-webkit-scrollbar-thumb{
+  background:rgba(255,255,255,.52) !important;
+}
+.seo-guide-group{
+  background:rgba(255,255,255,.07) !important;
+  border-color:rgba(255,255,255,.22) !important;
+  box-shadow:none !important;
+}
+.seo-guide-group > summary,
+.seo-guide-group > summary::after{
+  color:#fff !important;
+}
+.seo-guide-group[open]{
+  border-color:rgba(255,255,255,.38) !important;
+  box-shadow:none !important;
+}
+.seo-guide-group[open] > summary{
+  background:rgba(255,255,255,.10) !important;
+}
+.seo-guide-group-content{
+  border-top-color:rgba(255,255,255,.16) !important;
+}
+.seo-guide-link,
+.seo-guide-link.is-open,
+.seo-guide-link[open]{
+  background:rgba(255,255,255,.08) !important;
+  border-color:rgba(255,255,255,.20) !important;
+  box-shadow:none !important;
+  color:#fff !important;
+}
+.seo-guide-link:hover,
+.seo-guide-link.is-open,
+.seo-guide-link[open]{
+  background:rgba(255,255,255,.15) !important;
+  border-color:rgba(255,255,255,.36) !important;
+}
+.seo-guide-link strong,
+.seo-guide-link strong::after,
+.seo-guide-detail,
+.seo-guide-topic,
+.seo-guide-topic b,
+.seo-guide-topic b > span,
+.seo-guide-options,
+.seo-guide-options li{
+  color:#fff !important;
+}
+.seo-guide-detail,
+.seo-guide-options{
+  color:rgba(255,255,255,.84) !important;
+}
+.seo-guide-topic{
+  border-left-color:rgba(255,255,255,.30) !important;
+}
+.seo-guide-options li::before{
+  color:#d1fae5 !important;
+}
+
+/* Danh mục con: 20 mục/lần, card đồng kích thước và điều hướng bằng thanh cuộn ngang. */
+.category-box .cat-arrow{
+  display:none !important;
+}
+.category-wrapper:not(.has-category-types){
+  overflow:hidden !important;
+}
+#groupBar .group-chip .chip-text{
+  font-weight:660 !important;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll.category-scroll{
+  align-items:stretch;
+  display:grid !important;
+  gap:14px 16px !important;
+  grid-auto-columns:calc((100% - 80px) / 6);
+  grid-auto-flow:column;
+  grid-template-columns:none !important;
+  grid-template-rows:repeat(2,112px) !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  padding:4px 2px 12px !important;
+  scroll-behavior:smooth;
+  scroll-snap-type:x proximity;
+  scrollbar-color:#62a96f #e7f4e9;
+  scrollbar-gutter:stable;
+  scrollbar-width:thin;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll.category-scroll::-webkit-scrollbar{
+  display:block !important;
+  height:8px;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll.category-scroll::-webkit-scrollbar-track{
+  background:#e7f4e9;
+  border-radius:999px;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll.category-scroll::-webkit-scrollbar-thumb{
+  background:#62a96f;
+  border:1px solid #e7f4e9;
+  border-radius:999px;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll .category-item{
+  align-items:center !important;
+  box-sizing:border-box;
+  display:flex !important;
+  flex-direction:column;
+  height:112px !important;
+  justify-content:flex-start !important;
+  margin:0 !important;
+  min-height:112px !important;
+  min-width:0 !important;
+  padding:8px 7px !important;
+  overflow:hidden !important;
+  position:relative;
+  scroll-snap-align:start;
+  width:100% !important;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll .category-item .icon{
+  flex:0 0 56px;
+  height:56px !important;
+  margin:0 auto 8px !important;
+  width:56px !important;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll .category-item span,
+.category-wrapper:not(.has-category-types) #categoryScroll .category-item .cat-title{
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  color:var(--main) !important;
+  display:-webkit-box !important;
+  font-size:12px !important;
+  font-weight:600 !important;
+  line-height:1.25 !important;
+  margin:0 !important;
+  max-width:100%;
+  min-height:30px;
+  overflow:hidden;
+  overflow-wrap:anywhere;
+  padding:0 !important;
+  text-align:center;
+  white-space:normal !important;
+  word-break:normal;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll .category-item.active span,
+.category-wrapper:not(.has-category-types) #categoryScroll .category-item.active .cat-title{
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  color:var(--main-700) !important;
+  font-weight:600 !important;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll .category-keyword-count{
+  background:transparent !important;
+  border-radius:0;
+  bottom:auto;
+  box-sizing:border-box;
+  color:#a0aaa4 !important;
+  display:block;
+  font-size:10px;
+  font-weight:500;
+  height:auto;
+  line-height:1;
+  margin:0;
+  min-height:0;
+  padding:0;
+  pointer-events:none;
+  position:absolute;
+  right:8px;
+  text-align:right;
+  top:8px;
+  width:auto;
+  white-space:nowrap;
+}
+.category-wrapper:not(.has-category-types) #categoryScroll .category-item.active .category-keyword-count{
+  background:transparent !important;
+  color:#8f9993 !important;
+}
+@media (min-width:992px) and (max-width:1199.98px){
+  .category-wrapper:not(.has-category-types) #categoryScroll.category-scroll{
+    grid-auto-columns:calc((100% - 64px) / 5);
+  }
+}
+@media (min-width:768px) and (max-width:991.98px){
+  .category-wrapper:not(.has-category-types) #categoryScroll.category-scroll{
+    grid-auto-columns:calc((100% - 48px) / 4);
+  }
+}
+@media (max-width:767.98px){
+  .category-wrapper:not(.has-category-types) #categoryScroll.category-scroll{
+    grid-auto-columns:calc((100% - 24px) / 3);
+    grid-template-rows:repeat(2,110px) !important;
+  }
+  .category-wrapper:not(.has-category-types) #categoryScroll .category-item{
+    height:110px !important;
+    min-height:110px !important;
+  }
 }
 
 /* Khi chọn một danh mục con: giữ danh mục bên trái, hiện loại hình tương ứng bên phải. */
