@@ -8467,7 +8467,7 @@ function buildCategoryFromFacets(facets, sourceItems){
   Object.entries(fallbackCounts).forEach(([label, count]) => {
     if(!Object.prototype.hasOwnProperty.call(categoryCounts, label)) categoryCounts[label] = count;
   });
-  if(categoryCountFilterKey() === '|||||'){
+  if(categoryCountFilterKey() === '||'){
     Object.assign(categoryCounts, INITIAL_CATEGORY_COUNTS);
   }
   // Ưu tiên bộ đếm đầy đủ đã được tổng hợp từ tất cả các trang API.
@@ -8884,7 +8884,7 @@ function renderCategoryEventButtons(values, options = {}){
   `).join('');
 }
 
-function updateCategoryTypePanel(res, sourceItems){
+function updateCategoryTypePanelLegacy(res, sourceItems){
   if(!state.category){
     renderCategoryTypeButtons([]);
     renderCategoryActionButtons([]);
@@ -9001,6 +9001,193 @@ function updateCategoryTypePanel(res, sourceItems){
   });
 }
 
+// Tổng hợp trạng thái từ TOÀN BỘ sản phẩm có thể hiển thị của nhóm + danh mục.
+// Không dùng `sourceItems` của một trang vì nó làm các số đếm 21/42 bị thiếu.
+window._completeCategoryFacetMaps = window._completeCategoryFacetMaps || Object.create(null);
+let _categoryFacetController = null;
+let _categoryFacetInflightKey = '';
+let _categoryFacetInflightPromise = null;
+
+function categoryFacetScope(){
+  return {
+    q:String(state.q || '').trim(),
+    sdt:String(state.sdt || '').trim(),
+    group:String(state.group || '').trim(),
+    category:String(state.category || '').trim()
+  };
+}
+
+function categoryFacetScopeKey(scope = categoryFacetScope()){
+  return [scope.q, scope.sdt, scope.group, scope.category].join('|');
+}
+
+function categoryFacetParams(page, scope){
+  return new URLSearchParams({
+    action:'list', page:String(page), pageSize:'120',
+    q:scope.q, sdt:scope.sdt, group:scope.group, category:scope.category,
+    type:'', loai:'', note:''
+  });
+}
+
+function facetCountMap(items, getter){
+  const counts = Object.create(null);
+  (Array.isArray(items) ? items : []).forEach(item => {
+    const label = String(getter(item) ?? '').trim();
+    if(label) counts[label] = (counts[label] || 0) + 1;
+  });
+  return counts;
+}
+
+function buildCompleteCategoryFacetData(items, query){
+  const visibleItems = (Array.isArray(items) ? items : [])
+    .filter(item => canDisplayProduct(item, query));
+  const typeCounts = facetCountMap(visibleItems, item =>
+    item?.type ?? item?.Type ?? item?.loai_hinh ?? item?.loaiHinh
+  );
+  const actionCounts = facetCountMap(visibleItems, item =>
+    item?.loai ?? item?.LOAI ?? item?.action ?? item?.hanh_dong ?? item?.hanhDong
+  );
+  const eventCounts = facetCountMap(visibleItems, item =>
+    item?.note ?? item?.NOTE ?? item?.event ?? item?.su_kien ?? item?.suKien
+  );
+  return {
+    items:visibleItems,
+    types:Object.keys(typeCounts), typeCounts,
+    actions:Object.keys(actionCounts), actionCounts,
+    events:Object.keys(eventCounts), eventCounts
+  };
+}
+
+function applyCompleteCategoryFacetData(key, data){
+  if(!data || key !== categoryFacetScopeKey()) return;
+  const cacheKey = categoryTypeCacheKey();
+  let stateChanged = false;
+
+  if(state.type && !data.types.includes(state.type)){
+    state.type = '';
+    stateChanged = true;
+  }
+  if(state.loai && !data.actions.includes(state.loai)){
+    state.loai = '';
+    stateChanged = true;
+  }
+  if(state.note && !data.events.includes(state.note)){
+    state.note = '';
+    stateChanged = true;
+  }
+
+  window._categoryTypeCache[cacheKey] = data.types;
+  window._categoryTypeCountCache[cacheKey] = data.typeCounts;
+  window._categoryActionCache[cacheKey] = data.actions;
+  window._categoryActionCountCache[cacheKey] = data.actionCounts;
+  window._categoryEventCache[cacheKey] = data.events;
+  window._categoryEventCountCache[cacheKey] = data.eventCounts;
+  window._categoryPreviewItems[cacheKey] = data.items.slice();
+
+  renderCategoryTypeButtons(data.types, { counts:data.typeCounts });
+  renderCategoryActionButtons(data.actions, { counts:data.actionCounts });
+  renderCategoryEventButtons(data.events, { counts:data.eventCounts });
+
+  if(stateChanged){
+    state.page = 1;
+    fetchPage(true);
+  }
+}
+
+async function refreshCompleteCategoryFacets(){
+  if(!state.category) return null;
+  const scope = categoryFacetScope();
+  const key = categoryFacetScopeKey(scope);
+  const cached = window._completeCategoryFacetMaps[key];
+  if(cached){
+    applyCompleteCategoryFacetData(key, cached);
+    return cached;
+  }
+  if(_categoryFacetInflightPromise && _categoryFacetInflightKey === key){
+    return _categoryFacetInflightPromise;
+  }
+
+  try{ _categoryFacetController?.abort(); }catch(_){ }
+  _categoryFacetController = new AbortController();
+  const signal = _categoryFacetController.signal;
+  _categoryFacetInflightKey = key;
+
+  const task = (async () => {
+    try{
+      const firstResp = await fetch(API_URL + '?' + categoryFacetParams(1, scope).toString(), {
+        cache:'no-store', redirect:'follow', mode:'cors', signal
+      });
+      if(!firstResp.ok) throw new Error('Không tải được trạng thái danh mục');
+      const first = await firstResp.json();
+      const firstItems = Array.isArray(first?.items) ? first.items : [];
+      const total = Math.max(0, Number(first?.total || firstItems.length));
+      const pageCount = Math.max(1, Math.ceil(total / 120));
+      const requests = [];
+
+      for(let page = 2; page <= pageCount; page++){
+        requests.push(
+          fetch(API_URL + '?' + categoryFacetParams(page, scope).toString(), {
+            cache:'no-store', redirect:'follow', mode:'cors', signal
+          }).then(resp => {
+            if(!resp.ok) throw new Error('Không tải được trang trạng thái danh mục');
+            return resp.json();
+          })
+        );
+      }
+
+      const remaining = await Promise.all(requests);
+      const allItems = firstItems.concat(
+        ...remaining.map(payload => Array.isArray(payload?.items) ? payload.items : [])
+      );
+      const data = buildCompleteCategoryFacetData(allItems, scope.q);
+      window._completeCategoryFacetMaps[key] = data;
+      applyCompleteCategoryFacetData(key, data);
+      return data;
+    }catch(err){
+      if(err?.name !== 'AbortError') console.warn('[category-facets]', err);
+      return null;
+    }finally{
+      if(_categoryFacetInflightKey === key){
+        _categoryFacetInflightKey = '';
+        _categoryFacetInflightPromise = null;
+      }
+    }
+  })();
+
+  _categoryFacetInflightPromise = task;
+  return task;
+}
+
+function updateCategoryTypePanel(res, sourceItems){
+  if(!state.category){
+    renderCategoryTypeButtons([]);
+    renderCategoryActionButtons([]);
+    renderCategoryEventButtons([]);
+    return;
+  }
+
+  const key = categoryFacetScopeKey();
+  const cached = window._completeCategoryFacetMaps[key];
+  if(cached){
+    applyCompleteCategoryFacetData(key, cached);
+    return;
+  }
+
+  // Trong lúc chờ tổng hợp đủ các trang, chỉ hiện nhãn từ API và không gắn
+  // số đếm tạm của trang hiện tại để tránh hiển thị sai.
+  const types = cleanCategoryTypes(res?.facets?.types || []);
+  const actions = cleanCategoryTypes(res?.facets?.loais || []);
+  const events = cleanCategoryTypes(res?.facets?.notes || []);
+  renderCategoryTypeButtons(types, { counts:{} });
+  renderCategoryActionButtons(actions, { counts:{} });
+  renderCategoryEventButtons(events, { counts:{} });
+
+  const previewKey = categoryTypeCacheKey();
+  window._categoryPreviewItems[previewKey] = (Array.isArray(sourceItems) ? sourceItems : [])
+    .filter(item => canDisplayProduct(item, state.q));
+  refreshCompleteCategoryFacets();
+}
+
 function renderCategoryPager(items){
   const box = document.getElementById('categoryScroll');
   if (!box) return;
@@ -9078,25 +9265,28 @@ let _categoryCountController = null;
 let _categoryCountInflightKey = '';
 let _categoryCountInflightPromise = null;
 
-function categoryCountFilterKey(){
-  return [
-    state.q || '', state.sdt || '', state.group || '',
-    state.type || '', state.loai || '', state.note || ''
-  ].map(value => String(value).trim()).join('|');
+function categoryCountFilterKey(scope){
+  const current = scope || {
+    q:state.q || '', sdt:state.sdt || '', group:state.group || ''
+  };
+  return [current.q, current.sdt, current.group]
+    .map(value => String(value).trim()).join('|');
 }
 
-function categoryCountParams(page){
+function categoryCountParams(page, scope){
   return new URLSearchParams({
     action:'list', page:String(page), pageSize:'120',
-    q:state.q || '', sdt:state.sdt || '', group:state.group || '',
-    type:state.type || '', loai:state.loai || '', note:state.note || '',
+    q:scope.q, sdt:scope.sdt, group:scope.group,
+    type:'', loai:'', note:'',
     category:''
   });
 }
 
-function countCategoriesFromItems(items){
+function countCategoriesFromItems(items, query){
   const counts = Object.create(null);
-  (Array.isArray(items) ? items : []).forEach(item => {
+  (Array.isArray(items) ? items : [])
+    .filter(item => canDisplayProduct(item, query))
+    .forEach(item => {
     const label = String(
       item?.category ?? item?.CATEGORY ?? item?.danh_muc ?? item?.danhMuc ?? ''
     ).trim();
@@ -9116,7 +9306,12 @@ function applyCompleteCategoryCounts(key, counts){
 }
 
 async function refreshCategoryCountMapForState(){
-  const key = categoryCountFilterKey();
+  const scope = {
+    q:String(state.q || '').trim(),
+    sdt:String(state.sdt || '').trim(),
+    group:String(state.group || '').trim()
+  };
+  const key = categoryCountFilterKey(scope);
   const cached = window._completeCategoryCountMaps[key];
   if(cached){
     applyCompleteCategoryCounts(key, cached);
@@ -9133,7 +9328,7 @@ async function refreshCategoryCountMapForState(){
 
   const task = (async () => {
     try{
-      const firstResp = await fetch(API_URL + '?' + categoryCountParams(1).toString(), {
+      const firstResp = await fetch(API_URL + '?' + categoryCountParams(1, scope).toString(), {
         cache:'no-store', redirect:'follow', mode:'cors', signal
       });
       if(!firstResp.ok) throw new Error('Không tải được bộ đếm danh mục');
@@ -9145,7 +9340,7 @@ async function refreshCategoryCountMapForState(){
 
       for(let page = 2; page <= pageCount; page++){
         remainingRequests.push(
-          fetch(API_URL + '?' + categoryCountParams(page).toString(), {
+          fetch(API_URL + '?' + categoryCountParams(page, scope).toString(), {
             cache:'no-store', redirect:'follow', mode:'cors', signal
           }).then(resp => {
             if(!resp.ok) throw new Error('Không tải được trang bộ đếm danh mục');
@@ -9158,7 +9353,7 @@ async function refreshCategoryCountMapForState(){
       const allCountItems = firstItems.concat(
         ...remaining.map(payload => Array.isArray(payload?.items) ? payload.items : [])
       );
-      const counts = countCategoriesFromItems(allCountItems);
+      const counts = countCategoriesFromItems(allCountItems, scope.q);
       window._completeCategoryCountMaps[key] = counts;
       applyCompleteCategoryCounts(key, counts);
       return counts;
@@ -10300,7 +10495,8 @@ document.addEventListener('click', (ev) => {
   const filterEl = el.closest('[data-action="set-filter"]');
   if (filterEl) {
     const field = filterEl.dataset.field;
-    state[field] = filterEl.dataset.val || '';
+    const nextValue = filterEl.dataset.val || '';
+    state[field] = state[field] === nextValue ? '' : nextValue;
     state.page = 1;
     if(field === 'type'){
       renderCategoryTypeButtons(window._activeCategoryTypes || []);
@@ -10983,7 +11179,10 @@ function render(res = {}, fromCache){
   const refinedItems = refineKeywordSearchItems(sourceItems, state.q);
   const items = refinedItems.filter(item => canDisplayProduct(item, state.q));
   const searchWasRefined = !!state.q && refinedItems.length < sourceItems.length;
-  const displayTotal = searchWasRefined ? items.length : Number(res?.total || 0);
+  const hiddenOnPage = Math.max(0, refinedItems.length - items.length);
+  const displayTotal = searchWasRefined
+    ? items.length
+    : Math.max(0, Number(res?.total || 0) - hiddenOnPage);
   const grid  = document.getElementById('productGrid');
 // Lưu dữ liệu cho khối sắp xếp/bộ lọc
 window.allItems   = Array.isArray(items) ? items.slice() : [];
@@ -17359,7 +17558,7 @@ function syncSeoGuideHeightToProducts(){
       const input = document.createElement('input');
       input.id = 'quickBriefImportInput';
       input.type = 'file';
-      input.accept = '.2606brief,.json,application/json';
+      input.accept = '.brief,.2606brief,.json,application/json';
       input.hidden = true;
       input.addEventListener('change', event => window.quickHandleBriefImport(event));
 
@@ -17473,6 +17672,41 @@ function syncSeoGuideHeightToProducts(){
     }).filter(item => item.checked || item.name || item.desc || item.amount);
   }
 
+  function collectTimelineNotes(){
+    return qa('.quick-timeline-list .quick-timeline-item').map(item => ({
+      time:item.querySelector('.quick-timeline-time')?.value || '',
+      note:item.querySelector('.quick-timeline-note')?.value || ''
+    })).filter(item => item.time || item.note);
+  }
+
+  function normalizeTimelineNotes(value){
+    if(!Array.isArray(value)) return [];
+    return value.map(item => {
+      if(typeof item === 'string') return {time:'', note:item};
+      return {
+        time:String(item?.time ?? item?.date ?? item?.createdAt ?? ''),
+        note:String(item?.note ?? item?.content ?? item?.text ?? '')
+      };
+    }).filter(item => item.time || item.note);
+  }
+
+  function applyTimelineNotes(value){
+    const list = q('.quick-timeline-list');
+    if(!list) return;
+    const timeline = normalizeTimelineNotes(value);
+    list.innerHTML = '';
+    if(timeline.length){
+      timeline.forEach(item => {
+        if(typeof quickCreateTimelineItem === 'function'){
+          list.appendChild(quickCreateTimelineItem(item.time, item.note));
+        }
+      });
+    }
+    if(!list.children.length && typeof quickCreateTimelineItem === 'function'){
+      list.appendChild(quickCreateTimelineItem('', ''));
+    }
+  }
+
   function logoSrcForBrief(previewId){
     return document.querySelector(`#${previewId} img`)?.src || '';
   }
@@ -17492,17 +17726,33 @@ function syncSeoGuideHeightToProducts(){
 
   function collectBriefData(){
     if(typeof quickEnsureBriefMeta === 'function') quickEnsureBriefMeta();
+    const descriptionNote = val('quickNote');
+    const standardNote = val('quickStandardNote');
+    const extraNote = val('quickProductOther');
+    const timeline = collectTimelineNotes();
     return {
-      version: '2606ai-brief-v1',
+      version: '2606ai-brief-v2',
       code: window.quickBriefState?.code || String(Date.now()).slice(-10),
       createdAt: window.quickBriefState?.createdAt ? new Date(window.quickBriefState.createdAt).toISOString() : new Date().toISOString(),
       briefColor: window.quickBriefState?.color || '#0f9f46',
       storageLink: window.quickBriefState?.storageLink || '',
       product: {
         name: val('quickProduct'),
-        note: val('quickNote'),
-        other: val('quickProductOther')
+        note: descriptionNote,
+        other: extraNote
       },
+      // Giữ thêm nhóm `notes` và các khóa cũ để file có thể trao đổi với
+      // cả phiên bản trước lẫn phiên bản mới của biểu mẫu.
+      notes: {
+        description: descriptionNote,
+        standard: standardNote,
+        extra: extraNote,
+        timeline
+      },
+      note: descriptionNote,
+      standardNote,
+      productOther: extraNote,
+      timeline,
       seller: {
         name: val('quickSellerName'),
         address: val('quickSellerAddress'),
@@ -17700,15 +17950,38 @@ function syncSeoGuideHeightToProducts(){
   }
 
   window.quickApplyBriefData = function(data){
+    const productData = data?.product && typeof data.product === 'object'
+      ? data.product
+      : {};
+    const legacyProductName = typeof data?.product === 'string' ? data.product : '';
+    const descriptionNote = productData.note
+      ?? data?.notes?.description
+      ?? data?.note
+      ?? data?.standardNote
+      ?? '';
+    const extraNote = productData.other
+      ?? data?.notes?.extra
+      ?? data?.productOther
+      ?? data?.extraNote
+      ?? '';
+    const standardNote = data?.notes?.standard
+      ?? data?.standardNote
+      ?? '';
+    const timeline = data?.notes?.timeline
+      ?? data?.timeline
+      ?? data?.history
+      ?? [];
     window.quickBriefState = window.quickBriefState || {};
     if(data.code) window.quickBriefState.code = data.code;
     if(data.createdAt) window.quickBriefState.createdAt = new Date(data.createdAt);
     window.quickBriefState.color = data.briefColor || '#0f9f46';
     window.quickBriefState.storageLink = data.storageLink || '';
-    setVal('quickProduct', data.product?.name || '');
-    setVal('quickNote', data.product?.note || '');
+    setVal('quickProduct', productData.name || legacyProductName || data?.name || '');
+    setVal('quickNote', descriptionNote);
+    setVal('quickStandardNote', standardNote);
     ensureMultilineNote();
-    setVal('quickProductOther', data.product?.other || '');
+    setVal('quickProductOther', extraNote);
+    applyTimelineNotes(timeline);
     setVal('quickSellerName', data.seller?.name || '');
     setVal('quickSellerAddress', data.seller?.address || '');
     setVal('quickSellerPhone', data.seller?.phone || '');
