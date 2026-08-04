@@ -2223,13 +2223,13 @@ footer.text-light .bi{ color:#fff; }
   box-shadow:none;
   display:flex;
   flex-direction:column;
-  gap:2px;
+  gap:4px;
   justify-content:center;
-  margin:3px 8px -10px;
+  margin:4px 8px 2px;
   max-width:none;
-  min-height:29px;
+  min-height:62px;
   overflow:hidden;
-  padding:0 10px;
+  padding:4px 10px;
   position:relative;
   text-align:center;
 }
@@ -2239,44 +2239,79 @@ footer.text-light .bi{ color:#fff; }
 .brand-position-line::after{
   display:none;
 }
-.brand-position-line strong{
-  color:#64748b;
-  font-size:14px;
-  font-weight:600;
+.brand-title{
+  color:#07872c;
+  font-size:clamp(15.2px,1.19vw,20px);
+  font-weight:850;
   letter-spacing:.15px;
-  line-height:1.15;
-  position:relative;
-  z-index:1;
+  line-height:1.08;
 }
-.brand-position-line span{
-  color:#94a3b8;
-  font-size:11.5px;
+.brand-title .brand-code{
+  color:#123fba;
+  font-weight:900;
+}
+.brand-title-rule{
+  background:#119534;
+  border-radius:999px;
+  height:3px;
+  width:93px;
+}
+.brand-tagline-row{
+  align-items:center;
+  display:grid;
+  gap:12px;
+  grid-template-columns:minmax(42px,1fr) auto minmax(42px,1fr);
+  max-width:690px;
+  width:78%;
+}
+.brand-tagline{
+  color:#5d7293;
+  font-size:clamp(10.45px,.81vw,12.35px);
   font-weight:500;
-  line-height:1.2;
+  line-height:1.15;
+  white-space:nowrap;
+}
+.brand-side-line{
+  background:#15963b;
+  height:1px;
+  opacity:.8;
   position:relative;
-  z-index:1;
 }
-.brand-position-line img{
-  display:block;
-  height:80px;
-  max-width:90%;
-  object-fit:cover;
-  object-position:center;
-  width:500px;
+.brand-side-line:first-child::before,
+.brand-side-line:last-child::after{
+  background:#15963b;
+  border-radius:50%;
+  content:"";
+  height:7px;
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:7px;
 }
+.brand-side-line:first-child::before{left:0;}
+.brand-side-line:last-child::after{right:0;}
 @media (max-width:768px){
   .brand-position-line{
     align-items:center;
-    gap:2px;
-    margin:6px 0 10px;
-    min-height:44px;
-    padding:6px 10px;
+    gap:3px;
+    margin:3px 0 1px;
+    min-height:56px;
+    padding:3px 6px;
   }
-  .brand-position-line strong{
-    font-size:14px;
+  .brand-title{
+    font-size:13.3px;
   }
-  .brand-position-line span{
-    font-size:12px;
+  .brand-title-rule{
+    height:2px;
+    width:84px;
+  }
+  .brand-tagline-row{
+    gap:7px;
+    width:96%;
+  }
+  .brand-tagline{
+    font-size:10px;
+    white-space:normal;
   }
 }
 /* Badge số trên FAB bộ lọc */
@@ -4284,7 +4319,13 @@ body{
       </div>
 <!-- QUICK CATEGORY (ô lớn KHÁC, QUÀ TẶNG...) -->
 <div class="brand-position-line">
-  <img src="https://drive.google.com/thumbnail?id=15Ilw-1GMz0J-pVzVsD2ItaDrxvSmWoeu&amp;sz=w1200" alt="2606AI Hệ sinh thái quà tặng marketing">
+  <div class="brand-title"><span class="brand-code">2606AI</span> HỆ SINH THÁI QUÀ TẶNG MARKETING</div>
+  <div class="brand-title-rule" aria-hidden="true"></div>
+  <div class="brand-tagline-row">
+    <span class="brand-side-line" aria-hidden="true"></span>
+    <span class="brand-tagline">Mảnh ghép hoàn hảo cho câu chuyện thương hiệu</span>
+    <span class="brand-side-line" aria-hidden="true"></span>
+  </div>
 </div>
 <div id="quickCatsTop" class="mb-3"></div>
 
