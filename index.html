@@ -367,7 +367,8 @@ footer.text-light .container-fluid{
 .cardx .thumb-wrap{position:relative;background:#fff}
 .cardx img.thumb{width:100%;height:180px;object-fit:cover}
 .cardx .note-chip{
-  position:absolute;top:8px;right:8px;padding:2px 6px;border-radius:999px;font-size:10px;font-weight:400;color:#fff;background:#555
+  position:absolute;top:8px;right:8px;padding:3px 8px;border-radius:999px;font-size:10px;font-weight:600;color:#fff;background:#0ea5e9;
+  box-shadow:0 2px 7px rgba(15,118,110,.2);text-shadow:0 1px 1px rgba(0,0,0,.12)
 }
 .cardx .meta{padding:10px;display:flex;flex-direction:column;gap:6px}
 .cardx .id{font-weight:700;color:var(--main);font-size:13px}
@@ -2242,13 +2243,13 @@ footer.text-light .bi{ color:#fff; }
 .brand-title{
   color:#07872c;
   font-size:clamp(15.2px,1.19vw,20px);
-  font-weight:850;
+  font-weight:765;
   letter-spacing:.15px;
   line-height:1.08;
 }
 .brand-title .brand-code{
   color:#123fba;
-  font-weight:900;
+  font-weight:810;
 }
 .brand-title-rule{
   background:#119534;
@@ -8693,7 +8694,29 @@ if (document.getElementById('groupBar') && !document.querySelector('#groupBar .g
 /* UTILS */
 const fmtVND = n => (Number(n)||0).toLocaleString('vi-VN') + ' đ';
 
-function badgeColor(txt){ if(!txt) return "#555"; const t=txt.toLowerCase(); if(t.includes("mẫu")||t.includes("sample")) return "#4caf50"; if(t.includes("giảm")||t.includes("sale")||t.includes("km")) return "#ff9800"; if(t.includes("gấp")||t.includes("urgent")) return "#d32f2f"; return "#555"; }
+function badgeColor(txt){
+  const t = String(txt || '').trim().toLowerCase();
+  if(!t) return '#0ea5e9';
+
+  const statusColors = [
+    { words:['bán chạy','hot','xu hướng'], color:'#f43f5e' },
+    { words:['mới','new','ra mắt'], color:'#0ea5e9' },
+    { words:['có sẵn','sẵn hàng','mẫu','sample'], color:'#22c55e' },
+    { words:['giảm','sale','khuyến mãi'], color:'#f97316' },
+    { words:['gấp','urgent'], color:'#ef4444' },
+    { words:['sản xuất','đang làm'], color:'#8b5cf6' },
+    { words:['đặt hàng','đặt trước'], color:'#f59e0b' },
+    { words:['sự kiện','đặc biệt','tài trợ'], color:'#ec4899' },
+    { words:['liên hệ','kết nối'], color:'#14b8a6' }
+  ];
+  const matched = statusColors.find(item => item.words.some(word => t.includes(word)));
+  if(matched) return matched.color;
+
+  const freshPalette = ['#06b6d4','#3b82f6','#22c55e','#f97316','#8b5cf6','#ec4899','#14b8a6','#f43f5e'];
+  let hash = 0;
+  for(const char of t) hash = ((hash * 31) + char.charCodeAt(0)) | 0;
+  return freshPalette[Math.abs(hash) % freshPalette.length];
+}
 
 
 /* Nâng chất lượng thumbnail Google Drive/Gusercontent */
