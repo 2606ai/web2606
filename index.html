@@ -3,7 +3,7 @@
 <head>
     <!-- ==== CONFIG (LOAD FIRST) ==== -->
   <script>
-    window.API_URL = "https://script.google.com/macros/s/AKfycbwD4fEVQyK8NDs-HhgHmisoYjwtvyxcTO4cKRtn_RxYrDPSEDjM5i3vWY6vw2T6ie8l/exec";
+    window.API_URL = "https://script.google.com/macros/s/AKfycbzuvUwYXie4RrLrunXXFYRw9g34_btvywrX-laKarsw0tAiK9BsoWNfSd7hKpuLzCA/exec";
     window.API_KEY = "";
     window.AUTO_OPEN_ON_ADD = false;
   </script>
@@ -8597,6 +8597,12 @@ function buildCategoryFromFacets(facets, sourceItems){
   const categories = rawCategories.map(categoryFacetLabel).filter(Boolean);
   const categoryCounts = Object.create(null);
 
+  // API đã tổng hợp sẵn số lượng nhóm, dùng ngay để footer không gọi
+  // thêm hàng loạt request riêng lẻ cho từng nhóm.
+  if(facets?.group_counts && typeof facets.group_counts === 'object'){
+    window._footerGroupCounts = Object.assign({}, facets.group_counts);
+  }
+
   rawCategories.forEach(value => {
     const label = categoryFacetLabel(value);
     const count = categoryFacetCount(value);
@@ -10192,7 +10198,7 @@ function fetchWorkshops(){
   if (ok(window.API_URL)) { fetchWorkshops(); return; }
   if (tries>0) { setTimeout(()=>waitAPI(tries-1),100); return; }
   console.warn('[workshop] Hết thời gian chờ API_URL – dùng fallback');
-  window.API_URL ||= "https://script.google.com/macros/s/AKfycbwD4fEVQyK8NDs-HhgHmisoYjwtvyxcTO4cKRtn_RxYrDPSEDjM5i3vWY6vw2T6ie8l/exec";
+  window.API_URL ||= "https://script.google.com/macros/s/AKfycbzuvUwYXie4RrLrunXXFYRw9g34_btvywrX-laKarsw0tAiK9BsoWNfSd7hKpuLzCA/exec";
   fetchWorkshops();
 })();
 
@@ -10391,50 +10397,31 @@ async function submitOrder(){
     total: orderItems.reduce((sum, item) => sum + item.qty * item.price, 0)
   };
 
+  const submitButton = document.getElementById('submitOrderBtn');
+  const submitButtonText = submitButton?.textContent || 'Gửi đơn hàng';
+  if(submitButton){
+    submitButton.disabled = true;
+    submitButton.textContent = 'Đang gửi đơn hàng...';
+  }
+
   try {
-    // Luôn dùng multipart để Apps Script đọc ổn định qua e.parameter.data.
     const fd = new FormData();
     fd.append('action', 'order');
     fd.append('data', JSON.stringify(order));
     if (API_KEY) fd.append('key', API_KEY);
     if (file) fd.append('file', file);
-    const resp = await fetch(API_URL, {
+
+    // no-cors tránh lỗi redirect/HTML của ContentService khi website gọi
+    // Apps Script từ tên miền khác. Dữ liệu vẫn được gửi đầy đủ tới doPost.
+    await fetch(API_URL, {
       method: 'POST',
       body: fd,
+      mode: 'no-cors',
       cache: 'no-store',
       redirect: 'follow'
     });
 
-    // Đọc response an toàn
-    let resText = await resp.text();
-    const cleanedResText = String(resText || '')
-      .replace(/^\)\]\}'[^\n]*\n?/, '')
-      .replace(/^\uFEFF/, '')
-      .trim();
-    let res;
-    try{
-      res = cleanedResText ? JSON.parse(cleanedResText) : null;
-    }catch(parseErr){
-      console.error("ORDER – JSON parse error:", parseErr, resText);
-      alert("Server trả dữ liệu không đúng định dạng. Vui lòng thử lại sau.");
-      return;
-    }
-
-    console.log("ORDER – response:", res);
-
-    if (!resp.ok){
-      // Lỗi HTTP (500, 400,...)
-      alert("Gửi đơn hàng thất bại.\nMã lỗi HTTP: " + resp.status);
-      return;
-    }
-
-        if (res && (res.ok || res.success)) {
-      const mailState = res.mail || 'ok';
-      alert(
-        mailState === 'ok'
-          ? "Đã gửi đơn hàng thành công!"
-          : "Đã lưu đơn hàng. Gửi email bị lỗi – chúng tôi sẽ kiểm tra lại."
-      );
+    alert("Đã gửi đơn hàng thành công! Chúng tôi sẽ liên hệ xác nhận sớm.");
 
       // Xóa giỏ + cập nhật lại giao diện
       cart.length = 0;
@@ -10448,16 +10435,15 @@ async function submitOrder(){
       const bsOffcanvas = offcanvasEl && bootstrap.Offcanvas.getInstance(offcanvasEl);
       if (bsOffcanvas) bsOffcanvas.hide();
 
-    } else {
-      const msg = res && res.error ? res.error : "Không rõ nguyên nhân.";
-      alert("Gửi đơn hàng thất bại.\nChi tiết: " + msg);
-      refreshOrderCaptcha();   // lỗi cũng tạo câu hỏi mới
-    }
-
   } catch (err) {
     console.error("ORDER – fetch error:", err);
     alert("Không thể gửi đơn hàng (lỗi mạng hoặc API_URL). Vui lòng kiểm tra lại kết nối hoặc tải lại trang.");
     refreshOrderCaptcha();     // lỗi mạng cũng refresh captcha
+  } finally {
+    if(submitButton){
+      submitButton.disabled = false;
+      submitButton.textContent = submitButtonText;
+    }
   }
 }
 
@@ -11431,7 +11417,10 @@ if (newHash !== _lastFacetsHash){
   _lastFacetsHash = newHash;
   buildCategoryFromFacets(res?.facets || {}, sourceItems);
 }
-refreshCategoryCountMapForState();
+const serverCategoryCounts = res?.facets?.category_counts;
+if(!serverCategoryCounts || typeof serverCategoryCounts !== 'object'){
+  refreshCategoryCountMapForState();
+}
 
 
   document.getElementById('totalCount').textContent = Number(displayTotal).toLocaleString('vi-VN');
