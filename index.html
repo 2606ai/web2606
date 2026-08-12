@@ -10336,9 +10336,28 @@ async function submitOrder(){
 
   const order = {
     customer: { name, email, phone, address, note, servicePlan, fileQuote },
-    items: cart.map(({id,details,type,price,qty,img,linkFull,group,loai,category,note}) =>
-      ({id,details,type,price,qty,img,linkFull,group,loai,category,note})
-    ),
+    items: cart.map(item => {
+      const productName = String(
+        item.ten || item.name || item.title || item.TEN || item.TENSANPHAM || item.ID || item.id || ''
+      ).trim();
+      return {
+        id: item.id || item.ID || item.ma || item.sku || '',
+        name: productName,
+        ten: productName,
+        title: productName,
+        productName,
+        details: item.details || item.MOTA || item.mota || '',
+        type: item.type || item.LOAI || item.loai || '',
+        price: Number(item.price || item.GIA || item.gia || 0),
+        qty: Number(item.qty || item.soLuong || 1),
+        img: item.img || item.image || item.icon || '',
+        linkFull: item.linkFull || item.linkfull || '',
+        group: item.group || item.NHOM || '',
+        loai: item.loai || item.LOAI || '',
+        category: item.category || item.DANHMUC || '',
+        note: item.note || item.NOTE || ''
+      };
+    }),
     total: cart.reduce((a,b)=> a + +b.qty*(Number(b.price)||0), 0)
   };
 
