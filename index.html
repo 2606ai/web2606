@@ -3,7 +3,7 @@
 <head>
     <!-- ==== CONFIG (LOAD FIRST) ==== -->
   <script>
-    window.API_URL = "https://script.google.com/macros/s/AKfycbxUPWV4oWHLQlRIz3ZktQ17wMCOof2KhNnYqeuCbuH4OJ9NLV5VWTXx9vAL2Q5y_Lf1/exec";
+    window.API_URL = "https://script.google.com/macros/s/AKfycbw3C5J5SHfPCQqQw2WjfAbQGgHiQVhip-T33uOsTL9rVm-YEnXHSSqmvs-L_3GHj_PV/exec";
     window.API_KEY = "";
     window.AUTO_OPEN_ON_ADD = false;
   </script>
@@ -10165,7 +10165,7 @@ function fetchWorkshops(){
   if (ok(window.API_URL)) { fetchWorkshops(); return; }
   if (tries>0) { setTimeout(()=>waitAPI(tries-1),100); return; }
   console.warn('[workshop] Hết thời gian chờ API_URL – dùng fallback');
-  window.API_URL ||= "https://script.google.com/macros/s/AKfycbxUPWV4oWHLQlRIz3ZktQ17wMCOof2KhNnYqeuCbuH4OJ9NLV5VWTXx9vAL2Q5y_Lf1/exec";
+  window.API_URL ||= "https://script.google.com/macros/s/AKfycbw3C5J5SHfPCQqQw2WjfAbQGgHiQVhip-T33uOsTL9rVm-YEnXHSSqmvs-L_3GHj_PV/exec";
   fetchWorkshops();
 })();
 
@@ -11530,9 +11530,14 @@ async function _doFetch(){
       json = cleaned ? JSON.parse(cleaned) : null;
     }
 
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
-    if (!json || json.ok === false || !Array.isArray(json.items)) {
-      throw new Error('Bad JSON schema or empty data');
+    if (!resp.ok) {
+      throw new Error((json && json.error) || ('HTTP ' + resp.status));
+    }
+    if (!json || json.ok === false) {
+      throw new Error((json && json.error) || 'API trả về trạng thái thất bại');
+    }
+    if (!Array.isArray(json.items)) {
+      throw new Error('API không trả về danh sách sản phẩm');
     }
 
     const needsRender = !cached || !sameListPayload(cached, json);
@@ -11578,7 +11583,7 @@ async function _doFetch(){
     const box = document.getElementById('errbox');
     if (box){
       box.style.display = 'block';
-      box.textContent = '[ERROR] Không tải được dữ liệu.';
+      box.textContent = '[ERROR] ' + String(err && err.message || 'Không tải được dữ liệu.');
     }
     const grid = document.getElementById('productGrid');
     if (grid && !cached){
