@@ -3,7 +3,7 @@
 <head>
     <!-- ==== CONFIG (LOAD FIRST) ==== -->
   <script>
-    window.API_URL = "https://script.google.com/macros/s/AKfycbxoxnoprbuDWz7rjhv19pgTiYwZ97nvYMYbCclv0YxCJZTc4L4ZzU4Qt9QtkZec1Bwd/exec";
+    window.API_URL = "https://script.google.com/macros/s/AKfycbw1hcelRBdklKJjEMK6H-LhtrSyVNIGKzO_Pf__YO8xhhwoM5T5ba_YAcXVhlXbGkX5/exec";
     window.API_KEY = "";
     window.AUTO_OPEN_ON_ADD = false;
   </script>
@@ -10165,7 +10165,7 @@ function fetchWorkshops(){
   if (ok(window.API_URL)) { fetchWorkshops(); return; }
   if (tries>0) { setTimeout(()=>waitAPI(tries-1),100); return; }
   console.warn('[workshop] Hết thời gian chờ API_URL – dùng fallback');
-  window.API_URL ||= "https://script.google.com/macros/s/AKfycbxoxnoprbuDWz7rjhv19pgTiYwZ97nvYMYbCclv0YxCJZTc4L4ZzU4Qt9QtkZec1Bwd/exec";
+  window.API_URL ||= "https://script.google.com/macros/s/AKfycbw1hcelRBdklKJjEMK6H-LhtrSyVNIGKzO_Pf__YO8xhhwoM5T5ba_YAcXVhlXbGkX5/exec";
   fetchWorkshops();
 })();
 
