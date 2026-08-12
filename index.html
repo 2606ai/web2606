@@ -3,7 +3,7 @@
 <head>
     <!-- ==== CONFIG (LOAD FIRST) ==== -->
   <script>
-    window.API_URL = "https://script.google.com/macros/s/AKfycbzpDg1nGrQMbzMnIMztCY4PkSwpukm6wps_BPzq-P9CDwoVa3Ey8qlCGOABvoHjDIcT/exec";
+    window.API_URL = "https://script.google.com/macros/s/AKfycbwD4fEVQyK8NDs-HhgHmisoYjwtvyxcTO4cKRtn_RxYrDPSEDjM5i3vWY6vw2T6ie8l/exec";
     window.API_KEY = "";
     window.AUTO_OPEN_ON_ADD = false;
   </script>
@@ -8626,7 +8626,17 @@ function buildCategoryFromFacets(facets, sourceItems){
     if(!Object.prototype.hasOwnProperty.call(categoryCounts, label)) categoryCounts[label] = count;
   });
   if(categoryCountFilterKey() === '||'){
-    Object.assign(categoryCounts, INITIAL_CATEGORY_COUNTS);
+    // Số tĩnh chỉ dùng tạm khi API chưa có số, tuyệt đối không ghi đè số thật.
+    const existingNormalized = new Set(
+      Object.keys(categoryCounts).map(label => fastFilterNorm(label))
+    );
+    Object.entries(INITIAL_CATEGORY_COUNTS).forEach(([label, count]) => {
+      const normalized = fastFilterNorm(label);
+      if(!existingNormalized.has(normalized)){
+        categoryCounts[label] = count;
+        existingNormalized.add(normalized);
+      }
+    });
   }
   // Ưu tiên bộ đếm đầy đủ đã được tổng hợp từ tất cả các trang API.
   // `sourceItems` chỉ là dữ liệu trang hiện tại nên không thể đại diện cho
@@ -8637,6 +8647,14 @@ function buildCategoryFromFacets(facets, sourceItems){
     if(label && Number.isFinite(numeric)) categoryCounts[label] = numeric;
   });
   window._categoryCountMap = categoryCounts;
+  window._categoryCountMapNormalized = Object.create(null);
+  Object.entries(categoryCounts).forEach(([label, count]) => {
+    const normalized = fastFilterNorm(label);
+    const numeric = Number(count);
+    if(normalized && Number.isFinite(numeric)){
+      window._categoryCountMapNormalized[normalized] = numeric;
+    }
+  });
 
  // SẮP XẾP THỨ TỰ NHÓM TRƯỚC KHI VẼ
 const orderedGroups = orderGroups(groups);
@@ -9383,7 +9401,9 @@ function renderCategoryPager(items){
   const slice = list.slice(catIndex, catIndex + catsPerView);
 
   box.innerHTML = slice.map(val => {
-    const directCount = Number(window._categoryCountMap?.[val]);
+    const directValue = window._categoryCountMap?.[val];
+    const normalizedValue = window._categoryCountMapNormalized?.[fastFilterNorm(val)];
+    const directCount = Number(directValue ?? normalizedValue);
     const count = Number.isFinite(directCount) ? directCount : 0;
     return `
       <div class="category-item ${state.category===val ? 'active' : ''}"
@@ -9477,9 +9497,16 @@ function countCategoriesFromItems(items, query){
 
 function applyCompleteCategoryCounts(key, counts){
   if(key !== categoryCountFilterKey()) return;
-  window._categoryCountMap = Object.assign(
-    Object.create(null), window._categoryCountMap || {}, counts || {}
-  );
+  // Đây là bộ đếm đầy đủ của trạng thái hiện tại: thay thế số cũ thay vì trộn.
+  window._categoryCountMap = Object.assign(Object.create(null), counts || {});
+  window._categoryCountMapNormalized = Object.create(null);
+  Object.entries(counts || {}).forEach(([label, count]) => {
+    const normalized = fastFilterNorm(label);
+    const numeric = Number(count);
+    if(normalized && Number.isFinite(numeric)){
+      window._categoryCountMapNormalized[normalized] = numeric;
+    }
+  });
   if(Array.isArray(allCategories) && allCategories.length){
     renderCategoryPager(allCategories);
   }
@@ -10165,7 +10192,7 @@ function fetchWorkshops(){
   if (ok(window.API_URL)) { fetchWorkshops(); return; }
   if (tries>0) { setTimeout(()=>waitAPI(tries-1),100); return; }
   console.warn('[workshop] Hết thời gian chờ API_URL – dùng fallback');
-  window.API_URL ||= "https://script.google.com/macros/s/AKfycbzpDg1nGrQMbzMnIMztCY4PkSwpukm6wps_BPzq-P9CDwoVa3Ey8qlCGOABvoHjDIcT/exec";
+  window.API_URL ||= "https://script.google.com/macros/s/AKfycbwD4fEVQyK8NDs-HhgHmisoYjwtvyxcTO4cKRtn_RxYrDPSEDjM5i3vWY6vw2T6ie8l/exec";
   fetchWorkshops();
 })();
 
