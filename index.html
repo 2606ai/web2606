@@ -3,7 +3,7 @@
 <head>
     <!-- ==== CONFIG (LOAD FIRST) ==== -->
   <script>
-    window.API_URL = "https://script.google.com/macros/s/AKfycbw1hcelRBdklKJjEMK6H-LhtrSyVNIGKzO_Pf__YO8xhhwoM5T5ba_YAcXVhlXbGkX5/exec";
+    window.API_URL = "https://script.google.com/macros/s/AKfycbxUPWV4oWHLQlRIz3ZktQ17wMCOof2KhNnYqeuCbuH4OJ9NLV5VWTXx9vAL2Q5y_Lf1/exec";
     window.API_KEY = "";
     window.AUTO_OPEN_ON_ADD = false;
   </script>
@@ -10165,7 +10165,7 @@ function fetchWorkshops(){
   if (ok(window.API_URL)) { fetchWorkshops(); return; }
   if (tries>0) { setTimeout(()=>waitAPI(tries-1),100); return; }
   console.warn('[workshop] Hết thời gian chờ API_URL – dùng fallback');
-  window.API_URL ||= "https://script.google.com/macros/s/AKfycbw1hcelRBdklKJjEMK6H-LhtrSyVNIGKzO_Pf__YO8xhhwoM5T5ba_YAcXVhlXbGkX5/exec";
+  window.API_URL ||= "https://script.google.com/macros/s/AKfycbxUPWV4oWHLQlRIz3ZktQ17wMCOof2KhNnYqeuCbuH4OJ9NLV5VWTXx9vAL2Q5y_Lf1/exec";
   fetchWorkshops();
 })();
 
@@ -10334,54 +10334,59 @@ async function submitOrder(){
     return;
   }
 
+  const orderItems = cart.map(item => {
+    const productName = String(
+      item.ten || item.name || item.title || item.productName || item.TEN ||
+      item.TENSANPHAM || item.tenSanPham || item.id || item.ID || ''
+    ).trim();
+    return {
+      id: item.id || item.ID || item.ma || item.sku || '',
+      name: productName,
+      ten: productName,
+      title: productName,
+      productName,
+      details: item.details || item.MOTA || item.mota || '',
+      type: item.type || item.LOAI || item.loai || '',
+      price: Number(item.price || item.GIA || item.gia || 0),
+      qty: Math.max(1, Number(item.qty || item.soLuong || 1)),
+      img: item.img || item.image || item.icon || '',
+      linkFull: item.linkFull || item.linkfull || '',
+      group: item.group || item.NHOM || '',
+      loai: item.loai || item.LOAI || '',
+      category: item.category || item.DANHMUC || '',
+      note: item.note || item.NOTE || ''
+    };
+  });
+
   const order = {
     customer: { name, email, phone, address, note, servicePlan, fileQuote },
-    items: cart.map(item => {
-      const productName = String(
-        item.ten || item.name || item.title || item.TEN || item.TENSANPHAM || item.ID || item.id || ''
-      ).trim();
-      return {
-        id: item.id || item.ID || item.ma || item.sku || '',
-        name: productName,
-        ten: productName,
-        title: productName,
-        productName,
-        details: item.details || item.MOTA || item.mota || '',
-        type: item.type || item.LOAI || item.loai || '',
-        price: Number(item.price || item.GIA || item.gia || 0),
-        qty: Number(item.qty || item.soLuong || 1),
-        img: item.img || item.image || item.icon || '',
-        linkFull: item.linkFull || item.linkfull || '',
-        group: item.group || item.NHOM || '',
-        loai: item.loai || item.LOAI || '',
-        category: item.category || item.DANHMUC || '',
-        note: item.note || item.NOTE || ''
-      };
-    }),
-    total: cart.reduce((a,b)=> a + +b.qty*(Number(b.price)||0), 0)
+    items: orderItems,
+    total: orderItems.reduce((sum, item) => sum + item.qty * item.price, 0)
   };
 
   try {
-    let resp;
-    if (file){
-      const fd = new FormData();
-      fd.append('action','order');
-      fd.append('data', JSON.stringify(order));
-      if (API_KEY) fd.append('key', API_KEY);
-      fd.append('file', file);
-      resp = await fetch(API_URL, { method:'POST', body: fd });
-    } else {
-      resp = await fetch(API_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action:'order', data: order, key: API_KEY||'' })
-      });
-    }
+    // Luôn dùng multipart để Apps Script đọc ổn định qua e.parameter.data.
+    const fd = new FormData();
+    fd.append('action', 'order');
+    fd.append('data', JSON.stringify(order));
+    if (API_KEY) fd.append('key', API_KEY);
+    if (file) fd.append('file', file);
+    const resp = await fetch(API_URL, {
+      method: 'POST',
+      body: fd,
+      cache: 'no-store',
+      redirect: 'follow'
+    });
 
     // Đọc response an toàn
     let resText = await resp.text();
+    const cleanedResText = String(resText || '')
+      .replace(/^\)\]\}'[^\n]*\n?/, '')
+      .replace(/^\uFEFF/, '')
+      .trim();
     let res;
     try{
-      res = resText ? JSON.parse(resText) : null;
+      res = cleanedResText ? JSON.parse(cleanedResText) : null;
     }catch(parseErr){
       console.error("ORDER – JSON parse error:", parseErr, resText);
       alert("Server trả dữ liệu không đúng định dạng. Vui lòng thử lại sau.");
