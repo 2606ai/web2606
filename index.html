@@ -9457,8 +9457,25 @@ function scrollCats(dir){
   renderCategoryPager(allCategories);
 }
 
+function categoryCountForSort(label){
+  const directValue = window._categoryCountMap?.[label];
+  const normalizedValue = window._categoryCountMapNormalized?.[fastFilterNorm(label)];
+  const count = Number(directValue ?? normalizedValue);
+  return Number.isFinite(count) ? count : 0;
+}
+
+function sortCategoriesByCount(items){
+  return (Array.isArray(items) ? items : [])
+    .map((label, index) => ({ label, index }))
+    .sort((a, b) => {
+      const countDifference = categoryCountForSort(b.label) - categoryCountForSort(a.label);
+      return countDifference || a.index - b.index;
+    })
+    .map(entry => entry.label);
+}
+
 function buildCategory(items){
-  allCategories = Array.isArray(items) ? items : [];
+  allCategories = sortCategoriesByCount(items);
   catIndex = 0;
   renderCategoryPager(allCategories);
 }
@@ -9514,6 +9531,8 @@ function applyCompleteCategoryCounts(key, counts){
     }
   });
   if(Array.isArray(allCategories) && allCategories.length){
+    allCategories = sortCategoriesByCount(allCategories);
+    catIndex = 0;
     renderCategoryPager(allCategories);
   }
 }
